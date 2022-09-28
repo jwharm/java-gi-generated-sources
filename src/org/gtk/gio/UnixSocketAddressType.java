@@ -15,7 +15,7 @@ package org.gtk.gio;
  * pass an appropriate smaller length to bind() or connect(). This is
  * {@link UnixSocketAddressType#ABSTRACT}.
  */
-public class UnixSocketAddressType {
+public class UnixSocketAddressType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * invalid
@@ -43,26 +43,8 @@ public class UnixSocketAddressType {
      */
     public static final UnixSocketAddressType ABSTRACT_PADDED = new UnixSocketAddressType(4);
     
-    private int value;
-    
     public UnixSocketAddressType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UnixSocketAddressType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

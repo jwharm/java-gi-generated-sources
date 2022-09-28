@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used when an operation may create a file.
  */
-public class FileCreateFlags {
+public class FileCreateFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -30,38 +30,8 @@ public class FileCreateFlags {
      */
     public static final FileCreateFlags REPLACE_DESTINATION = new FileCreateFlags(2);
     
-    private int value;
-    
     public FileCreateFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileCreateFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FileCreateFlags combined(FileCreateFlags mask) {
-        return new FileCreateFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static FileCreateFlags combined(FileCreateFlags mask, FileCreateFlags... masks) {
-        int value = mask.getValue();
-        for (FileCreateFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FileCreateFlags(value);
+        super(value);
     }
     
 }

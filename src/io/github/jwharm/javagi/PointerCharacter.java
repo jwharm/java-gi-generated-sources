@@ -8,7 +8,7 @@ import java.lang.foreign.ValueLayout;
  * Use {@code new PointerCharacter()} to create an instance, and
  * use {@link #get()} afterwards to retreive the results.
  */
-public class PointerCharacter extends Pointer {
+public class PointerCharacter extends Pointer<Character> {
 
     /**
      * Create the pointer. It does not point to a specific value.
@@ -35,7 +35,7 @@ public class PointerCharacter extends Pointer {
     /**
      * Use this mehod to set the value that the pointer points to.
      */
-    public void set(char value) {
+    public void set(Character value) {
         address.set(ValueLayout.JAVA_CHAR, 0, value);
     }
     
@@ -43,7 +43,7 @@ public class PointerCharacter extends Pointer {
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
      */
-    public char get() {
+    public Character get() {
         return get(0);
     }
     
@@ -52,7 +52,7 @@ public class PointerCharacter extends Pointer {
      * @param index The array index
      * @return The value stored at the given index
      */
-    public char get(int index) {
+    public Character get(int index) {
         return address.get(
                 ValueLayout.JAVA_CHAR, 
                 ValueLayout.JAVA_CHAR.byteSize() * index

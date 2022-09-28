@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used in g_bus_watch_name().
  */
-public class BusNameWatcherFlags {
+public class BusNameWatcherFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -17,38 +17,8 @@ public class BusNameWatcherFlags {
      */
     public static final BusNameWatcherFlags AUTO_START = new BusNameWatcherFlags(1);
     
-    private int value;
-    
     public BusNameWatcherFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BusNameWatcherFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public BusNameWatcherFlags combined(BusNameWatcherFlags mask) {
-        return new BusNameWatcherFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static BusNameWatcherFlags combined(BusNameWatcherFlags mask, BusNameWatcherFlags... masks) {
-        int value = mask.getValue();
-        for (BusNameWatcherFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new BusNameWatcherFlags(value);
+        super(value);
     }
     
 }

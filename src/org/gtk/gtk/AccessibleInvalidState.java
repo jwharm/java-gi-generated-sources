@@ -8,7 +8,7 @@ package org.gtk.gtk;
  * {@link AccessibleInvalidState#TRUE} have the same values
  * as {@code false} and {@code true}.
  */
-public class AccessibleInvalidState {
+public class AccessibleInvalidState extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * There are no detected errors in the value
@@ -30,26 +30,8 @@ public class AccessibleInvalidState {
      */
     public static final AccessibleInvalidState SPELLING = new AccessibleInvalidState(3);
     
-    private int value;
-    
     public AccessibleInvalidState(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AccessibleInvalidState[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

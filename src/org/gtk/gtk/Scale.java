@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -170,7 +168,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      */
     public boolean getDrawValue() {
         var RESULT = gtk_h.gtk_scale_get_draw_value(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -178,7 +176,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      */
     public boolean getHasOrigin() {
         var RESULT = gtk_h.gtk_scale_get_has_origin(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -258,7 +256,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);

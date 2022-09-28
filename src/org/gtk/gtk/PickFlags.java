@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Flags that influence the behavior of {@link Widget#pick}.
  */
-public class PickFlags {
+public class PickFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * The default behavior, include widgets that are receiving events
@@ -20,38 +20,8 @@ public class PickFlags {
      */
     public static final PickFlags NON_TARGETABLE = new PickFlags(2);
     
-    private int value;
-    
     public PickFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PickFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public PickFlags combined(PickFlags mask) {
-        return new PickFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static PickFlags combined(PickFlags mask, PickFlags... masks) {
-        int value = mask.getValue();
-        for (PickFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new PickFlags(value);
+        super(value);
     }
     
 }

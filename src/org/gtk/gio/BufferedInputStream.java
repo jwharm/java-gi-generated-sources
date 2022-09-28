@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -111,7 +109,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -150,8 +148,18 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * offset {@code offset} bytes.
      */
     public long peek(byte[] buffer, long offset, long count) {
-        var RESULT = gtk_h.g_buffered_input_stream_peek(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), offset, count);
+        var RESULT = gtk_h.g_buffered_input_stream_peek(handle(), Interop.allocateNativeArray(buffer).handle(), offset, count);
         return RESULT;
+    }
+    
+    /**
+     * Returns the buffer with the currently available bytes. The returned
+     * buffer must not be modified and will become invalid when reading from
+     * the stream or filling the buffer.
+     */
+    public PointerIterator<Byte> peekBuffer(PointerLong count) {
+        var RESULT = gtk_h.g_buffered_input_stream_peek_buffer(handle(), count.handle());
+        return new PointerByte(RESULT).iterator();
     }
     
     /**

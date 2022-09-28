@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -87,6 +85,24 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     }
     
     /**
+     * Returns the names of the artists which are displayed
+     * in the credits page.
+     */
+    public PointerIterator<java.lang.String> getArtists() {
+        var RESULT = gtk_h.gtk_about_dialog_get_artists(handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Returns the names of the authors which are displayed
+     * in the credits page.
+     */
+    public PointerIterator<java.lang.String> getAuthors() {
+        var RESULT = gtk_h.gtk_about_dialog_get_authors(handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Returns the comments string.
      */
     public java.lang.String getComments() {
@@ -100,6 +116,15 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     public java.lang.String getCopyright() {
         var RESULT = gtk_h.gtk_about_dialog_get_copyright(handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Returns the name of the documenters which are displayed
+     * in the credits page.
+     */
+    public PointerIterator<java.lang.String> getDocumenters() {
+        var RESULT = gtk_h.gtk_about_dialog_get_documenters(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -189,7 +214,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      */
     public boolean getWrapLicense() {
         var RESULT = gtk_h.gtk_about_dialog_get_wrap_license(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -366,7 +391,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -375,7 +400,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     }
     
     public static boolean __signalAboutDialogActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (AboutDialog.ActivateLinkHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new AboutDialog(References.get(source)), uri.getUtf8String(0));
     }

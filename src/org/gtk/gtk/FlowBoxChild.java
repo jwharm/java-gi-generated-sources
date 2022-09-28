@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -82,7 +80,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      */
     public boolean isSelected() {
         var RESULT = gtk_h.gtk_flow_box_child_is_selected(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -118,7 +116,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -127,7 +125,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     public static void __signalFlowBoxChildActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBoxChild.ActivateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FlowBoxChild(References.get(source)));
     }

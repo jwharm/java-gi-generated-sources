@@ -4,7 +4,7 @@ package org.harfbuzz;
  * Data type for the "General_Category" (gc) property from
  * the Unicode Character Database.
  */
-public class UnicodeGeneralCategoryT {
+public class UnicodeGeneralCategoryT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * [Cc]
@@ -156,26 +156,8 @@ public class UnicodeGeneralCategoryT {
      */
     public static final UnicodeGeneralCategoryT SPACE_SEPARATOR = new UnicodeGeneralCategoryT(29);
     
-    private int value;
-    
     public UnicodeGeneralCategoryT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UnicodeGeneralCategoryT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

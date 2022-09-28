@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -171,7 +169,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * }</pre>
      */
     public void download(byte[] data, long stride) {
-        gtk_h.gdk_texture_download(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), stride);
+        gtk_h.gdk_texture_download(handle(), Interop.allocateNativeArray(data).handle(), stride);
     }
     
     /**
@@ -201,7 +199,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      */
     public boolean saveToPng(java.lang.String filename) {
         var RESULT = gtk_h.gdk_texture_save_to_png(handle(), Interop.allocateNativeString(filename).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -232,7 +230,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      */
     public boolean saveToTiff(java.lang.String filename) {
         var RESULT = gtk_h.gdk_texture_save_to_tiff(handle(), Interop.allocateNativeString(filename).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -1,6 +1,6 @@
 package org.gtk.glib;
 
-public class SliceConfig {
+public class SliceConfig extends io.github.jwharm.javagi.Enumeration {
 
     public static final SliceConfig ALWAYS_MALLOC = new SliceConfig(1);
     
@@ -14,26 +14,8 @@ public class SliceConfig {
     
     public static final SliceConfig CONTENTION_COUNTER = new SliceConfig(6);
     
-    private int value;
-    
     public SliceConfig(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SliceConfig[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

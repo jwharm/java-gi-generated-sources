@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -80,7 +78,7 @@ public class CellRendererText extends CellRenderer {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -89,7 +87,7 @@ public class CellRendererText extends CellRenderer {
     }
     
     public static void __signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellRendererText.EditedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new CellRendererText(References.get(source)), path.getUtf8String(0), newText.getUtf8String(0));
     }

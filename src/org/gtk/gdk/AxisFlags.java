@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Flags describing the current capabilities of a device/tool.
  */
-public class AxisFlags {
+public class AxisFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * X axis is present
@@ -60,38 +60,8 @@ public class AxisFlags {
      */
     public static final AxisFlags SLIDER = new AxisFlags(2048);
     
-    private int value;
-    
     public AxisFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AxisFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public AxisFlags combined(AxisFlags mask) {
-        return new AxisFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static AxisFlags combined(AxisFlags mask, AxisFlags... masks) {
-        int value = mask.getValue();
-        for (AxisFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new AxisFlags(value);
+        super(value);
     }
     
 }

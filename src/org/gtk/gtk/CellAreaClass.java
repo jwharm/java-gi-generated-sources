@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,6 +28,14 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public void installCellProperty(int propertyId, org.gtk.gobject.ParamSpec pspec) {
         gtk_h.gtk_cell_area_class_install_cell_property(handle(), propertyId, pspec.handle());
+    }
+    
+    /**
+     * Returns all cell properties of a cell area class.
+     */
+    public PointerIterator<org.gtk.gobject.ParamSpec> listCellProperties(PointerInteger nProperties) {
+        var RESULT = gtk_h.gtk_cell_area_class_list_cell_properties(handle(), nProperties.handle());
+        return new PointerProxy<org.gtk.gobject.ParamSpec>(RESULT, org.gtk.gobject.ParamSpec.class).iterator();
     }
     
 }

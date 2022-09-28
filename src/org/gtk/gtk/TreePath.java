@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,7 +42,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Reference constructNewFromIndicesv(int[] indices, long length) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_path_new_from_indicesv(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices)).handle(), length), true);
+        Reference RESULT = References.get(gtk_h.gtk_tree_path_new_from_indicesv(Interop.allocateNativeArray(indices).handle(), length), true);
         return RESULT;
     }
     
@@ -138,11 +136,23 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Returns the current indices of {@code path}.
+     * <p>
+     * This is an array of integers, each representing a node in a tree.
+     * It also returns the number of elements in the array.
+     * The array should not be freed.
+     */
+    public PointerIterator<Integer> getIndicesWithDepth(PointerInteger depth) {
+        var RESULT = gtk_h.gtk_tree_path_get_indices_with_depth(handle(), depth.handle());
+        return new PointerInteger(RESULT).iterator();
+    }
+    
+    /**
      * Returns {@code true} if {@code descendant} is a descendant of {@code path}.
      */
     public boolean isAncestor(TreePath descendant) {
         var RESULT = gtk_h.gtk_tree_path_is_ancestor(handle(), descendant.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -150,7 +160,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isDescendant(TreePath ancestor) {
         var RESULT = gtk_h.gtk_tree_path_is_descendant(handle(), ancestor.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -175,7 +185,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean prev() {
         var RESULT = gtk_h.gtk_tree_path_prev(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -196,7 +206,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean up() {
         var RESULT = gtk_h.gtk_tree_path_up(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

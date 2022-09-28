@@ -1,8 +1,6 @@
 package org.gtk.gsk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -177,7 +175,7 @@ public class GLShader extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -214,7 +212,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public boolean getArgBool(org.gtk.glib.Bytes args, int idx) {
         var RESULT = gtk_h.gsk_gl_shader_get_arg_bool(handle(), args.handle(), idx);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

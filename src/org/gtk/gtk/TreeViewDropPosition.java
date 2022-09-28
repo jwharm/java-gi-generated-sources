@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * An enum for determining where a dropped row goes.
  */
-public class TreeViewDropPosition {
+public class TreeViewDropPosition extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * dropped row is inserted before
@@ -25,26 +25,8 @@ public class TreeViewDropPosition {
      */
     public static final TreeViewDropPosition INTO_OR_AFTER = new TreeViewDropPosition(3);
     
-    private int value;
-    
     public TreeViewDropPosition(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TreeViewDropPosition[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

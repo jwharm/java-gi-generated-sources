@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -102,7 +100,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public boolean getMonitored() {
         var RESULT = gtk_h.gtk_directory_list_get_monitored(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -115,7 +113,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public boolean isLoading() {
         var RESULT = gtk_h.gtk_directory_list_is_loading(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * <p>
  * More values may be added to this enumeration over time.
  */
-public class ShortcutType {
+public class ShortcutType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The shortcut is a keyboard accelerator. The GtkShortcutsShortcut:accelerator
@@ -59,26 +59,8 @@ public class ShortcutType {
      */
     public static final ShortcutType GESTURE_SWIPE_RIGHT = new ShortcutType(9);
     
-    private int value;
-    
     public ShortcutType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ShortcutType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

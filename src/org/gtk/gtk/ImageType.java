@@ -10,7 +10,7 @@ package org.gtk.gtk;
  * For empty images, you can request any storage type (call any of the "get"
  * functions), but they will all return {@code null} values.
  */
-public class ImageType {
+public class ImageType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * there is no image displayed by the widget
@@ -32,26 +32,8 @@ public class ImageType {
      */
     public static final ImageType PAINTABLE = new ImageType(3);
     
-    private int value;
-    
     public ImageType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ImageType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

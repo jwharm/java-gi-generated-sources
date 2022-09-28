@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +24,7 @@ public class OverlayLayoutChild extends LayoutChild {
      */
     public boolean getClipOverlay() {
         var RESULT = gtk_h.gtk_overlay_layout_child_get_clip_overlay(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -34,7 +32,7 @@ public class OverlayLayoutChild extends LayoutChild {
      */
     public boolean getMeasure() {
         var RESULT = gtk_h.gtk_overlay_layout_child_get_measure(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

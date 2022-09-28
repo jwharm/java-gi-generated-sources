@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -55,7 +53,7 @@ public class EventControllerLegacy extends EventController {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -64,7 +62,7 @@ public class EventControllerLegacy extends EventController {
     }
     
     public static boolean __signalEventControllerLegacyEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EventControllerLegacy.EventHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new EventControllerLegacy(References.get(source)), new org.gtk.gdk.Event(References.get(event, false)));
     }

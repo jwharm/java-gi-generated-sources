@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The type of message being displayed in a {@link MessageDialog}.
  */
-public class MessageType {
+public class MessageType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Informational message
@@ -30,26 +30,8 @@ public class MessageType {
      */
     public static final MessageType OTHER = new MessageType(4);
     
-    private int value;
-    
     public MessageType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MessageType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

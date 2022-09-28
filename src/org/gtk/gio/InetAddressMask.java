@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -65,7 +63,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      */
     public boolean equal(InetAddressMask mask2) {
         var RESULT = gtk_h.g_inet_address_mask_equal(handle(), mask2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -97,7 +95,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      */
     public boolean matches(InetAddress address) {
         var RESULT = gtk_h.g_inet_address_mask_matches(handle(), address.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

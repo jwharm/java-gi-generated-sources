@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -43,7 +41,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(RGBA p2) {
         var RESULT = gtk_h.gdk_rgba_equal(handle(), p2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -69,7 +67,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isClear() {
         var RESULT = gtk_h.gdk_rgba_is_clear(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -80,7 +78,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isOpaque() {
         var RESULT = gtk_h.gdk_rgba_is_opaque(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -107,7 +105,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean parse(java.lang.String spec) {
         var RESULT = gtk_h.gdk_rgba_parse(handle(), Interop.allocateNativeString(spec).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

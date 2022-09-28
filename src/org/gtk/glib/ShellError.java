@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by shell functions.
  */
-public class ShellError {
+public class ShellError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Mismatched or otherwise mangled quoting.
@@ -20,26 +20,8 @@ public class ShellError {
      */
     public static final ShellError FAILED = new ShellError(2);
     
-    private int value;
-    
     public ShellError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ShellError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

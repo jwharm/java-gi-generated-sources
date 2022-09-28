@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * <p>
  * A parameter of this typs is passed to {@link PrintOperation#run}.
  */
-public class PrintOperationAction {
+public class PrintOperationAction extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Show the print dialog.
@@ -29,26 +29,8 @@ public class PrintOperationAction {
      */
     public static final PrintOperationAction EXPORT = new PrintOperationAction(3);
     
-    private int value;
-    
     public PrintOperationAction(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PrintOperationAction[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

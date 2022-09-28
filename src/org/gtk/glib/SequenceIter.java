@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -49,7 +47,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isBegin() {
         var RESULT = gtk_h.g_sequence_iter_is_begin(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -57,7 +55,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isEnd() {
         var RESULT = gtk_h.g_sequence_iter_is_end(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

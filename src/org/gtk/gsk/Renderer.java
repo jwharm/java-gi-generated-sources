@@ -1,8 +1,6 @@
 package org.gtk.gsk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -64,7 +62,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public boolean isRealized() {
         var RESULT = gtk_h.gsk_renderer_is_realized(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -83,7 +81,7 @@ public class Renderer extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

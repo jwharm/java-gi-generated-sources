@@ -5,7 +5,7 @@ package org.gnome.adw;
  * <p>
  * New values may be added to this enumeration over time.
  */
-public class LeafletTransitionType {
+public class LeafletTransitionType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Cover the old page or uncover the new page, sliding from or towards the end according to orientation, text direction and children order
@@ -22,26 +22,8 @@ public class LeafletTransitionType {
      */
     public static final LeafletTransitionType SLIDE = new LeafletTransitionType(2);
     
-    private int value;
-    
     public LeafletTransitionType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(LeafletTransitionType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

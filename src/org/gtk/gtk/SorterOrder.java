@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Describes the type of order that a {@code GtkSorter} may produce.
  */
-public class SorterOrder {
+public class SorterOrder extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * A partial order. Any {@code GtkOrdering} is possible.
@@ -23,26 +23,8 @@ public class SorterOrder {
      */
     public static final SorterOrder TOTAL = new SorterOrder(2);
     
-    private int value;
-    
     public SorterOrder(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SorterOrder[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

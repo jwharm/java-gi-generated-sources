@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * For examples, see the tabs of a {@link Notebook}, or the label
  * of a {@link Scale}.
  */
-public class PositionType {
+public class PositionType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The feature is at the left edge.
@@ -28,26 +28,8 @@ public class PositionType {
      */
     public static final PositionType BOTTOM = new PositionType(3);
     
-    private int value;
-    
     public PositionType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PositionType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

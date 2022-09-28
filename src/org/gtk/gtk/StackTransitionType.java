@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * <p>
  * New values may be added to this enumeration over time.
  */
-public class StackTransitionType {
+public class StackTransitionType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No transition
@@ -122,26 +122,8 @@ public class StackTransitionType {
      */
     public static final StackTransitionType ROTATE_LEFT_RIGHT = new StackTransitionType(22);
     
-    private int value;
-    
     public StackTransitionType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(StackTransitionType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

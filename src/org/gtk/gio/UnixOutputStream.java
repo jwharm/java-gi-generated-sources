@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,7 +48,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
      */
     public boolean getCloseFd() {
         var RESULT = gtk_h.g_unix_output_stream_get_close_fd(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

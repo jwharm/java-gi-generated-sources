@@ -3,7 +3,7 @@ package org.gnome.adw;
 /**
  * Describes the possible folding behavior of a {@link Flap} widget.
  */
-public class FlapFoldPolicy {
+public class FlapFoldPolicy extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Disable folding, the flap cannot reach narrow
@@ -22,26 +22,8 @@ public class FlapFoldPolicy {
      */
     public static final FlapFoldPolicy AUTO = new FlapFoldPolicy(2);
     
-    private int value;
-    
     public FlapFoldPolicy(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FlapFoldPolicy[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

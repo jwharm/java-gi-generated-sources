@@ -6,7 +6,7 @@ package org.gtk.gio;
  * <p>
  * Additional values may be added to this type in the future.
  */
-public class SocketListenerEvent {
+public class SocketListenerEvent extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The listener is about to bind a socket.
@@ -30,26 +30,8 @@ public class SocketListenerEvent {
      */
     public static final SocketListenerEvent LISTENED = new SocketListenerEvent(3);
     
-    private int value;
-    
     public SocketListenerEvent(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SocketListenerEvent[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

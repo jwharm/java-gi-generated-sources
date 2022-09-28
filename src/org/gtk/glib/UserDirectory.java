@@ -9,7 +9,7 @@ package org.gtk.glib;
  * every platform has a directory for every logical id in this
  * enumeration.
  */
-public class UserDirectory {
+public class UserDirectory extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the user's Desktop directory
@@ -56,26 +56,8 @@ public class UserDirectory {
      */
     public static final UserDirectory N_DIRECTORIES = new UserDirectory(8);
     
-    private int value;
-    
     public UserDirectory(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UserDirectory[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gdkpixbuf;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -47,7 +45,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
      */
     public boolean getLoop() {
         var RESULT = gtk_h.gdk_pixbuf_simple_anim_get_loop(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -69,7 +67,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public boolean getExpand() {
         var RESULT = gtk_h.gtk_column_view_column_get_expand(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -103,7 +101,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public boolean getResizable() {
         var RESULT = gtk_h.gtk_column_view_column_get_resizable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -127,7 +125,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public boolean getVisible() {
         var RESULT = gtk_h.gtk_column_view_column_get_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

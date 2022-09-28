@@ -6,7 +6,7 @@ package org.gtk.gobject;
  * <p>
  * This enumeration can be extended at later date.
  */
-public class BindingFlags {
+public class BindingFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * The default binding; if the source property
@@ -37,38 +37,8 @@ public class BindingFlags {
      */
     public static final BindingFlags INVERT_BOOLEAN = new BindingFlags(4);
     
-    private int value;
-    
     public BindingFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BindingFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public BindingFlags combined(BindingFlags mask) {
-        return new BindingFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static BindingFlags combined(BindingFlags mask, BindingFlags... masks) {
-        int value = mask.getValue();
-        for (BindingFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new BindingFlags(value);
+        super(value);
     }
     
 }

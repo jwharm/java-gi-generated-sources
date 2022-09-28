@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -59,7 +57,7 @@ public class GridLayout extends LayoutManager {
      */
     public boolean getColumnHomogeneous() {
         var RESULT = gtk_h.gtk_grid_layout_get_column_homogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -88,7 +86,7 @@ public class GridLayout extends LayoutManager {
      */
     public boolean getRowHomogeneous() {
         var RESULT = gtk_h.gtk_grid_layout_get_row_homogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

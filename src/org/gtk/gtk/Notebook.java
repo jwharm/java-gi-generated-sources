@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -238,7 +236,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getScrollable() {
         var RESULT = gtk_h.gtk_notebook_get_scrollable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -246,7 +244,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getShowBorder() {
         var RESULT = gtk_h.gtk_notebook_get_show_border(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -254,7 +252,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getShowTabs() {
         var RESULT = gtk_h.gtk_notebook_get_show_tabs(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -262,7 +260,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getTabDetachable(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_tab_detachable(handle(), child.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -298,7 +296,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getTabReorderable(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_tab_reorderable(handle(), child.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -568,7 +566,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -577,7 +575,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static boolean __signalNotebookChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.ChangeCurrentPageHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Notebook(References.get(source)), object);
     }
@@ -607,7 +605,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -616,7 +614,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalNotebookCreateWindow(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.CreateWindowHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(page, false)));
     }
@@ -636,7 +634,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -645,7 +643,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static boolean __signalNotebookFocusTab(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.FocusTabHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Notebook(References.get(source)), new NotebookTab(object));
     }
@@ -665,7 +663,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -674,7 +672,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalNotebookMoveFocusOut(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object));
     }
@@ -698,7 +696,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -707,7 +705,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalNotebookPageAdded(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.PageAddedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
     }
@@ -731,7 +729,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -740,7 +738,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalNotebookPageRemoved(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.PageRemovedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
     }
@@ -764,7 +762,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -773,7 +771,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalNotebookPageReordered(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.PageReorderedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
     }
@@ -790,10 +788,10 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 Interop.allocateNativeString("reorder-tab").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookReorderTab",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -801,10 +799,10 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static boolean __signalNotebookReorderTab(MemoryAddress source, int object, boolean p0, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalNotebookReorderTab(MemoryAddress source, int object, int p0, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.ReorderTabHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object), p0);
+        return handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object), p0 != 0);
     }
     
     @FunctionalInterface
@@ -819,10 +817,10 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 Interop.allocateNativeString("select-page").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookSelectPage",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -830,10 +828,10 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static boolean __signalNotebookSelectPage(MemoryAddress source, boolean object, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalNotebookSelectPage(MemoryAddress source, int object, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.SelectPageHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Notebook(References.get(source)), object);
+        return handler.signalReceived(new Notebook(References.get(source)), object != 0);
     }
     
     @FunctionalInterface
@@ -854,7 +852,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -863,7 +861,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalNotebookSwitchPage(MemoryAddress source, MemoryAddress page, int pageNum, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Notebook.SwitchPageHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(page, false)), pageNum);
     }

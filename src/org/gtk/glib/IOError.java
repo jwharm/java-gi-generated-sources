@@ -4,7 +4,7 @@ package org.gtk.glib;
  * {@link IOError} is only used by the deprecated functions
  * g_io_channel_read(), g_io_channel_write(), and g_io_channel_seek().
  */
-public class IOError {
+public class IOError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * no error
@@ -26,26 +26,8 @@ public class IOError {
      */
     public static final IOError UNKNOWN = new IOError(3);
     
-    private int value;
-    
     public IOError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(IOError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

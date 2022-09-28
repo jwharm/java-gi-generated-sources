@@ -11,7 +11,7 @@ package org.gtk.gdk;
  * of this enumeration. Your code should preserve and ignore them.  You can use
  * {@code GDK_MODIFIER_MASK} to remove all private values.
  */
-public class ModifierType {
+public class ModifierType extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * the Shift key.
@@ -76,38 +76,8 @@ public class ModifierType {
      */
     public static final ModifierType META_MASK = new ModifierType(268435456);
     
-    private int value;
-    
     public ModifierType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ModifierType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ModifierType combined(ModifierType mask) {
-        return new ModifierType(this.getValue() | mask.getValue());
-    }
-    
-    public static ModifierType combined(ModifierType mask, ModifierType... masks) {
-        int value = mask.getValue();
-        for (ModifierType arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ModifierType(value);
+        super(value);
     }
     
 }

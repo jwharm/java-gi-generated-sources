@@ -3,7 +3,7 @@ package org.gtk.graphene;
 /**
  * The type of intersection.
  */
-public class RayIntersectionKind {
+public class RayIntersectionKind extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No intersection
@@ -22,26 +22,8 @@ public class RayIntersectionKind {
      */
     public static final RayIntersectionKind LEAVE = new RayIntersectionKind(2);
     
-    private int value;
-    
     public RayIntersectionKind(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(RayIntersectionKind[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

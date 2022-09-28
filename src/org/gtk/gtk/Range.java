@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -52,7 +50,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getFlippable() {
         var RESULT = gtk_h.gtk_range_get_flippable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -62,7 +60,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getInverted() {
         var RESULT = gtk_h.gtk_range_get_inverted(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -80,7 +78,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getRestrictToFillLevel() {
         var RESULT = gtk_h.gtk_range_get_restrict_to_fill_level(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -99,7 +97,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getShowFillLevel() {
         var RESULT = gtk_h.gtk_range_get_show_fill_level(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -119,7 +117,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getSliderSizeFixed() {
         var RESULT = gtk_h.gtk_range_get_slider_size_fixed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -284,7 +282,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -293,7 +291,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static void __signalRangeAdjustBounds(MemoryAddress source, double value, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Range.AdjustBoundsHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Range(References.get(source)), value);
     }
@@ -327,7 +325,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -336,7 +334,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static boolean __signalRangeChangeValue(MemoryAddress source, int scroll, double value, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Range.ChangeValueHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Range(References.get(source)), new ScrollType(scroll), value);
     }
@@ -361,7 +359,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -370,7 +368,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static void __signalRangeMoveSlider(MemoryAddress source, int step, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Range.MoveSliderHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Range(References.get(source)), new ScrollType(step));
     }
@@ -393,7 +391,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -402,7 +400,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static void __signalRangeValueChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Range.ValueChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Range(References.get(source)));
     }

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -112,7 +110,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      */
     public boolean getSearchMode() {
         var RESULT = gtk_h.gtk_search_bar_get_search_mode(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -120,7 +118,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      */
     public boolean getShowCloseButton() {
         var RESULT = gtk_h.gtk_search_bar_get_show_close_button(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

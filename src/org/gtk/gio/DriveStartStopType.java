@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Enumeration describing how a drive can be started/stopped.
  */
-public class DriveStartStopType {
+public class DriveStartStopType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Unknown or drive doesn't support
@@ -38,26 +38,8 @@ public class DriveStartStopType {
      */
     public static final DriveStartStopType PASSWORD = new DriveStartStopType(4);
     
-    private int value;
-    
     public DriveStartStopType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DriveStartStopType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,6 +42,17 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     public java.lang.String getDisplay(AppInfo info, org.gtk.glib.List files) {
         var RESULT = gtk_h.g_app_launch_context_get_display(handle(), info.handle(), files.handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the complete environment variable list to be passed to
+     * the child process when {@code context} is used to launch an application.
+     * This is a {@code null}-terminated array of strings, where each string has
+     * the form {@code KEY=VALUE}.
+     */
+    public PointerIterator<java.lang.String> getEnvironment() {
+        var RESULT = gtk_h.g_app_launch_context_get_environment(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -102,7 +111,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -111,7 +120,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     public static void __signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (AppLaunchContext.LaunchFailedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new AppLaunchContext(References.get(source)), startupNotifyId.getUtf8String(0));
     }
@@ -147,7 +156,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -156,7 +165,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     public static void __signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (AppLaunchContext.LaunchStartedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new AppLaunchContext(References.get(source)), new AppInfo.AppInfoImpl(References.get(info, false)), new org.gtk.glib.Variant(References.get(platformData, false)));
     }
@@ -187,7 +196,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -196,7 +205,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     public static void __signalAppLaunchContextLaunched(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (AppLaunchContext.LaunchedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new AppLaunchContext(References.get(source)), new AppInfo.AppInfoImpl(References.get(info, false)), new org.gtk.glib.Variant(References.get(platformData, false)));
     }

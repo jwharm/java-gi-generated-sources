@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * These enumeration values describe the possible transitions
  * when the child of a {@code GtkRevealer} widget is shown or hidden.
  */
-public class RevealerTransitionType {
+public class RevealerTransitionType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No transition
@@ -56,26 +56,8 @@ public class RevealerTransitionType {
      */
     public static final RevealerTransitionType SWING_DOWN = new RevealerTransitionType(9);
     
-    private int value;
-    
     public RevealerTransitionType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(RevealerTransitionType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

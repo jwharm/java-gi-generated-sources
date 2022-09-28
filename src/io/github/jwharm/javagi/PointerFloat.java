@@ -8,7 +8,7 @@ import java.lang.foreign.ValueLayout;
  * Use {@code new PointerFloat()} to create an instance, and
  * use {@link #get()} afterwards to retreive the results.
  */
-public class PointerFloat extends Pointer {
+public class PointerFloat extends Pointer<Float> {
 
     /**
      * Create the pointer. It does not point to a specific value.
@@ -35,7 +35,7 @@ public class PointerFloat extends Pointer {
     /**
      * Use this mehod to set the value that the pointer points to.
      */
-    public void set(float value) {
+    public void set(Float value) {
         address.set(ValueLayout.JAVA_FLOAT, 0, value);
     }
     
@@ -43,7 +43,7 @@ public class PointerFloat extends Pointer {
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
      */
-    public float get() {
+    public Float get() {
         return get(0);
     }
     
@@ -52,7 +52,7 @@ public class PointerFloat extends Pointer {
      * @param index The array index
      * @return The value stored at the given index
      */
-    public float get(int index) {
+    public Float get(int index) {
         return address.get(
                 ValueLayout.JAVA_FLOAT, 
                 ValueLayout.JAVA_FLOAT.byteSize() * index

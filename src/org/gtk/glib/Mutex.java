@@ -1,6 +1,6 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.NativeAddress;
+import io.github.jwharm.javagi.Proxy;
 import java.lang.foreign.MemoryAddress;
 
 /**

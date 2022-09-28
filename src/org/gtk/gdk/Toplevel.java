@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,7 +12,7 @@ import java.lang.invoke.*;
  * the windowing system, such as controlling maximization and size of the
  * surface, setting icons and transient parents for dialogs.
  */
-public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
+public interface Toplevel extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Begins an interactive move operation.
@@ -87,7 +85,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean lower() {
         var RESULT = gtk_h.gdk_toplevel_lower(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -97,7 +95,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean minimize() {
         var RESULT = gtk_h.gdk_toplevel_minimize(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -224,7 +222,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean showWindowMenu(Event event) {
         var RESULT = gtk_h.gdk_toplevel_show_window_menu(handle(), event.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -233,12 +231,12 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean supportsEdgeConstraints() {
         var RESULT = gtk_h.gdk_toplevel_supports_edge_constraints(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public default boolean titlebarGesture(TitlebarGesture gesture) {
         var RESULT = gtk_h.gdk_toplevel_titlebar_gesture(handle(), gesture.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -270,7 +268,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -279,7 +277,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalToplevelComputeSize(MemoryAddress source, MemoryAddress size, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Toplevel.ComputeSizeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Toplevel.ToplevelImpl(References.get(source)), new ToplevelSize(References.get(size, false)));
     }

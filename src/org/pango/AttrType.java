@@ -8,7 +8,7 @@ package org.pango;
  * values are given below. The type of structure used to store the attribute is
  * listed in parentheses after the description.
  */
-public class AttrType {
+public class AttrType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * does not happen
@@ -197,26 +197,8 @@ public class AttrType {
      */
     public static final AttrType FONT_SCALE = new AttrType(37);
     
-    private int value;
-    
     public AttrType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AttrType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

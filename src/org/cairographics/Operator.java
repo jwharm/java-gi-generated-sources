@@ -1,6 +1,6 @@
 package org.cairographics;
 
-public class Operator {
+public class Operator extends io.github.jwharm.javagi.Enumeration {
 
     public static final Operator CLEAR = new Operator(0);
     
@@ -60,26 +60,8 @@ public class Operator {
     
     public static final Operator HSL_LUMINOSITY = new Operator(28);
     
-    private int value;
-    
     public Operator(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Operator[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

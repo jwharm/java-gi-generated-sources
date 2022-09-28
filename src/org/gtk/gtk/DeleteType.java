@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Passed to various keybinding signals for deleting text.
  */
-public class DeleteType {
+public class DeleteType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Delete characters.
@@ -51,26 +51,8 @@ public class DeleteType {
      */
     public static final DeleteType WHITESPACE = new DeleteType(7);
     
-    private int value;
-    
     public DeleteType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DeleteType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

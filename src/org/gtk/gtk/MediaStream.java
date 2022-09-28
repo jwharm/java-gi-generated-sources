@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -80,7 +78,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean getEnded() {
         var RESULT = gtk_h.gtk_media_stream_get_ended(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -111,7 +109,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean getLoop() {
         var RESULT = gtk_h.gtk_media_stream_get_loop(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -121,7 +119,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean getMuted() {
         var RESULT = gtk_h.gtk_media_stream_get_muted(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -129,7 +127,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean getPlaying() {
         var RESULT = gtk_h.gtk_media_stream_get_playing(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -155,7 +153,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean hasAudio() {
         var RESULT = gtk_h.gtk_media_stream_has_audio(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -163,7 +161,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean hasVideo() {
         var RESULT = gtk_h.gtk_media_stream_has_video(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -173,7 +171,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean isPrepared() {
         var RESULT = gtk_h.gtk_media_stream_is_prepared(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -189,7 +187,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean isSeekable() {
         var RESULT = gtk_h.gtk_media_stream_is_seekable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -197,7 +195,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public boolean isSeeking() {
         var RESULT = gtk_h.gtk_media_stream_is_seeking(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

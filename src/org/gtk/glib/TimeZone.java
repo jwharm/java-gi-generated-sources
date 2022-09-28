@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -242,7 +240,7 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isDst(int interval) {
         var RESULT = gtk_h.g_time_zone_is_dst(handle(), interval);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

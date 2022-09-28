@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Describes the panning direction of a {@link GesturePan}.
  */
-public class PanDirection {
+public class PanDirection extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * panned towards the left
@@ -25,26 +25,8 @@ public class PanDirection {
      */
     public static final PanDirection DOWN = new PanDirection(3);
     
-    private int value;
-    
     public PanDirection(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PanDirection[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

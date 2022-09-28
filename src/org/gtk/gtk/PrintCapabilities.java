@@ -7,7 +7,7 @@ package org.gtk.gtk;
  * {@link PrintCapabilities#GENERATE_PS} is specified, GTK assumes that all
  * formats are supported.
  */
-public class PrintCapabilities {
+public class PrintCapabilities extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Print dialog will offer printing even/odd pages.
@@ -63,38 +63,8 @@ public class PrintCapabilities {
      */
     public static final PrintCapabilities NUMBER_UP_LAYOUT = new PrintCapabilities(512);
     
-    private int value;
-    
     public PrintCapabilities(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PrintCapabilities[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public PrintCapabilities combined(PrintCapabilities mask) {
-        return new PrintCapabilities(this.getValue() | mask.getValue());
-    }
-    
-    public static PrintCapabilities combined(PrintCapabilities mask, PrintCapabilities... masks) {
-        int value = mask.getValue();
-        for (PrintCapabilities arg : masks) {
-            value |= arg.getValue();
-        }
-        return new PrintCapabilities(value);
+        super(value);
     }
     
 }

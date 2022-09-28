@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -307,7 +305,7 @@ public final class Pango {
     public static Attribute attrShapeNewWithData(Rectangle inkRect, Rectangle logicalRect, AttrDataCopyFunc copyFunc) {
         try {
             var RESULT = gtk_h.pango_attr_shape_new_with_data(inkRect.handle(), logicalRect.handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.class, "__cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
@@ -674,7 +672,7 @@ public final class Pango {
      */
     public static boolean isZeroWidth(int ch) {
         var RESULT = gtk_h.pango_is_zero_width(ch);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -778,9 +776,9 @@ public final class Pango {
      * you should first try the default language, followed by the
      * languages returned by this function.
      */
-    public static PointerResource<Language> languageGetPreferred() {
+    public static PointerProxy<Language> languageGetPreferred() {
         var RESULT = gtk_h.pango_language_get_preferred();
-        return new PointerResource<Language>(RESULT, Language.class);
+        return new PointerProxy<Language>(RESULT, Language.class);
     }
     
     public static org.gtk.glib.Quark layoutDeserializeErrorQuark() {
@@ -816,7 +814,7 @@ public final class Pango {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -873,7 +871,57 @@ public final class Pango {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Parses a font stretch.
+     * <p>
+     * The allowed values are
+     * "ultra_condensed", "extra_condensed", "condensed",
+     * "semi_condensed", "normal", "semi_expanded", "expanded",
+     * "extra_expanded" and "ultra_expanded". Case variations are
+     * ignored and the '_' characters may be omitted.
+     */
+    public static boolean parseStretch(java.lang.String str, Stretch stretch, boolean warn) {
+        var RESULT = gtk_h.pango_parse_stretch(Interop.allocateNativeString(str).handle(), new PointerInteger(stretch.getValue()).handle(), warn ? 1 : 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Parses a font style.
+     * <p>
+     * The allowed values are "normal", "italic" and "oblique", case
+     * variations being
+     * ignored.
+     */
+    public static boolean parseStyle(java.lang.String str, Style style, boolean warn) {
+        var RESULT = gtk_h.pango_parse_style(Interop.allocateNativeString(str).handle(), new PointerInteger(style.getValue()).handle(), warn ? 1 : 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Parses a font variant.
+     * <p>
+     * The allowed values are "normal", "small-caps", "all-small-caps",
+     * "petite-caps", "all-petite-caps", "unicase" and "title-caps",
+     * case variations being ignored.
+     */
+    public static boolean parseVariant(java.lang.String str, Variant variant, boolean warn) {
+        var RESULT = gtk_h.pango_parse_variant(Interop.allocateNativeString(str).handle(), new PointerInteger(variant.getValue()).handle(), warn ? 1 : 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Parses a font weight.
+     * <p>
+     * The allowed values are "heavy",
+     * "ultrabold", "bold", "normal", "light", "ultraleight"
+     * and integers. Case variations are ignored.
+     */
+    public static boolean parseWeight(java.lang.String str, Weight weight, boolean warn) {
+        var RESULT = gtk_h.pango_parse_weight(Interop.allocateNativeString(str).handle(), new PointerInteger(weight.getValue()).handle(), warn ? 1 : 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1133,19 +1181,19 @@ public final class Pango {
     }
     
     public static boolean __cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FontsetForeachFunc) Interop.signalRegistry.get(hash);
         return handler.onFontsetForeachFunc(new Fontset(References.get(fontset, false)), new Font(References.get(font, false)));
     }
     
     public static java.lang.foreign.MemoryAddress __cbAttrDataCopyFunc(MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (AttrDataCopyFunc) Interop.signalRegistry.get(hash);
         return handler.onAttrDataCopyFunc();
     }
     
     public static boolean __cbAttrFilterFunc(MemoryAddress attribute, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (AttrFilterFunc) Interop.signalRegistry.get(hash);
         return handler.onAttrFilterFunc(new Attribute(References.get(attribute, false)));
     }

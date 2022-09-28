@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags to modify lookup behavior.
  */
-public class ResolverNameLookupFlags {
+public class ResolverNameLookupFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * default behavior (same as g_resolver_lookup_by_name())
@@ -20,38 +20,8 @@ public class ResolverNameLookupFlags {
      */
     public static final ResolverNameLookupFlags IPV6_ONLY = new ResolverNameLookupFlags(2);
     
-    private int value;
-    
     public ResolverNameLookupFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ResolverNameLookupFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ResolverNameLookupFlags combined(ResolverNameLookupFlags mask) {
-        return new ResolverNameLookupFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static ResolverNameLookupFlags combined(ResolverNameLookupFlags mask, ResolverNameLookupFlags... masks) {
-        int value = mask.getValue();
-        for (ResolverNameLookupFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ResolverNameLookupFlags(value);
+        super(value);
     }
     
 }

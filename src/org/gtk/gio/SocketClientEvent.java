@@ -6,7 +6,7 @@ package org.gtk.gio;
  * <p>
  * Additional values may be added to this type in the future.
  */
-public class SocketClientEvent {
+public class SocketClientEvent extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The client is doing a DNS lookup.
@@ -60,26 +60,8 @@ public class SocketClientEvent {
      */
     public static final SocketClientEvent COMPLETE = new SocketClientEvent(8);
     
-    private int value;
-    
     public SocketClientEvent(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SocketClientEvent[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

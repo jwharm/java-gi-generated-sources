@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Results returned from g_converter_convert().
  */
-public class ConverterResult {
+public class ConverterResult extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * There was an error during conversion.
@@ -25,26 +25,8 @@ public class ConverterResult {
      */
     public static final ConverterResult FLUSHED = new ConverterResult(3);
     
-    private int value;
-    
     public ConverterResult(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ConverterResult[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

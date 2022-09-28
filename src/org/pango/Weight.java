@@ -6,7 +6,7 @@ package org.pango;
  * Weight is specified as a numeric value ranging from 100 to 1000.
  * This enumeration simply provides some common, predefined values.
  */
-public class Weight {
+public class Weight extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the thin weight (= 100) Since: 1.24
@@ -68,26 +68,8 @@ public class Weight {
      */
     public static final Weight ULTRAHEAVY = new Weight(1000);
     
-    private int value;
-    
     public Weight(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Weight[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

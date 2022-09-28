@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -63,7 +61,7 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
      */
     public boolean getAutoGrow() {
         var RESULT = gtk_h.g_buffered_output_stream_get_auto_grow(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

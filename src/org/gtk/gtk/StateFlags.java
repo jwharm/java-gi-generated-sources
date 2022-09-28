@@ -7,7 +7,7 @@ package org.gtk.gtk;
  * Note that GTK extends the regular CSS classes and sometimes uses
  * different names.
  */
-public class StateFlags {
+public class StateFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * State during normal operation
@@ -89,38 +89,8 @@ public class StateFlags {
      */
     public static final StateFlags FOCUS_WITHIN = new StateFlags(16384);
     
-    private int value;
-    
     public StateFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(StateFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public StateFlags combined(StateFlags mask) {
-        return new StateFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static StateFlags combined(StateFlags mask, StateFlags... masks) {
-        int value = mask.getValue();
-        for (StateFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new StateFlags(value);
+        super(value);
     }
     
 }

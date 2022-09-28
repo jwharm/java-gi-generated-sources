@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,7 +35,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -104,13 +102,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public SequenceIter insertSorted(CompareDataFunc cmpFunc) {
         try {
             var RESULT = gtk_h.g_sequence_insert_sorted(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
             return new SequenceIter(References.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -134,13 +132,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public SequenceIter insertSortedIter(SequenceIterCompareFunc iterCmp) {
         try {
             var RESULT = gtk_h.g_sequence_insert_sorted_iter(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
             return new SequenceIter(References.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -156,7 +154,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isEmpty() {
         var RESULT = gtk_h.g_sequence_is_empty(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -177,13 +175,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public SequenceIter lookup(CompareDataFunc cmpFunc) {
         try {
             var RESULT = gtk_h.g_sequence_lookup(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
             return new SequenceIter(References.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -205,13 +203,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public SequenceIter lookupIter(SequenceIterCompareFunc iterCmp) {
         try {
             var RESULT = gtk_h.g_sequence_lookup_iter(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
             return new SequenceIter(References.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -244,13 +242,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public SequenceIter search(CompareDataFunc cmpFunc) {
         try {
             var RESULT = gtk_h.g_sequence_search(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
             return new SequenceIter(References.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -275,13 +273,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public SequenceIter searchIter(SequenceIterCompareFunc iterCmp) {
         try {
             var RESULT = gtk_h.g_sequence_search_iter(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
             return new SequenceIter(References.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -304,7 +302,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -327,7 +325,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -346,7 +344,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -455,7 +453,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -480,7 +478,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

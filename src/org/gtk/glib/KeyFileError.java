@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by key file parsing.
  */
-public class KeyFileError {
+public class KeyFileError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the text being parsed was in
@@ -36,26 +36,8 @@ public class KeyFileError {
      */
     public static final KeyFileError INVALID_VALUE = new KeyFileError(5);
     
-    private int value;
-    
     public KeyFileError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(KeyFileError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -395,7 +393,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getSelectable() {
         var RESULT = gtk_h.gtk_label_get_selectable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -403,7 +401,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getSelectionBounds(PointerInteger start, PointerInteger end) {
         var RESULT = gtk_h.gtk_label_get_selection_bounds(handle(), start.handle(), end.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -411,7 +409,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getSingleLineMode() {
         var RESULT = gtk_h.gtk_label_get_single_line_mode(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -433,7 +431,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getUseMarkup() {
         var RESULT = gtk_h.gtk_label_get_use_markup(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -443,7 +441,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getUseUnderline() {
         var RESULT = gtk_h.gtk_label_get_use_underline(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -463,7 +461,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getWrap() {
         var RESULT = gtk_h.gtk_label_get_wrap(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -807,7 +805,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -816,7 +814,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static void __signalLabelActivateCurrentLink(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Label.ActivateCurrentLinkHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Label(References.get(source)));
     }
@@ -842,7 +840,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -851,7 +849,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static boolean __signalLabelActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Label.ActivateLinkHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Label(References.get(source)), uri.getUtf8String(0));
     }
@@ -878,7 +876,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -887,7 +885,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static void __signalLabelCopyClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Label.CopyClipboardHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Label(References.get(source)));
     }
@@ -924,10 +922,10 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Label.class, "__signalLabelMoveCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -935,10 +933,10 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    public static void __signalLabelMoveCursor(MemoryAddress source, int step, int count, boolean extendSelection, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalLabelMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Label.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Label(References.get(source)), new MovementStep(step), count, extendSelection);
+        handler.signalReceived(new Label(References.get(source)), new MovementStep(step), count, extendSelection != 0);
     }
     
 }

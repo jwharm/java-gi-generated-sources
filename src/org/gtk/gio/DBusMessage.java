@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +34,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     private static Reference constructNewFromBlob(byte[] blob, long blobLen, DBusCapabilityFlags capabilities) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_message_new_from_blob(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, blob)).handle(), blobLen, capabilities.getValue(), GERROR), true);
+        Reference RESULT = References.get(gtk_h.g_dbus_message_new_from_blob(Interop.allocateNativeArray(blob).handle(), blobLen, capabilities.getValue(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -156,6 +154,14 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
+     * Gets an array of all header fields on {@code message} that are set.
+     */
+    public PointerIterator<Byte> getHeaderFields() {
+        var RESULT = gtk_h.g_dbus_message_get_header_fields(handle());
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
      * Convenience getter for the {@link DBusMessageHeaderField#INTERFACE} header field.
      */
     public java.lang.String getInterface() {
@@ -170,7 +176,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public boolean getLocked() {
         var RESULT = gtk_h.g_dbus_message_get_locked(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -454,6 +460,19 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
+     * Serializes {@code message} to a blob. The byte order returned by
+     * g_dbus_message_get_byte_order() will be used.
+     */
+    public PointerIterator<Byte> toBlob(PointerLong outSize, DBusCapabilityFlags capabilities) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_dbus_message_to_blob(handle(), outSize.handle(), capabilities.getValue(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
      * If {@code message} is not of type {@link DBusMessageType#ERROR} does
      * nothing and returns {@code false}.
      * <p>
@@ -468,7 +487,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -477,7 +496,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public static long bytesNeeded(byte[] blob, long blobLen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dbus_message_bytes_needed(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, blob)).handle(), blobLen, GERROR);
+        var RESULT = gtk_h.g_dbus_message_bytes_needed(Interop.allocateNativeArray(blob).handle(), blobLen, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

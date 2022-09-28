@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -57,7 +55,7 @@ import java.lang.invoke.*;
  * Different launcher applications (e.g. file managers) may have
  * different ideas of what a given URI means.
  */
-public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
+public interface AppInfo extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Adds a content type to the application information to indicate the
@@ -69,7 +67,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -78,7 +76,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canDelete() {
         var RESULT = gtk_h.g_app_info_can_delete(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -86,7 +84,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canRemoveSupportsType() {
         var RESULT = gtk_h.g_app_info_can_remove_supports_type(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -98,7 +96,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean delete() {
         var RESULT = gtk_h.g_app_info_delete(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -118,7 +116,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean equal(AppInfo appinfo2) {
         var RESULT = gtk_h.g_app_info_equal(handle(), appinfo2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -186,6 +184,19 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
+     * Retrieves the list of content types that {@code app_info} claims to support.
+     * If this information is not provided by the environment, this function
+     * will return {@code null}.
+     * This function does not take in consideration associations added with
+     * g_app_info_add_supports_type(), but only those exported directly by
+     * the application.
+     */
+    public default PointerIterator<java.lang.String> getSupportedTypes() {
+        var RESULT = gtk_h.g_app_info_get_supported_types(handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Launches the application. Passes {@code files} to the launched application
      * as arguments, using the optional {@code context} to get information
      * about the details of the launcher (like what screen it is on).
@@ -220,7 +231,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -241,7 +252,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -260,7 +271,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -275,7 +286,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -287,7 +298,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -299,7 +310,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -311,7 +322,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -326,7 +337,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -335,7 +346,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean shouldShow() {
         var RESULT = gtk_h.g_app_info_should_show(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -343,7 +354,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean supportsFiles() {
         var RESULT = gtk_h.g_app_info_supports_files(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -351,7 +362,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean supportsUris() {
         var RESULT = gtk_h.g_app_info_supports_uris(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -456,7 +467,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -479,7 +490,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -494,7 +505,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

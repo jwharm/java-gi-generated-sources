@@ -6,7 +6,7 @@ package org.gtk.glib;
  * Note that in contrast with g_test_trap_fork(), the default is to
  * not show stdout and stderr.
  */
-public class TestSubprocessFlags {
+public class TestSubprocessFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * If this flag is given, the child
@@ -31,38 +31,8 @@ public class TestSubprocessFlags {
      */
     public static final TestSubprocessFlags STDERR = new TestSubprocessFlags(4);
     
-    private int value;
-    
     public TestSubprocessFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TestSubprocessFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public TestSubprocessFlags combined(TestSubprocessFlags mask) {
-        return new TestSubprocessFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static TestSubprocessFlags combined(TestSubprocessFlags mask, TestSubprocessFlags... masks) {
-        int value = mask.getValue();
-        for (TestSubprocessFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new TestSubprocessFlags(value);
+        super(value);
     }
     
 }

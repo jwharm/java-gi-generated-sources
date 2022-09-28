@@ -4,7 +4,7 @@ package org.gtk.gio;
  * Flags used when creating a {@link Socket}. Some protocols may not implement
  * all the socket types.
  */
-public class SocketType {
+public class SocketType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Type unknown or wrong
@@ -28,26 +28,8 @@ public class SocketType {
      */
     public static final SocketType SEQPACKET = new SocketType(3);
     
-    private int value;
-    
     public SocketType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SocketType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

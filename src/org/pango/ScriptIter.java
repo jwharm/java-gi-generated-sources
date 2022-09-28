@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -42,6 +40,21 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Gets information about the range to which {@code iter} currently points.
+     * <p>
+     * The range is the set of locations p where <strong>start <= p < </strong>end.
+     * (That is, it doesn't include the character stored at *end)
+     * <p>
+     * Note that while the type of the {@code script} argument is declared
+     * as {@code PangoScript}, as of Pango 1.18, this function simply returns
+     * {@code GUnicodeScript} values. Callers must be prepared to handle unknown
+     * values.
+     */
+    public void getRange(java.lang.String[] start, java.lang.String[] end, Script script) {
+        gtk_h.pango_script_iter_get_range(handle(), Interop.allocateNativeArray(start).handle(), Interop.allocateNativeArray(end).handle(), new PointerInteger(script.getValue()).handle());
+    }
+    
+    /**
      * Advances a {@code PangoScriptIter} to the next range.
      * <p>
      * If {@code iter} is already at the end, it is left unchanged
@@ -49,7 +62,7 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean next() {
         var RESULT = gtk_h.pango_script_iter_next(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

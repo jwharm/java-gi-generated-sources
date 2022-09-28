@@ -8,7 +8,7 @@ package org.gtk.gtk;
  * value to pass, {@link FilterChange#DIFFERENT} is always a correct
  * choice.
  */
-public class FilterChange {
+public class FilterChange extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The filter change cannot be
@@ -30,26 +30,8 @@ public class FilterChange {
      */
     public static final FilterChange MORE_STRICT = new FilterChange(2);
     
-    private int value;
-    
     public FilterChange(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FilterChange[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

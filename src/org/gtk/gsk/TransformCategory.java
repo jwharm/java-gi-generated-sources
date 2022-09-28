@@ -12,7 +12,7 @@ package org.gtk.gsk;
  * multiplication will not worsen categories. So for the matrix
  * multiplication {@code C = A * B}, {@code category(C) = MIN (category(A), category(B))}.
  */
-public class TransformCategory {
+public class TransformCategory extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The category of the matrix has not been
@@ -56,26 +56,8 @@ public class TransformCategory {
      */
     public static final TransformCategory IDENTITY = new TransformCategory(6);
     
-    private int value;
-    
     public TransformCategory(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TransformCategory[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

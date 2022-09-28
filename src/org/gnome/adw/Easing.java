@@ -6,7 +6,7 @@ package org.gnome.adw;
  * <p>
  * New values may be added to this enumeration over time.
  */
-public class Easing {
+public class Easing extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Linear tweening.
@@ -178,26 +178,8 @@ public class Easing {
      */
     public static final Easing EASE_IN_OUT_BOUNCE = new Easing(30);
     
-    private int value;
-    
     public Easing(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Easing[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

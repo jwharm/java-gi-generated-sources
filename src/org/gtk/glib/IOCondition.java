@@ -4,7 +4,7 @@ package org.gtk.glib;
  * A bitwise combination representing a condition to watch for on an
  * event source.
  */
-public class IOCondition {
+public class IOCondition extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * There is data to read.
@@ -37,38 +37,8 @@ public class IOCondition {
      */
     public static final IOCondition NVAL = new IOCondition(32);
     
-    private int value;
-    
     public IOCondition(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(IOCondition[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public IOCondition combined(IOCondition mask) {
-        return new IOCondition(this.getValue() | mask.getValue());
-    }
-    
-    public static IOCondition combined(IOCondition mask, IOCondition... masks) {
-        int value = mask.getValue();
-        for (IOCondition arg : masks) {
-            value |= arg.getValue();
-        }
-        return new IOCondition(value);
+        super(value);
     }
     
 }

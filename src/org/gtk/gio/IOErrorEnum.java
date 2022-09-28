@@ -20,7 +20,7 @@ package org.gtk.gio;
  * See also {@link PollableReturn} for a cheaper way of returning
  * {@link IOErrorEnum#WOULD_BLOCK} to callers without allocating a {@link org.gtk.glib.Error}.
  */
-public class IOErrorEnum {
+public class IOErrorEnum extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Generic error condition for when an operation fails
@@ -275,26 +275,8 @@ public class IOErrorEnum {
      */
     public static final IOErrorEnum MESSAGE_TOO_LARGE = new IOErrorEnum(46);
     
-    private int value;
-    
     public IOErrorEnum(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(IOErrorEnum[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

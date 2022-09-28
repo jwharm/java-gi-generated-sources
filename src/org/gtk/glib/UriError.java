@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by {@link Uri} methods.
  */
-public class UriError {
+public class UriError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Generic error if no more specific error is available.
@@ -56,26 +56,8 @@ public class UriError {
      */
     public static final UriError BAD_FRAGMENT = new UriError(9);
     
-    private int value;
-    
     public UriError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UriError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

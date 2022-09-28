@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The possible accessible states of a {@code Accessible}.
  */
-public class AccessibleState {
+public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * A “busy” state. This state has boolean values
@@ -58,26 +58,8 @@ public class AccessibleState {
      */
     public static final AccessibleState SELECTED = new AccessibleState(7);
     
-    private int value;
-    
     public AccessibleState(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AccessibleState[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

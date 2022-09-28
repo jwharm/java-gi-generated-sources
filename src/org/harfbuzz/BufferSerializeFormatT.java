@@ -4,7 +4,7 @@ package org.harfbuzz;
  * The buffer serialization and de-serialization format used in
  * hb_buffer_serialize_glyphs() and hb_buffer_deserialize_glyphs().
  */
-public class BufferSerializeFormatT {
+public class BufferSerializeFormatT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * a human-readable, plain text format.
@@ -21,26 +21,8 @@ public class BufferSerializeFormatT {
      */
     public static final BufferSerializeFormatT INVALID = new BufferSerializeFormatT(0);
     
-    private int value;
-    
     public BufferSerializeFormatT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BufferSerializeFormatT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

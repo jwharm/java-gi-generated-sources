@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * The range of possible top-level types of {@link Variant} instances.
  */
-public class VariantClass {
+public class VariantClass extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The {@link Variant} is a boolean.
@@ -97,26 +97,8 @@ public class VariantClass {
      */
     public static final VariantClass DICT_ENTRY = new VariantClass(123);
     
-    private int value;
-    
     public VariantClass(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(VariantClass[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

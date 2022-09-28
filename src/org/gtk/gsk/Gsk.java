@@ -1,8 +1,6 @@
 package org.gtk.gsk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +24,7 @@ public final class Gsk {
      */
     public static boolean transformParse(java.lang.String string, Transform[] outTransform) {
         var RESULT = gtk_h.gsk_transform_parse(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -65,7 +63,7 @@ public final class Gsk {
     }
     
     public static void __cbParseErrorFunc(MemoryAddress start, MemoryAddress end, MemoryAddress error, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ParseErrorFunc) Interop.signalRegistry.get(hash);
         handler.onParseErrorFunc(new ParseLocation(References.get(start, false)), new ParseLocation(References.get(end, false)), new org.gtk.glib.Error(References.get(error, false)));
     }

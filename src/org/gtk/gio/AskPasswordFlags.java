@@ -5,7 +5,7 @@ package org.gtk.gio;
  * user, or to notify the user of their choices in an authentication
  * situation.
  */
-public class AskPasswordFlags {
+public class AskPasswordFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * operation requires a password.
@@ -37,38 +37,8 @@ public class AskPasswordFlags {
      */
     public static final AskPasswordFlags TCRYPT = new AskPasswordFlags(32);
     
-    private int value;
-    
     public AskPasswordFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AskPasswordFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public AskPasswordFlags combined(AskPasswordFlags mask) {
-        return new AskPasswordFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static AskPasswordFlags combined(AskPasswordFlags mask, AskPasswordFlags... masks) {
-        int value = mask.getValue();
-        for (AskPasswordFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new AskPasswordFlags(value);
+        super(value);
     }
     
 }

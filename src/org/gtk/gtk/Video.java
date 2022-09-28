@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -105,7 +103,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getAutoplay() {
         var RESULT = gtk_h.gtk_video_get_autoplay(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -122,7 +120,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getLoop() {
         var RESULT = gtk_h.gtk_video_get_loop(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

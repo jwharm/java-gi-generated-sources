@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Flags which influence the parsing.
  */
-public class KeyFileFlags {
+public class KeyFileFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags, default behaviour
@@ -26,38 +26,8 @@ public class KeyFileFlags {
      */
     public static final KeyFileFlags KEEP_TRANSLATIONS = new KeyFileFlags(2);
     
-    private int value;
-    
     public KeyFileFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(KeyFileFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public KeyFileFlags combined(KeyFileFlags mask) {
-        return new KeyFileFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static KeyFileFlags combined(KeyFileFlags mask, KeyFileFlags... masks) {
-        int value = mask.getValue();
-        for (KeyFileFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new KeyFileFlags(value);
+        super(value);
     }
     
 }

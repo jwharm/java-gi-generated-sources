@@ -6,7 +6,7 @@ package org.gtk.gdkpixbuf;
  * Many gdk-pixbuf operations can cause errors in this domain, or in
  * the {@code G_FILE_ERROR} domain.
  */
-public class PixbufError {
+public class PixbufError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * An image file was broken somehow.
@@ -44,26 +44,8 @@ public class PixbufError {
      */
     public static final PixbufError INCOMPLETE_ANIMATION = new PixbufError(6);
     
-    private int value;
-    
     public PixbufError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PixbufError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

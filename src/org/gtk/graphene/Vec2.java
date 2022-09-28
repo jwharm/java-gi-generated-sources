@@ -1,8 +1,6 @@
 package org.gtk.graphene;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -105,7 +103,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
      * Initializes @v with the contents of the given array.
      */
     public Vec2 initFromFloat(float[] src) {
-        var RESULT = gtk_h.graphene_vec2_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src)).handle());
+        var RESULT = gtk_h.graphene_vec2_init_from_float(handle(), Interop.allocateNativeArray(src).handle());
         return new Vec2(References.get(RESULT, false));
     }
     
@@ -199,7 +197,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
      * Stores the components of @v into an array.
      */
     public void toFloat(float[] dest) {
-        gtk_h.graphene_vec2_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest)).handle());
+        gtk_h.graphene_vec2_to_float(handle(), Interop.allocateNativeArray(dest).handle());
     }
     
     /**

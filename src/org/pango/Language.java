@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -47,6 +45,36 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Determines the scripts used to to write {@code language}.
+     * <p>
+     * If nothing is known about the language tag {@code language},
+     * or if {@code language} is {@code null}, then {@code null} is returned.
+     * The list of scripts returned starts with the script that the
+     * language uses most and continues to the one it uses least.
+     * <p>
+     * The value {@code num_script} points at will be set to the number
+     * of scripts in the returned array (or zero if {@code null} is returned).
+     * <p>
+     * Most languages use only one script for writing, but there are
+     * some that use two (Latin and Cyrillic for example), and a few
+     * use three (Japanese for example). Applications should not make
+     * any assumptions on the maximum number of scripts returned
+     * though, except that it is positive if the return value is not
+     * {@code null}, and it is a small number.
+     * <p>
+     * The {@link Language#includesScript} function uses this
+     * function internally.
+     * <p>
+     * Note: while the return value is declared as {@code PangoScript}, the
+     * returned values are from the {@code GUnicodeScript} enumeration, which
+     * may have more values. Callers need to handle unknown values.
+     */
+    public PointerIterator<Script> getScripts(PointerInteger numScripts) {
+        var RESULT = gtk_h.pango_language_get_scripts(handle(), numScripts.handle());
+        return new PointerEnumeration<Script>(RESULT, Script.class).iterator();
+    }
+    
+    /**
      * Determines if {@code script} is one of the scripts used to
      * write {@code language}.
      * <p>
@@ -63,7 +91,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean includesScript(Script script) {
         var RESULT = gtk_h.pango_language_includes_script(handle(), script.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -76,7 +104,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean matches(java.lang.String rangeList) {
         var RESULT = gtk_h.pango_language_matches(handle(), Interop.allocateNativeString(rangeList).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -159,9 +187,9 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * you should first try the default language, followed by the
      * languages returned by this function.
      */
-    public static PointerResource<Language> getPreferred() {
+    public static PointerProxy<Language> getPreferred() {
         var RESULT = gtk_h.pango_language_get_preferred();
-        return new PointerResource<Language>(RESULT, Language.class);
+        return new PointerProxy<Language>(RESULT, Language.class);
     }
     
 }

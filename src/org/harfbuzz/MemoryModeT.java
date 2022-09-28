@@ -29,7 +29,7 @@ package org.harfbuzz;
  *   {@code HB_MEMORY_READONLY_MAY_MAKE_WRITABLE}, however, using that mode
  *   correctly is very tricky.  Use {@code HB_MEMORY_MODE_READONLY} instead.
  */
-public class MemoryModeT {
+public class MemoryModeT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * HarfBuzz immediately makes a copy of the data.
@@ -53,26 +53,8 @@ public class MemoryModeT {
      */
     public static final MemoryModeT READONLY_MAY_MAKE_WRITABLE = new MemoryModeT(3);
     
-    private int value;
-    
     public MemoryModeT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MemoryModeT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

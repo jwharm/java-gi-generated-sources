@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * See {@link Gtk#Editable} for details on how to
  * implement the {@code GtkEditable} interface.
  */
-public class EditableProperties {
+public class EditableProperties extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the property id for {@code Gtk.Editable:text}
@@ -53,26 +53,8 @@ public class EditableProperties {
      */
     public static final EditableProperties NUM_PROPERTIES = new EditableProperties(8);
     
-    private int value;
-    
     public EditableProperties(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(EditableProperties[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

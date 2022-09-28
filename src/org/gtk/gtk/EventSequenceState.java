@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Describes the state of a {@code Gesture}.
  */
-public class EventSequenceState {
+public class EventSequenceState extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The sequence is handled, but not grabbed.
@@ -20,26 +20,8 @@ public class EventSequenceState {
      */
     public static final EventSequenceState DENIED = new EventSequenceState(2);
     
-    private int value;
-    
     public EventSequenceState(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(EventSequenceState[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

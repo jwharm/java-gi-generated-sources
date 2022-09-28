@@ -10,7 +10,7 @@ package org.gtk.glib;
  * should be ready to handle unknown values.
  * See <a href="http://www.unicode.org/reports/tr24/">Unicode Standard Annex #24: Script names</a>.
  */
-public class UnicodeScript {
+public class UnicodeScript extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * a value never returned from g_unichar_get_script()
@@ -833,26 +833,8 @@ public class UnicodeScript {
      */
     public static final UnicodeScript MATH = new UnicodeScript(162);
     
-    private int value;
-    
     public UnicodeScript(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UnicodeScript[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

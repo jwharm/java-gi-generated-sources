@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The type of a pad action.
  */
-public class PadActionType {
+public class PadActionType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Action is triggered by a pad button
@@ -20,26 +20,8 @@ public class PadActionType {
      */
     public static final PadActionType STRIP = new PadActionType(2);
     
-    private int value;
-    
     public PadActionType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PadActionType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

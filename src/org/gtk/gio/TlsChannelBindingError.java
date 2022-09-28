@@ -4,7 +4,7 @@ package org.gtk.gio;
  * An error code used with {@code G_TLS_CHANNEL_BINDING_ERROR} in a {@link org.gtk.glib.Error} to
  * indicate a TLS channel binding retrieval error.
  */
-public class TlsChannelBindingError {
+public class TlsChannelBindingError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Either entire binding
@@ -42,26 +42,8 @@ public class TlsChannelBindingError {
      */
     public static final TlsChannelBindingError GENERAL_ERROR = new TlsChannelBindingError(4);
     
-    private int value;
-    
     public TlsChannelBindingError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TlsChannelBindingError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

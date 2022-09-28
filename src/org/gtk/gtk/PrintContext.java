@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -140,7 +138,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public boolean getHardMargins(PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
         var RESULT = gtk_h.gtk_print_context_get_hard_margins(handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -13,7 +13,7 @@ package org.harfbuzz;
  * If the buffers have the same length, we compare them glyph-by-glyph and
  * report which aspect(s) of the glyph info/position are different.
  */
-public class BufferDiffFlagsT {
+public class BufferDiffFlagsT extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * equal buffers.
@@ -63,38 +63,8 @@ public class BufferDiffFlagsT {
      */
     public static final BufferDiffFlagsT POSITION_MISMATCH = new BufferDiffFlagsT(128);
     
-    private int value;
-    
     public BufferDiffFlagsT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BufferDiffFlagsT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public BufferDiffFlagsT combined(BufferDiffFlagsT mask) {
-        return new BufferDiffFlagsT(this.getValue() | mask.getValue());
-    }
-    
-    public static BufferDiffFlagsT combined(BufferDiffFlagsT mask, BufferDiffFlagsT... masks) {
-        int value = mask.getValue();
-        for (BufferDiffFlagsT arg : masks) {
-            value |= arg.getValue();
-        }
-        return new BufferDiffFlagsT(value);
+        super(value);
     }
     
 }

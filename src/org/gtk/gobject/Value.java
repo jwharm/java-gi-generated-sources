@@ -1,8 +1,6 @@
 package org.gtk.gobject;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -89,7 +87,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean fitsPointer() {
         var RESULT = gtk_h.g_value_fits_pointer(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -97,7 +95,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getBoolean() {
         var RESULT = gtk_h.g_value_get_boolean(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -549,7 +547,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean transform(Value destValue) {
         var RESULT = gtk_h.g_value_transform(handle(), destValue.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -568,7 +566,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean typeCompatible(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
         var RESULT = gtk_h.g_value_type_compatible(srcType.getValue(), destType.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -579,7 +577,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean typeTransformable(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
         var RESULT = gtk_h.g_value_type_transformable(srcType.getValue(), destType.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

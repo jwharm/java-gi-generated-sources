@@ -4,7 +4,7 @@ package org.gtk.gio;
  * An error code used with {@code G_RESOLVER_ERROR} in a {@link org.gtk.glib.Error} returned
  * from a {@link Resolver} routine.
  */
-public class ResolverError {
+public class ResolverError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the requested name/address/service was not
@@ -23,26 +23,8 @@ public class ResolverError {
      */
     public static final ResolverError INTERNAL = new ResolverError(2);
     
-    private int value;
-    
     public ResolverError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ResolverError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

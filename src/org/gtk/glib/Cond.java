@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -206,7 +204,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean waitUntil(Mutex mutex, long endTime) {
         var RESULT = gtk_h.g_cond_wait_until(handle(), mutex.handle(), endTime);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

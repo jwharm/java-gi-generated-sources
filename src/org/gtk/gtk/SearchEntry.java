@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -127,7 +125,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -136,7 +134,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     public static void __signalSearchEntryActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SearchEntry.ActivateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SearchEntry(References.get(source)));
     }
@@ -167,7 +165,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -176,7 +174,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     public static void __signalSearchEntryNextMatch(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SearchEntry.NextMatchHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SearchEntry(References.get(source)));
     }
@@ -207,7 +205,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -216,7 +214,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     public static void __signalSearchEntryPreviousMatch(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SearchEntry.PreviousMatchHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SearchEntry(References.get(source)));
     }
@@ -240,7 +238,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -249,7 +247,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     public static void __signalSearchEntrySearchChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SearchEntry.SearchChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SearchEntry(References.get(source)));
     }
@@ -272,7 +270,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -281,7 +279,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     public static void __signalSearchEntrySearchStarted(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SearchEntry.SearchStartedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SearchEntry(References.get(source)));
     }
@@ -311,7 +309,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -320,7 +318,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     public static void __signalSearchEntryStopSearch(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SearchEntry.StopSearchHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SearchEntry(References.get(source)));
     }

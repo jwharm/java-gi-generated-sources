@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -194,6 +192,24 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     }
     
     /**
+     * Gets the list of arguments that was passed on the command line.
+     * <p>
+     * The strings in the array may contain non-UTF-8 data on UNIX (such as
+     * filenames or arguments given in the system locale) but are always in
+     * UTF-8 on Windows.
+     * <p>
+     * If you wish to use the return value with {@link org.gtk.glib.OptionContext}, you must
+     * use g_option_context_parse_strv().
+     * <p>
+     * The return value is {@code null}-terminated and should be freed using
+     * g_strfreev().
+     */
+    public PointerIterator<java.lang.String> getArguments(PointerInteger argc) {
+        var RESULT = gtk_h.g_application_command_line_get_arguments(handle(), argc.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Gets the working directory of the command line invocation.
      * The string may contain non-utf8 data.
      * <p>
@@ -206,6 +222,28 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     public java.lang.String getCwd() {
         var RESULT = gtk_h.g_application_command_line_get_cwd(handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the contents of the 'environ' variable of the command line
+     * invocation, as would be returned by g_get_environ(), ie as a
+     * {@code null}-terminated list of strings in the form 'NAME=VALUE'.
+     * The strings may contain non-utf8 data.
+     * <p>
+     * The remote application usually does not send an environment.  Use
+     * {@link ApplicationFlags#SEND_ENVIRONMENT} to affect that.  Even with this flag
+     * set it is possible that the environment is still not available (due
+     * to invocation messages from other applications).
+     * <p>
+     * The return value should not be modified or freed and is valid for as
+     * long as {@code cmdline} exists.
+     * <p>
+     * See g_application_command_line_getenv() if you are only interested
+     * in the value of a single environment variable.
+     */
+    public PointerIterator<java.lang.String> getEnviron() {
+        var RESULT = gtk_h.g_application_command_line_get_environ(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -222,7 +260,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public boolean getIsRemote() {
         var RESULT = gtk_h.g_application_command_line_get_is_remote(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

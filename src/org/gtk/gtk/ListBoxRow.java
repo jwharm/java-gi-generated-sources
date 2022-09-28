@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -62,7 +60,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public boolean getActivatable() {
         var RESULT = gtk_h.gtk_list_box_row_get_activatable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -99,7 +97,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public boolean getSelectable() {
         var RESULT = gtk_h.gtk_list_box_row_get_selectable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -108,7 +106,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public boolean isSelected() {
         var RESULT = gtk_h.gtk_list_box_row_is_selected(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -166,7 +164,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -175,7 +173,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     }
     
     public static void __signalListBoxRowActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBoxRow.ActivateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ListBoxRow(References.get(source)));
     }

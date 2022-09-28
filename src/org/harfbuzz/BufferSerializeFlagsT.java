@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * Flags that control what glyph information are serialized in hb_buffer_serialize_glyphs().
  */
-public class BufferSerializeFlagsT {
+public class BufferSerializeFlagsT extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * serialize glyph names, clusters and positions.
@@ -41,38 +41,8 @@ public class BufferSerializeFlagsT {
      */
     public static final BufferSerializeFlagsT NO_ADVANCES = new BufferSerializeFlagsT(32);
     
-    private int value;
-    
     public BufferSerializeFlagsT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BufferSerializeFlagsT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public BufferSerializeFlagsT combined(BufferSerializeFlagsT mask) {
-        return new BufferSerializeFlagsT(this.getValue() | mask.getValue());
-    }
-    
-    public static BufferSerializeFlagsT combined(BufferSerializeFlagsT mask, BufferSerializeFlagsT... masks) {
-        int value = mask.getValue();
-        for (BufferSerializeFlagsT arg : masks) {
-            value |= arg.getValue();
-        }
-        return new BufferSerializeFlagsT(value);
+        super(value);
     }
     
 }

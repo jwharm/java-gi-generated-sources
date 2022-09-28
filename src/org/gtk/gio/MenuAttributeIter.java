@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -52,7 +50,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      */
     public boolean getNext(java.lang.String[] outName, org.gtk.glib.Variant[] value) {
         var RESULT = gtk_h.g_menu_attribute_iter_get_next(handle(), Interop.allocateNativeArray(outName).handle(), Interop.allocateNativeArray(value).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -78,7 +76,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      */
     public boolean next() {
         var RESULT = gtk_h.g_menu_attribute_iter_next(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

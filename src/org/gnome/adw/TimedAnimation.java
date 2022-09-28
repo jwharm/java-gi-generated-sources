@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +52,7 @@ public class TimedAnimation extends Animation {
      */
     public boolean getAlternate() {
         var RESULT = gtk_h.adw_timed_animation_get_alternate(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -86,7 +84,7 @@ public class TimedAnimation extends Animation {
      */
     public boolean getReverse() {
         var RESULT = gtk_h.adw_timed_animation_get_reverse(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gnome.adw;
 /**
  * Describes the possible transitions in a {@link Squeezer} widget.
  */
-public class SqueezerTransitionType {
+public class SqueezerTransitionType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No transition
@@ -15,26 +15,8 @@ public class SqueezerTransitionType {
      */
     public static final SqueezerTransitionType CROSSFADE = new SqueezerTransitionType(1);
     
-    private int value;
-    
     public SqueezerTransitionType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SqueezerTransitionType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -6,7 +6,7 @@ package org.gtk.glib;
  * be specified in several ways; with a short option: {@code -x arg}, with a long
  * option: {@code --name arg} or combined in a single argument: {@code --name=arg}.
  */
-public class OptionArg {
+public class OptionArg extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No extra argument. This is useful for simple flags.
@@ -62,26 +62,8 @@ public class OptionArg {
      */
     public static final OptionArg INT64 = new OptionArg(8);
     
-    private int value;
-    
     public OptionArg(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OptionArg[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

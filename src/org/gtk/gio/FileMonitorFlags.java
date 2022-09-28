@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used to set what a {@link FileMonitor} will watch for.
  */
-public class FileMonitorFlags {
+public class FileMonitorFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -39,38 +39,8 @@ public class FileMonitorFlags {
      */
     public static final FileMonitorFlags WATCH_MOVES = new FileMonitorFlags(8);
     
-    private int value;
-    
     public FileMonitorFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileMonitorFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FileMonitorFlags combined(FileMonitorFlags mask) {
-        return new FileMonitorFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static FileMonitorFlags combined(FileMonitorFlags mask, FileMonitorFlags... masks) {
-        int value = mask.getValue();
-        for (FileMonitorFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FileMonitorFlags(value);
+        super(value);
     }
     
 }

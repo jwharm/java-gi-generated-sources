@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -120,7 +118,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean addFull(java.lang.String uri, RecentData recentData) {
         var RESULT = gtk_h.gtk_recent_manager_add_full(handle(), Interop.allocateNativeString(uri).handle(), recentData.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -136,7 +134,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean addItem(java.lang.String uri) {
         var RESULT = gtk_h.gtk_recent_manager_add_item(handle(), Interop.allocateNativeString(uri).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -153,7 +151,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean hasItem(java.lang.String uri) {
         var RESULT = gtk_h.gtk_recent_manager_has_item(handle(), Interop.allocateNativeString(uri).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -182,7 +180,7 @@ public class RecentManager extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -207,7 +205,7 @@ public class RecentManager extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -241,7 +239,7 @@ public class RecentManager extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -250,7 +248,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     }
     
     public static void __signalRecentManagerChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (RecentManager.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new RecentManager(References.get(source)));
     }

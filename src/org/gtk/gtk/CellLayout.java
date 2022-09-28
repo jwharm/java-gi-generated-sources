@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -117,7 +115,7 @@ import java.lang.invoke.*;
  * problematic calls out of {@code init()} and into a {@code constructor()}
  * for your class.
  */
-public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
+public interface CellLayout extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Adds an attribute mapping to the list in {@code cell_layout}.
@@ -215,7 +213,7 @@ public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);

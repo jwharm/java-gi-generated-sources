@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -137,7 +135,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean rangeCheck(org.gtk.glib.Variant value) {
         var RESULT = gtk_h.g_settings_schema_key_range_check(handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -4,7 +4,7 @@ package org.gtk.gio;
  * {@link DataStreamByteOrder} is used to ensure proper endianness of streaming data sources
  * across various machine architectures.
  */
-public class DataStreamByteOrder {
+public class DataStreamByteOrder extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Selects Big Endian byte order.
@@ -21,26 +21,8 @@ public class DataStreamByteOrder {
      */
     public static final DataStreamByteOrder HOST_ENDIAN = new DataStreamByteOrder(2);
     
-    private int value;
-    
     public DataStreamByteOrder(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DataStreamByteOrder[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

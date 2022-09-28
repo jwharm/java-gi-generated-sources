@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by character set conversion routines.
  */
-public class ConvertError {
+public class ConvertError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Conversion between the requested character
@@ -50,26 +50,8 @@ public class ConvertError {
      */
     public static final ConvertError EMBEDDED_NUL = new ConvertError(7);
     
-    private int value;
-    
     public ConvertError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ConvertError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

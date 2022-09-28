@@ -8,7 +8,7 @@ package org.gtk.glib;
  * <p>
  * See <a href="http://www.unicode.org/unicode/reports/tr14/">Unicode Line Breaking Algorithm</a>.
  */
-public class UnicodeBreakType {
+public class UnicodeBreakType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Mandatory Break (BK)
@@ -230,26 +230,8 @@ public class UnicodeBreakType {
      */
     public static final UnicodeBreakType ZERO_WIDTH_JOINER = new UnicodeBreakType(42);
     
-    private int value;
-    
     public UnicodeBreakType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UnicodeBreakType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

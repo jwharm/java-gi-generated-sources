@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +31,7 @@ import java.lang.invoke.*;
  * Don't forget to disconnect the {@link PowerProfileMonitor}::notify::power-saver-enabled
  * signal, and unref the {@link PowerProfileMonitor} itself when exiting.
  */
-public interface PowerProfileMonitor extends io.github.jwharm.javagi.NativeAddress {
+public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Gets whether the system is in “Power Saver” mode.
@@ -44,7 +42,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.NativeAddre
      */
     public default boolean getPowerSaverEnabled() {
         var RESULT = gtk_h.g_power_profile_monitor_get_power_saver_enabled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

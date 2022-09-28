@@ -1,8 +1,6 @@
 package org.gtk.graphene;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -186,7 +184,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * point values.
      */
     public Matrix initFromFloat(float[] v) {
-        var RESULT = gtk_h.graphene_matrix_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v)).handle());
+        var RESULT = gtk_h.graphene_matrix_init_from_float(handle(), Interop.allocateNativeArray(v).handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -540,7 +538,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * values.
      */
     public void toFloat(float[] v) {
-        gtk_h.graphene_matrix_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v)).handle());
+        gtk_h.graphene_matrix_to_float(handle(), Interop.allocateNativeArray(v).handle());
     }
     
     /**

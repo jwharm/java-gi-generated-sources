@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -117,7 +115,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(createWidgetFunc.hashCode(), createWidgetFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(createWidgetFunc.hashCode(), createWidgetFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -152,7 +150,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public boolean getActivateOnSingleClick() {
         var RESULT = gtk_h.gtk_list_box_get_activate_on_single_click(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -217,7 +215,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public boolean getShowSeparators() {
         var RESULT = gtk_h.gtk_list_box_get_show_separators(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -312,7 +310,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -362,10 +360,10 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
             gtk_h.gtk_list_box_set_filter_func(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbListBoxFilterFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(filterFunc.hashCode(), filterFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(filterFunc.hashCode(), filterFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -407,7 +405,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(updateHeader.hashCode(), updateHeader)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(updateHeader.hashCode(), updateHeader)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -459,7 +457,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -495,7 +493,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -504,7 +502,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalListBoxActivateCursorRow(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBox.ActivateCursorRowHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ListBox(References.get(source)));
     }
@@ -521,10 +519,10 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxMoveCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -532,10 +530,10 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    public static void __signalListBoxMoveCursor(MemoryAddress source, int object, int p0, boolean p1, boolean p2, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalListBoxMoveCursor(MemoryAddress source, int object, int p0, int p1, int p2, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)), new MovementStep(object), p0, p1, p2);
+        handler.signalReceived(new ListBox(References.get(source)), new MovementStep(object), p0, p1 != 0, p2 != 0);
     }
     
     @FunctionalInterface
@@ -556,7 +554,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -565,7 +563,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalListBoxRowActivated(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBox.RowActivatedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ListBox(References.get(source)), new ListBoxRow(References.get(row, false)));
     }
@@ -593,7 +591,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -602,7 +600,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalListBoxRowSelected(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBox.RowSelectedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ListBox(References.get(source)), new ListBoxRow(References.get(row, false)));
     }
@@ -630,7 +628,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -639,7 +637,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalListBoxSelectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBox.SelectAllHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ListBox(References.get(source)));
     }
@@ -662,7 +660,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -671,7 +669,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalListBoxSelectedRowsChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBox.SelectedRowsChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ListBox(References.get(source)));
     }
@@ -691,7 +689,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -700,7 +698,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalListBoxToggleCursorRow(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBox.ToggleCursorRowHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ListBox(References.get(source)));
     }
@@ -729,7 +727,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -738,7 +736,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalListBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ListBox(References.get(source)));
     }

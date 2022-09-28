@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * Abstract roles are only used as part of the ontology; application
  * developers must not use abstract roles in their code.
  */
-public class AccessibleRole {
+public class AccessibleRole extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * An element with important, and usually
@@ -418,26 +418,8 @@ public class AccessibleRole {
      */
     public static final AccessibleRole WINDOW = new AccessibleRole(77);
     
-    private int value;
-    
     public AccessibleRole(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AccessibleRole[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

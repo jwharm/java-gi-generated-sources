@@ -6,7 +6,7 @@ package org.gtk.gio;
  * <a href="https://tools.ietf.org/html/rfc5929#section-5">`tls-unique-for-telnet`</a>
  * binding type is not currently implemented.
  */
-public class TlsChannelBindingType {
+public class TlsChannelBindingType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * <a href="https://tools.ietf.org/html/rfc5929#section-3">`tls-unique`</a> binding
@@ -20,26 +20,8 @@ public class TlsChannelBindingType {
      */
     public static final TlsChannelBindingType SERVER_END_POINT = new TlsChannelBindingType(1);
     
-    private int value;
-    
     public TlsChannelBindingType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TlsChannelBindingType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

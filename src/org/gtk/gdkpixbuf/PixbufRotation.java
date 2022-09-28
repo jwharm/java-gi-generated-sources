@@ -5,7 +5,7 @@ package org.gtk.gdkpixbuf;
  * <p>
  * To make them easier to use, their numerical values are the actual degrees.
  */
-public class PixbufRotation {
+public class PixbufRotation extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No rotation.
@@ -27,26 +27,8 @@ public class PixbufRotation {
      */
     public static final PixbufRotation CLOCKWISE = new PixbufRotation(270);
     
-    private int value;
-    
     public PixbufRotation(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PixbufRotation[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

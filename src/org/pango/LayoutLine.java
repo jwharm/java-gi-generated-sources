@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -94,7 +92,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * layout, not with respect to the line.
      */
     public void getXRanges(int startIndex, int endIndex, int[] ranges, PointerInteger nRanges) {
-        gtk_h.pango_layout_line_get_x_ranges(handle(), startIndex, endIndex, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, ranges)).handle(), nRanges.handle());
+        gtk_h.pango_layout_line_get_x_ranges(handle(), startIndex, endIndex, Interop.allocateNativeArray(ranges).handle(), nRanges.handle());
     }
     
     /**
@@ -109,7 +107,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isParagraphStart() {
         var RESULT = gtk_h.pango_layout_line_is_paragraph_start(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -145,7 +143,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean xToIndex(int xPos, PointerInteger index, PointerInteger trailing) {
         var RESULT = gtk_h.pango_layout_line_x_to_index(handle(), xPos, index.handle(), trailing.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

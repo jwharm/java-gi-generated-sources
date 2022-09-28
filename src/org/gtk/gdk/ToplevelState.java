@@ -9,7 +9,7 @@ package org.gtk.gdk;
  * will give an indication of tiledness without any of the per-edge states
  * being set.
  */
-public class ToplevelState {
+public class ToplevelState extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * the surface is minimized
@@ -91,38 +91,8 @@ public class ToplevelState {
      */
     public static final ToplevelState LEFT_RESIZABLE = new ToplevelState(32768);
     
-    private int value;
-    
     public ToplevelState(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ToplevelState[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ToplevelState combined(ToplevelState mask) {
-        return new ToplevelState(this.getValue() | mask.getValue());
-    }
-    
-    public static ToplevelState combined(ToplevelState mask, ToplevelState... masks) {
-        int value = mask.getValue();
-        for (ToplevelState arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ToplevelState(value);
+        super(value);
     }
     
 }

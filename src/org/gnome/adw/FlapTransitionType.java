@@ -9,7 +9,7 @@ package org.gnome.adw;
  * <p>
  * New values may be added to this enum over time.
  */
-public class FlapTransitionType {
+public class FlapTransitionType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The flap slides over the content, which is
@@ -30,26 +30,8 @@ public class FlapTransitionType {
      */
     public static final FlapTransitionType SLIDE = new FlapTransitionType(2);
     
-    private int value;
-    
     public FlapTransitionType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FlapTransitionType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

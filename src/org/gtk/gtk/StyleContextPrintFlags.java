@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * <p>
  * New values may be added to this enumeration.
  */
-public class StyleContextPrintFlags {
+public class StyleContextPrintFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Default value.
@@ -30,38 +30,8 @@ public class StyleContextPrintFlags {
      */
     public static final StyleContextPrintFlags SHOW_CHANGE = new StyleContextPrintFlags(4);
     
-    private int value;
-    
     public StyleContextPrintFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(StyleContextPrintFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public StyleContextPrintFlags combined(StyleContextPrintFlags mask) {
-        return new StyleContextPrintFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static StyleContextPrintFlags combined(StyleContextPrintFlags mask, StyleContextPrintFlags... masks) {
-        int value = mask.getValue();
-        for (StyleContextPrintFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new StyleContextPrintFlags(value);
+        super(value);
     }
     
 }

@@ -4,7 +4,7 @@ package org.gtk.glib;
  * Enumeration representing a month; values are {@link DateMonth#JANUARY},
  * {@link DateMonth#FEBRUARY}, etc. {@link DateMonth#BAD_MONTH} is the invalid value.
  */
-public class DateMonth {
+public class DateMonth extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * invalid value
@@ -71,26 +71,8 @@ public class DateMonth {
      */
     public static final DateMonth DECEMBER = new DateMonth(12);
     
-    private int value;
-    
     public DateMonth(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DateMonth[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

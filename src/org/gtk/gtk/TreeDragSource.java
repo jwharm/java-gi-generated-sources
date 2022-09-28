@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -10,7 +8,7 @@ import java.lang.invoke.*;
 /**
  * Interface for Drag-and-Drop destinations in {@code GtkTreeView}.
  */
-public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
+public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Asks the {@code GtkTreeDragSource} to delete the row at {@code path}, because
@@ -21,7 +19,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean dragDataDelete(TreePath path) {
         var RESULT = gtk_h.gtk_tree_drag_source_drag_data_delete(handle(), path.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -41,7 +39,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean rowDraggable(TreePath path) {
         var RESULT = gtk_h.gtk_tree_drag_source_row_draggable(handle(), path.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     class TreeDragSourceImpl extends org.gtk.gobject.Object implements TreeDragSource {

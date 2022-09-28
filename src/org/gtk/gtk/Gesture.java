@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -129,7 +127,7 @@ public class Gesture extends EventController {
      */
     public boolean getBoundingBox(org.gtk.gdk.Rectangle rect) {
         var RESULT = gtk_h.gtk_gesture_get_bounding_box(handle(), rect.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -141,7 +139,7 @@ public class Gesture extends EventController {
      */
     public boolean getBoundingBoxCenter(PointerDouble x, PointerDouble y) {
         var RESULT = gtk_h.gtk_gesture_get_bounding_box_center(handle(), x.handle(), y.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -192,7 +190,7 @@ public class Gesture extends EventController {
      */
     public boolean getPoint(org.gtk.gdk.EventSequence sequence, PointerDouble x, PointerDouble y) {
         var RESULT = gtk_h.gtk_gesture_get_point(handle(), sequence.handle(), x.handle(), y.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -241,7 +239,7 @@ public class Gesture extends EventController {
      */
     public boolean handlesSequence(org.gtk.gdk.EventSequence sequence) {
         var RESULT = gtk_h.gtk_gesture_handles_sequence(handle(), sequence.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -252,7 +250,7 @@ public class Gesture extends EventController {
      */
     public boolean isActive() {
         var RESULT = gtk_h.gtk_gesture_is_active(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -260,7 +258,7 @@ public class Gesture extends EventController {
      */
     public boolean isGroupedWith(Gesture other) {
         var RESULT = gtk_h.gtk_gesture_is_grouped_with(handle(), other.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -271,7 +269,7 @@ public class Gesture extends EventController {
      */
     public boolean isRecognized() {
         var RESULT = gtk_h.gtk_gesture_is_recognized(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -320,7 +318,7 @@ public class Gesture extends EventController {
      */
     public boolean setSequenceState(org.gtk.gdk.EventSequence sequence, EventSequenceState state) {
         var RESULT = gtk_h.gtk_gesture_set_sequence_state(handle(), sequence.handle(), state.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -332,7 +330,7 @@ public class Gesture extends EventController {
      */
     public boolean setState(EventSequenceState state) {
         var RESULT = gtk_h.gtk_gesture_set_state(handle(), state.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -368,7 +366,7 @@ public class Gesture extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -377,7 +375,7 @@ public class Gesture extends EventController {
     }
     
     public static void __signalGestureBegin(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Gesture.BeginHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
     }
@@ -409,7 +407,7 @@ public class Gesture extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -418,7 +416,7 @@ public class Gesture extends EventController {
     }
     
     public static void __signalGestureCancel(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Gesture.CancelHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
     }
@@ -449,7 +447,7 @@ public class Gesture extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -458,7 +456,7 @@ public class Gesture extends EventController {
     }
     
     public static void __signalGestureEnd(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Gesture.EndHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
     }
@@ -484,7 +482,7 @@ public class Gesture extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -493,7 +491,7 @@ public class Gesture extends EventController {
     }
     
     public static void __signalGestureSequenceStateChanged(MemoryAddress source, MemoryAddress sequence, int state, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Gesture.SequenceStateChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)), new EventSequenceState(state));
     }
@@ -518,7 +516,7 @@ public class Gesture extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -527,7 +525,7 @@ public class Gesture extends EventController {
     }
     
     public static void __signalGestureUpdate(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Gesture.UpdateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
     }

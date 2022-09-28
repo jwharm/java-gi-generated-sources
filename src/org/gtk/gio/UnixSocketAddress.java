@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +52,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     private static Reference constructNewAbstract(byte[] path, int pathLen) {
-        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new_abstract(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen), true);
+        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new_abstract(Interop.allocateNativeArray(path).handle(), pathLen), true);
         return RESULT;
     }
     
@@ -67,7 +65,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     private static Reference constructNewWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
-        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new_with_type(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen, type.getValue()), true);
+        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new_with_type(Interop.allocateNativeArray(path).handle(), pathLen, type.getValue()), true);
         return RESULT;
     }
     
@@ -144,7 +142,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      */
     public static boolean abstractNamesSupported() {
         var RESULT = gtk_h.g_unix_socket_address_abstract_names_supported();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.gsk;
 /**
  * The corner indices used by {@code GskRoundedRect}.
  */
-public class Corner {
+public class Corner extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The top left corner
@@ -25,26 +25,8 @@ public class Corner {
      */
     public static final Corner BOTTOM_LEFT = new Corner(3);
     
-    private int value;
-    
     public Corner(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Corner[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

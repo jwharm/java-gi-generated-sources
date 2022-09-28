@@ -7,7 +7,7 @@ package org.gtk.gtk;
  * types of debugging information. Some of these flags are
  * only available when GTK has been configured with {@code -Ddebug=true}.
  */
-public class DebugFlags {
+public class DebugFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Information about GtkTextView
@@ -104,38 +104,8 @@ public class DebugFlags {
      */
     public static final DebugFlags ICONFALLBACK = new DebugFlags(262144);
     
-    private int value;
-    
     public DebugFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DebugFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DebugFlags combined(DebugFlags mask) {
-        return new DebugFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DebugFlags combined(DebugFlags mask, DebugFlags... masks) {
-        int value = mask.getValue();
-        for (DebugFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DebugFlags(value);
+        super(value);
     }
     
 }

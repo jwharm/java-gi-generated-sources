@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +27,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(createFunc.hashCode(), createFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(createFunc.hashCode(), createFunc)), 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
         } catch (Exception e) {
@@ -54,7 +52,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public boolean getAutoexpand() {
         var RESULT = gtk_h.gtk_tree_list_model_get_autoexpand(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -93,7 +91,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public boolean getPassthrough() {
         var RESULT = gtk_h.gtk_tree_list_model_get_passthrough(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

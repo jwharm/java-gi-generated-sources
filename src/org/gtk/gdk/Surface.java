@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -178,7 +176,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public boolean getDevicePosition(Device device, PointerDouble x, PointerDouble y, ModifierType mask) {
         var RESULT = gtk_h.gdk_surface_get_device_position(handle(), device.handle(), x.handle(), y.handle(), new PointerInteger(mask.getValue()).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -219,7 +217,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public boolean getMapped() {
         var RESULT = gtk_h.gdk_surface_get_mapped(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -268,7 +266,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public boolean isDestroyed() {
         var RESULT = gtk_h.gdk_surface_is_destroyed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -367,7 +365,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public boolean translateCoordinates(Surface to, PointerDouble x, PointerDouble y) {
         var RESULT = gtk_h.gdk_surface_translate_coordinates(handle(), to.handle(), x.handle(), y.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -388,7 +386,7 @@ public class Surface extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -397,7 +395,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     public static void __signalSurfaceEnterMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Surface.EnterMonitorHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Surface(References.get(source)), new Monitor(References.get(monitor, false)));
     }
@@ -420,7 +418,7 @@ public class Surface extends org.gtk.gobject.Object {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -429,7 +427,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     public static boolean __signalSurfaceEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Surface.EventHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Surface(References.get(source)), new Event(References.get(event, false)));
     }
@@ -456,7 +454,7 @@ public class Surface extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -465,7 +463,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     public static void __signalSurfaceLayout(MemoryAddress source, int width, int height, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Surface.LayoutHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Surface(References.get(source)), width, height);
     }
@@ -488,7 +486,7 @@ public class Surface extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -497,7 +495,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     public static void __signalSurfaceLeaveMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Surface.LeaveMonitorHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Surface(References.get(source)), new Monitor(References.get(monitor, false)));
     }
@@ -520,7 +518,7 @@ public class Surface extends org.gtk.gobject.Object {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -529,7 +527,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     public static boolean __signalSurfaceRender(MemoryAddress source, MemoryAddress region, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Surface.RenderHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Surface(References.get(source)), new org.cairographics.Region(References.get(region, false)));
     }

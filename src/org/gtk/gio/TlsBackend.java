@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -10,7 +8,7 @@ import java.lang.invoke.*;
 /**
  * TLS (Transport Layer Security, aka SSL) and DTLS backend.
  */
-public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
+public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsCertificate} implementation.
@@ -88,7 +86,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean supportsDtls() {
         var RESULT = gtk_h.g_tls_backend_supports_dtls(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -97,7 +95,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean supportsTls() {
         var RESULT = gtk_h.g_tls_backend_supports_tls(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

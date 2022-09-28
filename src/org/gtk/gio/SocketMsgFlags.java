@@ -7,7 +7,7 @@ package org.gtk.gio;
  * are passed in/out as is. So to use a platform specific flag, just include
  * the right system header and pass in the flag.
  */
-public class SocketMsgFlags {
+public class SocketMsgFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags.
@@ -31,38 +31,8 @@ public class SocketMsgFlags {
      */
     public static final SocketMsgFlags DONTROUTE = new SocketMsgFlags(4);
     
-    private int value;
-    
     public SocketMsgFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SocketMsgFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public SocketMsgFlags combined(SocketMsgFlags mask) {
-        return new SocketMsgFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static SocketMsgFlags combined(SocketMsgFlags mask, SocketMsgFlags... masks) {
-        int value = mask.getValue();
-        for (SocketMsgFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new SocketMsgFlags(value);
+        super(value);
     }
     
 }

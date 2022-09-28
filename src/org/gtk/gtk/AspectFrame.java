@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +52,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      */
     public boolean getObeyChild() {
         var RESULT = gtk_h.gtk_aspect_frame_get_obey_child(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -13,7 +11,7 @@ import java.lang.invoke.*;
  * interfacing with a non-GIO API that expects
  * UNIX-file-descriptor-style asynchronous I/O rather than GIO-style.
  */
-public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddress {
+public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Checks if {@code stream} is actually pollable. Some classes may implement
@@ -26,7 +24,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
      */
     public default boolean canPoll() {
         var RESULT = gtk_h.g_pollable_output_stream_can_poll(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -56,7 +54,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
      */
     public default boolean isWritable() {
         var RESULT = gtk_h.g_pollable_output_stream_is_writable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -78,7 +76,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
      */
     public default long writeNonblocking(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_pollable_output_stream_write_nonblocking(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_pollable_output_stream_write_nonblocking(handle(), Interop.allocateNativeArray(buffer).handle(), count, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

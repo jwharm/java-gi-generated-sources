@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -35,7 +33,7 @@ public final class Adw {
      */
     public static boolean getEnableAnimations(org.gtk.gtk.Widget widget) {
         var RESULT = gtk_h.adw_get_enable_animations(widget.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -106,7 +104,7 @@ public final class Adw {
      */
     public static boolean isInitialized() {
         var RESULT = gtk_h.adw_is_initialized();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -118,7 +116,7 @@ public final class Adw {
     }
     
     public static void __cbAnimationTargetFunc(double value, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (AnimationTargetFunc) Interop.signalRegistry.get(hash);
         handler.onAnimationTargetFunc(value);
     }

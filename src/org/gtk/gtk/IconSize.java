@@ -11,7 +11,7 @@ package org.gtk.gtk;
  * determine the actual size to be used with the
  * {@code -gtk-icon-size} CSS property.
  */
-public class IconSize {
+public class IconSize extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Keep the size of the parent element
@@ -28,26 +28,8 @@ public class IconSize {
      */
     public static final IconSize LARGE = new IconSize(2);
     
-    private int value;
-    
     public IconSize(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(IconSize[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

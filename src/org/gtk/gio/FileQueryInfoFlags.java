@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used when querying a {@link FileInfo}.
  */
-public class FileQueryInfoFlags {
+public class FileQueryInfoFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -15,38 +15,8 @@ public class FileQueryInfoFlags {
      */
     public static final FileQueryInfoFlags NOFOLLOW_SYMLINKS = new FileQueryInfoFlags(1);
     
-    private int value;
-    
     public FileQueryInfoFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileQueryInfoFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FileQueryInfoFlags combined(FileQueryInfoFlags mask) {
-        return new FileQueryInfoFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static FileQueryInfoFlags combined(FileQueryInfoFlags mask, FileQueryInfoFlags... masks) {
-        int value = mask.getValue();
-        for (FileQueryInfoFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FileQueryInfoFlags(value);
+        super(value);
     }
     
 }

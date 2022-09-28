@@ -1,8 +1,6 @@
 package org.gtk.graphene;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -158,7 +156,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * a point in 3D space.
      */
     public Triangle initFromFloat(float[] a, float[] b, float[] c) {
-        var RESULT = gtk_h.graphene_triangle_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, a)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, b)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, c)).handle());
+        var RESULT = gtk_h.graphene_triangle_init_from_float(handle(), Interop.allocateNativeArray(a).handle(), Interop.allocateNativeArray(b).handle(), Interop.allocateNativeArray(c).handle());
         return new Triangle(References.get(RESULT, false));
     }
     

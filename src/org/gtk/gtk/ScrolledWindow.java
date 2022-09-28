@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -139,7 +137,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public boolean getHasFrame() {
         var RESULT = gtk_h.gtk_scrolled_window_get_has_frame(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -155,7 +153,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public boolean getKineticScrolling() {
         var RESULT = gtk_h.gtk_scrolled_window_get_kinetic_scrolling(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -195,7 +193,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public boolean getOverlayScrolling() {
         var RESULT = gtk_h.gtk_scrolled_window_get_overlay_scrolling(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -207,12 +205,22 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
+     * Retrieves the current policy values for the horizontal and vertical
+     * scrollbars.
+     * <p>
+     * See {@link ScrolledWindow#setPolicy}.
+     */
+    public void getPolicy(PolicyType hscrollbarPolicy, PolicyType vscrollbarPolicy) {
+        gtk_h.gtk_scrolled_window_get_policy(handle(), new PointerInteger(hscrollbarPolicy.getValue()).handle(), new PointerInteger(vscrollbarPolicy.getValue()).handle());
+    }
+    
+    /**
      * Reports whether the natural height of the child will be calculated
      * and propagated through the scrolled window’s requested natural height.
      */
     public boolean getPropagateNaturalHeight() {
         var RESULT = gtk_h.gtk_scrolled_window_get_propagate_natural_height(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -221,7 +229,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public boolean getPropagateNaturalWidth() {
         var RESULT = gtk_h.gtk_scrolled_window_get_propagate_natural_width(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -422,7 +430,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -431,7 +439,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     public static void __signalScrolledWindowEdgeOvershot(MemoryAddress source, int pos, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ScrolledWindow.EdgeOvershotHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ScrolledWindow(References.get(source)), new PositionType(pos));
     }
@@ -462,7 +470,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -471,7 +479,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     public static void __signalScrolledWindowEdgeReached(MemoryAddress source, int pos, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ScrolledWindow.EdgeReachedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ScrolledWindow(References.get(source)), new PositionType(pos));
     }
@@ -501,7 +509,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -510,7 +518,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     public static void __signalScrolledWindowMoveFocusOut(MemoryAddress source, int directionType, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ScrolledWindow.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ScrolledWindow(References.get(source)), new DirectionType(directionType));
     }
@@ -535,10 +543,10 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                 Interop.allocateNativeString("scroll-child").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ScrolledWindow.class, "__signalScrolledWindowScrollChild",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -546,10 +554,10 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         }
     }
     
-    public static boolean __signalScrolledWindowScrollChild(MemoryAddress source, int scroll, boolean horizontal, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalScrolledWindowScrollChild(MemoryAddress source, int scroll, int horizontal, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ScrolledWindow.ScrollChildHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new ScrolledWindow(References.get(source)), new ScrollType(scroll), horizontal);
+        return handler.signalReceived(new ScrolledWindow(References.get(source)), new ScrollType(scroll), horizontal != 0);
     }
     
 }

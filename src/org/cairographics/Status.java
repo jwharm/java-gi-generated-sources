@@ -1,6 +1,6 @@
 package org.cairographics;
 
-public class Status {
+public class Status extends io.github.jwharm.javagi.Enumeration {
 
     public static final Status SUCCESS = new Status(0);
     
@@ -80,26 +80,8 @@ public class Status {
     
     public static final Status JBIG2_GLOBAL_MISSING = new Status(38);
     
-    private int value;
-    
     public Status(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Status[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

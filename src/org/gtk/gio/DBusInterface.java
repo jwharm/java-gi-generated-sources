@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -12,7 +10,7 @@ import java.lang.invoke.*;
  * on the service side (see {@link DBusInterfaceSkeleton}) and client side
  * (see {@link DBusProxy}).
  */
-public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
+public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.

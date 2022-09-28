@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,6 +24,24 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
     public java.lang.String getElement() {
         var RESULT = gtk_h.gtk_buildable_parse_context_get_element(handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Retrieves the element stack from the internal state of the parser.
+     * <p>
+     * The returned {@code GPtrArray} is an array of strings where the last item is
+     * the currently open tag (as would be returned by
+     * gtk_buildable_parse_context_get_element()) and the previous item is its
+     * immediate parent.
+     * <p>
+     * This function is intended to be used in the start_element and
+     * end_element handlers where gtk_buildable_parse_context_get_element()
+     * would merely return the name of the element that is being
+     * processed.
+     */
+    public PointerIterator<java.lang.String> getElementStack() {
+        var RESULT = gtk_h.gtk_buildable_parse_context_get_element_stack(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**

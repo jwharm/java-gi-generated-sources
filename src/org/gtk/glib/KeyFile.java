@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -56,7 +54,25 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Returns the values associated with {@code key} under {@code group_name} as
+     * booleans.
+     * <p>
+     * If {@code key} cannot be found then {@code null} is returned and {@code error} is set to
+     * {@link KeyFileError#KEY_NOT_FOUND}. Likewise, if the values associated
+     * with {@code key} cannot be interpreted as booleans then {@code null} is returned
+     * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
+     */
+    public PointerIterator<Boolean> getBooleanList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_key_file_get_boolean_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerBoolean(RESULT).iterator();
     }
     
     /**
@@ -97,6 +113,34 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Returns the values associated with {@code key} under {@code group_name} as
+     * doubles.
+     * <p>
+     * If {@code key} cannot be found then {@code null} is returned and {@code error} is set to
+     * {@link KeyFileError#KEY_NOT_FOUND}. Likewise, if the values associated
+     * with {@code key} cannot be interpreted as doubles then {@code null} is returned
+     * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
+     */
+    public PointerIterator<Double> getDoubleList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_key_file_get_double_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerDouble(RESULT).iterator();
+    }
+    
+    /**
+     * Returns all groups in the key file loaded with {@code key_file}.
+     * The array of returned groups will be {@code null}-terminated, so
+     * {@code length} may optionally be {@code null}.
+     */
+    public PointerIterator<java.lang.String> getGroups(PointerLong length) {
+        var RESULT = gtk_h.g_key_file_get_groups(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Returns the value associated with {@code key} under {@code group_name} as a signed
      * 64-bit integer. This is similar to g_key_file_get_integer() but can return
      * 64-bit results without truncation.
@@ -127,6 +171,41 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * Returns the values associated with {@code key} under {@code group_name} as
+     * integers.
+     * <p>
+     * If {@code key} cannot be found then {@code null} is returned and {@code error} is set to
+     * {@link KeyFileError#KEY_NOT_FOUND}. Likewise, if the values associated
+     * with {@code key} cannot be interpreted as integers, or are out of range for
+     * {@code gint}, then {@code null} is returned
+     * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
+     */
+    public PointerIterator<Integer> getIntegerList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_key_file_get_integer_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerInteger(RESULT).iterator();
+    }
+    
+    /**
+     * Returns all keys for the group name {@code group_name}.  The array of
+     * returned keys will be {@code null}-terminated, so {@code length} may
+     * optionally be {@code null}. In the event that the {@code group_name} cannot
+     * be found, {@code null} is returned and {@code error} is set to
+     * {@link KeyFileError#GROUP_NOT_FOUND}.
+     */
+    public PointerIterator<java.lang.String> getKeys(java.lang.String groupName, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_key_file_get_keys(handle(), Interop.allocateNativeString(groupName).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -169,6 +248,31 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Returns the values associated with {@code key} under {@code group_name}
+     * translated in the given {@code locale} if available.  If {@code locale} is
+     * {@code null} then the current locale is assumed.
+     * <p>
+     * If {@code locale} is to be non-{@code null}, or if the current locale will change over
+     * the lifetime of the {@link KeyFile}, it must be loaded with
+     * {@link KeyFileFlags#KEEP_TRANSLATIONS} in order to load strings for all locales.
+     * <p>
+     * If {@code key} cannot be found then {@code null} is returned and {@code error} is set
+     * to {@link KeyFileError#KEY_NOT_FOUND}. If the values associated
+     * with {@code key} cannot be interpreted or no suitable translations
+     * can be found then the untranslated values are returned. The
+     * returned array is {@code null}-terminated, so {@code length} may optionally
+     * be {@code null}.
+     */
+    public PointerIterator<java.lang.String> getLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_key_file_get_locale_string_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Returns the name of the start group of the file.
      */
     public java.lang.String getStartGroup() {
@@ -193,6 +297,23 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
             throw new GErrorException(GERROR);
         }
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Returns the values associated with {@code key} under {@code group_name}.
+     * <p>
+     * In the event the key cannot be found, {@code null} is returned and
+     * {@code error} is set to {@link KeyFileError#KEY_NOT_FOUND}.  In the
+     * event that the {@code group_name} cannot be found, {@code null} is returned
+     * and {@code error} is set to {@link KeyFileError#GROUP_NOT_FOUND}.
+     */
+    public PointerIterator<java.lang.String> getStringList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_key_file_get_string_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -232,7 +353,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean hasGroup(java.lang.String groupName) {
         var RESULT = gtk_h.g_key_file_has_group(handle(), Interop.allocateNativeString(groupName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -253,7 +374,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -266,7 +387,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -279,7 +400,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -295,7 +416,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -315,7 +436,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -334,7 +455,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -357,7 +478,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -370,7 +491,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -382,7 +503,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -400,7 +521,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -436,7 +557,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -452,7 +573,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code group_name}.  If {@code key} cannot be found then it is created.
      */
     public void setDoubleList(java.lang.String groupName, java.lang.String key, double[] list, long length) {
-        gtk_h.g_key_file_set_double_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_DOUBLE, list)).handle(), length);
+        gtk_h.g_key_file_set_double_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
     }
     
     /**
@@ -476,7 +597,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * If {@code key} cannot be found then it is created.
      */
     public void setIntegerList(java.lang.String groupName, java.lang.String key, int[] list, long length) {
-        gtk_h.g_key_file_set_integer_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, list)).handle(), length);
+        gtk_h.g_key_file_set_integer_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
     }
     
     /**

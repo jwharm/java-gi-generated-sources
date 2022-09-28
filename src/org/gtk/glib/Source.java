@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -135,7 +133,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getCanRecurse() {
         var RESULT = gtk_h.g_source_get_can_recurse(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -294,7 +292,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isDestroyed() {
         var RESULT = gtk_h.g_source_is_destroyed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -403,10 +401,10 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_source_set_callback(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -554,7 +552,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean remove(int tag) {
         var RESULT = gtk_h.g_source_remove(tag);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -564,7 +562,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean removeByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_source_remove_by_funcs_user_data(funcs.handle(), userData);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -574,7 +572,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean removeByUserData(java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_source_remove_by_user_data(userData);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

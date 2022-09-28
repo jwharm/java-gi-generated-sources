@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -70,7 +68,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -79,7 +77,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetDesktopFolder(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.DesktopFolderHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -113,7 +111,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -122,7 +120,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetDownFolder(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.DownFolderHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -152,7 +150,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -161,7 +159,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetHomeFolder(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.HomeFolderHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -196,7 +194,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -205,7 +203,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.LocationPopupHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)), path.getUtf8String(0));
     }
@@ -235,7 +233,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -244,7 +242,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.LocationPopupOnPasteHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -275,7 +273,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -284,7 +282,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetLocationTogglePopup(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.LocationTogglePopupHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -313,7 +311,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -322,7 +320,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetPlacesShortcut(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.PlacesShortcutHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -358,7 +356,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -367,7 +365,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetQuickBookmark(MemoryAddress source, int bookmarkIndex, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.QuickBookmarkHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)), bookmarkIndex);
     }
@@ -396,7 +394,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -405,7 +403,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetRecentShortcut(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.RecentShortcutHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -434,7 +432,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -443,7 +441,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetSearchShortcut(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.SearchShortcutHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -472,7 +470,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -481,7 +479,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetShowHidden(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.ShowHiddenHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
@@ -511,7 +509,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -520,7 +518,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     public static void __signalFileChooserWidgetUpFolder(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileChooserWidget.UpFolderHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }

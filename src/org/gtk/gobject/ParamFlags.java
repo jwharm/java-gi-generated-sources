@@ -6,7 +6,7 @@ package org.gtk.gobject;
  * <p>
  * See also: {@code G_PARAM_STATIC_STRINGS}
  */
-public class ParamFlags {
+public class ParamFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * the parameter is readable
@@ -84,38 +84,8 @@ public class ParamFlags {
      */
     public static final ParamFlags DEPRECATED = new ParamFlags(0);
     
-    private int value;
-    
     public ParamFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ParamFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ParamFlags combined(ParamFlags mask) {
-        return new ParamFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static ParamFlags combined(ParamFlags mask, ParamFlags... masks) {
-        int value = mask.getValue();
-        for (ParamFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ParamFlags(value);
+        super(value);
     }
     
 }

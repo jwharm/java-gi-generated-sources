@@ -2,12 +2,12 @@ package io.github.jwharm.javagi;
 
 import java.lang.foreign.MemoryAddress;
 
-public interface NativeAddress {
+public interface Proxy {
 
     MemoryAddress handle();
     Reference getReference();
 
-    default boolean equals(NativeAddress nativeAddress) {
+    default boolean equals(Proxy nativeAddress) {
         return handle() != null && handle().equals(nativeAddress.handle());
     }
 }

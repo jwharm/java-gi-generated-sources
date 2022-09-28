@@ -1,8 +1,6 @@
 package org.gtk.gsk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -53,6 +51,14 @@ public class TextNode extends RenderNode {
     }
     
     /**
+     * Retrieves the glyph information in the {@code node}.
+     */
+    public PointerIterator<org.pango.GlyphInfo> getGlyphs(PointerInteger nGlyphs) {
+        var RESULT = gtk_h.gsk_text_node_get_glyphs(handle(), nGlyphs.handle());
+        return new PointerProxy<org.pango.GlyphInfo>(RESULT, org.pango.GlyphInfo.class).iterator();
+    }
+    
+    /**
      * Retrieves the number of glyphs in the text node.
      */
     public int getNumGlyphs() {
@@ -73,7 +79,7 @@ public class TextNode extends RenderNode {
      */
     public boolean hasColorGlyphs() {
         var RESULT = gtk_h.gsk_text_node_has_color_glyphs(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

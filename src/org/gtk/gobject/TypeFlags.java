@@ -3,7 +3,7 @@ package org.gtk.gobject;
 /**
  * Bit masks used to check or determine characteristics of a type.
  */
-public class TypeFlags {
+public class TypeFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Indicates an abstract type. No instances can be
@@ -24,38 +24,8 @@ public class TypeFlags {
      */
     public static final TypeFlags FINAL = new TypeFlags(64);
     
-    private int value;
-    
     public TypeFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TypeFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public TypeFlags combined(TypeFlags mask) {
-        return new TypeFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static TypeFlags combined(TypeFlags mask, TypeFlags... masks) {
-        int value = mask.getValue();
-        for (TypeFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new TypeFlags(value);
+        super(value);
     }
     
 }

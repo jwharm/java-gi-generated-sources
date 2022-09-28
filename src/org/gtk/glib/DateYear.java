@@ -9,27 +9,9 @@ package org.gtk.glib;
  * <p>
  * The year is represented with four digits.
  */
-public class DateYear {
-    private short value;
-    
+public class DateYear extends io.github.jwharm.javagi.Alias<Short> {
     public DateYear(short value) {
-        this.value = value;
-    }
-    
-    public short getValue() {
-        return this.value;
-    }
-    
-    public void setValue(short value) {
-        this.value = value;
-    }
-    
-    public static short[] getValues(DateYear[] array) {
-        short[] values = new short[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

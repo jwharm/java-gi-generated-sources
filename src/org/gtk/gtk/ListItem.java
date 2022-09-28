@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -40,7 +38,7 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public boolean getActivatable() {
         var RESULT = gtk_h.gtk_list_item_get_activatable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -80,7 +78,7 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public boolean getSelectable() {
         var RESULT = gtk_h.gtk_list_item_get_selectable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -91,7 +89,7 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public boolean getSelected() {
         var RESULT = gtk_h.gtk_list_item_get_selected(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

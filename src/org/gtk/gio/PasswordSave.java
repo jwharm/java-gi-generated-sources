@@ -6,7 +6,7 @@ package org.gtk.gio;
  * {@code Gvfs} stores passwords in the Gnome keyring when this flag allows it
  * to, and later retrieves it again from there.
  */
-public class PasswordSave {
+public class PasswordSave extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * never save a password.
@@ -23,26 +23,8 @@ public class PasswordSave {
      */
     public static final PasswordSave PERMANENTLY = new PasswordSave(2);
     
-    private int value;
-    
     public PasswordSave(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PasswordSave[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

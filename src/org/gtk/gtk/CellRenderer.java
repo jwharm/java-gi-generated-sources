@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -64,7 +62,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public boolean activate(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
         var RESULT = gtk_h.gtk_cell_renderer_activate(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -94,7 +92,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public boolean getIsExpanded() {
         var RESULT = gtk_h.gtk_cell_renderer_get_is_expanded(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -102,7 +100,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public boolean getIsExpander() {
         var RESULT = gtk_h.gtk_cell_renderer_get_is_expander(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -164,7 +162,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public boolean getSensitive() {
         var RESULT = gtk_h.gtk_cell_renderer_get_sensitive(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -182,7 +180,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public boolean getVisible() {
         var RESULT = gtk_h.gtk_cell_renderer_get_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -190,7 +188,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public boolean isActivatable() {
         var RESULT = gtk_h.gtk_cell_renderer_is_activatable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -299,7 +297,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -308,7 +306,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     public static void __signalCellRendererEditingCanceled(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellRenderer.EditingCanceledHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new CellRenderer(References.get(source)));
     }
@@ -359,7 +357,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -368,7 +366,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     public static void __signalCellRendererEditingStarted(MemoryAddress source, MemoryAddress editable, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellRenderer.EditingStartedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new CellRenderer(References.get(source)), new CellEditable.CellEditableImpl(References.get(editable, false)), path.getUtf8String(0));
     }

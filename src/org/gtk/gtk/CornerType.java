@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * <p>
  * This is effectively the opposite of where the scroll bars are placed.
  */
-public class CornerType {
+public class CornerType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Place the scrollbars on the right and bottom of the
@@ -32,26 +32,8 @@ public class CornerType {
      */
     public static final CornerType BOTTOM_RIGHT = new CornerType(3);
     
-    private int value;
-    
     public CornerType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CornerType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

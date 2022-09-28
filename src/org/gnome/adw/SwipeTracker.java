@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -47,7 +45,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      */
     public boolean getAllowLongSwipes() {
         var RESULT = gtk_h.adw_swipe_tracker_get_allow_long_swipes(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -55,7 +53,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      */
     public boolean getAllowMouseDrag() {
         var RESULT = gtk_h.adw_swipe_tracker_get_allow_mouse_drag(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -63,7 +61,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      */
     public boolean getEnabled() {
         var RESULT = gtk_h.adw_swipe_tracker_get_enabled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -71,7 +69,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      */
     public boolean getReversed() {
         var RESULT = gtk_h.adw_swipe_tracker_get_reversed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -139,7 +137,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -148,7 +146,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     }
     
     public static void __signalSwipeTrackerBeginSwipe(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SwipeTracker.BeginSwipeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SwipeTracker(References.get(source)));
     }
@@ -176,7 +174,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -185,7 +183,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     }
     
     public static void __signalSwipeTrackerEndSwipe(MemoryAddress source, double velocity, double to, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SwipeTracker.EndSwipeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SwipeTracker(References.get(source)), velocity, to);
     }
@@ -211,7 +209,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -220,7 +218,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     }
     
     public static void __signalSwipeTrackerPrepare(MemoryAddress source, int direction, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SwipeTracker.PrepareHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SwipeTracker(References.get(source)), new NavigationDirection(direction));
     }
@@ -243,7 +241,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -252,7 +250,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     }
     
     public static void __signalSwipeTrackerUpdateSwipe(MemoryAddress source, double progress, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SwipeTracker.UpdateSwipeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SwipeTracker(References.get(source)), progress);
     }

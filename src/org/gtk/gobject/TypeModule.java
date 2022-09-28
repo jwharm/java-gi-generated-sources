@@ -1,8 +1,6 @@
 package org.gtk.gobject;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -146,7 +144,7 @@ public class TypeModule extends Object implements TypePlugin {
      */
     public boolean useTypeModule() {
         var RESULT = gtk_h.g_type_module_use(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

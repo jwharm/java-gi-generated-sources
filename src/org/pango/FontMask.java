@@ -4,7 +4,7 @@ package org.pango;
  * The bits in a {@code PangoFontMask} correspond to the set fields in a
  * {@code PangoFontDescription}.
  */
-public class FontMask {
+public class FontMask extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * the font family is specified.
@@ -46,38 +46,8 @@ public class FontMask {
      */
     public static final FontMask VARIATIONS = new FontMask(128);
     
-    private int value;
-    
     public FontMask(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FontMask[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FontMask combined(FontMask mask) {
-        return new FontMask(this.getValue() | mask.getValue());
-    }
-    
-    public static FontMask combined(FontMask mask, FontMask... masks) {
-        int value = mask.getValue();
-        for (FontMask arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FontMask(value);
+        super(value);
     }
     
 }

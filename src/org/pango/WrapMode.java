@@ -9,7 +9,7 @@ package org.pango;
  * breaking at grapheme boundaries that are determined by the Unicode text
  * segmentation algorithm.
  */
-public class WrapMode {
+public class WrapMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * wrap lines at word boundaries.
@@ -27,26 +27,8 @@ public class WrapMode {
      */
     public static final WrapMode WORD_CHAR = new WrapMode(2);
     
-    private int value;
-    
     public WrapMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(WrapMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

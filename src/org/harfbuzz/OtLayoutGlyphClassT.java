@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * The GDEF classes defined for glyphs.
  */
-public class OtLayoutGlyphClassT {
+public class OtLayoutGlyphClassT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Glyphs not matching the other classifications
@@ -30,26 +30,8 @@ public class OtLayoutGlyphClassT {
      */
     public static final OtLayoutGlyphClassT COMPONENT = new OtLayoutGlyphClassT(4);
     
-    private int value;
-    
     public OtLayoutGlyphClassT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OtLayoutGlyphClassT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

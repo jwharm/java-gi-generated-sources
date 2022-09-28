@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -91,7 +89,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public boolean getCanNavigateBack() {
         var RESULT = gtk_h.adw_leaflet_get_can_navigate_back(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -99,7 +97,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public boolean getCanNavigateForward() {
         var RESULT = gtk_h.adw_leaflet_get_can_navigate_forward(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -107,7 +105,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public boolean getCanUnfold() {
         var RESULT = gtk_h.adw_leaflet_get_can_unfold(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -135,7 +133,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public boolean getChildTransitionRunning() {
         var RESULT = gtk_h.adw_leaflet_get_child_transition_running(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -151,7 +149,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public boolean getFolded() {
         var RESULT = gtk_h.adw_leaflet_get_folded(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -159,7 +157,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public boolean getHomogeneous() {
         var RESULT = gtk_h.adw_leaflet_get_homogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -235,7 +233,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public boolean navigate(NavigationDirection direction) {
         var RESULT = gtk_h.adw_leaflet_navigate(handle(), direction.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

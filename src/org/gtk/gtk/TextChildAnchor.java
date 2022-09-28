@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -68,7 +66,17 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      */
     public boolean getDeleted() {
         var RESULT = gtk_h.gtk_text_child_anchor_get_deleted(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets a list of all widgets anchored at this child anchor.
+     * <p>
+     * The order in which the widgets are returned is not defined.
+     */
+    public PointerIterator<Widget> getWidgets(PointerInteger outLen) {
+        var RESULT = gtk_h.gtk_text_child_anchor_get_widgets(handle(), outLen.handle());
+        return new PointerProxy<Widget>(RESULT, Widget.class).iterator();
     }
     
 }

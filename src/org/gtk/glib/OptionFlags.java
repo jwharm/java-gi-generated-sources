@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Flags which modify individual options.
  */
-public class OptionFlags {
+public class OptionFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags. Since: 2.42.
@@ -59,38 +59,8 @@ public class OptionFlags {
      */
     public static final OptionFlags NOALIAS = new OptionFlags(64);
     
-    private int value;
-    
     public OptionFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OptionFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public OptionFlags combined(OptionFlags mask) {
-        return new OptionFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static OptionFlags combined(OptionFlags mask, OptionFlags... masks) {
-        int value = mask.getValue();
-        for (OptionFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new OptionFlags(value);
+        super(value);
     }
     
 }

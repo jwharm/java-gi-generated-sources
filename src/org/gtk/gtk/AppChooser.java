@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +26,7 @@ import java.lang.invoke.*;
  * To obtain the application that has been selected in a {@code GtkAppChooser},
  * use {@link AppChooser#getAppInfo}.
  */
-public interface AppChooser extends io.github.jwharm.javagi.NativeAddress {
+public interface AppChooser extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Returns the currently selected application.

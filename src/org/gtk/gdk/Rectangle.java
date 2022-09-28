@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -39,7 +37,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean containsPoint(int x, int y) {
         var RESULT = gtk_h.gdk_rectangle_contains_point(handle(), x, y);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -47,7 +45,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(Rectangle rect2) {
         var RESULT = gtk_h.gdk_rectangle_equal(handle(), rect2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -61,7 +59,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean intersect(Rectangle src2, Rectangle dest) {
         var RESULT = gtk_h.gdk_rectangle_intersect(handle(), src2.handle(), dest.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

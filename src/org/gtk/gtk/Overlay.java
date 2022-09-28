@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -91,7 +89,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      */
     public boolean getClipOverlay(Widget widget) {
         var RESULT = gtk_h.gtk_overlay_get_clip_overlay(handle(), widget.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -100,7 +98,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      */
     public boolean getMeasureOverlay(Widget widget) {
         var RESULT = gtk_h.gtk_overlay_get_measure_overlay(handle(), widget.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -166,7 +164,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -175,7 +173,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static boolean __signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Overlay.GetChildPositionHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Overlay(References.get(source)), new Widget(References.get(widget, false)), new org.gtk.gdk.Rectangle(References.get(allocation, false)));
     }

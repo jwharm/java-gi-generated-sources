@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -39,7 +37,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      */
     public boolean cancel() {
         var RESULT = gtk_h.g_file_monitor_cancel(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -60,7 +58,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      */
     public boolean isCancelled() {
         var RESULT = gtk_h.g_file_monitor_is_cancelled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -116,7 +114,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -125,7 +123,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
     }
     
     public static void __signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileMonitor.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FileMonitor(References.get(source)), new File.FileImpl(References.get(file, false)), new File.FileImpl(References.get(otherFile, false)), new FileMonitorEvent(eventType));
     }

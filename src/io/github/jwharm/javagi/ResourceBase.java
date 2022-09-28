@@ -2,7 +2,7 @@ package io.github.jwharm.javagi;
 
 import java.lang.foreign.MemoryAddress;
 
-public class ResourceBase implements NativeAddress {
+public class ResourceBase implements Proxy {
 
     private Reference reference;
 

@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used when creating a {@link DBusServer}.
  */
-public class DBusServerFlags {
+public class DBusServerFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -29,38 +29,8 @@ public class DBusServerFlags {
      */
     public static final DBusServerFlags AUTHENTICATION_REQUIRE_SAME_USER = new DBusServerFlags(4);
     
-    private int value;
-    
     public DBusServerFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusServerFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusServerFlags combined(DBusServerFlags mask) {
-        return new DBusServerFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusServerFlags combined(DBusServerFlags mask, DBusServerFlags... masks) {
-        int value = mask.getValue();
-        for (DBusServerFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusServerFlags(value);
+        super(value);
     }
     
 }

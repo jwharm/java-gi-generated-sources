@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_settings_set_duplex().
  */
-public class PrintDuplex {
+public class PrintDuplex extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No duplex.
@@ -20,26 +20,8 @@ public class PrintDuplex {
      */
     public static final PrintDuplex VERTICAL = new PrintDuplex(2);
     
-    private int value;
-    
     public PrintDuplex(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PrintDuplex[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

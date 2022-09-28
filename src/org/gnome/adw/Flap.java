@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -142,7 +140,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public boolean getFolded() {
         var RESULT = gtk_h.adw_flap_get_folded(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -150,7 +148,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public boolean getLocked() {
         var RESULT = gtk_h.adw_flap_get_locked(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -158,7 +156,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public boolean getModal() {
         var RESULT = gtk_h.adw_flap_get_modal(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -166,7 +164,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public boolean getRevealFlap() {
         var RESULT = gtk_h.adw_flap_get_reveal_flap(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -198,7 +196,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public boolean getSwipeToClose() {
         var RESULT = gtk_h.adw_flap_get_swipe_to_close(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -206,7 +204,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public boolean getSwipeToOpen() {
         var RESULT = gtk_h.adw_flap_get_swipe_to_open(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -134,6 +132,39 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
+     * Gets the accelerators that are currently associated with
+     * the given action.
+     */
+    public PointerIterator<java.lang.String> getAccelsForAction(java.lang.String detailedActionName) {
+        var RESULT = gtk_h.gtk_application_get_accels_for_action(handle(), Interop.allocateNativeString(detailedActionName).handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Returns the list of actions (possibly empty) that {@code accel} maps to.
+     * <p>
+     * Each item in the list is a detailed action name in the usual form.
+     * <p>
+     * This might be useful to discover if an accel already exists in
+     * order to prevent installation of a conflicting accelerator (from
+     * an accelerator editor or a plugin system, for example). Note that
+     * having more than one action per accelerator may not be a bad thing
+     * and might make sense in cases where the actions never appear in the
+     * same context.
+     * <p>
+     * In case there are no actions for a given accelerator, an empty array
+     * is returned. {@code NULL} is never returned.
+     * <p>
+     * It is a programmer error to pass an invalid accelerator string.
+     * <p>
+     * If you are unsure, check it with {@link Gtk#acceleratorParse} first.
+     */
+    public PointerIterator<java.lang.String> getActionsForAccel(java.lang.String accel) {
+        var RESULT = gtk_h.gtk_application_get_actions_for_accel(handle(), Interop.allocateNativeString(accel).handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Gets the “active” window for the application.
      * <p>
      * The active window is the one that was most recently focused (within
@@ -221,6 +252,16 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public int inhibit(Window window, ApplicationInhibitFlags flags, java.lang.String reason) {
         var RESULT = gtk_h.gtk_application_inhibit(handle(), window.handle(), flags.getValue(), Interop.allocateNativeString(reason).handle());
         return RESULT;
+    }
+    
+    /**
+     * Lists the detailed action names which have associated accelerators.
+     * <p>
+     * See {@link Application#setAccelsForAction}.
+     */
+    public PointerIterator<java.lang.String> listActionDescriptions() {
+        var RESULT = gtk_h.gtk_application_list_action_descriptions(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -312,7 +353,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -321,7 +362,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     public static void __signalApplicationQueryEnd(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.QueryEndHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Application(References.get(source)));
     }
@@ -345,7 +386,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -354,7 +395,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     public static void __signalApplicationWindowAdded(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.WindowAddedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Application(References.get(source)), new Window(References.get(window, false)));
     }
@@ -380,7 +421,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -389,7 +430,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     public static void __signalApplicationWindowRemoved(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.WindowRemovedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Application(References.get(source)), new Window(References.get(window, false)));
     }

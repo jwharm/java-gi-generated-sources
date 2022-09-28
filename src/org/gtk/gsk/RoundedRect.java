@@ -1,8 +1,6 @@
 package org.gtk.gsk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,7 +35,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean containsPoint(org.gtk.graphene.Point point) {
         var RESULT = gtk_h.gsk_rounded_rect_contains_point(handle(), point.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -45,7 +43,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean containsRect(org.gtk.graphene.Rect rect) {
         var RESULT = gtk_h.gsk_rounded_rect_contains_rect(handle(), rect.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -84,7 +82,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean intersectsRect(org.gtk.graphene.Rect rect) {
         var RESULT = gtk_h.gsk_rounded_rect_intersects_rect(handle(), rect.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -96,7 +94,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isRectilinear() {
         var RESULT = gtk_h.gsk_rounded_rect_is_rectilinear(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

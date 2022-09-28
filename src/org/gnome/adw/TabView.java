@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -180,7 +178,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public boolean getIsTransferringPage() {
         var RESULT = gtk_h.adw_tab_view_get_is_transferring_page(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -294,7 +292,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public boolean reorderBackward(TabPage page) {
         var RESULT = gtk_h.adw_tab_view_reorder_backward(handle(), page.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -302,7 +300,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public boolean reorderFirst(TabPage page) {
         var RESULT = gtk_h.adw_tab_view_reorder_first(handle(), page.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -310,7 +308,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public boolean reorderForward(TabPage page) {
         var RESULT = gtk_h.adw_tab_view_reorder_forward(handle(), page.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -318,7 +316,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public boolean reorderLast(TabPage page) {
         var RESULT = gtk_h.adw_tab_view_reorder_last(handle(), page.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -329,7 +327,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public boolean reorderPage(TabPage page, int position) {
         var RESULT = gtk_h.adw_tab_view_reorder_page(handle(), page.handle(), position);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -339,7 +337,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public boolean selectNextPage() {
         var RESULT = gtk_h.adw_tab_view_select_next_page(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -349,7 +347,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public boolean selectPreviousPage() {
         var RESULT = gtk_h.adw_tab_view_select_previous_page(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -459,7 +457,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -468,7 +466,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     public static boolean __signalTabViewClosePage(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TabView.ClosePageHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
     }
@@ -496,7 +494,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -505,7 +503,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     public static void __signalTabViewCreateWindow(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TabView.CreateWindowHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TabView(References.get(source)));
     }
@@ -531,7 +529,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -540,7 +538,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     public static void __signalTabViewIndicatorActivated(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TabView.IndicatorActivatedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
     }
@@ -566,7 +564,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -575,7 +573,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     public static void __signalTabViewPageAttached(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TabView.PageAttachedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
     }
@@ -606,7 +604,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -615,7 +613,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     public static void __signalTabViewPageDetached(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TabView.PageDetachedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
     }
@@ -638,7 +636,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -647,7 +645,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     public static void __signalTabViewPageReordered(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TabView.PageReorderedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
     }
@@ -675,7 +673,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -684,7 +682,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     public static void __signalTabViewSetupMenu(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TabView.SetupMenuHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
     }

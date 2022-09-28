@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Error codes for the {@code G_DBUS_ERROR} error domain.
  */
-public class DBusError {
+public class DBusError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * A generic error; "something went wrong" - see the error message for
@@ -240,26 +240,8 @@ public class DBusError {
      */
     public static final DBusError PROPERTY_READ_ONLY = new DBusError(44);
     
-    private int value;
-    
     public DBusError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

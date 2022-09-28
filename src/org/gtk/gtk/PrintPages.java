@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_job_set_pages()
  */
-public class PrintPages {
+public class PrintPages extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * All pages.
@@ -25,26 +25,8 @@ public class PrintPages {
      */
     public static final PrintPages SELECTION = new PrintPages(3);
     
-    private int value;
-    
     public PrintPages(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PrintPages[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

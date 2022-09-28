@@ -7,7 +7,7 @@ package org.pango;
  * The values in this enumeration are specified by the
  * <a href="http://www.unicode.org/reports/tr9/">Unicode bidirectional algorithm</a>.
  */
-public class BidiType {
+public class BidiType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Left-to-Right
@@ -124,26 +124,8 @@ public class BidiType {
      */
     public static final BidiType PDI = new BidiType(22);
     
-    private int value;
-    
     public BidiType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BidiType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

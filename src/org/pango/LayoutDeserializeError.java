@@ -3,7 +3,7 @@ package org.pango;
 /**
  * Errors that can be returned by {@link Pango#Layout}.
  */
-public class LayoutDeserializeError {
+public class LayoutDeserializeError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Unspecified error
@@ -22,26 +22,8 @@ public class LayoutDeserializeError {
      */
     public static final LayoutDeserializeError MISSING_VALUE = new LayoutDeserializeError(2);
     
-    private int value;
-    
     public LayoutDeserializeError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(LayoutDeserializeError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

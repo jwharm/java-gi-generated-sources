@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -76,7 +74,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      */
     public boolean getRevealed() {
         var RESULT = gtk_h.gtk_action_bar_get_revealed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

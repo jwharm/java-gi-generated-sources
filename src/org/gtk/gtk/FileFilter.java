@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -146,6 +144,19 @@ public class FileFilter extends Filter implements Buildable {
      */
     public void addSuffix(java.lang.String suffix) {
         gtk_h.gtk_file_filter_add_suffix(handle(), Interop.allocateNativeString(suffix).handle());
+    }
+    
+    /**
+     * Gets the attributes that need to be filled in for the {@code GFileInfo}
+     * passed to this filter.
+     * <p>
+     * This function will not typically be used by applications;
+     * it is intended principally for use in the implementation
+     * of {@code GtkFileChooser}.
+     */
+    public PointerIterator<java.lang.String> getAttributes() {
+        var RESULT = gtk_h.gtk_file_filter_get_attributes(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**

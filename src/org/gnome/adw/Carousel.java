@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -60,7 +58,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      */
     public boolean getAllowLongSwipes() {
         var RESULT = gtk_h.adw_carousel_get_allow_long_swipes(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -68,7 +66,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      */
     public boolean getAllowMouseDrag() {
         var RESULT = gtk_h.adw_carousel_get_allow_mouse_drag(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -76,7 +74,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      */
     public boolean getAllowScrollWheel() {
         var RESULT = gtk_h.adw_carousel_get_allow_scroll_wheel(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -84,7 +82,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      */
     public boolean getInteractive() {
         var RESULT = gtk_h.adw_carousel_get_interactive(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -250,7 +248,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -259,7 +257,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     }
     
     public static void __signalCarouselPageChanged(MemoryAddress source, int index, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Carousel.PageChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Carousel(References.get(source)), index);
     }

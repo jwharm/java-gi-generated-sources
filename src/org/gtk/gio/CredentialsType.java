@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Enumeration describing different kinds of native credential types.
  */
-public class CredentialsType {
+public class CredentialsType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Indicates an invalid native credential type.
@@ -45,26 +45,8 @@ public class CredentialsType {
      */
     public static final CredentialsType WIN32_PID = new CredentialsType(7);
     
-    private int value;
-    
     public CredentialsType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CredentialsType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

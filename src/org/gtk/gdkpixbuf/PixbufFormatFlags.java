@@ -4,7 +4,7 @@ package org.gtk.gdkpixbuf;
  * Flags which allow a module to specify further details about the supported
  * operations.
  */
-public class PixbufFormatFlags {
+public class PixbufFormatFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * the module can write out images in the format.
@@ -22,38 +22,8 @@ public class PixbufFormatFlags {
      */
     public static final PixbufFormatFlags THREADSAFE = new PixbufFormatFlags(4);
     
-    private int value;
-    
     public PixbufFormatFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PixbufFormatFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public PixbufFormatFlags combined(PixbufFormatFlags mask) {
-        return new PixbufFormatFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static PixbufFormatFlags combined(PixbufFormatFlags mask, PixbufFormatFlags... masks) {
-        int value = mask.getValue();
-        for (PixbufFormatFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new PixbufFormatFlags(value);
+        super(value);
     }
     
 }

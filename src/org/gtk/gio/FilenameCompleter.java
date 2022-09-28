@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,6 +42,14 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     }
     
     /**
+     * Gets an array of completion strings for a given initial text.
+     */
+    public PointerIterator<java.lang.String> getCompletions(java.lang.String initialText) {
+        var RESULT = gtk_h.g_filename_completer_get_completions(handle(), Interop.allocateNativeString(initialText).handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * If {@code dirs_only} is {@code true}, {@code completer} will only
      * complete directory names, and not file names.
      */
@@ -69,7 +75,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -78,7 +84,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     }
     
     public static void __signalFilenameCompleterGotCompletionData(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FilenameCompleter.GotCompletionDataHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FilenameCompleter(References.get(source)));
     }

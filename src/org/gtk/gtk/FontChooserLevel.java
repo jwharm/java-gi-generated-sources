@@ -7,7 +7,7 @@ package org.gtk.gtk;
  * This enumeration may be extended in the future; applications should
  * ignore unknown values.
  */
-public class FontChooserLevel {
+public class FontChooserLevel extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Allow selecting a font family
@@ -34,38 +34,8 @@ public class FontChooserLevel {
      */
     public static final FontChooserLevel FEATURES = new FontChooserLevel(8);
     
-    private int value;
-    
     public FontChooserLevel(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FontChooserLevel[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FontChooserLevel combined(FontChooserLevel mask) {
-        return new FontChooserLevel(this.getValue() | mask.getValue());
-    }
-    
-    public static FontChooserLevel combined(FontChooserLevel mask, FontChooserLevel... masks) {
-        int value = mask.getValue();
-        for (FontChooserLevel arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FontChooserLevel(value);
+        super(value);
     }
     
 }

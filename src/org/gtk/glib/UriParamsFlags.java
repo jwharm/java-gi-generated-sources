@@ -4,7 +4,7 @@ package org.gtk.glib;
  * Flags modifying the way parameters are handled by g_uri_parse_params() and
  * {@link UriParamsIter}.
  */
-public class UriParamsFlags {
+public class UriParamsFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -27,38 +27,8 @@ public class UriParamsFlags {
      */
     public static final UriParamsFlags PARSE_RELAXED = new UriParamsFlags(4);
     
-    private int value;
-    
     public UriParamsFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UriParamsFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public UriParamsFlags combined(UriParamsFlags mask) {
-        return new UriParamsFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static UriParamsFlags combined(UriParamsFlags mask, UriParamsFlags... masks) {
-        int value = mask.getValue();
-        for (UriParamsFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new UriParamsFlags(value);
+        super(value);
     }
     
 }

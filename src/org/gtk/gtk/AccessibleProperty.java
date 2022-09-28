@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The possible accessible properties of a {@code Accessible}.
  */
-public class AccessibleProperty {
+public class AccessibleProperty extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Indicates whether inputting text
@@ -127,26 +127,8 @@ public class AccessibleProperty {
      */
     public static final AccessibleProperty VALUE_TEXT = new AccessibleProperty(18);
     
-    private int value;
-    
     public AccessibleProperty(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AccessibleProperty[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

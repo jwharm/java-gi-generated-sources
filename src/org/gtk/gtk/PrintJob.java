@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -47,7 +45,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public boolean getCollate() {
         var RESULT = gtk_h.gtk_print_job_get_collate(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -72,6 +70,14 @@ public class PrintJob extends org.gtk.gobject.Object {
     public int getNumCopies() {
         var RESULT = gtk_h.gtk_print_job_get_num_copies(handle());
         return RESULT;
+    }
+    
+    /**
+     * Gets the page ranges for this job.
+     */
+    public PointerIterator<PageRange> getPageRanges(PointerInteger nRanges) {
+        var RESULT = gtk_h.gtk_print_job_get_page_ranges(handle(), nRanges.handle());
+        return new PointerProxy<PageRange>(RESULT, PageRange.class).iterator();
     }
     
     /**
@@ -103,7 +109,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public boolean getReverse() {
         var RESULT = gtk_h.gtk_print_job_get_reverse(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -111,7 +117,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public boolean getRotate() {
         var RESULT = gtk_h.gtk_print_job_get_rotate(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -166,7 +172,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public boolean getTrackPrintStatus() {
         var RESULT = gtk_h.gtk_print_job_get_track_print_status(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -180,7 +186,7 @@ public class PrintJob extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -278,7 +284,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -296,7 +302,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -334,7 +340,7 @@ public class PrintJob extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -343,7 +349,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     public static void __signalPrintJobStatusChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintJob.StatusChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintJob(References.get(source)));
     }

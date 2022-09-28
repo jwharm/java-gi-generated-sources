@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -91,7 +89,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      */
     public boolean getBoolean(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_get_boolean(handle(), Interop.allocateNativeString(key).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -126,7 +124,15 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      */
     public boolean getIsHidden() {
         var RESULT = gtk_h.g_desktop_app_info_get_is_hidden(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets the keywords from the desktop file.
+     */
+    public PointerIterator<java.lang.String> getKeywords() {
+        var RESULT = gtk_h.g_desktop_app_info_get_keywords(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -147,7 +153,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      */
     public boolean getNodisplay() {
         var RESULT = gtk_h.g_desktop_app_info_get_nodisplay(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -165,7 +171,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      */
     public boolean getShowIn(java.lang.String desktopEnv) {
         var RESULT = gtk_h.g_desktop_app_info_get_show_in(handle(), Interop.allocateNativeString(desktopEnv).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -189,12 +195,22 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
+     * Looks up a string list value in the keyfile backing {@code info}.
+     * <p>
+     * The {@code key} is looked up in the "Desktop Entry" group.
+     */
+    public PointerIterator<java.lang.String> getStringList(java.lang.String key, PointerLong length) {
+        var RESULT = gtk_h.g_desktop_app_info_get_string_list(handle(), Interop.allocateNativeString(key).handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Returns whether {@code key} exists in the "Desktop Entry" group
      * of the keyfile backing {@code info}.
      */
     public boolean hasKey(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_has_key(handle(), Interop.allocateNativeString(key).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -244,17 +260,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), GERROR);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return (RESULT != 0);
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -277,20 +293,32 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), stdinFd, stdoutFd, stderrFd, GERROR);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), stdinFd, stdoutFd, stderrFd, GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return (RESULT != 0);
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Returns the list of "additional application actions" supported on the
+     * desktop file, as per the desktop file specification.
+     * <p>
+     * As per the specification, this is the list of actions that are
+     * explicitly listed in the "Actions" key of the [Desktop Entry] group.
+     */
+    public PointerIterator<java.lang.String> listActions() {
+        var RESULT = gtk_h.g_desktop_app_info_list_actions(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -302,6 +330,28 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     public static org.gtk.glib.List getImplementations(java.lang.String interface_) {
         var RESULT = gtk_h.g_desktop_app_info_get_implementations(Interop.allocateNativeString(interface_).handle());
         return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
+     * Searches desktop files for ones that match {@code search_string}.
+     * <p>
+     * The return value is an array of strvs.  Each strv contains a list of
+     * applications that matched {@code search_string} with an equal score.  The
+     * outer list is sorted by score so that the first strv contains the
+     * best-matching applications, and so on.
+     * The algorithm for determining matches is undefined and may change at
+     * any time.
+     * <p>
+     * None of the search results are subjected to the normal validation
+     * checks performed by g_desktop_app_info_new() (for example, checking that
+     * the executable referenced by a result exists), and so it is possible for
+     * g_desktop_app_info_new() to return {@code null} when passed an app ID returned by
+     * this function. It is expected that calling code will do this when
+     * subsequently creating a {@link DesktopAppInfo} for each result.
+     */
+    public static void search(java.lang.String searchString) {
+        var RESULT = gtk_h.g_desktop_app_info_search(Interop.allocateNativeString(searchString).handle());
+        return ;
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,7 +13,7 @@ import java.lang.invoke.*;
  * <p>
  * There is also an implementation for use inside Flatpak sandboxes.
  */
-public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
+public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Attempts to determine whether or not the host pointed to by
@@ -42,7 +40,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -64,7 +62,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +78,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -117,7 +115,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getNetworkAvailable() {
         var RESULT = gtk_h.g_network_monitor_get_network_available(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -126,7 +124,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getNetworkMetered() {
         var RESULT = gtk_h.g_network_monitor_get_network_metered(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -152,10 +150,10 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
                 Interop.allocateNativeString("network-changed").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(NetworkMonitor.class, "__signalNetworkMonitorNetworkChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -163,10 +161,10 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
         }
     }
     
-    public static void __signalNetworkMonitorNetworkChanged(MemoryAddress source, boolean networkAvailable, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalNetworkMonitorNetworkChanged(MemoryAddress source, int networkAvailable, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (NetworkMonitor.NetworkChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new NetworkMonitor.NetworkMonitorImpl(References.get(source)), networkAvailable);
+        handler.signalReceived(new NetworkMonitor.NetworkMonitorImpl(References.get(source)), networkAvailable != 0);
     }
     
     class NetworkMonitorImpl extends org.gtk.gobject.Object implements NetworkMonitor {

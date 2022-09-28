@@ -8,7 +8,7 @@ package org.harfbuzz;
  * Client programs should be ready to handle any value in the 0..254 range
  * being returned from hb_unicode_combining_class().&lt;/note&gt;
  */
-public class UnicodeCombiningClassT {
+public class UnicodeCombiningClassT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Spacing and enclosing marks; also many vowel and consonant signs, even if nonspacing
@@ -295,26 +295,8 @@ public class UnicodeCombiningClassT {
      */
     public static final UnicodeCombiningClassT INVALID = new UnicodeCombiningClassT(255);
     
-    private int value;
-    
     public UnicodeCombiningClassT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UnicodeCombiningClassT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Domain for VFL parsing errors.
  */
-public class ConstraintVflParserError {
+public class ConstraintVflParserError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Invalid or unknown symbol
@@ -35,26 +35,8 @@ public class ConstraintVflParserError {
      */
     public static final ConstraintVflParserError RELATION = new ConstraintVflParserError(5);
     
-    private int value;
-    
     public ConstraintVflParserError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ConstraintVflParserError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

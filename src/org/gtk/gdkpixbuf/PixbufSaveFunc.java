@@ -14,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufSaveFunc {
-        boolean onPixbufSaveFunc(byte[] buf, long count);
+        boolean onPixbufSaveFunc(PointerIterator<Byte> buf, long count);
 }

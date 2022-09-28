@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -477,15 +475,15 @@ public class Settings extends org.gtk.gobject.Object {
             gtk_h.g_settings_bind_with_mapping(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSettingsBindGetMapping",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSettingsBindSetMapping",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(getMapping.hashCode(), getMapping)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getMapping.hashCode(), getMapping)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -555,7 +553,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean getBoolean(java.lang.String key) {
         var RESULT = gtk_h.g_settings_get_boolean(handle(), Interop.allocateNativeString(key).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -659,7 +657,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean getHasUnapplied() {
         var RESULT = gtk_h.g_settings_get_has_unapplied(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -722,10 +720,10 @@ public class Settings extends org.gtk.gobject.Object {
             var RESULT = gtk_h.g_settings_get_mapped(handle(), Interop.allocateNativeString(key).handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSettingsGetMapping",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(mapping.hashCode(), mapping)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapping.hashCode(), mapping)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -743,6 +741,17 @@ public class Settings extends org.gtk.gobject.Object {
     public java.lang.String getString(java.lang.String key) {
         var RESULT = gtk_h.g_settings_get_string(handle(), Interop.allocateNativeString(key).handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * A convenience variant of g_settings_get() for string arrays.
+     * <p>
+     * It is a programmer error to give a {@code key} that isn't specified as
+     * having an array of strings type in the schema for {@code settings}.
+     */
+    public PointerIterator<java.lang.String> getStrv(java.lang.String key) {
+        var RESULT = gtk_h.g_settings_get_strv(handle(), Interop.allocateNativeString(key).handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -814,7 +823,25 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean isWritable(java.lang.String name) {
         var RESULT = gtk_h.g_settings_is_writable(handle(), Interop.allocateNativeString(name).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets the list of children on {@code settings}.
+     * <p>
+     * The list is exactly the list of strings for which it is not an error
+     * to call g_settings_get_child().
+     * <p>
+     * There is little reason to call this function from "normal" code, since
+     * you should already know what children are in your schema. This function
+     * may still be useful there for introspection reasons, however.
+     * <p>
+     * You should free the return value with g_strfreev() when you are done
+     * with it.
+     */
+    public PointerIterator<java.lang.String> listChildren() {
+        var RESULT = gtk_h.g_settings_list_children(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -850,7 +877,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setBoolean(java.lang.String key, boolean value) {
         var RESULT = gtk_h.g_settings_set_boolean(handle(), Interop.allocateNativeString(key).handle(), value ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -863,7 +890,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setDouble(java.lang.String key, double value) {
         var RESULT = gtk_h.g_settings_set_double(handle(), Interop.allocateNativeString(key).handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -880,7 +907,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setEnum(java.lang.String key, int value) {
         var RESULT = gtk_h.g_settings_set_enum(handle(), Interop.allocateNativeString(key).handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -898,7 +925,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setFlags(java.lang.String key, int value) {
         var RESULT = gtk_h.g_settings_set_flags(handle(), Interop.allocateNativeString(key).handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -911,7 +938,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setInt(java.lang.String key, int value) {
         var RESULT = gtk_h.g_settings_set_int(handle(), Interop.allocateNativeString(key).handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -924,7 +951,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setInt64(java.lang.String key, long value) {
         var RESULT = gtk_h.g_settings_set_int64(handle(), Interop.allocateNativeString(key).handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -937,7 +964,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setString(java.lang.String key, java.lang.String value) {
         var RESULT = gtk_h.g_settings_set_string(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(value).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -951,7 +978,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setStrv(java.lang.String key, java.lang.String[] value) {
         var RESULT = gtk_h.g_settings_set_strv(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(value).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -965,7 +992,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setUint(java.lang.String key, int value) {
         var RESULT = gtk_h.g_settings_set_uint(handle(), Interop.allocateNativeString(key).handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -979,7 +1006,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setUint64(java.lang.String key, long value) {
         var RESULT = gtk_h.g_settings_set_uint64(handle(), Interop.allocateNativeString(key).handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -993,7 +1020,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public boolean setValue(java.lang.String key, org.gtk.glib.Variant value) {
         var RESULT = gtk_h.g_settings_set_value(handle(), Interop.allocateNativeString(key).handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1025,7 +1052,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ChangeEventHandler {
-        boolean signalReceived(Settings source, org.gtk.glib.Quark[] keys, int nKeys);
+        boolean signalReceived(Settings source, PointerIterator<Integer> keys, int nKeys);
     }
     
     /**
@@ -1055,7 +1082,7 @@ public class Settings extends org.gtk.gobject.Object {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1064,9 +1091,9 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     public static boolean __signalSettingsChangeEvent(MemoryAddress source, MemoryAddress keys, int nKeys, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Settings.ChangeEventHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Settings(References.get(source)), null, nKeys);
+        return handler.signalReceived(new Settings(References.get(source)), new PointerInteger(keys).iterator(), nKeys);
     }
     
     @FunctionalInterface
@@ -1096,7 +1123,7 @@ public class Settings extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1105,7 +1132,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     public static void __signalSettingsChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Settings.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Settings(References.get(source)), key.getUtf8String(0));
     }
@@ -1145,7 +1172,7 @@ public class Settings extends org.gtk.gobject.Object {
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1154,7 +1181,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     public static boolean __signalSettingsWritableChangeEvent(MemoryAddress source, int key, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Settings.WritableChangeEventHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Settings(References.get(source)), key);
     }
@@ -1183,7 +1210,7 @@ public class Settings extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1192,7 +1219,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     public static void __signalSettingsWritableChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Settings.WritableChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Settings(References.get(source)), key.getUtf8String(0));
     }

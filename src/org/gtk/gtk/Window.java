@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -171,7 +169,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getDecorated() {
         var RESULT = gtk_h.gtk_window_get_decorated(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -198,7 +196,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getDeletable() {
         var RESULT = gtk_h.gtk_window_get_deletable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -206,7 +204,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getDestroyWithParent() {
         var RESULT = gtk_h.gtk_window_get_destroy_with_parent(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -227,7 +225,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getFocusVisible() {
         var RESULT = gtk_h.gtk_window_get_focus_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -246,7 +244,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getHandleMenubarAccel() {
         var RESULT = gtk_h.gtk_window_get_handle_menubar_accel(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -254,7 +252,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getHideOnClose() {
         var RESULT = gtk_h.gtk_window_get_hide_on_close(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -270,7 +268,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getMnemonicsVisible() {
         var RESULT = gtk_h.gtk_window_get_mnemonics_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -278,7 +276,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getModal() {
         var RESULT = gtk_h.gtk_window_get_modal(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -286,7 +284,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean getResizable() {
         var RESULT = gtk_h.gtk_window_get_resizable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -319,7 +317,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean hasGroup() {
         var RESULT = gtk_h.gtk_window_has_group(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -333,7 +331,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean isActive() {
         var RESULT = gtk_h.gtk_window_is_active(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -350,7 +348,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean isFullscreen() {
         var RESULT = gtk_h.gtk_window_is_fullscreen(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -367,7 +365,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public boolean isMaximized() {
         var RESULT = gtk_h.gtk_window_is_maximized(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -870,7 +868,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -879,7 +877,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     public static void __signalWindowActivateDefault(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Window.ActivateDefaultHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Window(References.get(source)));
     }
@@ -905,7 +903,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -914,7 +912,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     public static void __signalWindowActivateFocus(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Window.ActivateFocusHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Window(References.get(source)));
     }
@@ -937,7 +935,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -946,7 +944,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     public static boolean __signalWindowCloseRequest(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Window.CloseRequestHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Window(References.get(source)));
     }
@@ -975,10 +973,10 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                 Interop.allocateNativeString("enable-debugging").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.class, "__signalWindowEnableDebugging",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -986,10 +984,10 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         }
     }
     
-    public static boolean __signalWindowEnableDebugging(MemoryAddress source, boolean toggle, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalWindowEnableDebugging(MemoryAddress source, int toggle, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Window.EnableDebuggingHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Window(References.get(source)), toggle);
+        return handler.signalReceived(new Window(References.get(source)), toggle != 0);
     }
     
     @FunctionalInterface
@@ -1011,7 +1009,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1020,7 +1018,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     public static void __signalWindowKeysChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Window.KeysChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Window(References.get(source)));
     }

@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -11,7 +9,7 @@ import java.lang.invoke.*;
  * {@link TlsServerConnection} is the server-side subclass of {@link TlsConnection},
  * representing a server-side TLS connection.
  */
-public interface TlsServerConnection extends io.github.jwharm.javagi.NativeAddress {
+public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Creates a new {@link TlsServerConnection} wrapping {@code base_io_stream} (which

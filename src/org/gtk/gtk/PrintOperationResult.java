@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * <p>
  * A value of this type is returned by {@link PrintOperation#run}.
  */
-public class PrintOperationResult {
+public class PrintOperationResult extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * An error has occurred.
@@ -29,26 +29,8 @@ public class PrintOperationResult {
      */
     public static final PrintOperationResult IN_PROGRESS = new PrintOperationResult(3);
     
-    private int value;
-    
     public PrintOperationResult(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PrintOperationResult[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

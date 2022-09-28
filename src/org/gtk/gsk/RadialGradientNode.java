@@ -1,8 +1,6 @@
 package org.gtk.gsk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -43,6 +41,14 @@ public class RadialGradientNode extends RenderNode {
     public org.gtk.graphene.Point getCenter() {
         var RESULT = gtk_h.gsk_radial_gradient_node_get_center(handle());
         return new org.gtk.graphene.Point(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves the color stops in the gradient.
+     */
+    public PointerIterator<ColorStop> getColorStops(PointerLong nStops) {
+        var RESULT = gtk_h.gsk_radial_gradient_node_get_color_stops(handle(), nStops.handle());
+        return new PointerProxy<ColorStop>(RESULT, ColorStop.class).iterator();
     }
     
     /**

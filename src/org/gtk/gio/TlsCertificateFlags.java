@@ -13,7 +13,7 @@ package org.gtk.gio;
  * because this could potentially be the only error flag set even if
  * other problems exist with the certificate.
  */
-public class TlsCertificateFlags {
+public class TlsCertificateFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * The signing certificate authority is
@@ -62,38 +62,8 @@ public class TlsCertificateFlags {
      */
     public static final TlsCertificateFlags VALIDATE_ALL = new TlsCertificateFlags(127);
     
-    private int value;
-    
     public TlsCertificateFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TlsCertificateFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public TlsCertificateFlags combined(TlsCertificateFlags mask) {
-        return new TlsCertificateFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static TlsCertificateFlags combined(TlsCertificateFlags mask, TlsCertificateFlags... masks) {
-        int value = mask.getValue();
-        for (TlsCertificateFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new TlsCertificateFlags(value);
+        super(value);
     }
     
 }

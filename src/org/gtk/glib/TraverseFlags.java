@@ -4,7 +4,7 @@ package org.gtk.glib;
  * Specifies which nodes are visited during several of the tree
  * functions, including g_node_traverse() and g_node_find().
  */
-public class TraverseFlags {
+public class TraverseFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * only leaf nodes should be visited. This name has
@@ -40,38 +40,8 @@ public class TraverseFlags {
      */
     public static final TraverseFlags NON_LEAFS = new TraverseFlags(2);
     
-    private int value;
-    
     public TraverseFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TraverseFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public TraverseFlags combined(TraverseFlags mask) {
-        return new TraverseFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static TraverseFlags combined(TraverseFlags mask, TraverseFlags... masks) {
-        int value = mask.getValue();
-        for (TraverseFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new TraverseFlags(value);
+        super(value);
     }
     
 }

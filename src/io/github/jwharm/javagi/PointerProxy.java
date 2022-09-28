@@ -4,14 +4,14 @@ import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.ValueLayout;
 import java.lang.reflect.InvocationTargetException;
 
-public class PointerResource<T extends ResourceBase> extends Pointer {
+public class PointerProxy<T extends Proxy> extends Pointer<T> {
     
     private final Class<T> cls;
     
     /**
      * Create a pointer to an existing memory address.
      */
-    public PointerResource(MemoryAddress address, Class<T> cls) {
+    public PointerProxy(MemoryAddress address, Class<T> cls) {
         super(address);
         this.cls = cls;
     }

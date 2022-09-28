@@ -8,7 +8,7 @@ package org.gtk.glib;
  * If a {@link LogWriterFunc} ignores a log entry, it should return
  * {@link LogWriterOutput#HANDLED}.
  */
-public class LogWriterOutput {
+public class LogWriterOutput extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Log writer has handled the log entry.
@@ -20,26 +20,8 @@ public class LogWriterOutput {
      */
     public static final LogWriterOutput UNHANDLED = new LogWriterOutput(0);
     
-    private int value;
-    
     public LogWriterOutput(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(LogWriterOutput[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Flags to modify the format of the string returned by g_format_size_full().
  */
-public class FormatSizeFlags {
+public class FormatSizeFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * behave the same as g_format_size()
@@ -30,38 +30,8 @@ public class FormatSizeFlags {
      */
     public static final FormatSizeFlags BITS = new FormatSizeFlags(4);
     
-    private int value;
-    
     public FormatSizeFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FormatSizeFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FormatSizeFlags combined(FormatSizeFlags mask) {
-        return new FormatSizeFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static FormatSizeFlags combined(FormatSizeFlags mask, FormatSizeFlags... masks) {
-        int value = mask.getValue();
-        for (FormatSizeFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FormatSizeFlags(value);
+        super(value);
     }
     
 }

@@ -4,7 +4,7 @@ package org.gtk.gdk;
  * This enumeration describes how the red, green and blue components
  * of physical pixels on an output device are laid out.
  */
-public class SubpixelLayout {
+public class SubpixelLayout extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The layout is not known
@@ -36,26 +36,8 @@ public class SubpixelLayout {
      */
     public static final SubpixelLayout VERTICAL_BGR = new SubpixelLayout(5);
     
-    private int value;
-    
     public SubpixelLayout(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SubpixelLayout[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -11,7 +11,7 @@ package org.gtk.gio;
  * example, you may not request both {@link SubprocessFlags#STDOUT_PIPE} and
  * {@link SubprocessFlags#STDOUT_SILENCE}.
  */
-public class SubprocessFlags {
+public class SubprocessFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags.
@@ -79,38 +79,8 @@ public class SubprocessFlags {
      */
     public static final SubprocessFlags SEARCH_PATH_FROM_ENVP = new SubprocessFlags(256);
     
-    private int value;
-    
     public SubprocessFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SubprocessFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public SubprocessFlags combined(SubprocessFlags mask) {
-        return new SubprocessFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static SubprocessFlags combined(SubprocessFlags mask, SubprocessFlags... masks) {
-        int value = mask.getValue();
-        for (SubprocessFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new SubprocessFlags(value);
+        super(value);
     }
     
 }

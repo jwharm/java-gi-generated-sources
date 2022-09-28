@@ -3,7 +3,7 @@ package org.gnome.adw;
 /**
  * {@link Toast} behavior when another toast is already displayed.
  */
-public class ToastPriority {
+public class ToastPriority extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the toast will be queued if another toast is
@@ -17,26 +17,8 @@ public class ToastPriority {
      */
     public static final ToastPriority HIGH = new ToastPriority(1);
     
-    private int value;
-    
     public ToastPriority(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ToastPriority[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

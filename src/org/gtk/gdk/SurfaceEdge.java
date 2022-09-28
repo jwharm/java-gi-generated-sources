@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Determines a surface edge or corner.
  */
-public class SurfaceEdge {
+public class SurfaceEdge extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the top left corner.
@@ -45,26 +45,8 @@ public class SurfaceEdge {
      */
     public static final SurfaceEdge SOUTH_EAST = new SurfaceEdge(7);
     
-    private int value;
-    
     public SurfaceEdge(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SurfaceEdge[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

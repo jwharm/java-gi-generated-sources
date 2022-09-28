@@ -1,6 +1,6 @@
 package org.cairographics;
 
-public class Filter {
+public class Filter extends io.github.jwharm.javagi.Enumeration {
 
     public static final Filter FAST = new Filter(0);
     
@@ -14,26 +14,8 @@ public class Filter {
     
     public static final Filter GAUSSIAN = new Filter(5);
     
-    private int value;
-    
     public Filter(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Filter[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

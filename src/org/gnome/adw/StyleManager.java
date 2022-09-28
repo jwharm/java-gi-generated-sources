@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -41,7 +39,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      */
     public boolean getDark() {
         var RESULT = gtk_h.adw_style_manager_get_dark(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -60,7 +58,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      */
     public boolean getHighContrast() {
         var RESULT = gtk_h.adw_style_manager_get_high_contrast(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -68,7 +66,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      */
     public boolean getSystemSupportsColorSchemes() {
         var RESULT = gtk_h.adw_style_manager_get_system_supports_color_schemes(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

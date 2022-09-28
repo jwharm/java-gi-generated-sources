@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * The values of the GtkSpinType enumeration are used to specify the
  * change to make in gtk_spin_button_spin().
  */
-public class SpinType {
+public class SpinType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Increment by the adjustments step increment.
@@ -41,26 +41,8 @@ public class SpinType {
      */
     public static final SpinType USER_DEFINED = new SpinType(6);
     
-    private int value;
-    
     public SpinType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SpinType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

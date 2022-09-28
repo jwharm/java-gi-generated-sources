@@ -12,7 +12,7 @@ package org.gtk.gtk;
  * The Cancel button will only be shown if the page isn’t “committed”.
  * See gtk_assistant_commit() for details.
  */
-public class AssistantPageType {
+public class AssistantPageType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The page has regular contents. Both the
@@ -53,26 +53,8 @@ public class AssistantPageType {
      */
     public static final AssistantPageType CUSTOM = new AssistantPageType(5);
     
-    private int value;
-    
     public AssistantPageType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AssistantPageType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

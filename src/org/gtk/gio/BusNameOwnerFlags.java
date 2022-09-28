@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used in g_bus_own_name().
  */
-public class BusNameOwnerFlags {
+public class BusNameOwnerFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -27,38 +27,8 @@ public class BusNameOwnerFlags {
      */
     public static final BusNameOwnerFlags DO_NOT_QUEUE = new BusNameOwnerFlags(4);
     
-    private int value;
-    
     public BusNameOwnerFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BusNameOwnerFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public BusNameOwnerFlags combined(BusNameOwnerFlags mask) {
-        return new BusNameOwnerFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static BusNameOwnerFlags combined(BusNameOwnerFlags mask, BusNameOwnerFlags... masks) {
-        int value = mask.getValue();
-        for (BusNameOwnerFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new BusNameOwnerFlags(value);
+        super(value);
     }
     
 }

@@ -4,7 +4,7 @@ package org.gtk.gio;
  * {@link MountOperationResult} is returned as a result when a request for
  * information is send by the mounting operation.
  */
-public class MountOperationResult {
+public class MountOperationResult extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The request was fulfilled and the
@@ -24,26 +24,8 @@ public class MountOperationResult {
      */
     public static final MountOperationResult UNHANDLED = new MountOperationResult(2);
     
-    private int value;
-    
     public MountOperationResult(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MountOperationResult[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Scrolling types.
  */
-public class ScrollType {
+public class ScrollType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No scrolling.
@@ -85,26 +85,8 @@ public class ScrollType {
      */
     public static final ScrollType END = new ScrollType(15);
     
-    private int value;
-    
     public ScrollType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ScrollType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

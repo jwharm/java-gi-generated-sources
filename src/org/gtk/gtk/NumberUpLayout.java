@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Used to determine the layout of pages on a sheet when printing
  * multiple pages per sheet.
  */
-public class NumberUpLayout {
+public class NumberUpLayout extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * ![](layout-lrtb.png)
@@ -46,26 +46,8 @@ public class NumberUpLayout {
      */
     public static final NumberUpLayout BTRL = new NumberUpLayout(7);
     
-    private int value;
-    
     public NumberUpLayout(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(NumberUpLayout[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

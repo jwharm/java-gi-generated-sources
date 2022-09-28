@@ -5,7 +5,7 @@ package org.gtk.glib;
  * read with g_io_channel_get_flags(), but not changed with
  * g_io_channel_set_flags().
  */
-public class IOFlags {
+public class IOFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * turns on append mode, corresponds to {@code O_APPEND}
@@ -63,38 +63,8 @@ public class IOFlags {
      */
     public static final IOFlags SET_MASK = new IOFlags(3);
     
-    private int value;
-    
     public IOFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(IOFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public IOFlags combined(IOFlags mask) {
-        return new IOFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static IOFlags combined(IOFlags mask, IOFlags... masks) {
-        int value = mask.getValue();
-        for (IOFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new IOFlags(value);
+        super(value);
     }
     
 }

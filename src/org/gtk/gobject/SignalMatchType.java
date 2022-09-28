@@ -5,7 +5,7 @@ package org.gtk.gobject;
  * g_signal_handlers_unblock_matched() and g_signal_handlers_disconnect_matched()
  * match signals by.
  */
-public class SignalMatchType {
+public class SignalMatchType extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * The signal id must be equal.
@@ -37,38 +37,8 @@ public class SignalMatchType {
      */
     public static final SignalMatchType UNBLOCKED = new SignalMatchType(32);
     
-    private int value;
-    
     public SignalMatchType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SignalMatchType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public SignalMatchType combined(SignalMatchType mask) {
-        return new SignalMatchType(this.getValue() | mask.getValue());
-    }
-    
-    public static SignalMatchType combined(SignalMatchType mask, SignalMatchType... masks) {
-        int value = mask.getValue();
-        for (SignalMatchType arg : masks) {
-            value |= arg.getValue();
-        }
-        return new SignalMatchType(value);
+        super(value);
     }
     
 }

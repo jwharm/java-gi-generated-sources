@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -340,7 +338,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public boolean activate(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, CellRendererState flags, boolean editOnly) {
         var RESULT = gtk_h.gtk_cell_area_activate(handle(), context.handle(), widget.handle(), cellArea.handle(), flags.getValue(), editOnly ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -351,7 +349,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public boolean activateCell(Widget widget, CellRenderer renderer, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
         var RESULT = gtk_h.gtk_cell_area_activate_cell(handle(), widget.handle(), renderer.handle(), event.handle(), cellArea.handle(), flags.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -485,7 +483,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public boolean focus(DirectionType direction) {
         var RESULT = gtk_h.gtk_cell_area_focus(handle(), direction.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -496,10 +494,10 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
             gtk_h.gtk_cell_area_foreach(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbCellCallback",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -514,10 +512,10 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
             gtk_h.gtk_cell_area_foreach_alloc(handle(), context.handle(), widget.handle(), cellArea.handle(), backgroundArea.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbCellAllocCallback",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -680,7 +678,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public boolean hasRenderer(CellRenderer renderer) {
         var RESULT = gtk_h.gtk_cell_area_has_renderer(handle(), renderer.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -698,7 +696,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public boolean isActivatable() {
         var RESULT = gtk_h.gtk_cell_area_is_activatable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -707,7 +705,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public boolean isFocusSibling(CellRenderer renderer, CellRenderer sibling) {
         var RESULT = gtk_h.gtk_cell_area_is_focus_sibling(handle(), renderer.handle(), sibling.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -789,7 +787,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -798,7 +796,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     public static void __signalCellAreaAddEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress cellArea, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellArea.AddEditableHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), new CellEditable.CellEditableImpl(References.get(editable, false)), new org.gtk.gdk.Rectangle(References.get(cellArea, false)), path.getUtf8String(0));
     }
@@ -818,10 +816,10 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                 Interop.allocateNativeString("apply-attributes").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellArea.class, "__signalCellAreaApplyAttributes",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, boolean.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -829,10 +827,10 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    public static void __signalCellAreaApplyAttributes(MemoryAddress source, MemoryAddress model, MemoryAddress iter, boolean isExpander, boolean isExpanded, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalCellAreaApplyAttributes(MemoryAddress source, MemoryAddress model, MemoryAddress iter, int isExpander, int isExpanded, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellArea.ApplyAttributesHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellArea(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)), isExpander, isExpanded);
+        handler.signalReceived(new CellArea(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)), isExpander != 0, isExpanded != 0);
     }
     
     @FunctionalInterface
@@ -860,7 +858,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -869,7 +867,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     public static void __signalCellAreaFocusChanged(MemoryAddress source, MemoryAddress renderer, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellArea.FocusChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), path.getUtf8String(0));
     }
@@ -893,7 +891,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -902,7 +900,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     public static void __signalCellAreaRemoveEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellArea.RemoveEditableHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), new CellEditable.CellEditableImpl(References.get(editable, false)));
     }

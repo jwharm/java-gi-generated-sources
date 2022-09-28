@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,7 +12,7 @@ import java.lang.invoke.*;
  * {@code GtkOrientable} is more flexible in that it allows the orientation to be
  * changed at runtime, allowing the widgets to “flip”.
  */
-public interface Orientable extends io.github.jwharm.javagi.NativeAddress {
+public interface Orientable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Retrieves the orientation of the {@code orientable}.

@@ -4,7 +4,7 @@ package org.gtk.gio;
  * Used to select the type of data format to use for {@link ZlibDecompressor}
  * and {@link ZlibCompressor}.
  */
-public class ZlibCompressorFormat {
+public class ZlibCompressorFormat extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * deflate compression with zlib header
@@ -21,26 +21,8 @@ public class ZlibCompressorFormat {
      */
     public static final ZlibCompressorFormat RAW = new ZlibCompressorFormat(2);
     
-    private int value;
-    
     public ZlibCompressorFormat(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ZlibCompressorFormat[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Possible errors that can be returned by {@code GdkTexture} constructors.
  */
-public class TextureError {
+public class TextureError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Not enough memory to handle this image
@@ -26,26 +26,8 @@ public class TextureError {
      */
     public static final TextureError UNSUPPORTED_FORMAT = new TextureError(3);
     
-    private int value;
-    
     public TextureError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TextureError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

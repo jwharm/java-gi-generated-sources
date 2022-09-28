@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -217,7 +215,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public boolean getNumeric() {
         var RESULT = gtk_h.gtk_spin_button_get_numeric(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -234,7 +232,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public boolean getSnapToTicks() {
         var RESULT = gtk_h.gtk_spin_button_get_snap_to_ticks(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -270,7 +268,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public boolean getWrap() {
         var RESULT = gtk_h.gtk_spin_button_get_wrap(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -401,7 +399,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -410,7 +408,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     public static void __signalSpinButtonChangeValue(MemoryAddress source, int scroll, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SpinButton.ChangeValueHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SpinButton(References.get(source)), new ScrollType(scroll));
     }
@@ -439,7 +437,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -448,7 +446,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     public static void __signalSpinButtonInput(MemoryAddress source, double newValue, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SpinButton.InputHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SpinButton(References.get(source)), newValue);
     }
@@ -491,7 +489,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -500,7 +498,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     public static boolean __signalSpinButtonOutput(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SpinButton.OutputHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new SpinButton(References.get(source)));
     }
@@ -525,7 +523,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -534,7 +532,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     public static void __signalSpinButtonValueChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SpinButton.ValueChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SpinButton(References.get(source)));
     }
@@ -558,7 +556,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -567,7 +565,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     public static void __signalSpinButtonWrapped(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SpinButton.WrappedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SpinButton(References.get(source)));
     }

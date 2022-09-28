@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -48,7 +46,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean betterMatch(FontDescription oldMatch, FontDescription newMatch) {
         var RESULT = gtk_h.pango_font_description_better_match(handle(), oldMatch.handle(), newMatch.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -83,7 +81,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(FontDescription desc2) {
         var RESULT = gtk_h.pango_font_description_equal(handle(), desc2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -140,7 +138,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getSizeIsAbsolute() {
         var RESULT = gtk_h.pango_font_description_get_size_is_absolute(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -217,7 +215,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isCustom() {
         var RESULT = gtk_h.gtk_paper_size_is_custom(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -225,7 +223,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isEqual(PaperSize size2) {
         var RESULT = gtk_h.gtk_paper_size_is_equal(handle(), size2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -233,7 +231,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isIpp() {
         var RESULT = gtk_h.gtk_paper_size_is_ipp(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

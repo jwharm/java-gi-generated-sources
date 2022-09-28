@@ -8,7 +8,7 @@ package org.gtk.glib;
  * to check the scheme first, and use that to decide what flags to
  * parse it with.
  */
-public class UriFlags {
+public class UriFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -79,38 +79,8 @@ public class UriFlags {
      */
     public static final UriFlags SCHEME_NORMALIZE = new UriFlags(256);
     
-    private int value;
-    
     public UriFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UriFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public UriFlags combined(UriFlags mask) {
-        return new UriFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static UriFlags combined(UriFlags mask, UriFlags... masks) {
-        int value = mask.getValue();
-        for (UriFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new UriFlags(value);
+        super(value);
     }
     
 }

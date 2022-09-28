@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +52,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean parse(java.lang.String spec) {
         var RESULT = gtk_h.pango_color_parse(handle(), Interop.allocateNativeString(spec).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -76,7 +74,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean parseWithAlpha(PointerShort alpha, java.lang.String spec) {
         var RESULT = gtk_h.pango_color_parse_with_alpha(handle(), alpha.handle(), Interop.allocateNativeString(spec).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

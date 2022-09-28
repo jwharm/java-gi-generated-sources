@@ -1,6 +1,6 @@
 package org.cairographics;
 
-public class SurfaceType {
+public class SurfaceType extends io.github.jwharm.javagi.Enumeration {
 
     public static final SurfaceType IMAGE = new SurfaceType(0);
     
@@ -52,26 +52,8 @@ public class SurfaceType {
     
     public static final SurfaceType COGL = new SurfaceType(24);
     
-    private int value;
-    
     public SurfaceType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SurfaceType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

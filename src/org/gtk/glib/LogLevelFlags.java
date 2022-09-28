@@ -6,7 +6,7 @@ package org.gtk.glib;
  * It is possible to change how GLib treats messages of the various
  * levels using g_log_set_handler() and g_log_set_fatal_mask().
  */
-public class LogLevelFlags {
+public class LogLevelFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * internal flag
@@ -57,38 +57,8 @@ public class LogLevelFlags {
      */
     public static final LogLevelFlags LEVEL_MASK = new LogLevelFlags(-4);
     
-    private int value;
-    
     public LogLevelFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(LogLevelFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public LogLevelFlags combined(LogLevelFlags mask) {
-        return new LogLevelFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static LogLevelFlags combined(LogLevelFlags mask, LogLevelFlags... masks) {
-        int value = mask.getValue();
-        for (LogLevelFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new LogLevelFlags(value);
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -85,6 +83,14 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      */
     public void appendName(java.lang.String iconname) {
         gtk_h.g_themed_icon_append_name(handle(), Interop.allocateNativeString(iconname).handle());
+    }
+    
+    /**
+     * Gets the names of icons from within {@code icon}.
+     */
+    public PointerIterator<java.lang.String> getNames() {
+        var RESULT = gtk_h.g_themed_icon_get_names(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**

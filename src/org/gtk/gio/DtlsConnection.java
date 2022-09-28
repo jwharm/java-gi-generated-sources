@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +26,7 @@ import java.lang.invoke.*;
  * base socket, the {@link DtlsConnection} will not raise a {@link IOErrorEnum#NOT_CONNECTED}
  * error on further I/O.
  */
-public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
+public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Close the DTLS connection. This is equivalent to calling
@@ -57,7 +55,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -72,7 +70,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -88,7 +86,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -97,7 +95,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean emitAcceptCertificate(TlsCertificate peerCert, TlsCertificateFlags errors) {
         var RESULT = gtk_h.g_dtls_connection_emit_accept_certificate(handle(), peerCert.handle(), errors.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -126,11 +124,11 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getChannelBindingData(TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dtls_connection_get_channel_binding_data(handle(), type.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_get_channel_binding_data(handle(), type.getValue(), Interop.allocateNativeArray(data).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -219,7 +217,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getRequireCloseNotify() {
         var RESULT = gtk_h.g_dtls_connection_get_require_close_notify(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -256,7 +254,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -271,7 +269,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -287,7 +285,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -414,7 +412,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -429,7 +427,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -445,7 +443,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -507,7 +505,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -516,7 +514,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static boolean __signalDtlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DtlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new DtlsConnection.DtlsConnectionImpl(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
     }

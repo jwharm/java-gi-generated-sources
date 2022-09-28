@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -56,7 +54,7 @@ import java.lang.invoke.*;
  * To use a {@link DatagramBased} concurrently from multiple threads, you must
  * implement your own locking.
  */
-public interface DatagramBased extends io.github.jwharm.javagi.NativeAddress {
+public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Checks on the readiness of {@code datagram_based} to perform operations. The
@@ -115,7 +113,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

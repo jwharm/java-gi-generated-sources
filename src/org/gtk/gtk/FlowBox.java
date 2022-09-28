@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -115,7 +113,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(createWidgetFunc.hashCode(), createWidgetFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(createWidgetFunc.hashCode(), createWidgetFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -127,7 +125,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public boolean getActivateOnSingleClick() {
         var RESULT = gtk_h.gtk_flow_box_get_activate_on_single_click(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -161,7 +159,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public boolean getHomogeneous() {
         var RESULT = gtk_h.gtk_flow_box_get_homogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -289,7 +287,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -330,10 +328,10 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
             gtk_h.gtk_flow_box_set_filter_func(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbFlowBoxFilterFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(filterFunc.hashCode(), filterFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(filterFunc.hashCode(), filterFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -420,7 +418,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -480,7 +478,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -489,7 +487,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalFlowBoxActivateCursorChild(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBox.ActivateCursorChildHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FlowBox(References.get(source)));
     }
@@ -512,7 +510,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -521,7 +519,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalFlowBoxChildActivated(MemoryAddress source, MemoryAddress child, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBox.ChildActivatedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FlowBox(References.get(source)), new FlowBoxChild(References.get(child, false)));
     }
@@ -557,10 +555,10 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBox.class, "__signalFlowBoxMoveCursor",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -568,10 +566,10 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    public static boolean __signalFlowBoxMoveCursor(MemoryAddress source, int step, int count, boolean extend, boolean modify, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalFlowBoxMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new FlowBox(References.get(source)), new MovementStep(step), count, extend, modify);
+        return handler.signalReceived(new FlowBox(References.get(source)), new MovementStep(step), count, extend != 0, modify != 0);
     }
     
     @FunctionalInterface
@@ -597,7 +595,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -606,7 +604,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalFlowBoxSelectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBox.SelectAllHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FlowBox(References.get(source)));
     }
@@ -633,7 +631,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -642,7 +640,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalFlowBoxSelectedChildrenChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBox.SelectedChildrenChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FlowBox(References.get(source)));
     }
@@ -669,7 +667,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -678,7 +676,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalFlowBoxToggleCursorChild(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBox.ToggleCursorChildHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FlowBox(References.get(source)));
     }
@@ -706,7 +704,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -715,7 +713,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     public static void __signalFlowBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new FlowBox(References.get(source)));
     }

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -103,7 +101,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean backspace(TextIter iter, boolean interactive, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_backspace(handle(), iter.handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -229,7 +227,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean deleteInteractive(TextIter startIter, TextIter endIter, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_delete_interactive(handle(), startIter.handle(), endIter.handle(), defaultEditable ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -268,7 +266,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean deleteSelection(boolean interactive, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_delete_selection(handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -312,7 +310,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getCanRedo() {
         var RESULT = gtk_h.gtk_text_buffer_get_can_redo(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -320,7 +318,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getCanUndo() {
         var RESULT = gtk_h.gtk_text_buffer_get_can_undo(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -347,7 +345,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getEnableUndo() {
         var RESULT = gtk_h.gtk_text_buffer_get_enable_undo(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -369,7 +367,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getHasSelection() {
         var RESULT = gtk_h.gtk_text_buffer_get_has_selection(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -399,7 +397,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getIterAtLine(TextIter iter, int lineNumber) {
         var RESULT = gtk_h.gtk_text_buffer_get_iter_at_line(handle(), iter.handle(), lineNumber);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -414,7 +412,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getIterAtLineIndex(TextIter iter, int lineNumber, int byteIndex) {
         var RESULT = gtk_h.gtk_text_buffer_get_iter_at_line_index(handle(), iter.handle(), lineNumber, byteIndex);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -429,7 +427,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getIterAtLineOffset(TextIter iter, int lineNumber, int charOffset) {
         var RESULT = gtk_h.gtk_text_buffer_get_iter_at_line_offset(handle(), iter.handle(), lineNumber, charOffset);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -491,7 +489,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getModified() {
         var RESULT = gtk_h.gtk_text_buffer_get_modified(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -524,7 +522,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean getSelectionBounds(TextIter start, TextIter end) {
         var RESULT = gtk_h.gtk_text_buffer_get_selection_bounds(handle(), start.handle(), end.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -645,7 +643,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean insertInteractive(TextIter iter, java.lang.String text, int len, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_insert_interactive(handle(), iter.handle(), Interop.allocateNativeString(text).handle(), len, defaultEditable ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -660,7 +658,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean insertInteractiveAtCursor(java.lang.String text, int len, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_insert_interactive_at_cursor(handle(), Interop.allocateNativeString(text).handle(), len, defaultEditable ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -719,7 +717,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public boolean insertRangeInteractive(TextIter iter, TextIter start, TextIter end, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_insert_range_interactive(handle(), iter.handle(), start.handle(), end.handle(), defaultEditable ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -924,7 +922,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -933,7 +931,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferApplyTag(MemoryAddress source, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.ApplyTagHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new TextTag(References.get(tag, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
     }
@@ -965,7 +963,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -974,7 +972,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferBeginUserAction(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.BeginUserActionHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)));
     }
@@ -997,7 +995,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1006,7 +1004,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)));
     }
@@ -1039,7 +1037,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1048,7 +1046,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferDeleteRange(MemoryAddress source, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.DeleteRangeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
     }
@@ -1081,7 +1079,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1090,7 +1088,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferEndUserAction(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.EndUserActionHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)));
     }
@@ -1122,7 +1120,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1131,7 +1129,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferInsertChildAnchor(MemoryAddress source, MemoryAddress location, MemoryAddress anchor, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.InsertChildAnchorHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(location, false)), new TextChildAnchor(References.get(anchor, false)));
     }
@@ -1163,7 +1161,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1172,7 +1170,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferInsertPaintable(MemoryAddress source, MemoryAddress location, MemoryAddress paintable, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.InsertPaintableHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(location, false)), new org.gtk.gdk.Paintable.PaintableImpl(References.get(paintable, false)));
     }
@@ -1205,7 +1203,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1214,7 +1212,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferInsertText(MemoryAddress source, MemoryAddress location, MemoryAddress text, int len, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.InsertTextHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(location, false)), text.getUtf8String(0), len);
     }
@@ -1239,7 +1237,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1248,7 +1246,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferMarkDeleted(MemoryAddress source, MemoryAddress mark, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.MarkDeletedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new TextMark(References.get(mark, false)));
     }
@@ -1275,7 +1273,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1284,7 +1282,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferMarkSet(MemoryAddress source, MemoryAddress location, MemoryAddress mark, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.MarkSetHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(location, false)), new TextMark(References.get(mark, false)));
     }
@@ -1309,7 +1307,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1318,7 +1316,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferModifiedChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.ModifiedChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)));
     }
@@ -1345,7 +1343,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1354,7 +1352,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferPasteDone(MemoryAddress source, MemoryAddress clipboard, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.PasteDoneHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new org.gtk.gdk.Clipboard(References.get(clipboard, false)));
     }
@@ -1378,7 +1376,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1387,7 +1385,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferRedo(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.RedoHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)));
     }
@@ -1419,7 +1417,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1428,7 +1426,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferRemoveTag(MemoryAddress source, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.RemoveTagHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)), new TextTag(References.get(tag, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
     }
@@ -1453,7 +1451,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1462,7 +1460,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     public static void __signalTextBufferUndo(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextBuffer.UndoHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)));
     }

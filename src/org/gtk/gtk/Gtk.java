@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -225,7 +223,7 @@ public final class Gtk {
      */
     public static boolean acceleratorParse(java.lang.String accelerator, PointerInteger acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
         var RESULT = gtk_h.gtk_accelerator_parse(Interop.allocateNativeString(accelerator).handle(), acceleratorKey.handle(), new PointerInteger(acceleratorMods.getValue()).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -245,8 +243,8 @@ public final class Gtk {
      * {@code accelerator_codes} will be set to 0 (zero).
      */
     public static boolean acceleratorParseWithKeycode(java.lang.String accelerator, org.gtk.gdk.Display display, PointerInteger acceleratorKey, int[] acceleratorCodes, org.gtk.gdk.ModifierType acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_parse_with_keycode(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, acceleratorCodes)).handle(), new PointerInteger(acceleratorMods.getValue()).handle());
-        return (RESULT != 0);
+        var RESULT = gtk_h.gtk_accelerator_parse_with_keycode(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), Interop.allocateNativeArray(acceleratorCodes).handle(), new PointerInteger(acceleratorMods.getValue()).handle());
+        return RESULT != 0;
     }
     
     /**
@@ -259,7 +257,7 @@ public final class Gtk {
      */
     public static boolean acceleratorValid(int keyval, org.gtk.gdk.ModifierType modifiers) {
         var RESULT = gtk_h.gtk_accelerator_valid(keyval, modifiers.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static void accessiblePropertyInitValue(AccessibleProperty property, org.gtk.gobject.Value value) {
@@ -282,7 +280,7 @@ public final class Gtk {
      */
     public static boolean bitsetIterInitAt(BitsetIter iter, Bitset set, int target, PointerInteger value) {
         var RESULT = gtk_h.gtk_bitset_iter_init_at(iter.handle(), set.handle(), target, value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -293,7 +291,7 @@ public final class Gtk {
      */
     public static boolean bitsetIterInitFirst(BitsetIter iter, Bitset set, PointerInteger value) {
         var RESULT = gtk_h.gtk_bitset_iter_init_first(iter.handle(), set.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -304,7 +302,7 @@ public final class Gtk {
      */
     public static boolean bitsetIterInitLast(BitsetIter iter, Bitset set, PointerInteger value) {
         var RESULT = gtk_h.gtk_bitset_iter_init_last(iter.handle(), set.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static org.gtk.glib.Quark builderErrorQuark() {
@@ -393,7 +391,7 @@ public final class Gtk {
      */
     public static boolean editableDelegateGetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
         var RESULT = gtk_h.gtk_editable_delegate_get_property(object.handle(), propId, value.handle(), pspec.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -405,7 +403,7 @@ public final class Gtk {
      */
     public static boolean editableDelegateSetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
         var RESULT = gtk_h.gtk_editable_delegate_set_property(object.handle(), propId, value.handle(), pspec.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -440,10 +438,10 @@ public final class Gtk {
             gtk_h.gtk_enumerate_printers(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbPrinterFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol(), wait ? 1 : 0);
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -639,7 +637,7 @@ public final class Gtk {
      */
     public static boolean initCheck() {
         var RESULT = gtk_h.gtk_init_check();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -648,7 +646,7 @@ public final class Gtk {
      */
     public static boolean isInitialized() {
         var RESULT = gtk_h.gtk_is_initialized();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -733,7 +731,7 @@ public final class Gtk {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(doneCb.hashCode(), doneCb)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(doneCb.hashCode(), doneCb)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -920,7 +918,7 @@ public final class Gtk {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -936,7 +934,7 @@ public final class Gtk {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static void testAccessibleAssertionMessageRole(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, Accessible accessible, AccessibleRole expectedRole, AccessibleRole actualRole) {
@@ -948,7 +946,7 @@ public final class Gtk {
      */
     public static boolean testAccessibleHasProperty(Accessible accessible, AccessibleProperty property) {
         var RESULT = gtk_h.gtk_test_accessible_has_property(accessible.handle(), property.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -956,7 +954,7 @@ public final class Gtk {
      */
     public static boolean testAccessibleHasRelation(Accessible accessible, AccessibleRelation relation) {
         var RESULT = gtk_h.gtk_test_accessible_has_relation(accessible.handle(), relation.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -965,7 +963,7 @@ public final class Gtk {
      */
     public static boolean testAccessibleHasRole(Accessible accessible, AccessibleRole role) {
         var RESULT = gtk_h.gtk_test_accessible_has_role(accessible.handle(), role.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -973,7 +971,16 @@ public final class Gtk {
      */
     public static boolean testAccessibleHasState(Accessible accessible, AccessibleState state) {
         var RESULT = gtk_h.gtk_test_accessible_has_state(accessible.handle(), state.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Return the type ids that have been registered after
+     * calling gtk_test_register_all_types().
+     */
+    public static PointerIterator<Long> testListAllTypes(PointerInteger nTypes) {
+        var RESULT = gtk_h.gtk_test_list_all_types(nTypes.handle());
+        return new PointerLong(RESULT).iterator();
     }
     
     /**
@@ -1016,7 +1023,7 @@ public final class Gtk {
      */
     public static boolean treeGetRowDragData(org.gtk.gobject.Value value, TreeModel[] treeModel, TreePath[] path) {
         var RESULT = gtk_h.gtk_tree_get_row_drag_data(value.handle(), Interop.allocateNativeArray(treeModel).handle(), Interop.allocateNativeArray(path).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1043,7 +1050,7 @@ public final class Gtk {
      * model emitted the ::rows-reordered signal.
      */
     public static void treeRowReferenceReordered(org.gtk.gobject.Object proxy, TreePath path, TreeIter iter, int[] newOrder) {
-        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle());
+        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder).handle());
     }
     
     /**
@@ -1082,253 +1089,253 @@ public final class Gtk {
     }
     
     public static int __cbAssistantPageFunc(int currentPage, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (AssistantPageFunc) Interop.signalRegistry.get(hash);
         return handler.onAssistantPageFunc(currentPage);
     }
     
     public static boolean __cbEntryCompletionMatchFunc(MemoryAddress completion, MemoryAddress key, MemoryAddress iter, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (EntryCompletionMatchFunc) Interop.signalRegistry.get(hash);
         return handler.onEntryCompletionMatchFunc(new EntryCompletion(References.get(completion, false)), key.getUtf8String(0), new TreeIter(References.get(iter, false)));
     }
     
     public static void __cbMenuButtonCreatePopupFunc(MemoryAddress menuButton, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (MenuButtonCreatePopupFunc) Interop.signalRegistry.get(hash);
         handler.onMenuButtonCreatePopupFunc(new MenuButton(References.get(menuButton, false)));
     }
     
     public static void __cbExpressionNotify(MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ExpressionNotify) Interop.signalRegistry.get(hash);
         handler.onExpressionNotify();
     }
     
     public static Widget __cbFlowBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBoxCreateWidgetFunc) Interop.signalRegistry.get(hash);
         return handler.onFlowBoxCreateWidgetFunc(new org.gtk.gobject.Object(References.get(item, false)));
     }
     
     public static void __cbFlowBoxForeachFunc(MemoryAddress box, MemoryAddress child, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBoxForeachFunc) Interop.signalRegistry.get(hash);
         handler.onFlowBoxForeachFunc(new FlowBox(References.get(box, false)), new FlowBoxChild(References.get(child, false)));
     }
     
     public static java.lang.String __cbScaleFormatValueFunc(MemoryAddress scale, double value, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ScaleFormatValueFunc) Interop.signalRegistry.get(hash);
         return handler.onScaleFormatValueFunc(new Scale(References.get(scale, false)), value);
     }
     
     public static boolean __cbCellCallback(MemoryAddress renderer, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellCallback) Interop.signalRegistry.get(hash);
         return handler.onCellCallback(new CellRenderer(References.get(renderer, false)));
     }
     
     public static boolean __cbListBoxFilterFunc(MemoryAddress row, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBoxFilterFunc) Interop.signalRegistry.get(hash);
         return handler.onListBoxFilterFunc(new ListBoxRow(References.get(row, false)));
     }
     
     public static int __cbListBoxSortFunc(MemoryAddress row1, MemoryAddress row2, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBoxSortFunc) Interop.signalRegistry.get(hash);
         return handler.onListBoxSortFunc(new ListBoxRow(References.get(row1, false)), new ListBoxRow(References.get(row2, false)));
     }
     
     public static void __cbCellLayoutDataFunc(MemoryAddress cellLayout, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellLayoutDataFunc) Interop.signalRegistry.get(hash);
         handler.onCellLayoutDataFunc(new CellLayout.CellLayoutImpl(References.get(cellLayout, false)), new CellRenderer(References.get(cell, false)), new TreeModel.TreeModelImpl(References.get(treeModel, false)), new TreeIter(References.get(iter, false)));
     }
     
     public static void __cbListBoxForeachFunc(MemoryAddress box, MemoryAddress row, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBoxForeachFunc) Interop.signalRegistry.get(hash);
         handler.onListBoxForeachFunc(new ListBox(References.get(box, false)), new ListBoxRow(References.get(row, false)));
     }
     
     public static Widget __cbListBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBoxCreateWidgetFunc) Interop.signalRegistry.get(hash);
         return handler.onListBoxCreateWidgetFunc(new org.gtk.gobject.Object(References.get(item, false)));
     }
     
     public static void __cbTreeViewMappingFunc(MemoryAddress treeView, MemoryAddress path, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeViewMappingFunc) Interop.signalRegistry.get(hash);
         handler.onTreeViewMappingFunc(new TreeView(References.get(treeView, false)), new TreePath(References.get(path, false)));
     }
     
     public static boolean __cbTreeViewColumnDropFunc(MemoryAddress treeView, MemoryAddress column, MemoryAddress prevColumn, MemoryAddress nextColumn, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeViewColumnDropFunc) Interop.signalRegistry.get(hash);
         return handler.onTreeViewColumnDropFunc(new TreeView(References.get(treeView, false)), new TreeViewColumn(References.get(column, false)), new TreeViewColumn(References.get(prevColumn, false)), new TreeViewColumn(References.get(nextColumn, false)));
     }
     
     public static void __cbTreeSelectionForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeSelectionForeachFunc) Interop.signalRegistry.get(hash);
         handler.onTreeSelectionForeachFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
     }
     
     public static int __cbFlowBoxSortFunc(MemoryAddress child1, MemoryAddress child2, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBoxSortFunc) Interop.signalRegistry.get(hash);
         return handler.onFlowBoxSortFunc(new FlowBoxChild(References.get(child1, false)), new FlowBoxChild(References.get(child2, false)));
     }
     
     public static boolean __cbFontFilterFunc(MemoryAddress family, MemoryAddress face, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FontFilterFunc) Interop.signalRegistry.get(hash);
         return handler.onFontFilterFunc(new org.pango.FontFamily(References.get(family, false)), new org.pango.FontFace(References.get(face, false)));
     }
     
     public static boolean __cbTreeModelForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeModelForeachFunc) Interop.signalRegistry.get(hash);
         return handler.onTreeModelForeachFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
     }
     
     public static void __cbTextTagTableForeach(MemoryAddress tag, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextTagTableForeach) Interop.signalRegistry.get(hash);
         handler.onTextTagTableForeach(new TextTag(References.get(tag, false)));
     }
     
     public static void __cbPrintSettingsFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintSettingsFunc) Interop.signalRegistry.get(hash);
         handler.onPrintSettingsFunc(key.getUtf8String(0), value.getUtf8String(0));
     }
     
     public static void __cbTreeModelFilterModifyFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress value, int column, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeModelFilterModifyFunc) Interop.signalRegistry.get(hash);
         handler.onTreeModelFilterModifyFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)), new org.gtk.gobject.Value(References.get(value, false)), column);
     }
     
     public static boolean __cbTreeViewSearchEqualFunc(MemoryAddress model, int column, MemoryAddress key, MemoryAddress iter, MemoryAddress searchData) {
-        int hash = searchData.get(C_INT, 0);
+        int hash = searchData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeViewSearchEqualFunc) Interop.signalRegistry.get(hash);
         return handler.onTreeViewSearchEqualFunc(new TreeModel.TreeModelImpl(References.get(model, false)), column, key.getUtf8String(0), new TreeIter(References.get(iter, false)));
     }
     
     public static void __cbTreeCellDataFunc(MemoryAddress treeColumn, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeCellDataFunc) Interop.signalRegistry.get(hash);
         handler.onTreeCellDataFunc(new TreeViewColumn(References.get(treeColumn, false)), new CellRenderer(References.get(cell, false)), new TreeModel.TreeModelImpl(References.get(treeModel, false)), new TreeIter(References.get(iter, false)));
     }
     
     public static boolean __cbTreeModelFilterVisibleFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeModelFilterVisibleFunc) Interop.signalRegistry.get(hash);
         return handler.onTreeModelFilterVisibleFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
     }
     
     public static boolean __cbTextCharPredicate(int ch, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextCharPredicate) Interop.signalRegistry.get(hash);
         return handler.onTextCharPredicate(ch);
     }
     
     public static void __cbPageSetupDoneFunc(MemoryAddress pageSetup, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PageSetupDoneFunc) Interop.signalRegistry.get(hash);
         handler.onPageSetupDoneFunc(new PageSetup(References.get(pageSetup, false)));
     }
     
     public static void __cbIconViewForeachFunc(MemoryAddress iconView, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconViewForeachFunc) Interop.signalRegistry.get(hash);
         handler.onIconViewForeachFunc(new IconView(References.get(iconView, false)), new TreePath(References.get(path, false)));
     }
     
     public static org.gtk.gobject.Object __cbMapListModelMapFunc(MemoryAddress item, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (MapListModelMapFunc) Interop.signalRegistry.get(hash);
         return handler.onMapListModelMapFunc(new org.gtk.gobject.Object(References.get(item, true)));
     }
     
     public static boolean __cbFlowBoxFilterFunc(MemoryAddress child, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FlowBoxFilterFunc) Interop.signalRegistry.get(hash);
         return handler.onFlowBoxFilterFunc(new FlowBoxChild(References.get(child, false)));
     }
     
     public static boolean __cbCustomFilterFunc(MemoryAddress item, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (CustomFilterFunc) Interop.signalRegistry.get(hash);
         return handler.onCustomFilterFunc(new org.gtk.gobject.Object(References.get(item, false)));
     }
     
     public static void __cbPrintJobCompleteFunc(MemoryAddress printJob, MemoryAddress userData, MemoryAddress error) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintJobCompleteFunc) Interop.signalRegistry.get(hash);
         handler.onPrintJobCompleteFunc(new PrintJob(References.get(printJob, false)), new org.gtk.glib.Error(References.get(error, false)));
     }
     
     public static org.gtk.gio.ListModel __cbTreeListModelCreateModelFunc(MemoryAddress item, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeListModelCreateModelFunc) Interop.signalRegistry.get(hash);
         return handler.onTreeListModelCreateModelFunc(new org.gtk.gobject.Object(References.get(item, false)));
     }
     
-    public static boolean __cbTreeSelectionFunc(MemoryAddress selection, MemoryAddress model, MemoryAddress path, boolean pathCurrentlySelected, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __cbTreeSelectionFunc(MemoryAddress selection, MemoryAddress model, MemoryAddress path, int pathCurrentlySelected, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeSelectionFunc) Interop.signalRegistry.get(hash);
-        return handler.onTreeSelectionFunc(new TreeSelection(References.get(selection, false)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreePath(References.get(path, false)), pathCurrentlySelected);
+        return handler.onTreeSelectionFunc(new TreeSelection(References.get(selection, false)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreePath(References.get(path, false)), pathCurrentlySelected != 0);
     }
     
     public static void __cbDrawingAreaDrawFunc(MemoryAddress drawingArea, MemoryAddress cr, int width, int height, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DrawingAreaDrawFunc) Interop.signalRegistry.get(hash);
         handler.onDrawingAreaDrawFunc(new DrawingArea(References.get(drawingArea, false)), new org.cairographics.Context(References.get(cr, false)), width, height);
     }
     
     public static boolean __cbShortcutFunc(MemoryAddress widget, MemoryAddress args, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ShortcutFunc) Interop.signalRegistry.get(hash);
         return handler.onShortcutFunc(new Widget(References.get(widget, false)), new org.gtk.glib.Variant(References.get(args, false)));
     }
     
     public static void __cbListBoxUpdateHeaderFunc(MemoryAddress row, MemoryAddress before, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ListBoxUpdateHeaderFunc) Interop.signalRegistry.get(hash);
         handler.onListBoxUpdateHeaderFunc(new ListBoxRow(References.get(row, false)), new ListBoxRow(References.get(before, false)));
     }
     
     public static int __cbTreeIterCompareFunc(MemoryAddress model, MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeIterCompareFunc) Interop.signalRegistry.get(hash);
         return handler.onTreeIterCompareFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(a, false)), new TreeIter(References.get(b, false)));
     }
     
     public static boolean __cbCellAllocCallback(MemoryAddress renderer, MemoryAddress cellArea, MemoryAddress cellBackground, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellAllocCallback) Interop.signalRegistry.get(hash);
         return handler.onCellAllocCallback(new CellRenderer(References.get(renderer, false)), new org.gtk.gdk.Rectangle(References.get(cellArea, false)), new org.gtk.gdk.Rectangle(References.get(cellBackground, false)));
     }
     
     public static boolean __cbTickCallback(MemoryAddress widget, MemoryAddress frameClock, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TickCallback) Interop.signalRegistry.get(hash);
         return handler.onTickCallback(new Widget(References.get(widget, false)), new org.gtk.gdk.FrameClock(References.get(frameClock, false)));
     }
     
     public static boolean __cbPrinterFunc(MemoryAddress printer, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrinterFunc) Interop.signalRegistry.get(hash);
         return handler.onPrinterFunc(new Printer(References.get(printer, false)));
     }
     
     public static boolean __cbTreeViewRowSeparatorFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeViewRowSeparatorFunc) Interop.signalRegistry.get(hash);
         return handler.onTreeViewRowSeparatorFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
     }

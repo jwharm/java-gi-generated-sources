@@ -87,6 +87,62 @@ public class Interop {
         return new MemorySegmentReference(memorySegment);
     }
 
+    public static MemorySegmentReference allocateNativeArray(boolean[] array) {
+        int[] intArray = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            intArray[i] = array[i] ? 1 : 0;
+        }
+        return allocateNativeArray(intArray);
+    }
+
+    public static MemorySegmentReference allocateNativeArray(byte[] array) {
+        if (!initialized) {
+            initialize();
+        }
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return new MemorySegmentReference(
+                allocator.allocateArray(ValueLayout.JAVA_BYTE, array)
+        );
+    }
+
+    public static MemorySegmentReference allocateNativeArray(char[] array) {
+        if (!initialized) {
+            initialize();
+        }
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return new MemorySegmentReference(
+                allocator.allocateArray(ValueLayout.JAVA_CHAR, array)
+        );
+    }
+
+    public static MemorySegmentReference allocateNativeArray(double[] array) {
+        if (!initialized) {
+            initialize();
+        }
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return new MemorySegmentReference(
+                allocator.allocateArray(ValueLayout.JAVA_DOUBLE, array)
+        );
+    }
+
+    public static MemorySegmentReference allocateNativeArray(float[] array) {
+        if (!initialized) {
+            initialize();
+        }
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return new MemorySegmentReference(
+                allocator.allocateArray(ValueLayout.JAVA_FLOAT, array)
+        );
+    }
+
     public static MemorySegmentReference allocateNativeArray(int[] array) {
         if (!initialized) {
             initialize();
@@ -111,12 +167,16 @@ public class Interop {
         );
     }
 
-    public static MemorySegmentReference allocateNativeArray(boolean[] array) {
-        int[] intArray = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            intArray[i] = array[i] ? 1 : 0;
+    public static MemorySegmentReference allocateNativeArray(short[] array) {
+        if (!initialized) {
+            initialize();
         }
-        return allocateNativeArray(intArray);
+        if (array == null || array.length == 0) {
+            return null;
+        }
+        return new MemorySegmentReference(
+                allocator.allocateArray(ValueLayout.JAVA_SHORT, array)
+        );
     }
 
     public static MemorySegmentReference allocateNativeArray(org.gtk.gobject.Value[] array) {
@@ -139,7 +199,7 @@ public class Interop {
     /**
      * Allocates and initializes a NULL-terminated array of pointers (from NativeAddress instances).
      */
-    public static MemorySegmentReference allocateNativeArray(NativeAddress[] array) {
+    public static MemorySegmentReference allocateNativeArray(Proxy[] array) {
         if (!initialized) {
             initialize();
         }

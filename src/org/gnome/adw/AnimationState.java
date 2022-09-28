@@ -7,7 +7,7 @@ package org.gnome.adw;
  * {@code Animation.resume},
  * {@code Animation.skip}.
  */
-public class AnimationState {
+public class AnimationState extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The animation hasn't started yet.
@@ -29,26 +29,8 @@ public class AnimationState {
      */
     public static final AnimationState FINISHED = new AnimationState(3);
     
-    private int value;
-    
     public AnimationState(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AnimationState[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

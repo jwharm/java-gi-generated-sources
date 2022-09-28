@@ -21,7 +21,7 @@ package org.gtk.gtk;
  * This enumeration may be extended in the future; input methods should
  * interpret unknown values as “free form”.
  */
-public class InputPurpose {
+public class InputPurpose extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Allow any character
@@ -78,26 +78,8 @@ public class InputPurpose {
      */
     public static final InputPurpose TERMINAL = new InputPurpose(10);
     
-    private int value;
-    
     public InputPurpose(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(InputPurpose[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

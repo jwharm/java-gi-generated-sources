@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,7 +12,7 @@ import java.lang.invoke.*;
  * to edit the contents of a {@code GtkTreeView} cell. It provides a way to specify how
  * temporary widgets should be configured for editing, get the new value, etc.
  */
-public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
+public interface CellEditable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Emits the {@code GtkCellEditable::editing-done} signal.
@@ -74,7 +72,7 @@ public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -83,7 +81,7 @@ public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalCellEditableEditingDone(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellEditable.EditingDoneHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
     }
@@ -117,7 +115,7 @@ public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -126,7 +124,7 @@ public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalCellEditableRemoveWidget(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CellEditable.RemoveWidgetHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
     }

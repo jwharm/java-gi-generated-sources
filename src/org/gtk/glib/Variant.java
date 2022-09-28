@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -308,7 +306,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Reference constructNewBytestring(byte[] string) {
-        Reference RESULT = References.get(gtk_h.g_variant_new_bytestring(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)).handle()), false);
+        Reference RESULT = References.get(gtk_h.g_variant_new_bytestring(Interop.allocateNativeArray(string).handle()), false);
         return RESULT;
     }
     
@@ -412,7 +410,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Reference constructNewFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, java.lang.foreign.MemoryAddress userData) {
-        Reference RESULT = References.get(gtk_h.g_variant_new_from_data(type.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, trusted ? 1 : 0, 
+        Reference RESULT = References.get(gtk_h.g_variant_new_from_data(type.handle(), Interop.allocateNativeArray(data).handle(), size, trusted ? 1 : 0, 
                     Interop.cbDestroyNotifySymbol(), userData), false);
         return RESULT;
     }
@@ -810,7 +808,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean checkFormatString(java.lang.String formatString, boolean copyOnly) {
         var RESULT = gtk_h.g_variant_check_format_string(handle(), Interop.allocateNativeString(formatString).handle(), copyOnly ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -848,6 +846,51 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Similar to g_variant_get_bytestring() except that instead of
+     * returning a constant string, the string is duplicated.
+     * <p>
+     * The return value must be freed using g_free().
+     */
+    public PointerIterator<Byte> dupBytestring(PointerLong length) {
+        var RESULT = gtk_h.g_variant_dup_bytestring(handle(), length.handle());
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
+     * Gets the contents of an array of array of bytes {@link Variant}.  This call
+     * makes a deep copy; the return result should be released with
+     * g_strfreev().
+     * <p>
+     * If {@code length} is non-{@code null} then the number of elements in the result is
+     * stored there.  In any case, the resulting array will be
+     * {@code null}-terminated.
+     * <p>
+     * For an empty array, {@code length} will be set to 0 and a pointer to a
+     * {@code null} pointer will be returned.
+     */
+    public PointerIterator<java.lang.String> dupBytestringArray(PointerLong length) {
+        var RESULT = gtk_h.g_variant_dup_bytestring_array(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Gets the contents of an array of object paths {@link Variant}.  This call
+     * makes a deep copy; the return result should be released with
+     * g_strfreev().
+     * <p>
+     * If {@code length} is non-{@code null} then the number of elements in the result
+     * is stored there.  In any case, the resulting array will be
+     * {@code null}-terminated.
+     * <p>
+     * For an empty array, {@code length} will be set to 0 and a pointer to a
+     * {@code null} pointer will be returned.
+     */
+    public PointerIterator<java.lang.String> dupObjv(PointerLong length) {
+        var RESULT = gtk_h.g_variant_dup_objv(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Similar to g_variant_get_string() except that instead of returning
      * a constant string, the string is duplicated.
      * <p>
@@ -861,6 +904,23 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Gets the contents of an array of strings {@link Variant}.  This call
+     * makes a deep copy; the return result should be released with
+     * g_strfreev().
+     * <p>
+     * If {@code length} is non-{@code null} then the number of elements in the result
+     * is stored there.  In any case, the resulting array will be
+     * {@code null}-terminated.
+     * <p>
+     * For an empty array, {@code length} will be set to 0 and a pointer to a
+     * {@code null} pointer will be returned.
+     */
+    public PointerIterator<java.lang.String> dupStrv(PointerLong length) {
+        var RESULT = gtk_h.g_variant_dup_strv(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Checks if {@code one} and {@code two} have the same type and value.
      * <p>
      * The types of {@code one} and {@code two} are {@code gconstpointer} only to allow use of
@@ -868,7 +928,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(Variant two) {
         var RESULT = gtk_h.g_variant_equal(handle(), two.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -879,7 +939,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getBoolean() {
         var RESULT = gtk_h.g_variant_get_boolean(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -891,6 +951,48 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public byte getByte() {
         var RESULT = gtk_h.g_variant_get_byte(handle());
         return RESULT;
+    }
+    
+    /**
+     * Returns the string value of a {@link Variant} instance with an
+     * array-of-bytes type.  The string has no particular encoding.
+     * <p>
+     * If the array does not end with a nul terminator character, the empty
+     * string is returned.  For this reason, you can always trust that a
+     * non-{@code null} nul-terminated string will be returned by this function.
+     * <p>
+     * If the array contains a nul terminator character somewhere other than
+     * the last byte then the returned string is the string, up to the first
+     * such nul character.
+     * <p>
+     * g_variant_get_fixed_array() should be used instead if the array contains
+     * arbitrary data that could not be nul-terminated or could contain nul bytes.
+     * <p>
+     * It is an error to call this function with a {@code value} that is not an
+     * array of bytes.
+     * <p>
+     * The return value remains valid as long as {@code value} exists.
+     */
+    public PointerIterator<Byte> getBytestring() {
+        var RESULT = gtk_h.g_variant_get_bytestring(handle());
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
+     * Gets the contents of an array of array of bytes {@link Variant}.  This call
+     * makes a shallow copy; the return result should be released with
+     * g_free(), but the individual strings must not be modified.
+     * <p>
+     * If {@code length} is non-{@code null} then the number of elements in the result is
+     * stored there.  In any case, the resulting array will be
+     * {@code null}-terminated.
+     * <p>
+     * For an empty array, {@code length} will be set to 0 and a pointer to a
+     * {@code null} pointer will be returned.
+     */
+    public PointerIterator<java.lang.String> getBytestringArray(PointerLong length) {
+        var RESULT = gtk_h.g_variant_get_bytestring_array(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -975,6 +1077,41 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public double getDouble() {
         var RESULT = gtk_h.g_variant_get_double(handle());
         return RESULT;
+    }
+    
+    /**
+     * Provides access to the serialized data for an array of fixed-sized
+     * items.
+     * <p>
+     * {@code value} must be an array with fixed-sized elements.  Numeric types are
+     * fixed-size, as are tuples containing only other fixed-sized types.
+     * <p>
+     * {@code element_size} must be the size of a single element in the array,
+     * as given by the section on
+     * [serialized data memory][gvariant-serialized-data-memory].
+     * <p>
+     * In particular, arrays of these fixed-sized types can be interpreted
+     * as an array of the given C type, with {@code element_size} set to the size
+     * the appropriate type:
+     * <ul>
+     * <li>{@code G_VARIANT_TYPE_INT16} (etc.): {@code gint16} (etc.)
+     * <li>{@code G_VARIANT_TYPE_BOOLEAN}: {@code guchar} (not {@code gboolean}!)
+     * <li>{@code G_VARIANT_TYPE_BYTE}: {@code guint8}
+     * <li>{@code G_VARIANT_TYPE_HANDLE}: {@code guint32}
+     * <li>{@code G_VARIANT_TYPE_DOUBLE}: {@code gdouble}
+     * </ul>
+     * <p>
+     * For example, if calling this function for an array of 32-bit integers,
+     * you might say {@code sizeof(gint32)}. This value isn't used except for the purpose
+     * of a double-check that the form of the serialized data matches the caller's
+     * expectation.
+     * <p>
+     * {@code n_elements}, which must be non-{@code null}, is set equal to the number of
+     * items in the array.
+     */
+    public PointerIterator<java.lang.foreign.MemoryAddress> getFixedArray(PointerLong nElements, long elementSize) {
+        var RESULT = gtk_h.g_variant_get_fixed_array(handle(), nElements.handle(), elementSize);
+        return new PointerAddress(RESULT).iterator();
     }
     
     /**
@@ -1065,6 +1202,23 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Gets the contents of an array of object paths {@link Variant}.  This call
+     * makes a shallow copy; the return result should be released with
+     * g_free(), but the individual strings must not be modified.
+     * <p>
+     * If {@code length} is non-{@code null} then the number of elements in the result
+     * is stored there.  In any case, the resulting array will be
+     * {@code null}-terminated.
+     * <p>
+     * For an empty array, {@code length} will be set to 0 and a pointer to a
+     * {@code null} pointer will be returned.
+     */
+    public PointerIterator<java.lang.String> getObjv(PointerLong length) {
+        var RESULT = gtk_h.g_variant_get_objv(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Determines the number of bytes that would be required to store {@code value}
      * with g_variant_store().
      * <p>
@@ -1105,6 +1259,23 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String getString(PointerLong length) {
         var RESULT = gtk_h.g_variant_get_string(handle(), length.handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the contents of an array of strings {@link Variant}.  This call
+     * makes a shallow copy; the return result should be released with
+     * g_free(), but the individual strings must not be modified.
+     * <p>
+     * If {@code length} is non-{@code null} then the number of elements in the result
+     * is stored there.  In any case, the resulting array will be
+     * {@code null}-terminated.
+     * <p>
+     * For an empty array, {@code length} will be set to 0 and a pointer to a
+     * {@code null} pointer will be returned.
+     */
+    public PointerIterator<java.lang.String> getStrv(PointerLong length) {
+        var RESULT = gtk_h.g_variant_get_strv(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -1221,7 +1392,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isContainer() {
         var RESULT = gtk_h.g_variant_is_container(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1237,7 +1408,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isFloating() {
         var RESULT = gtk_h.g_variant_is_floating(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1257,7 +1428,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isNormalForm() {
         var RESULT = gtk_h.g_variant_is_normal_form(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1265,7 +1436,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isOfType(VariantType type) {
         var RESULT = gtk_h.g_variant_is_of_type(handle(), type.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1467,7 +1638,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean isObjectPath(java.lang.String string) {
         var RESULT = gtk_h.g_variant_is_object_path(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1480,7 +1651,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean isSignature(java.lang.String string) {
         var RESULT = gtk_h.g_variant_is_signature(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

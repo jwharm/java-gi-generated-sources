@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -406,7 +404,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean activate() {
         var RESULT = gtk_h.gtk_widget_activate(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -423,7 +421,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean activateActionVariant(java.lang.String name, org.gtk.glib.Variant args) {
         var RESULT = gtk_h.gtk_widget_activate_action_variant(handle(), Interop.allocateNativeString(name).handle(), args.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -497,10 +495,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             var RESULT = gtk_h.gtk_widget_add_tick_callback(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTickCallback",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -548,7 +546,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean childFocus(DirectionType direction) {
         var RESULT = gtk_h.gtk_widget_child_focus(handle(), direction.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -565,7 +563,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean computeBounds(Widget target, org.gtk.graphene.Rect outBounds) {
         var RESULT = gtk_h.gtk_widget_compute_bounds(handle(), target.handle(), outBounds.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -585,7 +583,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean computeExpand(Orientation orientation) {
         var RESULT = gtk_h.gtk_widget_compute_expand(handle(), orientation.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -597,7 +595,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean computePoint(Widget target, org.gtk.graphene.Point point, org.gtk.graphene.Point outPoint) {
         var RESULT = gtk_h.gtk_widget_compute_point(handle(), target.handle(), point.handle(), outPoint.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -610,7 +608,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean computeTransform(Widget target, org.gtk.graphene.Matrix outTransform) {
         var RESULT = gtk_h.gtk_widget_compute_transform(handle(), target.handle(), outTransform.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -621,7 +619,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean contains(double x, double y) {
         var RESULT = gtk_h.gtk_widget_contains(handle(), x, y);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -656,7 +654,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean dragCheckThreshold(int startX, int startY, int currentX, int currentY) {
         var RESULT = gtk_h.gtk_drag_check_threshold(handle(), startX, startY, currentX, currentY);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -746,7 +744,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getCanFocus() {
         var RESULT = gtk_h.gtk_widget_get_can_focus(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -754,7 +752,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getCanTarget() {
         var RESULT = gtk_h.gtk_widget_get_can_target(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -768,7 +766,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getChildVisible() {
         var RESULT = gtk_h.gtk_widget_get_child_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -783,6 +781,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public org.gtk.gdk.Clipboard getClipboard() {
         var RESULT = gtk_h.gtk_widget_get_clipboard(handle());
         return new org.gtk.gdk.Clipboard(References.get(RESULT, false));
+    }
+    
+    /**
+     * Returns the list of style classes applied to {@code widget}.
+     */
+    public PointerIterator<java.lang.String> getCssClasses() {
+        var RESULT = gtk_h.gtk_widget_get_css_classes(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -855,7 +861,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getFocusOnClick() {
         var RESULT = gtk_h.gtk_widget_get_focus_on_click(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -865,7 +871,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getFocusable() {
         var RESULT = gtk_h.gtk_widget_get_focusable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -935,7 +941,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getHasTooltip() {
         var RESULT = gtk_h.gtk_widget_get_has_tooltip(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -972,7 +978,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getHexpand() {
         var RESULT = gtk_h.gtk_widget_get_hexpand(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -989,7 +995,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getHexpandSet() {
         var RESULT = gtk_h.gtk_widget_get_hexpand_set(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1017,7 +1023,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getMapped() {
         var RESULT = gtk_h.gtk_widget_get_mapped(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1176,7 +1182,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getRealized() {
         var RESULT = gtk_h.gtk_widget_get_realized(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1188,7 +1194,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getReceivesDefault() {
         var RESULT = gtk_h.gtk_widget_get_receives_default(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1244,7 +1250,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getSensitive() {
         var RESULT = gtk_h.gtk_widget_get_sensitive(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1375,7 +1381,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getVexpand() {
         var RESULT = gtk_h.gtk_widget_get_vexpand(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1386,7 +1392,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getVexpandSet() {
         var RESULT = gtk_h.gtk_widget_get_vexpand_set(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1403,7 +1409,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean getVisible() {
         var RESULT = gtk_h.gtk_widget_get_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1432,7 +1438,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean grabFocus() {
         var RESULT = gtk_h.gtk_widget_grab_focus(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1440,7 +1446,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean hasCssClass(java.lang.String cssClass) {
         var RESULT = gtk_h.gtk_widget_has_css_class(handle(), Interop.allocateNativeString(cssClass).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1449,7 +1455,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean hasDefault() {
         var RESULT = gtk_h.gtk_widget_has_default(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1461,7 +1467,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean hasFocus() {
         var RESULT = gtk_h.gtk_widget_has_focus(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1478,7 +1484,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean hasVisibleFocus() {
         var RESULT = gtk_h.gtk_widget_has_visible_focus(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1498,7 +1504,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean inDestruction() {
         var RESULT = gtk_h.gtk_widget_in_destruction(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1593,7 +1599,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean isAncestor(Widget ancestor) {
         var RESULT = gtk_h.gtk_widget_is_ancestor(handle(), ancestor.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1603,7 +1609,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean isDrawable() {
         var RESULT = gtk_h.gtk_widget_is_drawable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1617,7 +1623,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean isFocus() {
         var RESULT = gtk_h.gtk_widget_is_focus(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1628,7 +1634,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean isSensitive() {
         var RESULT = gtk_h.gtk_widget_is_sensitive(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1642,7 +1648,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean isVisible() {
         var RESULT = gtk_h.gtk_widget_is_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1676,7 +1682,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean keynavFailed(DirectionType direction) {
         var RESULT = gtk_h.gtk_widget_keynav_failed(handle(), direction.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1727,7 +1733,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean mnemonicActivate(boolean groupCycling) {
         var RESULT = gtk_h.gtk_widget_mnemonic_activate(handle(), groupCycling ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2395,7 +2401,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean shouldLayout() {
         var RESULT = gtk_h.gtk_widget_should_layout(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2453,7 +2459,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public boolean translateCoordinates(Widget destWidget, double srcX, double srcY, PointerDouble destX, PointerDouble destY) {
         var RESULT = gtk_h.gtk_widget_translate_coordinates(handle(), destWidget.handle(), srcX, srcY, destX.handle(), destY.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2546,7 +2552,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2555,7 +2561,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetDestroy(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.DestroyHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)));
     }
@@ -2578,7 +2584,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2587,7 +2593,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetDirectionChanged(MemoryAddress source, int previousDirection, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.DirectionChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)), new TextDirection(previousDirection));
     }
@@ -2610,7 +2616,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2619,7 +2625,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetHide(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.HideHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)));
     }
@@ -2644,7 +2650,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2653,7 +2659,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static boolean __signalWidgetKeynavFailed(MemoryAddress source, int direction, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.KeynavFailedHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
     }
@@ -2684,7 +2690,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2693,7 +2699,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetMap(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.MapHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)));
     }
@@ -2716,10 +2722,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 Interop.allocateNativeString("mnemonic-activate").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetMnemonicActivate",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2727,10 +2733,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         }
     }
     
-    public static boolean __signalWidgetMnemonicActivate(MemoryAddress source, boolean groupCycling, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalWidgetMnemonicActivate(MemoryAddress source, int groupCycling, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.MnemonicActivateHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Widget(References.get(source)), groupCycling);
+        return handler.signalReceived(new Widget(References.get(source)), groupCycling != 0);
     }
     
     @FunctionalInterface
@@ -2751,7 +2757,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2760,7 +2766,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetMoveFocus(MemoryAddress source, int direction, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.MoveFocusHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
     }
@@ -2793,10 +2799,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 Interop.allocateNativeString("query-tooltip").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetQueryTooltip",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2804,10 +2810,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         }
     }
     
-    public static boolean __signalWidgetQueryTooltip(MemoryAddress source, int x, int y, boolean keyboardMode, MemoryAddress tooltip, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalWidgetQueryTooltip(MemoryAddress source, int x, int y, int keyboardMode, MemoryAddress tooltip, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.QueryTooltipHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Widget(References.get(source)), x, y, keyboardMode, new Tooltip(References.get(tooltip, false)));
+        return handler.signalReceived(new Widget(References.get(source)), x, y, keyboardMode != 0, new Tooltip(References.get(tooltip, false)));
     }
     
     @FunctionalInterface
@@ -2831,7 +2837,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2840,7 +2846,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetRealize(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.RealizeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)));
     }
@@ -2863,7 +2869,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2872,7 +2878,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetShow(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.ShowHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)));
     }
@@ -2897,7 +2903,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2906,7 +2912,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetStateFlagsChanged(MemoryAddress source, int flags, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.StateFlagsChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)), new StateFlags(flags));
     }
@@ -2935,7 +2941,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2944,7 +2950,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetUnmap(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.UnmapHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)));
     }
@@ -2970,7 +2976,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -2979,7 +2985,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     public static void __signalWidgetUnrealize(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Widget.UnrealizeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)));
     }

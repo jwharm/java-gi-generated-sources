@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -57,7 +55,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      */
     public boolean getIncremental() {
         var RESULT = gtk_h.gtk_filter_list_model_get_incremental(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

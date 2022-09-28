@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The widget attributes that can be used when creating a {@link Constraint}.
  */
-public class ConstraintAttribute {
+public class ConstraintAttribute extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No attribute, used for constant
@@ -74,26 +74,8 @@ public class ConstraintAttribute {
      */
     public static final ConstraintAttribute BASELINE = new ConstraintAttribute(11);
     
-    private int value;
-    
     public ConstraintAttribute(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ConstraintAttribute[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

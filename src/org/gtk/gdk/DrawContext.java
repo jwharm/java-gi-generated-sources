@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -113,7 +111,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public boolean isInFrame() {
         var RESULT = gtk_h.gdk_draw_context_is_in_frame(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

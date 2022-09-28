@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Specifies the type of the event.
  */
-public class EventType {
+public class EventType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the window manager has requested that the toplevel surface be
@@ -163,26 +163,8 @@ public class EventType {
      */
     public static final EventType EVENT_LAST = new EventType(29);
     
-    private int value;
-    
     public EventType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(EventType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

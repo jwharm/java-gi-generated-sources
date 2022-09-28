@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -77,7 +75,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean guessCanEject() {
         var RESULT = gtk_h.g_unix_mount_point_guess_can_eject(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -110,7 +108,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isLoopback() {
         var RESULT = gtk_h.g_unix_mount_point_is_loopback(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -118,7 +116,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isReadonly() {
         var RESULT = gtk_h.g_unix_mount_point_is_readonly(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -126,7 +124,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isUserMountable() {
         var RESULT = gtk_h.g_unix_mount_point_is_user_mountable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

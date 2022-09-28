@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -113,7 +111,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public boolean getAttributeBoolean(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_boolean(handle(), Interop.allocateNativeString(attribute).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -123,6 +121,14 @@ public class FileInfo extends org.gtk.gobject.Object {
     public java.lang.String getAttributeByteString(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_byte_string(handle(), Interop.allocateNativeString(attribute).handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the attribute type, value and status for an attribute key.
+     */
+    public boolean getAttributeData(java.lang.String attribute, FileAttributeType type, java.lang.foreign.MemoryAddress valuePp, FileAttributeStatus status) {
+        var RESULT = gtk_h.g_file_info_get_attribute_data(handle(), Interop.allocateNativeString(attribute).handle(), new PointerInteger(type.getValue()).handle(), valuePp, new PointerInteger(status.getValue()).handle());
+        return RESULT != 0;
     }
     
     /**
@@ -169,6 +175,15 @@ public class FileInfo extends org.gtk.gobject.Object {
     public java.lang.String getAttributeString(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_string(handle(), Interop.allocateNativeString(attribute).handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the value of a stringv attribute. If the attribute does
+     * not contain a stringv, {@code null} will be returned.
+     */
+    public PointerIterator<java.lang.String> getAttributeStringv(java.lang.String attribute) {
+        var RESULT = gtk_h.g_file_info_get_attribute_stringv(handle(), Interop.allocateNativeString(attribute).handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -277,7 +292,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public boolean getIsBackup() {
         var RESULT = gtk_h.g_file_info_get_is_backup(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -285,7 +300,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public boolean getIsHidden() {
         var RESULT = gtk_h.g_file_info_get_is_hidden(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -293,7 +308,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public boolean getIsSymlink() {
         var RESULT = gtk_h.g_file_info_get_is_symlink(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -357,7 +372,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public boolean hasAttribute(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_has_attribute(handle(), Interop.allocateNativeString(attribute).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -366,7 +381,15 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public boolean hasNamespace(java.lang.String nameSpace) {
         var RESULT = gtk_h.g_file_info_has_namespace(handle(), Interop.allocateNativeString(nameSpace).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Lists the file info structure's attributes.
+     */
+    public PointerIterator<java.lang.String> listAttributes(java.lang.String nameSpace) {
+        var RESULT = gtk_h.g_file_info_list_attributes(handle(), Interop.allocateNativeString(nameSpace).handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -450,7 +473,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public boolean setAttributeStatus(java.lang.String attribute, FileAttributeStatus status) {
         var RESULT = gtk_h.g_file_info_set_attribute_status(handle(), Interop.allocateNativeString(attribute).handle(), status.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

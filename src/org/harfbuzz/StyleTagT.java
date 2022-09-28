@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * Defined by <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg">OpenType Design-Variation Axis Tag Registry</a>.
  */
-public class StyleTagT {
+public class StyleTagT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Used to vary between non-italic and italic.
@@ -48,26 +48,8 @@ public class StyleTagT {
      */
     public static final StyleTagT WEIGHT = new StyleTagT(2003265652);
     
-    private int value;
-    
     public StyleTagT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(StyleTagT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

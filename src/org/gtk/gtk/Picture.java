@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -174,7 +172,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      */
     public boolean getCanShrink() {
         var RESULT = gtk_h.gtk_picture_get_can_shrink(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -193,7 +191,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      */
     public boolean getKeepAspectRatio() {
         var RESULT = gtk_h.gtk_picture_get_keep_aspect_ratio(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

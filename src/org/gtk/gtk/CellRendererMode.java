@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Identifies how the user can interact with a particular cell.
  */
-public class CellRendererMode {
+public class CellRendererMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The cell is just for display
@@ -23,26 +23,8 @@ public class CellRendererMode {
      */
     public static final CellRendererMode EDITABLE = new CellRendererMode(2);
     
-    private int value;
-    
     public CellRendererMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CellRendererMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

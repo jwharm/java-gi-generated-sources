@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * The data types for file attributes.
  */
-public class FileAttributeType {
+public class FileAttributeType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * indicates an invalid or uninitialized type.
@@ -55,26 +55,8 @@ public class FileAttributeType {
      */
     public static final FileAttributeType STRINGV = new FileAttributeType(9);
     
-    private int value;
-    
     public FileAttributeType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileAttributeType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -129,7 +127,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      */
     public boolean getShowMenubar() {
         var RESULT = gtk_h.gtk_application_window_get_show_menubar(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

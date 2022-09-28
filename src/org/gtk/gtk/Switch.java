@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -63,7 +61,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      */
     public boolean getActive() {
         var RESULT = gtk_h.gtk_switch_get_active(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -71,7 +69,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      */
     public boolean getState() {
         var RESULT = gtk_h.gtk_switch_get_state(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -115,7 +113,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -124,7 +122,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
     }
     
     public static void __signalSwitchActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Switch.ActivateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Switch(References.get(source)));
     }
@@ -158,10 +156,10 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
                 Interop.allocateNativeString("state-set").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Switch.class, "__signalSwitchStateSet",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -169,10 +167,10 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         }
     }
     
-    public static boolean __signalSwitchStateSet(MemoryAddress source, boolean state, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalSwitchStateSet(MemoryAddress source, int state, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Switch.StateSetHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Switch(References.get(source)), state);
+        return handler.signalReceived(new Switch(References.get(source)), state != 0);
     }
     
 }

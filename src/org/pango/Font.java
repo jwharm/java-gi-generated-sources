@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -121,6 +119,21 @@ public class Font extends org.gtk.gobject.Object {
     }
     
     /**
+     * Returns the languages that are supported by {@code font}.
+     * <p>
+     * If the font backend does not provide this information,
+     * {@code null} is returned. For the fontconfig backend, this
+     * corresponds to the FC_LANG member of the FcPattern.
+     * <p>
+     * The returned array is only valid as long as the font
+     * and its fontmap are valid.
+     */
+    public PointerIterator<Language> getLanguages() {
+        var RESULT = gtk_h.pango_font_get_languages(handle());
+        return new PointerProxy<Language>(RESULT, Language.class).iterator();
+    }
+    
+    /**
      * Gets overall metric information for a font.
      * <p>
      * Since the metrics may be substantially different for different scripts,
@@ -140,7 +153,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public boolean hasChar(int wc) {
         var RESULT = gtk_h.pango_font_has_char(handle(), wc);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

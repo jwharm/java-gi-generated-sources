@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,7 +12,7 @@ import java.lang.invoke.*;
  * <p>
  * See {@link SwipeTracker} for details about implementing it.
  */
-public interface Swipeable extends io.github.jwharm.javagi.NativeAddress {
+public interface Swipeable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Gets the progress {@code self} will snap back to after the gesture is canceled.
@@ -40,6 +38,17 @@ public interface Swipeable extends io.github.jwharm.javagi.NativeAddress {
     public default double getProgress() {
         var RESULT = gtk_h.adw_swipeable_get_progress(handle());
         return RESULT;
+    }
+    
+    /**
+     * Gets the snap points of {@code self}.
+     * <p>
+     * Each snap point represents a progress value that is considered acceptable to
+     * end the swipe on.
+     */
+    public default PointerIterator<Double> getSnapPoints(PointerInteger nSnapPoints) {
+        var RESULT = gtk_h.adw_swipeable_get_snap_points(handle(), nSnapPoints.handle());
+        return new PointerDouble(RESULT).iterator();
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gsk;
 /**
  * Errors that can happen during (de)serialization.
  */
-public class SerializationError {
+public class SerializationError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The format can not be identified
@@ -22,26 +22,8 @@ public class SerializationError {
      */
     public static final SerializationError INVALID_DATA = new SerializationError(2);
     
-    private int value;
-    
     public SerializationError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SerializationError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Flags used internally in the {@link Hook} implementation.
  */
-public class HookFlagMask {
+public class HookFlagMask extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * set if the hook has not been destroyed
@@ -21,38 +21,8 @@ public class HookFlagMask {
      */
     public static final HookFlagMask MASK = new HookFlagMask(15);
     
-    private int value;
-    
     public HookFlagMask(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(HookFlagMask[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public HookFlagMask combined(HookFlagMask mask) {
-        return new HookFlagMask(this.getValue() | mask.getValue());
-    }
-    
-    public static HookFlagMask combined(HookFlagMask mask, HookFlagMask... masks) {
-        int value = mask.getValue();
-        for (HookFlagMask arg : masks) {
-            value |= arg.getValue();
-        }
-        return new HookFlagMask(value);
+        super(value);
     }
     
 }

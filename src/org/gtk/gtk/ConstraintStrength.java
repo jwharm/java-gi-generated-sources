@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * The strength of a {@link Constraint} can be expressed with any positive
  * integer; the values of this enumeration can be used for readability.
  */
-public class ConstraintStrength {
+public class ConstraintStrength extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The constraint is required towards solving the layout
@@ -28,26 +28,8 @@ public class ConstraintStrength {
      */
     public static final ConstraintStrength WEAK = new ConstraintStrength(1);
     
-    private int value;
-    
     public ConstraintStrength(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ConstraintStrength[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

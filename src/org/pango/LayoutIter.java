@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +24,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean atLastLine() {
         var RESULT = gtk_h.pango_layout_iter_at_last_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -220,7 +218,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean nextChar() {
         var RESULT = gtk_h.pango_layout_iter_next_char(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -230,7 +228,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean nextCluster() {
         var RESULT = gtk_h.pango_layout_iter_next_cluster(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -240,7 +238,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean nextLine() {
         var RESULT = gtk_h.pango_layout_iter_next_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -250,7 +248,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean nextRun() {
         var RESULT = gtk_h.pango_layout_iter_next_run(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -158,7 +156,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      */
     public boolean hasClass(java.lang.String className) {
         var RESULT = gtk_h.gtk_style_context_has_class(handle(), Interop.allocateNativeString(className).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -166,7 +164,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      */
     public boolean lookupColor(java.lang.String colorName, org.gtk.gdk.RGBA color) {
         var RESULT = gtk_h.gtk_style_context_lookup_color(handle(), Interop.allocateNativeString(colorName).handle(), color.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

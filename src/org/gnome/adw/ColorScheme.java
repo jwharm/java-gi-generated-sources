@@ -3,7 +3,7 @@ package org.gnome.adw;
 /**
  * Application color schemes for {@code StyleManager:color-scheme}.
  */
-public class ColorScheme {
+public class ColorScheme extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Inherit the parent color-scheme. When set on the
@@ -34,26 +34,8 @@ public class ColorScheme {
      */
     public static final ColorScheme FORCE_DARK = new ColorScheme(4);
     
-    private int value;
-    
     public ColorScheme(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ColorScheme[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

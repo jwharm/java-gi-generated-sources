@@ -3,7 +3,7 @@ package org.pango;
 /**
  * An enumeration specifying capitalization variant of the font.
  */
-public class Variant {
+public class Variant extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * A normal font.
@@ -48,26 +48,8 @@ public class Variant {
      */
     public static final Variant TITLE_CAPS = new Variant(6);
     
-    private int value;
-    
     public Variant(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Variant[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

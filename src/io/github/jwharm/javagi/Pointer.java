@@ -7,14 +7,14 @@ import java.lang.foreign.ValueLayout;
 /**
  * A Pointer object contains a pointer to a primitive value that is used when in C, a pointer to 
  * a primitive value is expected, for example as an out-parameter. 
- * For example, use {@code PointerInt} for an {@code *int} 
+ * For example, use {@code PointerInteger} for an {@code *int} 
  * out-parameter.
  */
-public abstract class Pointer {
+public abstract class Pointer<T> implements Iterable {
     
     protected final MemoryAddress address;
     private MemorySegmentReference reference;
-    
+
     /**
      * Allocate a new memory segment with the provided memory layout.
      */
@@ -33,5 +33,14 @@ public abstract class Pointer {
     
     public MemoryAddress handle() {
         return address;
+    }
+    
+    public abstract T get();
+    public abstract T get(int index);
+    public abstract void set(T value);
+
+    @Override
+    public PointerIterator<T> iterator() {
+        return new PointerIterator(this);
     }
 }

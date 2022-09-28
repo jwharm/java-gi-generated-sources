@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags specifying the behaviour of an attribute.
  */
-public class FileAttributeInfoFlags {
+public class FileAttributeInfoFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * no flags set.
@@ -20,38 +20,8 @@ public class FileAttributeInfoFlags {
      */
     public static final FileAttributeInfoFlags COPY_WHEN_MOVED = new FileAttributeInfoFlags(2);
     
-    private int value;
-    
     public FileAttributeInfoFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileAttributeInfoFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FileAttributeInfoFlags combined(FileAttributeInfoFlags mask) {
-        return new FileAttributeInfoFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static FileAttributeInfoFlags combined(FileAttributeInfoFlags mask, FileAttributeInfoFlags... masks) {
-        int value = mask.getValue();
-        for (FileAttributeInfoFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FileAttributeInfoFlags(value);
+        super(value);
     }
     
 }

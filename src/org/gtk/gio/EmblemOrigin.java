@@ -4,7 +4,7 @@ package org.gtk.gio;
  * GEmblemOrigin is used to add information about the origin of the emblem
  * to {@link Emblem}.
  */
-public class EmblemOrigin {
+public class EmblemOrigin extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Emblem of unknown origin
@@ -26,26 +26,8 @@ public class EmblemOrigin {
      */
     public static final EmblemOrigin TAG = new EmblemOrigin(3);
     
-    private int value;
-    
     public EmblemOrigin(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(EmblemOrigin[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

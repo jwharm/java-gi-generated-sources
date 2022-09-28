@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * <p>
  * More values may be added over time.
  */
-public class SymbolicColor {
+public class SymbolicColor extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The default foreground color
@@ -28,26 +28,8 @@ public class SymbolicColor {
      */
     public static final SymbolicColor SUCCESS = new SymbolicColor(3);
     
-    private int value;
-    
     public SymbolicColor(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SymbolicColor[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

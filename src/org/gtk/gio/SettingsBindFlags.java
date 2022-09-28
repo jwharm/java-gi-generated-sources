@@ -5,7 +5,7 @@ package org.gtk.gio;
  * direction the binding works. The default is to synchronize in both
  * directions.
  */
-public class SettingsBindFlags {
+public class SettingsBindFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Equivalent to {@code G_SETTINGS_BIND_GET|G_SETTINGS_BIND_SET}
@@ -42,38 +42,8 @@ public class SettingsBindFlags {
      */
     public static final SettingsBindFlags INVERT_BOOLEAN = new SettingsBindFlags(16);
     
-    private int value;
-    
     public SettingsBindFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SettingsBindFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public SettingsBindFlags combined(SettingsBindFlags mask) {
-        return new SettingsBindFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static SettingsBindFlags combined(SettingsBindFlags mask, SettingsBindFlags... masks) {
-        int value = mask.getValue();
-        for (SettingsBindFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new SettingsBindFlags(value);
+        super(value);
     }
     
 }

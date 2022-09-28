@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by spawning processes.
  */
-public class SpawnError {
+public class SpawnError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Fork failed due to lack of memory.
@@ -111,26 +111,8 @@ public class SpawnError {
      */
     public static final SpawnError FAILED = new SpawnError(19);
     
-    private int value;
-    
     public SpawnError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SpawnError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.harfbuzz;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,6 +52,14 @@ public final class HarfBuzz {
      */
     public static int aatLayoutFeatureTypeGetSelectorInfos(FaceT face, AatLayoutFeatureTypeT featureType, int startOffset, PointerInteger selectorCount, AatLayoutFeatureSelectorInfoT[] selectors, PointerInteger defaultIndex) {
         var RESULT = gtk_h.hb_aat_layout_feature_type_get_selector_infos(face.handle(), featureType.getValue(), startOffset, selectorCount.handle(), Interop.allocateNativeArray(selectors).handle(), defaultIndex.handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches a list of the AAT feature types included in the specified face.
+     */
+    public static int aatLayoutGetFeatureTypes(FaceT face, int startOffset, PointerInteger featureCount, AatLayoutFeatureTypeT[] features) {
+        var RESULT = gtk_h.hb_aat_layout_get_feature_types(face.handle(), startOffset, featureCount.handle(), Interop.allocateNativeArray(AatLayoutFeatureTypeT.getValues(features)).handle());
         return RESULT;
     }
     
@@ -140,6 +146,26 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the data from a blob.
+     */
+    public static PointerIterator<java.lang.String> blobGetData(BlobT blob, PointerInteger length) {
+        var RESULT = gtk_h.hb_blob_get_data(blob.handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Tries to make blob data writable (possibly copying it) and
+     * return pointer to data.
+     * <p>
+     * Fails if blob has been made immutable, or if memory allocation
+     * fails.
+     */
+    public static PointerIterator<java.lang.String> blobGetDataWritable(BlobT blob, PointerInteger length) {
+        var RESULT = gtk_h.hb_blob_get_data_writable(blob.handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Returns the singleton empty blob.
      * <p>
      * See TODO:link object types for more information.
@@ -220,7 +246,7 @@ public final class HarfBuzz {
      * to ensure it contains a valid Unicode code points.
      */
     public static void bufferAddCodepoints(BufferT buffer, CodepointT[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_codepoints(buffer.handle(), Interop.allocateNativeArray(CodepointT.getValues(text)).handle(), textLength, itemOffset, itemLength);
+        gtk_h.hb_buffer_add_codepoints(buffer.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(text)).handle(), textLength, itemOffset, itemLength);
     }
     
     /**
@@ -230,7 +256,7 @@ public final class HarfBuzz {
      * &lt;note>Has nothing to do with non-Unicode Latin-1 encoding.</note&gt;
      */
     public static void bufferAddLatin1(BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_latin1(buffer.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, text)).handle(), textLength, itemOffset, itemLength);
+        gtk_h.hb_buffer_add_latin1(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
     }
     
     /**
@@ -240,7 +266,7 @@ public final class HarfBuzz {
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf16(BufferT buffer, short[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_utf16(buffer.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_SHORT, text)).handle(), textLength, itemOffset, itemLength);
+        gtk_h.hb_buffer_add_utf16(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
     }
     
     /**
@@ -250,7 +276,7 @@ public final class HarfBuzz {
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf32(BufferT buffer, int[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_utf32(buffer.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, text)).handle(), textLength, itemOffset, itemLength);
+        gtk_h.hb_buffer_add_utf32(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
     }
     
     /**
@@ -260,7 +286,7 @@ public final class HarfBuzz {
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf8(BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_utf8(buffer.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, text)).handle(), textLength, itemOffset, itemLength);
+        gtk_h.hb_buffer_add_utf8(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
     }
     
     /**
@@ -381,6 +407,29 @@ public final class HarfBuzz {
     public static BufferFlagsT bufferGetFlags(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_flags(buffer.handle());
         return new BufferFlagsT(RESULT);
+    }
+    
+    /**
+     * Returns {@code buffer} glyph information array.  Returned pointer
+     * is valid as long as {@code buffer} contents are not modified.
+     */
+    public static PointerIterator<GlyphInfoT> bufferGetGlyphInfos(BufferT buffer, PointerInteger length) {
+        var RESULT = gtk_h.hb_buffer_get_glyph_infos(buffer.handle(), length.handle());
+        return new PointerProxy<GlyphInfoT>(RESULT, GlyphInfoT.class).iterator();
+    }
+    
+    /**
+     * Returns {@code buffer} glyph position array.  Returned pointer
+     * is valid as long as {@code buffer} contents are not modified.
+     * <p>
+     * If buffer did not have positions before, the positions will be
+     * initialized to zeros, unless this function is called from
+     * within a buffer message callback (see hb_buffer_set_message_func()),
+     * in which case {@code null} is returned.
+     */
+    public static PointerIterator<GlyphPositionT> bufferGetGlyphPositions(BufferT buffer, PointerInteger length) {
+        var RESULT = gtk_h.hb_buffer_get_glyph_positions(buffer.handle(), length.handle());
+        return new PointerProxy<GlyphPositionT>(RESULT, GlyphPositionT.class).iterator();
     }
     
     /**
@@ -559,7 +608,7 @@ public final class HarfBuzz {
      * hb_buffer_serialize_glyphs() for a description of the output format.
      */
     public static int bufferSerialize(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
-        var RESULT = gtk_h.hb_buffer_serialize(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
+        var RESULT = gtk_h.hb_buffer_serialize(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
         return RESULT;
     }
     
@@ -569,7 +618,7 @@ public final class HarfBuzz {
      * hb_buffer_serialize_list_formats() to get the list of supported formats.
      */
     public static BufferSerializeFormatT bufferSerializeFormatFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_buffer_serialize_format_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
+        var RESULT = gtk_h.hb_buffer_serialize_format_from_string(Interop.allocateNativeArray(str).handle(), len);
         return new BufferSerializeFormatT(RESULT);
     }
     
@@ -630,8 +679,16 @@ public final class HarfBuzz {
      *    {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set.
      */
     public static int bufferSerializeGlyphs(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
-        var RESULT = gtk_h.hb_buffer_serialize_glyphs(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
+        var RESULT = gtk_h.hb_buffer_serialize_glyphs(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
         return RESULT;
+    }
+    
+    /**
+     * Returns a list of supported buffer serialization formats.
+     */
+    public static PointerIterator<java.lang.String> bufferSerializeListFormats() {
+        var RESULT = gtk_h.hb_buffer_serialize_list_formats();
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -673,7 +730,7 @@ public final class HarfBuzz {
      * }</pre>
      */
     public static int bufferSerializeUnicode(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
-        var RESULT = gtk_h.hb_buffer_serialize_unicode(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), format.getValue(), flags.getValue());
+        var RESULT = gtk_h.hb_buffer_serialize_unicode(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), format.getValue(), flags.getValue());
         return RESULT;
     }
     
@@ -842,7 +899,7 @@ public final class HarfBuzz {
      * Unmatched strings will return {@code HB_DIRECTION_INVALID}.
      */
     public static DirectionT directionFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_direction_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
+        var RESULT = gtk_h.hb_direction_from_string(Interop.allocateNativeArray(str).handle(), len);
         return new DirectionT(RESULT);
     }
     
@@ -1042,7 +1099,7 @@ public final class HarfBuzz {
      * begin at the offset provided
      */
     public static int faceGetTableTags(FaceT face, int startOffset, PointerInteger tableCount, TagT[] tableTags) {
-        var RESULT = gtk_h.hb_face_get_table_tags(face.handle(), startOffset, tableCount.handle(), Interop.allocateNativeArray(TagT.getValues(tableTags)).handle());
+        var RESULT = gtk_h.hb_face_get_table_tags(face.handle(), startOffset, tableCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(tableTags)).handle());
         return RESULT;
     }
     
@@ -1170,7 +1227,7 @@ public final class HarfBuzz {
      * &lt;/informaltable&gt;
      */
     public static BoolT featureFromString(byte[] str, int len, FeatureT feature) {
-        var RESULT = gtk_h.hb_feature_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len, feature.handle());
+        var RESULT = gtk_h.hb_feature_from_string(Interop.allocateNativeArray(str).handle(), len, feature.handle());
         return new BoolT(RESULT);
     }
     
@@ -1694,7 +1751,7 @@ public final class HarfBuzz {
      */
     public static BoolT fontGlyphFromString(FontT font, byte[] s, int len, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_glyph_from_string(font.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, s)).handle(), len, new PointerInteger(glyph.getValue()).handle());
+        var RESULT = gtk_h.hb_font_glyph_from_string(font.handle(), Interop.allocateNativeArray(s).handle(), len, new PointerInteger(glyph.getValue()).handle());
         glyph.setValue(glyphPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -1799,7 +1856,7 @@ public final class HarfBuzz {
      * default values.
      */
     public static void fontSetVarCoordsDesign(FontT font, float[] coords, int coordsLength) {
-        gtk_h.hb_font_set_var_coords_design(font.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, coords)).handle(), coordsLength);
+        gtk_h.hb_font_set_var_coords_design(font.handle(), Interop.allocateNativeArray(coords).handle(), coordsLength);
     }
     
     /**
@@ -1813,7 +1870,7 @@ public final class HarfBuzz {
      * &lt;note>Note: Coordinates should be normalized to 2.14.</note&gt;
      */
     public static void fontSetVarCoordsNormalized(FontT font, int[] coords, int coordsLength) {
-        gtk_h.hb_font_set_var_coords_normalized(font.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, coords)).handle(), coordsLength);
+        gtk_h.hb_font_set_var_coords_normalized(font.handle(), Interop.allocateNativeArray(coords).handle(), coordsLength);
     }
     
     /**
@@ -1956,7 +2013,7 @@ public final class HarfBuzz {
      * {@link language_t}.
      */
     public static LanguageT languageFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_language_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
+        var RESULT = gtk_h.hb_language_from_string(Interop.allocateNativeArray(str).handle(), len);
         return new LanguageT(References.get(RESULT, false));
     }
     
@@ -2171,7 +2228,7 @@ public final class HarfBuzz {
      * hb_ot_color_palette_get_colors() a second time.
      */
     public static int otColorPaletteGetColors(FaceT face, int paletteIndex, int startOffset, PointerInteger colorCount, ColorT[] colors) {
-        var RESULT = gtk_h.hb_ot_color_palette_get_colors(face.handle(), paletteIndex, startOffset, colorCount.handle(), Interop.allocateNativeArray(ColorT.getValues(colors)).handle());
+        var RESULT = gtk_h.hb_ot_color_palette_get_colors(face.handle(), paletteIndex, startOffset, colorCount.handle(), Interop.allocateNativeArray(ColorT.getIntegerValues(colors)).handle());
         return RESULT;
     }
     
@@ -2249,7 +2306,7 @@ public final class HarfBuzz {
      * "Character Variant" ("cvXX") feature tag.
      */
     public static int otLayoutFeatureGetCharacters(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger charCount, CodepointT[] characters) {
-        var RESULT = gtk_h.hb_ot_layout_feature_get_characters(face.handle(), tableTag.getValue(), featureIndex, startOffset, charCount.handle(), Interop.allocateNativeArray(CodepointT.getValues(characters)).handle());
+        var RESULT = gtk_h.hb_ot_layout_feature_get_characters(face.handle(), tableTag.getValue(), featureIndex, startOffset, charCount.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(characters)).handle());
         return RESULT;
     }
     
@@ -2259,7 +2316,7 @@ public final class HarfBuzz {
      * begin at the offset provided.
      */
     public static int otLayoutFeatureGetLookups(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger lookupCount, int[] lookupIndexes) {
-        var RESULT = gtk_h.hb_ot_layout_feature_get_lookups(face.handle(), tableTag.getValue(), featureIndex, startOffset, lookupCount.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, lookupIndexes)).handle());
+        var RESULT = gtk_h.hb_ot_layout_feature_get_lookups(face.handle(), tableTag.getValue(), featureIndex, startOffset, lookupCount.handle(), Interop.allocateNativeArray(lookupIndexes).handle());
         return RESULT;
     }
     
@@ -2286,7 +2343,7 @@ public final class HarfBuzz {
      * variations index. The list returned will begin at the offset provided.
      */
     public static int otLayoutFeatureWithVariationsGetLookups(FaceT face, TagT tableTag, int featureIndex, int variationsIndex, int startOffset, PointerInteger lookupCount, int[] lookupIndexes) {
-        var RESULT = gtk_h.hb_ot_layout_feature_with_variations_get_lookups(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, lookupCount.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, lookupIndexes)).handle());
+        var RESULT = gtk_h.hb_ot_layout_feature_with_variations_get_lookups(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, lookupCount.handle(), Interop.allocateNativeArray(lookupIndexes).handle());
         return RESULT;
     }
     
@@ -2297,7 +2354,7 @@ public final class HarfBuzz {
      * Useful if the client program wishes to cache the list.
      */
     public static int otLayoutGetAttachPoints(FaceT face, CodepointT glyph, int startOffset, PointerInteger pointCount, int[] pointArray) {
-        var RESULT = gtk_h.hb_ot_layout_get_attach_points(face.handle(), glyph.getValue(), startOffset, pointCount.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, pointArray)).handle());
+        var RESULT = gtk_h.hb_ot_layout_get_attach_points(face.handle(), glyph.getValue(), startOffset, pointCount.handle(), Interop.allocateNativeArray(pointArray).handle());
         return RESULT;
     }
     
@@ -2357,7 +2414,7 @@ public final class HarfBuzz {
      * be fixed up for kerning that may be applied to the ligature glyph.
      */
     public static int otLayoutGetLigatureCarets(FontT font, DirectionT direction, CodepointT glyph, int startOffset, PointerInteger caretCount, PositionT[] caretArray) {
-        var RESULT = gtk_h.hb_ot_layout_get_ligature_carets(font.handle(), direction.getValue(), glyph.getValue(), startOffset, caretCount.handle(), Interop.allocateNativeArray(PositionT.getValues(caretArray)).handle());
+        var RESULT = gtk_h.hb_ot_layout_get_ligature_carets(font.handle(), direction.getValue(), glyph.getValue(), startOffset, caretCount.handle(), Interop.allocateNativeArray(PositionT.getIntegerValues(caretArray)).handle());
         return RESULT;
     }
     
@@ -2417,7 +2474,7 @@ public final class HarfBuzz {
      * returned will begin at the offset provided.
      */
     public static int otLayoutLanguageGetFeatureIndexes(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, int[] featureIndexes) {
-        var RESULT = gtk_h.hb_ot_layout_language_get_feature_indexes(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, featureIndexes)).handle());
+        var RESULT = gtk_h.hb_ot_layout_language_get_feature_indexes(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(featureIndexes).handle());
         return RESULT;
     }
     
@@ -2427,7 +2484,7 @@ public final class HarfBuzz {
      * returned will begin at the offset provided.
      */
     public static int otLayoutLanguageGetFeatureTags(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, TagT[] featureTags) {
-        var RESULT = gtk_h.hb_ot_layout_language_get_feature_tags(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getValues(featureTags)).handle());
+        var RESULT = gtk_h.hb_ot_layout_language_get_feature_tags(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(featureTags)).handle());
         return RESULT;
     }
     
@@ -2463,7 +2520,7 @@ public final class HarfBuzz {
      * Fetches alternates of a glyph from a given GSUB lookup index.
      */
     public static int otLayoutLookupGetGlyphAlternates(FaceT face, int lookupIndex, CodepointT glyph, int startOffset, PointerInteger alternateCount, CodepointT[] alternateGlyphs) {
-        var RESULT = gtk_h.hb_ot_layout_lookup_get_glyph_alternates(face.handle(), lookupIndex, glyph.getValue(), startOffset, alternateCount.handle(), Interop.allocateNativeArray(CodepointT.getValues(alternateGlyphs)).handle());
+        var RESULT = gtk_h.hb_ot_layout_lookup_get_glyph_alternates(face.handle(), lookupIndex, glyph.getValue(), startOffset, alternateCount.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(alternateGlyphs)).handle());
         return RESULT;
     }
     
@@ -2499,7 +2556,7 @@ public final class HarfBuzz {
      * the specified script index. The list returned will begin at the offset provided.
      */
     public static int otLayoutScriptGetLanguageTags(FaceT face, TagT tableTag, int scriptIndex, int startOffset, PointerInteger languageCount, TagT[] languageTags) {
-        var RESULT = gtk_h.hb_ot_layout_script_get_language_tags(face.handle(), tableTag.getValue(), scriptIndex, startOffset, languageCount.handle(), Interop.allocateNativeArray(TagT.getValues(languageTags)).handle());
+        var RESULT = gtk_h.hb_ot_layout_script_get_language_tags(face.handle(), tableTag.getValue(), scriptIndex, startOffset, languageCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(languageTags)).handle());
         return RESULT;
     }
     
@@ -2552,7 +2609,7 @@ public final class HarfBuzz {
      * Fetches a list of all feature tags in the given face's GSUB or GPOS table.
      */
     public static int otLayoutTableGetFeatureTags(FaceT face, TagT tableTag, int startOffset, PointerInteger featureCount, TagT[] featureTags) {
-        var RESULT = gtk_h.hb_ot_layout_table_get_feature_tags(face.handle(), tableTag.getValue(), startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getValues(featureTags)).handle());
+        var RESULT = gtk_h.hb_ot_layout_table_get_feature_tags(face.handle(), tableTag.getValue(), startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(featureTags)).handle());
         return RESULT;
     }
     
@@ -2570,7 +2627,7 @@ public final class HarfBuzz {
      * or GPOS table. The list returned will begin at the offset provided.
      */
     public static int otLayoutTableGetScriptTags(FaceT face, TagT tableTag, int startOffset, PointerInteger scriptCount, TagT[] scriptTags) {
-        var RESULT = gtk_h.hb_ot_layout_table_get_script_tags(face.handle(), tableTag.getValue(), startOffset, scriptCount.handle(), Interop.allocateNativeArray(TagT.getValues(scriptTags)).handle());
+        var RESULT = gtk_h.hb_ot_layout_table_get_script_tags(face.handle(), tableTag.getValue(), startOffset, scriptCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(scriptTags)).handle());
         return RESULT;
     }
     
@@ -2729,6 +2786,14 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches all available feature types.
+     */
+    public static int otMetaGetEntryTags(FaceT face, int startOffset, PointerInteger entriesCount, OtMetaTagT[] entries) {
+        var RESULT = gtk_h.hb_ot_meta_get_entry_tags(face.handle(), startOffset, entriesCount.handle(), Interop.allocateNativeArray(OtMetaTagT.getValues(entries)).handle());
+        return RESULT;
+    }
+    
+    /**
      * It fetches metadata entry of a given tag from a font.
      */
     public static BlobT otMetaReferenceEntry(FaceT face, OtMetaTagT metaTag) {
@@ -2790,7 +2855,7 @@ public final class HarfBuzz {
      * for convenience, and isn't included in the output {@code text_size}.
      */
     public static int otNameGetUtf16(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, short[] text) {
-        var RESULT = gtk_h.hb_ot_name_get_utf16(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_SHORT, text)).handle());
+        var RESULT = gtk_h.hb_ot_name_get_utf16(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
         return RESULT;
     }
     
@@ -2801,7 +2866,7 @@ public final class HarfBuzz {
      * for convenience, and isn't included in the output {@code text_size}.
      */
     public static int otNameGetUtf32(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, int[] text) {
-        var RESULT = gtk_h.hb_ot_name_get_utf32(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, text)).handle());
+        var RESULT = gtk_h.hb_ot_name_get_utf32(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
         return RESULT;
     }
     
@@ -2814,6 +2879,16 @@ public final class HarfBuzz {
     public static int otNameGetUtf8(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, java.lang.String[] text) {
         var RESULT = gtk_h.hb_ot_name_get_utf8(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
         return RESULT;
+    }
+    
+    /**
+     * Enumerates all available name IDs and language combinations. Returned
+     * array is owned by the {@code face} and should not be modified.  It can be
+     * used as long as {@code face} is alive.
+     */
+    public static PointerIterator<OtNameEntryT> otNameListNames(FaceT face, PointerInteger numEntries) {
+        var RESULT = gtk_h.hb_ot_name_list_names(face.handle(), numEntries.handle());
+        return new PointerProxy<OtNameEntryT>(RESULT, OtNameEntryT.class).iterator();
     }
     
     /**
@@ -2874,6 +2949,14 @@ public final class HarfBuzz {
     }
     
     /**
+     * Converts a script tag and a language tag to an {@link script_t} and an
+     * {@link language_t}.
+     */
+    public static void otTagsToScriptAndLanguage(TagT scriptTag, TagT languageTag, ScriptT script, LanguageT language) {
+        gtk_h.hb_ot_tags_to_script_and_language(scriptTag.getValue(), languageTag.getValue(), new PointerInteger(script.getValue()).handle(), language.handle());
+    }
+    
+    /**
      * Fetches the variation-axis information corresponding to the specified axis tag
      * in the specified face.
      */
@@ -2920,7 +3003,7 @@ public final class HarfBuzz {
      * named instance in the face.
      */
     public static int otVarNamedInstanceGetDesignCoords(FaceT face, int instanceIndex, PointerInteger coordsLength, float[] coords) {
-        var RESULT = gtk_h.hb_ot_var_named_instance_get_design_coords(face.handle(), instanceIndex, coordsLength.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, coords)).handle());
+        var RESULT = gtk_h.hb_ot_var_named_instance_get_design_coords(face.handle(), instanceIndex, coordsLength.handle(), Interop.allocateNativeArray(coords).handle());
         return RESULT;
     }
     
@@ -2961,7 +3044,7 @@ public final class HarfBuzz {
      * Normalizes all of the coordinates in the given list of variation axes.
      */
     public static void otVarNormalizeVariations(FaceT face, VariationT variations, int variationsLength, int[] coords, int coordsLength) {
-        gtk_h.hb_ot_var_normalize_variations(face.handle(), variations.handle(), variationsLength, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, coords)).handle(), coordsLength);
+        gtk_h.hb_ot_var_normalize_variations(face.handle(), variations.handle(), variationsLength, Interop.allocateNativeArray(coords).handle(), coordsLength);
     }
     
     /**
@@ -2978,7 +3061,7 @@ public final class HarfBuzz {
      * hb_script_from_iso15924_tag().
      */
     public static ScriptT scriptFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_script_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
+        var RESULT = gtk_h.hb_script_from_string(Interop.allocateNativeArray(str).handle(), len);
         return new ScriptT(RESULT);
     }
     
@@ -3309,6 +3392,14 @@ public final class HarfBuzz {
     }
     
     /**
+     * Retrieves the list of shapers supported by HarfBuzz.
+     */
+    public static PointerIterator<java.lang.String> shapeListShapers() {
+        var RESULT = gtk_h.hb_shape_list_shapers();
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Constructs a shaping plan for a combination of {@code face}, {@code user_features}, {@code props},
      * and {@code shaper_list}.
      */
@@ -3323,7 +3414,7 @@ public final class HarfBuzz {
      * and {@code shaper_list}, plus the variation-space coordinates {@code coords}.
      */
     public static ShapePlanT shapePlanCreate2(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
-        var RESULT = gtk_h.hb_shape_plan_create2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, coords)).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
+        var RESULT = gtk_h.hb_shape_plan_create2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(coords).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
         return new ShapePlanT(References.get(RESULT, true));
     }
     
@@ -3343,7 +3434,7 @@ public final class HarfBuzz {
      * variation-space coordinates {@code coords}.
      */
     public static ShapePlanT shapePlanCreateCached2(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
-        var RESULT = gtk_h.hb_shape_plan_create_cached2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, coords)).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
+        var RESULT = gtk_h.hb_shape_plan_create_cached2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(coords).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
         return new ShapePlanT(References.get(RESULT, true));
     }
     
@@ -3415,7 +3506,7 @@ public final class HarfBuzz {
      * truncated.
      */
     public static TagT tagFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_tag_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
+        var RESULT = gtk_h.hb_tag_from_string(Interop.allocateNativeArray(str).handle(), len);
         return new TagT(RESULT);
     }
     
@@ -3424,7 +3515,7 @@ public final class HarfBuzz {
      * Strings will be four characters long.
      */
     public static void tagToString(TagT tag, byte[] buf) {
-        gtk_h.hb_tag_to_string(tag.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle());
+        gtk_h.hb_tag_to_string(tag.getValue(), Interop.allocateNativeArray(buf).handle());
     }
     
     /**
@@ -3580,7 +3671,7 @@ public final class HarfBuzz {
      * number. For example {@code wght=500}, or {@code slnt=-7.5}.
      */
     public static BoolT variationFromString(byte[] str, int len, VariationT variation) {
-        var RESULT = gtk_h.hb_variation_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len, variation.handle());
+        var RESULT = gtk_h.hb_variation_from_string(Interop.allocateNativeArray(str).handle(), len, variation.handle());
         return new BoolT(RESULT);
     }
     

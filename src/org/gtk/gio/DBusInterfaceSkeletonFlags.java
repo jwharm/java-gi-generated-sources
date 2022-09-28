@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags describing the behavior of a {@link DBusInterfaceSkeleton} instance.
  */
-public class DBusInterfaceSkeletonFlags {
+public class DBusInterfaceSkeletonFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -18,38 +18,8 @@ public class DBusInterfaceSkeletonFlags {
      */
     public static final DBusInterfaceSkeletonFlags HANDLE_METHOD_INVOCATIONS_IN_THREAD = new DBusInterfaceSkeletonFlags(1);
     
-    private int value;
-    
     public DBusInterfaceSkeletonFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusInterfaceSkeletonFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusInterfaceSkeletonFlags combined(DBusInterfaceSkeletonFlags mask) {
-        return new DBusInterfaceSkeletonFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusInterfaceSkeletonFlags combined(DBusInterfaceSkeletonFlags mask, DBusInterfaceSkeletonFlags... masks) {
-        int value = mask.getValue();
-        for (DBusInterfaceSkeletonFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusInterfaceSkeletonFlags(value);
+        super(value);
     }
     
 }

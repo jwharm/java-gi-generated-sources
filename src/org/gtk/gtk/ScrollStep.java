@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Passed as argument to various keybinding signals.
  */
-public class ScrollStep {
+public class ScrollStep extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Scroll in steps.
@@ -35,26 +35,8 @@ public class ScrollStep {
      */
     public static final ScrollStep HORIZONTAL_ENDS = new ScrollStep(5);
     
-    private int value;
-    
     public ScrollStep(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ScrollStep[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

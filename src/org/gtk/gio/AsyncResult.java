@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -93,7 +91,7 @@ import java.lang.invoke.*;
  * {@code G_PRIORITY_LOW} and {@code G_PRIORITY_HIGH}, with {@code G_PRIORITY_DEFAULT}
  * as a default.
  */
-public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
+public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Gets the source object from a {@link AsyncResult}.
@@ -117,7 +115,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean isTagged(java.lang.foreign.MemoryAddress sourceTag) {
         var RESULT = gtk_h.g_async_result_is_tagged(handle(), sourceTag);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -138,7 +136,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     class AsyncResultImpl extends org.gtk.gobject.Object implements AsyncResult {

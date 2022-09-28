@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -400,7 +398,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(DateTime dt2) {
         var RESULT = gtk_h.g_date_time_equal(handle(), dt2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -727,7 +725,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isDaylightSavings() {
         var RESULT = gtk_h.g_date_time_is_daylight_savings(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

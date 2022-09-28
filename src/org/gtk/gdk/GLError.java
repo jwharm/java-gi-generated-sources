@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Error enumeration for {@code GdkGLContext}.
  */
-public class GLError {
+public class GLError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * OpenGL support is not available
@@ -30,26 +30,8 @@ public class GLError {
      */
     public static final GLError LINK_FAILED = new GLError(4);
     
-    private int value;
-    
     public GLError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(GLError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

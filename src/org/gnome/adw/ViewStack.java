@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -123,7 +121,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public boolean getHhomogeneous() {
         var RESULT = gtk_h.adw_view_stack_get_hhomogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -151,7 +149,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public boolean getVhomogeneous() {
         var RESULT = gtk_h.adw_view_stack_get_vhomogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

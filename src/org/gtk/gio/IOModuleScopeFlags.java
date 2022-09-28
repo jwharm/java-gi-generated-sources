@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags for use with g_io_module_scope_new().
  */
-public class IOModuleScopeFlags {
+public class IOModuleScopeFlags extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No module scan flags
@@ -17,26 +17,8 @@ public class IOModuleScopeFlags {
      */
     public static final IOModuleScopeFlags BLOCK_DUPLICATES = new IOModuleScopeFlags(1);
     
-    private int value;
-    
     public IOModuleScopeFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(IOModuleScopeFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

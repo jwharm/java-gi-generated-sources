@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -62,7 +60,7 @@ public class StringFilter extends Filter {
      */
     public boolean getIgnoreCase() {
         var RESULT = gtk_h.gtk_string_filter_get_ignore_case(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

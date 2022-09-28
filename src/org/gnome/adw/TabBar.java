@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -57,7 +55,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public boolean getAutohide() {
         var RESULT = gtk_h.adw_tab_bar_get_autohide(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -73,7 +71,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public boolean getExpandTabs() {
         var RESULT = gtk_h.adw_tab_bar_get_expand_tabs(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -81,7 +79,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public boolean getInverted() {
         var RESULT = gtk_h.adw_tab_bar_get_inverted(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -89,7 +87,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public boolean getIsOverflowing() {
         var RESULT = gtk_h.adw_tab_bar_get_is_overflowing(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -105,7 +103,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public boolean getTabsRevealed() {
         var RESULT = gtk_h.adw_tab_bar_get_tabs_revealed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -172,7 +170,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * The {@code TabBar::extra-drag-drop} signal can be used to handle the drop.
      */
     public void setupExtraDropTarget(org.gtk.gdk.DragAction actions, org.gtk.gobject.Type[] types, long nTypes) {
-        gtk_h.adw_tab_bar_setup_extra_drop_target(handle(), actions.getValue(), Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle(), nTypes);
+        gtk_h.adw_tab_bar_setup_extra_drop_target(handle(), actions.getValue(), Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle(), nTypes);
     }
     
     @FunctionalInterface
@@ -198,7 +196,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -207,7 +205,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     }
     
     public static boolean __signalTabBarExtraDragDrop(MemoryAddress source, MemoryAddress page, MemoryAddress value, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TabBar.ExtraDragDropHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new TabBar(References.get(source)), new TabPage(References.get(page, false)), new org.gtk.gobject.Value(References.get(value, false)));
     }

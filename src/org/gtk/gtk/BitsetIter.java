@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -41,7 +39,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isValid() {
         var RESULT = gtk_h.gtk_bitset_iter_is_valid(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -52,7 +50,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean next(PointerInteger value) {
         var RESULT = gtk_h.gtk_bitset_iter_next(handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -63,7 +61,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean previous(PointerInteger value) {
         var RESULT = gtk_h.gtk_bitset_iter_previous(handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -74,7 +72,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean initAt(BitsetIter iter, Bitset set, int target, PointerInteger value) {
         var RESULT = gtk_h.gtk_bitset_iter_init_at(iter.handle(), set.handle(), target, value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -85,7 +83,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean initFirst(BitsetIter iter, Bitset set, PointerInteger value) {
         var RESULT = gtk_h.gtk_bitset_iter_init_first(iter.handle(), set.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -96,7 +94,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean initLast(BitsetIter iter, Bitset set, PointerInteger value) {
         var RESULT = gtk_h.gtk_bitset_iter_init_last(iter.handle(), set.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

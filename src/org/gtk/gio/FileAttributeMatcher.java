@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -57,7 +55,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean enumerateNamespace(java.lang.String ns) {
         var RESULT = gtk_h.g_file_attribute_matcher_enumerate_namespace(handle(), Interop.allocateNativeString(ns).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -75,7 +73,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean matches(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_attribute_matcher_matches(handle(), Interop.allocateNativeString(attribute).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -84,7 +82,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean matchesOnly(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_attribute_matcher_matches_only(handle(), Interop.allocateNativeString(attribute).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -86,7 +84,7 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public boolean getShowInitials() {
         var RESULT = gtk_h.adw_avatar_get_show_initials(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

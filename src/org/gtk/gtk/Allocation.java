@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The rectangle representing the area allocated for a widget by its parent.
  */
-public class Allocation extends org.gtk.gdk.Rectangle{
+public class Allocation extends org.gtk.gdk.Rectangle {
 
     public Allocation(io.github.jwharm.javagi.Reference reference) {
         super(reference);

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -110,7 +108,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public boolean getActivateOnSingleClick() {
         var RESULT = gtk_h.gtk_icon_view_get_activate_on_single_click(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -121,7 +119,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public boolean getCellRect(TreePath path, CellRenderer cell, org.gtk.gdk.Rectangle rect) {
         var RESULT = gtk_h.gtk_icon_view_get_cell_rect(handle(), path.handle(), cell.handle(), rect.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -149,7 +147,22 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public boolean getCursor(TreePath[] path, CellRenderer[] cell) {
         var RESULT = gtk_h.gtk_icon_view_get_cursor(handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(cell).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Determines the destination item for a given position.
+     */
+    public boolean getDestItemAtPos(int dragX, int dragY, TreePath[] path, IconViewDropPosition pos) {
+        var RESULT = gtk_h.gtk_icon_view_get_dest_item_at_pos(handle(), dragX, dragY, Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets information about the item that is highlighted for feedback.
+     */
+    public void getDragDestItem(TreePath[] path, IconViewDropPosition pos) {
+        gtk_h.gtk_icon_view_get_drag_dest_item(handle(), Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
     }
     
     /**
@@ -157,7 +170,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public boolean getItemAtPos(int x, int y, TreePath[] path, CellRenderer[] cell) {
         var RESULT = gtk_h.gtk_icon_view_get_item_at_pos(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(cell).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -250,7 +263,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public boolean getReorderable() {
         var RESULT = gtk_h.gtk_icon_view_get_reorderable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -331,7 +344,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public boolean getTooltipContext(int x, int y, boolean keyboardTip, TreeModel[] model, TreePath[] path, TreeIter iter) {
         var RESULT = gtk_h.gtk_icon_view_get_tooltip_context(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model).handle(), Interop.allocateNativeArray(path).handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -342,7 +355,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public boolean getVisibleRange(TreePath[] startPath, TreePath[] endPath) {
         var RESULT = gtk_h.gtk_icon_view_get_visible_range(handle(), Interop.allocateNativeArray(startPath).handle(), Interop.allocateNativeArray(endPath).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -358,7 +371,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public boolean pathIsSelected(TreePath path) {
         var RESULT = gtk_h.gtk_icon_view_path_is_selected(handle(), path.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -408,7 +421,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -665,7 +678,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -674,7 +687,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     public static boolean __signalIconViewActivateCursorItem(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconView.ActivateCursorItemHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new IconView(References.get(source)));
     }
@@ -703,7 +716,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -712,7 +725,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     public static void __signalIconViewItemActivated(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconView.ItemActivatedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IconView(References.get(source)), new TreePath(References.get(path, false)));
     }
@@ -746,10 +759,10 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.class, "__signalIconViewMoveCursor",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -757,10 +770,10 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    public static boolean __signalIconViewMoveCursor(MemoryAddress source, int step, int count, boolean extend, boolean modify, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalIconViewMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new IconView(References.get(source)), new MovementStep(step), count, extend, modify);
+        return handler.signalReceived(new IconView(References.get(source)), new MovementStep(step), count, extend != 0, modify != 0);
     }
     
     @FunctionalInterface
@@ -788,7 +801,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -797,7 +810,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     public static void __signalIconViewSelectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconView.SelectAllHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IconView(References.get(source)));
     }
@@ -828,7 +841,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -837,7 +850,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     public static void __signalIconViewSelectCursorItem(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconView.SelectCursorItemHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IconView(References.get(source)));
     }
@@ -861,7 +874,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -870,7 +883,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     public static void __signalIconViewSelectionChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconView.SelectionChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IconView(References.get(source)));
     }
@@ -902,7 +915,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -911,7 +924,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     public static void __signalIconViewToggleCursorItem(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconView.ToggleCursorItemHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IconView(References.get(source)));
     }
@@ -941,7 +954,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -950,7 +963,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     public static void __signalIconViewUnselectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IconView.UnselectAllHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IconView(References.get(source)));
     }

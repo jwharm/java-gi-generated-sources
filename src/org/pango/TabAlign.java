@@ -4,7 +4,7 @@ package org.pango;
  * {@code PangoTabAlign} specifies where the text appears relative to the tab stop
  * position.
  */
-public class TabAlign {
+public class TabAlign extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the text appears to the right of the tab stop position
@@ -30,26 +30,8 @@ public class TabAlign {
      */
     public static final TabAlign DECIMAL = new TabAlign(3);
     
-    private int value;
-    
     public TabAlign(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TabAlign[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

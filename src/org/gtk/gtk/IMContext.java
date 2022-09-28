@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -70,7 +68,7 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public boolean deleteSurrounding(int offset, int nChars) {
         var RESULT = gtk_h.gtk_im_context_delete_surrounding(handle(), offset, nChars);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -80,7 +78,7 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public boolean filterKey(boolean press, org.gtk.gdk.Surface surface, org.gtk.gdk.Device device, int time, int keycode, org.gtk.gdk.ModifierType state, int group) {
         var RESULT = gtk_h.gtk_im_context_filter_key(handle(), press ? 1 : 0, surface.handle(), device.handle(), time, keycode, state.getValue(), group);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -92,7 +90,7 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public boolean filterKeypress(org.gtk.gdk.Event event) {
         var RESULT = gtk_h.gtk_im_context_filter_keypress(handle(), event.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -146,7 +144,7 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public boolean getSurroundingWithSelection(java.lang.String[] text, PointerInteger cursorIndex, PointerInteger anchorIndex) {
         var RESULT = gtk_h.gtk_im_context_get_surrounding_with_selection(handle(), Interop.allocateNativeArray(text).handle(), cursorIndex.handle(), anchorIndex.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -227,7 +225,7 @@ public class IMContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -236,7 +234,7 @@ public class IMContext extends org.gtk.gobject.Object {
     }
     
     public static void __signalIMContextCommit(MemoryAddress source, MemoryAddress str, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IMContext.CommitHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IMContext(References.get(source)), str.getUtf8String(0));
     }
@@ -260,7 +258,7 @@ public class IMContext extends org.gtk.gobject.Object {
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -269,7 +267,7 @@ public class IMContext extends org.gtk.gobject.Object {
     }
     
     public static boolean __signalIMContextDeleteSurrounding(MemoryAddress source, int offset, int nChars, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IMContext.DeleteSurroundingHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new IMContext(References.get(source)), offset, nChars);
     }
@@ -296,7 +294,7 @@ public class IMContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -305,7 +303,7 @@ public class IMContext extends org.gtk.gobject.Object {
     }
     
     public static void __signalIMContextPreeditChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IMContext.PreeditChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IMContext(References.get(source)));
     }
@@ -329,7 +327,7 @@ public class IMContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -338,7 +336,7 @@ public class IMContext extends org.gtk.gobject.Object {
     }
     
     public static void __signalIMContextPreeditEnd(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IMContext.PreeditEndHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IMContext(References.get(source)));
     }
@@ -362,7 +360,7 @@ public class IMContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -371,7 +369,7 @@ public class IMContext extends org.gtk.gobject.Object {
     }
     
     public static void __signalIMContextPreeditStart(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IMContext.PreeditStartHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new IMContext(References.get(source)));
     }
@@ -398,7 +396,7 @@ public class IMContext extends org.gtk.gobject.Object {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -407,7 +405,7 @@ public class IMContext extends org.gtk.gobject.Object {
     }
     
     public static boolean __signalIMContextRetrieveSurrounding(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IMContext.RetrieveSurroundingHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new IMContext(References.get(source)));
     }

@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -97,7 +95,23 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Retrieves the names of the applications that have registered the
+     * bookmark for {@code uri}.
+     * <p>
+     * In the event the URI cannot be found, {@code null} is returned and
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
+     */
+    public PointerIterator<java.lang.String> getApplications(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_bookmark_file_get_applications(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -116,6 +130,24 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Retrieves the list of group names of the bookmark for {@code uri}.
+     * <p>
+     * In the event the URI cannot be found, {@code null} is returned and
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
+     * <p>
+     * The returned array is {@code null} terminated, so {@code length} may optionally
+     * be {@code null}.
+     */
+    public PointerIterator<java.lang.String> getGroups(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_bookmark_file_get_groups(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Gets the icon of the bookmark for {@code uri}.
      * <p>
      * In the event the URI cannot be found, {@code false} is returned and
@@ -127,7 +159,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -144,7 +176,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -205,6 +237,16 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Returns all URIs of the bookmarks in the bookmark file {@code bookmark}.
+     * The array of returned URIs will be {@code null}-terminated, so {@code length} may
+     * optionally be {@code null}.
+     */
+    public PointerIterator<java.lang.String> getUris(PointerLong length) {
+        var RESULT = gtk_h.g_bookmark_file_get_uris(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Gets the time the bookmark for {@code uri} was last visited.
      * <p>
      * In the event the URI cannot be found, {@code null} is returned and
@@ -232,7 +274,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -248,7 +290,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -256,7 +298,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean hasItem(java.lang.String uri) {
         var RESULT = gtk_h.g_bookmark_file_has_item(handle(), Interop.allocateNativeString(uri).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -266,11 +308,11 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_bookmark_file_load_from_data(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length, GERROR);
+        var RESULT = gtk_h.g_bookmark_file_load_from_data(handle(), Interop.allocateNativeArray(data).handle(), length, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -286,7 +328,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -300,7 +342,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -317,7 +359,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -336,7 +378,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -354,7 +396,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -366,7 +408,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -413,7 +455,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -508,6 +550,18 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * This function outputs {@code bookmark} as a string.
+     */
+    public PointerIterator<Byte> toData(PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_bookmark_file_to_data(handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
      * This function outputs {@code bookmark} into a file.  The write process is
      * guaranteed to be atomic by using g_file_set_contents() internally.
      */
@@ -517,7 +571,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static Quark errorQuark() {

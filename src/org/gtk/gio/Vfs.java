@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -42,11 +40,19 @@ public class Vfs extends org.gtk.gobject.Object {
     }
     
     /**
+     * Gets a list of URI schemes supported by {@code vfs}.
+     */
+    public PointerIterator<java.lang.String> getSupportedUriSchemes() {
+        var RESULT = gtk_h.g_vfs_get_supported_uri_schemes(handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Checks if the VFS is active.
      */
     public boolean isActive() {
         var RESULT = gtk_h.g_vfs_is_active(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -89,16 +95,16 @@ public class Vfs extends org.gtk.gobject.Object {
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
                     Interop.cbDestroyNotifySymbol(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbVfsFileLookupFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
                     Interop.cbDestroyNotifySymbol());
-            return (RESULT != 0);
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -110,7 +116,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public boolean unregisterUriScheme(java.lang.String scheme) {
         var RESULT = gtk_h.g_vfs_unregister_uri_scheme(handle(), Interop.allocateNativeString(scheme).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

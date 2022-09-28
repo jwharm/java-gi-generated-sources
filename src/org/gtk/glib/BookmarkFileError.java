@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by bookmark file parsing.
  */
-public class BookmarkFileError {
+public class BookmarkFileError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * URI was ill-formed
@@ -47,26 +47,8 @@ public class BookmarkFileError {
      */
     public static final BookmarkFileError FILE_NOT_FOUND = new BookmarkFileError(7);
     
-    private int value;
-    
     public BookmarkFileError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BookmarkFileError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

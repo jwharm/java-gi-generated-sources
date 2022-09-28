@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -122,7 +120,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getHasCrOrLf() {
         var RESULT = gtk_h.g_regex_get_has_cr_or_lf(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -214,7 +212,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean match(java.lang.String string, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) {
         var RESULT = gtk_h.g_regex_match(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -235,7 +233,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean matchAll(java.lang.String string, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) {
         var RESULT = gtk_h.g_regex_match_all(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -284,7 +282,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -346,7 +344,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -449,10 +447,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
             var RESULT = gtk_h.g_regex_replace_eval(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbRegexEvalCallback",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(eval.hashCode(), eval)), GERROR);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(eval.hashCode(), eval)), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -482,6 +480,62 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Breaks the string on the pattern, and returns an array of the tokens.
+     * If the pattern contains capturing parentheses, then the text for each
+     * of the substrings will also be returned. If the pattern does not match
+     * anywhere in the string, then the whole string is returned as the first
+     * token.
+     * <p>
+     * As a special case, the result of splitting the empty string "" is an
+     * empty vector, not a vector containing a single string. The reason for
+     * this special case is that being able to represent an empty vector is
+     * typically more useful than consistent handling of empty elements. If
+     * you do need to represent empty elements, you'll need to check for the
+     * empty string before calling this function.
+     * <p>
+     * A pattern that can match empty strings splits {@code string} into separate
+     * characters wherever it matches the empty string between characters.
+     * For example splitting "ab c" using as a separator "\\s*", you will get
+     * "a", "b" and "c".
+     */
+    public PointerIterator<java.lang.String> split(java.lang.String string, RegexMatchFlags matchOptions) {
+        var RESULT = gtk_h.g_regex_split(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Breaks the string on the pattern, and returns an array of the tokens.
+     * If the pattern contains capturing parentheses, then the text for each
+     * of the substrings will also be returned. If the pattern does not match
+     * anywhere in the string, then the whole string is returned as the first
+     * token.
+     * <p>
+     * As a special case, the result of splitting the empty string "" is an
+     * empty vector, not a vector containing a single string. The reason for
+     * this special case is that being able to represent an empty vector is
+     * typically more useful than consistent handling of empty elements. If
+     * you do need to represent empty elements, you'll need to check for the
+     * empty string before calling this function.
+     * <p>
+     * A pattern that can match empty strings splits {@code string} into separate
+     * characters wherever it matches the empty string between characters.
+     * For example splitting "ab c" using as a separator "\\s*", you will get
+     * "a", "b" and "c".
+     * <p>
+     * Setting {@code start_position} differs from just passing over a shortened
+     * string and setting {@link RegexMatchFlags#NOTBOL} in the case of a pattern
+     * that begins with any kind of lookbehind assertion, such as "\\b".
+     */
+    public PointerIterator<java.lang.String> splitFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_regex_split_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), maxTokens, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Decreases reference count of {@code regex} by 1. When reference count drops
      * to zero, it frees all the memory associated with the regex structure.
      */
@@ -506,7 +560,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static Quark errorQuark() {
@@ -554,7 +608,41 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean matchSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
         var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Breaks the string on the pattern, and returns an array of
+     * the tokens. If the pattern contains capturing parentheses,
+     * then the text for each of the substrings will also be returned.
+     * If the pattern does not match anywhere in the string, then the
+     * whole string is returned as the first token.
+     * <p>
+     * This function is equivalent to g_regex_split() but it does
+     * not require to compile the pattern with g_regex_new(), avoiding
+     * some lines of code when you need just to do a split without
+     * extracting substrings, capture counts, and so on.
+     * <p>
+     * If this function is to be called on the same {@code pattern} more than
+     * once, it's more efficient to compile the pattern once with
+     * g_regex_new() and then use g_regex_split().
+     * <p>
+     * As a special case, the result of splitting the empty string ""
+     * is an empty vector, not a vector containing a single string.
+     * The reason for this special case is that being able to represent
+     * an empty vector is typically more useful than consistent handling
+     * of empty elements. If you do need to represent empty elements,
+     * you'll need to check for the empty string before calling this
+     * function.
+     * <p>
+     * A pattern that can match empty strings splits {@code string} into
+     * separate characters wherever it matches the empty string between
+     * characters. For example splitting "ab c" using as a separator
+     * "\\s*", you will get "a", "b" and "c".
+     */
+    public static PointerIterator<java.lang.String> splitSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
+        var RESULT = gtk_h.g_regex_split_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
+        return new PointerString(RESULT).iterator();
     }
     
 }

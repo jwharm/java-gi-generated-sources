@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -121,7 +119,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
      */
     public boolean getTitleVisible() {
         var RESULT = gtk_h.adw_view_switcher_title_get_title_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -129,7 +127,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
      */
     public boolean getViewSwitcherEnabled() {
         var RESULT = gtk_h.adw_view_switcher_title_get_view_switcher_enabled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

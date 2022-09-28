@@ -6,7 +6,7 @@ package org.gtk.gdk;
  * See the X11 protocol specification of LeaveNotify for
  * full details of crossing event generation.
  */
-public class NotifyType {
+public class NotifyType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the surface is entered from an ancestor or
@@ -45,26 +45,8 @@ public class NotifyType {
      */
     public static final NotifyType UNKNOWN = new NotifyType(5);
     
-    private int value;
-    
     public NotifyType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(NotifyType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

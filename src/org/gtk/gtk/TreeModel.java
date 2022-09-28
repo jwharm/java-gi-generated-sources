@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -210,7 +208,7 @@ import java.lang.invoke.*;
  *   however, signals must be emitted at all times (however the root level
  *   is always referenced when any view is attached).
  */
-public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
+public interface TreeModel extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Creates a new {@code GtkTreeModel}, with {@code child_model} as the child_model
@@ -232,10 +230,10 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
             gtk_h.gtk_tree_model_foreach(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeModelForeachFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -269,7 +267,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getIter(TreeIter iter, TreePath path) {
         var RESULT = gtk_h.gtk_tree_model_get_iter(handle(), iter.handle(), path.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -280,7 +278,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getIterFirst(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_get_iter_first(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -291,7 +289,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getIterFromString(TreeIter iter, java.lang.String pathString) {
         var RESULT = gtk_h.gtk_tree_model_get_iter_from_string(handle(), iter.handle(), Interop.allocateNativeString(pathString).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -356,7 +354,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean iterChildren(TreeIter iter, TreeIter parent) {
         var RESULT = gtk_h.gtk_tree_model_iter_children(handle(), iter.handle(), parent.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -364,7 +362,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean iterHasChild(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_iter_has_child(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -386,7 +384,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean iterNext(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_iter_next(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -400,7 +398,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean iterNthChild(TreeIter iter, TreeIter parent, int n) {
         var RESULT = gtk_h.gtk_tree_model_iter_nth_child(handle(), iter.handle(), parent.handle(), n);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -416,7 +414,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean iterParent(TreeIter iter, TreeIter child) {
         var RESULT = gtk_h.gtk_tree_model_iter_parent(handle(), iter.handle(), child.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -427,7 +425,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean iterPrevious(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_iter_previous(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -520,7 +518,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * reordered.
      */
     public default void rowsReorderedWithLength(TreePath path, TreeIter iter, int[] newOrder, int length) {
-        gtk_h.gtk_tree_model_rows_reordered_with_length(handle(), path.handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle(), length);
+        gtk_h.gtk_tree_model_rows_reordered_with_length(handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder).handle(), length);
     }
     
     /**
@@ -555,7 +553,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -564,7 +562,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalTreeModelRowChanged(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeModel.RowChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
     }
@@ -594,7 +592,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -603,7 +601,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalTreeModelRowDeleted(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeModel.RowDeletedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)));
     }
@@ -627,7 +625,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -636,7 +634,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalTreeModelRowHasChildToggled(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeModel.RowHasChildToggledHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
     }
@@ -664,7 +662,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -673,7 +671,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalTreeModelRowInserted(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeModel.RowInsertedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
     }
@@ -701,7 +699,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -710,7 +708,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalTreeModelRowsReordered(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress newOrder, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeModel.RowsReorderedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)), newOrder);
     }

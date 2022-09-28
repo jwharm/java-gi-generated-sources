@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Flags used to influence dialog construction.
  */
-public class DialogFlags {
+public class DialogFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Make the constructed dialog modal
@@ -21,38 +21,8 @@ public class DialogFlags {
      */
     public static final DialogFlags USE_HEADER_BAR = new DialogFlags(4);
     
-    private int value;
-    
     public DialogFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DialogFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DialogFlags combined(DialogFlags mask) {
-        return new DialogFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DialogFlags combined(DialogFlags mask, DialogFlags... masks) {
-        int value = mask.getValue();
-        for (DialogFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DialogFlags(value);
+        super(value);
     }
     
 }

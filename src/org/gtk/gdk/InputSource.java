@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * An enumeration describing the type of an input device in general terms.
  */
-public class InputSource {
+public class InputSource extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the device is a mouse. (This will be reported for the core
@@ -44,26 +44,8 @@ public class InputSource {
      */
     public static final InputSource TABLET_PAD = new InputSource(6);
     
-    private int value;
-    
     public InputSource(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(InputSource[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

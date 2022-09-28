@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,7 +13,7 @@ import java.lang.invoke.*;
  * name 'socks5' using the function
  * g_io_extension_point_get_extension_by_name().
  */
-public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
+public interface Proxy extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Given {@code connection} to communicate with a proxy (eg, a
@@ -43,7 +41,7 @@ public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +70,7 @@ public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean supportsHostname() {
         var RESULT = gtk_h.g_proxy_supports_hostname(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

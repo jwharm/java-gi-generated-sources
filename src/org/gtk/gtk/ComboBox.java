@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -174,7 +172,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public boolean getActiveIter(TreeIter iter) {
         var RESULT = gtk_h.gtk_combo_box_get_active_iter(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -208,7 +206,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public boolean getHasEntry() {
         var RESULT = gtk_h.gtk_combo_box_get_has_entry(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -233,7 +231,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public boolean getPopupFixedWidth() {
         var RESULT = gtk_h.gtk_combo_box_get_popup_fixed_width(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -290,7 +288,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public boolean setActiveId(java.lang.String activeId) {
         var RESULT = gtk_h.gtk_combo_box_set_active_id(handle(), Interop.allocateNativeString(activeId).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -381,10 +379,10 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
             gtk_h.gtk_combo_box_set_row_separator_func(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeViewRowSeparatorFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -412,7 +410,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -421,7 +419,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     public static void __signalComboBoxActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ComboBox.ActivateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ComboBox(References.get(source)));
     }
@@ -448,7 +446,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -457,7 +455,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     public static void __signalComboBoxChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ComboBox.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ComboBox(References.get(source)));
     }
@@ -510,7 +508,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -519,7 +517,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     public static void __signalComboBoxFormatEntryText(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ComboBox.FormatEntryTextHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ComboBox(References.get(source)), path.getUtf8String(0));
     }
@@ -544,7 +542,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -553,7 +551,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     public static void __signalComboBoxMoveActive(MemoryAddress source, int scrollType, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ComboBox.MoveActiveHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ComboBox(References.get(source)), new ScrollType(scrollType));
     }
@@ -580,7 +578,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -589,7 +587,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     public static boolean __signalComboBoxPopdown(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ComboBox.PopdownHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new ComboBox(References.get(source)));
     }
@@ -616,7 +614,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -625,7 +623,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     public static void __signalComboBoxPopup(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ComboBox.PopupHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ComboBox(References.get(source)));
     }

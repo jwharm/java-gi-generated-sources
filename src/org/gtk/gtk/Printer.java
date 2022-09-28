@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -47,7 +45,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean acceptsPdf() {
         var RESULT = gtk_h.gtk_printer_accepts_pdf(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -56,7 +54,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean acceptsPs() {
         var RESULT = gtk_h.gtk_printer_accepts_ps(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -119,7 +117,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean getHardMargins(PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
         var RESULT = gtk_h.gtk_printer_get_hard_margins(handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -134,7 +132,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean getHardMarginsForPaperSize(PaperSize paperSize, PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
         var RESULT = gtk_h.gtk_printer_get_hard_margins_for_paper_size(handle(), paperSize.handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -183,7 +181,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean hasDetails() {
         var RESULT = gtk_h.gtk_printer_has_details(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -191,7 +189,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean isAcceptingJobs() {
         var RESULT = gtk_h.gtk_printer_is_accepting_jobs(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -200,7 +198,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean isActive() {
         var RESULT = gtk_h.gtk_printer_is_active(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -208,7 +206,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean isDefault() {
         var RESULT = gtk_h.gtk_printer_is_default(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -219,7 +217,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean isPaused() {
         var RESULT = gtk_h.gtk_printer_is_paused(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -229,7 +227,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean isVirtual() {
         var RESULT = gtk_h.gtk_printer_is_virtual(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -274,10 +272,10 @@ public class Printer extends org.gtk.gobject.Object {
                 Interop.allocateNativeString("details-acquired").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Printer.class, "__signalPrinterDetailsAcquired",
-                        MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -285,10 +283,10 @@ public class Printer extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalPrinterDetailsAcquired(MemoryAddress source, boolean success, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalPrinterDetailsAcquired(MemoryAddress source, int success, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Printer.DetailsAcquiredHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Printer(References.get(source)), success);
+        handler.signalReceived(new Printer(References.get(source)), success != 0);
     }
     
 }

@@ -5,7 +5,7 @@ package org.gtk.glib;
  * Unicode specification.
  * See <a href="http://www.unicode.org/reports/tr44/#General_Category_Values">Unicode Character Database</a>.
  */
-public class UnicodeType {
+public class UnicodeType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * General category "Other, Control" (Cc)
@@ -157,26 +157,8 @@ public class UnicodeType {
      */
     public static final UnicodeType SPACE_SEPARATOR = new UnicodeType(29);
     
-    private int value;
-    
     public UnicodeType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UnicodeType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

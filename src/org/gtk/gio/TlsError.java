@@ -4,7 +4,7 @@ package org.gtk.gio;
  * An error code used with {@code G_TLS_ERROR} in a {@link org.gtk.glib.Error} returned from a
  * TLS-related routine.
  */
-public class TlsError {
+public class TlsError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No TLS provider is available
@@ -61,26 +61,8 @@ public class TlsError {
      */
     public static final TlsError BAD_CERTIFICATE_PASSWORD = new TlsError(8);
     
-    private int value;
-    
     public TlsError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TlsError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

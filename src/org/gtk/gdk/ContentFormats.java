@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -80,7 +78,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean containGtype(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.gdk_content_formats_contain_gtype(handle(), type.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -88,7 +86,29 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean containMimeType(java.lang.String mimeType) {
         var RESULT = gtk_h.gdk_content_formats_contain_mime_type(handle(), Interop.allocateNativeString(mimeType).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets the {@code GType}s included in {@code formats}.
+     * <p>
+     * Note that {@code formats} may not contain any {@code GType}s, in particular when
+     * they are empty. In that case {@code null} will be returned.
+     */
+    public PointerIterator<Long> getGtypes(PointerLong nGtypes) {
+        var RESULT = gtk_h.gdk_content_formats_get_gtypes(handle(), nGtypes.handle());
+        return new PointerLong(RESULT).iterator();
+    }
+    
+    /**
+     * Gets the mime types included in {@code formats}.
+     * <p>
+     * Note that {@code formats} may not contain any mime types, in particular
+     * when they are empty. In that case {@code null} will be returned.
+     */
+    public PointerIterator<java.lang.String> getMimeTypes(PointerLong nMimeTypes) {
+        var RESULT = gtk_h.gdk_content_formats_get_mime_types(handle(), nMimeTypes.handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -96,7 +116,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean match(ContentFormats second) {
         var RESULT = gtk_h.gdk_content_formats_match(handle(), second.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

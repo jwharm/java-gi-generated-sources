@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -371,7 +369,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public boolean getIsBusy() {
         var RESULT = gtk_h.g_application_get_is_busy(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -382,7 +380,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public boolean getIsRegistered() {
         var RESULT = gtk_h.g_application_get_is_registered(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -399,7 +397,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public boolean getIsRemote() {
         var RESULT = gtk_h.g_application_get_is_remote(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -520,7 +518,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -883,7 +881,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public static boolean idIsValid(java.lang.String applicationId) {
         var RESULT = gtk_h.g_application_id_is_valid(Interop.allocateNativeString(applicationId).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -905,7 +903,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -914,7 +912,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     public static void __signalApplicationActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.ActivateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Application(References.get(source)));
     }
@@ -939,7 +937,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -948,7 +946,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     public static void __signalApplicationCommandLine(MemoryAddress source, MemoryAddress commandLine, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.CommandLineHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Application(References.get(source)), new ApplicationCommandLine(References.get(commandLine, false)));
     }
@@ -1011,7 +1009,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1020,7 +1018,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     public static void __signalApplicationHandleLocalOptions(MemoryAddress source, MemoryAddress options, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.HandleLocalOptionsHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Application(References.get(source)), new org.gtk.glib.VariantDict(References.get(options, false)));
     }
@@ -1047,7 +1045,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1056,14 +1054,14 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     public static boolean __signalApplicationNameLost(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.NameLostHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Application(References.get(source)));
     }
     
     @FunctionalInterface
     public interface OpenHandler {
-        void signalReceived(Application source, File[] files, int nFiles, java.lang.String hint);
+        void signalReceived(Application source, PointerIterator<File> files, int nFiles, java.lang.String hint);
     }
     
     /**
@@ -1080,7 +1078,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1089,9 +1087,9 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     public static void __signalApplicationOpen(MemoryAddress source, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.OpenHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)), null, nFiles, hint.getUtf8String(0));
+        handler.signalReceived(new Application(References.get(source)), new PointerProxy<File>(files, File.class).iterator(), nFiles, hint.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -1113,7 +1111,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1122,7 +1120,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     public static void __signalApplicationShutdown(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.ShutdownHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Application(References.get(source)));
     }
@@ -1146,7 +1144,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1155,7 +1153,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     public static void __signalApplicationStartup(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Application.StartupHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Application(References.get(source)));
     }

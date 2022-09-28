@@ -1,6 +1,6 @@
 package org.harfbuzz;
 
-import io.github.jwharm.javagi.NativeAddress;
+import io.github.jwharm.javagi.Proxy;
 import java.lang.foreign.MemoryAddress;
 
 public class VarIntT extends io.github.jwharm.javagi.ResourceBase {

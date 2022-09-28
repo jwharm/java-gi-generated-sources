@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,7 +42,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     private static Reference constructNewFromBytes(byte[] bytes, SocketFamily family) {
-        Reference RESULT = References.get(gtk_h.g_inet_address_new_from_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes)).handle(), family.getValue()), true);
+        Reference RESULT = References.get(gtk_h.g_inet_address_new_from_bytes(Interop.allocateNativeArray(bytes).handle(), family.getValue()), true);
         return RESULT;
     }
     
@@ -86,7 +84,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean equal(InetAddress otherAddress) {
         var RESULT = gtk_h.g_inet_address_equal(handle(), otherAddress.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -102,7 +100,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsAny() {
         var RESULT = gtk_h.g_inet_address_get_is_any(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -112,7 +110,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsLinkLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_link_local(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -120,7 +118,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsLoopback() {
         var RESULT = gtk_h.g_inet_address_get_is_loopback(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -128,7 +126,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsMcGlobal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_global(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -136,7 +134,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsMcLinkLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_link_local(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -144,7 +142,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsMcNodeLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_node_local(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -152,7 +150,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsMcOrgLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_org_local(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -160,7 +158,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsMcSiteLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_site_local(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -168,7 +166,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsMulticast() {
         var RESULT = gtk_h.g_inet_address_get_is_multicast(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -179,7 +177,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public boolean getIsSiteLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_site_local(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

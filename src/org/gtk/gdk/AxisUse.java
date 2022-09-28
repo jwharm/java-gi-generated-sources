@@ -7,7 +7,7 @@ package org.gtk.gdk;
  * report their location via the x/y members of events regardless. Whether
  * X and Y are present as axes depends on the GDK backend.
  */
-public class AxisUse {
+public class AxisUse extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the axis is ignored.
@@ -74,26 +74,8 @@ public class AxisUse {
      */
     public static final AxisUse LAST = new AxisUse(12);
     
-    private int value;
-    
     public AxisUse(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AxisUse[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

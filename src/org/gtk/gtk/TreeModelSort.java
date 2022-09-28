@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -147,7 +145,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public boolean convertChildIterToIter(TreeIter sortIter, TreeIter childIter) {
         var RESULT = gtk_h.gtk_tree_model_sort_convert_child_iter_to_iter(handle(), sortIter.handle(), childIter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -196,7 +194,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public boolean iterIsValid(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_sort_iter_is_valid(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

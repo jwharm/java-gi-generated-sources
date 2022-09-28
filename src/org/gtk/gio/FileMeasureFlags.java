@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags that can be used with g_file_measure_disk_usage().
  */
-public class FileMeasureFlags {
+public class FileMeasureFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -31,38 +31,8 @@ public class FileMeasureFlags {
      */
     public static final FileMeasureFlags NO_XDEV = new FileMeasureFlags(8);
     
-    private int value;
-    
     public FileMeasureFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileMeasureFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FileMeasureFlags combined(FileMeasureFlags mask) {
-        return new FileMeasureFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static FileMeasureFlags combined(FileMeasureFlags mask, FileMeasureFlags... masks) {
-        int value = mask.getValue();
-        for (FileMeasureFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FileMeasureFlags(value);
+        super(value);
     }
     
 }

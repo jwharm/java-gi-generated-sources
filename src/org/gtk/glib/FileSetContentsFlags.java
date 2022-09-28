@@ -4,7 +4,7 @@ package org.gtk.glib;
  * Flags to pass to g_file_set_contents_full() to affect its safety and
  * performance.
  */
-public class FileSetContentsFlags {
+public class FileSetContentsFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No guarantees about file consistency or durability.
@@ -38,38 +38,8 @@ public class FileSetContentsFlags {
      */
     public static final FileSetContentsFlags ONLY_EXISTING = new FileSetContentsFlags(4);
     
-    private int value;
-    
     public FileSetContentsFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileSetContentsFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FileSetContentsFlags combined(FileSetContentsFlags mask) {
-        return new FileSetContentsFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static FileSetContentsFlags combined(FileSetContentsFlags mask, FileSetContentsFlags... masks) {
-        int value = mask.getValue();
-        for (FileSetContentsFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FileSetContentsFlags(value);
+        super(value);
     }
     
 }

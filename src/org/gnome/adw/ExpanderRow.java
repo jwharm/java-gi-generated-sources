@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -88,7 +86,7 @@ public class ExpanderRow extends PreferencesRow implements org.gtk.gtk.Accessibl
      */
     public boolean getEnableExpansion() {
         var RESULT = gtk_h.adw_expander_row_get_enable_expansion(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -96,7 +94,7 @@ public class ExpanderRow extends PreferencesRow implements org.gtk.gtk.Accessibl
      */
     public boolean getExpanded() {
         var RESULT = gtk_h.adw_expander_row_get_expanded(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -112,7 +110,7 @@ public class ExpanderRow extends PreferencesRow implements org.gtk.gtk.Accessibl
      */
     public boolean getShowEnableSwitch() {
         var RESULT = gtk_h.adw_expander_row_get_show_enable_switch(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

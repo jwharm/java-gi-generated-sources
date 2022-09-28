@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_settings_set_orientation().
  */
-public class PageOrientation {
+public class PageOrientation extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Portrait mode.
@@ -25,26 +25,8 @@ public class PageOrientation {
      */
     public static final PageOrientation REVERSE_LANDSCAPE = new PageOrientation(3);
     
-    private int value;
-    
     public PageOrientation(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PageOrientation[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

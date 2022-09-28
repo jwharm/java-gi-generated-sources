@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * {@link DataStreamNewlineType} is used when checking for or setting the line endings for a given file.
  */
-public class DataStreamNewlineType {
+public class DataStreamNewlineType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Selects "LF" line endings, common on most modern UNIX platforms.
@@ -25,26 +25,8 @@ public class DataStreamNewlineType {
      */
     public static final DataStreamNewlineType ANY = new DataStreamNewlineType(3);
     
-    private int value;
-    
     public DataStreamNewlineType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DataStreamNewlineType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

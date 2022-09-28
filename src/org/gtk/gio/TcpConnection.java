@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +26,7 @@ public class TcpConnection extends SocketConnection {
      */
     public boolean getGracefulDisconnect() {
         var RESULT = gtk_h.g_tcp_connection_get_graceful_disconnect(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

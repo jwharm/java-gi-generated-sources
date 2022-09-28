@@ -8,7 +8,7 @@ package org.gtk.glib;
  * It is likely that this enum will be extended in the future to
  * support other types.
  */
-public class MarkupCollectType {
+public class MarkupCollectType extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * used to terminate the list of attributes
@@ -55,38 +55,8 @@ public class MarkupCollectType {
      */
     public static final MarkupCollectType OPTIONAL = new MarkupCollectType(65536);
     
-    private int value;
-    
     public MarkupCollectType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MarkupCollectType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public MarkupCollectType combined(MarkupCollectType mask) {
-        return new MarkupCollectType(this.getValue() | mask.getValue());
-    }
-    
-    public static MarkupCollectType combined(MarkupCollectType mask, MarkupCollectType... masks) {
-        int value = mask.getValue();
-        for (MarkupCollectType arg : masks) {
-            value |= arg.getValue();
-        }
-        return new MarkupCollectType(value);
+        super(value);
     }
     
 }

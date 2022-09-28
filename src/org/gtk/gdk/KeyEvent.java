@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -69,7 +67,7 @@ public class KeyEvent extends Event {
      */
     public boolean getMatch(PointerInteger keyval, ModifierType modifiers) {
         var RESULT = gtk_h.gdk_key_event_get_match(handle(), keyval.handle(), new PointerInteger(modifiers.getValue()).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -77,7 +75,7 @@ public class KeyEvent extends Event {
      */
     public boolean isModifier() {
         var RESULT = gtk_h.gdk_key_event_is_modifier(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

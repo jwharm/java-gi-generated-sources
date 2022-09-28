@@ -4,7 +4,7 @@ package org.harfbuzz;
  * The math kerning-table types defined for the four corners
  * of a glyph.
  */
-public class OtMathKernT {
+public class OtMathKernT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The top right corner of the glyph.
@@ -26,26 +26,8 @@ public class OtMathKernT {
      */
     public static final OtMathKernT BOTTOM_LEFT = new OtMathKernT(3);
     
-    private int value;
-    
     public OtMathKernT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OtMathKernT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

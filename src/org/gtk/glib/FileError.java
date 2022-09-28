@@ -14,7 +14,7 @@ package org.gtk.glib;
  * don't occur on some systems, etc., sometimes there are subtle
  * differences in when a system will report a given error, etc.
  */
-public class FileError {
+public class FileError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Operation not permitted; only the owner of
@@ -183,26 +183,8 @@ public class FileError {
      */
     public static final FileError FAILED = new FileError(24);
     
-    private int value;
-    
     public FileError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

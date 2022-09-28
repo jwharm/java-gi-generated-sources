@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Describes whether a {@code GtkFileChooser} is being used to open existing files
  * or to save to a possibly new file.
  */
-public class FileChooserAction {
+public class FileChooserAction extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Indicates open mode.  The file chooser
@@ -26,26 +26,8 @@ public class FileChooserAction {
      */
     public static final FileChooserAction SELECT_FOLDER = new FileChooserAction(2);
     
-    private int value;
-    
     public FileChooserAction(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileChooserAction[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

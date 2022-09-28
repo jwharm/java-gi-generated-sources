@@ -6,7 +6,7 @@ package org.gtk.graphene;
  * The {@link EulerOrder#DEFAULT} value is special, and is used
  * as an alias for one of the other orders.
  */
-public class EulerOrder {
+public class EulerOrder extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Rotate in the default order; the
@@ -170,26 +170,8 @@ public class EulerOrder {
      */
     public static final EulerOrder RZYZ = new EulerOrder(29);
     
-    private int value;
-    
     public EulerOrder(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(EulerOrder[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -7,7 +7,7 @@ package org.gtk.glib;
  * Note that the {@link ChecksumType} enumeration may be extended at a later
  * date to include new hashing algorithm types.
  */
-public class ChecksumType {
+public class ChecksumType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Use the MD5 hashing algorithm
@@ -34,26 +34,8 @@ public class ChecksumType {
      */
     public static final ChecksumType SHA384 = new ChecksumType(4);
     
-    private int value;
-    
     public ChecksumType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ChecksumType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

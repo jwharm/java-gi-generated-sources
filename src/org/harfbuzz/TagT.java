@@ -8,27 +8,9 @@ package org.harfbuzz;
  * scripts, languages, font features, and baselines with
  * human-readable names.
  */
-public class TagT {
-    private int value;
-    
+public class TagT extends io.github.jwharm.javagi.Alias<Integer> {
     public TagT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TagT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -71,7 +69,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getPositionsInPixels() {
         var RESULT = gtk_h.pango_tab_array_get_positions_in_pixels(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -80,6 +78,24 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     public int getSize() {
         var RESULT = gtk_h.pango_tab_array_get_size(handle());
         return RESULT;
+    }
+    
+    /**
+     * Gets the alignment and position of a tab stop.
+     */
+    public void getTab(int tabIndex, TabAlign alignment, PointerInteger location) {
+        gtk_h.pango_tab_array_get_tab(handle(), tabIndex, new PointerInteger(alignment.getValue()).handle(), location.handle());
+    }
+    
+    /**
+     * If non-{@code null}, {@code alignments} and {@code locations} are filled with allocated
+     * arrays.
+     * <p>
+     * The arrays are of length {@link TabArray#getSize}.
+     * You must free the returned array.
+     */
+    public void getTabs(TabAlign[] alignments, int[] locations) {
+        gtk_h.pango_tab_array_get_tabs(handle(), Interop.allocateNativeArray(TabAlign.getValues(alignments)).handle(), Interop.allocateNativeArray(locations).handle());
     }
     
     /**

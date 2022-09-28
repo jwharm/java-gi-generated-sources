@@ -12,7 +12,7 @@ package org.pango;
  * {@code GLib.UnicodeScript} enumeration instead,
  * whose values are interchangeable with {@code PangoScript}.
  */
-public class Script {
+public class Script extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * a value never returned from pango_script_for_unichar()
@@ -605,26 +605,8 @@ public class Script {
      */
     public static final Script SIGNWRITING = new Script(116);
     
-    private int value;
-    
     public Script(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Script[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

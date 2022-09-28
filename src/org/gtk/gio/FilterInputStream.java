@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +36,7 @@ public class FilterInputStream extends InputStream {
      */
     public boolean getCloseBaseStream() {
         var RESULT = gtk_h.g_filter_input_stream_get_close_base_stream(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -5,27 +5,9 @@ package org.gtk.glib;
  * <p>
  * The {@code G_DATE_BAD_DAY} value represents an invalid day of the month.
  */
-public class DateDay {
-    private byte value;
-    
+public class DateDay extends io.github.jwharm.javagi.Alias<Byte> {
     public DateDay(byte value) {
-        this.value = value;
-    }
-    
-    public byte getValue() {
-        return this.value;
-    }
-    
-    public void setValue(byte value) {
-        this.value = value;
-    }
-    
-    public static byte[] getValues(DateDay[] array) {
-        byte[] values = new byte[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

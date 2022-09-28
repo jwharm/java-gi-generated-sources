@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Used to control what selections users are allowed to make.
  */
-public class SelectionMode {
+public class SelectionMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No selection is possible.
@@ -33,26 +33,8 @@ public class SelectionMode {
      */
     public static final SelectionMode MULTIPLE = new SelectionMode(3);
     
-    private int value;
-    
     public SelectionMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SelectionMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

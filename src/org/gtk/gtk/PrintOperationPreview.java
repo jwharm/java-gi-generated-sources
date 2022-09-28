@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,7 +13,7 @@ import java.lang.invoke.*;
  * {@code Gtk.PrintOperation::preview} signal by
  * {@link PrintOperation}.
  */
-public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAddress {
+public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Ends a preview.
@@ -32,7 +30,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
      */
     public default boolean isSelected(int pageNr) {
         var RESULT = gtk_h.gtk_print_operation_preview_is_selected(handle(), pageNr);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -74,7 +72,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -83,7 +81,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
     }
     
     public static void __signalPrintOperationPreviewGotPageSize(MemoryAddress source, MemoryAddress context, MemoryAddress pageSetup, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperationPreview.GotPageSizeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)), new PageSetup(References.get(pageSetup, false)));
     }
@@ -109,7 +107,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -118,7 +116,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
     }
     
     public static void __signalPrintOperationPreviewReady(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperationPreview.ReadyHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)));
     }

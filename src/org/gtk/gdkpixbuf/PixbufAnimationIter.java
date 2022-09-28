@@ -1,8 +1,6 @@
 package org.gtk.gdkpixbuf;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -47,7 +45,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      */
     public boolean advance(org.gtk.glib.TimeVal currentTime) {
         var RESULT = gtk_h.gdk_pixbuf_animation_iter_advance(handle(), currentTime.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -98,7 +96,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      */
     public boolean onCurrentlyLoadingFrame() {
         var RESULT = gtk_h.gdk_pixbuf_animation_iter_on_currently_loading_frame(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * Flags for {@link buffer_t}.
  */
-public class BufferFlagsT {
+public class BufferFlagsT extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * the default buffer flag.
@@ -70,38 +70,8 @@ public class BufferFlagsT {
      */
     public static final BufferFlagsT PRODUCE_UNSAFE_TO_CONCAT = new BufferFlagsT(64);
     
-    private int value;
-    
     public BufferFlagsT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BufferFlagsT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public BufferFlagsT combined(BufferFlagsT mask) {
-        return new BufferFlagsT(this.getValue() | mask.getValue());
-    }
-    
-    public static BufferFlagsT combined(BufferFlagsT mask, BufferFlagsT... masks) {
-        int value = mask.getValue();
-        for (BufferFlagsT arg : masks) {
-            value |= arg.getValue();
-        }
-        return new BufferFlagsT(value);
+        super(value);
     }
     
 }

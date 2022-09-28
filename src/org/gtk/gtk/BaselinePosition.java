@@ -10,7 +10,7 @@ package org.gtk.gtk;
  * {@code GtkBaselinePosition} to select where to put the baseline inside the
  * extra available space.
  */
-public class BaselinePosition {
+public class BaselinePosition extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Align the baseline at the top
@@ -27,26 +27,8 @@ public class BaselinePosition {
      */
     public static final BaselinePosition BOTTOM = new BaselinePosition(2);
     
-    private int value;
-    
     public BaselinePosition(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BaselinePosition[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

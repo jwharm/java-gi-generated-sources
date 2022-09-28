@@ -8,7 +8,7 @@ package org.gtk.gtk;
  * of {@link TreeModelFlags#ITERS_PERSIST} can be found in the overview of
  * this section.
  */
-public class TreeModelFlags {
+public class TreeModelFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * iterators survive all signals
@@ -22,38 +22,8 @@ public class TreeModelFlags {
      */
     public static final TreeModelFlags LIST_ONLY = new TreeModelFlags(2);
     
-    private int value;
-    
     public TreeModelFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TreeModelFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public TreeModelFlags combined(TreeModelFlags mask) {
-        return new TreeModelFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static TreeModelFlags combined(TreeModelFlags mask, TreeModelFlags... masks) {
-        int value = mask.getValue();
-        for (TreeModelFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new TreeModelFlags(value);
+        super(value);
     }
     
 }

@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * Flags that describe the properties of color palette.
  */
-public class OtColorPaletteFlagsT {
+public class OtColorPaletteFlagsT extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Default indicating that there is nothing special
@@ -23,38 +23,8 @@ public class OtColorPaletteFlagsT {
      */
     public static final OtColorPaletteFlagsT USABLE_WITH_DARK_BACKGROUND = new OtColorPaletteFlagsT(2);
     
-    private int value;
-    
     public OtColorPaletteFlagsT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OtColorPaletteFlagsT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public OtColorPaletteFlagsT combined(OtColorPaletteFlagsT mask) {
-        return new OtColorPaletteFlagsT(this.getValue() | mask.getValue());
-    }
-    
-    public static OtColorPaletteFlagsT combined(OtColorPaletteFlagsT mask, OtColorPaletteFlagsT... masks) {
-        int value = mask.getValue();
-        for (OtColorPaletteFlagsT arg : masks) {
-            value |= arg.getValue();
-        }
-        return new OtColorPaletteFlagsT(value);
+        super(value);
     }
     
 }

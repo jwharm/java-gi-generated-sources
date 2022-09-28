@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Passed as argument to various keybinding signals for moving the
  * cursor position.
  */
-public class MovementStep {
+public class MovementStep extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Move forward or back by graphemes
@@ -56,26 +56,8 @@ public class MovementStep {
      */
     public static final MovementStep HORIZONTAL_PAGES = new MovementStep(9);
     
-    private int value;
-    
     public MovementStep(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MovementStep[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

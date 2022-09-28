@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used when constructing a {@link DBusObjectManagerClient}.
  */
-public class DBusObjectManagerClientFlags {
+public class DBusObjectManagerClientFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -18,38 +18,8 @@ public class DBusObjectManagerClientFlags {
      */
     public static final DBusObjectManagerClientFlags DO_NOT_AUTO_START = new DBusObjectManagerClientFlags(1);
     
-    private int value;
-    
     public DBusObjectManagerClientFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusObjectManagerClientFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusObjectManagerClientFlags combined(DBusObjectManagerClientFlags mask) {
-        return new DBusObjectManagerClientFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusObjectManagerClientFlags combined(DBusObjectManagerClientFlags mask, DBusObjectManagerClientFlags... masks) {
-        int value = mask.getValue();
-        for (DBusObjectManagerClientFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusObjectManagerClientFlags(value);
+        super(value);
     }
     
 }

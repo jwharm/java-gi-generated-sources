@@ -1,6 +1,6 @@
 package org.cairographics;
 
-public class HintStyle {
+public class HintStyle extends io.github.jwharm.javagi.Enumeration {
 
     public static final HintStyle DEFAULT = new HintStyle(0);
     
@@ -12,26 +12,8 @@ public class HintStyle {
     
     public static final HintStyle FULL = new HintStyle(4);
     
-    private int value;
-    
     public HintStyle(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(HintStyle[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

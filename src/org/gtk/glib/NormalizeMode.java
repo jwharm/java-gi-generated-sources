@@ -7,7 +7,7 @@ package org.gtk.glib;
  * accent or as a single precomposed character. Unicode strings
  * should generally be normalized before comparing them.
  */
-public class NormalizeMode {
+public class NormalizeMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * standardize differences that do not affect the
@@ -56,26 +56,8 @@ public class NormalizeMode {
      */
     public static final NormalizeMode NFKC = new NormalizeMode(3);
     
-    private int value;
-    
     public NormalizeMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(NormalizeMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

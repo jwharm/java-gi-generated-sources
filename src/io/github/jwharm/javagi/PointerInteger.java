@@ -8,7 +8,7 @@ import java.lang.foreign.ValueLayout;
  * Use {@code new PointerInteger()} to create an instance, and
  * use {@link #get()} afterwards to retreive the results.
  */
-public class PointerInteger extends Pointer {
+public class PointerInteger extends Pointer<Integer> {
 
     /**
      * Create the pointer. It does not point to a specific value.
@@ -35,7 +35,7 @@ public class PointerInteger extends Pointer {
     /**
      * Use this mehod to set the value that the pointer points to.
      */
-    public void set(int value) {
+    public void set(Integer value) {
         address.set(ValueLayout.JAVA_INT, 0, value);
     }
     
@@ -43,7 +43,7 @@ public class PointerInteger extends Pointer {
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
      */
-    public int get() {
+    public Integer get() {
         return get(0);
     }
     
@@ -52,9 +52,9 @@ public class PointerInteger extends Pointer {
      * @param index The array index
      * @return The value stored at the given index
      */
-    public int get(int index) {
+    public Integer get(int index) {
         return address.get(
-                ValueLayout.JAVA_INT, 
+                ValueLayout.JAVA_INT,
                 ValueLayout.JAVA_INT.byteSize() * index
         );
     }

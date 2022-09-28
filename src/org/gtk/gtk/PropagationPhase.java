@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Describes the stage at which events are fed into a {@link EventController}.
  */
-public class PropagationPhase {
+public class PropagationPhase extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Events are not delivered.
@@ -32,26 +32,8 @@ public class PropagationPhase {
      */
     public static final PropagationPhase TARGET = new PropagationPhase(3);
     
-    private int value;
-    
     public PropagationPhase(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PropagationPhase[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

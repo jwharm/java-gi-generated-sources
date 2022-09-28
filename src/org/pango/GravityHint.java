@@ -8,7 +8,7 @@ package org.pango;
  * <p>
  * See also {@code Pango.Gravity}
  */
-public class GravityHint {
+public class GravityHint extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * scripts will take their natural gravity based
@@ -30,26 +30,8 @@ public class GravityHint {
      */
     public static final GravityHint LINE = new GravityHint(2);
     
-    private int value;
-    
     public GravityHint(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(GravityHint[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

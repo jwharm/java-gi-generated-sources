@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * Baseline tags from <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/baselinetags">Baseline Tags</a> registry.
  */
-public class OtLayoutBaselineTagT {
+public class OtLayoutBaselineTagT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The baseline used by alphabetic scripts such as Latin, Cyrillic and Greek.
@@ -60,26 +60,8 @@ public class OtLayoutBaselineTagT {
      */
     public static final OtLayoutBaselineTagT MATH = new OtLayoutBaselineTagT(1835103336);
     
-    private int value;
-    
     public OtLayoutBaselineTagT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OtLayoutBaselineTagT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

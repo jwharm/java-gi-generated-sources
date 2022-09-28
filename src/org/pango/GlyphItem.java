@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -74,7 +72,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * See also {@link GlyphString#getLogicalWidths}.
      */
     public void getLogicalWidths(java.lang.String text, int[] logicalWidths) {
-        gtk_h.pango_glyph_item_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths)).handle());
+        gtk_h.pango_glyph_item_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeArray(logicalWidths).handle());
     }
     
     /**

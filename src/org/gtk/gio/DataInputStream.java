@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -116,6 +114,24 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
+     * Reads a line from the data input stream.  Note that no encoding
+     * checks or conversion is performed; the input is not guaranteed to
+     * be UTF-8, and may in fact have embedded NUL characters.
+     * <p>
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     */
+    public PointerIterator<Byte> readLine(PointerLong length, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_data_input_stream_read_line(handle(), length.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
      * The asynchronous version of g_data_input_stream_read_line().  It is
      * an error to have two outstanding calls to this function.
      * <p>
@@ -131,10 +147,25 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finish an asynchronous call started by
+     * g_data_input_stream_read_line_async().  Note the warning about
+     * string encoding in g_data_input_stream_read_line() applies here as
+     * well.
+     */
+    public PointerIterator<Byte> readLineFinish(AsyncResult result, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_data_input_stream_read_line_finish(handle(), result.handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerByte(RESULT).iterator();
     }
     
     /**
@@ -266,7 +297,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

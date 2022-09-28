@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used when creating a new {@link DBusConnection}.
  */
-public class DBusConnectionFlags {
+public class DBusConnectionFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -45,38 +45,8 @@ public class DBusConnectionFlags {
      */
     public static final DBusConnectionFlags AUTHENTICATION_REQUIRE_SAME_USER = new DBusConnectionFlags(32);
     
-    private int value;
-    
     public DBusConnectionFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusConnectionFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusConnectionFlags combined(DBusConnectionFlags mask) {
-        return new DBusConnectionFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusConnectionFlags combined(DBusConnectionFlags mask, DBusConnectionFlags... masks) {
-        int value = mask.getValue();
-        for (DBusConnectionFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusConnectionFlags(value);
+        super(value);
     }
     
 }

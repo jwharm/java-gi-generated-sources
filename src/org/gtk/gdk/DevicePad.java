@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +24,7 @@ import java.lang.invoke.*;
  * out through {@link DevicePad#getGroupNModes}, and the current mode
  * for a given group will be notified through events of type {@code GDK_PAD_GROUP_MODE}.
  */
-public interface DevicePad extends io.github.jwharm.javagi.NativeAddress {
+public interface DevicePad extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Returns the group the given {@code feature} and {@code idx} belong to.

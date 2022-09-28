@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,8 +12,19 @@ import java.lang.invoke.*;
  * support sorting. The {@code GtkTreeView} uses the methods provided by this interface
  * to sort the model.
  */
-public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
+public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
 
+    /**
+     * Fills in {@code sort_column_id} and {@code order} with the current sort column and the
+     * order. It returns {@code true} unless the {@code sort_column_id} is
+     * {@code GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID} or
+     * {@code GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID}.
+     */
+    public default boolean getSortColumnId(PointerInteger sortColumnId, SortType order) {
+        var RESULT = gtk_h.gtk_tree_sortable_get_sort_column_id(handle(), sortColumnId.handle(), new PointerInteger(order.getValue()).handle());
+        return RESULT != 0;
+    }
+    
     /**
      * Returns {@code true} if the model has a default sort function. This is used
      * primarily by GtkTreeViewColumns in order to determine if a model can
@@ -23,7 +32,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean hasDefaultSortFunc() {
         var RESULT = gtk_h.gtk_tree_sortable_has_default_sort_func(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -45,7 +54,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -83,7 +92,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -117,7 +126,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -126,7 +135,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalTreeSortableSortColumnChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeSortable.SortColumnChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TreeSortable.TreeSortableImpl(References.get(source)));
     }

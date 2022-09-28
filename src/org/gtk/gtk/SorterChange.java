@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Describes changes in a sorter in more detail and allows users
  * to optimize resorting.
  */
-public class SorterChange {
+public class SorterChange extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The sorter change cannot be described
@@ -31,26 +31,8 @@ public class SorterChange {
      */
     public static final SorterChange MORE_STRICT = new SorterChange(3);
     
-    private int value;
-    
     public SorterChange(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SorterChange[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

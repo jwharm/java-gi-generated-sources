@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -106,7 +104,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getBuffered() {
         var RESULT = gtk_h.g_io_channel_get_buffered(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -117,7 +115,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getCloseOnUnref() {
         var RESULT = gtk_h.g_io_channel_get_close_on_unref(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -172,7 +170,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public IOStatus readChars(byte[] buf, long count, PointerLong bytesRead) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_io_channel_read_chars(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), count, bytesRead.handle(), GERROR);
+        var RESULT = gtk_h.g_io_channel_read_chars(handle(), Interop.allocateNativeArray(buf).handle(), count, bytesRead.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -211,7 +209,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public IOStatus readToEnd(byte[] strReturn, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_io_channel_read_to_end(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, strReturn)).handle(), length.handle(), GERROR);
+        var RESULT = gtk_h.g_io_channel_read_to_end(handle(), Interop.allocateNativeArray(strReturn).handle(), length.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -414,7 +412,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public IOStatus writeChars(byte[] buf, long count, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_io_channel_write_chars(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), count, bytesWritten.handle(), GERROR);
+        var RESULT = gtk_h.g_io_channel_write_chars(handle(), Interop.allocateNativeArray(buf).handle(), count, bytesWritten.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

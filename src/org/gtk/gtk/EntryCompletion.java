@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -132,7 +130,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public boolean getInlineCompletion() {
         var RESULT = gtk_h.gtk_entry_completion_get_inline_completion(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -140,7 +138,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public boolean getInlineSelection() {
         var RESULT = gtk_h.gtk_entry_completion_get_inline_selection(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -166,7 +164,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public boolean getPopupCompletion() {
         var RESULT = gtk_h.gtk_entry_completion_get_popup_completion(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -175,7 +173,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public boolean getPopupSetWidth() {
         var RESULT = gtk_h.gtk_entry_completion_get_popup_set_width(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -184,7 +182,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public boolean getPopupSingleMatch() {
         var RESULT = gtk_h.gtk_entry_completion_get_popup_single_match(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -229,10 +227,10 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
             gtk_h.gtk_entry_completion_set_match_func(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbEntryCompletionMatchFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -330,7 +328,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -339,7 +337,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     public static boolean __signalEntryCompletionCursorOnMatch(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EntryCompletion.CursorOnMatchHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new EntryCompletion(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
     }
@@ -370,7 +368,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -379,7 +377,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     public static boolean __signalEntryCompletionInsertPrefix(MemoryAddress source, MemoryAddress prefix, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EntryCompletion.InsertPrefixHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new EntryCompletion(References.get(source)), prefix.getUtf8String(0));
     }
@@ -409,7 +407,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -418,7 +416,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     public static boolean __signalEntryCompletionMatchSelected(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EntryCompletion.MatchSelectedHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new EntryCompletion(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
     }
@@ -444,7 +442,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -453,7 +451,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     public static void __signalEntryCompletionNoMatches(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EntryCompletion.NoMatchesHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new EntryCompletion(References.get(source)));
     }

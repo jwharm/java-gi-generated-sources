@@ -5,7 +5,7 @@ package org.pango;
  * <p>
  * New members may be added to this enumeration over time.
  */
-public class LayoutDeserializeFlags {
+public class LayoutDeserializeFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Default behavior
@@ -18,38 +18,8 @@ public class LayoutDeserializeFlags {
      */
     public static final LayoutDeserializeFlags CONTEXT = new LayoutDeserializeFlags(1);
     
-    private int value;
-    
     public LayoutDeserializeFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(LayoutDeserializeFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public LayoutDeserializeFlags combined(LayoutDeserializeFlags mask) {
-        return new LayoutDeserializeFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static LayoutDeserializeFlags combined(LayoutDeserializeFlags mask, LayoutDeserializeFlags... masks) {
-        int value = mask.getValue();
-        for (LayoutDeserializeFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new LayoutDeserializeFlags(value);
+        super(value);
     }
     
 }

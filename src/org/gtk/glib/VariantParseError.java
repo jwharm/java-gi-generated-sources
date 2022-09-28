@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by parsing text-format GVariants.
  */
-public class VariantParseError {
+public class VariantParseError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * generic error (unused)
@@ -100,26 +100,8 @@ public class VariantParseError {
      */
     public static final VariantParseError RECURSION = new VariantParseError(18);
     
-    private int value;
-    
     public VariantParseError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(VariantParseError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

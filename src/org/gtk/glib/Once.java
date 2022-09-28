@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -51,7 +49,7 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean initEnter(java.lang.foreign.MemoryAddress location) {
         var RESULT = gtk_h.g_once_init_enter(location);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

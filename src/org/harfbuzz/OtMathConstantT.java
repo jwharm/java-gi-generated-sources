@@ -5,7 +5,7 @@ package org.harfbuzz;
  * <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/math#mathconstants-table">OpenType documentation</a>
  * For more explanations.
  */
-public class OtMathConstantT {
+public class OtMathConstantT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * scriptPercentScaleDown
@@ -287,26 +287,8 @@ public class OtMathConstantT {
      */
     public static final OtMathConstantT RADICAL_DEGREE_BOTTOM_RAISE_PERCENT = new OtMathConstantT(55);
     
-    private int value;
-    
     public OtMathConstantT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OtMathConstantT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

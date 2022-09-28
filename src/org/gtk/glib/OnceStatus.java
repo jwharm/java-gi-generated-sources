@@ -4,7 +4,7 @@ package org.gtk.glib;
  * The possible statuses of a one-time initialization function
  * controlled by a {@link Once} struct.
  */
-public class OnceStatus {
+public class OnceStatus extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the function has not been called yet.
@@ -21,26 +21,8 @@ public class OnceStatus {
      */
     public static final OnceStatus READY = new OnceStatus(2);
     
-    private int value;
-    
     public OnceStatus(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OnceStatus[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

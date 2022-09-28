@@ -1,8 +1,6 @@
 package org.gtk.gobject;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -199,7 +197,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public static boolean isValidName(java.lang.String name) {
         var RESULT = gtk_h.g_param_spec_is_valid_name(Interop.allocateNativeString(name).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

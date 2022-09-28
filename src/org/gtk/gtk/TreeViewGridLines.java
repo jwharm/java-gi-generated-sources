@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Used to indicate which grid lines to draw in a tree view.
  */
-public class TreeViewGridLines {
+public class TreeViewGridLines extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No grid lines.
@@ -25,26 +25,8 @@ public class TreeViewGridLines {
      */
     public static final TreeViewGridLines BOTH = new TreeViewGridLines(3);
     
-    private int value;
-    
     public TreeViewGridLines(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TreeViewGridLines[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

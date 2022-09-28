@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -137,7 +135,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public boolean getShowEndTitleButtons() {
         var RESULT = gtk_h.adw_header_bar_get_show_end_title_buttons(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -145,7 +143,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public boolean getShowStartTitleButtons() {
         var RESULT = gtk_h.adw_header_bar_get_show_start_title_buttons(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

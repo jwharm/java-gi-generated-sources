@@ -6,7 +6,7 @@ package org.gtk.glib;
  * {@link UriHideFlags#AUTH_PARAMS} will only work if the {@link Uri} was parsed with
  * the corresponding flags.
  */
-public class UriHideFlags {
+public class UriHideFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -38,38 +38,8 @@ public class UriHideFlags {
      */
     public static final UriHideFlags FRAGMENT = new UriHideFlags(16);
     
-    private int value;
-    
     public UriHideFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(UriHideFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public UriHideFlags combined(UriHideFlags mask) {
-        return new UriHideFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static UriHideFlags combined(UriHideFlags mask, UriHideFlags... masks) {
-        int value = mask.getValue();
-        for (UriHideFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new UriHideFlags(value);
+        super(value);
     }
     
 }

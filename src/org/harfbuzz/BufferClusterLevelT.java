@@ -18,7 +18,7 @@ package org.harfbuzz;
  * do not need to maintain such backward compatibility are recommended to use
  * {@code HB_BUFFER_CLUSTER_LEVEL_MONOTONE_CHARACTERS} instead of the default.
  */
-public class BufferClusterLevelT {
+public class BufferClusterLevelT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Return cluster values grouped by graphemes into
@@ -42,26 +42,8 @@ public class BufferClusterLevelT {
      */
     public static final BufferClusterLevelT DEFAULT = new BufferClusterLevelT(0);
     
-    private int value;
-    
     public BufferClusterLevelT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BufferClusterLevelT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

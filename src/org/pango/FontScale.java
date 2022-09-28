@@ -4,7 +4,7 @@ package org.pango;
  * An enumeration that affects font sizes for superscript
  * and subscript positioning and for (emulated) Small Caps.
  */
-public class FontScale {
+public class FontScale extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Leave the font size unchanged
@@ -26,26 +26,8 @@ public class FontScale {
      */
     public static final FontScale SMALL_CAPS = new FontScale(3);
     
-    private int value;
-    
     public FontScale(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FontScale[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -76,7 +74,7 @@ public class UnixCredentialsMessage extends SocketControlMessage {
      */
     public static boolean isSupported() {
         var RESULT = gtk_h.g_unix_credentials_message_is_supported();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

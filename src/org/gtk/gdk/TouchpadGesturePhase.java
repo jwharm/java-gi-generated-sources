@@ -20,7 +20,7 @@ package org.gtk.gdk;
  * to undo any visible/permanent changes that were done throughout the
  * progress of the gesture.
  */
-public class TouchpadGesturePhase {
+public class TouchpadGesturePhase extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The gesture has begun.
@@ -44,26 +44,8 @@ public class TouchpadGesturePhase {
      */
     public static final TouchpadGesturePhase CANCEL = new TouchpadGesturePhase(3);
     
-    private int value;
-    
     public TouchpadGesturePhase(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TouchpadGesturePhase[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -52,7 +50,7 @@ public class ScrollEvent extends Event {
      */
     public boolean isStop() {
         var RESULT = gtk_h.gdk_scroll_event_is_stop(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

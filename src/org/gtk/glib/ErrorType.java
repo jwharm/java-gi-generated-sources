@@ -4,7 +4,7 @@ package org.gtk.glib;
  * The possible errors, used in the {@code v_error} field
  * of {@link TokenValue}, when the token is a {@link TokenType#ERROR}.
  */
-public class ErrorType {
+public class ErrorType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * unknown error
@@ -46,26 +46,8 @@ public class ErrorType {
      */
     public static final ErrorType FLOAT_MALFORMED = new ErrorType(7);
     
-    private int value;
-    
     public ErrorType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ErrorType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

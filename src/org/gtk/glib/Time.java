@@ -23,27 +23,9 @@ package org.gtk.glib;
  * gtime = (GTime)ttime;
  * }</pre>
  */
-public class Time {
-    private int value;
-    
+public class Time extends io.github.jwharm.javagi.Alias<Integer> {
     public Time(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Time[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

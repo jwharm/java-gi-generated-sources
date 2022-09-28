@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -68,7 +66,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
      * no longer be updated with g_checksum_update().
      */
     public void getDigest(byte[] buffer, PointerLong digestLen) {
-        gtk_h.g_checksum_get_digest(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), digestLen.handle());
+        gtk_h.g_checksum_get_digest(handle(), Interop.allocateNativeArray(buffer).handle(), digestLen.handle());
     }
     
     /**
@@ -97,7 +95,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
      * not have been called on {@code checksum}.
      */
     public void update(byte[] data, long length) {
-        gtk_h.g_checksum_update(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
+        gtk_h.g_checksum_update(handle(), Interop.allocateNativeArray(data).handle(), length);
     }
     
     /**

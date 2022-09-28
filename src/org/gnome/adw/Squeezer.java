@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -67,7 +65,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public boolean getAllowNone() {
         var RESULT = gtk_h.adw_squeezer_get_allow_none(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -75,7 +73,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public boolean getHomogeneous() {
         var RESULT = gtk_h.adw_squeezer_get_homogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -83,7 +81,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public boolean getInterpolateSize() {
         var RESULT = gtk_h.adw_squeezer_get_interpolate_size(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -126,7 +124,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public boolean getTransitionRunning() {
         var RESULT = gtk_h.adw_squeezer_get_transition_running(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

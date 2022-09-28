@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -130,7 +128,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public boolean getEmbedPageSetup() {
         var RESULT = gtk_h.gtk_print_operation_get_embed_page_setup(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -156,7 +154,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public boolean getHasSelection() {
         var RESULT = gtk_h.gtk_print_operation_get_has_selection(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -218,7 +216,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public boolean getSupportSelection() {
         var RESULT = gtk_h.gtk_print_operation_get_support_selection(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -234,7 +232,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public boolean isFinished() {
         var RESULT = gtk_h.gtk_print_operation_is_finished(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -508,7 +506,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -517,7 +515,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationBeginPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.BeginPrintHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
@@ -550,7 +548,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -559,7 +557,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationCreateCustomWidget(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.CreateCustomWidgetHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)));
     }
@@ -587,7 +585,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -596,7 +594,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationCustomWidgetApply(MemoryAddress source, MemoryAddress widget, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.CustomWidgetApplyHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)));
     }
@@ -628,7 +626,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -637,7 +635,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationDone(MemoryAddress source, int result, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.DoneHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationResult(result));
     }
@@ -710,7 +708,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -719,7 +717,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationDrawPage(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.DrawPageHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr);
     }
@@ -745,7 +743,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -754,7 +752,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationEndPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.EndPrintHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
@@ -790,7 +788,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -799,7 +797,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static boolean __signalPrintOperationPaginate(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.PaginateHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
@@ -838,7 +836,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -847,7 +845,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static boolean __signalPrintOperationPreview(MemoryAddress source, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.PreviewHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationPreview.PrintOperationPreviewImpl(References.get(preview, false)), new PrintContext(References.get(context, false)), new Window(References.get(parent, false)));
     }
@@ -874,7 +872,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -883,7 +881,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationRequestPageSetup(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.RequestPageSetupHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr, new PageSetup(References.get(setup, false)));
     }
@@ -910,7 +908,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -919,7 +917,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationStatusChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.StatusChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)));
     }
@@ -945,7 +943,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -954,7 +952,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     public static void __signalPrintOperationUpdateCustomWidget(MemoryAddress source, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PrintOperation.UpdateCustomWidgetHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)), new PageSetup(References.get(setup, false)), new PrintSettings(References.get(settings, false)));
     }

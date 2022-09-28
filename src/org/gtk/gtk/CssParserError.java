@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * These errors are unexpected and will cause parts of the given CSS
  * to be ignored.
  */
-public class CssParserError {
+public class CssParserError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Unknown failure.
@@ -33,26 +33,8 @@ public class CssParserError {
      */
     public static final CssParserError UNKNOWN_VALUE = new CssParserError(4);
     
-    private int value;
-    
     public CssParserError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CssParserError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

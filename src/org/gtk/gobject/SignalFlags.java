@@ -3,7 +3,7 @@ package org.gtk.gobject;
 /**
  * The signal flags are used to specify a signal's behaviour.
  */
-public class SignalFlags {
+public class SignalFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Invoke the object method handler in the first emission stage.
@@ -68,38 +68,8 @@ public class SignalFlags {
      */
     public static final SignalFlags ACCUMULATOR_FIRST_RUN = new SignalFlags(131072);
     
-    private int value;
-    
     public SignalFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SignalFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public SignalFlags combined(SignalFlags mask) {
-        return new SignalFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static SignalFlags combined(SignalFlags mask, SignalFlags... masks) {
-        int value = mask.getValue();
-        for (SignalFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new SignalFlags(value);
+        super(value);
     }
     
 }

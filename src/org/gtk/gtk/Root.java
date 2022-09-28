@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +20,7 @@ import java.lang.invoke.*;
  * {@code GtkRoot} also maintains the location of keyboard focus inside its widget
  * hierarchy, with {@code Gtk.Root.get_focus}.
  */
-public interface Root extends io.github.jwharm.javagi.NativeAddress {
+public interface Root extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Returns the display that this {@code GtkRoot} is on.

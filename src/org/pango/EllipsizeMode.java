@@ -8,7 +8,7 @@ package org.pango;
  * text in order to make it fit to a given width and replaced
  * with an ellipsis.
  */
-public class EllipsizeMode {
+public class EllipsizeMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No ellipsization
@@ -30,26 +30,8 @@ public class EllipsizeMode {
      */
     public static final EllipsizeMode END = new EllipsizeMode(3);
     
-    private int value;
-    
     public EllipsizeMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(EllipsizeMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

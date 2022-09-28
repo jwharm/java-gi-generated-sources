@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Flags specifying match-time options.
  */
-public class RegexMatchFlags {
+public class RegexMatchFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * The pattern is forced to be "anchored", that is,
@@ -124,38 +124,8 @@ public class RegexMatchFlags {
      */
     public static final RegexMatchFlags NOTEMPTY_ATSTART = new RegexMatchFlags(268435456);
     
-    private int value;
-    
     public RegexMatchFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(RegexMatchFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public RegexMatchFlags combined(RegexMatchFlags mask) {
-        return new RegexMatchFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static RegexMatchFlags combined(RegexMatchFlags mask, RegexMatchFlags... masks) {
-        int value = mask.getValue();
-        for (RegexMatchFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new RegexMatchFlags(value);
+        super(value);
     }
     
 }

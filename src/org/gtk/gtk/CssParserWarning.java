@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * Unlike {@code GtkCssParserError}s, warnings do not cause the parser to
  * skip any input, but they indicate issues that should be fixed.
  */
-public class CssParserWarning {
+public class CssParserWarning extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The given construct is
@@ -25,26 +25,8 @@ public class CssParserWarning {
      */
     public static final CssParserWarning UNIMPLEMENTED = new CssParserWarning(2);
     
-    private int value;
-    
     public CssParserWarning(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CssParserWarning[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

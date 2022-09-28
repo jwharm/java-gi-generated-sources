@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -89,7 +87,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * will be returned.
      */
     public static SocketControlMessage deserialize(int level, int type, long size, byte[] data) {
-        var RESULT = gtk_h.g_socket_control_message_deserialize(level, type, size, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle());
+        var RESULT = gtk_h.g_socket_control_message_deserialize(level, type, size, Interop.allocateNativeArray(data).handle());
         return new SocketControlMessage(References.get(RESULT, true));
     }
     

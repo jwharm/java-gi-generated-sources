@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -59,7 +57,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean add(int value) {
         var RESULT = gtk_h.gtk_bitset_add(handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -91,7 +89,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean contains(int value) {
         var RESULT = gtk_h.gtk_bitset_contains(handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -121,7 +119,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equals(Bitset other) {
         var RESULT = gtk_h.gtk_bitset_equals(handle(), other.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -199,7 +197,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isEmpty() {
         var RESULT = gtk_h.gtk_bitset_is_empty(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -215,7 +213,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean remove(int value) {
         var RESULT = gtk_h.gtk_bitset_remove(handle(), value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

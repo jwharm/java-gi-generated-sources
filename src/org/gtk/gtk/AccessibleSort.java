@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * The possible values for the {@link AccessibleProperty#SORT}
  * accessible property.
  */
-public class AccessibleSort {
+public class AccessibleSort extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * There is no defined sort applied to the column.
@@ -27,26 +27,8 @@ public class AccessibleSort {
      */
     public static final AccessibleSort OTHER = new AccessibleSort(3);
     
-    private int value;
-    
     public AccessibleSort(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AccessibleSort[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

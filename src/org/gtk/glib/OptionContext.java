@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -74,7 +72,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getHelpEnabled() {
         var RESULT = gtk_h.g_option_context_get_help_enabled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -83,7 +81,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getIgnoreUnknownOptions() {
         var RESULT = gtk_h.g_option_context_get_ignore_unknown_options(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -101,7 +99,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getStrictPosix() {
         var RESULT = gtk_h.g_option_context_get_strict_posix(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -141,7 +139,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -168,7 +166,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -278,7 +276,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);

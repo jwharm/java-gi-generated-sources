@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +52,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      */
     public boolean getTitleSelectable() {
         var RESULT = gtk_h.adw_preferences_row_get_title_selectable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -62,7 +60,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      */
     public boolean getUseUnderline() {
         var RESULT = gtk_h.adw_preferences_row_get_use_underline(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

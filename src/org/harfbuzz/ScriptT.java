@@ -6,7 +6,7 @@ package org.harfbuzz;
  * <p>
  * See also the Script (sc) property of the Unicode Character Database.
  */
-public class ScriptT {
+public class ScriptT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * {@code Zyyy}
@@ -828,26 +828,8 @@ public class ScriptT {
      */
     public static final ScriptT INVALID = new ScriptT(0);
     
-    private int value;
-    
     public ScriptT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ScriptT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -47,7 +45,7 @@ public class DropControllerMotion extends EventController {
      */
     public boolean containsPointer() {
         var RESULT = gtk_h.gtk_drop_controller_motion_contains_pointer(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -65,7 +63,7 @@ public class DropControllerMotion extends EventController {
      */
     public boolean isPointer() {
         var RESULT = gtk_h.gtk_drop_controller_motion_is_pointer(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -86,7 +84,7 @@ public class DropControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -95,7 +93,7 @@ public class DropControllerMotion extends EventController {
     }
     
     public static void __signalDropControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DropControllerMotion.EnterHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new DropControllerMotion(References.get(source)), x, y);
     }
@@ -118,7 +116,7 @@ public class DropControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -127,7 +125,7 @@ public class DropControllerMotion extends EventController {
     }
     
     public static void __signalDropControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DropControllerMotion.LeaveHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new DropControllerMotion(References.get(source)));
     }
@@ -150,7 +148,7 @@ public class DropControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -159,7 +157,7 @@ public class DropControllerMotion extends EventController {
     }
     
     public static void __signalDropControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DropControllerMotion.MotionHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new DropControllerMotion(References.get(source)), x, y);
     }

@@ -1,26 +1,8 @@
 package org.gtk.glib;
 
-public class Type {
-    private long value;
-    
+public class Type extends io.github.jwharm.javagi.Alias<Long> {
     public Type(long value) {
-        this.value = value;
-    }
-    
-    public long getValue() {
-        return this.value;
-    }
-    
-    public void setValue(long value) {
-        this.value = value;
-    }
-    
-    public static long[] getValues(Type[] array) {
-        long[] values = new long[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

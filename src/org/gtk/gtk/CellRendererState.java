@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Tells how a cell is to be rendered.
  */
-public class CellRendererState {
+public class CellRendererState extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * The cell is currently selected, and
@@ -41,38 +41,8 @@ public class CellRendererState {
      */
     public static final CellRendererState EXPANDED = new CellRendererState(64);
     
-    private int value;
-    
     public CellRendererState(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CellRendererState[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public CellRendererState combined(CellRendererState mask) {
-        return new CellRendererState(this.getValue() | mask.getValue());
-    }
-    
-    public static CellRendererState combined(CellRendererState mask, CellRendererState... masks) {
-        int value = mask.getValue();
-        for (CellRendererState arg : masks) {
-            value |= arg.getValue();
-        }
-        return new CellRendererState(value);
+        super(value);
     }
     
 }

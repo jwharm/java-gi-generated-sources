@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by option parsing.
  */
-public class OptionError {
+public class OptionError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * An option was not known to the parser.
@@ -22,26 +22,8 @@ public class OptionError {
      */
     public static final OptionError FAILED = new OptionError(2);
     
-    private int value;
-    
     public OptionError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OptionError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

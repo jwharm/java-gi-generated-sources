@@ -1,6 +1,6 @@
 package org.gtk.glib;
 
-public class TestLogType {
+public class TestLogType extends io.github.jwharm.javagi.Enumeration {
 
     public static final TestLogType NONE = new TestLogType(0);
     
@@ -26,26 +26,8 @@ public class TestLogType {
     
     public static final TestLogType STOP_SUITE = new TestLogType(11);
     
-    private int value;
-    
     public TestLogType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TestLogType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

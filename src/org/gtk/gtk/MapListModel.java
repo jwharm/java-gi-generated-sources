@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -55,7 +53,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
         } catch (Exception e) {
@@ -83,7 +81,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      */
     public boolean hasMap() {
         var RESULT = gtk_h.gtk_map_list_model_has_map(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -107,7 +105,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);

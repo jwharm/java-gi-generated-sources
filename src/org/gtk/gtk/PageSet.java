@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_job_set_page_set().
  */
-public class PageSet {
+public class PageSet extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * All pages.
@@ -20,26 +20,8 @@ public class PageSet {
      */
     public static final PageSet ODD = new PageSet(2);
     
-    private int value;
-    
     public PageSet(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PageSet[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

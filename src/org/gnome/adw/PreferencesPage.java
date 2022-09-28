@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -85,7 +83,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      */
     public boolean getUseUnderline() {
         var RESULT = gtk_h.adw_preferences_page_get_use_underline(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

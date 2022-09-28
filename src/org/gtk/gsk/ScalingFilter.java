@@ -6,7 +6,7 @@ package org.gtk.gsk;
  * The actual implementation of each filter is deferred to the
  * rendering pipeline.
  */
-public class ScalingFilter {
+public class ScalingFilter extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * linear interpolation filter
@@ -25,26 +25,8 @@ public class ScalingFilter {
      */
     public static final ScalingFilter TRILINEAR = new ScalingFilter(2);
     
-    private int value;
-    
     public ScalingFilter(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ScalingFilter[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

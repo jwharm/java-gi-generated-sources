@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * The host's network connectivity state, as reported by {@link NetworkMonitor}.
  */
-public class NetworkConnectivity {
+public class NetworkConnectivity extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The host is not configured with a
@@ -31,26 +31,8 @@ public class NetworkConnectivity {
      */
     public static final NetworkConnectivity FULL = new NetworkConnectivity(4);
     
-    private int value;
-    
     public NetworkConnectivity(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(NetworkConnectivity[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

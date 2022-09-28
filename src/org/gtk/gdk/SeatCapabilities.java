@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Flags describing the seat capabilities.
  */
-public class SeatCapabilities {
+public class SeatCapabilities extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No input capabilities
@@ -45,38 +45,8 @@ public class SeatCapabilities {
      */
     public static final SeatCapabilities ALL = new SeatCapabilities(15);
     
-    private int value;
-    
     public SeatCapabilities(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SeatCapabilities[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public SeatCapabilities combined(SeatCapabilities mask) {
-        return new SeatCapabilities(this.getValue() | mask.getValue());
-    }
-    
-    public static SeatCapabilities combined(SeatCapabilities mask, SeatCapabilities... masks) {
-        int value = mask.getValue();
-        for (SeatCapabilities arg : masks) {
-            value |= arg.getValue();
-        }
-        return new SeatCapabilities(value);
+        super(value);
     }
     
 }

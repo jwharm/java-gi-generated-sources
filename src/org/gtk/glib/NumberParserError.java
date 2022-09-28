@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by functions converting a string to a number.
  */
-public class NumberParserError {
+public class NumberParserError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * String was not a valid number.
@@ -15,26 +15,8 @@ public class NumberParserError {
      */
     public static final NumberParserError OUT_OF_BOUNDS = new NumberParserError(1);
     
-    private int value;
-    
     public NumberParserError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(NumberParserError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

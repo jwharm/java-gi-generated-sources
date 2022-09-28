@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +31,7 @@ import java.lang.invoke.*;
  * during normal construction and automatically initialize them, throwing
  * an exception on failure.
  */
-public interface Initable extends io.github.jwharm.javagi.NativeAddress {
+public interface Initable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Initializes the object implementing the interface.
@@ -81,7 +79,7 @@ public interface Initable extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

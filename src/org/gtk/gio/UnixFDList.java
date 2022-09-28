@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -43,7 +41,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
     }
     
     private static Reference constructNewFromArray(int[] fds, int nFds) {
-        Reference RESULT = References.get(gtk_h.g_unix_fd_list_new_from_array(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds)).handle(), nFds), true);
+        Reference RESULT = References.get(gtk_h.g_unix_fd_list_new_from_array(Interop.allocateNativeArray(fds).handle(), nFds), true);
         return RESULT;
     }
     
@@ -114,6 +112,51 @@ public class UnixFDList extends org.gtk.gobject.Object {
     public int getLength() {
         var RESULT = gtk_h.g_unix_fd_list_get_length(handle());
         return RESULT;
+    }
+    
+    /**
+     * Returns the array of file descriptors that is contained in this
+     * object.
+     * <p>
+     * After this call, the descriptors remain the property of {@code list}.  The
+     * caller must not close them and must not free the array.  The array is
+     * valid only until {@code list} is changed in any way.
+     * <p>
+     * If {@code length} is non-{@code null} then it is set to the number of file
+     * descriptors in the returned array. The returned array is also
+     * terminated with -1.
+     * <p>
+     * This function never returns {@code null}. In case there are no file
+     * descriptors contained in {@code list}, an empty array is returned.
+     */
+    public PointerIterator<Integer> peekFds(PointerInteger length) {
+        var RESULT = gtk_h.g_unix_fd_list_peek_fds(handle(), length.handle());
+        return new PointerInteger(RESULT).iterator();
+    }
+    
+    /**
+     * Returns the array of file descriptors that is contained in this
+     * object.
+     * <p>
+     * After this call, the descriptors are no longer contained in
+     * {@code list}. Further calls will return an empty list (unless more
+     * descriptors have been added).
+     * <p>
+     * The return result of this function must be freed with g_free().
+     * The caller is also responsible for closing all of the file
+     * descriptors.  The file descriptors in the array are set to
+     * close-on-exec.
+     * <p>
+     * If {@code length} is non-{@code null} then it is set to the number of file
+     * descriptors in the returned array. The returned array is also
+     * terminated with -1.
+     * <p>
+     * This function never returns {@code null}. In case there are no file
+     * descriptors contained in {@code list}, an empty array is returned.
+     */
+    public PointerIterator<Integer> stealFds(PointerInteger length) {
+        var RESULT = gtk_h.g_unix_fd_list_steal_fds(handle(), length.handle());
+        return new PointerInteger(RESULT).iterator();
     }
     
 }

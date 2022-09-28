@@ -1,6 +1,6 @@
 package org.cairographics;
 
-public class FontType {
+public class FontType extends io.github.jwharm.javagi.Enumeration {
 
     public static final FontType TOY = new FontType(0);
     
@@ -12,26 +12,8 @@ public class FontType {
     
     public static final FontType USER = new FontType(4);
     
-    private int value;
-    
     public FontType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FontType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

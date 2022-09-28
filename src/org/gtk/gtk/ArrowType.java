@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Used to indicate the direction in which an arrow should point.
  */
-public class ArrowType {
+public class ArrowType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Represents an upward pointing arrow.
@@ -30,26 +30,8 @@ public class ArrowType {
      */
     public static final ArrowType NONE = new ArrowType(4);
     
-    private int value;
-    
     public ArrowType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ArrowType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

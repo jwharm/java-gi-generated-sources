@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +19,7 @@ import java.lang.invoke.*;
  * Every widget that implements {@code GtkShortcutManager} will be used as a
  * {@link ShortcutScope#MANAGED}.
  */
-public interface ShortcutManager extends io.github.jwharm.javagi.NativeAddress {
+public interface ShortcutManager extends io.github.jwharm.javagi.Proxy {
 
     class ShortcutManagerImpl extends org.gtk.gobject.Object implements ShortcutManager {
         public ShortcutManagerImpl(io.github.jwharm.javagi.Reference reference) {

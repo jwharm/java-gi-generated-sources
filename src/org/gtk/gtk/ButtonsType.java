@@ -10,7 +10,7 @@ package org.gtk.gtk;
  * > and {@link ButtonsType#OK_CANCEL} are discouraged by the
  * > <a href="http://library.gnome.org/devel/hig-book/stable/">GNOME Human Interface Guidelines</a>.
  */
-public class ButtonsType {
+public class ButtonsType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * no buttons at all
@@ -42,26 +42,8 @@ public class ButtonsType {
      */
     public static final ButtonsType OK_CANCEL = new ButtonsType(5);
     
-    private int value;
-    
     public ButtonsType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ButtonsType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

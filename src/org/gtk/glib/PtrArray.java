@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -29,6 +27,36 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Makes a full (deep) copy of a {@link PtrArray}.
+     * <p>
+     * {@code func}, as a {@link CopyFunc}, takes two arguments, the data to be copied
+     * and a {@code user_data} pointer. On common processor architectures, it's safe to
+     * pass {@code null} as {@code user_data} if the copy function takes only one argument. You
+     * may get compiler warnings from this though if compiling with GCC’s
+     * {@code -Wcast-function-type} warning.
+     * <p>
+     * If {@code func} is {@code null}, then only the pointers (and not what they are
+     * pointing to) are copied to the new {@link PtrArray}.
+     * <p>
+     * The copy of {@code array} will have the same {@link DestroyNotify} for its elements as
+     * {@code array}.
+     */
+    public static PointerIterator<java.lang.foreign.MemoryAddress> copy(java.lang.foreign.MemoryAddress[] array, CopyFunc func) {
+        try {
+            var RESULT = gtk_h.g_ptr_array_copy(Interop.allocateNativeArray(array).handle(), 
+                    Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCopyFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+            return new PointerAddress(RESULT).iterator();
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Adds all pointers of {@code array} to the end of the array {@code array_to_extend}.
      * The array will grow in size automatically if needed. {@code array_to_extend} is
      * modified in-place.
@@ -50,7 +78,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +108,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean find(java.lang.foreign.MemoryAddress[] haystack, java.lang.foreign.MemoryAddress needle, PointerInteger index) {
         var RESULT = gtk_h.g_ptr_array_find(Interop.allocateNativeArray(haystack).handle(), needle, index.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -95,7 +123,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -131,6 +159,23 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Creates a new {@link PtrArray} with a reference count of 1.
+     */
+    public static PointerIterator<java.lang.foreign.MemoryAddress> new_() {
+        var RESULT = gtk_h.g_ptr_array_new();
+        return new PointerAddress(RESULT).iterator();
+    }
+    
+    /**
+     * Atomically increments the reference count of {@code array} by one.
+     * This function is thread-safe and may be called from any thread.
+     */
+    public static PointerIterator<java.lang.foreign.MemoryAddress> ref(java.lang.foreign.MemoryAddress[] array) {
+        var RESULT = gtk_h.g_ptr_array_ref(Interop.allocateNativeArray(array).handle());
+        return new PointerAddress(RESULT).iterator();
+    }
+    
+    /**
      * Removes the first occurrence of the given pointer from the pointer
      * array. The following elements are moved down one place. If {@code array}
      * has a non-{@code null} {@link DestroyNotify} function it is called for the
@@ -141,7 +186,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean remove(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_ptr_array_remove(Interop.allocateNativeArray(array).handle(), data);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -156,7 +201,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean removeFast(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_ptr_array_remove_fast(Interop.allocateNativeArray(array).handle(), data);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -186,6 +231,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Removes the given number of pointers starting at the given index
+     * from a {@link PtrArray}. The following elements are moved to close the
+     * gap. If {@code array} has a non-{@code null} {@link DestroyNotify} function it is
+     * called for the removed elements.
+     */
+    public static PointerIterator<java.lang.foreign.MemoryAddress> removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
+        var RESULT = gtk_h.g_ptr_array_remove_range(Interop.allocateNativeArray(array).handle(), index, length);
+        return new PointerAddress(RESULT).iterator();
+    }
+    
+    /**
      * Sets the size of the array. When making the array larger,
      * newly-added elements will be set to {@code null}. When making it smaller,
      * if {@code array} has a non-{@code null} {@link DestroyNotify} function then it will be
@@ -193,6 +249,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void setSize(java.lang.foreign.MemoryAddress[] array, int length) {
         gtk_h.g_ptr_array_set_size(Interop.allocateNativeArray(array).handle(), length);
+    }
+    
+    /**
+     * Creates a new {@link PtrArray} with {@code reserved_size} pointers preallocated
+     * and a reference count of 1. This avoids frequent reallocation, if
+     * you are going to add many pointers to the array. Note however that
+     * the size of the array is still 0.
+     */
+    public static PointerIterator<java.lang.foreign.MemoryAddress> sizedNew(int reservedSize) {
+        var RESULT = gtk_h.g_ptr_array_sized_new(reservedSize);
+        return new PointerAddress(RESULT).iterator();
     }
     
     /**
@@ -258,7 +325,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

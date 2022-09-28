@@ -10,7 +10,7 @@ package org.gtk.gio;
  *   drop_caches ();
  * }</pre>
  */
-public class MemoryMonitorWarningLevel {
+public class MemoryMonitorWarningLevel extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Memory on the device is low, processes
@@ -33,26 +33,8 @@ public class MemoryMonitorWarningLevel {
      */
     public static final MemoryMonitorWarningLevel CRITICAL = new MemoryMonitorWarningLevel(255);
     
-    private int value;
-    
     public MemoryMonitorWarningLevel(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MemoryMonitorWarningLevel[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

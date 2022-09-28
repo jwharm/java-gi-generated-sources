@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * Accessible relations can be references to other widgets,
  * integers or strings.
  */
-public class AccessibleRelation {
+public class AccessibleRelation extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Identifies the currently active
@@ -123,26 +123,8 @@ public class AccessibleRelation {
      */
     public static final AccessibleRelation SET_SIZE = new AccessibleRelation(17);
     
-    private int value;
-    
     public AccessibleRelation(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AccessibleRelation[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

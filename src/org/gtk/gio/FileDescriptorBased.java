@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,7 +13,7 @@ import java.lang.invoke.*;
  * GIO interfaces, thus you have to use the {@code gio-unix-2.0.pc} pkg-config
  * file when using it.
  */
-public interface FileDescriptorBased extends io.github.jwharm.javagi.NativeAddress {
+public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Gets the underlying file descriptor.

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -46,7 +44,7 @@ import java.lang.invoke.*;
  * Selections may happen asynchronously, so the only reliable way to find out
  * when an item was selected is to listen to the signals that indicate selection.
  */
-public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
+public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Gets the set containing all currently selected items in the model.
@@ -79,7 +77,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean isSelected(int position) {
         var RESULT = gtk_h.gtk_selection_model_is_selected(handle(), position);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -87,7 +85,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean selectAll() {
         var RESULT = gtk_h.gtk_selection_model_select_all(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -95,7 +93,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean selectItem(int position, boolean unselectRest) {
         var RESULT = gtk_h.gtk_selection_model_select_item(handle(), position, unselectRest ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -103,7 +101,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean selectRange(int position, int nItems, boolean unselectRest) {
         var RESULT = gtk_h.gtk_selection_model_select_range(handle(), position, nItems, unselectRest ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -153,7 +151,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean setSelection(Bitset selected, Bitset mask) {
         var RESULT = gtk_h.gtk_selection_model_set_selection(handle(), selected.handle(), mask.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -161,7 +159,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean unselectAll() {
         var RESULT = gtk_h.gtk_selection_model_unselect_all(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -169,7 +167,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean unselectItem(int position) {
         var RESULT = gtk_h.gtk_selection_model_unselect_item(handle(), position);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -177,7 +175,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean unselectRange(int position, int nItems) {
         var RESULT = gtk_h.gtk_selection_model_unselect_range(handle(), position, nItems);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -203,7 +201,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -212,7 +210,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalSelectionModelSelectionChanged(MemoryAddress source, int position, int nItems, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SelectionModel.SelectionChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new SelectionModel.SelectionModelImpl(References.get(source)), position, nItems);
     }

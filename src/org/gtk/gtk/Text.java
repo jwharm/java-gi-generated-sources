@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -130,7 +128,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public boolean getActivatesDefault() {
         var RESULT = gtk_h.gtk_text_get_activates_default(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -158,7 +156,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public boolean getEnableEmojiCompletion() {
         var RESULT = gtk_h.gtk_text_get_enable_emoji_completion(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -219,7 +217,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public boolean getOverwriteMode() {
         var RESULT = gtk_h.gtk_text_get_overwrite_mode(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -239,7 +237,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public boolean getPropagateTextWidth() {
         var RESULT = gtk_h.gtk_text_get_propagate_text_width(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -269,7 +267,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public boolean getTruncateMultiline() {
         var RESULT = gtk_h.gtk_text_get_truncate_multiline(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -277,7 +275,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public boolean getVisibility() {
         var RESULT = gtk_h.gtk_text_get_visibility(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -291,7 +289,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public boolean grabFocusWithoutSelecting() {
         var RESULT = gtk_h.gtk_text_grab_focus_without_selecting(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -474,7 +472,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -483,7 +481,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.ActivateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)));
     }
@@ -511,7 +509,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -520,7 +518,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextBackspace(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.BackspaceHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)));
     }
@@ -549,7 +547,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -558,7 +556,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextCopyClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.CopyClipboardHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)));
     }
@@ -587,7 +585,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -596,7 +594,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextCutClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.CutClipboardHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)));
     }
@@ -629,7 +627,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -638,7 +636,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)), new DeleteType(type), count);
     }
@@ -666,7 +664,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -675,7 +673,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.InsertAtCursorHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)), string.getUtf8String(0));
     }
@@ -704,7 +702,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -713,7 +711,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextInsertEmoji(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.InsertEmojiHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)));
     }
@@ -753,10 +751,10 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.class, "__signalTextMoveCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -764,10 +762,10 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         }
     }
     
-    public static void __signalTextMoveCursor(MemoryAddress source, int step, int count, boolean extend, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalTextMoveCursor(MemoryAddress source, int step, int count, int extend, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)), new MovementStep(step), count, extend);
+        handler.signalReceived(new Text(References.get(source)), new MovementStep(step), count, extend != 0);
     }
     
     @FunctionalInterface
@@ -793,7 +791,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -802,7 +800,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextPasteClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.PasteClipboardHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)));
     }
@@ -829,7 +827,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -838,7 +836,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.PreeditChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)), preedit.getUtf8String(0));
     }
@@ -865,7 +863,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -874,7 +872,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     public static void __signalTextToggleOverwrite(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Text.ToggleOverwriteHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Text(References.get(source)));
     }

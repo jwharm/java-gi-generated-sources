@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Specifies a preference for height-for-width or
  * width-for-height geometry management.
  */
-public class SizeRequestMode {
+public class SizeRequestMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Prefer height-for-width geometry management
@@ -21,26 +21,8 @@ public class SizeRequestMode {
      */
     public static final SizeRequestMode CONSTANT_SIZE = new SizeRequestMode(2);
     
-    private int value;
-    
     public SizeRequestMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SizeRequestMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

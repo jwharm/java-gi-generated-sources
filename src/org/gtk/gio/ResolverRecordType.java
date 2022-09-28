@@ -32,7 +32,7 @@ package org.gtk.gio;
  * {@link ResolverRecordType#NS} records are returned as variants with the signature
  * {@code (s)}, representing a string of the hostname of the name server.
  */
-public class ResolverRecordType {
+public class ResolverRecordType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * look up DNS SRV records for a domain
@@ -59,26 +59,8 @@ public class ResolverRecordType {
      */
     public static final ResolverRecordType NS = new ResolverRecordType(5);
     
-    private int value;
-    
     public ResolverRecordType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ResolverRecordType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

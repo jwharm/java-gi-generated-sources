@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -112,7 +110,7 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
      */
     public boolean getUseSubtitle() {
         var RESULT = gtk_h.adw_combo_row_get_use_subtitle(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

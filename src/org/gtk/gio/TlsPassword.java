@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,6 +48,18 @@ public class TlsPassword extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the password value. If {@code length} is not {@code null} then it will be
+     * filled in with the length of the password value. (Note that the
+     * password value is not nul-terminated, so you can only pass {@code null}
+     * for {@code length} in contexts where you know the password will have a
+     * certain fixed length.)
+     */
+    public PointerIterator<Byte> getValue(PointerLong length) {
+        var RESULT = gtk_h.g_tls_password_get_value(handle(), length.handle());
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
      * Get a user readable translated warning. Usually this warning is a
      * representation of the password flags returned from
      * g_tls_password_get_flags().
@@ -83,7 +93,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * considered part of the password in this case.)
      */
     public void setValue(byte[] value, long length) {
-        gtk_h.g_tls_password_set_value(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, value)).handle(), length);
+        gtk_h.g_tls_password_set_value(handle(), Interop.allocateNativeArray(value).handle(), length);
     }
     
     /**

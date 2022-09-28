@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -4643,7 +4641,7 @@ public final class Gdk {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -4658,7 +4656,7 @@ public final class Gdk {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4687,7 +4685,7 @@ public final class Gdk {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(deserialize.hashCode(), deserialize)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(deserialize.hashCode(), deserialize)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -4705,7 +4703,7 @@ public final class Gdk {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(serialize.hashCode(), serialize)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(serialize.hashCode(), serialize)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -4729,7 +4727,7 @@ public final class Gdk {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -4744,7 +4742,7 @@ public final class Gdk {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4756,7 +4754,7 @@ public final class Gdk {
      */
     public static boolean dragActionIsUnique(DragAction action) {
         var RESULT = gtk_h.gdk_drag_action_is_unique(action.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4771,7 +4769,7 @@ public final class Gdk {
      */
     public static boolean eventsGetAngle(Event event1, Event event2, PointerDouble angle) {
         var RESULT = gtk_h.gdk_events_get_angle(event1.handle(), event2.handle(), angle.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4782,7 +4780,7 @@ public final class Gdk {
      */
     public static boolean eventsGetCenter(Event event1, Event event2, PointerDouble x, PointerDouble y) {
         var RESULT = gtk_h.gdk_events_get_center(event1.handle(), event2.handle(), x.handle(), y.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4793,7 +4791,7 @@ public final class Gdk {
      */
     public static boolean eventsGetDistance(Event event1, Event event2, PointerDouble distance) {
         var RESULT = gtk_h.gdk_events_get_distance(event1.handle(), event2.handle(), distance.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static org.gtk.glib.Quark glErrorQuark() {
@@ -4838,7 +4836,7 @@ public final class Gdk {
      */
     public static boolean keyvalIsLower(int keyval) {
         var RESULT = gtk_h.gdk_keyval_is_lower(keyval);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4846,7 +4844,7 @@ public final class Gdk {
      */
     public static boolean keyvalIsUpper(int keyval) {
         var RESULT = gtk_h.gdk_keyval_is_upper(keyval);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4938,7 +4936,7 @@ public final class Gdk {
      * of text, such as when text is selected.
      */
     public static org.cairographics.Region pangoLayoutLineGetClipRegion(org.pango.LayoutLine line, int xOrigin, int yOrigin, int[] indexRanges, int nRanges) {
-        var RESULT = gtk_h.gdk_pango_layout_line_get_clip_region(line.handle(), xOrigin, yOrigin, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indexRanges)).handle(), nRanges);
+        var RESULT = gtk_h.gdk_pango_layout_line_get_clip_region(line.handle(), xOrigin, yOrigin, Interop.allocateNativeArray(indexRanges).handle(), nRanges);
         return new org.cairographics.Region(References.get(RESULT, true));
     }
     

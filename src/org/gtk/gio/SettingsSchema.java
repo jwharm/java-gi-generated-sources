@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -145,7 +143,30 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean hasKey(java.lang.String name) {
         var RESULT = gtk_h.g_settings_schema_has_key(handle(), Interop.allocateNativeString(name).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets the list of children in {@code schema}.
+     * <p>
+     * You should free the return value with g_strfreev() when you are done
+     * with it.
+     */
+    public PointerIterator<java.lang.String> listChildren() {
+        var RESULT = gtk_h.g_settings_schema_list_children(handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Introspects the list of keys on {@code schema}.
+     * <p>
+     * You should probably not be calling this function from "normal" code
+     * (since you should already know what keys are in your schema).  This
+     * function is intended for introspection reasons.
+     */
+    public PointerIterator<java.lang.String> listKeys() {
+        var RESULT = gtk_h.g_settings_schema_list_keys(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**

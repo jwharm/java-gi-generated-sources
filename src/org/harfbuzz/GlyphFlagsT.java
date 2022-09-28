@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * Flags for {@link glyph_info_t}.
  */
-public class GlyphFlagsT {
+public class GlyphFlagsT extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Indicates that if input text is broken at the
@@ -87,38 +87,8 @@ public class GlyphFlagsT {
      */
     public static final GlyphFlagsT DEFINED = new GlyphFlagsT(3);
     
-    private int value;
-    
     public GlyphFlagsT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(GlyphFlagsT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public GlyphFlagsT combined(GlyphFlagsT mask) {
-        return new GlyphFlagsT(this.getValue() | mask.getValue());
-    }
-    
-    public static GlyphFlagsT combined(GlyphFlagsT mask, GlyphFlagsT... masks) {
-        int value = mask.getValue();
-        for (GlyphFlagsT arg : masks) {
-            value |= arg.getValue();
-        }
-        return new GlyphFlagsT(value);
+        super(value);
     }
     
 }

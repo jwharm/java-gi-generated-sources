@@ -4,7 +4,7 @@ package org.gtk.gio;
  * GResourceFlags give information about a particular file inside a resource
  * bundle.
  */
-public class ResourceFlags {
+public class ResourceFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -16,38 +16,8 @@ public class ResourceFlags {
      */
     public static final ResourceFlags COMPRESSED = new ResourceFlags(1);
     
-    private int value;
-    
     public ResourceFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ResourceFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ResourceFlags combined(ResourceFlags mask) {
-        return new ResourceFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static ResourceFlags combined(ResourceFlags mask, ResourceFlags... masks) {
-        int value = mask.getValue();
-        for (ResourceFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ResourceFlags(value);
+        super(value);
     }
     
 }

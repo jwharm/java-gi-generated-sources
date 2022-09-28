@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Header fields used in {@link DBusMessage}.
  */
-public class DBusMessageHeaderField {
+public class DBusMessageHeaderField extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Not a valid header field.
@@ -55,26 +55,8 @@ public class DBusMessageHeaderField {
      */
     public static final DBusMessageHeaderField NUM_UNIX_FDS = new DBusMessageHeaderField(9);
     
-    private int value;
-    
     public DBusMessageHeaderField(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusMessageHeaderField[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

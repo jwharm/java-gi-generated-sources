@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Defines the reference point of a surface and is used in {@code GdkPopupLayout}.
  */
-public class Gravity {
+public class Gravity extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the reference point is at the top left corner.
@@ -56,26 +56,8 @@ public class Gravity {
      */
     public static final Gravity STATIC = new Gravity(10);
     
-    private int value;
-    
     public Gravity(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Gravity[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

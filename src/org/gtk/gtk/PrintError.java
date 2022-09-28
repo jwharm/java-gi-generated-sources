@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Error codes that identify various errors that can occur while
  * using the GTK printing support.
  */
-public class PrintError {
+public class PrintError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * An unspecified error occurred.
@@ -27,26 +27,8 @@ public class PrintError {
      */
     public static final PrintError INVALID_FILE = new PrintError(3);
     
-    private int value;
-    
     public PrintError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PrintError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

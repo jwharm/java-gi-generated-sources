@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -63,7 +61,7 @@ public class FontFace extends org.gtk.gobject.Object {
      */
     public boolean isSynthesized() {
         var RESULT = gtk_h.pango_font_face_is_synthesized(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -75,7 +73,7 @@ public class FontFace extends org.gtk.gobject.Object {
      * in ascending order.
      */
     public void listSizes(int[] sizes, PointerInteger nSizes) {
-        gtk_h.pango_font_face_list_sizes(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, sizes)).handle(), nSizes.handle());
+        gtk_h.pango_font_face_list_sizes(handle(), Interop.allocateNativeArray(sizes).handle(), nSizes.handle());
     }
     
 }

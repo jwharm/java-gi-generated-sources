@@ -4,7 +4,7 @@ package org.gtk.glib;
  * The possible types of token returned from each
  * g_scanner_get_next_token() call.
  */
-public class TokenType {
+public class TokenType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the end of the file
@@ -121,26 +121,8 @@ public class TokenType {
      */
     public static final TokenType COMMENT_MULTI = new TokenType(269);
     
-    private int value;
-    
     public TokenType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TokenType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

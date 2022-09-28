@@ -17,7 +17,7 @@ package org.gtk.gdk;
  * In general, when multiple flags are set, flipping should take precedence over
  * sliding, which should take precedence over resizing.
  */
-public class AnchorHints {
+public class AnchorHints extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * allow flipping anchors horizontally
@@ -64,38 +64,8 @@ public class AnchorHints {
      */
     public static final AnchorHints RESIZE = new AnchorHints(48);
     
-    private int value;
-    
     public AnchorHints(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AnchorHints[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public AnchorHints combined(AnchorHints mask) {
-        return new AnchorHints(this.getValue() | mask.getValue());
-    }
-    
-    public static AnchorHints combined(AnchorHints mask, AnchorHints... masks) {
-        int value = mask.getValue();
-        for (AnchorHints arg : masks) {
-            value |= arg.getValue();
-        }
-        return new AnchorHints(value);
+        super(value);
     }
     
 }

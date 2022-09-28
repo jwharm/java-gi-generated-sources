@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,7 +42,7 @@ import java.lang.invoke.*;
  * <li>When any of the adjustments emits the {@code Gtk.Adjustment::value-changed}
  *   signal, the scrollable widget should scroll its contents.
  */
-public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
+public interface Scrollable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Returns the size of a non-scrolling border around the
@@ -56,7 +54,7 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getBorder(Border border) {
         var RESULT = gtk_h.gtk_scrollable_get_border(handle(), border.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

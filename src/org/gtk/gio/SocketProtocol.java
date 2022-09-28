@@ -9,7 +9,7 @@ package org.gtk.gio;
  * can also pass any other identifiers handled by the platform in order to
  * use protocols not listed here.
  */
-public class SocketProtocol {
+public class SocketProtocol extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The protocol type is unknown
@@ -36,26 +36,8 @@ public class SocketProtocol {
      */
     public static final SocketProtocol SCTP = new SocketProtocol(132);
     
-    private int value;
-    
     public SocketProtocol(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SocketProtocol[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

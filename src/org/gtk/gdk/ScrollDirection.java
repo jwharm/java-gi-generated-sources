@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Specifies the direction for scroll events.
  */
-public class ScrollDirection {
+public class ScrollDirection extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the surface is scrolled up.
@@ -31,26 +31,8 @@ public class ScrollDirection {
      */
     public static final ScrollDirection SMOOTH = new ScrollDirection(4);
     
-    private int value;
-    
     public ScrollDirection(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ScrollDirection[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

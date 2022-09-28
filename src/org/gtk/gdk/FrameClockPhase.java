@@ -5,7 +5,7 @@ package org.gtk.gdk;
  * <p>
  * The elements of the enumeration correspond to the signals of {@code GdkFrameClock}.
  */
-public class FrameClockPhase {
+public class FrameClockPhase extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * no phase
@@ -47,38 +47,8 @@ public class FrameClockPhase {
      */
     public static final FrameClockPhase AFTER_PAINT = new FrameClockPhase(64);
     
-    private int value;
-    
     public FrameClockPhase(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FrameClockPhase[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FrameClockPhase combined(FrameClockPhase mask) {
-        return new FrameClockPhase(this.getValue() | mask.getValue());
-    }
-    
-    public static FrameClockPhase combined(FrameClockPhase mask, FrameClockPhase... masks) {
-        int value = mask.getValue();
-        for (FrameClockPhase arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FrameClockPhase(value);
+        super(value);
     }
     
 }

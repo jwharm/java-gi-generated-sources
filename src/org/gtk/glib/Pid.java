@@ -9,27 +9,9 @@ package org.gtk.glib;
  * GPid is used in GLib only for descendant processes spawned with
  * the g_spawn functions.
  */
-public class Pid {
-    private int value;
-    
+public class Pid extends io.github.jwharm.javagi.Alias<Integer> {
     public Pid(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Pid[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

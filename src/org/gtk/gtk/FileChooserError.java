@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * These identify the various errors that can occur while calling
  * {@code GtkFileChooser} functions.
  */
-public class FileChooserError {
+public class FileChooserError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Indicates that a file does not exist.
@@ -28,26 +28,8 @@ public class FileChooserError {
      */
     public static final FileChooserError INCOMPLETE_HOSTNAME = new FileChooserError(3);
     
-    private int value;
-    
     public FileChooserError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileChooserError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

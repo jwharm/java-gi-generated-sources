@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * The status gives a rough indication of the completion of a running
  * print operation.
  */
-public class PrintStatus {
+public class PrintStatus extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The printing has not started yet; this
@@ -57,26 +57,8 @@ public class PrintStatus {
      */
     public static final PrintStatus FINISHED_ABORTED = new PrintStatus(8);
     
-    private int value;
-    
     public PrintStatus(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PrintStatus[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

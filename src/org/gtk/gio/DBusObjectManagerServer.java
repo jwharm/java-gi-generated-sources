@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -99,7 +97,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      */
     public boolean isExported(DBusObjectSkeleton object) {
         var RESULT = gtk_h.g_dbus_object_manager_server_is_exported(handle(), object.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -119,7 +117,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      */
     public boolean unexport(java.lang.String objectPath) {
         var RESULT = gtk_h.g_dbus_object_manager_server_unexport(handle(), Interop.allocateNativeString(objectPath).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

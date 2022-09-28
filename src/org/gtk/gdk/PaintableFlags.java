@@ -5,7 +5,7 @@ package org.gtk.gdk;
  * <p>
  * Implementations use these for optimizations such as caching.
  */
-public class PaintableFlags {
+public class PaintableFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * The size is immutable.
@@ -21,38 +21,8 @@ public class PaintableFlags {
      */
     public static final PaintableFlags CONTENTS = new PaintableFlags(2);
     
-    private int value;
-    
     public PaintableFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PaintableFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public PaintableFlags combined(PaintableFlags mask) {
-        return new PaintableFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static PaintableFlags combined(PaintableFlags mask, PaintableFlags... masks) {
-        int value = mask.getValue();
-        for (PaintableFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new PaintableFlags(value);
+        super(value);
     }
     
 }

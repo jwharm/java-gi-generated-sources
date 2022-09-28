@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -246,7 +244,7 @@ public final class Gio {
      */
     public static boolean actionNameIsValid(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_name_is_valid(Interop.allocateNativeString(actionName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -281,7 +279,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -403,7 +401,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -426,7 +424,7 @@ public final class Gio {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -441,7 +439,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -472,7 +470,7 @@ public final class Gio {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -605,7 +603,7 @@ public final class Gio {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(busAcquiredHandler.hashCode(), busAcquiredHandler)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(busAcquiredHandler.hashCode(), busAcquiredHandler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -630,7 +628,7 @@ public final class Gio {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(nameAcquiredHandler.hashCode(), nameAcquiredHandler)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(nameAcquiredHandler.hashCode(), nameAcquiredHandler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -728,7 +726,7 @@ public final class Gio {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(nameAppearedHandler.hashCode(), nameAppearedHandler)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(nameAppearedHandler.hashCode(), nameAppearedHandler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -753,7 +751,7 @@ public final class Gio {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(nameAppearedHandler.hashCode(), nameAppearedHandler)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(nameAppearedHandler.hashCode(), nameAppearedHandler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -785,7 +783,7 @@ public final class Gio {
      */
     public static boolean contentTypeCanBeExecutable(java.lang.String type) {
         var RESULT = gtk_h.g_content_type_can_be_executable(Interop.allocateNativeString(type).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -793,7 +791,7 @@ public final class Gio {
      */
     public static boolean contentTypeEquals(java.lang.String type1, java.lang.String type2) {
         var RESULT = gtk_h.g_content_type_equals(Interop.allocateNativeString(type1).handle(), Interop.allocateNativeString(type2).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -833,6 +831,15 @@ public final class Gio {
     }
     
     /**
+     * Get the list of directories which MIME data is loaded from. See
+     * g_content_type_set_mime_dirs() for details.
+     */
+    public static PointerIterator<java.lang.String> contentTypeGetMimeDirs() {
+        var RESULT = gtk_h.g_content_type_get_mime_dirs();
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Gets the mime type for the content type, if one is registered.
      */
     public static java.lang.String contentTypeGetMimeType(java.lang.String type) {
@@ -855,8 +862,27 @@ public final class Gio {
      * on the other argument.
      */
     public static java.lang.String contentTypeGuess(java.lang.String filename, byte[] data, long dataSize, PointerBoolean resultUncertain) {
-        var RESULT = gtk_h.g_content_type_guess(Interop.allocateNativeString(filename).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), dataSize, resultUncertain.handle());
+        var RESULT = gtk_h.g_content_type_guess(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(data).handle(), dataSize, resultUncertain.handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Tries to guess the type of the tree with root {@code root}, by
+     * looking at the files it contains. The result is an array
+     * of content types, with the best guess coming first.
+     * <p>
+     * The types returned all have the form x-content/foo, e.g.
+     * x-content/audio-cdda (for audio CDs) or x-content/image-dcf
+     * (for a camera memory card). See the
+     * <a href="http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec">shared-mime-info</a>
+     * specification for more on x-content types.
+     * <p>
+     * This function is useful in the implementation of
+     * g_mount_guess_content_type().
+     */
+    public static PointerIterator<java.lang.String> contentTypeGuessForTree(File root) {
+        var RESULT = gtk_h.g_content_type_guess_for_tree(root.handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -864,7 +890,7 @@ public final class Gio {
      */
     public static boolean contentTypeIsA(java.lang.String type, java.lang.String supertype) {
         var RESULT = gtk_h.g_content_type_is_a(Interop.allocateNativeString(type).handle(), Interop.allocateNativeString(supertype).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -873,7 +899,7 @@ public final class Gio {
      */
     public static boolean contentTypeIsMimeType(java.lang.String type, java.lang.String mimeType) {
         var RESULT = gtk_h.g_content_type_is_mime_type(Interop.allocateNativeString(type).handle(), Interop.allocateNativeString(mimeType).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -884,7 +910,7 @@ public final class Gio {
      */
     public static boolean contentTypeIsUnknown(java.lang.String type) {
         var RESULT = gtk_h.g_content_type_is_unknown(Interop.allocateNativeString(type).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -980,7 +1006,7 @@ public final class Gio {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -1069,7 +1095,7 @@ public final class Gio {
      */
     public static boolean dbusErrorIsRemoteError(org.gtk.glib.Error error) {
         var RESULT = gtk_h.g_dbus_error_is_remote_error(error.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1119,7 +1145,7 @@ public final class Gio {
      */
     public static boolean dbusErrorRegisterError(org.gtk.glib.Quark errorDomain, int errorCode, java.lang.String dbusErrorName) {
         var RESULT = gtk_h.g_dbus_error_register_error(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1142,7 +1168,7 @@ public final class Gio {
      */
     public static boolean dbusErrorStripRemoteError(org.gtk.glib.Error error) {
         var RESULT = gtk_h.g_dbus_error_strip_remote_error(error.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1150,7 +1176,7 @@ public final class Gio {
      */
     public static boolean dbusErrorUnregisterError(org.gtk.glib.Quark errorDomain, int errorCode, java.lang.String dbusErrorName) {
         var RESULT = gtk_h.g_dbus_error_unregister_error(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1180,7 +1206,7 @@ public final class Gio {
      * This can be reversed with g_dbus_unescape_object_path().
      */
     public static java.lang.String dbusEscapeObjectPathBytestring(byte[] bytes) {
-        var RESULT = gtk_h.g_dbus_escape_object_path_bytestring(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes)).handle());
+        var RESULT = gtk_h.g_dbus_escape_object_path_bytestring(Interop.allocateNativeArray(bytes).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -1266,7 +1292,7 @@ public final class Gio {
      */
     public static boolean dbusIsAddress(java.lang.String string) {
         var RESULT = gtk_h.g_dbus_is_address(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1278,7 +1304,7 @@ public final class Gio {
      */
     public static boolean dbusIsErrorName(java.lang.String string) {
         var RESULT = gtk_h.g_dbus_is_error_name(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1289,7 +1315,7 @@ public final class Gio {
      */
     public static boolean dbusIsGuid(java.lang.String string) {
         var RESULT = gtk_h.g_dbus_is_guid(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1297,7 +1323,7 @@ public final class Gio {
      */
     public static boolean dbusIsInterfaceName(java.lang.String string) {
         var RESULT = gtk_h.g_dbus_is_interface_name(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1305,7 +1331,7 @@ public final class Gio {
      */
     public static boolean dbusIsMemberName(java.lang.String string) {
         var RESULT = gtk_h.g_dbus_is_member_name(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1313,7 +1339,7 @@ public final class Gio {
      */
     public static boolean dbusIsName(java.lang.String string) {
         var RESULT = gtk_h.g_dbus_is_name(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1328,7 +1354,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1336,7 +1362,22 @@ public final class Gio {
      */
     public static boolean dbusIsUniqueName(java.lang.String string) {
         var RESULT = gtk_h.g_dbus_is_unique_name(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Unescapes an string that was previously escaped with
+     * g_dbus_escape_object_path(). If the string is in a format that could
+     * not have been returned by g_dbus_escape_object_path(), this function
+     * returns {@code null}.
+     * <p>
+     * Encoding alphanumeric characters which do not need to be
+     * encoded is not allowed (e.g {@code _63} is not valid, the string
+     * should contain {@code c} instead).
+     */
+    public static PointerIterator<Byte> dbusUnescapeObjectPath(java.lang.String s) {
+        var RESULT = gtk_h.g_dbus_unescape_object_path(Interop.allocateNativeString(s).handle());
+        return new PointerByte(RESULT).iterator();
     }
     
     /**
@@ -1738,7 +1779,7 @@ public final class Gio {
      */
     public static long pollableStreamRead(InputStream stream, byte[] buffer, long count, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_pollable_stream_read(stream.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, blocking ? 1 : 0, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_pollable_stream_read(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1759,7 +1800,7 @@ public final class Gio {
      */
     public static long pollableStreamWrite(OutputStream stream, byte[] buffer, long count, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_pollable_stream_write(stream.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, blocking ? 1 : 0, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_pollable_stream_write(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1788,11 +1829,11 @@ public final class Gio {
      */
     public static boolean pollableStreamWriteAll(OutputStream stream, byte[] buffer, long count, boolean blocking, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_pollable_stream_write_all(stream.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, blocking ? 1 : 0, bytesWritten.handle(), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_pollable_stream_write_all(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, bytesWritten.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1858,6 +1899,23 @@ public final class Gio {
     }
     
     /**
+     * Returns all the names of children at the specified {@code path} in the set of
+     * globally registered resources.
+     * The return result is a {@code null} terminated list of strings which should
+     * be released with g_strfreev().
+     * <p>
+     * {@code lookup_flags} controls the behaviour of the lookup.
+     */
+    public static PointerIterator<java.lang.String> resourcesEnumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_resources_enumerate_children(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Looks for a file at the specified {@code path} in the set of
      * globally registered resources and if found returns information about it.
      * <p>
@@ -1869,7 +1927,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2039,7 +2097,7 @@ public final class Gio {
      */
     public static boolean unixIsMountPathSystemInternal(java.lang.String mountPath) {
         var RESULT = gtk_h.g_unix_is_mount_path_system_internal(Interop.allocateNativeString(mountPath).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2053,7 +2111,7 @@ public final class Gio {
      */
     public static boolean unixIsSystemDevicePath(java.lang.String devicePath) {
         var RESULT = gtk_h.g_unix_is_system_device_path(Interop.allocateNativeString(devicePath).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2067,7 +2125,7 @@ public final class Gio {
      */
     public static boolean unixIsSystemFsType(java.lang.String fsType) {
         var RESULT = gtk_h.g_unix_is_system_fs_type(Interop.allocateNativeString(fsType).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2178,7 +2236,7 @@ public final class Gio {
      */
     public static boolean unixMountGuessCanEject(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_guess_can_eject(mountEntry.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2203,7 +2261,7 @@ public final class Gio {
      */
     public static boolean unixMountGuessShouldDisplay(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_guess_should_display(mountEntry.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2219,7 +2277,7 @@ public final class Gio {
      */
     public static boolean unixMountIsReadonly(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_is_readonly(mountEntry.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2232,7 +2290,7 @@ public final class Gio {
      */
     public static boolean unixMountIsSystemInternal(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_is_system_internal(mountEntry.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2253,7 +2311,7 @@ public final class Gio {
      */
     public static boolean unixMountPointsChangedSince(long time) {
         var RESULT = gtk_h.g_unix_mount_points_changed_since(time);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2272,7 +2330,7 @@ public final class Gio {
      */
     public static boolean unixMountsChangedSince(long time) {
         var RESULT = gtk_h.g_unix_mounts_changed_since(time);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2287,181 +2345,181 @@ public final class Gio {
     }
     
     public static void __cbBusNameVanishedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusNameVanishedCallback) Interop.signalRegistry.get(hash);
         handler.onBusNameVanishedCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
     }
     
     public static void __cbBusNameAppearedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress nameOwner, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusNameAppearedCallback) Interop.signalRegistry.get(hash);
         handler.onBusNameAppearedCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0), nameOwner.getUtf8String(0));
     }
     
-    public static void __cbFileMeasureProgressCallback(boolean reporting, long currentSize, long numDirs, long numFiles, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+    public static void __cbFileMeasureProgressCallback(int reporting, long currentSize, long numDirs, long numFiles, MemoryAddress userData) {
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileMeasureProgressCallback) Interop.signalRegistry.get(hash);
-        handler.onFileMeasureProgressCallback(reporting, currentSize, numDirs, numFiles);
+        handler.onFileMeasureProgressCallback(reporting != 0, currentSize, numDirs, numFiles);
     }
     
     public static boolean __cbDatagramBasedSourceFunc(MemoryAddress datagramBased, int condition, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DatagramBasedSourceFunc) Interop.signalRegistry.get(hash);
         return handler.onDatagramBasedSourceFunc(new DatagramBased.DatagramBasedImpl(References.get(datagramBased, false)), new org.gtk.glib.IOCondition(condition));
     }
     
     public static boolean __cbSettingsGetMapping(MemoryAddress value, MemoryAddress result, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SettingsGetMapping) Interop.signalRegistry.get(hash);
         return handler.onSettingsGetMapping(new org.gtk.glib.Variant(References.get(value, false)), result);
     }
     
     public static org.gtk.glib.Variant __cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusInterfaceGetPropertyFunc) Interop.signalRegistry.get(hash);
         return handler.onDBusInterfaceGetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0));
     }
     
     public static void __cbBusAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusAcquiredCallback) Interop.signalRegistry.get(hash);
         handler.onBusAcquiredCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
     }
     
     public static org.gtk.glib.Variant __cbSettingsBindSetMapping(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SettingsBindSetMapping) Interop.signalRegistry.get(hash);
         return handler.onSettingsBindSetMapping(new org.gtk.gobject.Value(References.get(value, false)), new org.gtk.glib.VariantType(References.get(expectedType, false)));
     }
     
     public static java.lang.foreign.MemoryAddress __cbReallocFunc(MemoryAddress data, long size) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ReallocFunc) Interop.signalRegistry.get(hash);
         return handler.onReallocFunc(size);
     }
     
     public static boolean __cbCancellableSourceFunc(MemoryAddress cancellable, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (CancellableSourceFunc) Interop.signalRegistry.get(hash);
         return handler.onCancellableSourceFunc(new Cancellable(References.get(cancellable, false)));
     }
     
     public static boolean __cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusInterfaceSetPropertyFunc) Interop.signalRegistry.get(hash);
         return handler.onDBusInterfaceSetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
     }
     
     public static void __cbBusNameLostCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusNameLostCallback) Interop.signalRegistry.get(hash);
         handler.onBusNameLostCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
     }
     
     public static boolean __cbFileReadMoreCallback(MemoryAddress fileContents, long fileSize, MemoryAddress callbackData) {
-        int hash = callbackData.get(C_INT, 0);
+        int hash = callbackData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileReadMoreCallback) Interop.signalRegistry.get(hash);
         return handler.onFileReadMoreCallback(fileContents.getUtf8String(0), fileSize);
     }
     
     public static boolean __cbSocketSourceFunc(MemoryAddress socket, int condition, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SocketSourceFunc) Interop.signalRegistry.get(hash);
         return handler.onSocketSourceFunc(new Socket(References.get(socket, false)), new org.gtk.glib.IOCondition(condition));
     }
     
     public static void __cbDesktopAppLaunchCallback(MemoryAddress appinfo, int pid, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DesktopAppLaunchCallback) Interop.signalRegistry.get(hash);
         handler.onDesktopAppLaunchCallback(new DesktopAppInfo(References.get(appinfo, false)), new org.gtk.glib.Pid(pid));
     }
     
     public static boolean __cbPollableSourceFunc(MemoryAddress pollableStream, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (PollableSourceFunc) Interop.signalRegistry.get(hash);
         return handler.onPollableSourceFunc(new org.gtk.gobject.Object(References.get(pollableStream, false)));
     }
     
     public static void __cbAsyncReadyCallback(MemoryAddress sourceObject, MemoryAddress res, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (AsyncReadyCallback) Interop.signalRegistry.get(hash);
         handler.onAsyncReadyCallback(new org.gtk.gobject.Object(References.get(sourceObject, false)), new AsyncResult.AsyncResultImpl(References.get(res, false)));
     }
     
     public static boolean __cbSettingsBindGetMapping(MemoryAddress value, MemoryAddress variant, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SettingsBindGetMapping) Interop.signalRegistry.get(hash);
         return handler.onSettingsBindGetMapping(new org.gtk.gobject.Value(References.get(value, false)), new org.gtk.glib.Variant(References.get(variant, false)));
     }
     
     public static DBusInterfaceVTable __cbDBusSubtreeDispatchFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress node, MemoryAddress outUserData, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusSubtreeDispatchFunc) Interop.signalRegistry.get(hash);
         return handler.onDBusSubtreeDispatchFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), node.getUtf8String(0), outUserData);
     }
     
     public static void __cbDBusSignalCallback(MemoryAddress connection, MemoryAddress senderName, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusSignalCallback) Interop.signalRegistry.get(hash);
         handler.onDBusSignalCallback(new DBusConnection(References.get(connection, false)), senderName.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
     }
     
     public static void __cbFileProgressCallback(long currentNumBytes, long totalNumBytes, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FileProgressCallback) Interop.signalRegistry.get(hash);
         handler.onFileProgressCallback(currentNumBytes, totalNumBytes);
     }
     
     public static File __cbVfsFileLookupFunc(MemoryAddress vfs, MemoryAddress identifier, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (VfsFileLookupFunc) Interop.signalRegistry.get(hash);
         return handler.onVfsFileLookupFunc(new Vfs(References.get(vfs, false)), identifier.getUtf8String(0));
     }
     
     public static void __cbDBusInterfaceMethodCallFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress methodName, MemoryAddress parameters, MemoryAddress invocation, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusInterfaceMethodCallFunc) Interop.signalRegistry.get(hash);
         handler.onDBusInterfaceMethodCallFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), methodName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)), new DBusMethodInvocation(References.get(invocation, true)));
     }
     
     public static void __cbDBusSubtreeEnumerateFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusSubtreeEnumerateFunc) Interop.signalRegistry.get(hash);
         handler.onDBusSubtreeEnumerateFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0));
     }
     
-    public static DBusMessage __cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, boolean incoming, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+    public static DBusMessage __cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, int incoming, MemoryAddress userData) {
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusMessageFilterFunction) Interop.signalRegistry.get(hash);
-        return handler.onDBusMessageFilterFunction(new DBusConnection(References.get(connection, false)), new DBusMessage(References.get(message, true)), incoming);
+        return handler.onDBusMessageFilterFunction(new DBusConnection(References.get(connection, false)), new DBusMessage(References.get(message, true)), incoming != 0);
     }
     
     public static void __cbDBusSubtreeIntrospectFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress node, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusSubtreeIntrospectFunc) Interop.signalRegistry.get(hash);
         handler.onDBusSubtreeIntrospectFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), node.getUtf8String(0));
     }
     
     public static org.gtk.gobject.Type __cbDBusProxyTypeFunc(MemoryAddress manager, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusProxyTypeFunc) Interop.signalRegistry.get(hash);
         return handler.onDBusProxyTypeFunc(new DBusObjectManagerClient(References.get(manager, false)), objectPath.getUtf8String(0), interfaceName.getUtf8String(0));
     }
     
     public static void __cbTaskThreadFunc(MemoryAddress task, MemoryAddress sourceObject, MemoryAddress taskData, MemoryAddress cancellable) {
-        int hash = taskData.get(C_INT, 0);
+        int hash = taskData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TaskThreadFunc) Interop.signalRegistry.get(hash);
         handler.onTaskThreadFunc(new Task(References.get(task, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)), new Cancellable(References.get(cancellable, false)));
     }
     
     public static void __cbBusNameAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusNameAcquiredCallback) Interop.signalRegistry.get(hash);
         handler.onBusNameAcquiredCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
     }
     
     public static boolean __cbIOSchedulerJobFunc(MemoryAddress job, MemoryAddress cancellable, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (IOSchedulerJobFunc) Interop.signalRegistry.get(hash);
         return handler.onIOSchedulerJobFunc(new IOSchedulerJob(References.get(job, false)), new Cancellable(References.get(cancellable, false)));
     }

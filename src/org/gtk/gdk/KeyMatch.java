@@ -5,7 +5,7 @@ package org.gtk.gdk;
  * <p>
  * {@code GdkKeyMatch} values are returned by {@link KeyEvent#matches}.
  */
-public class KeyMatch {
+public class KeyMatch extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The key event does not match
@@ -23,26 +23,8 @@ public class KeyMatch {
      */
     public static final KeyMatch EXACT = new KeyMatch(2);
     
-    private int value;
-    
     public KeyMatch(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(KeyMatch[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

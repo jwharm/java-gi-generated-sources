@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by regular expressions functions.
  */
-public class RegexError {
+public class RegexError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Compilation of the regular expression failed.
@@ -333,26 +333,8 @@ public class RegexError {
      */
     public static final RegexError CHARACTER_VALUE_TOO_LARGE = new RegexError(176);
     
-    private int value;
-    
     public RegexError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(RegexError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

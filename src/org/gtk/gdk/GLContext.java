@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -94,7 +92,7 @@ public class GLContext extends DrawContext {
      */
     public boolean getDebugEnabled() {
         var RESULT = gtk_h.gdk_gl_context_get_debug_enabled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -112,7 +110,7 @@ public class GLContext extends DrawContext {
      */
     public boolean getForwardCompatible() {
         var RESULT = gtk_h.gdk_gl_context_get_forward_compatible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -137,7 +135,7 @@ public class GLContext extends DrawContext {
      */
     public boolean getUseEs() {
         var RESULT = gtk_h.gdk_gl_context_get_use_es(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -169,7 +167,7 @@ public class GLContext extends DrawContext {
      */
     public boolean isLegacy() {
         var RESULT = gtk_h.gdk_gl_context_is_legacy(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -188,7 +186,7 @@ public class GLContext extends DrawContext {
      */
     public boolean isShared(GLContext other) {
         var RESULT = gtk_h.gdk_gl_context_is_shared(handle(), other.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -209,7 +207,7 @@ public class GLContext extends DrawContext {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

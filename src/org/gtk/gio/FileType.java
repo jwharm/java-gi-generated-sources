@@ -12,7 +12,7 @@ package org.gtk.gio;
  * which is why all Windows symlinks will continue to be reported as
  * {@link FileType#REGULAR} or {@link FileType#DIRECTORY}.
  */
-public class FileType {
+public class FileType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * File's type is unknown.
@@ -51,26 +51,8 @@ public class FileType {
      */
     public static final FileType MOUNTABLE = new FileType(6);
     
-    private int value;
-    
     public FileType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

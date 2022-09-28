@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * <p>
  * This enumeration can be expanded at later date.
  */
-public class License {
+public class License extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No license specified
@@ -98,26 +98,8 @@ public class License {
      */
     public static final License MPL_2_0 = new License(17);
     
-    private int value;
-    
     public License(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(License[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gobject;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -258,7 +256,7 @@ public final class GObject {
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
@@ -284,7 +282,7 @@ public final class GObject {
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
@@ -734,7 +732,7 @@ public final class GObject {
      */
     public static boolean paramValueConvert(ParamSpec pspec, Value srcValue, Value destValue, boolean strictValidation) {
         var RESULT = gtk_h.g_param_value_convert(pspec.handle(), srcValue.handle(), destValue.handle(), strictValidation ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -742,7 +740,7 @@ public final class GObject {
      */
     public static boolean paramValueDefaults(ParamSpec pspec, Value value) {
         var RESULT = gtk_h.g_param_value_defaults(pspec.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -762,7 +760,7 @@ public final class GObject {
      */
     public static boolean paramValueValidate(ParamSpec pspec, Value value) {
         var RESULT = gtk_h.g_param_value_validate(pspec.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -798,7 +796,7 @@ public final class GObject {
      */
     public static boolean signalAccumulatorFirstWins(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, java.lang.foreign.MemoryAddress dummy) {
         var RESULT = gtk_h.g_signal_accumulator_first_wins(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -812,7 +810,7 @@ public final class GObject {
      */
     public static boolean signalAccumulatorTrueHandled(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, java.lang.foreign.MemoryAddress dummy) {
         var RESULT = gtk_h.g_signal_accumulator_true_handled(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -825,10 +823,10 @@ public final class GObject {
             var RESULT = gtk_h.g_signal_add_emission_hook(signalId, detail.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbSignalEmissionHook",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(hookFunc.hashCode(), hookFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(hookFunc.hashCode(), hookFunc)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -877,7 +875,7 @@ public final class GObject {
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
@@ -962,7 +960,7 @@ public final class GObject {
      */
     public static boolean signalHandlerIsConnected(Object instance, long handlerId) {
         var RESULT = gtk_h.g_signal_handler_is_connected(instance.handle(), handlerId);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1057,7 +1055,7 @@ public final class GObject {
      */
     public static boolean signalHasHandlerPending(Object instance, int signalId, org.gtk.glib.Quark detail, boolean mayBeBlocked) {
         var RESULT = gtk_h.g_signal_has_handler_pending(instance.handle(), signalId, detail.getValue(), mayBeBlocked ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1070,7 +1068,17 @@ public final class GObject {
      */
     public static boolean signalIsValidName(java.lang.String name) {
         var RESULT = gtk_h.g_signal_is_valid_name(Interop.allocateNativeString(name).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Lists the signals by id that a certain instance or interface type
+     * created. Further information about the signals can be acquired through
+     * g_signal_query().
+     */
+    public static PointerIterator<Integer> signalListIds(org.gtk.gobject.Type itype, PointerInteger nIds) {
+        var RESULT = gtk_h.g_signal_list_ids(itype.getValue(), nIds.handle());
+        return new PointerInteger(RESULT).iterator();
     }
     
     /**
@@ -1122,7 +1130,7 @@ public final class GObject {
         PointerInteger detailPPOINTER = new PointerInteger(detailP.getValue());
         var RESULT = gtk_h.g_signal_parse_name(Interop.allocateNativeString(detailedSignal).handle(), itype.getValue(), signalIdP.handle(), new PointerInteger(detailP.getValue()).handle(), forceDetailQuark ? 1 : 0);
         detailP.setValue(detailPPOINTER.get());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1227,11 +1235,11 @@ public final class GObject {
     public static void typeAddClassCacheFunc(TypeClassCacheFunc cacheFunc) {
         try {
             gtk_h.g_type_add_class_cache_func(
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbTypeClassCacheFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -1273,7 +1281,7 @@ public final class GObject {
     public static void typeAddInterfaceCheck(TypeInterfaceCheckFunc checkFunc) {
         try {
             gtk_h.g_type_add_interface_check(
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -1309,7 +1317,7 @@ public final class GObject {
     
     public static boolean typeCheckClassIsA(TypeClass gClass, org.gtk.gobject.Type isAType) {
         var RESULT = gtk_h.g_type_check_class_is_a(gClass.handle(), isAType.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1318,7 +1326,7 @@ public final class GObject {
      */
     public static boolean typeCheckInstance(TypeInstance instance) {
         var RESULT = gtk_h.g_type_check_instance(instance.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static TypeInstance typeCheckInstanceCast(TypeInstance instance, org.gtk.gobject.Type ifaceType) {
@@ -1328,27 +1336,36 @@ public final class GObject {
     
     public static boolean typeCheckInstanceIsA(TypeInstance instance, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_check_instance_is_a(instance.handle(), ifaceType.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static boolean typeCheckInstanceIsFundamentallyA(TypeInstance instance, org.gtk.gobject.Type fundamentalType) {
         var RESULT = gtk_h.g_type_check_instance_is_fundamentally_a(instance.handle(), fundamentalType.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static boolean typeCheckIsValueType(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_check_is_value_type(type.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static boolean typeCheckValue(Value value) {
         var RESULT = gtk_h.g_type_check_value(value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static boolean typeCheckValueHolds(Value value, org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_check_value_holds(value.handle(), type.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Return a newly allocated and 0-terminated array of type IDs, listing
+     * the child types of {@code type}.
+     */
+    public static PointerIterator<Long> typeChildren(org.gtk.gobject.Type type, PointerInteger nChildren) {
+        var RESULT = gtk_h.g_type_children(type.getValue(), nChildren.handle());
+        return new PointerLong(RESULT).iterator();
     }
     
     public static void typeClassAdjustPrivateOffset(java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
@@ -1604,13 +1621,30 @@ public final class GObject {
     }
     
     /**
+     * Returns the prerequisites of an interfaces type.
+     */
+    public static PointerIterator<Long> typeInterfacePrerequisites(org.gtk.gobject.Type interfaceType, PointerInteger nPrerequisites) {
+        var RESULT = gtk_h.g_type_interface_prerequisites(interfaceType.getValue(), nPrerequisites.handle());
+        return new PointerLong(RESULT).iterator();
+    }
+    
+    /**
+     * Return a newly allocated and 0-terminated array of type IDs, listing
+     * the interface types that {@code type} conforms to.
+     */
+    public static PointerIterator<Long> typeInterfaces(org.gtk.gobject.Type type, PointerInteger nInterfaces) {
+        var RESULT = gtk_h.g_type_interfaces(type.getValue(), nInterfaces.handle());
+        return new PointerLong(RESULT).iterator();
+    }
+    
+    /**
      * If {@code is_a_type} is a derivable type, check whether {@code type} is a
      * descendant of {@code is_a_type}. If {@code is_a_type} is an interface, check
      * whether {@code type} conforms to it.
      */
     public static boolean typeIsA(org.gtk.gobject.Type type, org.gtk.gobject.Type isAType) {
         var RESULT = gtk_h.g_type_is_a(type.getValue(), isAType.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1724,11 +1758,11 @@ public final class GObject {
     public static void typeRemoveClassCacheFunc(TypeClassCacheFunc cacheFunc) {
         try {
             gtk_h.g_type_remove_class_cache_func(
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbTypeClassCacheFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -1742,7 +1776,7 @@ public final class GObject {
     public static void typeRemoveInterfaceCheck(TypeInterfaceCheckFunc checkFunc) {
         try {
             gtk_h.g_type_remove_interface_check(
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -1762,7 +1796,7 @@ public final class GObject {
     
     public static boolean typeTestFlags(org.gtk.gobject.Type type, int flags) {
         var RESULT = gtk_h.g_type_test_flags(type.getValue(), flags);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1783,7 +1817,7 @@ public final class GObject {
      */
     public static boolean valueTypeCompatible(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
         var RESULT = gtk_h.g_value_type_compatible(srcType.getValue(), destType.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1794,83 +1828,83 @@ public final class GObject {
      */
     public static boolean valueTypeTransformable(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
         var RESULT = gtk_h.g_value_type_transformable(srcType.getValue(), destType.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
-    public static void __cbToggleNotify(MemoryAddress data, MemoryAddress object, boolean isLastRef) {
-        int hash = data.get(C_INT, 0);
+    public static void __cbToggleNotify(MemoryAddress data, MemoryAddress object, int isLastRef) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ToggleNotify) Interop.signalRegistry.get(hash);
-        handler.onToggleNotify(new Object(References.get(object, false)), isLastRef);
+        handler.onToggleNotify(new Object(References.get(object, false)), isLastRef != 0);
     }
     
     public static void __cbClassInitFunc(MemoryAddress gClass, MemoryAddress classData) {
-        int hash = classData.get(C_INT, 0);
+        int hash = classData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClassInitFunc) Interop.signalRegistry.get(hash);
         handler.onClassInitFunc(new TypeClass(References.get(gClass, false)));
     }
     
     public static void __cbInterfaceInitFunc(MemoryAddress gIface, MemoryAddress ifaceData) {
-        int hash = ifaceData.get(C_INT, 0);
+        int hash = ifaceData.get(ValueLayout.JAVA_INT, 0);
         var handler = (InterfaceInitFunc) Interop.signalRegistry.get(hash);
         handler.onInterfaceInitFunc(new TypeInterface(References.get(gIface, false)));
     }
     
     public static boolean __cbSignalAccumulator(MemoryAddress ihint, MemoryAddress returnAccu, MemoryAddress handlerReturn, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SignalAccumulator) Interop.signalRegistry.get(hash);
         return handler.onSignalAccumulator(new SignalInvocationHint(References.get(ihint, false)), new Value(References.get(returnAccu, false)), new Value(References.get(handlerReturn, false)));
     }
     
     public static void __cbClosureMarshal(MemoryAddress closure, MemoryAddress returnValue, int nParamValues, MemoryAddress paramValues, MemoryAddress invocationHint, MemoryAddress marshalData) {
-        int hash = marshalData.get(C_INT, 0);
+        int hash = marshalData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClosureMarshal) Interop.signalRegistry.get(hash);
-        handler.onClosureMarshal(new Closure(References.get(closure, false)), new Value(References.get(returnValue, false)), nParamValues, null, invocationHint);
+        handler.onClosureMarshal(new Closure(References.get(closure, false)), new Value(References.get(returnValue, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class).iterator(), invocationHint);
     }
     
     public static void __cbClosureNotify(MemoryAddress data, MemoryAddress closure) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClosureNotify) Interop.signalRegistry.get(hash);
         handler.onClosureNotify(new Closure(References.get(closure, false)));
     }
     
     public static boolean __cbTypeClassCacheFunc(MemoryAddress cacheData, MemoryAddress gClass) {
-        int hash = cacheData.get(C_INT, 0);
+        int hash = cacheData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TypeClassCacheFunc) Interop.signalRegistry.get(hash);
         return handler.onTypeClassCacheFunc(new TypeClass(References.get(gClass, false)));
     }
     
     public static boolean __cbBindingTransformFunc(MemoryAddress binding, MemoryAddress fromValue, MemoryAddress toValue, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BindingTransformFunc) Interop.signalRegistry.get(hash);
         return handler.onBindingTransformFunc(new Binding(References.get(binding, false)), new Value(References.get(fromValue, false)), new Value(References.get(toValue, false)));
     }
     
     public static void __cbClassFinalizeFunc(MemoryAddress gClass, MemoryAddress classData) {
-        int hash = classData.get(C_INT, 0);
+        int hash = classData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClassFinalizeFunc) Interop.signalRegistry.get(hash);
         handler.onClassFinalizeFunc(new TypeClass(References.get(gClass, false)));
     }
     
     public static boolean __cbSignalEmissionHook(MemoryAddress ihint, int nParamValues, MemoryAddress paramValues, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SignalEmissionHook) Interop.signalRegistry.get(hash);
-        return handler.onSignalEmissionHook(new SignalInvocationHint(References.get(ihint, false)), nParamValues, null);
+        return handler.onSignalEmissionHook(new SignalInvocationHint(References.get(ihint, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class).iterator());
     }
     
     public static void __cbInterfaceFinalizeFunc(MemoryAddress gIface, MemoryAddress ifaceData) {
-        int hash = ifaceData.get(C_INT, 0);
+        int hash = ifaceData.get(ValueLayout.JAVA_INT, 0);
         var handler = (InterfaceFinalizeFunc) Interop.signalRegistry.get(hash);
         handler.onInterfaceFinalizeFunc(new TypeInterface(References.get(gIface, false)));
     }
     
     public static void __cbWeakNotify(MemoryAddress data, MemoryAddress whereTheObjectWas) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (WeakNotify) Interop.signalRegistry.get(hash);
         handler.onWeakNotify(new Object(References.get(whereTheObjectWas, false)));
     }
     
     public static void __cbTypeInterfaceCheckFunc(MemoryAddress checkData, MemoryAddress gIface) {
-        int hash = checkData.get(C_INT, 0);
+        int hash = checkData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TypeInterfaceCheckFunc) Interop.signalRegistry.get(hash);
         handler.onTypeInterfaceCheckFunc(new TypeInterface(References.get(gIface, false)));
     }

@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Message flags used in {@link DBusMessage}.
  */
-public class DBusMessageFlags {
+public class DBusMessageFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -28,38 +28,8 @@ public class DBusMessageFlags {
      */
     public static final DBusMessageFlags ALLOW_INTERACTIVE_AUTHORIZATION = new DBusMessageFlags(4);
     
-    private int value;
-    
     public DBusMessageFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusMessageFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusMessageFlags combined(DBusMessageFlags mask) {
-        return new DBusMessageFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusMessageFlags combined(DBusMessageFlags mask, DBusMessageFlags... masks) {
-        int value = mask.getValue();
-        for (DBusMessageFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusMessageFlags(value);
+        super(value);
     }
     
 }

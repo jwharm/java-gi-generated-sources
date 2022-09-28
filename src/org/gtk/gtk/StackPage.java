@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,7 +48,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      */
     public boolean getNeedsAttention() {
         var RESULT = gtk_h.gtk_stack_page_get_needs_attention(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -66,7 +64,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      */
     public boolean getUseUnderline() {
         var RESULT = gtk_h.gtk_stack_page_get_use_underline(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -77,7 +75,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      */
     public boolean getVisible() {
         var RESULT = gtk_h.gtk_stack_page_get_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

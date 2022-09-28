@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,14 +35,14 @@ import java.lang.invoke.*;
  * understood by g_icon_deserialize(), yielding one of the built-in icon
  * types.
  */
-public interface Icon extends io.github.jwharm.javagi.NativeAddress {
+public interface Icon extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Checks if two icons are equal.
      */
     public default boolean equal(Icon icon2) {
         var RESULT = gtk_h.g_icon_equal(handle(), icon2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

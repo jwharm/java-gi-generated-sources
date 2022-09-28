@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -195,6 +193,25 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Returns all the names of children at the specified {@code path} in the resource.
+     * The return result is a {@code null} terminated list of strings which should
+     * be released with g_strfreev().
+     * <p>
+     * If {@code path} is invalid or does not exist in the {@link Resource},
+     * {@link ResourceError#NOT_FOUND} will be returned.
+     * <p>
+     * {@code lookup_flags} controls the behaviour of the lookup.
+     */
+    public PointerIterator<java.lang.String> enumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_resource_enumerate_children(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Looks for a file at the specified {@code path} in the resource and
      * if found returns information about it.
      * <p>
@@ -206,7 +223,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

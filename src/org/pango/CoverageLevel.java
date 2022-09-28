@@ -7,7 +7,7 @@ package org.pango;
  * Since 1.44, only {@link CoverageLevel#NONE} and {@link CoverageLevel#EXACT}
  * will be returned.
  */
-public class CoverageLevel {
+public class CoverageLevel extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The character is not representable with
@@ -37,26 +37,8 @@ public class CoverageLevel {
      */
     public static final CoverageLevel EXACT = new CoverageLevel(3);
     
-    private int value;
-    
     public CoverageLevel(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CoverageLevel[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

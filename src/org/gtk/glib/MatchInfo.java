@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -69,6 +67,29 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Bundles up pointers to each of the matching substrings from a match
+     * and stores them in an array of gchar pointers. The first element in
+     * the returned array is the match number 0, i.e. the entire matched
+     * text.
+     * <p>
+     * If a sub pattern didn't match anything (e.g. sub pattern 1, matching
+     * "b" against "(a)?b") then an empty string is inserted.
+     * <p>
+     * If the last match was obtained using the DFA algorithm, that is using
+     * g_regex_match_all() or g_regex_match_all_full(), the retrieved
+     * strings are not that matched by sets of parentheses but that of the
+     * matched substring. Substrings are matched in reverse order of length,
+     * so the first one is the longest match.
+     * <p>
+     * The strings are fetched from the string passed to the match function,
+     * so you cannot call this function after freeing the string.
+     */
+    public PointerIterator<java.lang.String> fetchAll() {
+        var RESULT = gtk_h.g_match_info_fetch_all(handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Retrieves the text matching the capturing parentheses named {@code name}.
      * <p>
      * If {@code name} is a valid sub pattern name but it didn't match anything
@@ -92,7 +113,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean fetchNamedPos(java.lang.String name, PointerInteger startPos, PointerInteger endPos) {
         var RESULT = gtk_h.g_match_info_fetch_named_pos(handle(), Interop.allocateNativeString(name).handle(), startPos.handle(), endPos.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -112,7 +133,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean fetchPos(int matchNum, PointerInteger startPos, PointerInteger endPos) {
         var RESULT = gtk_h.g_match_info_fetch_pos(handle(), matchNum, startPos.handle(), endPos.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -195,7 +216,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isPartialMatch() {
         var RESULT = gtk_h.g_match_info_is_partial_match(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -203,7 +224,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean matches() {
         var RESULT = gtk_h.g_match_info_matches(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -220,7 +241,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

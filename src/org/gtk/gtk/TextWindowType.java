@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Used to reference the parts of {@code GtkTextView}.
  */
-public class TextWindowType {
+public class TextWindowType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Window that floats over scrolling areas.
@@ -35,26 +35,8 @@ public class TextWindowType {
      */
     public static final TextWindowType BOTTOM = new TextWindowType(6);
     
-    private int value;
-    
     public TextWindowType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TextWindowType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

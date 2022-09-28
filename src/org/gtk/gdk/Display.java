@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -77,7 +75,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public boolean deviceIsGrabbed(Device device) {
         var RESULT = gtk_h.gdk_display_device_is_grabbed(handle(), device.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -175,7 +173,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public boolean getSetting(java.lang.String name, org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gdk_display_get_setting(handle(), Interop.allocateNativeString(name).handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -192,7 +190,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public boolean isClosed() {
         var RESULT = gtk_h.gdk_display_is_closed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -209,7 +207,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public boolean isComposited() {
         var RESULT = gtk_h.gdk_display_is_composited(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -227,7 +225,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public boolean isRgba() {
         var RESULT = gtk_h.gdk_display_is_rgba(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -250,8 +248,8 @@ public class Display extends org.gtk.gobject.Object {
      * Free the returned arrays with g_free().
      */
     public boolean mapKeycode(int keycode, KeymapKey[] keys, int[] keyvals, PointerInteger nEntries) {
-        var RESULT = gtk_h.gdk_display_map_keycode(handle(), keycode, Interop.allocateNativeArray(keys).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, keyvals)).handle(), nEntries.handle());
-        return (RESULT != 0);
+        var RESULT = gtk_h.gdk_display_map_keycode(handle(), keycode, Interop.allocateNativeArray(keys).handle(), Interop.allocateNativeArray(keyvals).handle(), nEntries.handle());
+        return RESULT != 0;
     }
     
     /**
@@ -273,7 +271,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public boolean mapKeyval(int keyval, KeymapKey[] keys, PointerInteger nKeys) {
         var RESULT = gtk_h.gdk_display_map_keyval(handle(), keyval, Interop.allocateNativeArray(keys).handle(), nKeys.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -311,7 +309,7 @@ public class Display extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -335,7 +333,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public boolean supportsInputShapes() {
         var RESULT = gtk_h.gdk_display_supports_input_shapes(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -377,7 +375,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public boolean translateKey(int keycode, ModifierType state, int group, PointerInteger keyval, PointerInteger effectiveGroup, PointerInteger level, ModifierType consumed) {
         var RESULT = gtk_h.gdk_display_translate_key(handle(), keycode, state.getValue(), group, keyval.handle(), effectiveGroup.handle(), level.handle(), new PointerInteger(consumed.getValue()).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -417,10 +415,10 @@ public class Display extends org.gtk.gobject.Object {
                 Interop.allocateNativeString("closed").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Display.class, "__signalDisplayClosed",
-                        MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -428,10 +426,10 @@ public class Display extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalDisplayClosed(MemoryAddress source, boolean isError, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalDisplayClosed(MemoryAddress source, int isError, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Display.ClosedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Display(References.get(source)), isError);
+        handler.signalReceived(new Display(References.get(source)), isError != 0);
     }
     
     @FunctionalInterface
@@ -452,7 +450,7 @@ public class Display extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -461,7 +459,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     public static void __signalDisplayOpened(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Display.OpenedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Display(References.get(source)));
     }
@@ -484,7 +482,7 @@ public class Display extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -493,7 +491,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     public static void __signalDisplaySeatAdded(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Display.SeatAddedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Display(References.get(source)), new Seat(References.get(seat, false)));
     }
@@ -516,7 +514,7 @@ public class Display extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -525,7 +523,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     public static void __signalDisplaySeatRemoved(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Display.SeatRemovedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Display(References.get(source)), new Seat(References.get(seat, false)));
     }
@@ -548,7 +546,7 @@ public class Display extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -557,7 +555,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     public static void __signalDisplaySettingChanged(MemoryAddress source, MemoryAddress setting, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Display.SettingChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Display(References.get(source)), setting.getUtf8String(0));
     }

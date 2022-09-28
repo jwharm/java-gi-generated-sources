@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * The possible values for the {@link AccessibleProperty#AUTOCOMPLETE}
  * accessible property.
  */
-public class AccessibleAutocomplete {
+public class AccessibleAutocomplete extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Automatic suggestions are not displayed.
@@ -34,26 +34,8 @@ public class AccessibleAutocomplete {
      */
     public static final AccessibleAutocomplete BOTH = new AccessibleAutocomplete(3);
     
-    private int value;
-    
     public AccessibleAutocomplete(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AccessibleAutocomplete[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

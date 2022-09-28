@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Specifies the crossing mode for enter and leave events.
  */
-public class CrossingMode {
+public class CrossingMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * crossing because of pointer motion.
@@ -55,26 +55,8 @@ public class CrossingMode {
      */
     public static final CrossingMode DEVICE_SWITCH = new CrossingMode(8);
     
-    private int value;
-    
     public CrossingMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CrossingMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

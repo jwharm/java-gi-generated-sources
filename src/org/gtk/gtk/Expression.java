@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -180,7 +178,7 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public boolean evaluate(org.gtk.gobject.Object this_, org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gtk_expression_evaluate(handle(), this_.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -205,7 +203,7 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public boolean isStatic() {
         var RESULT = gtk_h.gtk_expression_is_static(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -244,7 +242,7 @@ public class Expression extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)), 
                     Interop.cbDestroyNotifySymbol());
             return new ExpressionWatch(References.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {

@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Flags specifying compile-time options.
  */
-public class RegexCompileFlags {
+public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Letters in the pattern match both upper- and
@@ -146,38 +146,8 @@ public class RegexCompileFlags {
      */
     public static final RegexCompileFlags JAVASCRIPT_COMPAT = new RegexCompileFlags(33554432);
     
-    private int value;
-    
     public RegexCompileFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(RegexCompileFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public RegexCompileFlags combined(RegexCompileFlags mask) {
-        return new RegexCompileFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static RegexCompileFlags combined(RegexCompileFlags mask, RegexCompileFlags... masks) {
-        int value = mask.getValue();
-        for (RegexCompileFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new RegexCompileFlags(value);
+        super(value);
     }
     
 }

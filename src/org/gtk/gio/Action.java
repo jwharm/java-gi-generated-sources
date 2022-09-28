@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +36,7 @@ import java.lang.invoke.*;
  * Probably the only useful thing to do with a {@link Action} is to put it
  * inside of a {@link SimpleActionGroup}.
  */
-public interface Action extends io.github.jwharm.javagi.NativeAddress {
+public interface Action extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Activates the action.
@@ -77,7 +75,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getEnabled() {
         var RESULT = gtk_h.g_action_get_enabled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -173,7 +171,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      */
     public static boolean nameIsValid(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_name_is_valid(Interop.allocateNativeString(actionName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -208,7 +206,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

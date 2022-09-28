@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -46,7 +44,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardChar() {
         var RESULT = gtk_h.gtk_text_iter_backward_char(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -62,7 +60,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardChars(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_chars(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -70,7 +68,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardCursorPosition() {
         var RESULT = gtk_h.gtk_text_iter_backward_cursor_position(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -80,7 +78,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_cursor_positions(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -92,11 +90,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
             var RESULT = gtk_h.gtk_text_iter_backward_find_char(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTextCharPredicate",
-                            MethodType.methodType(boolean.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
-            return (RESULT != 0);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -115,7 +113,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardLine() {
         var RESULT = gtk_h.gtk_text_iter_backward_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -132,7 +130,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardLines(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_lines(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -143,7 +141,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardSearch(java.lang.String str, TextSearchFlags flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
         var RESULT = gtk_h.gtk_text_iter_backward_search(handle(), Interop.allocateNativeString(str).handle(), flags.getValue(), matchStart.handle(), matchEnd.handle(), limit.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -157,7 +155,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardSentenceStart() {
         var RESULT = gtk_h.gtk_text_iter_backward_sentence_start(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -167,7 +165,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardSentenceStarts(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_sentence_starts(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -183,7 +181,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardToTagToggle(TextTag tag) {
         var RESULT = gtk_h.gtk_text_iter_backward_to_tag_toggle(handle(), tag.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -193,7 +191,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardVisibleCursorPosition() {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_cursor_position(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -203,7 +201,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardVisibleCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_cursor_positions(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -219,7 +217,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardVisibleLine() {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -236,7 +234,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardVisibleLines(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_lines(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -250,7 +248,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardVisibleWordStart() {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_word_start(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -258,7 +256,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardVisibleWordStarts(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_word_starts(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -272,7 +270,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardWordStart() {
         var RESULT = gtk_h.gtk_text_iter_backward_word_start(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -280,7 +278,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardWordStarts(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_word_starts(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -295,7 +293,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean canInsert(boolean defaultEditability) {
         var RESULT = gtk_h.gtk_text_iter_can_insert(handle(), defaultEditability ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -341,7 +339,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean editable(boolean defaultSetting) {
         var RESULT = gtk_h.gtk_text_iter_editable(handle(), defaultSetting ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -359,7 +357,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean endsLine() {
         var RESULT = gtk_h.gtk_text_iter_ends_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -370,7 +368,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean endsSentence() {
         var RESULT = gtk_h.gtk_text_iter_ends_sentence(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -387,7 +385,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean endsTag(TextTag tag) {
         var RESULT = gtk_h.gtk_text_iter_ends_tag(handle(), tag.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -398,7 +396,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean endsWord() {
         var RESULT = gtk_h.gtk_text_iter_ends_word(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -412,7 +410,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(TextIter rhs) {
         var RESULT = gtk_h.gtk_text_iter_equal(handle(), rhs.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -426,7 +424,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardChar() {
         var RESULT = gtk_h.gtk_text_iter_forward_char(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -442,7 +440,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardChars(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_chars(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -464,7 +462,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardCursorPosition() {
         var RESULT = gtk_h.gtk_text_iter_forward_cursor_position(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -474,7 +472,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_cursor_positions(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -489,11 +487,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
             var RESULT = gtk_h.gtk_text_iter_forward_find_char(handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTextCharPredicate",
-                            MethodType.methodType(boolean.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
-            return (RESULT != 0);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -509,7 +507,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardLine() {
         var RESULT = gtk_h.gtk_text_iter_forward_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -526,7 +524,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardLines(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_lines(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -543,7 +541,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardSearch(java.lang.String str, TextSearchFlags flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
         var RESULT = gtk_h.gtk_text_iter_forward_search(handle(), Interop.allocateNativeString(str).handle(), flags.getValue(), matchStart.handle(), matchEnd.handle(), limit.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -557,7 +555,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardSentenceEnd() {
         var RESULT = gtk_h.gtk_text_iter_forward_sentence_end(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -567,7 +565,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardSentenceEnds(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_sentence_ends(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -596,7 +594,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardToLineEnd() {
         var RESULT = gtk_h.gtk_text_iter_forward_to_line_end(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -612,7 +610,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardToTagToggle(TextTag tag) {
         var RESULT = gtk_h.gtk_text_iter_forward_to_tag_toggle(handle(), tag.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -622,7 +620,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardVisibleCursorPosition() {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_cursor_position(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -632,7 +630,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardVisibleCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_cursor_positions(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -645,7 +643,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardVisibleLine() {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -662,7 +660,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardVisibleLines(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_lines(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -676,7 +674,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardVisibleWordEnd() {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_word_end(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -684,7 +682,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardVisibleWordEnds(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_word_ends(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -698,7 +696,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardWordEnd() {
         var RESULT = gtk_h.gtk_text_iter_forward_word_end(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -706,7 +704,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardWordEnds(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_word_ends(handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -973,7 +971,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean hasTag(TextTag tag) {
         var RESULT = gtk_h.gtk_text_iter_has_tag(handle(), tag.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -983,7 +981,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean inRange(TextIter start, TextIter end) {
         var RESULT = gtk_h.gtk_text_iter_in_range(handle(), start.handle(), end.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -996,7 +994,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean insideSentence() {
         var RESULT = gtk_h.gtk_text_iter_inside_sentence(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1012,7 +1010,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean insideWord() {
         var RESULT = gtk_h.gtk_text_iter_inside_word(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1024,7 +1022,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isCursorPosition() {
         var RESULT = gtk_h.gtk_text_iter_is_cursor_position(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1036,7 +1034,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isEnd() {
         var RESULT = gtk_h.gtk_text_iter_is_end(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1044,7 +1042,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isStart() {
         var RESULT = gtk_h.gtk_text_iter_is_start(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1133,7 +1131,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean startsLine() {
         var RESULT = gtk_h.gtk_text_iter_starts_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1144,7 +1142,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean startsSentence() {
         var RESULT = gtk_h.gtk_text_iter_starts_sentence(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1161,7 +1159,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean startsTag(TextTag tag) {
         var RESULT = gtk_h.gtk_text_iter_starts_tag(handle(), tag.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1172,7 +1170,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean startsWord() {
         var RESULT = gtk_h.gtk_text_iter_starts_word(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1184,7 +1182,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean togglesTag(TextTag tag) {
         var RESULT = gtk_h.gtk_text_iter_toggles_tag(handle(), tag.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

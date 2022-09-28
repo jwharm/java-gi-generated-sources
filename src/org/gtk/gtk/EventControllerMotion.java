@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -46,7 +44,7 @@ public class EventControllerMotion extends EventController {
      */
     public boolean containsPointer() {
         var RESULT = gtk_h.gtk_event_controller_motion_contains_pointer(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -54,7 +52,7 @@ public class EventControllerMotion extends EventController {
      */
     public boolean isPointer() {
         var RESULT = gtk_h.gtk_event_controller_motion_is_pointer(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -75,7 +73,7 @@ public class EventControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -84,7 +82,7 @@ public class EventControllerMotion extends EventController {
     }
     
     public static void __signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EventControllerMotion.EnterHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new EventControllerMotion(References.get(source)), x, y);
     }
@@ -107,7 +105,7 @@ public class EventControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -116,7 +114,7 @@ public class EventControllerMotion extends EventController {
     }
     
     public static void __signalEventControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EventControllerMotion.LeaveHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new EventControllerMotion(References.get(source)));
     }
@@ -139,7 +137,7 @@ public class EventControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -148,7 +146,7 @@ public class EventControllerMotion extends EventController {
     }
     
     public static void __signalEventControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EventControllerMotion.MotionHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new EventControllerMotion(References.get(source)), x, y);
     }

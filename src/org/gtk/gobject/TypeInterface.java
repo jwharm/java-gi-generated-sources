@@ -1,8 +1,6 @@
 package org.gtk.gobject;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -73,6 +71,14 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     public static TypeInterface peek(TypeClass instanceClass, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_interface_peek(instanceClass.handle(), ifaceType.getValue());
         return new TypeInterface(References.get(RESULT, false));
+    }
+    
+    /**
+     * Returns the prerequisites of an interfaces type.
+     */
+    public static PointerIterator<Long> prerequisites(org.gtk.gobject.Type interfaceType, PointerInteger nPrerequisites) {
+        var RESULT = gtk_h.g_type_interface_prerequisites(interfaceType.getValue(), nPrerequisites.handle());
+        return new PointerLong(RESULT).iterator();
     }
     
 }

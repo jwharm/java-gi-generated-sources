@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +21,14 @@ import java.lang.invoke.*;
  * lseek() on a normal file.  Seeking past the end and writing data will
  * usually cause the stream to resize by introducing zero bytes.
  */
-public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
+public interface Seekable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Tests if the stream supports the {@link SeekableIface}.
      */
     public default boolean canSeek() {
         var RESULT = gtk_h.g_seekable_can_seek(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -39,7 +37,7 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canTruncate() {
         var RESULT = gtk_h.g_seekable_can_truncate(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -64,7 +62,7 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -92,7 +90,7 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     class SeekableImpl extends org.gtk.gobject.Object implements Seekable {

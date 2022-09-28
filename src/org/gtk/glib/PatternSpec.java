@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -43,7 +41,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(PatternSpec pspec2) {
         var RESULT = gtk_h.g_pattern_spec_equal(handle(), pspec2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -74,7 +72,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean match(long stringLength, java.lang.String string, java.lang.String stringReversed) {
         var RESULT = gtk_h.g_pattern_spec_match(handle(), stringLength, Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(stringReversed).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -84,7 +82,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean matchString(java.lang.String string) {
         var RESULT = gtk_h.g_pattern_spec_match_string(handle(), Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

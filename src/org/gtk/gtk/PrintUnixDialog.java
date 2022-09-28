@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -110,7 +108,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public boolean getEmbedPageSetup() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_embed_page_setup(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -118,7 +116,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public boolean getHasSelection() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_has_selection(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -142,7 +140,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public boolean getPageSetupSet() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_page_setup_set(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -170,7 +168,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public boolean getSupportSelection() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_support_selection(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

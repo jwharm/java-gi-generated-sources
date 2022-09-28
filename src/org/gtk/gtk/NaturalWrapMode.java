@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * <p>
  * See for example the {@code Gtk.Label:natural-wrap-mode} property.
  */
-public class NaturalWrapMode {
+public class NaturalWrapMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Inherit the minimum size request.
@@ -28,26 +28,8 @@ public class NaturalWrapMode {
      */
     public static final NaturalWrapMode WORD = new NaturalWrapMode(2);
     
-    private int value;
-    
     public NaturalWrapMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(NaturalWrapMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

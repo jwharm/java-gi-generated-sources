@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * The client authentication mode for a {@link TlsServerConnection}.
  */
-public class TlsAuthenticationMode {
+public class TlsAuthenticationMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * client authentication not required
@@ -20,26 +20,8 @@ public class TlsAuthenticationMode {
      */
     public static final TlsAuthenticationMode REQUIRED = new TlsAuthenticationMode(2);
     
-    private int value;
-    
     public TlsAuthenticationMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TlsAuthenticationMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

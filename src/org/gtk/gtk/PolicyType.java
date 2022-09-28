@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Determines how the size should be computed to achieve the one of the
  * visibility mode for the scrollbars.
  */
-public class PolicyType {
+public class PolicyType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The scrollbar is always visible. The view size is
@@ -31,26 +31,8 @@ public class PolicyType {
      */
     public static final PolicyType EXTERNAL = new PolicyType(3);
     
-    private int value;
-    
     public PolicyType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PolicyType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

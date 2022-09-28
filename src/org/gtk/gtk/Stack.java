@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -124,7 +122,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getHhomogeneous() {
         var RESULT = gtk_h.gtk_stack_get_hhomogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -133,7 +131,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getInterpolateSize() {
         var RESULT = gtk_h.gtk_stack_get_interpolate_size(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -173,7 +171,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getTransitionRunning() {
         var RESULT = gtk_h.gtk_stack_get_transition_running(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -190,7 +188,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getVhomogeneous() {
         var RESULT = gtk_h.gtk_stack_get_vhomogeneous(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

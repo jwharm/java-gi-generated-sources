@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +52,7 @@ import java.lang.invoke.*;
  * {@link Paintable#invalidateSize},
  * {@link Gdk#Paintable}.
  */
-public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
+public interface Paintable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Compute a concrete size for the {@code GdkPaintable}.
@@ -232,7 +230,7 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -241,7 +239,7 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalPaintableInvalidateContents(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Paintable.InvalidateContentsHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Paintable.PaintableImpl(References.get(source)));
     }
@@ -273,7 +271,7 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -282,7 +280,7 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalPaintableInvalidateSize(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Paintable.InvalidateSizeHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Paintable.PaintableImpl(References.get(source)));
     }

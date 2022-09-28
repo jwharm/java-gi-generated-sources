@@ -8,7 +8,7 @@ import java.lang.foreign.ValueLayout;
  * Use {@code new PointerLong()} to create an instance, and
  * use {@link #get()} afterwards to retreive the results.
  */
-public class PointerLong extends Pointer {
+public class PointerLong extends Pointer<Long> {
 
     /**
      * Create the pointer. It does not point to a specific value.
@@ -35,7 +35,7 @@ public class PointerLong extends Pointer {
     /**
      * Use this mehod to set the value that the pointer points to.
      */
-    public void set(long value) {
+    public void set(Long value) {
         address.set(ValueLayout.JAVA_LONG, 0, value);
     }
     
@@ -43,7 +43,7 @@ public class PointerLong extends Pointer {
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
      */
-    public long get() {
+    public Long get() {
         return get(0);
     }
     
@@ -52,7 +52,7 @@ public class PointerLong extends Pointer {
      * @param index The array index
      * @return The value stored at the given index
      */
-    public long get(int index) {
+    public Long get(int index) {
         return address.get(
                 ValueLayout.JAVA_LONG, 
                 ValueLayout.JAVA_LONG.byteSize() * index

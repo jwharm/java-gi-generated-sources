@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * An enumeration for well-known message buses.
  */
-public class BusType {
+public class BusType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * An alias for the message bus that activated the process, if any.
@@ -25,26 +25,8 @@ public class BusType {
      */
     public static final BusType SESSION = new BusType(2);
     
-    private int value;
-    
     public BusType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BusType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

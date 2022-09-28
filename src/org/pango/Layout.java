@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -118,7 +116,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean getAutoDir() {
         var RESULT = gtk_h.pango_layout_get_auto_dir(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -275,7 +273,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean getJustify() {
         var RESULT = gtk_h.pango_layout_get_justify(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -284,7 +282,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean getJustifyLastLine() {
         var RESULT = gtk_h.pango_layout_get_justify_last_line(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -360,6 +358,24 @@ public class Layout extends org.gtk.gobject.Object {
     }
     
     /**
+     * Retrieves an array of logical attributes for each character in
+     * the {@code layout}.
+     * <p>
+     * This is a faster alternative to {@link Layout#getLogAttrs}.
+     * The returned array is part of {@code layout} and must not be modified.
+     * Modifying the layout will invalidate the returned array.
+     * <p>
+     * The number of attributes returned in {@code n_attrs} will be one more
+     * than the total number of characters in the layout, since there
+     * need to be attributes corresponding to both the position before
+     * the first character and the position after the last character.
+     */
+    public PointerIterator<LogAttr> getLogAttrsReadonly(PointerInteger nAttrs) {
+        var RESULT = gtk_h.pango_layout_get_log_attrs_readonly(handle(), nAttrs.handle());
+        return new PointerProxy<LogAttr>(RESULT, LogAttr.class).iterator();
+    }
+    
+    /**
      * Computes the logical and ink extents of {@code layout} in device units.
      * <p>
      * This function just calls {@link Layout#getExtents} followed by
@@ -409,7 +425,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean getSingleParagraphMode() {
         var RESULT = gtk_h.pango_layout_get_single_paragraph_mode(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -517,7 +533,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean isEllipsized() {
         var RESULT = gtk_h.pango_layout_is_ellipsized(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -530,7 +546,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean isWrapped() {
         var RESULT = gtk_h.pango_layout_is_wrapped(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -890,7 +906,7 @@ public class Layout extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -906,7 +922,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean xyToIndex(int x, int y, PointerInteger index, PointerInteger trailing) {
         var RESULT = gtk_h.pango_layout_xy_to_index(handle(), x, y, index.handle(), trailing.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

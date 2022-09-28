@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -55,7 +53,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(ToplevelLayout other) {
         var RESULT = gtk_h.gdk_toplevel_layout_equal(handle(), other.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -65,7 +63,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getFullscreen(PointerBoolean fullscreen) {
         var RESULT = gtk_h.gdk_toplevel_layout_get_fullscreen(handle(), fullscreen.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -84,7 +82,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getMaximized(PointerBoolean maximized) {
         var RESULT = gtk_h.gdk_toplevel_layout_get_maximized(handle(), maximized.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -93,7 +91,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getResizable() {
         var RESULT = gtk_h.gdk_toplevel_layout_get_resizable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

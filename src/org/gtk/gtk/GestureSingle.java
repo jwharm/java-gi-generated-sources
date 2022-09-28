@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -71,7 +69,7 @@ public class GestureSingle extends Gesture {
      */
     public boolean getExclusive() {
         var RESULT = gtk_h.gtk_gesture_single_get_exclusive(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -79,7 +77,7 @@ public class GestureSingle extends Gesture {
      */
     public boolean getTouchOnly() {
         var RESULT = gtk_h.gtk_gesture_single_get_touch_only(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

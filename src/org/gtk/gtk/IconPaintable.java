@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -74,7 +72,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      */
     public boolean isSymbolic() {
         var RESULT = gtk_h.gtk_icon_paintable_is_symbolic(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

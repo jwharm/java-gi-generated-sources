@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -35,14 +33,14 @@ import java.lang.invoke.*;
  * For porting from GnomeVFS note that there is no equivalent of
  * {@link Drive} in that API.
  */
-public interface Drive extends io.github.jwharm.javagi.NativeAddress {
+public interface Drive extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Checks if a drive can be ejected.
      */
     public default boolean canEject() {
         var RESULT = gtk_h.g_drive_can_eject(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -50,7 +48,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canPollForMedia() {
         var RESULT = gtk_h.g_drive_can_poll_for_media(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -58,7 +56,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canStart() {
         var RESULT = gtk_h.g_drive_can_start(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -66,7 +64,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canStartDegraded() {
         var RESULT = gtk_h.g_drive_can_start_degraded(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -74,7 +72,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canStop() {
         var RESULT = gtk_h.g_drive_can_stop(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -90,7 +88,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -106,7 +104,17 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets the kinds of identifiers that {@code drive} has.
+     * Use g_drive_get_identifier() to obtain the identifiers
+     * themselves.
+     */
+    public default PointerIterator<java.lang.String> enumerateIdentifiers() {
+        var RESULT = gtk_h.g_drive_enumerate_identifiers(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -177,7 +185,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean hasMedia() {
         var RESULT = gtk_h.g_drive_has_media(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -185,7 +193,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean hasVolumes() {
         var RESULT = gtk_h.g_drive_has_volumes(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -193,7 +201,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean isMediaCheckAutomatic() {
         var RESULT = gtk_h.g_drive_is_media_check_automatic(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -201,7 +209,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean isMediaRemovable() {
         var RESULT = gtk_h.g_drive_is_media_removable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -210,7 +218,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean isRemovable() {
         var RESULT = gtk_h.g_drive_is_removable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -228,7 +236,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -243,7 +251,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -261,7 +269,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -276,7 +284,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -294,7 +302,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -309,7 +317,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -330,7 +338,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -339,7 +347,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalDriveChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Drive.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Drive.DriveImpl(References.get(source)));
     }
@@ -365,7 +373,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -374,7 +382,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalDriveDisconnected(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Drive.DisconnectedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Drive.DriveImpl(References.get(source)));
     }
@@ -398,7 +406,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -407,7 +415,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalDriveEjectButton(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Drive.EjectButtonHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Drive.DriveImpl(References.get(source)));
     }
@@ -431,7 +439,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -440,7 +448,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalDriveStopButton(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Drive.StopButtonHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Drive.DriveImpl(References.get(source)));
     }

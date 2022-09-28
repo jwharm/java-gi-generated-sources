@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -171,7 +169,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static Reference constructNewFromPkcs12(byte[] data, long length, java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_pkcs12(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length, Interop.allocateNativeString(password).handle(), GERROR), true);
+        Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_pkcs12(Interop.allocateNativeArray(data).handle(), length, Interop.allocateNativeString(password).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -199,6 +197,22 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      */
     public static TlsCertificate newFromPkcs12(byte[] data, long length, java.lang.String password) throws GErrorException {
         return new TlsCertificate(constructNewFromPkcs12(data, length, password));
+    }
+    
+    /**
+     * Gets the value of {@link TlsCertificate}:dns-names.
+     */
+    public PointerIterator<org.gtk.glib.Bytes> getDnsNames() {
+        var RESULT = gtk_h.g_tls_certificate_get_dns_names(handle());
+        return new PointerProxy<org.gtk.glib.Bytes>(RESULT, org.gtk.glib.Bytes.class).iterator();
+    }
+    
+    /**
+     * Gets the value of {@link TlsCertificate}:ip-addresses.
+     */
+    public PointerIterator<InetAddress> getIpAddresses() {
+        var RESULT = gtk_h.g_tls_certificate_get_ip_addresses(handle());
+        return new PointerProxy<InetAddress>(RESULT, InetAddress.class).iterator();
     }
     
     /**
@@ -250,7 +264,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      */
     public boolean isSame(TlsCertificate certTwo) {
         var RESULT = gtk_h.g_tls_certificate_is_same(handle(), certTwo.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

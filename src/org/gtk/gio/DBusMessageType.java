@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Message types used in {@link DBusMessage}.
  */
-public class DBusMessageType {
+public class DBusMessageType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Message is of invalid type.
@@ -30,26 +30,8 @@ public class DBusMessageType {
      */
     public static final DBusMessageType SIGNAL = new DBusMessageType(4);
     
-    private int value;
-    
     public DBusMessageType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusMessageType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

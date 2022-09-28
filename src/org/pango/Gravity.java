@@ -15,7 +15,7 @@ package org.pango;
  * <p>
  * See also: {@code Pango.GravityHint}
  */
-public class Gravity {
+public class Gravity extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Glyphs stand upright (default) &lt;img align="right" valign="center" src="m-south.png"&gt;
@@ -42,26 +42,8 @@ public class Gravity {
      */
     public static final Gravity AUTO = new Gravity(4);
     
-    private int value;
-    
     public Gravity(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Gravity[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

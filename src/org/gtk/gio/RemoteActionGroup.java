@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,7 +28,7 @@ import java.lang.invoke.*;
  * provides a mechanism by which to receive platform data for action
  * invocations that arrive by way of D-Bus.
  */
-public interface RemoteActionGroup extends io.github.jwharm.javagi.NativeAddress {
+public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Activates the remote action.

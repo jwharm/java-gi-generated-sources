@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +36,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean GetAngle(Event event2, PointerDouble angle) {
         var RESULT = gtk_h.gdk_events_get_angle(handle(), event2.handle(), angle.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -49,7 +47,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean GetCenter(Event event2, PointerDouble x, PointerDouble y) {
         var RESULT = gtk_h.gdk_events_get_center(handle(), event2.handle(), x.handle(), y.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -60,7 +58,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean GetDistance(Event event2, PointerDouble distance) {
         var RESULT = gtk_h.gdk_events_get_distance(handle(), event2.handle(), distance.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -70,8 +68,8 @@ public class Event extends org.gtk.gobject.Object {
      * on the device tool returned by {@link Event#getDeviceTool}.
      */
     public boolean getAxes(double[] axes, PointerInteger nAxes) {
-        var RESULT = gtk_h.gdk_event_get_axes(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_DOUBLE, axes)).handle(), nAxes.handle());
-        return (RESULT != 0);
+        var RESULT = gtk_h.gdk_event_get_axes(handle(), Interop.allocateNativeArray(axes).handle(), nAxes.handle());
+        return RESULT != 0;
     }
     
     /**
@@ -83,7 +81,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean getAxis(AxisUse axisUse, PointerDouble value) {
         var RESULT = gtk_h.gdk_event_get_axis(handle(), axisUse.getValue(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -139,6 +137,22 @@ public class Event extends org.gtk.gobject.Object {
     }
     
     /**
+     * Retrieves the history of the device that {@code event} is for, as a list of
+     * time and coordinates.
+     * <p>
+     * The history includes positions that are not delivered as separate events
+     * to the application because they occurred in the same frame as {@code event}.
+     * <p>
+     * Note that only motion and scroll events record history, and motion
+     * events do it only if one of the mouse buttons is down, or the device
+     * has a tool.
+     */
+    public PointerIterator<TimeCoord> getHistory(PointerInteger outNCoords) {
+        var RESULT = gtk_h.gdk_event_get_history(handle(), outNCoords.handle());
+        return new PointerProxy<TimeCoord>(RESULT, TimeCoord.class).iterator();
+    }
+    
+    /**
      * Returns the modifier state field of an event.
      */
     public ModifierType getModifierState() {
@@ -153,7 +167,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean getPointerEmulated() {
         var RESULT = gtk_h.gdk_event_get_pointer_emulated(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -161,7 +175,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean getPosition(PointerDouble x, PointerDouble y) {
         var RESULT = gtk_h.gdk_event_get_position(handle(), x.handle(), y.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -210,7 +224,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean triggersContextMenu() {
         var RESULT = gtk_h.gdk_event_triggers_context_menu(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

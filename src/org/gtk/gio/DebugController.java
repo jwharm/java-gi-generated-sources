@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +22,14 @@ import java.lang.invoke.*;
  * creating one of the built-in implementations of {@link DebugController} should be
  * all that’s needed to dynamically enable or disable debug output.
  */
-public interface DebugController extends io.github.jwharm.javagi.NativeAddress {
+public interface DebugController extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Get the value of {@link DebugController}:debug-enabled.
      */
     public default boolean getDebugEnabled() {
         var RESULT = gtk_h.g_debug_controller_get_debug_enabled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

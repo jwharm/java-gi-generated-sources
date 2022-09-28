@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -344,7 +342,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * bytes as {@code %}{@code 00}.
      */
     public static java.lang.String escapeBytes(byte[] unescaped, long length, java.lang.String reservedCharsAllowed) {
-        var RESULT = gtk_h.g_uri_escape_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, unescaped)).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
+        var RESULT = gtk_h.g_uri_escape_bytes(Interop.allocateNativeArray(unescaped).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -379,7 +377,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -417,6 +415,16 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
     public static java.lang.String joinWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
         var RESULT = gtk_h.g_uri_join_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Splits an URI list conforming to the text/uri-list
+     * mime type defined in RFC 2483 into individual URIs,
+     * discarding any comments. The URIs are not validated.
+     */
+    public static PointerIterator<java.lang.String> listExtractUris(java.lang.String uriList) {
+        var RESULT = gtk_h.g_uri_list_extract_uris(Interop.allocateNativeString(uriList).handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -541,7 +549,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -558,7 +566,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -580,7 +588,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by markup parsing.
  */
-public class MarkupError {
+public class MarkupError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * text being parsed was not valid UTF-8
@@ -44,26 +44,8 @@ public class MarkupError {
      */
     public static final MarkupError MISSING_ATTRIBUTE = new MarkupError(6);
     
-    private int value;
-    
     public MarkupError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MarkupError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

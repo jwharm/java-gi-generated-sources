@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,7 +48,7 @@ public class GestureDrag extends GestureSingle {
      */
     public boolean getOffset(PointerDouble x, PointerDouble y) {
         var RESULT = gtk_h.gtk_gesture_drag_get_offset(handle(), x.handle(), y.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -62,7 +60,7 @@ public class GestureDrag extends GestureSingle {
      */
     public boolean getStartPoint(PointerDouble x, PointerDouble y) {
         var RESULT = gtk_h.gtk_gesture_drag_get_start_point(handle(), x.handle(), y.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -83,7 +81,7 @@ public class GestureDrag extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -92,7 +90,7 @@ public class GestureDrag extends GestureSingle {
     }
     
     public static void __signalGestureDragDragBegin(MemoryAddress source, double startX, double startY, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (GestureDrag.DragBeginHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new GestureDrag(References.get(source)), startX, startY);
     }
@@ -115,7 +113,7 @@ public class GestureDrag extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -124,7 +122,7 @@ public class GestureDrag extends GestureSingle {
     }
     
     public static void __signalGestureDragDragEnd(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (GestureDrag.DragEndHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
     }
@@ -147,7 +145,7 @@ public class GestureDrag extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -156,7 +154,7 @@ public class GestureDrag extends GestureSingle {
     }
     
     public static void __signalGestureDragDragUpdate(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (GestureDrag.DragUpdateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
     }

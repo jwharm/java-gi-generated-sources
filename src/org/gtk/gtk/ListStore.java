@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -160,7 +158,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     private static Reference constructNewv(int nColumns, org.gtk.gobject.Type[] types) {
-        Reference RESULT = References.get(gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle()), true);
+        Reference RESULT = References.get(gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle()), true);
         return RESULT;
     }
     
@@ -226,7 +224,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * This function is mainly intended for language-bindings.
      */
     public void insertWithValuesv(TreeIter iter, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
-        gtk_h.gtk_list_store_insert_with_valuesv(handle(), iter.handle(), position, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns)).handle(), Interop.allocateNativeArray(values).handle(), nValues);
+        gtk_h.gtk_list_store_insert_with_valuesv(handle(), iter.handle(), position, Interop.allocateNativeArray(columns).handle(), Interop.allocateNativeArray(values).handle(), nValues);
     }
     
     /**
@@ -237,7 +235,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      */
     public boolean iterIsValid(TreeIter iter) {
         var RESULT = gtk_h.gtk_list_store_iter_is_valid(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -274,7 +272,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      */
     public boolean remove(TreeIter iter) {
         var RESULT = gtk_h.gtk_list_store_remove(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -282,7 +280,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * this function only works with unsorted stores.
      */
     public void reorder(int[] newOrder) {
-        gtk_h.gtk_list_store_reorder(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle());
+        gtk_h.gtk_list_store_reorder(handle(), Interop.allocateNativeArray(newOrder).handle());
     }
     
     /**
@@ -292,7 +290,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * interface is called.
      */
     public void setColumnTypes(int nColumns, org.gtk.gobject.Type[] types) {
-        gtk_h.gtk_list_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle());
+        gtk_h.gtk_list_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle());
     }
     
     /**
@@ -320,7 +318,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * change is not known until run-time.
      */
     public void setValuesv(TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
-        gtk_h.gtk_list_store_set_valuesv(handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns)).handle(), Interop.allocateNativeArray(values).handle(), nValues);
+        gtk_h.gtk_list_store_set_valuesv(handle(), iter.handle(), Interop.allocateNativeArray(columns).handle(), Interop.allocateNativeArray(values).handle(), nValues);
     }
     
     /**

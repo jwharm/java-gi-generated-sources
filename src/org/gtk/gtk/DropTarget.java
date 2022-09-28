@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -136,11 +134,21 @@ public class DropTarget extends EventController {
     }
     
     /**
+     * Gets the list of supported {@code GType}s that can be dropped on the target.
+     * <p>
+     * If no types have been set, {@code NULL} will be returned.
+     */
+    public PointerIterator<Long> getGtypes(PointerLong nTypes) {
+        var RESULT = gtk_h.gtk_drop_target_get_gtypes(handle(), nTypes.handle());
+        return new PointerLong(RESULT).iterator();
+    }
+    
+    /**
      * Gets whether data should be preloaded on hover.
      */
     public boolean getPreload() {
         var RESULT = gtk_h.gtk_drop_target_get_preload(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -176,7 +184,7 @@ public class DropTarget extends EventController {
      * Sets the supported {@code GTypes} for this drop target.
      */
     public void setGtypes(org.gtk.gobject.Type[] types, long nTypes) {
-        gtk_h.gtk_drop_target_set_gtypes(handle(), Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle(), nTypes);
+        gtk_h.gtk_drop_target_set_gtypes(handle(), Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle(), nTypes);
     }
     
     /**
@@ -219,7 +227,7 @@ public class DropTarget extends EventController {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -228,7 +236,7 @@ public class DropTarget extends EventController {
     }
     
     public static boolean __signalDropTargetAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DropTarget.AcceptHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new DropTarget(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
     }
@@ -259,7 +267,7 @@ public class DropTarget extends EventController {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -268,7 +276,7 @@ public class DropTarget extends EventController {
     }
     
     public static boolean __signalDropTargetDrop(MemoryAddress source, MemoryAddress value, double x, double y, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DropTarget.DropHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new DropTarget(References.get(source)), new org.gtk.gobject.Value(References.get(value, false)), x, y);
     }
@@ -293,7 +301,7 @@ public class DropTarget extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -302,7 +310,7 @@ public class DropTarget extends EventController {
     }
     
     public static void __signalDropTargetEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DropTarget.EnterHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new DropTarget(References.get(source)), x, y);
     }
@@ -328,7 +336,7 @@ public class DropTarget extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -337,7 +345,7 @@ public class DropTarget extends EventController {
     }
     
     public static void __signalDropTargetLeave(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DropTarget.LeaveHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new DropTarget(References.get(source)));
     }
@@ -360,7 +368,7 @@ public class DropTarget extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -369,7 +377,7 @@ public class DropTarget extends EventController {
     }
     
     public static void __signalDropTargetMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DropTarget.MotionHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new DropTarget(References.get(source)), x, y);
     }

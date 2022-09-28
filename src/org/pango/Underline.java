@@ -4,7 +4,7 @@ package org.pango;
  * The {@code PangoUnderline} enumeration is used to specify whether text
  * should be underlined, and if so, the type of underlining.
  */
-public class Underline {
+public class Underline extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * no underline should be drawn
@@ -64,26 +64,8 @@ public class Underline {
      */
     public static final Underline ERROR_LINE = new Underline(7);
     
-    private int value;
-    
     public Underline(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Underline[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

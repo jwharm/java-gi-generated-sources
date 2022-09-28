@@ -20,7 +20,7 @@ package org.pango;
  * directly. {@code PangoDirection} is only retained because it is used in some
  * public apis.
  */
-public class Direction {
+public class Direction extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * A strong left-to-right direction
@@ -59,26 +59,8 @@ public class Direction {
      */
     public static final Direction NEUTRAL = new Direction(6);
     
-    private int value;
-    
     public Direction(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Direction[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

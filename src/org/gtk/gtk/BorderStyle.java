@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Describes how the border of a UI element should be rendered.
  */
-public class BorderStyle {
+public class BorderStyle extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No visible border
@@ -55,26 +55,8 @@ public class BorderStyle {
      */
     public static final BorderStyle RIDGE = new BorderStyle(9);
     
-    private int value;
-    
     public BorderStyle(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BorderStyle[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

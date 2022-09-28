@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Used for justifying the text inside a {@link Label} widget.
  */
-public class Justification {
+public class Justification extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The text is placed at the left edge of the label.
@@ -25,26 +25,8 @@ public class Justification {
      */
     public static final Justification FILL = new Justification(3);
     
-    private int value;
-    
     public Justification(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Justification[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

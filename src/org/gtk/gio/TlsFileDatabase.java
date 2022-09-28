@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -12,7 +10,7 @@ import java.lang.invoke.*;
  * their certificate information from a file. It is an interface which
  * TLS library specific subtypes implement.
  */
-public interface TlsFileDatabase extends io.github.jwharm.javagi.NativeAddress {
+public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Creates a new {@link TlsFileDatabase} which uses anchor certificate authorities

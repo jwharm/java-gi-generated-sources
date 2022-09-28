@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -101,7 +99,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      */
     public boolean getInverted() {
         var RESULT = gtk_h.gtk_progress_bar_get_inverted(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -121,7 +119,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      */
     public boolean getShowText() {
         var RESULT = gtk_h.gtk_progress_bar_get_show_text(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

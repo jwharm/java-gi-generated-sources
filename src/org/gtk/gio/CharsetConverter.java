@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -51,7 +49,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
      */
     public boolean getUseFallback() {
         var RESULT = gtk_h.g_charset_converter_get_use_fallback(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

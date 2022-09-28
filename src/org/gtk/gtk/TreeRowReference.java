@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -108,7 +106,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean valid() {
         var RESULT = gtk_h.gtk_tree_row_reference_valid(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -135,7 +133,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * model emitted the ::rows-reordered signal.
      */
     public static void reordered(org.gtk.gobject.Object proxy, TreePath path, TreeIter iter, int[] newOrder) {
-        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle());
+        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder).handle());
     }
     
 }

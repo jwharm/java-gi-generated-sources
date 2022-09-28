@@ -4,7 +4,7 @@ package org.gtk.glib;
  * Test traps are guards around forked tests.
  * These flags determine what traps to set.
  */
-public class TestTrapFlags {
+public class TestTrapFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Redirect stdout of the test child to
@@ -29,38 +29,8 @@ public class TestTrapFlags {
      */
     public static final TestTrapFlags INHERIT_STDIN = new TestTrapFlags(512);
     
-    private int value;
-    
     public TestTrapFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TestTrapFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public TestTrapFlags combined(TestTrapFlags mask) {
-        return new TestTrapFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static TestTrapFlags combined(TestTrapFlags mask, TestTrapFlags... masks) {
-        int value = mask.getValue();
-        for (TestTrapFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new TestTrapFlags(value);
+        super(value);
     }
     
 }

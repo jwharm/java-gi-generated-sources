@@ -7,5 +7,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ClosureMarshal {
-        void onClosureMarshal(Closure closure, Value returnValue, int nParamValues, Value[] paramValues, java.lang.foreign.MemoryAddress invocationHint);
+        void onClosureMarshal(Closure closure, Value returnValue, int nParamValues, PointerIterator<Value> paramValues, java.lang.foreign.MemoryAddress invocationHint);
 }

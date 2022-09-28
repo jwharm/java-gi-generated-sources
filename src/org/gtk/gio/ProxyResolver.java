@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,7 +14,7 @@ import java.lang.invoke.*;
  * be found in glib-networking. GIO comes with an implementation for use inside
  * Flatpak portals.
  */
-public interface ProxyResolver extends io.github.jwharm.javagi.NativeAddress {
+public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Checks if {@code resolver} can be used on this system. (This is used
@@ -25,7 +23,33 @@ public interface ProxyResolver extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean isSupported() {
         var RESULT = gtk_h.g_proxy_resolver_is_supported(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Looks into the system proxy configuration to determine what proxy,
+     * if any, to use to connect to {@code uri}. The returned proxy URIs are of
+     * the form {@code <protocol>://[user[:password]@]host:port} or
+     * {@code direct://}, where &lt;protocol&gt; could be http, rtsp, socks
+     * or other proxying protocol.
+     * <p>
+     * If you don't know what network protocol is being used on the
+     * socket, you should use {@code none} as the URI protocol.
+     * In this case, the resolver might still return a generic proxy type
+     * (such as SOCKS), but would not return protocol-specific proxy types
+     * (such as http).
+     * <p>
+     * {@code direct://} is used when no proxy is needed.
+     * Direct connection should not be attempted unless it is part of the
+     * returned array of proxies.
+     */
+    public default PointerIterator<java.lang.String> lookup(java.lang.String uri, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_proxy_resolver_lookup(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -40,10 +64,24 @@ public interface ProxyResolver extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Call this function to obtain the array of proxy URIs when
+     * g_proxy_resolver_lookup_async() is complete. See
+     * g_proxy_resolver_lookup() for more details.
+     */
+    public default PointerIterator<java.lang.String> lookupFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_proxy_resolver_lookup_finish(handle(), result.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
     }
     
     /**

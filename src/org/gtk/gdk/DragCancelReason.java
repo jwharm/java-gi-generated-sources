@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * Used in {@code GdkDrag} to the reason of a cancelled DND operation.
  */
-public class DragCancelReason {
+public class DragCancelReason extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * There is no suitable drop target.
@@ -20,26 +20,8 @@ public class DragCancelReason {
      */
     public static final DragCancelReason ERROR = new DragCancelReason(2);
     
-    private int value;
-    
     public DragCancelReason(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DragCancelReason[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.gdk;
 /**
  * A pad feature.
  */
-public class DevicePadFeature {
+public class DevicePadFeature extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * a button
@@ -20,26 +20,8 @@ public class DevicePadFeature {
      */
     public static final DevicePadFeature STRIP = new DevicePadFeature(2);
     
-    private int value;
-    
     public DevicePadFeature(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DevicePadFeature[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

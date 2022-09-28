@@ -9,7 +9,7 @@ package org.gtk.gsk;
  * See &lt;https://www.w3.org/TR/compositing-1/#blending&gt; for more information
  * on blending and blend modes.
  */
-public class BlendMode {
+public class BlendMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The default blend mode, which specifies no blending
@@ -94,26 +94,8 @@ public class BlendMode {
      */
     public static final BlendMode LUMINOSITY = new BlendMode(15);
     
-    private int value;
-    
     public BlendMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BlendMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

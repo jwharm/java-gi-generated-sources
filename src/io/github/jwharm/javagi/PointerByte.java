@@ -8,7 +8,7 @@ import java.lang.foreign.ValueLayout;
  * Use {@code new PointerByte()} to create an instance, and
  * use {@link #get()} afterwards to retreive the results.
  */
-public class PointerByte extends Pointer {
+public class PointerByte extends Pointer<Byte> {
 
     /**
      * Create the pointer. It does not point to a specific value.
@@ -35,7 +35,7 @@ public class PointerByte extends Pointer {
     /**
      * Use this mehod to set the value that the pointer points to.
      */
-    public void set(byte value) {
+    public void set(Byte value) {
         address.set(ValueLayout.JAVA_BYTE, 0, value);
     }
     
@@ -43,7 +43,7 @@ public class PointerByte extends Pointer {
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
      */
-    public byte get() {
+    public Byte get() {
         return get(0);
     }
     
@@ -52,7 +52,7 @@ public class PointerByte extends Pointer {
      * @param index The array index
      * @return The value stored at the given index
      */
-    public byte get(int index) {
+    public Byte get(int index) {
         return address.get(
                 ValueLayout.JAVA_BYTE, 
                 ValueLayout.JAVA_BYTE.byteSize() * index

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -104,7 +102,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getDayIsMarked(int day) {
         var RESULT = gtk_h.gtk_calendar_get_day_is_marked(handle(), day);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -116,7 +114,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getShowDayNames() {
         var RESULT = gtk_h.gtk_calendar_get_show_day_names(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -127,7 +125,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getShowHeading() {
         var RESULT = gtk_h.gtk_calendar_get_show_heading(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -139,7 +137,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getShowWeekNumbers() {
         var RESULT = gtk_h.gtk_calendar_get_show_week_numbers(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -205,7 +203,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -214,7 +212,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalCalendarDaySelected(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Calendar.DaySelectedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Calendar(References.get(source)));
     }
@@ -237,7 +235,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -246,7 +244,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalCalendarNextMonth(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Calendar.NextMonthHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Calendar(References.get(source)));
     }
@@ -269,7 +267,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -278,7 +276,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalCalendarNextYear(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Calendar.NextYearHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Calendar(References.get(source)));
     }
@@ -301,7 +299,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -310,7 +308,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalCalendarPrevMonth(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Calendar.PrevMonthHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Calendar(References.get(source)));
     }
@@ -333,7 +331,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -342,7 +340,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalCalendarPrevYear(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Calendar.PrevYearHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Calendar(References.get(source)));
     }

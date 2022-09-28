@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -71,7 +69,7 @@ public class SpringAnimation extends Animation {
      */
     public boolean getClamp() {
         var RESULT = gtk_h.adw_spring_animation_get_clamp(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

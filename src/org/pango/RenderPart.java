@@ -4,7 +4,7 @@ package org.pango;
  * {@code PangoRenderPart} defines different items to render for such
  * purposes as setting colors.
  */
-public class RenderPart {
+public class RenderPart extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the text itself
@@ -31,26 +31,8 @@ public class RenderPart {
      */
     public static final RenderPart OVERLINE = new RenderPart(4);
     
-    private int value;
-    
     public RenderPart(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(RenderPart[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

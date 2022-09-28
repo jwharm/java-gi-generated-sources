@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -42,6 +40,16 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addv(java.lang.String[] value) {
         gtk_h.g_strv_builder_addv(handle(), Interop.allocateNativeArray(value).handle());
+    }
+    
+    /**
+     * Ends the builder process and returns the constructed NULL-terminated string
+     * array. The returned value should be freed with g_strfreev() when no longer
+     * needed.
+     */
+    public PointerIterator<java.lang.String> end() {
+        var RESULT = gtk_h.g_strv_builder_end(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**

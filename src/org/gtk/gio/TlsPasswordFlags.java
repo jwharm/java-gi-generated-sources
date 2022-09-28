@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Various flags for the password.
  */
-public class TlsPasswordFlags {
+public class TlsPasswordFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags
@@ -45,38 +45,8 @@ public class TlsPasswordFlags {
      */
     public static final TlsPasswordFlags PKCS11_CONTEXT_SPECIFIC = new TlsPasswordFlags(64);
     
-    private int value;
-    
     public TlsPasswordFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TlsPasswordFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public TlsPasswordFlags combined(TlsPasswordFlags mask) {
-        return new TlsPasswordFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static TlsPasswordFlags combined(TlsPasswordFlags mask, TlsPasswordFlags... masks) {
-        int value = mask.getValue();
-        for (TlsPasswordFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new TlsPasswordFlags(value);
+        super(value);
     }
     
 }

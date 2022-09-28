@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -120,7 +118,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -143,7 +141,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean getBool(java.lang.String key) {
         var RESULT = gtk_h.gtk_print_settings_get_bool(handle(), Interop.allocateNativeString(key).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -151,7 +149,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean getCollate() {
         var RESULT = gtk_h.gtk_print_settings_get_collate(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -286,6 +284,14 @@ public class PrintSettings extends org.gtk.gobject.Object {
     }
     
     /**
+     * Gets the value of {@code GTK_PRINT_SETTINGS_PAGE_RANGES}.
+     */
+    public PointerIterator<PageRange> getPageRanges(PointerInteger numRanges) {
+        var RESULT = gtk_h.gtk_print_settings_get_page_ranges(handle(), numRanges.handle());
+        return new PointerProxy<PageRange>(RESULT, PageRange.class).iterator();
+    }
+    
+    /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_PAGE_SET}.
      */
     public PageSet getPageSet() {
@@ -382,7 +388,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean getReverse() {
         var RESULT = gtk_h.gtk_print_settings_get_reverse(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -398,7 +404,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean getUseColor() {
         var RESULT = gtk_h.gtk_print_settings_get_use_color(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -406,7 +412,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean hasKey(java.lang.String key) {
         var RESULT = gtk_h.gtk_print_settings_has_key(handle(), Interop.allocateNativeString(key).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -423,7 +429,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -438,7 +444,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -672,7 +678,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

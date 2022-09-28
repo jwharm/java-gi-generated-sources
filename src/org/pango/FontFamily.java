@@ -1,8 +1,6 @@
 package org.pango;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -63,7 +61,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      */
     public boolean isMonospace() {
         var RESULT = gtk_h.pango_font_family_is_monospace(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -75,7 +73,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      */
     public boolean isVariable() {
         var RESULT = gtk_h.pango_font_family_is_variable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

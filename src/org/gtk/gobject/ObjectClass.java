@@ -1,8 +1,6 @@
 package org.gtk.gobject;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -134,6 +132,14 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public void installProperty(int propertyId, ParamSpec pspec) {
         gtk_h.g_object_class_install_property(handle(), propertyId, pspec.handle());
+    }
+    
+    /**
+     * Get an array of {@link ParamSpec}* for all properties of a class.
+     */
+    public PointerIterator<ParamSpec> listProperties(PointerInteger nProperties) {
+        var RESULT = gtk_h.g_object_class_list_properties(handle(), nProperties.handle());
+        return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
     }
     
     /**

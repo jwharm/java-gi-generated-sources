@@ -13,7 +13,7 @@ package org.gtk.gdk;
  * <a href="https://www.khronos.org/registry/vulkan/specs/1.0/html/vkspec.html#VkFormat">VkFormat</a>
  * for details).
  */
-public class MemoryFormat {
+public class MemoryFormat extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * 4 bytes; for blue, green, red, alpha.
@@ -121,26 +121,8 @@ public class MemoryFormat {
      */
     public static final MemoryFormat N_FORMATS = new MemoryFormat(18);
     
-    private int value;
-    
     public MemoryFormat(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MemoryFormat[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

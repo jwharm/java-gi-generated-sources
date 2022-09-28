@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Statuses returned by most of the {@link IOFuncs} functions.
  */
-public class IOStatus {
+public class IOStatus extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * An error occurred.
@@ -25,26 +25,8 @@ public class IOStatus {
      */
     public static final IOStatus AGAIN = new IOStatus(3);
     
-    private int value;
-    
     public IOStatus(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(IOStatus[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

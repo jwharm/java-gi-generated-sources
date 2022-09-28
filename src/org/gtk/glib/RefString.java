@@ -9,27 +9,9 @@ package org.gtk.glib;
  * If using {@link RefString} with autocleanups, g_autoptr() must be used rather than
  * g_autofree(), so that the reference counting metadata is also freed.
  */
-public class RefString {
-    private byte value;
-    
+public class RefString extends io.github.jwharm.javagi.Alias<Byte> {
     public RefString(byte value) {
-        this.value = value;
-    }
-    
-    public byte getValue() {
-        return this.value;
-    }
-    
-    public void setValue(byte value) {
-        this.value = value;
-    }
-    
-    public static byte[] getValues(RefString[] array) {
-        byte[] values = new byte[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

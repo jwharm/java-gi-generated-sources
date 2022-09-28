@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -148,7 +146,7 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
         PointerLong ownerPOINTER = new PointerLong(owner.getValue());
         var RESULT = gtk_h.gtk_widget_class_query_action(handle(), index, new PointerLong(owner.getValue()).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(propertyName).handle());
         owner.setValue(ownerPOINTER.get());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

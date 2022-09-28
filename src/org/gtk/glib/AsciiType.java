@@ -1,6 +1,6 @@
 package org.gtk.glib;
 
-public class AsciiType {
+public class AsciiType extends io.github.jwharm.javagi.Bitfield {
 
     public static final AsciiType ALNUM = new AsciiType(1);
     
@@ -24,38 +24,8 @@ public class AsciiType {
     
     public static final AsciiType XDIGIT = new AsciiType(1024);
     
-    private int value;
-    
     public AsciiType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AsciiType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public AsciiType combined(AsciiType mask) {
-        return new AsciiType(this.getValue() | mask.getValue());
-    }
-    
-    public static AsciiType combined(AsciiType mask, AsciiType... masks) {
-        int value = mask.getValue();
-        for (AsciiType arg : masks) {
-            value |= arg.getValue();
-        }
-        return new AsciiType(value);
+        super(value);
     }
     
 }

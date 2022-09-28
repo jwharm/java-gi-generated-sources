@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags describing the access control of a D-Bus property.
  */
-public class DBusPropertyInfoFlags {
+public class DBusPropertyInfoFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -20,38 +20,8 @@ public class DBusPropertyInfoFlags {
      */
     public static final DBusPropertyInfoFlags WRITABLE = new DBusPropertyInfoFlags(2);
     
-    private int value;
-    
     public DBusPropertyInfoFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusPropertyInfoFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusPropertyInfoFlags combined(DBusPropertyInfoFlags mask) {
-        return new DBusPropertyInfoFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusPropertyInfoFlags combined(DBusPropertyInfoFlags mask, DBusPropertyInfoFlags... masks) {
-        int value = mask.getValue();
-        for (DBusPropertyInfoFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusPropertyInfoFlags(value);
+        super(value);
     }
     
 }

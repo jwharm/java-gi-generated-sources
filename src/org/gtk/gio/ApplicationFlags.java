@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used to define the behaviour of a {@link Application}.
  */
-public class ApplicationFlags {
+public class ApplicationFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Default
@@ -82,38 +82,8 @@ public class ApplicationFlags {
      */
     public static final ApplicationFlags REPLACE = new ApplicationFlags(256);
     
-    private int value;
-    
     public ApplicationFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ApplicationFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ApplicationFlags combined(ApplicationFlags mask) {
-        return new ApplicationFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static ApplicationFlags combined(ApplicationFlags mask, ApplicationFlags... masks) {
-        int value = mask.getValue();
-        for (ApplicationFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ApplicationFlags(value);
+        super(value);
     }
     
 }

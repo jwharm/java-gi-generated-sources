@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -42,7 +40,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public boolean getIndicatorActivatable() {
         var RESULT = gtk_h.adw_tab_page_get_indicator_activatable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -58,7 +56,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public boolean getLoading() {
         var RESULT = gtk_h.adw_tab_page_get_loading(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -66,7 +64,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public boolean getNeedsAttention() {
         var RESULT = gtk_h.adw_tab_page_get_needs_attention(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -82,7 +80,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public boolean getPinned() {
         var RESULT = gtk_h.adw_tab_page_get_pinned(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -90,7 +88,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public boolean getSelected() {
         var RESULT = gtk_h.adw_tab_page_get_selected(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * <p>
  * See {@link Application#inhibit}.
  */
-public class ApplicationInhibitFlags {
+public class ApplicationInhibitFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Inhibit ending the user session
@@ -30,38 +30,8 @@ public class ApplicationInhibitFlags {
      */
     public static final ApplicationInhibitFlags IDLE = new ApplicationInhibitFlags(8);
     
-    private int value;
-    
     public ApplicationInhibitFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ApplicationInhibitFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ApplicationInhibitFlags combined(ApplicationInhibitFlags mask) {
-        return new ApplicationInhibitFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static ApplicationInhibitFlags combined(ApplicationInhibitFlags mask, ApplicationInhibitFlags... masks) {
-        int value = mask.getValue();
-        for (ApplicationInhibitFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ApplicationInhibitFlags(value);
+        super(value);
     }
     
 }

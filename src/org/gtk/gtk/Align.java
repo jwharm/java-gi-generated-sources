@@ -17,7 +17,7 @@ package org.gtk.gtk;
  * it is only supported for vertical alignment.  When it's not supported by
  * a child or a container it is treated as {@link Align#FILL}.
  */
-public class Align {
+public class Align extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * stretch to fill all space if possible, center if
@@ -46,26 +46,8 @@ public class Align {
      */
     public static final Align BASELINE = new Align(4);
     
-    private int value;
-    
     public Align(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Align[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

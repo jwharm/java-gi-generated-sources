@@ -4,7 +4,7 @@ package org.harfbuzz;
  * Metric tags corresponding to [MVAR Value
  * Tags](https://docs.microsoft.com/en-us/typography/opentype/spec/mvar{@code value}-tags)
  */
-public class OtMetricsTagT {
+public class OtMetricsTagT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * horizontal ascender.
@@ -146,26 +146,8 @@ public class OtMetricsTagT {
      */
     public static final OtMetricsTagT UNDERLINE_OFFSET = new OtMetricsTagT(1970168943);
     
-    private int value;
-    
     public OtMetricsTagT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OtMetricsTagT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

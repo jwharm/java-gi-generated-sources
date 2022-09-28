@@ -14,7 +14,7 @@ package org.gtk.glib;
  * <li>Level order: F, B, G, A, D, I, C, E, H
  *   ![](Sorted_binary_tree_breadth-first_traversal.svg)
  */
-public class TraverseType {
+public class TraverseType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * vists a node's left child first, then the node itself,
@@ -44,26 +44,8 @@ public class TraverseType {
      */
     public static final TraverseType LEVEL_ORDER = new TraverseType(3);
     
-    private int value;
-    
     public TraverseType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TraverseType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

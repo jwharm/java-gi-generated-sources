@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -55,7 +53,7 @@ import java.lang.invoke.*;
  * check button with the given label; if a choice has options, it will
  * be rendered as a combo box.
  */
-public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
+public interface FileChooser extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Adds a 'choice' to the file chooser.
@@ -94,7 +92,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -118,7 +116,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getCreateFolders() {
         var RESULT = gtk_h.gtk_file_chooser_get_create_folders(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -192,7 +190,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getSelectMultiple() {
         var RESULT = gtk_h.gtk_file_chooser_get_select_multiple(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -229,7 +227,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -274,7 +272,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -346,7 +344,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -120,7 +118,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getResizeEndChild() {
         var RESULT = gtk_h.gtk_paned_get_resize_end_child(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -128,7 +126,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getResizeStartChild() {
         var RESULT = gtk_h.gtk_paned_get_resize_start_child(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -136,7 +134,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getShrinkEndChild() {
         var RESULT = gtk_h.gtk_paned_get_shrink_end_child(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -144,7 +142,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getShrinkStartChild() {
         var RESULT = gtk_h.gtk_paned_get_shrink_start_child(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -160,7 +158,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getWideHandle() {
         var RESULT = gtk_h.gtk_paned_get_wide_handle(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -247,7 +245,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -256,7 +254,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static boolean __signalPanedAcceptPosition(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Paned.AcceptPositionHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Paned(References.get(source)));
     }
@@ -287,7 +285,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -296,7 +294,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static boolean __signalPanedCancelPosition(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Paned.CancelPositionHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Paned(References.get(source)));
     }
@@ -320,10 +318,10 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
                 Interop.allocateNativeString("cycle-child-focus").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Paned.class, "__signalPanedCycleChildFocus",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -331,10 +329,10 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    public static boolean __signalPanedCycleChildFocus(MemoryAddress source, boolean reversed, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalPanedCycleChildFocus(MemoryAddress source, int reversed, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Paned.CycleChildFocusHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Paned(References.get(source)), reversed);
+        return handler.signalReceived(new Paned(References.get(source)), reversed != 0);
     }
     
     @FunctionalInterface
@@ -357,10 +355,10 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
                 Interop.allocateNativeString("cycle-handle-focus").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Paned.class, "__signalPanedCycleHandleFocus",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -368,10 +366,10 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    public static boolean __signalPanedCycleHandleFocus(MemoryAddress source, boolean reversed, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static boolean __signalPanedCycleHandleFocus(MemoryAddress source, int reversed, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Paned.CycleHandleFocusHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Paned(References.get(source)), reversed);
+        return handler.signalReceived(new Paned(References.get(source)), reversed != 0);
     }
     
     @FunctionalInterface
@@ -394,7 +392,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -403,7 +401,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static boolean __signalPanedMoveHandle(MemoryAddress source, int scrollType, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Paned.MoveHandleHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Paned(References.get(source)), new ScrollType(scrollType));
     }
@@ -431,7 +429,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -440,7 +438,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     public static boolean __signalPanedToggleHandleFocus(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Paned.ToggleHandleFocusHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new Paned(References.get(source)));
     }

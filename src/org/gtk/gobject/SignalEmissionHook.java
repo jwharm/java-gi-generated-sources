@@ -12,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface SignalEmissionHook {
-        boolean onSignalEmissionHook(SignalInvocationHint ihint, int nParamValues, Value[] paramValues);
+        boolean onSignalEmissionHook(SignalInvocationHint ihint, int nParamValues, PointerIterator<Value> paramValues);
 }

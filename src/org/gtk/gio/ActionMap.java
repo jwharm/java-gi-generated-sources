@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -18,7 +16,7 @@ import java.lang.invoke.*;
  * This is the motivation for the 'Map' part of the interface
  * name.
  */
-public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
+public interface ActionMap extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Adds an action to the {@code action_map}.

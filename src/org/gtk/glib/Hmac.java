@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +34,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * no longer be updated with g_checksum_update().
      */
     public void getDigest(byte[] buffer, PointerLong digestLen) {
-        gtk_h.g_hmac_get_digest(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), digestLen.handle());
+        gtk_h.g_hmac_get_digest(handle(), Interop.allocateNativeArray(buffer).handle(), digestLen.handle());
     }
     
     /**
@@ -81,7 +79,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * g_hmac_get_digest() must not have been called on {@code hmac}.
      */
     public void update(byte[] data, long length) {
-        gtk_h.g_hmac_update(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
+        gtk_h.g_hmac_update(handle(), Interop.allocateNativeArray(data).handle(), length);
     }
     
     /**
@@ -103,7 +101,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * Support for {@link ChecksumType#SHA384} was added in GLib 2.52.
      */
     public static Hmac new_(ChecksumType digestType, byte[] key, long keyLen) {
-        var RESULT = gtk_h.g_hmac_new(digestType.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, key)).handle(), keyLen);
+        var RESULT = gtk_h.g_hmac_new(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen);
         return new Hmac(References.get(RESULT, false));
     }
     

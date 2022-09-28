@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used when copying or moving files.
  */
-public class FileCopyFlags {
+public class FileCopyFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -40,38 +40,8 @@ public class FileCopyFlags {
      */
     public static final FileCopyFlags TARGET_DEFAULT_PERMS = new FileCopyFlags(32);
     
-    private int value;
-    
     public FileCopyFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileCopyFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FileCopyFlags combined(FileCopyFlags mask) {
-        return new FileCopyFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static FileCopyFlags combined(FileCopyFlags mask, FileCopyFlags... masks) {
-        int value = mask.getValue();
-        for (FileCopyFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FileCopyFlags(value);
+        super(value);
     }
     
 }

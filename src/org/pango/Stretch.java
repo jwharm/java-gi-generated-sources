@@ -4,7 +4,7 @@ package org.pango;
  * An enumeration specifying the width of the font relative to other designs
  * within a family.
  */
-public class Stretch {
+public class Stretch extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * ultra condensed width
@@ -51,26 +51,8 @@ public class Stretch {
      */
     public static final Stretch ULTRA_EXPANDED = new Stretch(8);
     
-    private int value;
-    
     public Stretch(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Stretch[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

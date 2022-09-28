@@ -4,7 +4,7 @@ package org.gtk.gdk;
  * Used in {@code GdkDrop} and {@code GdkDrag} to indicate the actions that the
  * destination can and should do with the dropped data.
  */
-public class DragAction {
+public class DragAction extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Copy the data.
@@ -29,38 +29,8 @@ public class DragAction {
      */
     public static final DragAction ASK = new DragAction(8);
     
-    private int value;
-    
     public DragAction(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DragAction[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DragAction combined(DragAction mask) {
-        return new DragAction(this.getValue() | mask.getValue());
-    }
-    
-    public static DragAction combined(DragAction mask, DragAction... masks) {
-        int value = mask.getValue();
-        for (DragAction arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DragAction(value);
+        super(value);
     }
     
 }

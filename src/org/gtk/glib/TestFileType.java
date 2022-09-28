@@ -18,7 +18,7 @@ package org.gtk.glib;
  * tarball) always go in srcdir (even if doing a srcdir != builddir
  * build from git) and are considered as distributed files.
  */
-public class TestFileType {
+public class TestFileType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * a file that was included in the distribution tarball
@@ -30,26 +30,8 @@ public class TestFileType {
      */
     public static final TestFileType BUILT = new TestFileType(1);
     
-    private int value;
-    
     public TestFileType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TestFileType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

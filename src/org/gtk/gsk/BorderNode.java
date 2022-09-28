@@ -1,8 +1,6 @@
 package org.gtk.gsk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +20,7 @@ public class BorderNode extends RenderNode {
     }
     
     private static Reference constructNew(RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
-        Reference RESULT = References.get(gtk_h.gsk_border_node_new(outline.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth)).handle(), Interop.allocateNativeArray(borderColor).handle()), true);
+        Reference RESULT = References.get(gtk_h.gsk_border_node_new(outline.handle(), Interop.allocateNativeArray(borderWidth).handle(), Interop.allocateNativeArray(borderColor).handle()), true);
         return RESULT;
     }
     
@@ -50,6 +48,14 @@ public class BorderNode extends RenderNode {
     public RoundedRect getOutline() {
         var RESULT = gtk_h.gsk_border_node_get_outline(handle());
         return new RoundedRect(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves the stroke widths of the border.
+     */
+    public PointerIterator<Float> getWidths() {
+        var RESULT = gtk_h.gsk_border_node_get_widths(handle());
+        return new PointerFloat(RESULT).iterator();
     }
     
 }

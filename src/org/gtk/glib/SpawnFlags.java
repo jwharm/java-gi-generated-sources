@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Flags passed to g_spawn_sync(), g_spawn_async() and g_spawn_async_with_pipes().
  */
-public class SpawnFlags {
+public class SpawnFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * no flags, default behaviour
@@ -68,38 +68,8 @@ public class SpawnFlags {
      */
     public static final SpawnFlags CLOEXEC_PIPES = new SpawnFlags(256);
     
-    private int value;
-    
     public SpawnFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SpawnFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public SpawnFlags combined(SpawnFlags mask) {
-        return new SpawnFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static SpawnFlags combined(SpawnFlags mask, SpawnFlags... masks) {
-        int value = mask.getValue();
-        for (SpawnFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new SpawnFlags(value);
+        super(value);
     }
     
 }

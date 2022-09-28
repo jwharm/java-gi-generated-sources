@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -10,7 +8,7 @@ import java.lang.invoke.*;
 /**
  * Interface for Drag-and-Drop destinations in {@code GtkTreeView}.
  */
-public interface TreeDragDest extends io.github.jwharm.javagi.NativeAddress {
+public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Asks the {@code GtkTreeDragDest} to insert a row before the path {@code dest},
@@ -22,7 +20,7 @@ public interface TreeDragDest extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean dragDataReceived(TreePath dest, org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gtk_tree_drag_dest_drag_data_received(handle(), dest.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -34,7 +32,7 @@ public interface TreeDragDest extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean rowDropPossible(TreePath destPath, org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gtk_tree_drag_dest_row_drop_possible(handle(), destPath.handle(), value.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     class TreeDragDestImpl extends org.gtk.gobject.Object implements TreeDragDest {

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Focus movement types.
  */
-public class DirectionType {
+public class DirectionType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Move forward.
@@ -35,26 +35,8 @@ public class DirectionType {
      */
     public static final DirectionType RIGHT = new DirectionType(5);
     
-    private int value;
-    
     public DirectionType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DirectionType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

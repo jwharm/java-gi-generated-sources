@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Reading directions for text.
  */
-public class TextDirection {
+public class TextDirection extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No direction.
@@ -20,26 +20,8 @@ public class TextDirection {
      */
     public static final TextDirection RTL = new TextDirection(2);
     
-    private int value;
-    
     public TextDirection(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TextDirection[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -7,7 +7,7 @@ package org.gtk.gtk;
  * enabled, the match must be exact; the special 0xFFFC character will match
  * embedded paintables or child widgets.
  */
-public class TextSearchFlags {
+public class TextSearchFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Search only visible data. A search match may
@@ -27,38 +27,8 @@ public class TextSearchFlags {
      */
     public static final TextSearchFlags CASE_INSENSITIVE = new TextSearchFlags(4);
     
-    private int value;
-    
     public TextSearchFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TextSearchFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public TextSearchFlags combined(TextSearchFlags mask) {
-        return new TextSearchFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static TextSearchFlags combined(TextSearchFlags mask, TextSearchFlags... masks) {
-        int value = mask.getValue();
-        for (TextSearchFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new TextSearchFlags(value);
+        super(value);
     }
     
 }

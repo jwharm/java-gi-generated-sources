@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,7 +42,7 @@ public class EventControllerKey extends EventController {
      */
     public boolean forward(Widget widget) {
         var RESULT = gtk_h.gtk_event_controller_key_forward(handle(), widget.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -94,7 +92,7 @@ public class EventControllerKey extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -103,7 +101,7 @@ public class EventControllerKey extends EventController {
     }
     
     public static void __signalEventControllerKeyImUpdate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EventControllerKey.ImUpdateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new EventControllerKey(References.get(source)));
     }
@@ -126,7 +124,7 @@ public class EventControllerKey extends EventController {
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -135,7 +133,7 @@ public class EventControllerKey extends EventController {
     }
     
     public static boolean __signalEventControllerKeyKeyPressed(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EventControllerKey.KeyPressedHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new EventControllerKey(References.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
     }
@@ -158,7 +156,7 @@ public class EventControllerKey extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -167,7 +165,7 @@ public class EventControllerKey extends EventController {
     }
     
     public static void __signalEventControllerKeyKeyReleased(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EventControllerKey.KeyReleasedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new EventControllerKey(References.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
     }
@@ -190,7 +188,7 @@ public class EventControllerKey extends EventController {
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -199,7 +197,7 @@ public class EventControllerKey extends EventController {
     }
     
     public static boolean __signalEventControllerKeyModifiers(MemoryAddress source, int keyval, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (EventControllerKey.ModifiersHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new EventControllerKey(References.get(source)), new org.gtk.gdk.ModifierType(keyval));
     }

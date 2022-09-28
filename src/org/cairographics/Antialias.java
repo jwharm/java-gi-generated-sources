@@ -1,6 +1,6 @@
 package org.cairographics;
 
-public class Antialias {
+public class Antialias extends io.github.jwharm.javagi.Enumeration {
 
     public static final Antialias DEFAULT = new Antialias(0);
     
@@ -16,26 +16,8 @@ public class Antialias {
     
     public static final Antialias BEST = new Antialias(6);
     
-    private int value;
-    
     public Antialias(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Antialias[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

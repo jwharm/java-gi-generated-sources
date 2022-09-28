@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -140,7 +138,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public boolean isAttached() {
         var RESULT = gtk_h.gtk_constraint_is_attached(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -149,7 +147,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public boolean isConstant() {
         var RESULT = gtk_h.gtk_constraint_is_constant(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -158,7 +156,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public boolean isRequired() {
         var RESULT = gtk_h.gtk_constraint_is_required(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

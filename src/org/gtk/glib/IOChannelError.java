@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Error codes returned by {@link IOChannel} operations.
  */
-public class IOChannelError {
+public class IOChannelError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * File too large.
@@ -50,26 +50,8 @@ public class IOChannelError {
      */
     public static final IOChannelError FAILED = new IOChannelError(8);
     
-    private int value;
-    
     public IOChannelError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(IOChannelError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

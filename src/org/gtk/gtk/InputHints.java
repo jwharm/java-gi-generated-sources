@@ -13,7 +13,7 @@ package org.gtk.gtk;
  * This enumeration may be extended in the future; input methods should
  * ignore unknown values.
  */
-public class InputHints {
+public class InputHints extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No special behaviour suggested
@@ -84,38 +84,8 @@ public class InputHints {
      */
     public static final InputHints PRIVATE = new InputHints(2048);
     
-    private int value;
-    
     public InputHints(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(InputHints[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public InputHints combined(InputHints mask) {
-        return new InputHints(this.getValue() | mask.getValue());
-    }
-    
-    public static InputHints combined(InputHints mask, InputHints... masks) {
-        int value = mask.getValue();
-        for (InputHints arg : masks) {
-            value |= arg.getValue();
-        }
-        return new InputHints(value);
+        super(value);
     }
     
 }

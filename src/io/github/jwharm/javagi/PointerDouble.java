@@ -8,7 +8,7 @@ import java.lang.foreign.ValueLayout;
  * Use {@code new PointerDouble()} to create an instance, and
  * use {@link #get()} afterwards to retreive the results.
  */
-public class PointerDouble extends Pointer {
+public class PointerDouble extends Pointer<Double> {
 
     /**
      * Create the pointer. It does not point to a specific value.
@@ -35,7 +35,7 @@ public class PointerDouble extends Pointer {
     /**
      * Use this mehod to set the value that the pointer points to.
      */
-    public void set(double value) {
+    public void set(Double value) {
         address.set(ValueLayout.JAVA_DOUBLE, 0, value);
     }
     
@@ -43,7 +43,7 @@ public class PointerDouble extends Pointer {
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
      */
-    public double get() {
+    public Double get() {
         return get(0);
     }
     
@@ -52,7 +52,7 @@ public class PointerDouble extends Pointer {
      * @param index The array index
      * @return The value stored at the given index
      */
-    public double get(int index) {
+    public Double get(int index) {
         return address.get(
                 ValueLayout.JAVA_DOUBLE, 
                 ValueLayout.JAVA_DOUBLE.byteSize() * index

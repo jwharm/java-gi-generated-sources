@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +30,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public boolean getCapsLockState() {
         var RESULT = gtk_h.gdk_device_get_caps_lock_state(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -72,7 +70,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public boolean getHasCursor() {
         var RESULT = gtk_h.gdk_device_get_has_cursor(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -100,7 +98,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public boolean getNumLockState() {
         var RESULT = gtk_h.gdk_device_get_num_lock_state(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -129,7 +127,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public boolean getScrollLockState() {
         var RESULT = gtk_h.gdk_device_get_scroll_lock_state(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -215,7 +213,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public boolean hasBidiLayouts() {
         var RESULT = gtk_h.gdk_device_has_bidi_layouts(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -242,7 +240,7 @@ public class Device extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -251,7 +249,7 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     public static void __signalDeviceChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Device.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Device(References.get(source)));
     }
@@ -274,7 +272,7 @@ public class Device extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -283,7 +281,7 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     public static void __signalDeviceToolChanged(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Device.ToolChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Device(References.get(source)), new DeviceTool(References.get(tool, false)));
     }

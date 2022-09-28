@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used when constructing an instance of a {@link DBusProxy} derived class.
  */
-public class DBusProxyFlags {
+public class DBusProxyFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -47,38 +47,8 @@ public class DBusProxyFlags {
      */
     public static final DBusProxyFlags NO_MATCH_RULE = new DBusProxyFlags(32);
     
-    private int value;
-    
     public DBusProxyFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusProxyFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusProxyFlags combined(DBusProxyFlags mask) {
-        return new DBusProxyFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusProxyFlags combined(DBusProxyFlags mask, DBusProxyFlags... masks) {
-        int value = mask.getValue();
-        for (DBusProxyFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusProxyFlags(value);
+        super(value);
     }
     
 }

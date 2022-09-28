@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Describes the behavior of a {@code GtkEventControllerScroll}.
  */
-public class EventControllerScrollFlags {
+public class EventControllerScrollFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Don't emit scroll.
@@ -35,38 +35,8 @@ public class EventControllerScrollFlags {
      */
     public static final EventControllerScrollFlags BOTH_AXES = new EventControllerScrollFlags(3);
     
-    private int value;
-    
     public EventControllerScrollFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(EventControllerScrollFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public EventControllerScrollFlags combined(EventControllerScrollFlags mask) {
-        return new EventControllerScrollFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static EventControllerScrollFlags combined(EventControllerScrollFlags mask, EventControllerScrollFlags... masks) {
-        int value = mask.getValue();
-        for (EventControllerScrollFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new EventControllerScrollFlags(value);
+        super(value);
     }
     
 }

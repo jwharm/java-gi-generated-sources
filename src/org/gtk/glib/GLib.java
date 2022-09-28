@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -412,7 +410,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -445,7 +443,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -681,7 +679,7 @@ public final class GLib {
      */
     public static boolean atomicIntCompareAndExchange(PointerInteger atomic, int oldval, int newval) {
         var RESULT = gtk_h.g_atomic_int_compare_and_exchange(atomic.handle(), oldval, newval);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -697,7 +695,7 @@ public final class GLib {
      */
     public static boolean atomicIntDecAndTest(PointerInteger atomic) {
         var RESULT = gtk_h.g_atomic_int_dec_and_test(atomic.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -824,7 +822,7 @@ public final class GLib {
      */
     public static boolean atomicPointerCompareAndExchange(java.lang.foreign.MemoryAddress atomic, java.lang.foreign.MemoryAddress oldval, java.lang.foreign.MemoryAddress newval) {
         var RESULT = gtk_h.g_atomic_pointer_compare_and_exchange(atomic, oldval, newval);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -961,7 +959,7 @@ public final class GLib {
      */
     public static boolean atomicRefCountCompare(PointerInteger arc, int val) {
         var RESULT = gtk_h.g_atomic_ref_count_compare(arc.handle(), val);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -973,7 +971,7 @@ public final class GLib {
      */
     public static boolean atomicRefCountDec(PointerInteger arc) {
         var RESULT = gtk_h.g_atomic_ref_count_dec(arc.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -991,11 +989,21 @@ public final class GLib {
     }
     
     /**
+     * Decode a sequence of Base-64 encoded text into binary data.  Note
+     * that the returned binary data is not necessarily zero-terminated,
+     * so it should not be used as a character string.
+     */
+    public static PointerIterator<Byte> base64Decode(java.lang.String text, PointerLong outLen) {
+        var RESULT = gtk_h.g_base64_decode(Interop.allocateNativeString(text).handle(), outLen.handle());
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
      * Decode a sequence of Base-64 encoded text into binary data
      * by overwriting the input data.
      */
     public static PointerByte base64DecodeInplace(byte[] text, PointerLong outLen) {
-        var RESULT = gtk_h.g_base64_decode_inplace(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, text)).handle(), outLen.handle());
+        var RESULT = gtk_h.g_base64_decode_inplace(Interop.allocateNativeArray(text).handle(), outLen.handle());
         return new PointerByte(RESULT);
     }
     
@@ -1010,7 +1018,7 @@ public final class GLib {
      * state).
      */
     public static long base64DecodeStep(byte[] in, long len, byte[] out, PointerInteger state, PointerInteger save) {
-        var RESULT = gtk_h.g_base64_decode_step(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, in)).handle(), len, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, out)).handle(), state.handle(), save.handle());
+        var RESULT = gtk_h.g_base64_decode_step(Interop.allocateNativeArray(in).handle(), len, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
         return RESULT;
     }
     
@@ -1019,7 +1027,7 @@ public final class GLib {
      * representation.
      */
     public static java.lang.String base64Encode(byte[] data, long len) {
-        var RESULT = gtk_h.g_base64_encode(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), len);
+        var RESULT = gtk_h.g_base64_encode(Interop.allocateNativeArray(data).handle(), len);
         return RESULT.getUtf8String(0);
     }
     
@@ -1033,7 +1041,7 @@ public final class GLib {
      * The {@code out} array will not be automatically nul-terminated.
      */
     public static long base64EncodeClose(boolean breakLines, byte[] out, PointerInteger state, PointerInteger save) {
-        var RESULT = gtk_h.g_base64_encode_close(breakLines ? 1 : 0, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, out)).handle(), state.handle(), save.handle());
+        var RESULT = gtk_h.g_base64_encode_close(breakLines ? 1 : 0, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
         return RESULT;
     }
     
@@ -1059,7 +1067,7 @@ public final class GLib {
      * or certain other protocols.
      */
     public static long base64EncodeStep(byte[] in, long len, boolean breakLines, byte[] out, PointerInteger state, PointerInteger save) {
-        var RESULT = gtk_h.g_base64_encode_step(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, in)).handle(), len, breakLines ? 1 : 0, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, out)).handle(), state.handle(), save.handle());
+        var RESULT = gtk_h.g_base64_encode_step(Interop.allocateNativeArray(in).handle(), len, breakLines ? 1 : 0, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
         return RESULT;
     }
     
@@ -1132,7 +1140,7 @@ public final class GLib {
      */
     public static boolean bitTrylock(PointerInteger address, int lockBit) {
         var RESULT = gtk_h.g_bit_trylock(address.handle(), lockBit);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1190,7 +1198,7 @@ public final class GLib {
      * the size of {@code array} will be set to zero.
      */
     public static PointerByte byteArrayFree(byte[] array, boolean freeSegment) {
-        var RESULT = gtk_h.g_byte_array_free(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle(), freeSegment ? 1 : 0);
+        var RESULT = gtk_h.g_byte_array_free(Interop.allocateNativeArray(array).handle(), freeSegment ? 1 : 0);
         return new PointerByte(RESULT);
     }
     
@@ -1205,8 +1213,29 @@ public final class GLib {
      * together.
      */
     public static Bytes byteArrayFreeToBytes(byte[] array) {
-        var RESULT = gtk_h.g_byte_array_free_to_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle());
+        var RESULT = gtk_h.g_byte_array_free_to_bytes(Interop.allocateNativeArray(array).handle());
         return new Bytes(References.get(RESULT, true));
+    }
+    
+    /**
+     * Creates a new {@link ByteArray} with a reference count of 1.
+     */
+    public static PointerIterator<Byte> byteArrayNew() {
+        var RESULT = gtk_h.g_byte_array_new();
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
+     * Create byte array containing the data. The data will be owned by the array
+     * and will be freed with g_free(), i.e. it could be allocated using g_strdup().
+     * <p>
+     * Do not use it if {@code len} is greater than {@code G_MAXUINT}. {@link ByteArray}
+     * stores the length of its data in {@code guint}, which may be shorter than
+     * {@code gsize}.
+     */
+    public static PointerIterator<Byte> byteArrayNewTake(byte[] data, long len) {
+        var RESULT = gtk_h.g_byte_array_new_take(Interop.allocateNativeArray(data).handle(), len);
+        return new PointerByte(RESULT).iterator();
     }
     
     /**
@@ -1215,7 +1244,7 @@ public final class GLib {
      * to the caller.
      */
     public static PointerByte byteArraySteal(byte[] array, PointerLong len) {
-        var RESULT = gtk_h.g_byte_array_steal(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle(), len.handle());
+        var RESULT = gtk_h.g_byte_array_steal(Interop.allocateNativeArray(array).handle(), len.handle());
         return new PointerByte(RESULT);
     }
     
@@ -1226,7 +1255,7 @@ public final class GLib {
      * thread.
      */
     public static void byteArrayUnref(byte[] array) {
-        gtk_h.g_byte_array_unref(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle());
+        gtk_h.g_byte_array_unref(Interop.allocateNativeArray(array).handle());
     }
     
     /**
@@ -1319,9 +1348,9 @@ public final class GLib {
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -1360,9 +1389,9 @@ public final class GLib {
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1424,7 +1453,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1447,7 +1476,7 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeChecksumForData(ChecksumType checksumType, byte[] data, long length) {
-        var RESULT = gtk_h.g_compute_checksum_for_data(checksumType.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
+        var RESULT = gtk_h.g_compute_checksum_for_data(checksumType.getValue(), Interop.allocateNativeArray(data).handle(), length);
         return RESULT.getUtf8String(0);
     }
     
@@ -1481,7 +1510,7 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeHmacForData(ChecksumType digestType, byte[] key, long keyLen, byte[] data, long length) {
-        var RESULT = gtk_h.g_compute_hmac_for_data(digestType.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, key)).handle(), keyLen, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
+        var RESULT = gtk_h.g_compute_hmac_for_data(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen, Interop.allocateNativeArray(data).handle(), length);
         return RESULT.getUtf8String(0);
     }
     
@@ -1491,13 +1520,96 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeHmacForString(ChecksumType digestType, byte[] key, long keyLen, java.lang.String str, long length) {
-        var RESULT = gtk_h.g_compute_hmac_for_string(digestType.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, key)).handle(), keyLen, Interop.allocateNativeString(str).handle(), length);
+        var RESULT = gtk_h.g_compute_hmac_for_string(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen, Interop.allocateNativeString(str).handle(), length);
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Converts a string from one character set to another.
+     * <p>
+     * Note that you should use g_iconv() for streaming conversions.
+     * Despite the fact that {@code bytes_read} can return information about partial
+     * characters, the g_convert_... functions are not generally suitable
+     * for streaming. If the underlying converter maintains internal state,
+     * then this won't be preserved across successive calls to g_convert(),
+     * g_convert_with_iconv() or g_convert_with_fallback(). (An example of
+     * this is the GNU C converter for CP1255 which does not emit a base
+     * character until it knows that the next character is not a mark that
+     * could combine with the base character.)
+     * <p>
+     * Using extensions such as "//TRANSLIT" may not work (or may not work
+     * well) on many platforms.  Consider using g_str_to_ascii() instead.
+     */
+    public static PointerIterator<Byte> convert(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_convert(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerByte(RESULT).iterator();
     }
     
     public static Quark convertErrorQuark() {
         var RESULT = gtk_h.g_convert_error_quark();
         return new Quark(RESULT);
+    }
+    
+    /**
+     * Converts a string from one character set to another, possibly
+     * including fallback sequences for characters not representable
+     * in the output. Note that it is not guaranteed that the specification
+     * for the fallback sequences in {@code fallback} will be honored. Some
+     * systems may do an approximate conversion from {@code from_codeset}
+     * to {@code to_codeset} in their iconv() functions,
+     * in which case GLib will simply return that approximate conversion.
+     * <p>
+     * Note that you should use g_iconv() for streaming conversions.
+     * Despite the fact that {@code bytes_read} can return information about partial
+     * characters, the g_convert_... functions are not generally suitable
+     * for streaming. If the underlying converter maintains internal state,
+     * then this won't be preserved across successive calls to g_convert(),
+     * g_convert_with_iconv() or g_convert_with_fallback(). (An example of
+     * this is the GNU C converter for CP1255 which does not emit a base
+     * character until it knows that the next character is not a mark that
+     * could combine with the base character.)
+     */
+    public static PointerIterator<Byte> convertWithFallback(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, java.lang.String fallback, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_convert_with_fallback(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), Interop.allocateNativeString(fallback).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
+     * Converts a string from one character set to another.
+     * <p>
+     * Note that you should use g_iconv() for streaming conversions.
+     * Despite the fact that {@code bytes_read} can return information about partial
+     * characters, the g_convert_... functions are not generally suitable
+     * for streaming. If the underlying converter maintains internal state,
+     * then this won't be preserved across successive calls to g_convert(),
+     * g_convert_with_iconv() or g_convert_with_fallback(). (An example of
+     * this is the GNU C converter for CP1255 which does not emit a base
+     * character until it knows that the next character is not a mark that
+     * could combine with the base character.)
+     * <p>
+     * Characters which are valid in the input character set, but which have no
+     * representation in the output character set will result in a
+     * {@link ConvertError#ILLEGAL_SEQUENCE} error. This is in contrast to the iconv()
+     * specification, which leaves this behaviour implementation defined. Note that
+     * this is the same error code as is returned for an invalid byte sequence in
+     * the input character set. To get defined behaviour for conversion of
+     * unrepresentable characters, use g_convert_with_fallback().
+     */
+    public static PointerIterator<Byte> convertWithIconv(byte[] str, long len, IConv converter, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_convert_with_iconv(Interop.allocateNativeArray(str).handle(), len, converter.handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerByte(RESULT).iterator();
     }
     
     /**
@@ -1527,9 +1639,9 @@ public final class GLib {
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -1576,7 +1688,7 @@ public final class GLib {
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -1662,9 +1774,9 @@ public final class GLib {
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -1745,7 +1857,7 @@ public final class GLib {
      */
     public static boolean dateIsLeapYear(DateYear year) {
         var RESULT = gtk_h.g_date_is_leap_year(year.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1774,7 +1886,7 @@ public final class GLib {
      */
     public static boolean dateValidDay(DateDay day) {
         var RESULT = gtk_h.g_date_valid_day(day.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1784,7 +1896,7 @@ public final class GLib {
      */
     public static boolean dateValidDmy(DateDay day, DateMonth month, DateYear year) {
         var RESULT = gtk_h.g_date_valid_dmy(day.getValue(), month.getValue(), year.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1793,7 +1905,7 @@ public final class GLib {
      */
     public static boolean dateValidJulian(int julianDate) {
         var RESULT = gtk_h.g_date_valid_julian(julianDate);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1802,7 +1914,7 @@ public final class GLib {
      */
     public static boolean dateValidMonth(DateMonth month) {
         var RESULT = gtk_h.g_date_valid_month(month.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1811,7 +1923,7 @@ public final class GLib {
      */
     public static boolean dateValidWeekday(DateWeekday weekday) {
         var RESULT = gtk_h.g_date_valid_weekday(weekday.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1820,7 +1932,7 @@ public final class GLib {
      */
     public static boolean dateValidYear(DateYear year) {
         var RESULT = gtk_h.g_date_valid_year(year.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1914,7 +2026,7 @@ public final class GLib {
      */
     public static boolean directEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_direct_equal(v1, v2);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -1953,7 +2065,7 @@ public final class GLib {
      */
     public static boolean doubleEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_double_equal(v1, v2);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2014,6 +2126,24 @@ public final class GLib {
     }
     
     /**
+     * Sets the environment variable {@code variable} in the provided list
+     * {@code envp} to {@code value}.
+     */
+    public static PointerIterator<java.lang.String> environSetenv(java.lang.String[] envp, java.lang.String variable, java.lang.String value, boolean overwrite) {
+        var RESULT = gtk_h.g_environ_setenv(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Removes the environment variable {@code variable} from the provided
+     * environment {@code envp}.
+     */
+    public static PointerIterator<java.lang.String> environUnsetenv(java.lang.String[] envp, java.lang.String variable) {
+        var RESULT = gtk_h.g_environ_unsetenv(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Gets a {@link FileError} constant based on the passed-in {@code err_no}.
      * <p>
      * For example, if you pass in {@code EEXIST} this function returns
@@ -2048,11 +2178,11 @@ public final class GLib {
      */
     public static boolean fileGetContents(java.lang.String filename, byte[] contents, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_get_contents(Interop.allocateNativeString(filename).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length.handle(), GERROR);
+        var RESULT = gtk_h.g_file_get_contents(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2104,11 +2234,11 @@ public final class GLib {
      */
     public static boolean fileSetContents(java.lang.String filename, byte[] contents, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_contents(Interop.allocateNativeString(filename).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, GERROR);
+        var RESULT = gtk_h.g_file_set_contents(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2179,11 +2309,11 @@ public final class GLib {
      */
     public static boolean fileSetContentsFull(java.lang.String filename, byte[] contents, long length, FileSetContentsFlags flags, int mode) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_contents_full(Interop.allocateNativeString(filename).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, flags.getValue(), mode, GERROR);
+        var RESULT = gtk_h.g_file_set_contents_full(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, flags.getValue(), mode, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2231,7 +2361,7 @@ public final class GLib {
      */
     public static boolean fileTest(java.lang.String filename, FileTest test) {
         var RESULT = gtk_h.g_file_test(Interop.allocateNativeString(filename).handle(), test.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2452,7 +2582,7 @@ public final class GLib {
      */
     public static boolean getCharset(java.lang.String[] charset) {
         var RESULT = gtk_h.g_get_charset(Interop.allocateNativeArray(charset).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2484,7 +2614,7 @@ public final class GLib {
      */
     public static boolean getConsoleCharset(java.lang.String[] charset) {
         var RESULT = gtk_h.g_get_console_charset(Interop.allocateNativeArray(charset).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2502,6 +2632,23 @@ public final class GLib {
     public static java.lang.String getCurrentDir() {
         var RESULT = gtk_h.g_get_current_dir();
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the list of environment variables for the current process.
+     * <p>
+     * The list is {@code null} terminated and each item in the list is of the
+     * form 'NAME=VALUE'.
+     * <p>
+     * This is equivalent to direct access to the 'environ' global variable,
+     * except portable.
+     * <p>
+     * The return value is freshly allocated and it should be freed with
+     * g_strfreev() when it is no longer needed.
+     */
+    public static PointerIterator<java.lang.String> getEnviron() {
+        var RESULT = gtk_h.g_get_environ();
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -2532,7 +2679,7 @@ public final class GLib {
      */
     public static boolean getFilenameCharsets(java.lang.String[] filenameCharsets) {
         var RESULT = gtk_h.g_get_filename_charsets(Interop.allocateNativeArray(filenameCharsets).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2581,6 +2728,63 @@ public final class GLib {
     public static java.lang.String getHostName() {
         var RESULT = gtk_h.g_get_host_name();
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Computes a list of applicable locale names, which can be used to
+     * e.g. construct locale-dependent filenames or search paths. The returned
+     * list is sorted from most desirable to least desirable and always contains
+     * the default locale "C".
+     * <p>
+     * For example, if LANGUAGE=de:en_US, then the returned list is
+     * "de", "en_US", "en", "C".
+     * <p>
+     * This function consults the environment variables {@code LANGUAGE}, {@code LC_ALL},
+     * {@code LC_MESSAGES} and {@code LANG} to find the list of locales specified by the
+     * user.
+     */
+    public static PointerIterator<java.lang.String> getLanguageNames() {
+        var RESULT = gtk_h.g_get_language_names();
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Computes a list of applicable locale names with a locale category name,
+     * which can be used to construct the fallback locale-dependent filenames
+     * or search paths. The returned list is sorted from most desirable to
+     * least desirable and always contains the default locale "C".
+     * <p>
+     * This function consults the environment variables {@code LANGUAGE}, {@code LC_ALL},
+     * {@code category_name}, and {@code LANG} to find the list of locales specified by the
+     * user.
+     * <p>
+     * g_get_language_names() returns g_get_language_names_with_category("LC_MESSAGES").
+     */
+    public static PointerIterator<java.lang.String> getLanguageNamesWithCategory(java.lang.String categoryName) {
+        var RESULT = gtk_h.g_get_language_names_with_category(Interop.allocateNativeString(categoryName).handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Returns a list of derived variants of {@code locale}, which can be used to
+     * e.g. construct locale-dependent filenames or search paths. The returned
+     * list is sorted from most desirable to least desirable.
+     * This function handles territory, charset and extra locale modifiers. See
+     * <a href="man:setlocale">`setlocale(3)`</a> for information about locales and their format.
+     * <p>
+     * {@code locale} itself is guaranteed to be returned in the output.
+     * <p>
+     * For example, if {@code locale} is {@code fr_BE}, then the returned list
+     * is {@code fr_BE}, {@code fr}. If {@code locale} is {@code en_GB.UTF-8@euro}, then the returned list
+     * is {@code en_GB.UTF-8@euro}, {@code en_GB.UTF-8}, {@code en_GB@euro}, {@code en_GB}, {@code en.UTF-8@euro},
+     * {@code en.UTF-8}, {@code en@euro}, {@code en}.
+     * <p>
+     * If you need the list of variants for the current locale,
+     * use g_get_language_names().
+     */
+    public static PointerIterator<java.lang.String> getLocaleVariants(java.lang.String locale) {
+        var RESULT = gtk_h.g_get_locale_variants(Interop.allocateNativeString(locale).handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -2667,6 +2871,74 @@ public final class GLib {
     public static long getRealTime() {
         var RESULT = gtk_h.g_get_real_time();
         return RESULT;
+    }
+    
+    /**
+     * Returns an ordered list of base directories in which to access
+     * system-wide configuration information.
+     * <p>
+     * On UNIX platforms this is determined using the mechanisms described
+     * in the
+     * <a href="http://www.freedesktop.org/Standards/basedir-spec">XDG Base Directory Specification</a>.
+     * In this case the list of directories retrieved will be {@code XDG_CONFIG_DIRS}.
+     * <p>
+     * On Windows it follows XDG Base Directory Specification if {@code XDG_CONFIG_DIRS} is defined.
+     * If {@code XDG_CONFIG_DIRS} is undefined, the directory that contains application
+     * data for all users is used instead. A typical path is
+     * {@code C:\\Documents and Settings\\All Users\\Application Data}.
+     * This folder is used for application data
+     * that is not user specific. For example, an application can store
+     * a spell-check dictionary, a database of clip art, or a log file in the
+     * FOLDERID_ProgramData folder. This information will not roam and is available
+     * to anyone using the computer.
+     * <p>
+     * The return value is cached and modifying it at runtime is not supported, as
+     * it’s not thread-safe to modify environment variables at runtime.
+     */
+    public static PointerIterator<java.lang.String> getSystemConfigDirs() {
+        var RESULT = gtk_h.g_get_system_config_dirs();
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Returns an ordered list of base directories in which to access
+     * system-wide application data.
+     * <p>
+     * On UNIX platforms this is determined using the mechanisms described
+     * in the
+     * <a href="http://www.freedesktop.org/Standards/basedir-spec">XDG Base Directory Specification</a>
+     * In this case the list of directories retrieved will be {@code XDG_DATA_DIRS}.
+     * <p>
+     * On Windows it follows XDG Base Directory Specification if {@code XDG_DATA_DIRS} is defined.
+     * If {@code XDG_DATA_DIRS} is undefined,
+     * the first elements in the list are the Application Data
+     * and Documents folders for All Users. (These can be determined only
+     * on Windows 2000 or later and are not present in the list on other
+     * Windows versions.) See documentation for FOLDERID_ProgramData and
+     * FOLDERID_PublicDocuments.
+     * <p>
+     * Then follows the "share" subfolder in the installation folder for
+     * the package containing the DLL that calls this function, if it can
+     * be determined.
+     * <p>
+     * Finally the list contains the "share" subfolder in the installation
+     * folder for GLib, and in the installation folder for the package the
+     * application's .exe file belongs to.
+     * <p>
+     * The installation folders above are determined by looking up the
+     * folder where the module (DLL or EXE) in question is located. If the
+     * folder's name is "bin", its parent is used, otherwise the folder
+     * itself.
+     * <p>
+     * Note that on Windows the returned list can vary depending on where
+     * this function is called.
+     * <p>
+     * The return value is cached and modifying it at runtime is not supported, as
+     * it’s not thread-safe to modify environment variables at runtime.
+     */
+    public static PointerIterator<java.lang.String> getSystemDataDirs() {
+        var RESULT = gtk_h.g_get_system_data_dirs();
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -2866,7 +3138,7 @@ public final class GLib {
      */
     public static boolean hashTableAdd(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_add(hashTable.handle(), key);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2874,7 +3146,7 @@ public final class GLib {
      */
     public static boolean hashTableContains(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_contains(hashTable.handle(), key);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2905,7 +3177,7 @@ public final class GLib {
      */
     public static boolean hashTableInsert(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_insert(hashTable.handle(), key, value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2931,7 +3203,7 @@ public final class GLib {
      */
     public static boolean hashTableLookupExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress origKey, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_lookup_extended(hashTable.handle(), lookupKey, origKey, value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2959,7 +3231,7 @@ public final class GLib {
      */
     public static boolean hashTableRemove(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_remove(hashTable.handle(), key);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -2989,7 +3261,7 @@ public final class GLib {
      */
     public static boolean hashTableReplace(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_replace(hashTable.handle(), key, value);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3006,7 +3278,7 @@ public final class GLib {
      */
     public static boolean hashTableSteal(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_steal(hashTable.handle(), key);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3031,7 +3303,7 @@ public final class GLib {
      */
     public static boolean hashTableStealExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress stolenKey, java.lang.foreign.MemoryAddress stolenValue) {
         var RESULT = gtk_h.g_hash_table_steal_extended(hashTable.handle(), lookupKey, stolenKey, stolenValue);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3049,7 +3321,7 @@ public final class GLib {
      */
     public static boolean hookDestroy(HookList hookList, long hookId) {
         var RESULT = gtk_h.g_hook_destroy(hookList.handle(), hookId);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3103,7 +3375,7 @@ public final class GLib {
      */
     public static boolean hostnameIsAsciiEncoded(java.lang.String hostname) {
         var RESULT = gtk_h.g_hostname_is_ascii_encoded(Interop.allocateNativeString(hostname).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3114,7 +3386,7 @@ public final class GLib {
      */
     public static boolean hostnameIsIpAddress(java.lang.String hostname) {
         var RESULT = gtk_h.g_hostname_is_ip_address(Interop.allocateNativeString(hostname).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3128,7 +3400,7 @@ public final class GLib {
      */
     public static boolean hostnameIsNonAscii(java.lang.String hostname) {
         var RESULT = gtk_h.g_hostname_is_non_ascii(Interop.allocateNativeString(hostname).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3209,10 +3481,10 @@ public final class GLib {
             var RESULT = gtk_h.g_idle_add(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -3240,10 +3512,10 @@ public final class GLib {
             var RESULT = gtk_h.g_idle_add_full(priority, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -3256,7 +3528,7 @@ public final class GLib {
      */
     public static boolean idleRemoveByData(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_idle_remove_by_data(data);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3282,7 +3554,7 @@ public final class GLib {
      */
     public static boolean int64Equal(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_int64_equal(v1, v2);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3310,7 +3582,7 @@ public final class GLib {
      */
     public static boolean intEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_int_equal(v1, v2);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3365,10 +3637,10 @@ public final class GLib {
             var RESULT = gtk_h.g_io_add_watch(channel.handle(), condition.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbIOFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -3388,10 +3660,10 @@ public final class GLib {
             var RESULT = gtk_h.g_io_add_watch_full(channel.handle(), priority, condition.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbIOFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -3439,6 +3711,41 @@ public final class GLib {
     }
     
     /**
+     * Gets the names of all variables set in the environment.
+     * <p>
+     * Programs that want to be portable to Windows should typically use
+     * this function and g_getenv() instead of using the environ array
+     * from the C library directly. On Windows, the strings in the environ
+     * array are in system codepage encoding, while in most of the typical
+     * use cases for environment variables in GLib-using programs you want
+     * the UTF-8 encoding that this function and g_getenv() provide.
+     */
+    public static PointerIterator<java.lang.String> listenv() {
+        var RESULT = gtk_h.g_listenv();
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Converts a string from UTF-8 to the encoding used for strings by
+     * the C runtime (usually the same as that used by the operating
+     * system) in the [current locale][setlocale]. On Windows this means
+     * the system codepage.
+     * <p>
+     * The input string shall not contain nul characters even if the {@code len}
+     * argument is positive. A nul character found inside the string will result
+     * in error {@link ConvertError#ILLEGAL_SEQUENCE}. Use g_convert() to convert
+     * input that may contain embedded nul characters.
+     */
+    public static PointerIterator<Byte> localeFromUtf8(java.lang.String utf8string, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_locale_from_utf8(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
      * Converts a string which is in the encoding used for strings by
      * the C runtime (usually the same as that used by the operating
      * system) in the [current locale][setlocale] into a UTF-8 string.
@@ -3453,7 +3760,7 @@ public final class GLib {
      */
     public static java.lang.String localeToUtf8(byte[] opsysstring, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_locale_to_utf8(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, opsysstring)).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+        var RESULT = gtk_h.g_locale_to_utf8(Interop.allocateNativeArray(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -3508,7 +3815,7 @@ public final class GLib {
      */
     public static boolean logGetDebugEnabled() {
         var RESULT = gtk_h.g_log_get_debug_enabled();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3620,7 +3927,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -3641,7 +3948,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -3668,7 +3975,7 @@ public final class GLib {
                             MethodType.methodType(int.class, int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -3786,7 +4093,7 @@ public final class GLib {
      */
     public static boolean logWriterDefaultWouldDrop(LogLevelFlags logLevel, java.lang.String logDomain) {
         var RESULT = gtk_h.g_log_writer_default_would_drop(logLevel.getValue(), Interop.allocateNativeString(logDomain).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3818,7 +4125,7 @@ public final class GLib {
      */
     public static boolean logWriterIsJournald(int outputFd) {
         var RESULT = gtk_h.g_log_writer_is_journald(outputFd);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -3865,7 +4172,7 @@ public final class GLib {
      */
     public static boolean logWriterSupportsColor(int outputFd) {
         var RESULT = gtk_h.g_log_writer_supports_color(outputFd);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4328,7 +4635,7 @@ public final class GLib {
      */
     public static boolean onceInitEnter(java.lang.foreign.MemoryAddress location) {
         var RESULT = gtk_h.g_once_init_enter(location);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4423,7 +4730,7 @@ public final class GLib {
      */
     public static boolean pathIsAbsolute(java.lang.String fileName) {
         var RESULT = gtk_h.g_path_is_absolute(Interop.allocateNativeString(fileName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4444,7 +4751,7 @@ public final class GLib {
      */
     public static boolean patternMatchSimple(java.lang.String pattern, java.lang.String string) {
         var RESULT = gtk_h.g_pattern_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4473,7 +4780,7 @@ public final class GLib {
      */
     public static boolean pointerBitTrylock(java.lang.foreign.MemoryAddress address, int lockBit) {
         var RESULT = gtk_h.g_pointer_bit_trylock(address, lockBit);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4556,7 +4863,7 @@ public final class GLib {
      */
     public static boolean ptrArrayFind(java.lang.foreign.MemoryAddress[] haystack, java.lang.foreign.MemoryAddress needle, PointerInteger index) {
         var RESULT = gtk_h.g_ptr_array_find(Interop.allocateNativeArray(haystack).handle(), needle, index.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4573,7 +4880,7 @@ public final class GLib {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -4776,7 +5083,7 @@ public final class GLib {
      */
     public static boolean refCountCompare(PointerInteger rc, int val) {
         var RESULT = gtk_h.g_ref_count_compare(rc.handle(), val);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4788,7 +5095,7 @@ public final class GLib {
      */
     public static boolean refCountDec(PointerInteger rc) {
         var RESULT = gtk_h.g_ref_count_dec(rc.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -4880,7 +5187,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static Quark regexErrorQuark() {
@@ -4928,7 +5235,41 @@ public final class GLib {
      */
     public static boolean regexMatchSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
         var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Breaks the string on the pattern, and returns an array of
+     * the tokens. If the pattern contains capturing parentheses,
+     * then the text for each of the substrings will also be returned.
+     * If the pattern does not match anywhere in the string, then the
+     * whole string is returned as the first token.
+     * <p>
+     * This function is equivalent to g_regex_split() but it does
+     * not require to compile the pattern with g_regex_new(), avoiding
+     * some lines of code when you need just to do a split without
+     * extracting substrings, capture counts, and so on.
+     * <p>
+     * If this function is to be called on the same {@code pattern} more than
+     * once, it's more efficient to compile the pattern once with
+     * g_regex_new() and then use g_regex_split().
+     * <p>
+     * As a special case, the result of splitting the empty string ""
+     * is an empty vector, not a vector containing a single string.
+     * The reason for this special case is that being able to represent
+     * an empty vector is typically more useful than consistent handling
+     * of empty elements. If you do need to represent empty elements,
+     * you'll need to check for the empty string before calling this
+     * function.
+     * <p>
+     * A pattern that can match empty strings splits {@code string} into
+     * separate characters wherever it matches the empty string between
+     * characters. For example splitting "ab c" using as a separator
+     * "\\s*", you will get "a", "b" and "c".
+     */
+    public static PointerIterator<java.lang.String> regexSplitSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
+        var RESULT = gtk_h.g_regex_split_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -5125,7 +5466,7 @@ public final class GLib {
      */
     public static boolean setenv(java.lang.String variable, java.lang.String value, boolean overwrite) {
         var RESULT = gtk_h.g_setenv(Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static Quark shellErrorQuark() {
@@ -5159,7 +5500,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5326,7 +5667,7 @@ public final class GLib {
      */
     public static boolean sourceRemove(int tag) {
         var RESULT = gtk_h.g_source_remove(tag);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5336,7 +5677,7 @@ public final class GLib {
      */
     public static boolean sourceRemoveByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_source_remove_by_funcs_user_data(funcs.handle(), userData);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5346,7 +5687,7 @@ public final class GLib {
      */
     public static boolean sourceRemoveByUserData(java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_source_remove_by_user_data(userData);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5412,12 +5753,12 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), GERROR);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
             childPid.setValue(childPidPOINTER.get());
-            return (RESULT != 0);
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -5439,12 +5780,12 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), stdinFd, stdoutFd, stderrFd, GERROR);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), stdinFd, stdoutFd, stderrFd, GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
             childPid.setValue(childPidPOINTER.get());
-            return (RESULT != 0);
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -5464,12 +5805,12 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), GERROR);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
             childPid.setValue(childPidPOINTER.get());
-            return (RESULT != 0);
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -5675,12 +6016,12 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, sourceFds)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, targetFds)).handle(), nFds, new PointerInteger(childPidOut.getValue()).handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), GERROR);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, Interop.allocateNativeArray(sourceFds).handle(), Interop.allocateNativeArray(targetFds).handle(), nFds, new PointerInteger(childPidOut.getValue()).handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
             childPidOut.setValue(childPidOutPOINTER.get());
-            return (RESULT != 0);
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -5733,7 +6074,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5764,7 +6105,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5800,11 +6141,11 @@ public final class GLib {
      */
     public static boolean spawnCommandLineSync(java.lang.String commandLine, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_spawn_command_line_sync(Interop.allocateNativeString(commandLine).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, standardOutput)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, standardError)).handle(), waitStatus.handle(), GERROR);
+        var RESULT = gtk_h.g_spawn_command_line_sync(Interop.allocateNativeString(commandLine).handle(), Interop.allocateNativeArray(standardOutput).handle(), Interop.allocateNativeArray(standardError).handle(), waitStatus.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static Quark spawnErrorQuark() {
@@ -5851,11 +6192,11 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, standardOutput)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, standardError)).handle(), waitStatus.handle(), GERROR);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), Interop.allocateNativeArray(standardOutput).handle(), Interop.allocateNativeArray(standardError).handle(), waitStatus.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return (RESULT != 0);
+            return RESULT != 0;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -5884,7 +6225,7 @@ public final class GLib {
      */
     public static boolean strEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_str_equal(v1, v2);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5892,7 +6233,7 @@ public final class GLib {
      */
     public static boolean strHasPrefix(java.lang.String str, java.lang.String prefix) {
         var RESULT = gtk_h.g_str_has_prefix(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(prefix).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5900,7 +6241,7 @@ public final class GLib {
      */
     public static boolean strHasSuffix(java.lang.String str, java.lang.String suffix) {
         var RESULT = gtk_h.g_str_has_suffix(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(suffix).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5930,7 +6271,7 @@ public final class GLib {
      */
     public static boolean strIsAscii(java.lang.String str) {
         var RESULT = gtk_h.g_str_is_ascii(Interop.allocateNativeString(str).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5959,7 +6300,7 @@ public final class GLib {
      */
     public static boolean strMatchString(java.lang.String searchTerm, java.lang.String potentialHit, boolean acceptAlternates) {
         var RESULT = gtk_h.g_str_match_string(Interop.allocateNativeString(searchTerm).handle(), Interop.allocateNativeString(potentialHit).handle(), acceptAlternates ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -5985,6 +6326,28 @@ public final class GLib {
     public static java.lang.String strToAscii(java.lang.String str, java.lang.String fromLocale) {
         var RESULT = gtk_h.g_str_to_ascii(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(fromLocale).handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Tokenises {@code string} and performs folding on each token.
+     * <p>
+     * A token is a non-empty sequence of alphanumeric characters in the
+     * source string, separated by non-alphanumeric characters.  An
+     * "alphanumeric" character for this purpose is one that matches
+     * g_unichar_isalnum() or g_unichar_ismark().
+     * <p>
+     * Each token is then (Unicode) normalised and case-folded.  If
+     * {@code ascii_alternates} is non-{@code null} and some of the returned tokens
+     * contain non-ASCII characters, ASCII alternatives will be generated.
+     * <p>
+     * The number of ASCII alternatives that are generated and the method
+     * for doing so is unspecified, but {@code translit_locale} (if specified) may
+     * improve the transliteration if the language of the source string is
+     * known.
+     */
+    public static PointerIterator<java.lang.String> strTokenizeAndFold(java.lang.String string, java.lang.String translitLocale, java.lang.String[] asciiAlternates) {
+        var RESULT = gtk_h.g_str_tokenize_and_fold(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(translitLocale).handle(), Interop.allocateNativeArray(asciiAlternates).handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -6116,6 +6479,17 @@ public final class GLib {
     public static java.lang.String strdupVprintf(java.lang.String format, VaList args) {
         var RESULT = gtk_h.g_strdup_vprintf(Interop.allocateNativeString(format).handle(), args);
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Copies {@code null}-terminated array of strings. The copy is a deep copy;
+     * the new array should be freed by first freeing each string, then
+     * the array itself. g_strfreev() does this for you. If called
+     * on a {@code null} value, g_strdupv() simply returns {@code null}.
+     */
+    public static PointerIterator<java.lang.String> strdupv(java.lang.String[] strArray) {
+        var RESULT = gtk_h.g_strdupv(Interop.allocateNativeArray(strArray).handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -6299,6 +6673,55 @@ public final class GLib {
     }
     
     /**
+     * Splits a string into a maximum of {@code max_tokens} pieces, using the given
+     * {@code delimiter}. If {@code max_tokens} is reached, the remainder of {@code string} is
+     * appended to the last token.
+     * <p>
+     * As an example, the result of g_strsplit (":a:bc::d:", ":", -1) is a
+     * {@code null}-terminated vector containing the six strings "", "a", "bc", "", "d"
+     * and "".
+     * <p>
+     * As a special case, the result of splitting the empty string "" is an empty
+     * vector, not a vector containing a single string. The reason for this
+     * special case is that being able to represent an empty vector is typically
+     * more useful than consistent handling of empty elements. If you do need
+     * to represent empty elements, you'll need to check for the empty string
+     * before calling g_strsplit().
+     */
+    public static PointerIterator<java.lang.String> strsplit(java.lang.String string, java.lang.String delimiter, int maxTokens) {
+        var RESULT = gtk_h.g_strsplit(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiter).handle(), maxTokens);
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Splits {@code string} into a number of tokens not containing any of the characters
+     * in {@code delimiter}. A token is the (possibly empty) longest string that does not
+     * contain any of the characters in {@code delimiters}. If {@code max_tokens} is reached, the
+     * remainder is appended to the last token.
+     * <p>
+     * For example the result of g_strsplit_set ("abc:def/ghi", ":/", -1) is a
+     * {@code null}-terminated vector containing the three strings "abc", "def",
+     * and "ghi".
+     * <p>
+     * The result of g_strsplit_set (":def/ghi:", ":/", -1) is a {@code null}-terminated
+     * vector containing the four strings "", "def", "ghi", and "".
+     * <p>
+     * As a special case, the result of splitting the empty string "" is an empty
+     * vector, not a vector containing a single string. The reason for this
+     * special case is that being able to represent an empty vector is typically
+     * more useful than consistent handling of empty elements. If you do need
+     * to represent empty elements, you'll need to check for the empty string
+     * before calling g_strsplit_set().
+     * <p>
+     * Note that this function works on bytes not characters, so it can't be used
+     * to delimit UTF-8 strings for anything but ASCII characters.
+     */
+    public static PointerIterator<java.lang.String> strsplitSet(java.lang.String string, java.lang.String delimiters, int maxTokens) {
+        var RESULT = gtk_h.g_strsplit_set(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiters).handle(), maxTokens);
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Searches the string {@code haystack} for the first occurrence
      * of the string {@code needle}, limiting the length of the search
      * to {@code haystack_len}.
@@ -6331,7 +6754,7 @@ public final class GLib {
      */
     public static boolean strvContains(java.lang.String strv, java.lang.String str) {
         var RESULT = gtk_h.g_strv_contains(Interop.allocateNativeString(strv).handle(), Interop.allocateNativeString(str).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -6344,7 +6767,7 @@ public final class GLib {
      */
     public static boolean strvEqual(java.lang.String strv1, java.lang.String strv2) {
         var RESULT = gtk_h.g_strv_equal(Interop.allocateNativeString(strv1).handle(), Interop.allocateNativeString(strv2).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     public static org.gtk.gobject.Type strvGetType() {
@@ -6379,7 +6802,7 @@ public final class GLib {
     public static void testAddDataFunc(java.lang.String testpath, TestDataFunc testFunc) {
         try {
             gtk_h.g_test_add_data_func(Interop.allocateNativeString(testpath).handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
@@ -6397,7 +6820,7 @@ public final class GLib {
     public static void testAddDataFuncFull(java.lang.String testpath, TestDataFunc testFunc) {
         try {
             gtk_h.g_test_add_data_func_full(Interop.allocateNativeString(testpath).handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
@@ -6412,7 +6835,7 @@ public final class GLib {
     public static void testAddVtable(java.lang.String testpath, long dataSize, TestFixtureFunc dataSetup, TestFixtureFunc dataTest, TestFixtureFunc dataTeardown) {
         try {
             gtk_h.g_test_add_vtable(Interop.allocateNativeString(testpath).handle(), dataSize, 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -6495,7 +6918,7 @@ public final class GLib {
     public static TestCase testCreateCase(java.lang.String testName, long dataSize, TestFixtureFunc dataSetup, TestFixtureFunc dataTest, TestFixtureFunc dataTeardown) {
         try {
             var RESULT = gtk_h.g_test_create_case(Interop.allocateNativeString(testName).handle(), dataSize, 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -6604,7 +7027,7 @@ public final class GLib {
      */
     public static boolean testFailed() {
         var RESULT = gtk_h.g_test_failed();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -6684,10 +7107,10 @@ public final class GLib {
             gtk_h.g_test_log_set_fatal_handler(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestLogFatalFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -6854,7 +7277,7 @@ public final class GLib {
      */
     public static boolean testSubprocess() {
         var RESULT = gtk_h.g_test_subprocess();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -6915,7 +7338,7 @@ public final class GLib {
      */
     public static boolean testTrapHasPassed() {
         var RESULT = gtk_h.g_test_trap_has_passed();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -6923,7 +7346,7 @@ public final class GLib {
      */
     public static boolean testTrapReachedTimeout() {
         var RESULT = gtk_h.g_test_trap_reached_timeout();
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7146,10 +7569,10 @@ public final class GLib {
             var RESULT = gtk_h.g_timeout_add(interval, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -7187,10 +7610,10 @@ public final class GLib {
             var RESULT = gtk_h.g_timeout_add_full(priority, interval, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -7228,10 +7651,10 @@ public final class GLib {
             var RESULT = gtk_h.g_timeout_add_seconds(interval, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -7284,10 +7707,10 @@ public final class GLib {
             var RESULT = gtk_h.g_timeout_add_seconds_full(priority, interval, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -7452,7 +7875,7 @@ public final class GLib {
      */
     public static boolean unicharCompose(int a, int b, PointerInteger ch) {
         var RESULT = gtk_h.g_unichar_compose(a, b, ch.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7482,7 +7905,7 @@ public final class GLib {
      */
     public static boolean unicharDecompose(int ch, PointerInteger a, PointerInteger b) {
         var RESULT = gtk_h.g_unichar_decompose(ch, a.handle(), b.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7533,7 +7956,7 @@ public final class GLib {
      */
     public static boolean unicharGetMirrorChar(int ch, PointerInteger mirroredCh) {
         var RESULT = gtk_h.g_unichar_get_mirror_char(ch, mirroredCh.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7557,7 +7980,7 @@ public final class GLib {
      */
     public static boolean unicharIsalnum(int c) {
         var RESULT = gtk_h.g_unichar_isalnum(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7567,7 +7990,7 @@ public final class GLib {
      */
     public static boolean unicharIsalpha(int c) {
         var RESULT = gtk_h.g_unichar_isalpha(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7577,7 +8000,7 @@ public final class GLib {
      */
     public static boolean unicharIscntrl(int c) {
         var RESULT = gtk_h.g_unichar_iscntrl(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7586,7 +8009,7 @@ public final class GLib {
      */
     public static boolean unicharIsdefined(int c) {
         var RESULT = gtk_h.g_unichar_isdefined(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7596,7 +8019,7 @@ public final class GLib {
      */
     public static boolean unicharIsdigit(int c) {
         var RESULT = gtk_h.g_unichar_isdigit(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7608,7 +8031,7 @@ public final class GLib {
      */
     public static boolean unicharIsgraph(int c) {
         var RESULT = gtk_h.g_unichar_isgraph(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7618,7 +8041,7 @@ public final class GLib {
      */
     public static boolean unicharIslower(int c) {
         var RESULT = gtk_h.g_unichar_islower(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7634,7 +8057,7 @@ public final class GLib {
      */
     public static boolean unicharIsmark(int c) {
         var RESULT = gtk_h.g_unichar_ismark(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7645,7 +8068,7 @@ public final class GLib {
      */
     public static boolean unicharIsprint(int c) {
         var RESULT = gtk_h.g_unichar_isprint(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7655,7 +8078,7 @@ public final class GLib {
      */
     public static boolean unicharIspunct(int c) {
         var RESULT = gtk_h.g_unichar_ispunct(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7669,7 +8092,7 @@ public final class GLib {
      */
     public static boolean unicharIsspace(int c) {
         var RESULT = gtk_h.g_unichar_isspace(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7682,7 +8105,7 @@ public final class GLib {
      */
     public static boolean unicharIstitle(int c) {
         var RESULT = gtk_h.g_unichar_istitle(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7690,7 +8113,7 @@ public final class GLib {
      */
     public static boolean unicharIsupper(int c) {
         var RESULT = gtk_h.g_unichar_isupper(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7699,7 +8122,7 @@ public final class GLib {
      */
     public static boolean unicharIswide(int c) {
         var RESULT = gtk_h.g_unichar_iswide(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7716,7 +8139,7 @@ public final class GLib {
      */
     public static boolean unicharIswideCjk(int c) {
         var RESULT = gtk_h.g_unichar_iswide_cjk(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7724,7 +8147,7 @@ public final class GLib {
      */
     public static boolean unicharIsxdigit(int c) {
         var RESULT = gtk_h.g_unichar_isxdigit(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7740,7 +8163,7 @@ public final class GLib {
      */
     public static boolean unicharIszerowidth(int c) {
         var RESULT = gtk_h.g_unichar_iszerowidth(c);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7790,7 +8213,7 @@ public final class GLib {
      */
     public static boolean unicharValidate(int ch) {
         var RESULT = gtk_h.g_unichar_validate(ch);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7869,10 +8292,10 @@ public final class GLib {
             var RESULT = gtk_h.g_unix_fd_add(fd, condition.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbUnixFDSourceFunc",
-                            MethodType.methodType(boolean.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, int.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -7892,10 +8315,10 @@ public final class GLib {
             var RESULT = gtk_h.g_unix_fd_add_full(priority, fd, condition.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbUnixFDSourceFunc",
-                            MethodType.methodType(boolean.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, int.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -7952,7 +8375,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7966,7 +8389,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -7979,10 +8402,10 @@ public final class GLib {
             var RESULT = gtk_h.g_unix_signal_add(signum, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)));
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -7999,10 +8422,10 @@ public final class GLib {
             var RESULT = gtk_h.g_unix_signal_add_full(priority, signum, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
-                            MethodType.methodType(boolean.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                            MethodType.methodType(int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -8123,7 +8546,7 @@ public final class GLib {
      * bytes as {@code %}{@code 00}.
      */
     public static java.lang.String uriEscapeBytes(byte[] unescaped, long length, java.lang.String reservedCharsAllowed) {
-        var RESULT = gtk_h.g_uri_escape_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, unescaped)).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
+        var RESULT = gtk_h.g_uri_escape_bytes(Interop.allocateNativeArray(unescaped).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -8158,7 +8581,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -8196,6 +8619,16 @@ public final class GLib {
     public static java.lang.String uriJoinWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
         var RESULT = gtk_h.g_uri_join_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Splits an URI list conforming to the text/uri-list
+     * mime type defined in RFC 2483 into individual URIs,
+     * discarding any comments. The URIs are not validated.
+     */
+    public static PointerIterator<java.lang.String> uriListExtractUris(java.lang.String uriList) {
+        var RESULT = gtk_h.g_uri_list_extract_uris(Interop.allocateNativeString(uriList).handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -8320,7 +8753,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -8337,7 +8770,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -8359,7 +8792,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -8840,8 +9273,8 @@ public final class GLib {
      * doing anything else with it.
      */
     public static boolean utf8Validate(byte[] str, long maxLen, java.lang.String[] end) {
-        var RESULT = gtk_h.g_utf8_validate(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), maxLen, Interop.allocateNativeArray(end).handle());
-        return (RESULT != 0);
+        var RESULT = gtk_h.g_utf8_validate(Interop.allocateNativeArray(str).handle(), maxLen, Interop.allocateNativeArray(end).handle());
+        return RESULT != 0;
     }
     
     /**
@@ -8851,8 +9284,8 @@ public final class GLib {
      * will always return {@code false} if any of the bytes of {@code str} are nul.
      */
     public static boolean utf8ValidateLen(byte[] str, long maxLen, java.lang.String[] end) {
-        var RESULT = gtk_h.g_utf8_validate_len(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), maxLen, Interop.allocateNativeArray(end).handle());
-        return (RESULT != 0);
+        var RESULT = gtk_h.g_utf8_validate_len(Interop.allocateNativeArray(str).handle(), maxLen, Interop.allocateNativeArray(end).handle());
+        return RESULT != 0;
     }
     
     /**
@@ -8869,7 +9302,7 @@ public final class GLib {
      */
     public static boolean uuidStringIsValid(java.lang.String str) {
         var RESULT = gtk_h.g_uuid_string_is_valid(Interop.allocateNativeString(str).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -8899,7 +9332,7 @@ public final class GLib {
      */
     public static boolean variantIsObjectPath(java.lang.String string) {
         var RESULT = gtk_h.g_variant_is_object_path(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -8912,7 +9345,7 @@ public final class GLib {
      */
     public static boolean variantIsSignature(java.lang.String string) {
         var RESULT = gtk_h.g_variant_is_signature(Interop.allocateNativeString(string).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -9019,7 +9452,7 @@ public final class GLib {
      */
     public static boolean variantTypeStringIsValid(java.lang.String typeString) {
         var RESULT = gtk_h.g_variant_type_string_is_valid(Interop.allocateNativeString(typeString).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -9039,7 +9472,7 @@ public final class GLib {
      */
     public static boolean variantTypeStringScan(java.lang.String string, java.lang.String limit, java.lang.String[] endptr) {
         var RESULT = gtk_h.g_variant_type_string_scan(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -9126,211 +9559,211 @@ public final class GLib {
     }
     
     public static boolean __cbHookCheckFunc(MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (HookCheckFunc) Interop.signalRegistry.get(hash);
         return handler.onHookCheckFunc();
     }
     
     public static boolean __cbIOFunc(MemoryAddress source, int condition, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IOFunc) Interop.signalRegistry.get(hash);
         return handler.onIOFunc(new IOChannel(References.get(source, false)), new IOCondition(condition));
     }
     
     public static java.lang.foreign.MemoryAddress __cbThreadFunc(MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ThreadFunc) Interop.signalRegistry.get(hash);
         return handler.onThreadFunc();
     }
     
     public static boolean __cbHookCheckMarshaller(MemoryAddress hook, MemoryAddress marshalData) {
-        int hash = marshalData.get(C_INT, 0);
+        int hash = marshalData.get(ValueLayout.JAVA_INT, 0);
         var handler = (HookCheckMarshaller) Interop.signalRegistry.get(hash);
         return handler.onHookCheckMarshaller(new Hook(References.get(hook, false)));
     }
     
     public static boolean __cbNodeTraverseFunc(MemoryAddress node, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (NodeTraverseFunc) Interop.signalRegistry.get(hash);
         return handler.onNodeTraverseFunc(new Node(References.get(node, false)));
     }
     
     public static void __cbHookFunc(MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (HookFunc) Interop.signalRegistry.get(hash);
         handler.onHookFunc();
     }
     
     public static void __cbTestFixtureFunc(MemoryAddress fixture, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TestFixtureFunc) Interop.signalRegistry.get(hash);
         handler.onTestFixtureFunc(fixture);
     }
     
     public static java.lang.foreign.MemoryAddress __cbCopyFunc(MemoryAddress src, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (CopyFunc) Interop.signalRegistry.get(hash);
         return handler.onCopyFunc(src);
     }
     
     public static boolean __cbHookFindFunc(MemoryAddress hook, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (HookFindFunc) Interop.signalRegistry.get(hash);
         return handler.onHookFindFunc(new Hook(References.get(hook, false)));
     }
     
     public static boolean __cbRegexEvalCallback(MemoryAddress matchInfo, MemoryAddress result, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (RegexEvalCallback) Interop.signalRegistry.get(hash);
         return handler.onRegexEvalCallback(new MatchInfo(References.get(matchInfo, false)), new String(References.get(result, false)));
     }
     
     public static boolean __cbUnixFDSourceFunc(int fd, int condition, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (UnixFDSourceFunc) Interop.signalRegistry.get(hash);
         return handler.onUnixFDSourceFunc(fd, new IOCondition(condition));
     }
     
     public static void __cbSpawnChildSetupFunc(MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SpawnChildSetupFunc) Interop.signalRegistry.get(hash);
         handler.onSpawnChildSetupFunc();
     }
     
     public static void __cbDestroyNotify(MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (DestroyNotify) Interop.signalRegistry.get(hash);
         handler.onDestroyNotify();
     }
     
     public static void __cbChildWatchFunc(int pid, int waitStatus, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ChildWatchFunc) Interop.signalRegistry.get(hash);
         handler.onChildWatchFunc(new Pid(pid), waitStatus);
     }
     
     public static void __cbTestDataFunc(MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TestDataFunc) Interop.signalRegistry.get(hash);
         handler.onTestDataFunc();
     }
     
     public static int __cbCompareDataFunc(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (CompareDataFunc) Interop.signalRegistry.get(hash);
         return handler.onCompareDataFunc(a, b);
     }
     
     public static boolean __cbTraverseFunc(MemoryAddress key, MemoryAddress value, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TraverseFunc) Interop.signalRegistry.get(hash);
         return handler.onTraverseFunc(key, value);
     }
     
     public static void __cbFunc(MemoryAddress data, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (Func) Interop.signalRegistry.get(hash);
         handler.onFunc();
     }
     
     public static LogWriterOutput __cbLogWriterFunc(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (LogWriterFunc) Interop.signalRegistry.get(hash);
-        return handler.onLogWriterFunc(new LogLevelFlags(logLevel), null, nFields);
+        return handler.onLogWriterFunc(new LogLevelFlags(logLevel), new PointerProxy<LogField>(fields, LogField.class).iterator(), nFields);
     }
     
     public static int __cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SequenceIterCompareFunc) Interop.signalRegistry.get(hash);
         return handler.onSequenceIterCompareFunc(new SequenceIter(References.get(a, false)), new SequenceIter(References.get(b, false)));
     }
     
     public static void __cbHookMarshaller(MemoryAddress hook, MemoryAddress marshalData) {
-        int hash = marshalData.get(C_INT, 0);
+        int hash = marshalData.get(ValueLayout.JAVA_INT, 0);
         var handler = (HookMarshaller) Interop.signalRegistry.get(hash);
         handler.onHookMarshaller(new Hook(References.get(hook, false)));
     }
     
     public static boolean __cbOptionParseFunc(MemoryAddress context, MemoryAddress group, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (OptionParseFunc) Interop.signalRegistry.get(hash);
         return handler.onOptionParseFunc(new OptionContext(References.get(context, false)), new OptionGroup(References.get(group, false)));
     }
     
     public static boolean __cbOptionArgFunc(MemoryAddress optionName, MemoryAddress value, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (OptionArgFunc) Interop.signalRegistry.get(hash);
         return handler.onOptionArgFunc(optionName.getUtf8String(0), value.getUtf8String(0));
     }
     
     public static boolean __cbTestLogFatalFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TestLogFatalFunc) Interop.signalRegistry.get(hash);
         return handler.onTestLogFatalFunc(logDomain.getUtf8String(0), new LogLevelFlags(logLevel), message.getUtf8String(0));
     }
     
     public static boolean __cbSourceFunc(MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SourceFunc) Interop.signalRegistry.get(hash);
         return handler.onSourceFunc();
     }
     
     public static void __cbOptionErrorFunc(MemoryAddress context, MemoryAddress group, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (OptionErrorFunc) Interop.signalRegistry.get(hash);
         handler.onOptionErrorFunc(new OptionContext(References.get(context, false)), new OptionGroup(References.get(group, false)));
     }
     
     public static boolean __cbTraverseNodeFunc(MemoryAddress node, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TraverseNodeFunc) Interop.signalRegistry.get(hash);
         return handler.onTraverseNodeFunc(new TreeNode(References.get(node, false)));
     }
     
     public static void __cbHFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (HFunc) Interop.signalRegistry.get(hash);
         handler.onHFunc(key, value);
     }
     
     public static java.lang.foreign.MemoryAddress __cbDuplicateFunc(MemoryAddress data, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DuplicateFunc) Interop.signalRegistry.get(hash);
         return handler.onDuplicateFunc();
     }
     
     public static void __cbFreeFunc(MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (FreeFunc) Interop.signalRegistry.get(hash);
         handler.onFreeFunc();
     }
     
     public static boolean __cbHRFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (HRFunc) Interop.signalRegistry.get(hash);
         return handler.onHRFunc(key, value);
     }
     
     public static void __cbLogFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (LogFunc) Interop.signalRegistry.get(hash);
         handler.onLogFunc(logDomain.getUtf8String(0), new LogLevelFlags(logLevel), message.getUtf8String(0));
     }
     
     public static void __cbNodeForeachFunc(MemoryAddress node, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (NodeForeachFunc) Interop.signalRegistry.get(hash);
         handler.onNodeForeachFunc(new Node(References.get(node, false)));
     }
     
     public static void __cbDataForeachFunc(int keyId, MemoryAddress data, MemoryAddress userData) {
-        int hash = userData.get(C_INT, 0);
+        int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DataForeachFunc) Interop.signalRegistry.get(hash);
         handler.onDataForeachFunc(new Quark(keyId));
     }
     
     public static java.lang.String __cbTranslateFunc(MemoryAddress str, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TranslateFunc) Interop.signalRegistry.get(hash);
         return handler.onTranslateFunc(str.getUtf8String(0));
     }

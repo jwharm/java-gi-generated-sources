@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Error codes for {@code GtkRecentManager} operations
  */
-public class RecentManagerError {
+public class RecentManagerError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the URI specified does not exists in
@@ -45,26 +45,8 @@ public class RecentManagerError {
      */
     public static final RecentManagerError UNKNOWN = new RecentManagerError(6);
     
-    private int value;
-    
     public RecentManagerError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(RecentManagerError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

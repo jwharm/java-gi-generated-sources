@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -156,7 +154,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(String v2) {
         var RESULT = gtk_h.g_string_equal(handle(), v2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

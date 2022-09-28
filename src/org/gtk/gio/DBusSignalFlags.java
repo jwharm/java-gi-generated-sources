@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used when subscribing to signals via g_dbus_connection_signal_subscribe().
  */
-public class DBusSignalFlags {
+public class DBusSignalFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -30,38 +30,8 @@ public class DBusSignalFlags {
      */
     public static final DBusSignalFlags MATCH_ARG0_PATH = new DBusSignalFlags(4);
     
-    private int value;
-    
     public DBusSignalFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusSignalFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusSignalFlags combined(DBusSignalFlags mask) {
-        return new DBusSignalFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusSignalFlags combined(DBusSignalFlags mask, DBusSignalFlags... masks) {
-        int value = mask.getValue();
-        for (DBusSignalFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusSignalFlags(value);
+        super(value);
     }
     
 }

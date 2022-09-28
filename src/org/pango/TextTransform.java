@@ -3,7 +3,7 @@ package org.pango;
 /**
  * An enumeration that affects how Pango treats characters during shaping.
  */
-public class TextTransform {
+public class TextTransform extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Leave text unchanged
@@ -26,26 +26,8 @@ public class TextTransform {
      */
     public static final TextTransform CAPITALIZE = new TextTransform(3);
     
-    private int value;
-    
     public TextTransform(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TextTransform[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

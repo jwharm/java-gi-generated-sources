@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Error codes that identify various errors that can occur while using
  * {@code GtkBuilder}.
  */
-public class BuilderError {
+public class BuilderError extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * A type-func attribute didn’t name
@@ -92,26 +92,8 @@ public class BuilderError {
      */
     public static final BuilderError INVALID_FUNCTION = new BuilderError(14);
     
-    private int value;
-    
     public BuilderError(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(BuilderError[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

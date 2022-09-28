@@ -11,7 +11,7 @@ package org.gtk.gdkpixbuf;
  * <strong>*Note*</strong>: Cubic filtering is missing from the list; hyperbolic
  * interpolation is just as fast and results in higher quality.
  */
-public class InterpType {
+public class InterpType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Nearest neighbor sampling; this is the fastest
@@ -50,26 +50,8 @@ public class InterpType {
      */
     public static final InterpType HYPER = new InterpType(3);
     
-    private int value;
-    
     public InterpType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(InterpType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

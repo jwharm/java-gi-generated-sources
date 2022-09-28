@@ -3,7 +3,7 @@ package org.gnome.adw;
 /**
  * Describes title centering behavior of a {@link HeaderBar} widget.
  */
-public class CenteringPolicy {
+public class CenteringPolicy extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Keep the title centered when possible
@@ -15,26 +15,8 @@ public class CenteringPolicy {
      */
     public static final CenteringPolicy STRICT = new CenteringPolicy(1);
     
-    private int value;
-    
     public CenteringPolicy(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(CenteringPolicy[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

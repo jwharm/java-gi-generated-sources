@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Describes a type of line wrapping.
  */
-public class WrapMode {
+public class WrapMode extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * do not wrap lines; just make the text area wider
@@ -28,26 +28,8 @@ public class WrapMode {
      */
     public static final WrapMode WORD_CHAR = new WrapMode(3);
     
-    private int value;
-    
     public WrapMode(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(WrapMode[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

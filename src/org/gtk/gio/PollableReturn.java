@@ -11,7 +11,7 @@ package org.gtk.gio;
  * In case of {@link PollableReturn#FAILED} a {@link org.gtk.glib.Error} should be set for the
  * operation to give details about the error that happened.
  */
-public class PollableReturn {
+public class PollableReturn extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Generic error condition for when an operation fails.
@@ -28,26 +28,8 @@ public class PollableReturn {
      */
     public static final PollableReturn WOULD_BLOCK = new PollableReturn(-27);
     
-    private int value;
-    
     public PollableReturn(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(PollableReturn[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

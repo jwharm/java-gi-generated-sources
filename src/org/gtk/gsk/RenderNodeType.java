@@ -3,7 +3,7 @@ package org.gtk.gsk;
 /**
  * The type of a node determines what the node is rendering.
  */
-public class RenderNodeType {
+public class RenderNodeType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Error type. No node will ever have this type.
@@ -135,26 +135,8 @@ public class RenderNodeType {
      */
     public static final RenderNodeType GL_SHADER_NODE = new RenderNodeType(25);
     
-    private int value;
-    
     public RenderNodeType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(RenderNodeType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

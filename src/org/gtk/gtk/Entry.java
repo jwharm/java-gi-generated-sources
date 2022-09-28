@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -136,7 +134,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public boolean getActivatesDefault() {
         var RESULT = gtk_h.gtk_entry_get_activates_default(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -199,7 +197,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public boolean getHasFrame() {
         var RESULT = gtk_h.gtk_entry_get_has_frame(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -207,7 +205,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public boolean getIconActivatable(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_activatable(handle(), iconPos.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -275,7 +273,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public boolean getIconSensitive(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_sensitive(handle(), iconPos.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -348,7 +346,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public boolean getOverwriteMode() {
         var RESULT = gtk_h.gtk_entry_get_overwrite_mode(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -407,7 +405,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public boolean getVisibility() {
         var RESULT = gtk_h.gtk_entry_get_visibility(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -420,7 +418,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public boolean grabFocusWithoutSelecting() {
         var RESULT = gtk_h.gtk_entry_grab_focus_without_selecting(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -757,7 +755,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -766,7 +764,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     public static void __signalEntryActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Entry.ActivateHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Entry(References.get(source)));
     }
@@ -789,7 +787,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -798,7 +796,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     public static void __signalEntryIconPress(MemoryAddress source, int iconPos, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Entry.IconPressHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
     }
@@ -822,7 +820,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -831,7 +829,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     public static void __signalEntryIconRelease(MemoryAddress source, int iconPos, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Entry.IconReleaseHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
     }

@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -83,7 +81,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      */
     public boolean activate(ShortcutActionFlags flags, Widget widget, org.gtk.glib.Variant args) {
         var RESULT = gtk_h.gtk_shortcut_action_activate(handle(), flags.getValue(), widget.handle(), args.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

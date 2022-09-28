@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -182,7 +180,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      */
     public boolean addChild(Widget child, java.lang.String id) {
         var RESULT = gtk_h.gtk_popover_menu_add_child(handle(), child.handle(), Interop.allocateNativeString(id).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -199,7 +197,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      */
     public boolean removeChild(Widget child) {
         var RESULT = gtk_h.gtk_popover_menu_remove_child(handle(), child.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

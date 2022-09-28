@@ -11,7 +11,7 @@ package org.gtk.gio;
  * it's possible for an unknown DTLS protocol version to compare less
  * than the TLS protocol versions.
  */
-public class TlsProtocolVersion {
+public class TlsProtocolVersion extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No protocol version or unknown protocol version
@@ -53,26 +53,8 @@ public class TlsProtocolVersion {
      */
     public static final TlsProtocolVersion DTLS_1_2 = new TlsProtocolVersion(202);
     
-    private int value;
-    
     public TlsProtocolVersion(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TlsProtocolVersion[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -150,7 +148,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean contains(java.lang.String key) {
         var RESULT = gtk_h.g_variant_dict_contains(handle(), Interop.allocateNativeString(key).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -232,7 +230,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean remove(java.lang.String key) {
         var RESULT = gtk_h.g_variant_dict_remove(handle(), Interop.allocateNativeString(key).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

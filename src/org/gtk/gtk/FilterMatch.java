@@ -7,7 +7,7 @@ package org.gtk.gtk;
  * {@link FilterMatch#SOME} is always an acceptable value,
  * even if a filter does match all or no items.
  */
-public class FilterMatch {
+public class FilterMatch extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * The filter matches some items,
@@ -27,26 +27,8 @@ public class FilterMatch {
      */
     public static final FilterMatch ALL = new FilterMatch(2);
     
-    private int value;
-    
     public FilterMatch(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FilterMatch[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

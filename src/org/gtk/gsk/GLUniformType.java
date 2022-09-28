@@ -7,7 +7,7 @@ package org.gtk.gsk;
  * It defines both what the type is called in the GLSL shader
  * code, and what the corresponding C type is on the Gtk side.
  */
-public class GLUniformType {
+public class GLUniformType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * No type, used for uninitialized or unspecified values.
@@ -49,26 +49,8 @@ public class GLUniformType {
      */
     public static final GLUniformType VEC4 = new GLUniformType(7);
     
-    private int value;
-    
     public GLUniformType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(GLUniformType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

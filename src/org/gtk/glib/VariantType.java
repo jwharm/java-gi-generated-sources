@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -298,7 +296,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(VariantType type2) {
         var RESULT = gtk_h.g_variant_type_equal(handle(), type2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -367,7 +365,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isArray() {
         var RESULT = gtk_h.g_variant_type_is_array(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -383,7 +381,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isBasic() {
         var RESULT = gtk_h.g_variant_type_is_basic(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -398,7 +396,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isContainer() {
         var RESULT = gtk_h.g_variant_type_is_container(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -415,7 +413,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isDefinite() {
         var RESULT = gtk_h.g_variant_type_is_definite(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -428,7 +426,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isDictEntry() {
         var RESULT = gtk_h.g_variant_type_is_dict_entry(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -441,7 +439,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isMaybe() {
         var RESULT = gtk_h.g_variant_type_is_maybe(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -453,7 +451,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isSubtypeOf(VariantType supertype) {
         var RESULT = gtk_h.g_variant_type_is_subtype_of(handle(), supertype.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -467,7 +465,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isTuple() {
         var RESULT = gtk_h.g_variant_type_is_tuple(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -475,7 +473,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isVariant() {
         var RESULT = gtk_h.g_variant_type_is_variant(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -563,7 +561,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean stringIsValid(java.lang.String typeString) {
         var RESULT = gtk_h.g_variant_type_string_is_valid(Interop.allocateNativeString(typeString).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -583,7 +581,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean stringScan(java.lang.String string, java.lang.String limit, java.lang.String[] endptr) {
         var RESULT = gtk_h.g_variant_type_string_scan(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

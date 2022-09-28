@@ -1,8 +1,6 @@
 package org.gtk.gobject;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -139,7 +137,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public void addFinalizeNotifier(ClosureNotify notifyFunc) {
         try {
             gtk_h.g_closure_add_finalize_notifier(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -160,7 +158,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public void addInvalidateNotifier(ClosureNotify notifyFunc) {
         try {
             gtk_h.g_closure_add_invalidate_notifier(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -182,13 +180,13 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public void addMarshalGuards(ClosureNotify preMarshalNotify, ClosureNotify postMarshalNotify) {
         try {
             gtk_h.g_closure_add_marshal_guards(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -244,7 +242,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public void removeFinalizeNotifier(ClosureNotify notifyFunc) {
         try {
             gtk_h.g_closure_remove_finalize_notifier(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -263,7 +261,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public void removeInvalidateNotifier(ClosureNotify notifyFunc) {
         try {
             gtk_h.g_closure_remove_invalidate_notifier(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -296,7 +294,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     public void setMetaMarshal(ClosureMarshal metaMarshal) {
         try {
             gtk_h.g_closure_set_meta_marshal(handle(), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(metaMarshal.hashCode(), metaMarshal)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(metaMarshal.hashCode(), metaMarshal)), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

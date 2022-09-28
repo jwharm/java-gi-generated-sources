@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -72,7 +70,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public boolean getExpanded() {
         var RESULT = gtk_h.gtk_tree_list_row_get_expanded(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -122,7 +120,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public boolean isExpandable() {
         var RESULT = gtk_h.gtk_tree_list_row_is_expandable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

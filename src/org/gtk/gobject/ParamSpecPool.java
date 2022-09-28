@@ -1,8 +1,6 @@
 package org.gtk.gobject;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -25,6 +23,15 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      */
     public void insert(ParamSpec pspec, org.gtk.gobject.Type ownerType) {
         gtk_h.g_param_spec_pool_insert(handle(), pspec.handle(), ownerType.getValue());
+    }
+    
+    /**
+     * Gets an array of all {@code GParamSpecs} owned by {@code owner_type} in
+     * the pool.
+     */
+    public PointerIterator<ParamSpec> list(org.gtk.gobject.Type ownerType, PointerInteger nPspecsP) {
+        var RESULT = gtk_h.g_param_spec_pool_list(handle(), ownerType.getValue(), nPspecsP.handle());
+        return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
     }
     
     /**

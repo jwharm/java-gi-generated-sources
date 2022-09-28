@@ -1,8 +1,6 @@
 package org.gtk.gsk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -32,6 +30,14 @@ public class LinearGradientNode extends RenderNode {
      */
     public LinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
         super(constructNew(bounds, start, end, colorStops, nColorStops));
+    }
+    
+    /**
+     * Retrieves the color stops in the gradient.
+     */
+    public PointerIterator<ColorStop> getColorStops(PointerLong nStops) {
+        var RESULT = gtk_h.gsk_linear_gradient_node_get_color_stops(handle(), nStops.handle());
+        return new PointerProxy<ColorStop>(RESULT, ColorStop.class).iterator();
     }
     
     /**

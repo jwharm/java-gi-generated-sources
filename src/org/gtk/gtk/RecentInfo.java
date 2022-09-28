@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -39,7 +37,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean exists() {
         var RESULT = gtk_h.gtk_recent_info_exists(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -69,7 +67,15 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getApplicationInfo(java.lang.String appName, java.lang.String[] appExec, PointerInteger count, org.gtk.glib.DateTime[] stamp) {
         var RESULT = gtk_h.gtk_recent_info_get_application_info(handle(), Interop.allocateNativeString(appName).handle(), Interop.allocateNativeArray(appExec).handle(), count.handle(), Interop.allocateNativeArray(stamp).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Retrieves the list of applications that have registered this resource.
+     */
+    public PointerIterator<java.lang.String> getApplications(PointerLong length) {
+        var RESULT = gtk_h.gtk_recent_info_get_applications(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -100,6 +106,17 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Returns all groups registered for the recently used item {@code info}.
+     * <p>
+     * The array of returned group names will be {@code null} terminated, so
+     * length might optionally be {@code null}.
+     */
+    public PointerIterator<java.lang.String> getGroups(PointerLong length) {
+        var RESULT = gtk_h.gtk_recent_info_get_groups(handle(), length.handle());
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
      * Gets the MIME type of the resource.
      */
     public java.lang.String getMimeType() {
@@ -125,7 +142,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getPrivateHint() {
         var RESULT = gtk_h.gtk_recent_info_get_private_hint(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -174,7 +191,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean hasApplication(java.lang.String appName) {
         var RESULT = gtk_h.gtk_recent_info_has_application(handle(), Interop.allocateNativeString(appName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -183,7 +200,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean hasGroup(java.lang.String groupName) {
         var RESULT = gtk_h.gtk_recent_info_has_group(handle(), Interop.allocateNativeString(groupName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -192,7 +209,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isLocal() {
         var RESULT = gtk_h.gtk_recent_info_is_local(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -209,7 +226,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean match(RecentInfo infoB) {
         var RESULT = gtk_h.gtk_recent_info_match(handle(), infoB.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

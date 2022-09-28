@@ -1,6 +1,6 @@
 package org.cairographics;
 
-public class DeviceType {
+public class DeviceType extends io.github.jwharm.javagi.Enumeration {
 
     public static final DeviceType DRM = new DeviceType(0);
     
@@ -20,26 +20,8 @@ public class DeviceType {
     
     public static final DeviceType INVALID = new DeviceType(-1);
     
-    private int value;
-    
     public DeviceType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DeviceType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

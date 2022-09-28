@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Flags used in g_dbus_connection_call() and similar APIs.
  */
-public class DBusCallFlags {
+public class DBusCallFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * No flags set.
@@ -23,38 +23,8 @@ public class DBusCallFlags {
      */
     public static final DBusCallFlags ALLOW_INTERACTIVE_AUTHORIZATION = new DBusCallFlags(2);
     
-    private int value;
-    
     public DBusCallFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DBusCallFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public DBusCallFlags combined(DBusCallFlags mask) {
-        return new DBusCallFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static DBusCallFlags combined(DBusCallFlags mask, DBusCallFlags... masks) {
-        int value = mask.getValue();
-        for (DBusCallFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new DBusCallFlags(value);
+        super(value);
     }
     
 }

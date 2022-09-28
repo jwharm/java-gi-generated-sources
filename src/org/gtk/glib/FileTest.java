@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * A test to perform on a file using g_file_test().
  */
-public class FileTest {
+public class FileTest extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * {@code true} if the file is a regular file
@@ -33,38 +33,8 @@ public class FileTest {
      */
     public static final FileTest EXISTS = new FileTest(16);
     
-    private int value;
-    
     public FileTest(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileTest[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public FileTest combined(FileTest mask) {
-        return new FileTest(this.getValue() | mask.getValue());
-    }
-    
-    public static FileTest combined(FileTest mask, FileTest... masks) {
-        int value = mask.getValue();
-        for (FileTest arg : masks) {
-            value |= arg.getValue();
-        }
-        return new FileTest(value);
+        super(value);
     }
     
 }

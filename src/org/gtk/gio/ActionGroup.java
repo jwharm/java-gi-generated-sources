@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +52,7 @@ import java.lang.invoke.*;
  * not be implemented - their "wrappers" are actually implemented with
  * calls to g_action_group_query_action().
  */
-public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
+public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Emits the {@link ActionGroup}::action-added signal on {@code action_group}.
@@ -156,7 +154,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getActionEnabled(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_group_get_action_enabled(handle(), Interop.allocateNativeString(actionName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -247,7 +245,18 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean hasAction(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_group_has_action(handle(), Interop.allocateNativeString(actionName).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Lists the actions contained within {@code action_group}.
+     * <p>
+     * The caller is responsible for freeing the list with g_strfreev() when
+     * it is no longer required.
+     */
+    public default PointerIterator<java.lang.String> listActions() {
+        var RESULT = gtk_h.g_action_group_list_actions(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -281,7 +290,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean queryAction(java.lang.String actionName, PointerBoolean enabled, org.gtk.glib.VariantType[] parameterType, org.gtk.glib.VariantType[] stateType, org.gtk.glib.Variant[] stateHint, org.gtk.glib.Variant[] state) {
         var RESULT = gtk_h.g_action_group_query_action(handle(), Interop.allocateNativeString(actionName).handle(), enabled.handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(stateType).handle(), Interop.allocateNativeArray(stateHint).handle(), Interop.allocateNativeArray(state).handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -304,7 +313,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -313,7 +322,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalActionGroupActionAdded(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ActionGroup.ActionAddedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0));
     }
@@ -333,10 +342,10 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
                 Interop.allocateNativeString("action-enabled-changed").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ActionGroup.class, "__signalActionGroupActionEnabledChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -344,10 +353,10 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
         }
     }
     
-    public static void __signalActionGroupActionEnabledChanged(MemoryAddress source, MemoryAddress actionName, boolean enabled, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalActionGroupActionEnabledChanged(MemoryAddress source, MemoryAddress actionName, int enabled, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ActionGroup.ActionEnabledChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), enabled);
+        handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), enabled != 0);
     }
     
     @FunctionalInterface
@@ -370,7 +379,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -379,7 +388,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalActionGroupActionRemoved(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ActionGroup.ActionRemovedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0));
     }
@@ -402,7 +411,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -411,7 +420,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalActionGroupActionStateChanged(MemoryAddress source, MemoryAddress actionName, MemoryAddress value, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ActionGroup.ActionStateChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
     }

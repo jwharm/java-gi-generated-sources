@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * The selectors defined for specifying AAT feature settings.
  */
-public class AatLayoutFeatureSelectorT {
+public class AatLayoutFeatureSelectorT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Initial, unset feature selector
@@ -1260,26 +1260,8 @@ public class AatLayoutFeatureSelectorT {
      */
     public static final AatLayoutFeatureSelectorT FULL_WIDTH_CJK_ROMAN = new AatLayoutFeatureSelectorT(3);
     
-    private int value;
-    
     public AatLayoutFeatureSelectorT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AatLayoutFeatureSelectorT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

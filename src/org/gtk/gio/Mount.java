@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -28,14 +26,14 @@ import java.lang.invoke.*;
  * successfully.  If an {@code error} is present when g_mount_unmount_with_operation_finish()
  * is called, then it will be filled with any error information.
  */
-public interface Mount extends io.github.jwharm.javagi.NativeAddress {
+public interface Mount extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Checks if {@code mount} can be ejected.
      */
     public default boolean canEject() {
         var RESULT = gtk_h.g_mount_can_eject(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -43,7 +41,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canUnmount() {
         var RESULT = gtk_h.g_mount_can_unmount(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -59,7 +57,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +73,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -179,10 +177,46 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finishes guessing content types of {@code mount}. If any errors occurred
+     * during the operation, {@code error} will be set to contain the errors and
+     * {@code false} will be returned. In particular, you may get an
+     * {@link IOErrorEnum#NOT_SUPPORTED} if the mount does not support content
+     * guessing.
+     */
+    public default PointerIterator<java.lang.String> guessContentTypeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_mount_guess_content_type_finish(handle(), result.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
+    }
+    
+    /**
+     * Tries to guess the type of content stored on {@code mount}. Returns one or
+     * more textual identifiers of well-known content types (typically
+     * prefixed with "x-content/"), e.g. x-content/image-dcf for camera
+     * memory cards. See the
+     * <a href="http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec">shared-mime-info</a>
+     * specification for more on x-content types.
+     * <p>
+     * This is a synchronous operation and as such may block doing IO;
+     * see g_mount_guess_content_type() for the asynchronous version.
+     */
+    public default PointerIterator<java.lang.String> guessContentTypeSync(boolean forceRescan, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_mount_guess_content_type_sync(handle(), forceRescan ? 1 : 0, cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -212,7 +246,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean isShadowed() {
         var RESULT = gtk_h.g_mount_is_shadowed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -234,7 +268,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -250,7 +284,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -276,7 +310,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -292,7 +326,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -323,7 +357,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -332,7 +366,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalMountChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Mount.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Mount.MountImpl(References.get(source)));
     }
@@ -359,7 +393,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -368,7 +402,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalMountPreUnmount(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Mount.PreUnmountHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Mount.MountImpl(References.get(source)));
     }
@@ -394,7 +428,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -403,7 +437,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalMountUnmounted(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Mount.UnmountedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Mount.MountImpl(References.get(source)));
     }

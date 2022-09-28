@@ -3,7 +3,7 @@ package org.gtk.gio;
 /**
  * Specifies what type of event a monitor event is.
  */
-public class FileMonitorEvent {
+public class FileMonitorEvent extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * a file changed.
@@ -67,26 +67,8 @@ public class FileMonitorEvent {
      */
     public static final FileMonitorEvent MOVED_OUT = new FileMonitorEvent(10);
     
-    private int value;
-    
     public FileMonitorEvent(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FileMonitorEvent[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

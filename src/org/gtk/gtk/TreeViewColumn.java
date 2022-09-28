@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -76,7 +74,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public boolean cellGetPosition(CellRenderer cellRenderer, PointerInteger xOffset, PointerInteger width) {
         var RESULT = gtk_h.gtk_tree_view_column_cell_get_position(handle(), cellRenderer.handle(), xOffset.handle(), width.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -94,7 +92,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public boolean cellIsVisible() {
         var RESULT = gtk_h.gtk_tree_view_column_cell_is_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -160,7 +158,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public boolean getClickable() {
         var RESULT = gtk_h.gtk_tree_view_column_get_clickable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -168,7 +166,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public boolean getExpand() {
         var RESULT = gtk_h.gtk_tree_view_column_get_expand(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -203,7 +201,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public boolean getReorderable() {
         var RESULT = gtk_h.gtk_tree_view_column_get_reorderable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -211,7 +209,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public boolean getResizable() {
         var RESULT = gtk_h.gtk_tree_view_column_get_resizable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -238,7 +236,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public boolean getSortIndicator() {
         var RESULT = gtk_h.gtk_tree_view_column_get_sort_indicator(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -280,7 +278,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public boolean getVisible() {
         var RESULT = gtk_h.gtk_tree_view_column_get_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -361,7 +359,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -535,7 +533,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -544,7 +542,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     public static void __signalTreeViewColumnClicked(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TreeViewColumn.ClickedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TreeViewColumn(References.get(source)));
     }

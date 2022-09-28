@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +20,7 @@ import java.lang.invoke.*;
  * An object only needs to implement this interface if it needs to extend the
  * {@code GtkBuilder} XML format or run any extra routines at deserialization time.
  */
-public interface Buildable extends io.github.jwharm.javagi.NativeAddress {
+public interface Buildable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Gets the ID of the {@code buildable} object.

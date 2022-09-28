@@ -10,7 +10,7 @@ package org.gtk.glib;
  * where the same local time occurs twice (during daylight savings time
  * transitions, for example).
  */
-public class TimeType {
+public class TimeType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the time is in local standard time
@@ -27,26 +27,8 @@ public class TimeType {
      */
     public static final TimeType UNIVERSAL = new TimeType(2);
     
-    private int value;
-    
     public TimeType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(TimeType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

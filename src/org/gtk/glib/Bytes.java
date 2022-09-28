@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -40,7 +38,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Reference constructNew(byte[] data, long size) {
-        Reference RESULT = References.get(gtk_h.g_bytes_new(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true);
+        Reference RESULT = References.get(gtk_h.g_bytes_new(Interop.allocateNativeArray(data).handle(), size), true);
         return RESULT;
     }
     
@@ -54,7 +52,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Reference constructNewStatic(byte[] data, long size) {
-        Reference RESULT = References.get(gtk_h.g_bytes_new_static(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true);
+        Reference RESULT = References.get(gtk_h.g_bytes_new_static(Interop.allocateNativeArray(data).handle(), size), true);
         return RESULT;
     }
     
@@ -69,7 +67,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Reference constructNewTake(byte[] data, long size) {
-        Reference RESULT = References.get(gtk_h.g_bytes_new_take(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true);
+        Reference RESULT = References.get(gtk_h.g_bytes_new_take(Interop.allocateNativeArray(data).handle(), size), true);
         return RESULT;
     }
     
@@ -92,7 +90,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     }
     
     private static Reference constructNewWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, java.lang.foreign.MemoryAddress userData) {
-        Reference RESULT = References.get(gtk_h.g_bytes_new_with_free_func(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, 
+        Reference RESULT = References.get(gtk_h.g_bytes_new_with_free_func(Interop.allocateNativeArray(data).handle(), size, 
                     Interop.cbDestroyNotifySymbol(), userData), true);
         return RESULT;
     }
@@ -137,7 +135,21 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean equal(Bytes bytes2) {
         var RESULT = gtk_h.g_bytes_equal(handle(), bytes2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Get the byte data in the {@link Bytes}. This data should not be modified.
+     * <p>
+     * This function will always return the same pointer for a given {@link Bytes}.
+     * <p>
+     * {@code null} may be returned if {@code size} is 0. This is not guaranteed, as the {@link Bytes}
+     * may represent an empty string with {@code data} non-{@code null} and {@code size} as 0. {@code null} will
+     * not be returned if {@code size} is non-zero.
+     */
+    public PointerIterator<Byte> getData(PointerLong size) {
+        var RESULT = gtk_h.g_bytes_get_data(handle(), size.handle());
+        return new PointerByte(RESULT).iterator();
     }
     
     /**
@@ -220,6 +232,38 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         gtk_h.g_bytes_unref(handle());
+    }
+    
+    /**
+     * Unreferences the bytes, and returns a new mutable {@link ByteArray} containing
+     * the same byte data.
+     * <p>
+     * As an optimization, the byte data is transferred to the array without copying
+     * if this was the last reference to bytes and bytes was created with
+     * g_bytes_new(), g_bytes_new_take() or g_byte_array_free_to_bytes(). In all
+     * other cases the data is copied.
+     * <p>
+     * Do not use it if {@code bytes} contains more than {@code G_MAXUINT}
+     * bytes. {@link ByteArray} stores the length of its data in {@code guint}, which
+     * may be shorter than {@code gsize}, that {@code bytes} is using.
+     */
+    public PointerIterator<Byte> unrefToArray() {
+        var RESULT = gtk_h.g_bytes_unref_to_array(handle());
+        return new PointerByte(RESULT).iterator();
+    }
+    
+    /**
+     * Unreferences the bytes, and returns a pointer the same byte data
+     * contents.
+     * <p>
+     * As an optimization, the byte data is returned without copying if this was
+     * the last reference to bytes and bytes was created with g_bytes_new(),
+     * g_bytes_new_take() or g_byte_array_free_to_bytes(). In all other cases the
+     * data is copied.
+     */
+    public PointerIterator<Byte> unrefToData(PointerLong size) {
+        var RESULT = gtk_h.g_bytes_unref_to_data(handle(), size.handle());
+        return new PointerByte(RESULT).iterator();
     }
     
 }

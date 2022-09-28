@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -79,7 +77,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      */
     public boolean equal(ShortcutTrigger trigger2) {
         var RESULT = gtk_h.gtk_shortcut_trigger_equal(handle(), trigger2.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -124,7 +122,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      */
     public boolean printLabel(org.gtk.gdk.Display display, org.gtk.glib.String string) {
         var RESULT = gtk_h.gtk_shortcut_trigger_print_label(handle(), display.handle(), string.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

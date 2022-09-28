@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,7 +14,7 @@ import java.lang.invoke.*;
  * compression, decompression and regular expression
  * replace.
  */
-public interface Converter extends io.github.jwharm.javagi.NativeAddress {
+public interface Converter extends io.github.jwharm.javagi.Proxy {
 
     /**
      * This is the main operation used when converting data. It is to be called
@@ -104,7 +102,7 @@ public interface Converter extends io.github.jwharm.javagi.NativeAddress {
      */
     public default ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, ConverterFlags flags, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_converter_convert(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, inbuf)).handle(), inbufSize, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, outbuf)).handle(), outbufSize, flags.getValue(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+        var RESULT = gtk_h.g_converter_convert(handle(), Interop.allocateNativeArray(inbuf).handle(), inbufSize, Interop.allocateNativeArray(outbuf).handle(), outbufSize, flags.getValue(), bytesRead.handle(), bytesWritten.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

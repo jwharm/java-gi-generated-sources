@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -65,7 +63,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getScrollToFocus() {
         var RESULT = gtk_h.gtk_viewport_get_scroll_to_focus(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

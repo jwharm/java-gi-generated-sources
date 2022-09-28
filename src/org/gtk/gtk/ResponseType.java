@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * All predefined values are negative; GTK leaves values of 0 or greater for
  * application-defined response ids.
  */
-public class ResponseType {
+public class ResponseType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Returned if an action widget has no response id,
@@ -64,26 +64,8 @@ public class ResponseType {
      */
     public static final ResponseType HELP = new ResponseType(-11);
     
-    private int value;
-    
     public ResponseType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ResponseType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

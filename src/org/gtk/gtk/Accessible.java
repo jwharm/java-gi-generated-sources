@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +25,7 @@ import java.lang.invoke.*;
  * if a {@code GtkWidget} visibility changes, the {@link AccessibleState#HIDDEN}
  * state will also change to reflect the {@code Gtk.Widget:visible} property.
  */
-public interface Accessible extends io.github.jwharm.javagi.NativeAddress {
+public interface Accessible extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Retrieves the {@code GtkAccessibleRole} for the given {@code GtkAccessible}.
@@ -56,6 +54,42 @@ public interface Accessible extends io.github.jwharm.javagi.NativeAddress {
      */
     public default void resetState(AccessibleState state) {
         gtk_h.gtk_accessible_reset_state(handle(), state.getValue());
+    }
+    
+    /**
+     * Updates an array of accessible properties.
+     * <p>
+     * This function should be called by {@code GtkWidget} types whenever an accessible
+     * property change must be communicated to assistive technologies.
+     * <p>
+     * This function is meant to be used by language bindings.
+     */
+    public default void updatePropertyValue(int nProperties, AccessibleProperty[] properties, org.gtk.gobject.Value[] values) {
+        gtk_h.gtk_accessible_update_property_value(handle(), nProperties, Interop.allocateNativeArray(AccessibleProperty.getValues(properties)).handle(), Interop.allocateNativeArray(values).handle());
+    }
+    
+    /**
+     * Updates an array of accessible relations.
+     * <p>
+     * This function should be called by {@code GtkWidget} types whenever an accessible
+     * relation change must be communicated to assistive technologies.
+     * <p>
+     * This function is meant to be used by language bindings.
+     */
+    public default void updateRelationValue(int nRelations, AccessibleRelation[] relations, org.gtk.gobject.Value[] values) {
+        gtk_h.gtk_accessible_update_relation_value(handle(), nRelations, Interop.allocateNativeArray(AccessibleRelation.getValues(relations)).handle(), Interop.allocateNativeArray(values).handle());
+    }
+    
+    /**
+     * Updates an array of accessible states.
+     * <p>
+     * This function should be called by {@code GtkWidget} types whenever an accessible
+     * state change must be communicated to assistive technologies.
+     * <p>
+     * This function is meant to be used by language bindings.
+     */
+    public default void updateStateValue(int nStates, AccessibleState[] states, org.gtk.gobject.Value[] values) {
+        gtk_h.gtk_accessible_update_state_value(handle(), nStates, Interop.allocateNativeArray(AccessibleState.getValues(states)).handle(), Interop.allocateNativeArray(values).handle());
     }
     
     class AccessibleImpl extends org.gtk.gobject.Object implements Accessible {

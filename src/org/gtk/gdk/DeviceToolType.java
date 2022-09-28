@@ -4,7 +4,7 @@ package org.gtk.gdk;
  * Indicates the specific type of tool being used being a tablet. Such as an
  * airbrush, pencil, etc.
  */
-public class DeviceToolType {
+public class DeviceToolType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Tool is of an unknown type.
@@ -46,26 +46,8 @@ public class DeviceToolType {
      */
     public static final DeviceToolType LENS = new DeviceToolType(7);
     
-    private int value;
-    
     public DeviceToolType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(DeviceToolType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

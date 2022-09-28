@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * <p>
  * See {@link SpinButton#setUpdatePolicy}.
  */
-public class SpinButtonUpdatePolicy {
+public class SpinButtonUpdatePolicy extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * When refreshing your {@code GtkSpinButton}, the value is
@@ -21,26 +21,8 @@ public class SpinButtonUpdatePolicy {
      */
     public static final SpinButtonUpdatePolicy IF_VALID = new SpinButtonUpdatePolicy(1);
     
-    private int value;
-    
     public SpinButtonUpdatePolicy(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(SpinButtonUpdatePolicy[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

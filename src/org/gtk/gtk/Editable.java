@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -137,7 +135,7 @@ import java.lang.invoke.*;
  * and {@code Gtk.Editable::delete-text} signals, you will need to connect
  * to them on the delegate obtained via {@link Editable#getDelegate}.
  */
-public interface Editable extends io.github.jwharm.javagi.NativeAddress {
+public interface Editable extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Deletes the currently selected text of the editable.
@@ -211,7 +209,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getEditable() {
         var RESULT = gtk_h.gtk_editable_get_editable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -219,7 +217,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getEnableUndo() {
         var RESULT = gtk_h.gtk_editable_get_enable_undo(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -252,7 +250,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean getSelectionBounds(PointerInteger startPos, PointerInteger endPos) {
         var RESULT = gtk_h.gtk_editable_get_selection_bounds(handle(), startPos.handle(), endPos.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -392,7 +390,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      */
     public static boolean delegateGetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
         var RESULT = gtk_h.gtk_editable_delegate_get_property(object.handle(), propId, value.handle(), pspec.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -404,7 +402,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      */
     public static boolean delegateSetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
         var RESULT = gtk_h.gtk_editable_delegate_set_property(object.handle(), propId, value.handle(), pspec.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -454,7 +452,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -463,7 +461,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalEditableChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Editable.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Editable.EditableImpl(References.get(source)));
     }
@@ -494,7 +492,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -503,7 +501,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalEditableDeleteText(MemoryAddress source, int startPos, int endPos, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Editable.DeleteTextHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Editable.EditableImpl(References.get(source)), startPos, endPos);
     }
@@ -531,7 +529,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -540,7 +538,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalEditableInsertText(MemoryAddress source, MemoryAddress text, int length, int position, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Editable.InsertTextHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Editable.EditableImpl(References.get(source)), text.getUtf8String(0), length, position);
     }

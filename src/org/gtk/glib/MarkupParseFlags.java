@@ -3,7 +3,7 @@ package org.gtk.glib;
 /**
  * Flags that affect the behaviour of the parser.
  */
-public class MarkupParseFlags {
+public class MarkupParseFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * flag you should not use
@@ -36,38 +36,8 @@ public class MarkupParseFlags {
      */
     public static final MarkupParseFlags IGNORE_QUALIFIED = new MarkupParseFlags(8);
     
-    private int value;
-    
     public MarkupParseFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(MarkupParseFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public MarkupParseFlags combined(MarkupParseFlags mask) {
-        return new MarkupParseFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static MarkupParseFlags combined(MarkupParseFlags mask, MarkupParseFlags... masks) {
-        int value = mask.getValue();
-        for (MarkupParseFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new MarkupParseFlags(value);
+        super(value);
     }
     
 }

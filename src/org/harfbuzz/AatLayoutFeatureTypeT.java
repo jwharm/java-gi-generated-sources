@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * The possible feature types defined for AAT shaping, from Apple <a href="https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html">Font Feature Registry</a>.
  */
-public class AatLayoutFeatureTypeT {
+public class AatLayoutFeatureTypeT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Initial, unset feature type
@@ -205,26 +205,8 @@ public class AatLayoutFeatureTypeT {
      */
     public static final AatLayoutFeatureTypeT CJK_ROMAN_SPACING_TYPE = new AatLayoutFeatureTypeT(103);
     
-    private int value;
-    
     public AatLayoutFeatureTypeT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(AatLayoutFeatureTypeT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gnome.adw;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -42,7 +40,7 @@ public class LeafletPage extends org.gtk.gobject.Object {
      */
     public boolean getNavigatable() {
         var RESULT = gtk_h.adw_leaflet_page_get_navigatable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**

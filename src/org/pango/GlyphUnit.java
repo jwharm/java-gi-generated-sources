@@ -13,27 +13,9 @@ package org.pango;
  * The PANGO_PIXELS() macro can be used to convert from glyph units
  * into device units with correct rounding.
  */
-public class GlyphUnit {
-    private int value;
-    
+public class GlyphUnit extends io.github.jwharm.javagi.Alias<Integer> {
     public GlyphUnit(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(GlyphUnit[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

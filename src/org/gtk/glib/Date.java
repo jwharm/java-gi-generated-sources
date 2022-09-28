@@ -1,8 +1,6 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -247,7 +245,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isFirstOfMonth() {
         var RESULT = gtk_h.g_date_is_first_of_month(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -256,7 +254,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean isLastOfMonth() {
         var RESULT = gtk_h.g_date_is_last_of_month(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -387,7 +385,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean valid() {
         var RESULT = gtk_h.g_date_valid(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -437,7 +435,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean isLeapYear(DateYear year) {
         var RESULT = gtk_h.g_date_is_leap_year(year.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -466,7 +464,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean validDay(DateDay day) {
         var RESULT = gtk_h.g_date_valid_day(day.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -476,7 +474,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean validDmy(DateDay day, DateMonth month, DateYear year) {
         var RESULT = gtk_h.g_date_valid_dmy(day.getValue(), month.getValue(), year.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -485,7 +483,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean validJulian(int julianDate) {
         var RESULT = gtk_h.g_date_valid_julian(julianDate);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -494,7 +492,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean validMonth(DateMonth month) {
         var RESULT = gtk_h.g_date_valid_month(month.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -503,7 +501,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean validWeekday(DateWeekday weekday) {
         var RESULT = gtk_h.g_date_valid_weekday(weekday.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -512,7 +510,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean validYear(DateYear year) {
         var RESULT = gtk_h.g_date_valid_year(year.getValue());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
 }

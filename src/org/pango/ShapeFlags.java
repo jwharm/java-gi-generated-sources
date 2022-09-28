@@ -5,7 +5,7 @@ package org.pango;
  * <p>
  * {@code PangoShapeFlags} can be passed to {@link Pango#shapeWithFlags}.
  */
-public class ShapeFlags {
+public class ShapeFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * Default value
@@ -18,38 +18,8 @@ public class ShapeFlags {
      */
     public static final ShapeFlags ROUND_POSITIONS = new ShapeFlags(1);
     
-    private int value;
-    
     public ShapeFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ShapeFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ShapeFlags combined(ShapeFlags mask) {
-        return new ShapeFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static ShapeFlags combined(ShapeFlags mask, ShapeFlags... masks) {
-        int value = mask.getValue();
-        for (ShapeFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ShapeFlags(value);
+        super(value);
     }
     
 }

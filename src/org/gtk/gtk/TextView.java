@@ -1,8 +1,6 @@
 package org.gtk.gtk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -124,7 +122,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean backwardDisplayLine(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_backward_display_line(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -140,7 +138,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean backwardDisplayLineStart(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_backward_display_line_start(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -163,7 +161,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean forwardDisplayLine(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_forward_display_line(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -179,7 +177,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean forwardDisplayLineEnd(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_forward_display_line_end(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -189,7 +187,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getAcceptsTab() {
         var RESULT = gtk_h.gtk_text_view_get_accepts_tab(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -242,7 +240,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getCursorVisible() {
         var RESULT = gtk_h.gtk_text_view_get_cursor_visible(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -252,7 +250,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getEditable() {
         var RESULT = gtk_h.gtk_text_view_get_editable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -314,7 +312,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getIterAtLocation(TextIter iter, int x, int y) {
         var RESULT = gtk_h.gtk_text_view_get_iter_at_location(handle(), iter.handle(), x, y);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -331,7 +329,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getIterAtPosition(TextIter iter, PointerInteger trailing, int x, int y) {
         var RESULT = gtk_h.gtk_text_view_get_iter_at_position(handle(), iter.handle(), trailing.handle(), x, y);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -405,7 +403,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getMonospace() {
         var RESULT = gtk_h.gtk_text_view_get_monospace(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -413,7 +411,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean getOverwrite() {
         var RESULT = gtk_h.gtk_text_view_get_overwrite(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -542,7 +540,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean imContextFilterKeypress(org.gtk.gdk.Event event) {
         var RESULT = gtk_h.gtk_text_view_im_context_filter_keypress(handle(), event.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -551,7 +549,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean moveMarkOnscreen(TextMark mark) {
         var RESULT = gtk_h.gtk_text_view_move_mark_onscreen(handle(), mark.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -579,7 +577,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean moveVisually(TextIter iter, int count) {
         var RESULT = gtk_h.gtk_text_view_move_visually(handle(), iter.handle(), count);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -588,7 +586,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean placeCursorOnscreen() {
         var RESULT = gtk_h.gtk_text_view_place_cursor_onscreen(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -649,7 +647,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean scrollToIter(TextIter iter, double withinMargin, boolean useAlign, double xalign, double yalign) {
         var RESULT = gtk_h.gtk_text_view_scroll_to_iter(handle(), iter.handle(), withinMargin, useAlign ? 1 : 0, xalign, yalign);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -882,7 +880,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public boolean startsDisplayLine(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_starts_display_line(handle(), iter.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -916,7 +914,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -925,7 +923,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewBackspace(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.BackspaceHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)));
     }
@@ -954,7 +952,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -963,7 +961,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewCopyClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.CopyClipboardHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)));
     }
@@ -992,7 +990,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1001,7 +999,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewCutClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.CutClipboardHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)));
     }
@@ -1035,7 +1033,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1044,7 +1042,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)), new DeleteType(type), count);
     }
@@ -1067,7 +1065,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1076,7 +1074,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static boolean __signalTextViewExtendSelection(MemoryAddress source, int granularity, MemoryAddress location, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.ExtendSelectionHandler) Interop.signalRegistry.get(hash);
         return handler.signalReceived(new TextView(References.get(source)), new TextExtendSelection(granularity), new TextIter(References.get(location, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
     }
@@ -1104,7 +1102,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1113,7 +1111,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.InsertAtCursorHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)), string.getUtf8String(0));
     }
@@ -1142,7 +1140,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1151,7 +1149,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewInsertEmoji(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.InsertEmojiHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)));
     }
@@ -1194,10 +1192,10 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewMoveCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1205,10 +1203,10 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static void __signalTextViewMoveCursor(MemoryAddress source, int step, int count, boolean extendSelection, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalTextViewMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), new MovementStep(step), count, extendSelection);
+        handler.signalReceived(new TextView(References.get(source)), new MovementStep(step), count, extendSelection != 0);
     }
     
     @FunctionalInterface
@@ -1236,7 +1234,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1245,7 +1243,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewMoveViewport(MemoryAddress source, int step, int count, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.MoveViewportHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)), new ScrollStep(step), count);
     }
@@ -1275,7 +1273,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1284,7 +1282,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewPasteClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.PasteClipboardHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)));
     }
@@ -1314,7 +1312,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1323,7 +1321,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.PreeditChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)), preedit.getUtf8String(0));
     }
@@ -1351,10 +1349,10 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 Interop.allocateNativeString("select-all").handle(),
                 Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewSelectAll",
-                        MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1362,10 +1360,10 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static void __signalTextViewSelectAll(MemoryAddress source, boolean select, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+    public static void __signalTextViewSelectAll(MemoryAddress source, int select, MemoryAddress data) {
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.SelectAllHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), select);
+        handler.signalReceived(new TextView(References.get(source)), select != 0);
     }
     
     @FunctionalInterface
@@ -1393,7 +1391,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1402,7 +1400,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewSetAnchor(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.SetAnchorHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)));
     }
@@ -1430,7 +1428,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1439,7 +1437,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewToggleCursorVisible(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.ToggleCursorVisibleHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)));
     }
@@ -1466,7 +1464,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -1475,7 +1473,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     public static void __signalTextViewToggleOverwrite(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TextView.ToggleOverwriteHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new TextView(References.get(source)));
     }

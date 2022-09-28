@@ -4,7 +4,7 @@ package org.gtk.gobject;
  * The connection flags are used to specify the behaviour of a signal's
  * connection.
  */
-public class ConnectFlags {
+public class ConnectFlags extends io.github.jwharm.javagi.Bitfield {
 
     /**
      * whether the handler should be called before or after the
@@ -18,38 +18,8 @@ public class ConnectFlags {
      */
     public static final ConnectFlags SWAPPED = new ConnectFlags(2);
     
-    private int value;
-    
     public ConnectFlags(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(ConnectFlags[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
-    }
-    
-    public ConnectFlags combined(ConnectFlags mask) {
-        return new ConnectFlags(this.getValue() | mask.getValue());
-    }
-    
-    public static ConnectFlags combined(ConnectFlags mask, ConnectFlags... masks) {
-        int value = mask.getValue();
-        for (ConnectFlags arg : masks) {
-            value |= arg.getValue();
-        }
-        return new ConnectFlags(value);
+        super(value);
     }
     
 }

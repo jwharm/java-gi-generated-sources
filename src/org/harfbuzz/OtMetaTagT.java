@@ -3,7 +3,7 @@ package org.harfbuzz;
 /**
  * Known metadata tags from https://docs.microsoft.com/en-us/typography/opentype/spec/meta
  */
-public class OtMetaTagT {
+public class OtMetaTagT extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Design languages. Text, using only
@@ -19,26 +19,8 @@ public class OtMetaTagT {
      */
     public static final OtMetaTagT SUPPORTED_LANGUAGES = new OtMetaTagT(1936485991);
     
-    private int value;
-    
     public OtMetaTagT(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(OtMetaTagT[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

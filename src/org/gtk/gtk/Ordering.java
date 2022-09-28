@@ -8,7 +8,7 @@ package org.gtk.gtk;
  * For converting such a value to a {@code GtkOrdering} value, use
  * {@link Gtk#Ordering}.
  */
-public class Ordering {
+public class Ordering extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * the first value is smaller than the second
@@ -25,26 +25,8 @@ public class Ordering {
      */
     public static final Ordering LARGER = new Ordering(1);
     
-    private int value;
-    
     public Ordering(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(Ordering[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

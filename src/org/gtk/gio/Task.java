@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -528,7 +526,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback))), true);
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback))), true);
             return RESULT;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -571,7 +569,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean getCheckCancellable() {
         var RESULT = gtk_h.g_task_get_check_cancellable(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -581,7 +579,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean getCompleted() {
         var RESULT = gtk_h.g_task_get_completed(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -620,7 +618,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean getReturnOnCancel() {
         var RESULT = gtk_h.g_task_get_return_on_cancel(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -653,7 +651,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean hadError() {
         var RESULT = gtk_h.g_task_had_error(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -671,7 +669,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -729,7 +727,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -766,7 +764,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean returnErrorIfCancelled() {
         var RESULT = gtk_h.g_task_return_error_if_cancelled(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -873,7 +871,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean setReturnOnCancel(boolean returnOnCancel) {
         var RESULT = gtk_h.g_task_set_return_on_cancel(handle(), returnOnCancel ? 1 : 0);
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -909,7 +907,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public static boolean isValid(AsyncResult result, org.gtk.gobject.Object sourceObject) {
         var RESULT = gtk_h.g_task_is_valid(result.handle(), sourceObject.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -930,7 +928,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), sourceTag, error.getReference().unowned().handle());
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), sourceTag, error.getReference().unowned().handle());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

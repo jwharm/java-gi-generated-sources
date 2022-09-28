@@ -8,7 +8,7 @@ import java.lang.foreign.ValueLayout;
  * Use {@code new PointerBoolean()} to create an instance, and
  * use {@link #get()} afterwards to retreive the results.
  */
-public class PointerBoolean extends Pointer {
+public class PointerBoolean extends Pointer<Boolean> {
 
     /**
      * Create the pointer. It does not point to a specific value.
@@ -35,14 +35,14 @@ public class PointerBoolean extends Pointer {
     /**
      * Use this mehod to set the value that the pointer points to.
      */
-    public void set(boolean value) {
+    public void set(Boolean value) {
         address.set(ValueLayout.JAVA_INT, 0, value ? 1 : 0);
     }
     
     /**
      * Use this method to retreive the value that the pointer points to.
      */
-    public boolean get() {
+    public Boolean get() {
         return get(0);
     }
     
@@ -51,7 +51,7 @@ public class PointerBoolean extends Pointer {
      * @param index The array index
      * @return The value stored at the given index
      */
-    public boolean get(int index) {
+    public Boolean get(int index) {
         return address.get(
                 ValueLayout.JAVA_INT, 
                 ValueLayout.JAVA_INT.byteSize() * index

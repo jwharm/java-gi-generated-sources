@@ -1,8 +1,6 @@
 package org.gtk.gdk;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,14 +14,14 @@ import java.lang.invoke.*;
  * They can be modal, which is indicated by the {@code GdkPopup:autohide}
  * property.
  */
-public interface Popup extends io.github.jwharm.javagi.NativeAddress {
+public interface Popup extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Returns whether this popup is set to hide on outside clicks.
      */
     public default boolean getAutohide() {
         var RESULT = gtk_h.gdk_popup_get_autohide(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -91,7 +89,7 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean present(int width, int height, PopupLayout layout) {
         var RESULT = gtk_h.gdk_popup_present(handle(), width, height, layout.handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     class PopupImpl extends org.gtk.gobject.Object implements Popup {

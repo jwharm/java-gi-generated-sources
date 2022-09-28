@@ -5,7 +5,7 @@ package org.gtk.gio;
  * previewed in a file manager. Returned as the value of the key
  * {@code G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW}.
  */
-public class FilesystemPreviewType {
+public class FilesystemPreviewType extends io.github.jwharm.javagi.Enumeration {
 
     /**
      * Only preview files if user has explicitly requested it.
@@ -22,26 +22,8 @@ public class FilesystemPreviewType {
      */
     public static final FilesystemPreviewType NEVER = new FilesystemPreviewType(2);
     
-    private int value;
-    
     public FilesystemPreviewType(int value) {
-        this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
-    }
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    public static int[] getValues(FilesystemPreviewType[] array) {
-        int[] values = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            values[i] = array[i].getValue();
-        }
-        return values;
+        super(value);
     }
     
 }

@@ -1,8 +1,6 @@
 package org.gtk.gio;
 
-import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,14 +48,14 @@ import java.lang.invoke.*;
  * identifier, which can be used to obtain a hal device by means of
  * libhal_manager_find_device_string_match().
  */
-public interface Volume extends io.github.jwharm.javagi.NativeAddress {
+public interface Volume extends io.github.jwharm.javagi.Proxy {
 
     /**
      * Checks if a volume can be ejected.
      */
     public default boolean canEject() {
         var RESULT = gtk_h.g_volume_can_eject(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -65,7 +63,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean canMount() {
         var RESULT = gtk_h.g_volume_can_mount(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -81,7 +79,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -97,7 +95,16 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets the kinds of [identifiers][volume-identifier] that {@code volume} has.
+     * Use g_volume_get_identifier() to obtain the identifiers themselves.
+     */
+    public default PointerIterator<java.lang.String> enumerateIdentifiers() {
+        var RESULT = gtk_h.g_volume_enumerate_identifiers(handle());
+        return new PointerString(RESULT).iterator();
     }
     
     /**
@@ -215,7 +222,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -236,7 +243,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     /**
@@ -244,7 +251,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
      */
     public default boolean shouldAutomount() {
         var RESULT = gtk_h.g_volume_should_automount(handle());
-        return (RESULT != 0);
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -265,7 +272,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -274,7 +281,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalVolumeChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Volume.ChangedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
     }
@@ -299,7 +306,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
                 MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (IllegalAccessException | NoSuchMethodException e) {
@@ -308,7 +315,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     }
     
     public static void __signalVolumeRemoved(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (Volume.RemovedHandler) Interop.signalRegistry.get(hash);
         handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
     }
