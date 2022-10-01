@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
 
-    public ShaderArgsBuilder(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShaderArgsBuilder(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(GLShader shader, org.gtk.glib.Bytes initialValues) {
-        Reference RESULT = References.get(gtk_h.gsk_shader_args_builder_new(shader.handle(), initialValues.handle()), true);
+    private static Refcounted constructNew(GLShader shader, org.gtk.glib.Bytes initialValues) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_shader_args_builder_new(shader.handle(), initialValues.handle()), true);
         return RESULT;
     }
     
@@ -36,7 +36,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.Bytes freeToArgs() {
         var RESULT = gtk_h.gsk_shader_args_builder_free_to_args(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -44,7 +44,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public ShaderArgsBuilder ref() {
         var RESULT = gtk_h.gsk_shader_args_builder_ref(handle());
-        return new ShaderArgsBuilder(References.get(RESULT, true));
+        return new ShaderArgsBuilder(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -125,7 +125,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.Bytes toArgs() {
         var RESULT = gtk_h.gsk_shader_args_builder_to_args(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**

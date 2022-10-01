@@ -7,12 +7,12 @@ import java.lang.invoke.*;
 
 public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public WidgetClass(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WidgetClass(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public WidgetClass() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkWidgetClass.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkWidgetClass.allocate(Interop.getAllocator()).address()));
     }
     
     /**

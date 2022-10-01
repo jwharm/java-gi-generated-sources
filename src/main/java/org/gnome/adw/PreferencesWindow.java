@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class PreferencesWindow extends Window implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
 
-    public PreferencesWindow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PreferencesWindow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PreferencesWindow */
     public static PreferencesWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new PreferencesWindow(gobject.getReference());
+        return new PreferencesWindow(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_preferences_window_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_preferences_window_new(), false);
         return RESULT;
     }
     
@@ -57,7 +57,7 @@ public class PreferencesWindow extends Window implements org.gtk.gtk.Accessible,
      * See {@link ToastOverlay#addToast}.
      */
     public void addToast(Toast toast) {
-        gtk_h.adw_preferences_window_add_toast(handle(), toast.getReference().unowned().handle());
+        gtk_h.adw_preferences_window_add_toast(handle(), toast.refcounted().unowned().handle());
     }
     
     /**
@@ -90,7 +90,7 @@ public class PreferencesWindow extends Window implements org.gtk.gtk.Accessible,
      */
     public PreferencesPage getVisiblePage() {
         var RESULT = gtk_h.adw_preferences_window_get_visible_page(handle());
-        return new PreferencesPage(References.get(RESULT, false));
+        return new PreferencesPage(Refcounted.get(RESULT, false));
     }
     
     /**

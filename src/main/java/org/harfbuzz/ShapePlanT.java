@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  */
 public class ShapePlanT extends io.github.jwharm.javagi.ResourceBase {
 
-    public ShapePlanT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShapePlanT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

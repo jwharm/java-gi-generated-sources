@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  */
 public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
 
-    public SingleSelection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SingleSelection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SingleSelection */
     public static SingleSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new SingleSelection(gobject.getReference());
+        return new SingleSelection(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_single_selection_new(model.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(org.gtk.gio.ListModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_single_selection_new(model.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -60,7 +60,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_single_selection_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -80,7 +80,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = gtk_h.gtk_single_selection_get_selected_item(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**

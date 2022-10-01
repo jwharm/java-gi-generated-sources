@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase {
 
-    public ContentFormatsBuilder(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ContentFormatsBuilder(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gdk_content_formats_builder_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_formats_builder_new(), true);
         return RESULT;
     }
     
@@ -58,7 +58,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
      */
     public ContentFormats freeToFormats() {
         var RESULT = gtk_h.gdk_content_formats_builder_free_to_formats(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -69,7 +69,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
      */
     public ContentFormatsBuilder ref() {
         var RESULT = gtk_h.gdk_content_formats_builder_ref(handle());
-        return new ContentFormatsBuilder(References.get(RESULT, false));
+        return new ContentFormatsBuilder(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -83,7 +83,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
      */
     public ContentFormats toFormats() {
         var RESULT = gtk_h.gdk_content_formats_builder_to_formats(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -122,7 +122,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      */
     public default Icon getIcon() {
         var RESULT = gtk_h.g_drive_get_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -164,7 +164,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      */
     public default Icon getSymbolicIcon() {
         var RESULT = gtk_h.g_drive_get_symbolic_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -175,7 +175,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.List getVolumes() {
         var RESULT = gtk_h.g_drive_get_volumes(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -434,32 +434,32 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         public static void signalDriveChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Drive.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+            handler.signalReceived(new Drive.DriveImpl(Refcounted.get(source)));
         }
         
         public static void signalDriveDisconnected(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Drive.DisconnectedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+            handler.signalReceived(new Drive.DriveImpl(Refcounted.get(source)));
         }
         
         public static void signalDriveEjectButton(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Drive.EjectButtonHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+            handler.signalReceived(new Drive.DriveImpl(Refcounted.get(source)));
         }
         
         public static void signalDriveStopButton(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Drive.StopButtonHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+            handler.signalReceived(new Drive.DriveImpl(Refcounted.get(source)));
         }
         
     }
     
     class DriveImpl extends org.gtk.gobject.Object implements Drive {
-        public DriveImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public DriveImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

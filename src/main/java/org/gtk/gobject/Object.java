@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class Object extends io.github.jwharm.javagi.ResourceBase {
 
-    public Object(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Object(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Object */
     public static Object castFrom(org.gtk.gobject.Object gobject) {
-        return new Object(gobject.getReference());
+        return new Object(gobject.refcounted());
     }
     
-    private static Reference constructNewValist(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
-        Reference RESULT = References.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true);
+    private static Refcounted constructNewValist(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true);
         return RESULT;
     }
     
@@ -45,8 +45,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         return new Object(constructNewValist(objectType, firstPropertyName, varArgs));
     }
     
-    private static Reference constructNewWithProperties(org.gtk.gobject.Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
-        Reference RESULT = References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true);
+    private static Refcounted constructNewWithProperties(org.gtk.gobject.Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true);
         return RESULT;
     }
     
@@ -62,8 +62,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         return new Object(constructNewWithProperties(objectType, nProperties, names, values));
     }
     
-    private static Reference constructNewv(org.gtk.gobject.Type objectType, int nParameters, Parameter[] parameters) {
-        Reference RESULT = References.get(gtk_h.g_object_newv(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters).handle()), true);
+    private static Refcounted constructNewv(org.gtk.gobject.Type objectType, int nParameters, Parameter[] parameters) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_object_newv(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters).handle()), true);
         return RESULT;
     }
     
@@ -171,7 +171,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public Binding bindProperty(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags) {
         var RESULT = gtk_h.g_object_bind_property(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue());
-        return new Binding(References.get(RESULT, false));
+        return new Binding(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -216,7 +216,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(transformTo.hashCode(), transformTo)), 
                     Interop.cbDestroyNotifySymbol());
-            return new Binding(References.get(RESULT, false));
+            return new Binding(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -233,7 +233,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public Binding bindPropertyWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, Closure transformTo, Closure transformFrom) {
         var RESULT = gtk_h.g_object_bind_property_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), transformTo.handle(), transformFrom.handle());
-        return new Binding(References.get(RESULT, false));
+        return new Binding(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -465,7 +465,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public Object ref() {
         var RESULT = gtk_h.g_object_ref(handle());
-        return new Object(References.get(RESULT, false));
+        return new Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -483,7 +483,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public Object refSink() {
         var RESULT = gtk_h.g_object_ref_sink(handle());
-        return new Object(References.get(RESULT, false));
+        return new Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -691,7 +691,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public Object takeRef() {
         var RESULT = gtk_h.g_object_take_ref(handle());
-        return new Object(References.get(RESULT, true));
+        return new Object(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -794,7 +794,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public static ParamSpec interfaceFindProperty(TypeInterface gIface, java.lang.String propertyName) {
         var RESULT = gtk_h.g_object_interface_find_property(gIface.handle(), Interop.allocateNativeString(propertyName).handle());
-        return new ParamSpec(References.get(RESULT, false));
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -885,7 +885,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         public static void signalObjectNotify(MemoryAddress source, MemoryAddress pspec, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Object.NotifyHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Object(References.get(source)), new ParamSpec(References.get(pspec, false)));
+            handler.signalReceived(new Object(Refcounted.get(source)), new ParamSpec(Refcounted.get(pspec, false)));
         }
         
     }

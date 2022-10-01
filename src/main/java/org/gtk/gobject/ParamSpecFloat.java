@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecFloat extends ParamSpec {
 
-    public ParamSpecFloat(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpecFloat(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ParamSpecFloat */
     public static ParamSpecFloat castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecFloat(gobject.getReference());
+        return new ParamSpecFloat(gobject.refcounted());
     }
     
 }

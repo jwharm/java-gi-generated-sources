@@ -26,17 +26,17 @@ import java.lang.invoke.*;
  */
 public class FontChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
 
-    public FontChooserWidget(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FontChooserWidget */
     public static FontChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new FontChooserWidget(gobject.getReference());
+        return new FontChooserWidget(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_font_chooser_widget_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_font_chooser_widget_new(), false);
         return RESULT;
     }
     

@@ -36,17 +36,17 @@ import java.lang.invoke.*;
  */
 public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public ComboRow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ComboRow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ComboRow */
     public static ComboRow castFrom(org.gtk.gobject.Object gobject) {
-        return new ComboRow(gobject.getReference());
+        return new ComboRow(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_combo_row_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_combo_row_new(), false);
         return RESULT;
     }
     
@@ -62,7 +62,7 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
      */
     public org.gtk.gtk.Expression getExpression() {
         var RESULT = gtk_h.adw_combo_row_get_expression(handle());
-        return new org.gtk.gtk.Expression(References.get(RESULT, false));
+        return new org.gtk.gtk.Expression(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
      */
     public org.gtk.gtk.ListItemFactory getFactory() {
         var RESULT = gtk_h.adw_combo_row_get_factory(handle());
-        return new org.gtk.gtk.ListItemFactory(References.get(RESULT, false));
+        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
      */
     public org.gtk.gtk.ListItemFactory getListFactory() {
         var RESULT = gtk_h.adw_combo_row_get_list_factory(handle());
-        return new org.gtk.gtk.ListItemFactory(References.get(RESULT, false));
+        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -86,7 +86,7 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.adw_combo_row_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = gtk_h.adw_combo_row_get_selected_item(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**

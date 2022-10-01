@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class RepeatNode extends RenderNode {
 
-    public RepeatNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RepeatNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to RepeatNode */
     public static RepeatNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RepeatNode(gobject.getReference());
+        return new RepeatNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.graphene.Rect bounds, RenderNode child, org.gtk.graphene.Rect childBounds) {
-        Reference RESULT = References.get(gtk_h.gsk_repeat_node_new(bounds.handle(), child.handle(), childBounds.handle()), true);
+    private static Refcounted constructNew(org.gtk.graphene.Rect bounds, RenderNode child, org.gtk.graphene.Rect childBounds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_repeat_node_new(bounds.handle(), child.handle(), childBounds.handle()), true);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class RepeatNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_repeat_node_get_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -45,7 +45,7 @@ public class RepeatNode extends RenderNode {
      */
     public org.gtk.graphene.Rect getChildBounds() {
         var RESULT = gtk_h.gsk_repeat_node_get_child_bounds(handle());
-        return new org.gtk.graphene.Rect(References.get(RESULT, false));
+        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
     }
     
 }

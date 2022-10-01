@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixOutputStreamPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public UnixOutputStreamPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixOutputStreamPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

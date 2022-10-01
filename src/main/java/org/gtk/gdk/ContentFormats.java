@@ -41,12 +41,12 @@ import java.lang.invoke.*;
  */
 public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
 
-    public ContentFormats(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ContentFormats(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String[] mimeTypes, int nMimeTypes) {
-        Reference RESULT = References.get(gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes).handle(), nMimeTypes), true);
+    private static Refcounted constructNew(java.lang.String[] mimeTypes, int nMimeTypes) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes).handle(), nMimeTypes), true);
         return RESULT;
     }
     
@@ -61,8 +61,8 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(mimeTypes, nMimeTypes));
     }
     
-    private static Reference constructNewForGtype(org.gtk.gobject.Type type) {
-        Reference RESULT = References.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true);
+    private static Refcounted constructNewForGtype(org.gtk.gobject.Type type) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true);
         return RESULT;
     }
     
@@ -156,7 +156,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public ContentFormats ref() {
         var RESULT = gtk_h.gdk_content_formats_ref(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -178,7 +178,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public ContentFormats union(ContentFormats second) {
         var RESULT = gtk_h.gdk_content_formats_union(handle(), second.handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -187,7 +187,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public ContentFormats unionDeserializeGtypes() {
         var RESULT = gtk_h.gdk_content_formats_union_deserialize_gtypes(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -196,7 +196,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public ContentFormats unionDeserializeMimeTypes() {
         var RESULT = gtk_h.gdk_content_formats_union_deserialize_mime_types(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -205,7 +205,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public ContentFormats unionSerializeGtypes() {
         var RESULT = gtk_h.gdk_content_formats_union_serialize_gtypes(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -214,7 +214,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public ContentFormats unionSerializeMimeTypes() {
         var RESULT = gtk_h.gdk_content_formats_union_serialize_mime_types(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -238,7 +238,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      */
     public static ContentFormats parse(java.lang.String string) {
         var RESULT = gtk_h.gdk_content_formats_parse(Interop.allocateNativeString(string).handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
 }

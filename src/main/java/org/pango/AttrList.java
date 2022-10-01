@@ -20,12 +20,12 @@ import java.lang.invoke.*;
  */
 public class AttrList extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.pango_attr_list_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_attr_list_new(), true);
         return RESULT;
     }
     
@@ -52,7 +52,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * never removes or combines existing attributes.
      */
     public void change(Attribute attr) {
-        gtk_h.pango_attr_list_change(handle(), attr.getReference().unowned().handle());
+        gtk_h.pango_attr_list_change(handle(), attr.refcounted().unowned().handle());
     }
     
     /**
@@ -60,7 +60,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrList copy() {
         var RESULT = gtk_h.pango_attr_list_copy(handle());
-        return new AttrList(References.get(RESULT, true));
+        return new AttrList(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -90,7 +90,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new AttrList(References.get(RESULT, true));
+            return new AttrList(Refcounted.get(RESULT, true));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -101,7 +101,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.SList getAttributes() {
         var RESULT = gtk_h.pango_attr_list_get_attributes(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, true));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -111,7 +111,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrIterator getIterator() {
         var RESULT = gtk_h.pango_attr_list_get_iterator(handle());
-        return new AttrIterator(References.get(RESULT, true));
+        return new AttrIterator(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -121,7 +121,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * matching {@code start_index}.
      */
     public void insert(Attribute attr) {
-        gtk_h.pango_attr_list_insert(handle(), attr.getReference().unowned().handle());
+        gtk_h.pango_attr_list_insert(handle(), attr.refcounted().unowned().handle());
     }
     
     /**
@@ -131,7 +131,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * matching {@code start_index}.
      */
     public void insertBefore(Attribute attr) {
-        gtk_h.pango_attr_list_insert_before(handle(), attr.getReference().unowned().handle());
+        gtk_h.pango_attr_list_insert_before(handle(), attr.refcounted().unowned().handle());
     }
     
     /**
@@ -140,7 +140,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrList ref() {
         var RESULT = gtk_h.pango_attr_list_ref(handle());
-        return new AttrList(References.get(RESULT, true));
+        return new AttrList(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -221,7 +221,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static AttrList fromString(java.lang.String text) {
         var RESULT = gtk_h.pango_attr_list_from_string(Interop.allocateNativeString(text).handle());
-        return new AttrList(References.get(RESULT, true));
+        return new AttrList(Refcounted.get(RESULT, true));
     }
     
 }

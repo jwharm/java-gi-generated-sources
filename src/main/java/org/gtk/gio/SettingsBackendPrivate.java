@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SettingsBackendPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public SettingsBackendPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SettingsBackendPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class MediaControls extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public MediaControls(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MediaControls(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MediaControls */
     public static MediaControls castFrom(org.gtk.gobject.Object gobject) {
-        return new MediaControls(gobject.getReference());
+        return new MediaControls(gobject.refcounted());
     }
     
-    private static Reference constructNew(MediaStream stream) {
-        Reference RESULT = References.get(gtk_h.gtk_media_controls_new(stream.handle()), false);
+    private static Refcounted constructNew(MediaStream stream) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_controls_new(stream.handle()), false);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
      */
     public MediaStream getMediaStream() {
         var RESULT = gtk_h.gtk_media_controls_get_media_stream(handle());
-        return new MediaStream(References.get(RESULT, false));
+        return new MediaStream(Refcounted.get(RESULT, false));
     }
     
     /**

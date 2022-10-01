@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class LanguageT extends io.github.jwharm.javagi.ResourceBase {
 
-    public LanguageT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LanguageT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**

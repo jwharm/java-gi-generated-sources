@@ -50,13 +50,13 @@ import java.lang.invoke.*;
  */
 public class ShortcutsWindow extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public ShortcutsWindow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShortcutsWindow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ShortcutsWindow */
     public static ShortcutsWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutsWindow(gobject.getReference());
+        return new ShortcutsWindow(gobject.refcounted());
     }
     
     @FunctionalInterface
@@ -124,13 +124,13 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
         public static void signalShortcutsWindowClose(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ShortcutsWindow.CloseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ShortcutsWindow(References.get(source)));
+            handler.signalReceived(new ShortcutsWindow(Refcounted.get(source)));
         }
         
         public static void signalShortcutsWindowSearch(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ShortcutsWindow.SearchHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ShortcutsWindow(References.get(source)));
+            handler.signalReceived(new ShortcutsWindow(Refcounted.get(source)));
         }
         
     }

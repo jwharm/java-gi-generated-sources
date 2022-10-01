@@ -27,7 +27,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new IOStream(References.get(RESULT, true));
+        return new IOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -56,7 +56,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new IOStream(References.get(RESULT, true));
+        return new IOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -79,12 +79,12 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
      */
     public static Proxy getDefaultForProtocol(java.lang.String protocol) {
         var RESULT = gtk_h.g_proxy_get_default_for_protocol(Interop.allocateNativeString(protocol).handle());
-        return new Proxy.ProxyImpl(References.get(RESULT, true));
+        return new Proxy.ProxyImpl(Refcounted.get(RESULT, true));
     }
     
     class ProxyImpl extends org.gtk.gobject.Object implements Proxy {
-        public ProxyImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ProxyImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

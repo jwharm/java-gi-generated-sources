@@ -37,17 +37,17 @@ import java.lang.invoke.*;
  */
 public class EmojiChooser extends Popover implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
 
-    public EmojiChooser(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EmojiChooser(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EmojiChooser */
     public static EmojiChooser castFrom(org.gtk.gobject.Object gobject) {
-        return new EmojiChooser(gobject.getReference());
+        return new EmojiChooser(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_emoji_chooser_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_emoji_chooser_new(), false);
         return RESULT;
     }
     
@@ -89,7 +89,7 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
         public static void signalEmojiChooserEmojiPicked(MemoryAddress source, MemoryAddress text, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EmojiChooser.EmojiPickedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EmojiChooser(References.get(source)), text.getUtf8String(0));
+            handler.signalReceived(new EmojiChooser(Refcounted.get(source)), text.getUtf8String(0));
         }
         
     }

@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class DBusErrorEntry extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusErrorEntry(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusErrorEntry(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public DBusErrorEntry() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusErrorEntry.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusErrorEntry.allocate(Interop.getAllocator()).address()));
     }
     
 }

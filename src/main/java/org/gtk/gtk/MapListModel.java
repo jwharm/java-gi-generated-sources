@@ -36,18 +36,18 @@ import java.lang.invoke.*;
  */
 public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public MapListModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MapListModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MapListModel */
     public static MapListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new MapListModel(gobject.getReference());
+        return new MapListModel(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc) {
+    private static Refcounted constructNew(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc) {
         try {
-            Reference RESULT = References.get(gtk_h.gtk_map_list_model_new(model.getReference().unowned().handle(), 
+            Refcounted RESULT = Refcounted.get(gtk_h.gtk_map_list_model_new(model.refcounted().unowned().handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -73,7 +73,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_map_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**

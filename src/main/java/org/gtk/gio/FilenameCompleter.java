@@ -12,17 +12,17 @@ import java.lang.invoke.*;
  */
 public class FilenameCompleter extends org.gtk.gobject.Object {
 
-    public FilenameCompleter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FilenameCompleter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FilenameCompleter */
     public static FilenameCompleter castFrom(org.gtk.gobject.Object gobject) {
-        return new FilenameCompleter(gobject.getReference());
+        return new FilenameCompleter(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_filename_completer_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_filename_completer_new(), true);
         return RESULT;
     }
     
@@ -88,7 +88,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
         public static void signalFilenameCompleterGotCompletionData(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FilenameCompleter.GotCompletionDataHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FilenameCompleter(References.get(source)));
+            handler.signalReceived(new FilenameCompleter(Refcounted.get(source)));
         }
         
     }

@@ -24,17 +24,17 @@ import java.lang.invoke.*;
  */
 public class ThreadedSocketService extends SocketService {
 
-    public ThreadedSocketService(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ThreadedSocketService(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ThreadedSocketService */
     public static ThreadedSocketService castFrom(org.gtk.gobject.Object gobject) {
-        return new ThreadedSocketService(gobject.getReference());
+        return new ThreadedSocketService(gobject.refcounted());
     }
     
-    private static Reference constructNew(int maxThreads) {
-        Reference RESULT = References.get(gtk_h.g_threaded_socket_service_new(maxThreads), true);
+    private static Refcounted constructNew(int maxThreads) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_threaded_socket_service_new(maxThreads), true);
         return RESULT;
     }
     
@@ -80,7 +80,7 @@ public class ThreadedSocketService extends SocketService {
         public static boolean signalThreadedSocketServiceRun(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ThreadedSocketService.RunHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new ThreadedSocketService(References.get(source)), new SocketConnection(References.get(connection, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)));
+            return handler.signalReceived(new ThreadedSocketService(Refcounted.get(source)), new SocketConnection(Refcounted.get(connection, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)));
         }
         
     }

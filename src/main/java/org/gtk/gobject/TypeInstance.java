@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypeInstance(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeInstance(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TypeInstance() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeInstance.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeInstance.allocate(Interop.getAllocator()).address()));
     }
     
     public java.lang.foreign.MemoryAddress getPrivate(org.gtk.gobject.Type privateType) {

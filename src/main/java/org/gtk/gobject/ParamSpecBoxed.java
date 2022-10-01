@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecBoxed extends ParamSpec {
 
-    public ParamSpecBoxed(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpecBoxed(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ParamSpecBoxed */
     public static ParamSpecBoxed castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecBoxed(gobject.getReference());
+        return new ParamSpecBoxed(gobject.refcounted());
     }
     
 }

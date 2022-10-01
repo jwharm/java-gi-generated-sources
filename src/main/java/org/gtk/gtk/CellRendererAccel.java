@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class CellRendererAccel extends CellRendererText {
 
-    public CellRendererAccel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererAccel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRendererAccel */
     public static CellRendererAccel castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererAccel(gobject.getReference());
+        return new CellRendererAccel(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_accel_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_accel_new(), false);
         return RESULT;
     }
     
@@ -92,13 +92,13 @@ public class CellRendererAccel extends CellRendererText {
         public static void signalCellRendererAccelAccelCleared(MemoryAddress source, MemoryAddress pathString, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellRendererAccel.AccelClearedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererAccel(References.get(source)), pathString.getUtf8String(0));
+            handler.signalReceived(new CellRendererAccel(Refcounted.get(source)), pathString.getUtf8String(0));
         }
         
         public static void signalCellRendererAccelAccelEdited(MemoryAddress source, MemoryAddress pathString, int accelKey, int accelMods, int hardwareKeycode, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellRendererAccel.AccelEditedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererAccel(References.get(source)), pathString.getUtf8String(0), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
+            handler.signalReceived(new CellRendererAccel(Refcounted.get(source)), pathString.getUtf8String(0), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
         }
         
     }

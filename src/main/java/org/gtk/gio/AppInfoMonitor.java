@@ -26,13 +26,13 @@ import java.lang.invoke.*;
  */
 public class AppInfoMonitor extends org.gtk.gobject.Object {
 
-    public AppInfoMonitor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AppInfoMonitor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AppInfoMonitor */
     public static AppInfoMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new AppInfoMonitor(gobject.getReference());
+        return new AppInfoMonitor(gobject.refcounted());
     }
     
     /**
@@ -48,7 +48,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      */
     public static AppInfoMonitor get() {
         var RESULT = gtk_h.g_app_info_monitor_get();
-        return new AppInfoMonitor(References.get(RESULT, true));
+        return new AppInfoMonitor(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -83,7 +83,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
         public static void signalAppInfoMonitorChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppInfoMonitor.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppInfoMonitor(References.get(source)));
+            handler.signalReceived(new AppInfoMonitor(Refcounted.get(source)));
         }
         
     }

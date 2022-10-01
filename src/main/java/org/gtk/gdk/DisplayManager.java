@@ -51,13 +51,13 @@ import java.lang.invoke.*;
  */
 public class DisplayManager extends org.gtk.gobject.Object {
 
-    public DisplayManager(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DisplayManager(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DisplayManager */
     public static DisplayManager castFrom(org.gtk.gobject.Object gobject) {
-        return new DisplayManager(gobject.getReference());
+        return new DisplayManager(gobject.refcounted());
     }
     
     /**
@@ -65,7 +65,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      */
     public Display getDefaultDisplay() {
         var RESULT = gtk_h.gdk_display_manager_get_default_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -73,7 +73,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.SList listDisplays() {
         var RESULT = gtk_h.gdk_display_manager_list_displays(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      */
     public Display openDisplay(java.lang.String name) {
         var RESULT = gtk_h.gdk_display_manager_open_display(handle(), Interop.allocateNativeString(name).handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -104,7 +104,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      */
     public static DisplayManager get() {
         var RESULT = gtk_h.gdk_display_manager_get();
-        return new DisplayManager(References.get(RESULT, false));
+        return new DisplayManager(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -138,7 +138,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         public static void signalDisplayManagerDisplayOpened(MemoryAddress source, MemoryAddress display, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DisplayManager.DisplayOpenedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DisplayManager(References.get(source)), new Display(References.get(display, false)));
+            handler.signalReceived(new DisplayManager(Refcounted.get(source)), new Display(Refcounted.get(display, false)));
         }
         
     }

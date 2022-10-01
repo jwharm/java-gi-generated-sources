@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class ParseLocation extends io.github.jwharm.javagi.ResourceBase {
 
-    public ParseLocation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParseLocation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ParseLocation() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GskParseLocation.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GskParseLocation.allocate(Interop.getAllocator()).address()));
     }
     
 }

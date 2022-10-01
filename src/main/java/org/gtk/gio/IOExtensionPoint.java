@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOExtensionPoint(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOExtensionPoint(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -20,7 +20,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public IOExtension getExtensionByName(java.lang.String name) {
         var RESULT = gtk_h.g_io_extension_point_get_extension_by_name(handle(), Interop.allocateNativeString(name).handle());
-        return new IOExtension(References.get(RESULT, false));
+        return new IOExtension(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -29,7 +29,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List getExtensions() {
         var RESULT = gtk_h.g_io_extension_point_get_extensions(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public static IOExtension implement(java.lang.String extensionPointName, org.gtk.gobject.Type type, java.lang.String extensionName, int priority) {
         var RESULT = gtk_h.g_io_extension_point_implement(Interop.allocateNativeString(extensionPointName).handle(), type.getValue(), Interop.allocateNativeString(extensionName).handle(), priority);
-        return new IOExtension(References.get(RESULT, false));
+        return new IOExtension(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public static IOExtensionPoint lookup(java.lang.String name) {
         var RESULT = gtk_h.g_io_extension_point_lookup(Interop.allocateNativeString(name).handle());
-        return new IOExtensionPoint(References.get(RESULT, false));
+        return new IOExtensionPoint(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -73,7 +73,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public static IOExtensionPoint register(java.lang.String name) {
         var RESULT = gtk_h.g_io_extension_point_register(Interop.allocateNativeString(name).handle());
-        return new IOExtensionPoint(References.get(RESULT, false));
+        return new IOExtensionPoint(Refcounted.get(RESULT, false));
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TlsCertificatePrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public TlsCertificatePrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TlsCertificatePrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

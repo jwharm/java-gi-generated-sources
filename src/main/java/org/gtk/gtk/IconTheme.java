@@ -41,17 +41,17 @@ import java.lang.invoke.*;
  */
 public class IconTheme extends org.gtk.gobject.Object {
 
-    public IconTheme(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IconTheme(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to IconTheme */
     public static IconTheme castFrom(org.gtk.gobject.Object gobject) {
-        return new IconTheme(gobject.getReference());
+        return new IconTheme(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_icon_theme_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_icon_theme_new(), true);
         return RESULT;
     }
     
@@ -95,7 +95,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = gtk_h.gtk_icon_theme_get_display(handle());
-        return new org.gtk.gdk.Display(References.get(RESULT, false));
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -174,7 +174,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public IconPaintable lookupByGicon(org.gtk.gio.Icon icon, int size, int scale, TextDirection direction, IconLookupFlags flags) {
         var RESULT = gtk_h.gtk_icon_theme_lookup_by_gicon(handle(), icon.handle(), size, scale, direction.getValue(), flags.getValue());
-        return new IconPaintable(References.get(RESULT, true));
+        return new IconPaintable(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -197,7 +197,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public IconPaintable lookupIcon(java.lang.String iconName, java.lang.String[] fallbacks, int size, int scale, TextDirection direction, IconLookupFlags flags) {
         var RESULT = gtk_h.gtk_icon_theme_lookup_icon(handle(), Interop.allocateNativeString(iconName).handle(), Interop.allocateNativeArray(fallbacks).handle(), size, scale, direction.getValue(), flags.getValue());
-        return new IconPaintable(References.get(RESULT, true));
+        return new IconPaintable(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -261,7 +261,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public static IconTheme getForDisplay(org.gtk.gdk.Display display) {
         var RESULT = gtk_h.gtk_icon_theme_get_for_display(display.handle());
-        return new IconTheme(References.get(RESULT, false));
+        return new IconTheme(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -299,7 +299,7 @@ public class IconTheme extends org.gtk.gobject.Object {
         public static void signalIconThemeChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconTheme.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IconTheme(References.get(source)));
+            handler.signalReceived(new IconTheme(Refcounted.get(source)));
         }
         
     }

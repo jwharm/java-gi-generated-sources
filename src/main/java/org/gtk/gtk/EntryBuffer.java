@@ -19,17 +19,17 @@ import java.lang.invoke.*;
  */
 public class EntryBuffer extends org.gtk.gobject.Object {
 
-    public EntryBuffer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EntryBuffer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EntryBuffer */
     public static EntryBuffer castFrom(org.gtk.gobject.Object gobject) {
-        return new EntryBuffer(gobject.getReference());
+        return new EntryBuffer(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String initialChars, int nInitialChars) {
-        Reference RESULT = References.get(gtk_h.gtk_entry_buffer_new(Interop.allocateNativeString(initialChars).handle(), nInitialChars), true);
+    private static Refcounted constructNew(java.lang.String initialChars, int nInitialChars) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_entry_buffer_new(Interop.allocateNativeString(initialChars).handle(), nInitialChars), true);
         return RESULT;
     }
     
@@ -210,13 +210,13 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         public static void signalEntryBufferDeletedText(MemoryAddress source, int position, int nChars, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EntryBuffer.DeletedTextHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EntryBuffer(References.get(source)), position, nChars);
+            handler.signalReceived(new EntryBuffer(Refcounted.get(source)), position, nChars);
         }
         
         public static void signalEntryBufferInsertedText(MemoryAddress source, int position, MemoryAddress chars, int nChars, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EntryBuffer.InsertedTextHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EntryBuffer(References.get(source)), position, chars.getUtf8String(0), nChars);
+            handler.signalReceived(new EntryBuffer(Refcounted.get(source)), position, chars.getUtf8String(0), nChars);
         }
         
     }

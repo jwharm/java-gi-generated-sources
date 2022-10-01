@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class StyleManager extends org.gtk.gobject.Object {
 
-    public StyleManager(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StyleManager(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to StyleManager */
     public static StyleManager castFrom(org.gtk.gobject.Object gobject) {
-        return new StyleManager(gobject.getReference());
+        return new StyleManager(gobject.refcounted());
     }
     
     /**
@@ -50,7 +50,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = gtk_h.adw_style_manager_get_display(handle());
-        return new org.gtk.gdk.Display(References.get(RESULT, false));
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      */
     public static StyleManager getDefault() {
         var RESULT = gtk_h.adw_style_manager_get_default();
-        return new StyleManager(References.get(RESULT, false));
+        return new StyleManager(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -104,7 +104,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      */
     public static StyleManager getForDisplay(org.gtk.gdk.Display display) {
         var RESULT = gtk_h.adw_style_manager_get_for_display(display.handle());
-        return new StyleManager(References.get(RESULT, false));
+        return new StyleManager(Refcounted.get(RESULT, false));
     }
     
 }

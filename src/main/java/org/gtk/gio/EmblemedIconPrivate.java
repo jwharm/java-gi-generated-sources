@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class EmblemedIconPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public EmblemedIconPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EmblemedIconPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

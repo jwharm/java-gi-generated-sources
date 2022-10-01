@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypeClass(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeClass(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TypeClass() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeClass.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeClass.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -50,7 +50,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public TypeClass peekParent() {
         var RESULT = gtk_h.g_type_class_peek_parent(handle());
-        return new TypeClass(References.get(RESULT, false));
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -86,7 +86,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public static TypeClass peek(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_peek(type.getValue());
-        return new TypeClass(References.get(RESULT, false));
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -95,7 +95,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public static TypeClass peekStatic(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_peek_static(type.getValue());
-        return new TypeClass(References.get(RESULT, false));
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -105,7 +105,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public static TypeClass ref(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_ref(type.getValue());
-        return new TypeClass(References.get(RESULT, false));
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
 }

@@ -24,17 +24,17 @@ import java.lang.invoke.*;
  */
 public class Shortcut extends org.gtk.gobject.Object {
 
-    public Shortcut(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Shortcut(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Shortcut */
     public static Shortcut castFrom(org.gtk.gobject.Object gobject) {
-        return new Shortcut(gobject.getReference());
+        return new Shortcut(gobject.refcounted());
     }
     
-    private static Reference constructNew(ShortcutTrigger trigger, ShortcutAction action) {
-        Reference RESULT = References.get(gtk_h.gtk_shortcut_new(trigger.getReference().unowned().handle(), action.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(ShortcutTrigger trigger, ShortcutAction action) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_new(trigger.refcounted().unowned().handle(), action.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -51,7 +51,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      */
     public ShortcutAction getAction() {
         var RESULT = gtk_h.gtk_shortcut_get_action(handle());
-        return new ShortcutAction(References.get(RESULT, false));
+        return new ShortcutAction(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getArguments() {
         var RESULT = gtk_h.gtk_shortcut_get_arguments(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -67,14 +67,14 @@ public class Shortcut extends org.gtk.gobject.Object {
      */
     public ShortcutTrigger getTrigger() {
         var RESULT = gtk_h.gtk_shortcut_get_trigger(handle());
-        return new ShortcutTrigger(References.get(RESULT, false));
+        return new ShortcutTrigger(Refcounted.get(RESULT, false));
     }
     
     /**
      * Sets the new action for {@code self} to be {@code action}.
      */
     public void setAction(ShortcutAction action) {
-        gtk_h.gtk_shortcut_set_action(handle(), action.getReference().unowned().handle());
+        gtk_h.gtk_shortcut_set_action(handle(), action.refcounted().unowned().handle());
     }
     
     /**
@@ -88,7 +88,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      * Sets the new trigger for {@code self} to be {@code trigger}.
      */
     public void setTrigger(ShortcutTrigger trigger) {
-        gtk_h.gtk_shortcut_set_trigger(handle(), trigger.getReference().unowned().handle());
+        gtk_h.gtk_shortcut_set_trigger(handle(), trigger.refcounted().unowned().handle());
     }
     
 }

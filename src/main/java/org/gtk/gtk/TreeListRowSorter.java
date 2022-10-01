@@ -22,17 +22,17 @@ import java.lang.invoke.*;
  */
 public class TreeListRowSorter extends Sorter {
 
-    public TreeListRowSorter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeListRowSorter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeListRowSorter */
     public static TreeListRowSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListRowSorter(gobject.getReference());
+        return new TreeListRowSorter(gobject.refcounted());
     }
     
-    private static Reference constructNew(Sorter sorter) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_list_row_sorter_new(sorter.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(Sorter sorter) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_list_row_sorter_new(sorter.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -52,7 +52,7 @@ public class TreeListRowSorter extends Sorter {
      */
     public Sorter getSorter() {
         var RESULT = gtk_h.gtk_tree_list_row_sorter_get_sorter(handle());
-        return new Sorter(References.get(RESULT, false));
+        return new Sorter(Refcounted.get(RESULT, false));
     }
     
     /**

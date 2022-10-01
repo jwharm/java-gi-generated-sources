@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class SimplePermission extends Permission {
 
-    public SimplePermission(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SimplePermission(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SimplePermission */
     public static SimplePermission castFrom(org.gtk.gobject.Object gobject) {
-        return new SimplePermission(gobject.getReference());
+        return new SimplePermission(gobject.refcounted());
     }
     
-    private static Reference constructNew(boolean allowed) {
-        Reference RESULT = References.get(gtk_h.g_simple_permission_new(allowed ? 1 : 0), true);
+    private static Refcounted constructNew(boolean allowed) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_simple_permission_new(allowed ? 1 : 0), true);
         return RESULT;
     }
     

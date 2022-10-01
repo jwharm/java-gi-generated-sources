@@ -55,13 +55,13 @@ import java.lang.invoke.*;
  */
 public class IOStream extends org.gtk.gobject.Object {
 
-    public IOStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to IOStream */
     public static IOStream castFrom(org.gtk.gobject.Object gobject) {
-        return new IOStream(gobject.getReference());
+        return new IOStream(gobject.refcounted());
     }
     
     /**
@@ -159,7 +159,7 @@ public class IOStream extends org.gtk.gobject.Object {
      */
     public InputStream getInputStream() {
         var RESULT = gtk_h.g_io_stream_get_input_stream(handle());
-        return new InputStream(References.get(RESULT, false));
+        return new InputStream(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -168,7 +168,7 @@ public class IOStream extends org.gtk.gobject.Object {
      */
     public OutputStream getOutputStream() {
         var RESULT = gtk_h.g_io_stream_get_output_stream(handle());
-        return new OutputStream(References.get(RESULT, false));
+        return new OutputStream(Refcounted.get(RESULT, false));
     }
     
     /**

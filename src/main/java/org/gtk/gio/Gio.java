@@ -314,7 +314,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -329,7 +329,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List appInfoGetAll() {
         var RESULT = gtk_h.g_app_info_get_all();
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -340,7 +340,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List appInfoGetAllForType(java.lang.String contentType) {
         var RESULT = gtk_h.g_app_info_get_all_for_type(Interop.allocateNativeString(contentType).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -348,7 +348,7 @@ public final class Gio {
      */
     public static AppInfo appInfoGetDefaultForType(java.lang.String contentType, boolean mustSupportUris) {
         var RESULT = gtk_h.g_app_info_get_default_for_type(Interop.allocateNativeString(contentType).handle(), mustSupportUris ? 1 : 0);
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -359,7 +359,7 @@ public final class Gio {
      */
     public static AppInfo appInfoGetDefaultForUriScheme(java.lang.String uriScheme) {
         var RESULT = gtk_h.g_app_info_get_default_for_uri_scheme(Interop.allocateNativeString(uriScheme).handle());
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -369,7 +369,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List appInfoGetFallbackForType(java.lang.String contentType) {
         var RESULT = gtk_h.g_app_info_get_fallback_for_type(Interop.allocateNativeString(contentType).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -382,7 +382,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List appInfoGetRecommendedForType(java.lang.String contentType) {
         var RESULT = gtk_h.g_app_info_get_recommended_for_type(Interop.allocateNativeString(contentType).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -496,7 +496,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DBusConnection(References.get(RESULT, true));
+        return new DBusConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -525,7 +525,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DBusConnection(References.get(RESULT, true));
+        return new DBusConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -827,7 +827,7 @@ public final class Gio {
      */
     public static Icon contentTypeGetIcon(java.lang.String type) {
         var RESULT = gtk_h.g_content_type_get_icon(Interop.allocateNativeString(type).handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -852,7 +852,7 @@ public final class Gio {
      */
     public static Icon contentTypeGetSymbolicIcon(java.lang.String type) {
         var RESULT = gtk_h.g_content_type_get_symbolic_icon(Interop.allocateNativeString(type).handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -951,7 +951,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List contentTypesGetRegistered() {
         var RESULT = gtk_h.g_content_types_get_registered();
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1024,7 +1024,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new IOStream(References.get(RESULT, true));
+        return new IOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1045,7 +1045,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new IOStream(References.get(RESULT, true));
+        return new IOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1128,7 +1128,7 @@ public final class Gio {
      */
     public static org.gtk.glib.Error dbusErrorNewForDbusError(java.lang.String dbusErrorName, java.lang.String dbusErrorMessage) {
         var RESULT = gtk_h.g_dbus_error_new_for_dbus_error(Interop.allocateNativeString(dbusErrorName).handle(), Interop.allocateNativeString(dbusErrorMessage).handle());
-        return new org.gtk.glib.Error(References.get(RESULT, true));
+        return new org.gtk.glib.Error(Refcounted.get(RESULT, true));
     }
     
     public static org.gtk.glib.Quark dbusErrorQuark() {
@@ -1262,7 +1262,7 @@ public final class Gio {
      */
     public static org.gtk.glib.Variant dbusGvalueToGvariant(org.gtk.gobject.Value gvalue, org.gtk.glib.VariantType type) {
         var RESULT = gtk_h.g_dbus_gvalue_to_gvariant(gvalue.handle(), type.handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1390,7 +1390,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DtlsClientConnection.DtlsClientConnectionImpl(References.get(RESULT, true));
+        return new DtlsClientConnection.DtlsClientConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1402,7 +1402,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DtlsServerConnection.DtlsServerConnectionImpl(References.get(RESULT, true));
+        return new DtlsServerConnection.DtlsServerConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1423,7 +1423,7 @@ public final class Gio {
      */
     public static File fileNewForCommandlineArg(java.lang.String arg) {
         var RESULT = gtk_h.g_file_new_for_commandline_arg(Interop.allocateNativeString(arg).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1441,7 +1441,7 @@ public final class Gio {
      */
     public static File fileNewForCommandlineArgAndCwd(java.lang.String arg, java.lang.String cwd) {
         var RESULT = gtk_h.g_file_new_for_commandline_arg_and_cwd(Interop.allocateNativeString(arg).handle(), Interop.allocateNativeString(cwd).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1451,7 +1451,7 @@ public final class Gio {
      */
     public static File fileNewForPath(java.lang.String path) {
         var RESULT = gtk_h.g_file_new_for_path(Interop.allocateNativeString(path).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1462,7 +1462,7 @@ public final class Gio {
      */
     public static File fileNewForUri(java.lang.String uri) {
         var RESULT = gtk_h.g_file_new_for_uri(Interop.allocateNativeString(uri).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1483,7 +1483,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1494,7 +1494,7 @@ public final class Gio {
      */
     public static File fileParseName(java.lang.String parseName) {
         var RESULT = gtk_h.g_file_parse_name(Interop.allocateNativeString(parseName).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1502,7 +1502,7 @@ public final class Gio {
      */
     public static Icon iconDeserialize(org.gtk.glib.Variant value) {
         var RESULT = gtk_h.g_icon_deserialize(value.handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1527,7 +1527,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1561,7 +1561,7 @@ public final class Gio {
      */
     public static IOExtension ioExtensionPointImplement(java.lang.String extensionPointName, org.gtk.gobject.Type type, java.lang.String extensionName, int priority) {
         var RESULT = gtk_h.g_io_extension_point_implement(Interop.allocateNativeString(extensionPointName).handle(), type.getValue(), Interop.allocateNativeString(extensionName).handle(), priority);
-        return new IOExtension(References.get(RESULT, false));
+        return new IOExtension(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1569,7 +1569,7 @@ public final class Gio {
      */
     public static IOExtensionPoint ioExtensionPointLookup(java.lang.String name) {
         var RESULT = gtk_h.g_io_extension_point_lookup(Interop.allocateNativeString(name).handle());
-        return new IOExtensionPoint(References.get(RESULT, false));
+        return new IOExtensionPoint(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1577,7 +1577,7 @@ public final class Gio {
      */
     public static IOExtensionPoint ioExtensionPointRegister(java.lang.String name) {
         var RESULT = gtk_h.g_io_extension_point_register(Interop.allocateNativeString(name).handle());
-        return new IOExtensionPoint(References.get(RESULT, false));
+        return new IOExtensionPoint(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1589,7 +1589,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List ioModulesLoadAllInDirectory(java.lang.String dirname) {
         var RESULT = gtk_h.g_io_modules_load_all_in_directory(Interop.allocateNativeString(dirname).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1601,7 +1601,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List ioModulesLoadAllInDirectoryWithScope(java.lang.String dirname, IOModuleScope scope) {
         var RESULT = gtk_h.g_io_modules_load_all_in_directory_with_scope(Interop.allocateNativeString(dirname).handle(), scope.handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1691,7 +1691,7 @@ public final class Gio {
      */
     public static SettingsBackend keyfileSettingsBackendNew(java.lang.String filename, java.lang.String rootPath, java.lang.String rootGroup) {
         var RESULT = gtk_h.g_keyfile_settings_backend_new(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(rootPath).handle(), Interop.allocateNativeString(rootGroup).handle());
-        return new SettingsBackend(References.get(RESULT, true));
+        return new SettingsBackend(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1699,7 +1699,7 @@ public final class Gio {
      */
     public static MemoryMonitor memoryMonitorDupDefault() {
         var RESULT = gtk_h.g_memory_monitor_dup_default();
-        return new MemoryMonitor.MemoryMonitorImpl(References.get(RESULT, true));
+        return new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1711,7 +1711,7 @@ public final class Gio {
      */
     public static SettingsBackend memorySettingsBackendNew() {
         var RESULT = gtk_h.g_memory_settings_backend_new();
-        return new SettingsBackend(References.get(RESULT, true));
+        return new SettingsBackend(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1719,7 +1719,7 @@ public final class Gio {
      */
     public static NetworkMonitor networkMonitorGetDefault() {
         var RESULT = gtk_h.g_network_monitor_get_default();
-        return new NetworkMonitor.NetworkMonitorImpl(References.get(RESULT, false));
+        return new NetworkMonitor.NetworkMonitorImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1740,7 +1740,7 @@ public final class Gio {
      */
     public static SettingsBackend nullSettingsBackendNew() {
         var RESULT = gtk_h.g_null_settings_backend_new();
-        return new SettingsBackend(References.get(RESULT, true));
+        return new SettingsBackend(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1752,7 +1752,7 @@ public final class Gio {
      */
     public static org.gtk.glib.Source pollableSourceNew(org.gtk.gobject.Object pollableStream) {
         var RESULT = gtk_h.g_pollable_source_new(pollableStream.handle());
-        return new org.gtk.glib.Source(References.get(RESULT, true));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1763,7 +1763,7 @@ public final class Gio {
      */
     public static org.gtk.glib.Source pollableSourceNewFull(org.gtk.gobject.Object pollableStream, org.gtk.glib.Source childSource, Cancellable cancellable) {
         var RESULT = gtk_h.g_pollable_source_new_full(pollableStream.handle(), childSource.handle(), cancellable.handle());
-        return new org.gtk.glib.Source(References.get(RESULT, true));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1841,7 +1841,7 @@ public final class Gio {
      */
     public static PowerProfileMonitor powerProfileMonitorDupDefault() {
         var RESULT = gtk_h.g_power_profile_monitor_dup_default();
-        return new PowerProfileMonitor.PowerProfileMonitorImpl(References.get(RESULT, true));
+        return new PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1850,7 +1850,7 @@ public final class Gio {
      */
     public static Proxy proxyGetDefaultForProtocol(java.lang.String protocol) {
         var RESULT = gtk_h.g_proxy_get_default_for_protocol(Interop.allocateNativeString(protocol).handle());
-        return new Proxy.ProxyImpl(References.get(RESULT, true));
+        return new Proxy.ProxyImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1858,7 +1858,7 @@ public final class Gio {
      */
     public static ProxyResolver proxyResolverGetDefault() {
         var RESULT = gtk_h.g_proxy_resolver_get_default();
-        return new ProxyResolver.ProxyResolverImpl(References.get(RESULT, false));
+        return new ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1895,7 +1895,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Resource(References.get(RESULT, true));
+        return new Resource(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1952,7 +1952,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1968,7 +1968,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new InputStream(References.get(RESULT, true));
+        return new InputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2004,7 +2004,7 @@ public final class Gio {
      */
     public static SettingsSchemaSource settingsSchemaSourceGetDefault() {
         var RESULT = gtk_h.g_settings_schema_source_get_default();
-        return new SettingsSchemaSource(References.get(RESULT, false));
+        return new SettingsSchemaSource(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -2012,7 +2012,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List srvTargetListSort(org.gtk.glib.List targets) {
         var RESULT = gtk_h.g_srv_target_list_sort(targets.handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2020,7 +2020,7 @@ public final class Gio {
      */
     public static TlsBackend tlsBackendGetDefault() {
         var RESULT = gtk_h.g_tls_backend_get_default();
-        return new TlsBackend.TlsBackendImpl(References.get(RESULT, false));
+        return new TlsBackend.TlsBackendImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -2046,7 +2046,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsClientConnection.TlsClientConnectionImpl(References.get(RESULT, true));
+        return new TlsClientConnection.TlsClientConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2069,7 +2069,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsFileDatabase.TlsFileDatabaseImpl(References.get(RESULT, true));
+        return new TlsFileDatabase.TlsFileDatabaseImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2086,7 +2086,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsServerConnection.TlsServerConnectionImpl(References.get(RESULT, true));
+        return new TlsServerConnection.TlsServerConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2140,7 +2140,7 @@ public final class Gio {
      */
     public static UnixMountEntry unixMountAt(java.lang.String mountPath, PointerLong timeRead) {
         var RESULT = gtk_h.g_unix_mount_at(Interop.allocateNativeString(mountPath).handle(), timeRead.handle());
-        return new UnixMountEntry(References.get(RESULT, true));
+        return new UnixMountEntry(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2156,7 +2156,7 @@ public final class Gio {
      */
     public static UnixMountEntry unixMountCopy(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_copy(mountEntry.handle());
-        return new UnixMountEntry(References.get(RESULT, true));
+        return new UnixMountEntry(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2172,7 +2172,7 @@ public final class Gio {
      */
     public static UnixMountEntry unixMountFor(java.lang.String filePath, PointerLong timeRead) {
         var RESULT = gtk_h.g_unix_mount_for(Interop.allocateNativeString(filePath).handle(), timeRead.handle());
-        return new UnixMountEntry(References.get(RESULT, true));
+        return new UnixMountEntry(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2244,7 +2244,7 @@ public final class Gio {
      */
     public static Icon unixMountGuessIcon(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_guess_icon(mountEntry.handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2269,7 +2269,7 @@ public final class Gio {
      */
     public static Icon unixMountGuessSymbolicIcon(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_guess_symbolic_icon(mountEntry.handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2303,7 +2303,7 @@ public final class Gio {
      */
     public static UnixMountPoint unixMountPointAt(java.lang.String mountPath, PointerLong timeRead) {
         var RESULT = gtk_h.g_unix_mount_point_at(Interop.allocateNativeString(mountPath).handle(), timeRead.handle());
-        return new UnixMountPoint(References.get(RESULT, true));
+        return new UnixMountPoint(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2322,7 +2322,7 @@ public final class Gio {
      */
     public static org.gtk.glib.List unixMountPointsGet(PointerLong timeRead) {
         var RESULT = gtk_h.g_unix_mount_points_get(timeRead.handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2341,19 +2341,19 @@ public final class Gio {
      */
     public static org.gtk.glib.List unixMountsGet(PointerLong timeRead) {
         var RESULT = gtk_h.g_unix_mounts_get(timeRead.handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     public static void __cbBusNameVanishedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusNameVanishedCallback) Interop.signalRegistry.get(hash);
-        handler.onBusNameVanishedCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+        handler.onBusNameVanishedCallback(new DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0));
     }
     
     public static void __cbBusNameAppearedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress nameOwner, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusNameAppearedCallback) Interop.signalRegistry.get(hash);
-        handler.onBusNameAppearedCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0), nameOwner.getUtf8String(0));
+        handler.onBusNameAppearedCallback(new DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0), nameOwner.getUtf8String(0));
     }
     
     public static void __cbFileMeasureProgressCallback(int reporting, long currentSize, long numDirs, long numFiles, MemoryAddress userData) {
@@ -2365,31 +2365,31 @@ public final class Gio {
     public static boolean __cbDatagramBasedSourceFunc(MemoryAddress datagramBased, int condition, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DatagramBasedSourceFunc) Interop.signalRegistry.get(hash);
-        return handler.onDatagramBasedSourceFunc(new DatagramBased.DatagramBasedImpl(References.get(datagramBased, false)), new org.gtk.glib.IOCondition(condition));
+        return handler.onDatagramBasedSourceFunc(new DatagramBased.DatagramBasedImpl(Refcounted.get(datagramBased, false)), new org.gtk.glib.IOCondition(condition));
     }
     
     public static boolean __cbSettingsGetMapping(MemoryAddress value, MemoryAddress result, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SettingsGetMapping) Interop.signalRegistry.get(hash);
-        return handler.onSettingsGetMapping(new org.gtk.glib.Variant(References.get(value, false)), result);
+        return handler.onSettingsGetMapping(new org.gtk.glib.Variant(Refcounted.get(value, false)), result);
     }
     
     public static org.gtk.glib.Variant __cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusInterfaceGetPropertyFunc) Interop.signalRegistry.get(hash);
-        return handler.onDBusInterfaceGetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0));
+        return handler.onDBusInterfaceGetPropertyFunc(new DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0));
     }
     
     public static void __cbBusAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusAcquiredCallback) Interop.signalRegistry.get(hash);
-        handler.onBusAcquiredCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+        handler.onBusAcquiredCallback(new DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0));
     }
     
     public static org.gtk.glib.Variant __cbSettingsBindSetMapping(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SettingsBindSetMapping) Interop.signalRegistry.get(hash);
-        return handler.onSettingsBindSetMapping(new org.gtk.gobject.Value(References.get(value, false)), new org.gtk.glib.VariantType(References.get(expectedType, false)));
+        return handler.onSettingsBindSetMapping(new org.gtk.gobject.Value(Refcounted.get(value, false)), new org.gtk.glib.VariantType(Refcounted.get(expectedType, false)));
     }
     
     public static java.lang.foreign.MemoryAddress __cbReallocFunc(MemoryAddress data, long size) {
@@ -2401,19 +2401,19 @@ public final class Gio {
     public static boolean __cbCancellableSourceFunc(MemoryAddress cancellable, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (CancellableSourceFunc) Interop.signalRegistry.get(hash);
-        return handler.onCancellableSourceFunc(new Cancellable(References.get(cancellable, false)));
+        return handler.onCancellableSourceFunc(new Cancellable(Refcounted.get(cancellable, false)));
     }
     
     public static boolean __cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusInterfaceSetPropertyFunc) Interop.signalRegistry.get(hash);
-        return handler.onDBusInterfaceSetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
+        return handler.onDBusInterfaceSetPropertyFunc(new DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(value, false)));
     }
     
     public static void __cbBusNameLostCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusNameLostCallback) Interop.signalRegistry.get(hash);
-        handler.onBusNameLostCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+        handler.onBusNameLostCallback(new DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0));
     }
     
     public static boolean __cbFileReadMoreCallback(MemoryAddress fileContents, long fileSize, MemoryAddress callbackData) {
@@ -2425,43 +2425,43 @@ public final class Gio {
     public static boolean __cbSocketSourceFunc(MemoryAddress socket, int condition, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SocketSourceFunc) Interop.signalRegistry.get(hash);
-        return handler.onSocketSourceFunc(new Socket(References.get(socket, false)), new org.gtk.glib.IOCondition(condition));
+        return handler.onSocketSourceFunc(new Socket(Refcounted.get(socket, false)), new org.gtk.glib.IOCondition(condition));
     }
     
     public static void __cbDesktopAppLaunchCallback(MemoryAddress appinfo, int pid, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DesktopAppLaunchCallback) Interop.signalRegistry.get(hash);
-        handler.onDesktopAppLaunchCallback(new DesktopAppInfo(References.get(appinfo, false)), new org.gtk.glib.Pid(pid));
+        handler.onDesktopAppLaunchCallback(new DesktopAppInfo(Refcounted.get(appinfo, false)), new org.gtk.glib.Pid(pid));
     }
     
     public static boolean __cbPollableSourceFunc(MemoryAddress pollableStream, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (PollableSourceFunc) Interop.signalRegistry.get(hash);
-        return handler.onPollableSourceFunc(new org.gtk.gobject.Object(References.get(pollableStream, false)));
+        return handler.onPollableSourceFunc(new org.gtk.gobject.Object(Refcounted.get(pollableStream, false)));
     }
     
     public static void __cbAsyncReadyCallback(MemoryAddress sourceObject, MemoryAddress res, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (AsyncReadyCallback) Interop.signalRegistry.get(hash);
-        handler.onAsyncReadyCallback(new org.gtk.gobject.Object(References.get(sourceObject, false)), new AsyncResult.AsyncResultImpl(References.get(res, false)));
+        handler.onAsyncReadyCallback(new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)), new AsyncResult.AsyncResultImpl(Refcounted.get(res, false)));
     }
     
     public static boolean __cbSettingsBindGetMapping(MemoryAddress value, MemoryAddress variant, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (SettingsBindGetMapping) Interop.signalRegistry.get(hash);
-        return handler.onSettingsBindGetMapping(new org.gtk.gobject.Value(References.get(value, false)), new org.gtk.glib.Variant(References.get(variant, false)));
+        return handler.onSettingsBindGetMapping(new org.gtk.gobject.Value(Refcounted.get(value, false)), new org.gtk.glib.Variant(Refcounted.get(variant, false)));
     }
     
     public static DBusInterfaceVTable __cbDBusSubtreeDispatchFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress node, MemoryAddress outUserData, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusSubtreeDispatchFunc) Interop.signalRegistry.get(hash);
-        return handler.onDBusSubtreeDispatchFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), node.getUtf8String(0), outUserData);
+        return handler.onDBusSubtreeDispatchFunc(new DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), node.getUtf8String(0), outUserData);
     }
     
     public static void __cbDBusSignalCallback(MemoryAddress connection, MemoryAddress senderName, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusSignalCallback) Interop.signalRegistry.get(hash);
-        handler.onDBusSignalCallback(new DBusConnection(References.get(connection, false)), senderName.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
+        handler.onDBusSignalCallback(new DBusConnection(Refcounted.get(connection, false)), senderName.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(parameters, false)));
     }
     
     public static void __cbFileProgressCallback(long currentNumBytes, long totalNumBytes, MemoryAddress userData) {
@@ -2473,55 +2473,55 @@ public final class Gio {
     public static File __cbVfsFileLookupFunc(MemoryAddress vfs, MemoryAddress identifier, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (VfsFileLookupFunc) Interop.signalRegistry.get(hash);
-        return handler.onVfsFileLookupFunc(new Vfs(References.get(vfs, false)), identifier.getUtf8String(0));
+        return handler.onVfsFileLookupFunc(new Vfs(Refcounted.get(vfs, false)), identifier.getUtf8String(0));
     }
     
     public static void __cbDBusInterfaceMethodCallFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress methodName, MemoryAddress parameters, MemoryAddress invocation, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusInterfaceMethodCallFunc) Interop.signalRegistry.get(hash);
-        handler.onDBusInterfaceMethodCallFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), methodName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)), new DBusMethodInvocation(References.get(invocation, true)));
+        handler.onDBusInterfaceMethodCallFunc(new DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), methodName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(parameters, false)), new DBusMethodInvocation(Refcounted.get(invocation, true)));
     }
     
     public static void __cbDBusSubtreeEnumerateFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusSubtreeEnumerateFunc) Interop.signalRegistry.get(hash);
-        handler.onDBusSubtreeEnumerateFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0));
+        handler.onDBusSubtreeEnumerateFunc(new DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0));
     }
     
     public static DBusMessage __cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, int incoming, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusMessageFilterFunction) Interop.signalRegistry.get(hash);
-        return handler.onDBusMessageFilterFunction(new DBusConnection(References.get(connection, false)), new DBusMessage(References.get(message, true)), incoming != 0);
+        return handler.onDBusMessageFilterFunction(new DBusConnection(Refcounted.get(connection, false)), new DBusMessage(Refcounted.get(message, true)), incoming != 0);
     }
     
     public static void __cbDBusSubtreeIntrospectFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress node, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusSubtreeIntrospectFunc) Interop.signalRegistry.get(hash);
-        handler.onDBusSubtreeIntrospectFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), node.getUtf8String(0));
+        handler.onDBusSubtreeIntrospectFunc(new DBusConnection(Refcounted.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), node.getUtf8String(0));
     }
     
     public static org.gtk.gobject.Type __cbDBusProxyTypeFunc(MemoryAddress manager, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (DBusProxyTypeFunc) Interop.signalRegistry.get(hash);
-        return handler.onDBusProxyTypeFunc(new DBusObjectManagerClient(References.get(manager, false)), objectPath.getUtf8String(0), interfaceName.getUtf8String(0));
+        return handler.onDBusProxyTypeFunc(new DBusObjectManagerClient(Refcounted.get(manager, false)), objectPath.getUtf8String(0), interfaceName.getUtf8String(0));
     }
     
     public static void __cbTaskThreadFunc(MemoryAddress task, MemoryAddress sourceObject, MemoryAddress taskData, MemoryAddress cancellable) {
         int hash = taskData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TaskThreadFunc) Interop.signalRegistry.get(hash);
-        handler.onTaskThreadFunc(new Task(References.get(task, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)), new Cancellable(References.get(cancellable, false)));
+        handler.onTaskThreadFunc(new Task(Refcounted.get(task, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)), new Cancellable(Refcounted.get(cancellable, false)));
     }
     
     public static void __cbBusNameAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BusNameAcquiredCallback) Interop.signalRegistry.get(hash);
-        handler.onBusNameAcquiredCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+        handler.onBusNameAcquiredCallback(new DBusConnection(Refcounted.get(connection, false)), name.getUtf8String(0));
     }
     
     public static boolean __cbIOSchedulerJobFunc(MemoryAddress job, MemoryAddress cancellable, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (IOSchedulerJobFunc) Interop.signalRegistry.get(hash);
-        return handler.onIOSchedulerJobFunc(new IOSchedulerJob(References.get(job, false)), new Cancellable(References.get(cancellable, false)));
+        return handler.onIOSchedulerJobFunc(new IOSchedulerJob(Refcounted.get(job, false)), new Cancellable(Refcounted.get(cancellable, false)));
     }
     
 }

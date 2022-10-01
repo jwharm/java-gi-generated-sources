@@ -24,7 +24,7 @@ public final class Graphene {
      */
     public static Box boxEmpty() {
         var RESULT = gtk_h.graphene_box_empty();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -34,7 +34,7 @@ public final class Graphene {
      */
     public static Box boxInfinite() {
         var RESULT = gtk_h.graphene_box_infinite();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -45,7 +45,7 @@ public final class Graphene {
      */
     public static Box boxMinusOne() {
         var RESULT = gtk_h.graphene_box_minus_one();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -56,7 +56,7 @@ public final class Graphene {
      */
     public static Box boxOne() {
         var RESULT = gtk_h.graphene_box_one();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -67,7 +67,7 @@ public final class Graphene {
      */
     public static Box boxOneMinusOne() {
         var RESULT = gtk_h.graphene_box_one_minus_one();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -77,7 +77,7 @@ public final class Graphene {
      */
     public static Box boxZero() {
         var RESULT = gtk_h.graphene_box_zero();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -85,7 +85,7 @@ public final class Graphene {
      */
     public static Point3D point3dZero() {
         var RESULT = gtk_h.graphene_point3d_zero();
-        return new Point3D(References.get(RESULT, false));
+        return new Point3D(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -93,7 +93,7 @@ public final class Graphene {
      */
     public static Point pointZero() {
         var RESULT = gtk_h.graphene_point_zero();
-        return new Point(References.get(RESULT, false));
+        return new Point(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -103,7 +103,7 @@ public final class Graphene {
      */
     public static Rect rectAlloc() {
         var RESULT = gtk_h.graphene_rect_alloc();
-        return new Rect(References.get(RESULT, true));
+        return new Rect(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -112,7 +112,7 @@ public final class Graphene {
      */
     public static Rect rectZero() {
         var RESULT = gtk_h.graphene_rect_zero();
-        return new Rect(References.get(RESULT, false));
+        return new Rect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -121,7 +121,7 @@ public final class Graphene {
      */
     public static Size sizeZero() {
         var RESULT = gtk_h.graphene_size_zero();
-        return new Size(References.get(RESULT, false));
+        return new Size(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -129,7 +129,7 @@ public final class Graphene {
      */
     public static Vec2 vec2One() {
         var RESULT = gtk_h.graphene_vec2_one();
-        return new Vec2(References.get(RESULT, false));
+        return new Vec2(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -137,7 +137,7 @@ public final class Graphene {
      */
     public static Vec2 vec2XAxis() {
         var RESULT = gtk_h.graphene_vec2_x_axis();
-        return new Vec2(References.get(RESULT, false));
+        return new Vec2(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -145,7 +145,7 @@ public final class Graphene {
      */
     public static Vec2 vec2YAxis() {
         var RESULT = gtk_h.graphene_vec2_y_axis();
-        return new Vec2(References.get(RESULT, false));
+        return new Vec2(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public final class Graphene {
      */
     public static Vec2 vec2Zero() {
         var RESULT = gtk_h.graphene_vec2_zero();
-        return new Vec2(References.get(RESULT, false));
+        return new Vec2(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -162,7 +162,7 @@ public final class Graphene {
      */
     public static Vec3 vec3One() {
         var RESULT = gtk_h.graphene_vec3_one();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -171,7 +171,7 @@ public final class Graphene {
      */
     public static Vec3 vec3XAxis() {
         var RESULT = gtk_h.graphene_vec3_x_axis();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -180,7 +180,7 @@ public final class Graphene {
      */
     public static Vec3 vec3YAxis() {
         var RESULT = gtk_h.graphene_vec3_y_axis();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -189,7 +189,7 @@ public final class Graphene {
      */
     public static Vec3 vec3ZAxis() {
         var RESULT = gtk_h.graphene_vec3_z_axis();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -198,7 +198,7 @@ public final class Graphene {
      */
     public static Vec3 vec3Zero() {
         var RESULT = gtk_h.graphene_vec3_zero();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -207,7 +207,7 @@ public final class Graphene {
      */
     public static Vec4 vec4One() {
         var RESULT = gtk_h.graphene_vec4_one();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -216,7 +216,7 @@ public final class Graphene {
      */
     public static Vec4 vec4WAxis() {
         var RESULT = gtk_h.graphene_vec4_w_axis();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -225,7 +225,7 @@ public final class Graphene {
      */
     public static Vec4 vec4XAxis() {
         var RESULT = gtk_h.graphene_vec4_x_axis();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -234,7 +234,7 @@ public final class Graphene {
      */
     public static Vec4 vec4YAxis() {
         var RESULT = gtk_h.graphene_vec4_y_axis();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -243,7 +243,7 @@ public final class Graphene {
      */
     public static Vec4 vec4ZAxis() {
         var RESULT = gtk_h.graphene_vec4_z_axis();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -252,7 +252,7 @@ public final class Graphene {
      */
     public static Vec4 vec4Zero() {
         var RESULT = gtk_h.graphene_vec4_zero();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
 }

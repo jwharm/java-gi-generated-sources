@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class FileChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FileChooser {
 
-    public FileChooserWidget(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileChooserWidget */
     public static FileChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new FileChooserWidget(gobject.getReference());
+        return new FileChooserWidget(gobject.refcounted());
     }
     
-    private static Reference constructNew(FileChooserAction action) {
-        Reference RESULT = References.get(gtk_h.gtk_file_chooser_widget_new(action.getValue()), false);
+    private static Refcounted constructNew(FileChooserAction action) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_file_chooser_widget_new(action.getValue()), false);
         return RESULT;
     }
     
@@ -456,73 +456,73 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         public static void signalFileChooserWidgetDesktopFolder(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.DesktopFolderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetDownFolder(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.DownFolderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetHomeFolder(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.HomeFolderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.LocationPopupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)), path.getUtf8String(0));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)), path.getUtf8String(0));
         }
         
         public static void signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.LocationPopupOnPasteHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetLocationTogglePopup(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.LocationTogglePopupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetPlacesShortcut(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.PlacesShortcutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetQuickBookmark(MemoryAddress source, int bookmarkIndex, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.QuickBookmarkHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)), bookmarkIndex);
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)), bookmarkIndex);
         }
         
         public static void signalFileChooserWidgetRecentShortcut(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.RecentShortcutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetSearchShortcut(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.SearchShortcutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetShowHidden(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.ShowHiddenHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetUpFolder(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileChooserWidget.UpFolderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(References.get(source)));
+            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
     }

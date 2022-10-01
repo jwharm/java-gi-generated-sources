@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class AttrLanguage extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrLanguage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrLanguage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AttrLanguage() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrLanguage.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrLanguage.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -24,7 +24,7 @@ public class AttrLanguage extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Attribute new_(Language language) {
         var RESULT = gtk_h.pango_attr_language_new(language.handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
 }

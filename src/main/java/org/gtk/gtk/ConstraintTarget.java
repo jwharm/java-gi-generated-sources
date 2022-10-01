@@ -14,8 +14,8 @@ import java.lang.invoke.*;
 public interface ConstraintTarget extends io.github.jwharm.javagi.Proxy {
 
     class ConstraintTargetImpl extends org.gtk.gobject.Object implements ConstraintTarget {
-        public ConstraintTargetImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ConstraintTargetImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

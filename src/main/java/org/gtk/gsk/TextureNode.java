@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class TextureNode extends RenderNode {
 
-    public TextureNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextureNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TextureNode */
     public static TextureNode castFrom(org.gtk.gobject.Object gobject) {
-        return new TextureNode(gobject.getReference());
+        return new TextureNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
-        Reference RESULT = References.get(gtk_h.gsk_texture_node_new(texture.handle(), bounds.handle()), true);
+    private static Refcounted constructNew(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_texture_node_new(texture.handle(), bounds.handle()), true);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class TextureNode extends RenderNode {
      */
     public org.gtk.gdk.Texture getTexture() {
         var RESULT = gtk_h.gsk_texture_node_get_texture(handle());
-        return new org.gtk.gdk.Texture(References.get(RESULT, false));
+        return new org.gtk.gdk.Texture(Refcounted.get(RESULT, false));
     }
     
 }

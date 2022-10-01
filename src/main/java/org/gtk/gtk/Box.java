@@ -41,17 +41,17 @@ import java.lang.invoke.*;
  */
 public class Box extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Box(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Box(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Box */
     public static Box castFrom(org.gtk.gobject.Object gobject) {
-        return new Box(gobject.getReference());
+        return new Box(gobject.refcounted());
     }
     
-    private static Reference constructNew(Orientation orientation, int spacing) {
-        Reference RESULT = References.get(gtk_h.gtk_box_new(orientation.getValue(), spacing), false);
+    private static Refcounted constructNew(Orientation orientation, int spacing) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_box_new(orientation.getValue(), spacing), false);
         return RESULT;
     }
     

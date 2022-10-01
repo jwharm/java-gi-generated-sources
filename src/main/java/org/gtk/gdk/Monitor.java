@@ -16,13 +16,13 @@ import java.lang.invoke.*;
  */
 public class Monitor extends org.gtk.gobject.Object {
 
-    public Monitor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Monitor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Monitor */
     public static Monitor castFrom(org.gtk.gobject.Object gobject) {
-        return new Monitor(gobject.getReference());
+        return new Monitor(gobject.refcounted());
     }
     
     /**
@@ -38,7 +38,7 @@ public class Monitor extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_monitor_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -169,7 +169,7 @@ public class Monitor extends org.gtk.gobject.Object {
         public static void signalMonitorInvalidate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Monitor.InvalidateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Monitor(References.get(source)));
+            handler.signalReceived(new Monitor(Refcounted.get(source)));
         }
         
     }

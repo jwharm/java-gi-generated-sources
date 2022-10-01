@@ -56,7 +56,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.List getAcceptedCas() {
         var RESULT = gtk_h.g_tls_client_connection_get_accepted_cas(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -64,7 +64,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public default SocketConnectable getServerIdentity() {
         var RESULT = gtk_h.g_tls_client_connection_get_server_identity(handle());
-        return new SocketConnectable.SocketConnectableImpl(References.get(RESULT, false));
+        return new SocketConnectable.SocketConnectableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -92,12 +92,12 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsClientConnection.TlsClientConnectionImpl(References.get(RESULT, true));
+        return new TlsClientConnection.TlsClientConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     class TlsClientConnectionImpl extends org.gtk.gobject.Object implements TlsClientConnection {
-        public TlsClientConnectionImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public TlsClientConnectionImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

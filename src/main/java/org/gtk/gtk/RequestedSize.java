@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class RequestedSize extends io.github.jwharm.javagi.ResourceBase {
 
-    public RequestedSize(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RequestedSize(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public RequestedSize() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkRequestedSize.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkRequestedSize.allocate(Interop.getAllocator()).address()));
     }
     
 }

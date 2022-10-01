@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ScrollEvent extends Event {
 
-    public ScrollEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ScrollEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ScrollEvent */
     public static ScrollEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new ScrollEvent(gobject.getReference());
+        return new ScrollEvent(gobject.refcounted());
     }
     
     /**

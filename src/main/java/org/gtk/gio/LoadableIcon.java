@@ -21,7 +21,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new InputStream(References.get(RESULT, true));
+        return new InputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -52,12 +52,12 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new InputStream(References.get(RESULT, true));
+        return new InputStream(Refcounted.get(RESULT, true));
     }
     
     class LoadableIconImpl extends org.gtk.gobject.Object implements LoadableIcon {
-        public LoadableIconImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public LoadableIconImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

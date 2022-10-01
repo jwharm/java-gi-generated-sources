@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class ConicGradientNode extends RenderNode {
 
-    public ConicGradientNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ConicGradientNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ConicGradientNode */
     public static ConicGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ConicGradientNode(gobject.getReference());
+        return new ConicGradientNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, ColorStop[] colorStops, long nColorStops) {
-        Reference RESULT = References.get(gtk_h.gsk_conic_gradient_node_new(bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+    private static Refcounted constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, ColorStop[] colorStops, long nColorStops) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_conic_gradient_node_new(bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
         return RESULT;
     }
     
@@ -53,7 +53,7 @@ public class ConicGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getCenter() {
         var RESULT = gtk_h.gsk_conic_gradient_node_get_center(handle());
-        return new org.gtk.graphene.Point(References.get(RESULT, false));
+        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
     }
     
     /**

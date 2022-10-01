@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class DBusSignalInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusSignalInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusSignalInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public DBusSignalInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusSignalInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusSignalInfo.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -24,7 +24,7 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusSignalInfo ref() {
         var RESULT = gtk_h.g_dbus_signal_info_ref(handle());
-        return new DBusSignalInfo(References.get(RESULT, true));
+        return new DBusSignalInfo(Refcounted.get(RESULT, true));
     }
     
     /**

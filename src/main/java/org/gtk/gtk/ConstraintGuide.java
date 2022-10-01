@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class ConstraintGuide extends org.gtk.gobject.Object implements ConstraintTarget {
 
-    public ConstraintGuide(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ConstraintGuide(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ConstraintGuide */
     public static ConstraintGuide castFrom(org.gtk.gobject.Object gobject) {
-        return new ConstraintGuide(gobject.getReference());
+        return new ConstraintGuide(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_constraint_guide_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constraint_guide_new(), true);
         return RESULT;
     }
     

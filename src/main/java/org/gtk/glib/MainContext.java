@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class MainContext extends io.github.jwharm.javagi.ResourceBase {
 
-    public MainContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MainContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_main_context_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_main_context_new(), true);
         return RESULT;
     }
     
@@ -27,8 +27,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    private static Reference constructNewWithFlags(MainContextFlags flags) {
-        Reference RESULT = References.get(gtk_h.g_main_context_new_with_flags(flags.getValue()), true);
+    private static Refcounted constructNewWithFlags(MainContextFlags flags) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_main_context_new_with_flags(flags.getValue()), true);
         return RESULT;
     }
     
@@ -96,7 +96,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public Source findSourceByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_main_context_find_source_by_funcs_user_data(handle(), funcs.handle(), userData);
-        return new Source(References.get(RESULT, false));
+        return new Source(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -115,7 +115,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public Source findSourceById(int sourceId) {
         var RESULT = gtk_h.g_main_context_find_source_by_id(handle(), sourceId);
-        return new Source(References.get(RESULT, false));
+        return new Source(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public Source findSourceByUserData(java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_main_context_find_source_by_user_data(handle(), userData);
-        return new Source(References.get(RESULT, false));
+        return new Source(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -312,7 +312,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public MainContext ref() {
         var RESULT = gtk_h.g_main_context_ref(handle());
-        return new MainContext(References.get(RESULT, true));
+        return new MainContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -383,7 +383,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public static MainContext default_() {
         var RESULT = gtk_h.g_main_context_default();
-        return new MainContext(References.get(RESULT, false));
+        return new MainContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -401,7 +401,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public static MainContext getThreadDefault() {
         var RESULT = gtk_h.g_main_context_get_thread_default();
-        return new MainContext(References.get(RESULT, false));
+        return new MainContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -414,7 +414,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public static MainContext refThreadDefault() {
         var RESULT = gtk_h.g_main_context_ref_thread_default();
-        return new MainContext(References.get(RESULT, true));
+        return new MainContext(Refcounted.get(RESULT, true));
     }
     
 }

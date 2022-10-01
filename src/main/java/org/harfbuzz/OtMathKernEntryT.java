@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class OtMathKernEntryT extends io.github.jwharm.javagi.ResourceBase {
 
-    public OtMathKernEntryT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OtMathKernEntryT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public OtMathKernEntryT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_kern_entry_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_kern_entry_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

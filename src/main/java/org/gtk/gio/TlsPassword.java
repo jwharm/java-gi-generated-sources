@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class TlsPassword extends org.gtk.gobject.Object {
 
-    public TlsPassword(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TlsPassword(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TlsPassword */
     public static TlsPassword castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsPassword(gobject.getReference());
+        return new TlsPassword(gobject.refcounted());
     }
     
-    private static Reference constructNew(TlsPasswordFlags flags, java.lang.String description) {
-        Reference RESULT = References.get(gtk_h.g_tls_password_new(flags.getValue(), Interop.allocateNativeString(description).handle()), true);
+    private static Refcounted constructNew(TlsPasswordFlags flags, java.lang.String description) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_tls_password_new(flags.getValue(), Interop.allocateNativeString(description).handle()), true);
         return RESULT;
     }
     

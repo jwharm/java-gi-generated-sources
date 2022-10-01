@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
 
-    public MultiSelection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MultiSelection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MultiSelection */
     public static MultiSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new MultiSelection(gobject.getReference());
+        return new MultiSelection(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_multi_selection_new(model.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(org.gtk.gio.ListModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_multi_selection_new(model.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_multi_selection_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**

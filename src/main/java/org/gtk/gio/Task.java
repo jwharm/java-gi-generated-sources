@@ -509,18 +509,18 @@ import java.lang.invoke.*;
  */
 public class Task extends org.gtk.gobject.Object implements AsyncResult {
 
-    public Task(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Task(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Task */
     public static Task castFrom(org.gtk.gobject.Object gobject) {
-        return new Task(gobject.getReference());
+        return new Task(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback) {
+    private static Refcounted constructNew(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            Reference RESULT = References.get(gtk_h.g_task_new(sourceObject.handle(), cancellable.handle(), 
+            Refcounted RESULT = Refcounted.get(gtk_h.g_task_new(sourceObject.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -560,7 +560,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public Cancellable getCancellable() {
         var RESULT = gtk_h.g_task_get_cancellable(handle());
-        return new Cancellable(References.get(RESULT, false));
+        return new Cancellable(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -593,7 +593,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public org.gtk.glib.MainContext getContext() {
         var RESULT = gtk_h.g_task_get_context(handle());
-        return new org.gtk.glib.MainContext(References.get(RESULT, false));
+        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -627,7 +627,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public org.gtk.gobject.Object getSourceObject() {
         var RESULT = gtk_h.g_task_get_source_object(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -753,7 +753,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * See also g_task_return_new_error().
      */
     public void returnError(org.gtk.glib.Error error) {
-        gtk_h.g_task_return_error(handle(), error.getReference().unowned().handle());
+        gtk_h.g_task_return_error(handle(), error.refcounted().unowned().handle());
     }
     
     /**
@@ -928,7 +928,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), sourceTag, error.getReference().unowned().handle());
+                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), sourceTag, error.refcounted().unowned().handle());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

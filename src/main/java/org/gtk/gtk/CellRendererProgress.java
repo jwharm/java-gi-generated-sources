@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class CellRendererProgress extends CellRenderer implements Orientable {
 
-    public CellRendererProgress(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererProgress(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRendererProgress */
     public static CellRendererProgress castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererProgress(gobject.getReference());
+        return new CellRendererProgress(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_progress_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_progress_new(), false);
         return RESULT;
     }
     

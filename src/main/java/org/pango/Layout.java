@@ -47,17 +47,17 @@ import java.lang.invoke.*;
  */
 public class Layout extends org.gtk.gobject.Object {
 
-    public Layout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Layout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Layout */
     public static Layout castFrom(org.gtk.gobject.Object gobject) {
-        return new Layout(gobject.getReference());
+        return new Layout(gobject.refcounted());
     }
     
-    private static Reference constructNew(Context context) {
-        Reference RESULT = References.get(gtk_h.pango_layout_new(context.handle()), true);
+    private static Refcounted constructNew(Context context) {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_layout_new(context.handle()), true);
         return RESULT;
     }
     
@@ -88,7 +88,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public Layout copy() {
         var RESULT = gtk_h.pango_layout_copy(handle());
-        return new Layout(References.get(RESULT, true));
+        return new Layout(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -105,7 +105,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public AttrList getAttributes() {
         var RESULT = gtk_h.pango_layout_get_attributes(handle());
-        return new AttrList(References.get(RESULT, false));
+        return new AttrList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -158,7 +158,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public Context getContext() {
         var RESULT = gtk_h.pango_layout_get_context(handle());
-        return new Context(References.get(RESULT, false));
+        return new Context(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -236,7 +236,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public FontDescription getFontDescription() {
         var RESULT = gtk_h.pango_layout_get_font_description(handle());
-        return new FontDescription(References.get(RESULT, false));
+        return new FontDescription(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -264,7 +264,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public LayoutIter getIter() {
         var RESULT = gtk_h.pango_layout_get_iter(handle());
-        return new LayoutIter(References.get(RESULT, true));
+        return new LayoutIter(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -293,7 +293,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public LayoutLine getLine(int line) {
         var RESULT = gtk_h.pango_layout_get_line(handle(), line);
-        return new LayoutLine(References.get(RESULT, false));
+        return new LayoutLine(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -313,7 +313,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public LayoutLine getLineReadonly(int line) {
         var RESULT = gtk_h.pango_layout_get_line_readonly(handle(), line);
-        return new LayoutLine(References.get(RESULT, false));
+        return new LayoutLine(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -334,7 +334,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.SList getLines() {
         var RESULT = gtk_h.pango_layout_get_lines(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -346,7 +346,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.SList getLinesReadonly() {
         var RESULT = gtk_h.pango_layout_get_lines_readonly(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -456,7 +456,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public TabArray getTabs() {
         var RESULT = gtk_h.pango_layout_get_tabs(handle());
-        return new TabArray(References.get(RESULT, true));
+        return new TabArray(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -582,7 +582,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes serialize(LayoutSerializeFlags flags) {
         var RESULT = gtk_h.pango_layout_serialize(handle(), flags.getValue());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -940,7 +940,7 @@ public class Layout extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Layout(References.get(RESULT, true));
+        return new Layout(Refcounted.get(RESULT, true));
     }
     
 }

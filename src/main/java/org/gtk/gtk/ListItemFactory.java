@@ -57,13 +57,13 @@ import java.lang.invoke.*;
  */
 public class ListItemFactory extends org.gtk.gobject.Object {
 
-    public ListItemFactory(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ListItemFactory(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ListItemFactory */
     public static ListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        return new ListItemFactory(gobject.getReference());
+        return new ListItemFactory(gobject.refcounted());
     }
     
 }

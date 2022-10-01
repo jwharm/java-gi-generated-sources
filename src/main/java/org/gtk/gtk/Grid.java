@@ -91,17 +91,17 @@ import java.lang.invoke.*;
  */
 public class Grid extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Grid(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Grid(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Grid */
     public static Grid castFrom(org.gtk.gobject.Object gobject) {
-        return new Grid(gobject.getReference());
+        return new Grid(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_grid_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_grid_new(), false);
         return RESULT;
     }
     
@@ -152,7 +152,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public Widget getChildAt(int column, int row) {
         var RESULT = gtk_h.gtk_grid_get_child_at(handle(), column, row);
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

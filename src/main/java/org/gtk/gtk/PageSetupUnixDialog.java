@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public PageSetupUnixDialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PageSetupUnixDialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PageSetupUnixDialog */
     public static PageSetupUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new PageSetupUnixDialog(gobject.getReference());
+        return new PageSetupUnixDialog(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title, Window parent) {
-        Reference RESULT = References.get(gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+    private static Refcounted constructNew(java.lang.String title, Window parent) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
         return RESULT;
     }
     
@@ -43,7 +43,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      */
     public PageSetup getPageSetup() {
         var RESULT = gtk_h.gtk_page_setup_unix_dialog_get_page_setup(handle());
-        return new PageSetup(References.get(RESULT, false));
+        return new PageSetup(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -51,7 +51,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      */
     public PrintSettings getPrintSettings() {
         var RESULT = gtk_h.gtk_page_setup_unix_dialog_get_print_settings(handle());
-        return new PrintSettings(References.get(RESULT, false));
+        return new PrintSettings(Refcounted.get(RESULT, false));
     }
     
     /**

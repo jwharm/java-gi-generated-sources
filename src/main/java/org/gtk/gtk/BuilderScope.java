@@ -24,8 +24,8 @@ import java.lang.invoke.*;
 public interface BuilderScope extends io.github.jwharm.javagi.Proxy {
 
     class BuilderScopeImpl extends org.gtk.gobject.Object implements BuilderScope {
-        public BuilderScopeImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public BuilderScopeImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

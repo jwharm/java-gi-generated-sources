@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class DBusSubtreeVTable extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusSubtreeVTable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusSubtreeVTable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public DBusSubtreeVTable() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusSubtreeVTable.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusSubtreeVTable.allocate(Interop.getAllocator()).address()));
     }
     
 }

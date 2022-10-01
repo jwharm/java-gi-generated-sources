@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class OtColorLayerT extends io.github.jwharm.javagi.ResourceBase {
 
-    public OtColorLayerT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OtColorLayerT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public OtColorLayerT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_color_layer_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_ot_color_layer_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

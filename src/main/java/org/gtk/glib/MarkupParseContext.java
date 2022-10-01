@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  */
 public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
 
-    public MarkupParseContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MarkupParseContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(MarkupParser parser, MarkupParseFlags flags, java.lang.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
-        Reference RESULT = References.get(gtk_h.g_markup_parse_context_new(parser.handle(), flags.getValue(), userData, 
+    private static Refcounted constructNew(MarkupParser parser, MarkupParseFlags flags, java.lang.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_markup_parse_context_new(parser.handle(), flags.getValue(), userData, 
                     Interop.cbDestroyNotifySymbol()), true);
         return RESULT;
     }
@@ -88,7 +88,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.SList getElementStack() {
         var RESULT = gtk_h.g_markup_parse_context_get_element_stack(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -279,7 +279,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public MarkupParseContext ref() {
         var RESULT = gtk_h.g_markup_parse_context_ref(handle());
-        return new MarkupParseContext(References.get(RESULT, true));
+        return new MarkupParseContext(Refcounted.get(RESULT, true));
     }
     
     /**

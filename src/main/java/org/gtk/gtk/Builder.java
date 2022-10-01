@@ -189,17 +189,17 @@ import java.lang.invoke.*;
  */
 public class Builder extends org.gtk.gobject.Object {
 
-    public Builder(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Builder(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Builder */
     public static Builder castFrom(org.gtk.gobject.Object gobject) {
-        return new Builder(gobject.getReference());
+        return new Builder(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_builder_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_builder_new(), true);
         return RESULT;
     }
     
@@ -215,8 +215,8 @@ public class Builder extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static Reference constructNewFromFile(java.lang.String filename) {
-        Reference RESULT = References.get(gtk_h.gtk_builder_new_from_file(Interop.allocateNativeString(filename).handle()), true);
+    private static Refcounted constructNewFromFile(java.lang.String filename) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_builder_new_from_file(Interop.allocateNativeString(filename).handle()), true);
         return RESULT;
     }
     
@@ -231,8 +231,8 @@ public class Builder extends org.gtk.gobject.Object {
         return new Builder(constructNewFromFile(filename));
     }
     
-    private static Reference constructNewFromResource(java.lang.String resourcePath) {
-        Reference RESULT = References.get(gtk_h.gtk_builder_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
+    private static Refcounted constructNewFromResource(java.lang.String resourcePath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_builder_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
         return RESULT;
     }
     
@@ -246,8 +246,8 @@ public class Builder extends org.gtk.gobject.Object {
         return new Builder(constructNewFromResource(resourcePath));
     }
     
-    private static Reference constructNewFromString(java.lang.String string, long length) {
-        Reference RESULT = References.get(gtk_h.gtk_builder_new_from_string(Interop.allocateNativeString(string).handle(), length), true);
+    private static Refcounted constructNewFromString(java.lang.String string, long length) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_builder_new_from_string(Interop.allocateNativeString(string).handle(), length), true);
         return RESULT;
     }
     
@@ -426,7 +426,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Closure(References.get(RESULT, true));
+        return new org.gtk.gobject.Closure(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -458,7 +458,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getCurrentObject() {
         var RESULT = gtk_h.gtk_builder_get_current_object(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -469,7 +469,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getObject(java.lang.String name) {
         var RESULT = gtk_h.gtk_builder_get_object(handle(), Interop.allocateNativeString(name).handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -480,7 +480,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.SList getObjects() {
         var RESULT = gtk_h.gtk_builder_get_objects(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -488,7 +488,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public BuilderScope getScope() {
         var RESULT = gtk_h.gtk_builder_get_scope(handle());
-        return new BuilderScope.BuilderScopeImpl(References.get(RESULT, false));
+        return new BuilderScope.BuilderScopeImpl(Refcounted.get(RESULT, false));
     }
     
     /**

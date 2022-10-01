@@ -11,8 +11,8 @@ import java.lang.foreign.MemoryAddress;
  */
 public class DoubleIEEE754 extends io.github.jwharm.javagi.ResourceBase {
     
-    public DoubleIEEE754(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DoubleIEEE754(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

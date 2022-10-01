@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Size extends io.github.jwharm.javagi.ResourceBase {
 
-    public Size(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Size(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_size_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_size_alloc(), true);
         return RESULT;
     }
     
@@ -48,7 +48,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      */
     public Size init(float width, float height) {
         var RESULT = gtk_h.graphene_size_init(handle(), width, height);
-        return new Size(References.get(RESULT, false));
+        return new Size(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      */
     public Size initFromSize(Size src) {
         var RESULT = gtk_h.graphene_size_init_from_size(handle(), src.handle());
-        return new Size(References.get(RESULT, false));
+        return new Size(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Size zero() {
         var RESULT = gtk_h.graphene_size_zero();
-        return new Size(References.get(RESULT, false));
+        return new Size(Refcounted.get(RESULT, false));
     }
     
 }

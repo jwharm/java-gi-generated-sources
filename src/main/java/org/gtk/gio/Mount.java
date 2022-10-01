@@ -83,7 +83,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      */
     public default File getDefaultLocation() {
         var RESULT = gtk_h.g_mount_get_default_location(handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -94,7 +94,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      */
     public default Drive getDrive() {
         var RESULT = gtk_h.g_mount_get_drive(handle());
-        return new Drive.DriveImpl(References.get(RESULT, true));
+        return new Drive.DriveImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -102,7 +102,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      */
     public default Icon getIcon() {
         var RESULT = gtk_h.g_mount_get_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -118,7 +118,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      */
     public default File getRoot() {
         var RESULT = gtk_h.g_mount_get_root(handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -134,7 +134,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      */
     public default Icon getSymbolicIcon() {
         var RESULT = gtk_h.g_mount_get_symbolic_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -153,7 +153,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      */
     public default Volume getVolume() {
         var RESULT = gtk_h.g_mount_get_volume(handle());
-        return new Volume.VolumeImpl(References.get(RESULT, true));
+        return new Volume.VolumeImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -429,26 +429,26 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         public static void signalMountChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Mount.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Mount.MountImpl(References.get(source)));
+            handler.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
         }
         
         public static void signalMountPreUnmount(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Mount.PreUnmountHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Mount.MountImpl(References.get(source)));
+            handler.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
         }
         
         public static void signalMountUnmounted(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Mount.UnmountedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Mount.MountImpl(References.get(source)));
+            handler.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
         }
         
     }
     
     class MountImpl extends org.gtk.gobject.Object implements Mount {
-        public MountImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public MountImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

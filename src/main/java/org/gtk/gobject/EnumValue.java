@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class EnumValue extends io.github.jwharm.javagi.ResourceBase {
 
-    public EnumValue(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EnumValue(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public EnumValue() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GEnumValue.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GEnumValue.allocate(Interop.getAllocator()).address()));
     }
     
 }

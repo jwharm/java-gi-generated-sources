@@ -25,13 +25,13 @@ import java.lang.invoke.*;
  */
 public class SocketConnection extends IOStream {
 
-    public SocketConnection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SocketConnection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SocketConnection */
     public static SocketConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketConnection(gobject.getReference());
+        return new SocketConnection(gobject.refcounted());
     }
     
     /**
@@ -89,7 +89,7 @@ public class SocketConnection extends IOStream {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketAddress(References.get(RESULT, true));
+        return new SocketAddress(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class SocketConnection extends IOStream {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketAddress(References.get(RESULT, true));
+        return new SocketAddress(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -118,7 +118,7 @@ public class SocketConnection extends IOStream {
      */
     public Socket getSocket() {
         var RESULT = gtk_h.g_socket_connection_get_socket(handle());
-        return new Socket(References.get(RESULT, false));
+        return new Socket(Refcounted.get(RESULT, false));
     }
     
     /**

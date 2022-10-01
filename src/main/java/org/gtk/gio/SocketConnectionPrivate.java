@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SocketConnectionPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public SocketConnectionPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SocketConnectionPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

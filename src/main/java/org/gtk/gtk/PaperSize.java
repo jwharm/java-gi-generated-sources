@@ -20,12 +20,12 @@ import java.lang.invoke.*;
  */
 public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
 
-    public PaperSize(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PaperSize(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String name) {
-        Reference RESULT = References.get(gtk_h.gtk_paper_size_new(Interop.allocateNativeString(name).handle()), true);
+    private static Refcounted constructNew(java.lang.String name) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_paper_size_new(Interop.allocateNativeString(name).handle()), true);
         return RESULT;
     }
     
@@ -41,8 +41,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(name));
     }
     
-    private static Reference constructNewCustom(java.lang.String name, java.lang.String displayName, double width, double height, Unit unit) {
-        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_custom(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(displayName).handle(), width, height, unit.getValue()), true);
+    private static Refcounted constructNewCustom(java.lang.String name, java.lang.String displayName, double width, double height, Unit unit) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_paper_size_new_custom(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(displayName).handle(), width, height, unit.getValue()), true);
         return RESULT;
     }
     
@@ -54,8 +54,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         return new PaperSize(constructNewCustom(name, displayName, width, height, unit));
     }
     
-    private static Reference constructNewFromGvariant(org.gtk.glib.Variant variant) {
-        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_gvariant(variant.handle()), true);
+    private static Refcounted constructNewFromGvariant(org.gtk.glib.Variant variant) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_paper_size_new_from_gvariant(variant.handle()), true);
         return RESULT;
     }
     
@@ -69,8 +69,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         return new PaperSize(constructNewFromGvariant(variant));
     }
     
-    private static Reference constructNewFromIpp(java.lang.String ippName, double width, double height) {
-        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_ipp(Interop.allocateNativeString(ippName).handle(), width, height), true);
+    private static Refcounted constructNewFromIpp(java.lang.String ippName, double width, double height) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_paper_size_new_from_ipp(Interop.allocateNativeString(ippName).handle(), width, height), true);
         return RESULT;
     }
     
@@ -86,9 +86,9 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         return new PaperSize(constructNewFromIpp(ippName, width, height));
     }
     
-    private static Reference constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+    private static Refcounted constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_paper_size_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -103,8 +103,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
         return new PaperSize(constructNewFromKeyFile(keyFile, groupName));
     }
     
-    private static Reference constructNewFromPpd(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
-        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_ppd(Interop.allocateNativeString(ppdName).handle(), Interop.allocateNativeString(ppdDisplayName).handle(), width, height), true);
+    private static Refcounted constructNewFromPpd(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_paper_size_new_from_ppd(Interop.allocateNativeString(ppdName).handle(), Interop.allocateNativeString(ppdDisplayName).handle(), width, height), true);
         return RESULT;
     }
     
@@ -125,7 +125,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public PaperSize copy() {
         var RESULT = gtk_h.gtk_paper_size_copy(handle());
-        return new PaperSize(References.get(RESULT, true));
+        return new PaperSize(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -246,7 +246,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = gtk_h.gtk_paper_size_to_gvariant(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -270,7 +270,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List getPaperSizes(boolean includeCustom) {
         var RESULT = gtk_h.gtk_paper_size_get_paper_sizes(includeCustom ? 1 : 0);
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
 }

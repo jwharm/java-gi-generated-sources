@@ -174,7 +174,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.VariantType getActionParameterType(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_group_get_action_parameter_type(handle(), Interop.allocateNativeString(actionName).handle());
-        return new org.gtk.glib.VariantType(References.get(RESULT, false));
+        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -189,7 +189,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Variant getActionState(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_group_get_action_state(handle(), Interop.allocateNativeString(actionName).handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -214,7 +214,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Variant getActionStateHint(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_group_get_action_state_hint(handle(), Interop.allocateNativeString(actionName).handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -237,7 +237,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.VariantType getActionStateType(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_group_get_action_state_type(handle(), Interop.allocateNativeString(actionName).handle());
-        return new org.gtk.glib.VariantType(References.get(RESULT, false));
+        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -406,32 +406,32 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         public static void signalActionGroupActionAdded(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ActionGroup.ActionAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0));
+            handler.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), actionName.getUtf8String(0));
         }
         
         public static void signalActionGroupActionEnabledChanged(MemoryAddress source, MemoryAddress actionName, int enabled, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ActionGroup.ActionEnabledChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), enabled != 0);
+            handler.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), actionName.getUtf8String(0), enabled != 0);
         }
         
         public static void signalActionGroupActionRemoved(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ActionGroup.ActionRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0));
+            handler.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), actionName.getUtf8String(0));
         }
         
         public static void signalActionGroupActionStateChanged(MemoryAddress source, MemoryAddress actionName, MemoryAddress value, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ActionGroup.ActionStateChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
+            handler.signalReceived(new ActionGroup.ActionGroupImpl(Refcounted.get(source)), actionName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(value, false)));
         }
         
     }
     
     class ActionGroupImpl extends org.gtk.gobject.Object implements ActionGroup {
-        public ActionGroupImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ActionGroupImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

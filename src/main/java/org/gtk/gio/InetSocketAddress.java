@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class InetSocketAddress extends SocketAddress implements SocketConnectable {
 
-    public InetSocketAddress(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InetSocketAddress(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to InetSocketAddress */
     public static InetSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new InetSocketAddress(gobject.getReference());
+        return new InetSocketAddress(gobject.refcounted());
     }
     
-    private static Reference constructNew(InetAddress address, short port) {
-        Reference RESULT = References.get(gtk_h.g_inet_socket_address_new(address.handle(), port), true);
+    private static Refcounted constructNew(InetAddress address, short port) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_socket_address_new(address.handle(), port), true);
         return RESULT;
     }
     
@@ -32,8 +32,8 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
         super(constructNew(address, port));
     }
     
-    private static Reference constructNewFromString(java.lang.String address, int port) {
-        Reference RESULT = References.get(gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).handle(), port), true);
+    private static Refcounted constructNewFromString(java.lang.String address, int port) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).handle(), port), true);
         return RESULT;
     }
     
@@ -52,7 +52,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      */
     public InetAddress getAddress() {
         var RESULT = gtk_h.g_inet_socket_address_get_address(handle());
-        return new InetAddress(References.get(RESULT, false));
+        return new InetAddress(Refcounted.get(RESULT, false));
     }
     
     /**

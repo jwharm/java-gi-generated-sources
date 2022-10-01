@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MemoryOutputStreamPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public MemoryOutputStreamPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MemoryOutputStreamPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

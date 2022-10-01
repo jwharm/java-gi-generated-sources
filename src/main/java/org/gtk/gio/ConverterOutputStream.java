@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class ConverterOutputStream extends FilterOutputStream implements PollableOutputStream {
 
-    public ConverterOutputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ConverterOutputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ConverterOutputStream */
     public static ConverterOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new ConverterOutputStream(gobject.getReference());
+        return new ConverterOutputStream(gobject.refcounted());
     }
     
-    private static Reference constructNew(OutputStream baseStream, Converter converter) {
-        Reference RESULT = References.get(gtk_h.g_converter_output_stream_new(baseStream.handle(), converter.handle()), true);
+    private static Refcounted constructNew(OutputStream baseStream, Converter converter) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_converter_output_stream_new(baseStream.handle(), converter.handle()), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
      */
     public Converter getConverter() {
         var RESULT = gtk_h.g_converter_output_stream_get_converter(handle());
-        return new Converter.ConverterImpl(References.get(RESULT, false));
+        return new Converter.ConverterImpl(Refcounted.get(RESULT, false));
     }
     
 }

@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
 
-    public BookmarkFile(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BookmarkFile(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -71,7 +71,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DateTime(References.get(RESULT, false));
+        return new DateTime(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -208,7 +208,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DateTime(References.get(RESULT, false));
+        return new DateTime(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -258,7 +258,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DateTime(References.get(RESULT, false));
+        return new DateTime(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -588,7 +588,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public static BookmarkFile new_() {
         var RESULT = gtk_h.g_bookmark_file_new();
-        return new BookmarkFile(References.get(RESULT, false));
+        return new BookmarkFile(Refcounted.get(RESULT, false));
     }
     
 }

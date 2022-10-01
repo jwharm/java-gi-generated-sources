@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Point3D extends io.github.jwharm.javagi.ResourceBase {
 
-    public Point3D(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Point3D(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_point3d_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_point3d_alloc(), true);
         return RESULT;
     }
     
@@ -69,7 +69,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      */
     public Point3D init(float x, float y, float z) {
         var RESULT = gtk_h.graphene_point3d_init(handle(), x, y, z);
-        return new Point3D(References.get(RESULT, false));
+        return new Point3D(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      */
     public Point3D initFromPoint(Point3D src) {
         var RESULT = gtk_h.graphene_point3d_init_from_point(handle(), src.handle());
-        return new Point3D(References.get(RESULT, false));
+        return new Point3D(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      */
     public Point3D initFromVec3(Vec3 v) {
         var RESULT = gtk_h.graphene_point3d_init_from_vec3(handle(), v.handle());
-        return new Point3D(References.get(RESULT, false));
+        return new Point3D(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -156,7 +156,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Point3D zero() {
         var RESULT = gtk_h.graphene_point3d_zero();
-        return new Point3D(References.get(RESULT, false));
+        return new Point3D(Refcounted.get(RESULT, false));
     }
     
 }

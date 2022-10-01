@@ -56,17 +56,17 @@ import java.lang.invoke.*;
  */
 public class Stack extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Stack(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Stack(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Stack */
     public static Stack castFrom(org.gtk.gobject.Object gobject) {
-        return new Stack(gobject.getReference());
+        return new Stack(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_stack_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_stack_new(), false);
         return RESULT;
     }
     
@@ -82,7 +82,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addChild(Widget child) {
         var RESULT = gtk_h.gtk_stack_add_child(handle(), child.handle());
-        return new StackPage(References.get(RESULT, false));
+        return new StackPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -92,7 +92,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addNamed(Widget child, java.lang.String name) {
         var RESULT = gtk_h.gtk_stack_add_named(handle(), child.handle(), Interop.allocateNativeString(name).handle());
-        return new StackPage(References.get(RESULT, false));
+        return new StackPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -104,7 +104,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addTitled(Widget child, java.lang.String name, java.lang.String title) {
         var RESULT = gtk_h.gtk_stack_add_titled(handle(), child.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(title).handle());
-        return new StackPage(References.get(RESULT, false));
+        return new StackPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getChildByName(java.lang.String name) {
         var RESULT = gtk_h.gtk_stack_get_child_by_name(handle(), Interop.allocateNativeString(name).handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage getPage(Widget child) {
         var RESULT = gtk_h.gtk_stack_get_page(handle(), child.handle());
-        return new StackPage(References.get(RESULT, false));
+        return new StackPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public SelectionModel getPages() {
         var RESULT = gtk_h.gtk_stack_get_pages(handle());
-        return new SelectionModel.SelectionModelImpl(References.get(RESULT, true));
+        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -198,7 +198,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getVisibleChild() {
         var RESULT = gtk_h.gtk_stack_get_visible_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class UnixInputStream extends InputStream implements FileDescriptorBased, PollableInputStream {
 
-    public UnixInputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixInputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to UnixInputStream */
     public static UnixInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixInputStream(gobject.getReference());
+        return new UnixInputStream(gobject.refcounted());
     }
     
-    private static Reference constructNew(int fd, boolean closeFd) {
-        Reference RESULT = References.get(gtk_h.g_unix_input_stream_new(fd, closeFd ? 1 : 0), true);
+    private static Refcounted constructNew(int fd, boolean closeFd) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_input_stream_new(fd, closeFd ? 1 : 0), true);
         return RESULT;
     }
     

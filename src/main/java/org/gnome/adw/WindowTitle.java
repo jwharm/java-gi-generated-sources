@@ -22,17 +22,17 @@ import java.lang.invoke.*;
  */
 public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public WindowTitle(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WindowTitle(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to WindowTitle */
     public static WindowTitle castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowTitle(gobject.getReference());
+        return new WindowTitle(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title, java.lang.String subtitle) {
-        Reference RESULT = References.get(gtk_h.adw_window_title_new(Interop.allocateNativeString(title).handle(), Interop.allocateNativeString(subtitle).handle()), false);
+    private static Refcounted constructNew(java.lang.String title, java.lang.String subtitle) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_window_title_new(Interop.allocateNativeString(title).handle(), Interop.allocateNativeString(subtitle).handle()), false);
         return RESULT;
     }
     

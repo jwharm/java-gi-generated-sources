@@ -31,7 +31,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
      */
     public default TlsDatabase getDefaultDatabase() {
         var RESULT = gtk_h.g_tls_backend_get_default_database(handle());
-        return new TlsDatabase(References.get(RESULT, true));
+        return new TlsDatabase(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -103,12 +103,12 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
      */
     public static TlsBackend getDefault() {
         var RESULT = gtk_h.g_tls_backend_get_default();
-        return new TlsBackend.TlsBackendImpl(References.get(RESULT, false));
+        return new TlsBackend.TlsBackendImpl(Refcounted.get(RESULT, false));
     }
     
     class TlsBackendImpl extends org.gtk.gobject.Object implements TlsBackend {
-        public TlsBackendImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public TlsBackendImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

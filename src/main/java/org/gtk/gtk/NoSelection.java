@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
 
-    public NoSelection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NoSelection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NoSelection */
     public static NoSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new NoSelection(gobject.getReference());
+        return new NoSelection(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_no_selection_new(model.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(org.gtk.gio.ListModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_no_selection_new(model.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_no_selection_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**

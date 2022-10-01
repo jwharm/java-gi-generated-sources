@@ -7,12 +7,12 @@ import java.lang.invoke.*;
 
 public class Simd4X4F extends io.github.jwharm.javagi.ResourceBase {
 
-    public Simd4X4F(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Simd4X4F(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Simd4X4F() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.graphene_simd4x4f_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.graphene_simd4x4f_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

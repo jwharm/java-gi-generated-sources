@@ -26,17 +26,17 @@ import java.lang.invoke.*;
  */
 public class CarouselIndicatorLines extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
 
-    public CarouselIndicatorLines(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CarouselIndicatorLines(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CarouselIndicatorLines */
     public static CarouselIndicatorLines castFrom(org.gtk.gobject.Object gobject) {
-        return new CarouselIndicatorLines(gobject.getReference());
+        return new CarouselIndicatorLines(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_carousel_indicator_lines_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_carousel_indicator_lines_new(), false);
         return RESULT;
     }
     
@@ -52,7 +52,7 @@ public class CarouselIndicatorLines extends org.gtk.gtk.Widget implements org.gt
      */
     public Carousel getCarousel() {
         var RESULT = gtk_h.adw_carousel_indicator_lines_get_carousel(handle());
-        return new Carousel(References.get(RESULT, false));
+        return new Carousel(Refcounted.get(RESULT, false));
     }
     
     /**

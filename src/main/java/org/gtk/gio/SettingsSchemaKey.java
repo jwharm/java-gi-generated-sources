@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
 
-    public SettingsSchemaKey(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SettingsSchemaKey(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -23,7 +23,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.Variant getDefaultValue() {
         var RESULT = gtk_h.g_settings_schema_key_get_default_value(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -95,7 +95,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.Variant getRange() {
         var RESULT = gtk_h.g_settings_schema_key_get_range(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -123,7 +123,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.VariantType getValueType() {
         var RESULT = gtk_h.g_settings_schema_key_get_value_type(handle());
-        return new org.gtk.glib.VariantType(References.get(RESULT, false));
+        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -143,7 +143,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      */
     public SettingsSchemaKey ref() {
         var RESULT = gtk_h.g_settings_schema_key_ref(handle());
-        return new SettingsSchemaKey(References.get(RESULT, true));
+        return new SettingsSchemaKey(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixConnectionPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public UnixConnectionPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixConnectionPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

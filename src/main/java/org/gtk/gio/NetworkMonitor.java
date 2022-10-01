@@ -132,7 +132,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
      */
     public static NetworkMonitor getDefault() {
         var RESULT = gtk_h.g_network_monitor_get_default();
-        return new NetworkMonitor.NetworkMonitorImpl(References.get(RESULT, false));
+        return new NetworkMonitor.NetworkMonitorImpl(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -166,14 +166,14 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
         public static void signalNetworkMonitorNetworkChanged(MemoryAddress source, int networkAvailable, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (NetworkMonitor.NetworkChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new NetworkMonitor.NetworkMonitorImpl(References.get(source)), networkAvailable != 0);
+            handler.signalReceived(new NetworkMonitor.NetworkMonitorImpl(Refcounted.get(source)), networkAvailable != 0);
         }
         
     }
     
     class NetworkMonitorImpl extends org.gtk.gobject.Object implements NetworkMonitor {
-        public NetworkMonitorImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public NetworkMonitorImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

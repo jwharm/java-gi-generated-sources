@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class CellRendererPixbuf extends CellRenderer {
 
-    public CellRendererPixbuf(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererPixbuf(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRendererPixbuf */
     public static CellRendererPixbuf castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererPixbuf(gobject.getReference());
+        return new CellRendererPixbuf(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_pixbuf_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_pixbuf_new(), false);
         return RESULT;
     }
     

@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class DropControllerMotion extends EventController {
 
-    public DropControllerMotion(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DropControllerMotion(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DropControllerMotion */
     public static DropControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        return new DropControllerMotion(gobject.getReference());
+        return new DropControllerMotion(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_drop_controller_motion_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_drop_controller_motion_new(), true);
         return RESULT;
     }
     
@@ -54,7 +54,7 @@ public class DropControllerMotion extends EventController {
      */
     public org.gtk.gdk.Drop getDrop() {
         var RESULT = gtk_h.gtk_drop_controller_motion_get_drop(handle());
-        return new org.gtk.gdk.Drop(References.get(RESULT, false));
+        return new org.gtk.gdk.Drop(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -149,19 +149,19 @@ public class DropControllerMotion extends EventController {
         public static void signalDropControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropControllerMotion.EnterHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropControllerMotion(References.get(source)), x, y);
+            handler.signalReceived(new DropControllerMotion(Refcounted.get(source)), x, y);
         }
         
         public static void signalDropControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropControllerMotion.LeaveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropControllerMotion(References.get(source)));
+            handler.signalReceived(new DropControllerMotion(Refcounted.get(source)));
         }
         
         public static void signalDropControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropControllerMotion.MotionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropControllerMotion(References.get(source)), x, y);
+            handler.signalReceived(new DropControllerMotion(Refcounted.get(source)), x, y);
         }
         
     }

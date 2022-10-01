@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class BoolFilter extends Filter {
 
-    public BoolFilter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BoolFilter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BoolFilter */
     public static BoolFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new BoolFilter(gobject.getReference());
+        return new BoolFilter(gobject.refcounted());
     }
     
-    private static Reference constructNew(Expression expression) {
-        Reference RESULT = References.get(gtk_h.gtk_bool_filter_new(expression.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(Expression expression) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_bool_filter_new(expression.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -38,7 +38,7 @@ public class BoolFilter extends Filter {
      */
     public Expression getExpression() {
         var RESULT = gtk_h.gtk_bool_filter_get_expression(handle());
-        return new Expression(References.get(RESULT, false));
+        return new Expression(Refcounted.get(RESULT, false));
     }
     
     /**

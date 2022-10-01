@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class Queue extends io.github.jwharm.javagi.ResourceBase {
 
-    public Queue(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Queue(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Queue() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GQueue.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GQueue.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -34,7 +34,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public Queue copy() {
         var RESULT = gtk_h.g_queue_copy(handle());
-        return new Queue(References.get(RESULT, false));
+        return new Queue(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -51,7 +51,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List find(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_find(handle(), data);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-            return new org.gtk.glib.List(References.get(RESULT, false));
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -220,7 +220,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List peekHeadLink() {
         var RESULT = gtk_h.g_queue_peek_head_link(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -236,7 +236,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List peekNthLink(int n) {
         var RESULT = gtk_h.g_queue_peek_nth_link(handle(), n);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -252,7 +252,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List peekTailLink() {
         var RESULT = gtk_h.g_queue_peek_tail_link(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -268,7 +268,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List popHeadLink() {
         var RESULT = gtk_h.g_queue_pop_head_link(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -284,7 +284,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List popNthLink(int n) {
         var RESULT = gtk_h.g_queue_pop_nth_link(handle(), n);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -300,7 +300,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List popTailLink() {
         var RESULT = gtk_h.g_queue_pop_tail_link(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -400,7 +400,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Queue new_() {
         var RESULT = gtk_h.g_queue_new();
-        return new Queue(References.get(RESULT, false));
+        return new Queue(Refcounted.get(RESULT, false));
     }
     
 }

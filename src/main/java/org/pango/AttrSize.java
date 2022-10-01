@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class AttrSize extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrSize(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrSize(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AttrSize() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrSize.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrSize.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -24,7 +24,7 @@ public class AttrSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Attribute new_(int size) {
         var RESULT = gtk_h.pango_attr_size_new(size);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class AttrSize extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Attribute newAbsolute(int size) {
         var RESULT = gtk_h.pango_attr_size_new_absolute(size);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
 }

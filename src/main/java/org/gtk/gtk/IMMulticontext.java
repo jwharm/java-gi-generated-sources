@@ -15,17 +15,17 @@ import java.lang.invoke.*;
  */
 public class IMMulticontext extends IMContext {
 
-    public IMMulticontext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IMMulticontext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to IMMulticontext */
     public static IMMulticontext castFrom(org.gtk.gobject.Object gobject) {
-        return new IMMulticontext(gobject.getReference());
+        return new IMMulticontext(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_im_multicontext_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_im_multicontext_new(), true);
         return RESULT;
     }
     

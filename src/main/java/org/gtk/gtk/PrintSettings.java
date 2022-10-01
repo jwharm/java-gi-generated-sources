@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class PrintSettings extends org.gtk.gobject.Object {
 
-    public PrintSettings(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PrintSettings(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PrintSettings */
     public static PrintSettings castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintSettings(gobject.getReference());
+        return new PrintSettings(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_print_settings_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_settings_new(), true);
         return RESULT;
     }
     
@@ -42,9 +42,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static Reference constructNewFromFile(java.lang.String fileName) throws GErrorException {
+    private static Refcounted constructNewFromFile(java.lang.String fileName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gtk_print_settings_new_from_file(Interop.allocateNativeString(fileName).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_settings_new_from_file(Interop.allocateNativeString(fileName).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -64,8 +64,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
         return new PrintSettings(constructNewFromFile(fileName));
     }
     
-    private static Reference constructNewFromGvariant(org.gtk.glib.Variant variant) {
-        Reference RESULT = References.get(gtk_h.gtk_print_settings_new_from_gvariant(variant.handle()), true);
+    private static Refcounted constructNewFromGvariant(org.gtk.glib.Variant variant) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_settings_new_from_gvariant(variant.handle()), true);
         return RESULT;
     }
     
@@ -79,9 +79,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
         return new PrintSettings(constructNewFromGvariant(variant));
     }
     
-    private static Reference constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+    private static Refcounted constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gtk_print_settings_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_settings_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -104,7 +104,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PrintSettings copy() {
         var RESULT = gtk_h.gtk_print_settings_copy(handle());
-        return new PrintSettings(References.get(RESULT, true));
+        return new PrintSettings(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -314,7 +314,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PaperSize getPaperSize() {
         var RESULT = gtk_h.gtk_print_settings_get_paper_size(handle());
-        return new PaperSize(References.get(RESULT, true));
+        return new PaperSize(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -686,7 +686,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = gtk_h.gtk_print_settings_to_gvariant(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**

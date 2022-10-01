@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class PasswordEntryBuffer extends EntryBuffer {
 
-    public PasswordEntryBuffer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PasswordEntryBuffer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PasswordEntryBuffer */
     public static PasswordEntryBuffer castFrom(org.gtk.gobject.Object gobject) {
-        return new PasswordEntryBuffer(gobject.getReference());
+        return new PasswordEntryBuffer(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_password_entry_buffer_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_password_entry_buffer_new(), true);
         return RESULT;
     }
     

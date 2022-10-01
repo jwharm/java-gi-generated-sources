@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class DrawContext extends org.gtk.gobject.Object {
 
-    public DrawContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DrawContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DrawContext */
     public static DrawContext castFrom(org.gtk.gobject.Object gobject) {
-        return new DrawContext(gobject.getReference());
+        return new DrawContext(gobject.refcounted());
     }
     
     /**
@@ -76,7 +76,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_draw_context_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public org.cairographics.Region getFrameRegion() {
         var RESULT = gtk_h.gdk_draw_context_get_frame_region(handle());
-        return new org.cairographics.Region(References.get(RESULT, false));
+        return new org.cairographics.Region(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public Surface getSurface() {
         var RESULT = gtk_h.gdk_draw_context_get_surface(handle());
-        return new Surface(References.get(RESULT, false));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
     /**

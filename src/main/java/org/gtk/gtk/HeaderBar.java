@@ -80,17 +80,17 @@ import java.lang.invoke.*;
  */
 public class HeaderBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public HeaderBar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public HeaderBar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to HeaderBar */
     public static HeaderBar castFrom(org.gtk.gobject.Object gobject) {
-        return new HeaderBar(gobject.getReference());
+        return new HeaderBar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_header_bar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_header_bar_new(), false);
         return RESULT;
     }
     
@@ -125,7 +125,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getTitleWidget() {
         var RESULT = gtk_h.gtk_header_bar_get_title_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

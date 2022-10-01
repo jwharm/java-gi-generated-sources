@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class Video extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Video(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Video(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Video */
     public static Video castFrom(org.gtk.gobject.Object gobject) {
-        return new Video(gobject.getReference());
+        return new Video(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_video_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new(), false);
         return RESULT;
     }
     
@@ -44,8 +44,8 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         super(constructNew());
     }
     
-    private static Reference constructNewForFile(org.gtk.gio.File file) {
-        Reference RESULT = References.get(gtk_h.gtk_video_new_for_file(file.handle()), false);
+    private static Refcounted constructNewForFile(org.gtk.gio.File file) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new_for_file(file.handle()), false);
         return RESULT;
     }
     
@@ -56,8 +56,8 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(constructNewForFile(file));
     }
     
-    private static Reference constructNewForFilename(java.lang.String filename) {
-        Reference RESULT = References.get(gtk_h.gtk_video_new_for_filename(Interop.allocateNativeString(filename).handle()), false);
+    private static Refcounted constructNewForFilename(java.lang.String filename) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new_for_filename(Interop.allocateNativeString(filename).handle()), false);
         return RESULT;
     }
     
@@ -71,8 +71,8 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(constructNewForFilename(filename));
     }
     
-    private static Reference constructNewForMediaStream(MediaStream stream) {
-        Reference RESULT = References.get(gtk_h.gtk_video_new_for_media_stream(stream.handle()), false);
+    private static Refcounted constructNewForMediaStream(MediaStream stream) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new_for_media_stream(stream.handle()), false);
         return RESULT;
     }
     
@@ -83,8 +83,8 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(constructNewForMediaStream(stream));
     }
     
-    private static Reference constructNewForResource(java.lang.String resourcePath) {
-        Reference RESULT = References.get(gtk_h.gtk_video_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false);
+    private static Refcounted constructNewForResource(java.lang.String resourcePath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false);
         return RESULT;
     }
     
@@ -112,7 +112,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_video_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -128,7 +128,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public MediaStream getMediaStream() {
         var RESULT = gtk_h.gtk_video_get_media_stream(handle());
-        return new MediaStream(References.get(RESULT, false));
+        return new MediaStream(Refcounted.get(RESULT, false));
     }
     
     /**

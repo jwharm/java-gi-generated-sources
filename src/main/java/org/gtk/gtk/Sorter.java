@@ -29,13 +29,13 @@ import java.lang.invoke.*;
  */
 public class Sorter extends org.gtk.gobject.Object {
 
-    public Sorter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Sorter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Sorter */
     public static Sorter castFrom(org.gtk.gobject.Object gobject) {
-        return new Sorter(gobject.getReference());
+        return new Sorter(gobject.refcounted());
     }
     
     /**
@@ -128,7 +128,7 @@ public class Sorter extends org.gtk.gobject.Object {
         public static void signalSorterChanged(MemoryAddress source, int change, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Sorter.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Sorter(References.get(source)), new SorterChange(change));
+            handler.signalReceived(new Sorter(Refcounted.get(source)), new SorterChange(change));
         }
         
     }

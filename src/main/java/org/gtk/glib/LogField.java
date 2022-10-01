@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  */
 public class LogField extends io.github.jwharm.javagi.ResourceBase {
 
-    public LogField(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LogField(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public LogField() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GLogField.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GLogField.allocate(Interop.getAllocator()).address()));
     }
     
 }

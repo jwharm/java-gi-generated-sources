@@ -201,7 +201,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      */
     public default Editable getDelegate() {
         var RESULT = gtk_h.gtk_editable_get_delegate(handle());
-        return new Editable.EditableImpl(References.get(RESULT, false));
+        return new Editable.EditableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -530,26 +530,26 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         public static void signalEditableChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Editable.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Editable.EditableImpl(References.get(source)));
+            handler.signalReceived(new Editable.EditableImpl(Refcounted.get(source)));
         }
         
         public static void signalEditableDeleteText(MemoryAddress source, int startPos, int endPos, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Editable.DeleteTextHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Editable.EditableImpl(References.get(source)), startPos, endPos);
+            handler.signalReceived(new Editable.EditableImpl(Refcounted.get(source)), startPos, endPos);
         }
         
         public static void signalEditableInsertText(MemoryAddress source, MemoryAddress text, int length, int position, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Editable.InsertTextHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Editable.EditableImpl(References.get(source)), text.getUtf8String(0), length, position);
+            handler.signalReceived(new Editable.EditableImpl(Refcounted.get(source)), text.getUtf8String(0), length, position);
         }
         
     }
     
     class EditableImpl extends org.gtk.gobject.Object implements Editable {
-        public EditableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public EditableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

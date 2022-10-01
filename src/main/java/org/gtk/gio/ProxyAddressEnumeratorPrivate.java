@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ProxyAddressEnumeratorPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public ProxyAddressEnumeratorPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ProxyAddressEnumeratorPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

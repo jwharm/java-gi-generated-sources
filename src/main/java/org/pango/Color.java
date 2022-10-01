@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class Color extends io.github.jwharm.javagi.ResourceBase {
 
-    public Color(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Color(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Color() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoColor.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoColor.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -29,7 +29,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      */
     public Color copy() {
         var RESULT = gtk_h.pango_color_copy(handle());
-        return new Color(References.get(RESULT, true));
+        return new Color(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class ColorChooserDialog extends Dialog implements Accessible, Buildable, ColorChooser, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public ColorChooserDialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ColorChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ColorChooserDialog */
     public static ColorChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorChooserDialog(gobject.getReference());
+        return new ColorChooserDialog(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title, Window parent) {
-        Reference RESULT = References.get(gtk_h.gtk_color_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+    private static Refcounted constructNew(java.lang.String title, Window parent) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_color_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
         return RESULT;
     }
     

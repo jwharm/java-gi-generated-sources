@@ -46,17 +46,17 @@ import java.lang.invoke.*;
  */
 public class IMContextSimple extends IMContext {
 
-    public IMContextSimple(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IMContextSimple(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to IMContextSimple */
     public static IMContextSimple castFrom(org.gtk.gobject.Object gobject) {
-        return new IMContextSimple(gobject.getReference());
+        return new IMContextSimple(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_im_context_simple_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_im_context_simple_new(), true);
         return RESULT;
     }
     

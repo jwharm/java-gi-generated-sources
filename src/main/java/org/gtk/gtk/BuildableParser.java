@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class BuildableParser extends io.github.jwharm.javagi.ResourceBase {
 
-    public BuildableParser(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BuildableParser(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public BuildableParser() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBuildableParser.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkBuildableParser.allocate(Interop.getAllocator()).address()));
     }
     
 }

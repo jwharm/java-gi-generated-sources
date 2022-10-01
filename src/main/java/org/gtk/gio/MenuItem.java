@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class MenuItem extends org.gtk.gobject.Object {
 
-    public MenuItem(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MenuItem(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MenuItem */
     public static MenuItem castFrom(org.gtk.gobject.Object gobject) {
-        return new MenuItem(gobject.getReference());
+        return new MenuItem(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String label, java.lang.String detailedAction) {
-        Reference RESULT = References.get(gtk_h.g_menu_item_new(Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle()), true);
+    private static Refcounted constructNew(java.lang.String label, java.lang.String detailedAction) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_menu_item_new(Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle()), true);
         return RESULT;
     }
     
@@ -39,8 +39,8 @@ public class MenuItem extends org.gtk.gobject.Object {
         super(constructNew(label, detailedAction));
     }
     
-    private static Reference constructNewFromModel(MenuModel model, int itemIndex) {
-        Reference RESULT = References.get(gtk_h.g_menu_item_new_from_model(model.handle(), itemIndex), true);
+    private static Refcounted constructNewFromModel(MenuModel model, int itemIndex) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_menu_item_new_from_model(model.handle(), itemIndex), true);
         return RESULT;
     }
     
@@ -55,8 +55,8 @@ public class MenuItem extends org.gtk.gobject.Object {
         return new MenuItem(constructNewFromModel(model, itemIndex));
     }
     
-    private static Reference constructNewSection(java.lang.String label, MenuModel section) {
-        Reference RESULT = References.get(gtk_h.g_menu_item_new_section(Interop.allocateNativeString(label).handle(), section.handle()), true);
+    private static Refcounted constructNewSection(java.lang.String label, MenuModel section) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_menu_item_new_section(Interop.allocateNativeString(label).handle(), section.handle()), true);
         return RESULT;
     }
     
@@ -126,8 +126,8 @@ public class MenuItem extends org.gtk.gobject.Object {
         return new MenuItem(constructNewSection(label, section));
     }
     
-    private static Reference constructNewSubmenu(java.lang.String label, MenuModel submenu) {
-        Reference RESULT = References.get(gtk_h.g_menu_item_new_submenu(Interop.allocateNativeString(label).handle(), submenu.handle()), true);
+    private static Refcounted constructNewSubmenu(java.lang.String label, MenuModel submenu) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_menu_item_new_submenu(Interop.allocateNativeString(label).handle(), submenu.handle()), true);
         return RESULT;
     }
     
@@ -150,7 +150,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getAttributeValue(java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
         var RESULT = gtk_h.g_menu_item_get_attribute_value(handle(), Interop.allocateNativeString(attribute).handle(), expectedType.handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -158,7 +158,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      */
     public MenuModel getLink(java.lang.String link) {
         var RESULT = gtk_h.g_menu_item_get_link(handle(), Interop.allocateNativeString(link).handle());
-        return new MenuModel(References.get(RESULT, true));
+        return new MenuModel(Refcounted.get(RESULT, true));
     }
     
     /**

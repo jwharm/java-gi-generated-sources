@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Timer extends io.github.jwharm.javagi.ResourceBase {
 
-    public Timer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Timer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -84,7 +84,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Timer new_() {
         var RESULT = gtk_h.g_timer_new();
-        return new Timer(References.get(RESULT, false));
+        return new Timer(Refcounted.get(RESULT, false));
     }
     
 }

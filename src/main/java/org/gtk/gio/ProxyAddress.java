@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class ProxyAddress extends InetSocketAddress implements SocketConnectable {
 
-    public ProxyAddress(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ProxyAddress(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ProxyAddress */
     public static ProxyAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new ProxyAddress(gobject.getReference());
+        return new ProxyAddress(gobject.refcounted());
     }
     
-    private static Reference constructNew(InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, java.lang.String username, java.lang.String password) {
-        Reference RESULT = References.get(gtk_h.g_proxy_address_new(inetaddr.handle(), port, Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(destHostname).handle(), destPort, Interop.allocateNativeString(username).handle(), Interop.allocateNativeString(password).handle()), true);
+    private static Refcounted constructNew(InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, java.lang.String username, java.lang.String password) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_proxy_address_new(inetaddr.handle(), port, Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(destHostname).handle(), destPort, Interop.allocateNativeString(username).handle(), Interop.allocateNativeString(password).handle()), true);
         return RESULT;
     }
     

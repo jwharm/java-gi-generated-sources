@@ -7,12 +7,12 @@ import java.lang.invoke.*;
 
 public class TestLogMsg extends io.github.jwharm.javagi.ResourceBase {
 
-    public TestLogMsg(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TestLogMsg(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TestLogMsg() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTestLogMsg.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTestLogMsg.allocate(Interop.getAllocator()).address()));
     }
     
     /**

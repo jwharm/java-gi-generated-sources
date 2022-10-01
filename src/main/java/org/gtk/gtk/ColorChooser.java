@@ -104,14 +104,14 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         public static void signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ColorChooser.ColorActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ColorChooser.ColorChooserImpl(References.get(source)), new org.gtk.gdk.RGBA(References.get(color, false)));
+            handler.signalReceived(new ColorChooser.ColorChooserImpl(Refcounted.get(source)), new org.gtk.gdk.RGBA(Refcounted.get(color, false)));
         }
         
     }
     
     class ColorChooserImpl extends org.gtk.gobject.Object implements ColorChooser {
-        public ColorChooserImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ColorChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class GlyphPositionT extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphPositionT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GlyphPositionT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public GlyphPositionT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_glyph_position_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_glyph_position_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

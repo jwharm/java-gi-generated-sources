@@ -55,17 +55,17 @@ import java.lang.invoke.*;
  */
 public class Picture extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Picture(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Picture(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Picture */
     public static Picture castFrom(org.gtk.gobject.Object gobject) {
-        return new Picture(gobject.getReference());
+        return new Picture(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_picture_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_picture_new(), false);
         return RESULT;
     }
     
@@ -76,8 +76,8 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         super(constructNew());
     }
     
-    private static Reference constructNewForFile(org.gtk.gio.File file) {
-        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_file(file.handle()), false);
+    private static Refcounted constructNewForFile(org.gtk.gio.File file) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_picture_new_for_file(file.handle()), false);
         return RESULT;
     }
     
@@ -95,8 +95,8 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         return new Picture(constructNewForFile(file));
     }
     
-    private static Reference constructNewForFilename(java.lang.String filename) {
-        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).handle()), false);
+    private static Refcounted constructNewForFilename(java.lang.String filename) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).handle()), false);
         return RESULT;
     }
     
@@ -110,8 +110,8 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         return new Picture(constructNewForFilename(filename));
     }
     
-    private static Reference constructNewForPaintable(org.gtk.gdk.Paintable paintable) {
-        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_paintable(paintable.handle()), false);
+    private static Refcounted constructNewForPaintable(org.gtk.gdk.Paintable paintable) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_picture_new_for_paintable(paintable.handle()), false);
         return RESULT;
     }
     
@@ -125,8 +125,8 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         return new Picture(constructNewForPaintable(paintable));
     }
     
-    private static Reference constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_pixbuf(pixbuf.handle()), false);
+    private static Refcounted constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_picture_new_for_pixbuf(pixbuf.handle()), false);
         return RESULT;
     }
     
@@ -142,8 +142,8 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         return new Picture(constructNewForPixbuf(pixbuf));
     }
     
-    private static Reference constructNewForResource(java.lang.String resourcePath) {
-        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false);
+    private static Refcounted constructNewForResource(java.lang.String resourcePath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false);
         return RESULT;
     }
     
@@ -183,7 +183,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_picture_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -199,7 +199,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.gdk.Paintable getPaintable() {
         var RESULT = gtk_h.gtk_picture_get_paintable(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
     /**

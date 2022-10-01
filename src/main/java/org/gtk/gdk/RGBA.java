@@ -18,12 +18,12 @@ import java.lang.invoke.*;
  */
 public class RGBA extends io.github.jwharm.javagi.ResourceBase {
 
-    public RGBA(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RGBA(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public RGBA() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkRGBA.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GdkRGBA.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -33,7 +33,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      */
     public RGBA copy() {
         var RESULT = gtk_h.gdk_rgba_copy(handle());
-        return new RGBA(References.get(RESULT, true));
+        return new RGBA(Refcounted.get(RESULT, true));
     }
     
     /**

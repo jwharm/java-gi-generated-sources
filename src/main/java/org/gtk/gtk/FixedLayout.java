@@ -46,17 +46,17 @@ import java.lang.invoke.*;
  */
 public class FixedLayout extends LayoutManager {
 
-    public FixedLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FixedLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FixedLayout */
     public static FixedLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new FixedLayout(gobject.getReference());
+        return new FixedLayout(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_fixed_layout_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_fixed_layout_new(), true);
         return RESULT;
     }
     

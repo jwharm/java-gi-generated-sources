@@ -20,17 +20,17 @@ import java.lang.invoke.*;
  */
 public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
 
-    public Adjustment(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Adjustment(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Adjustment */
     public static Adjustment castFrom(org.gtk.gobject.Object gobject) {
-        return new Adjustment(gobject.getReference());
+        return new Adjustment(gobject.refcounted());
     }
     
-    private static Reference constructNew(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        Reference RESULT = References.get(gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false);
+    private static Refcounted constructNew(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false);
         return RESULT;
     }
     
@@ -267,13 +267,13 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         public static void signalAdjustmentChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Adjustment.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Adjustment(References.get(source)));
+            handler.signalReceived(new Adjustment(Refcounted.get(source)));
         }
         
         public static void signalAdjustmentValueChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Adjustment.ValueChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Adjustment(References.get(source)));
+            handler.signalReceived(new Adjustment(Refcounted.get(source)));
         }
         
     }

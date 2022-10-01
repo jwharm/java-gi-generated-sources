@@ -5,8 +5,8 @@ import java.lang.foreign.MemoryAddress;
 
 public class ValueDataUnion extends io.github.jwharm.javagi.ResourceBase {
     
-    public ValueDataUnion(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ValueDataUnion(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

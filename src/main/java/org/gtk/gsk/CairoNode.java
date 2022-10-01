@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class CairoNode extends RenderNode {
 
-    public CairoNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CairoNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CairoNode */
     public static CairoNode castFrom(org.gtk.gobject.Object gobject) {
-        return new CairoNode(gobject.getReference());
+        return new CairoNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.graphene.Rect bounds) {
-        Reference RESULT = References.get(gtk_h.gsk_cairo_node_new(bounds.handle()), true);
+    private static Refcounted constructNew(org.gtk.graphene.Rect bounds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_cairo_node_new(bounds.handle()), true);
         return RESULT;
     }
     
@@ -43,7 +43,7 @@ public class CairoNode extends RenderNode {
      */
     public org.cairographics.Context getDrawContext() {
         var RESULT = gtk_h.gsk_cairo_node_get_draw_context(handle());
-        return new org.cairographics.Context(References.get(RESULT, true));
+        return new org.cairographics.Context(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -51,7 +51,7 @@ public class CairoNode extends RenderNode {
      */
     public org.cairographics.Surface getSurface() {
         var RESULT = gtk_h.gsk_cairo_node_get_surface(handle());
-        return new org.cairographics.Surface(References.get(RESULT, false));
+        return new org.cairographics.Surface(Refcounted.get(RESULT, false));
     }
     
 }

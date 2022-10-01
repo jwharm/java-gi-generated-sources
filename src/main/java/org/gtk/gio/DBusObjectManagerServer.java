@@ -31,17 +31,17 @@ import java.lang.invoke.*;
  */
 public class DBusObjectManagerServer extends org.gtk.gobject.Object implements DBusObjectManager {
 
-    public DBusObjectManagerServer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusObjectManagerServer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusObjectManagerServer */
     public static DBusObjectManagerServer castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectManagerServer(gobject.getReference());
+        return new DBusObjectManagerServer(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String objectPath) {
-        Reference RESULT = References.get(gtk_h.g_dbus_object_manager_server_new(Interop.allocateNativeString(objectPath).handle()), true);
+    private static Refcounted constructNew(java.lang.String objectPath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_object_manager_server_new(Interop.allocateNativeString(objectPath).handle()), true);
         return RESULT;
     }
     
@@ -89,7 +89,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_object_manager_server_get_connection(handle());
-        return new DBusConnection(References.get(RESULT, true));
+        return new DBusConnection(Refcounted.get(RESULT, true));
     }
     
     /**

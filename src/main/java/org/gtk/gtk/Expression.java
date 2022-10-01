@@ -136,13 +136,13 @@ import java.lang.invoke.*;
  */
 public class Expression extends org.gtk.gobject.Object {
 
-    public Expression(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Expression(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Expression */
     public static Expression castFrom(org.gtk.gobject.Object gobject) {
-        return new Expression(gobject.getReference());
+        return new Expression(gobject.refcounted());
     }
     
     /**
@@ -161,7 +161,7 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public ExpressionWatch bind(org.gtk.gobject.Object target, java.lang.String property, org.gtk.gobject.Object this_) {
         var RESULT = gtk_h.gtk_expression_bind(handle(), target.handle(), Interop.allocateNativeString(property).handle(), this_.handle());
-        return new ExpressionWatch(References.get(RESULT, false));
+        return new ExpressionWatch(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -211,7 +211,7 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public Expression ref() {
         var RESULT = gtk_h.gtk_expression_ref(handle());
-        return new Expression(References.get(RESULT, true));
+        return new Expression(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -244,7 +244,7 @@ public class Expression extends org.gtk.gobject.Object {
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)), 
                     Interop.cbDestroyNotifySymbol());
-            return new ExpressionWatch(References.get(RESULT, false));
+            return new ExpressionWatch(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

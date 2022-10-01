@@ -144,17 +144,17 @@ import java.lang.invoke.*;
  */
 public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public Pixbuf(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Pixbuf(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Pixbuf */
     public static Pixbuf castFrom(org.gtk.gobject.Object gobject) {
-        return new Pixbuf(gobject.getReference());
+        return new Pixbuf(gobject.refcounted());
     }
     
-    private static Reference constructNew(Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true);
+    private static Refcounted constructNew(Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true);
         return RESULT;
     }
     
@@ -170,8 +170,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         super(constructNew(colorspace, hasAlpha, bitsPerSample, width, height));
     }
     
-    private static Reference constructNewFromBytes(org.gtk.glib.Bytes data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride) {
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true);
+    private static Refcounted constructNewFromBytes(org.gtk.glib.Bytes data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true);
         return RESULT;
     }
     
@@ -187,9 +187,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromBytes(data, colorspace, hasAlpha, bitsPerSample, width, height, rowstride));
     }
     
-    private static Reference constructNewFromData(byte[] data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride, PixbufDestroyNotify destroyFn) {
+    private static Refcounted constructNewFromData(byte[] data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride, PixbufDestroyNotify destroyFn) {
         try {
-            Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_data(Interop.allocateNativeArray(data).handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride, 
+            Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_data(Interop.allocateNativeArray(data).handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.class, "__cbPixbufDestroyNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -219,9 +219,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromData(data, colorspace, hasAlpha, bitsPerSample, width, height, rowstride, destroyFn));
     }
     
-    private static Reference constructNewFromFile(java.lang.String filename) throws GErrorException {
+    private static Refcounted constructNewFromFile(java.lang.String filename) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -248,9 +248,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromFile(filename));
     }
     
-    private static Reference constructNewFromFileAtScale(java.lang.String filename, int width, int height, boolean preserveAspectRatio) throws GErrorException {
+    private static Refcounted constructNewFromFileAtScale(java.lang.String filename, int width, int height, boolean preserveAspectRatio) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file_at_scale(Interop.allocateNativeString(filename).handle(), width, height, preserveAspectRatio ? 1 : 0, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_file_at_scale(Interop.allocateNativeString(filename).handle(), width, height, preserveAspectRatio ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -287,9 +287,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromFileAtScale(filename, width, height, preserveAspectRatio));
     }
     
-    private static Reference constructNewFromFileAtSize(java.lang.String filename, int width, int height) throws GErrorException {
+    private static Refcounted constructNewFromFileAtSize(java.lang.String filename, int width, int height) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file_at_size(Interop.allocateNativeString(filename).handle(), width, height, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_file_at_size(Interop.allocateNativeString(filename).handle(), width, height, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -322,9 +322,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromFileAtSize(filename, width, height));
     }
     
-    private static Reference constructNewFromInline(int dataLength, byte[] data, boolean copyPixels) throws GErrorException {
+    private static Refcounted constructNewFromInline(int dataLength, byte[] data, boolean copyPixels) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_inline(dataLength, Interop.allocateNativeArray(data).handle(), copyPixels ? 1 : 0, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_inline(dataLength, Interop.allocateNativeArray(data).handle(), copyPixels ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -370,9 +370,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromInline(dataLength, data, copyPixels));
     }
     
-    private static Reference constructNewFromResource(java.lang.String resourcePath) throws GErrorException {
+    private static Refcounted constructNewFromResource(java.lang.String resourcePath) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_resource(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_resource(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -389,9 +389,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromResource(resourcePath));
     }
     
-    private static Reference constructNewFromResourceAtScale(java.lang.String resourcePath, int width, int height, boolean preserveAspectRatio) throws GErrorException {
+    private static Refcounted constructNewFromResourceAtScale(java.lang.String resourcePath, int width, int height, boolean preserveAspectRatio) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_resource_at_scale(Interop.allocateNativeString(resourcePath).handle(), width, height, preserveAspectRatio ? 1 : 0, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_resource_at_scale(Interop.allocateNativeString(resourcePath).handle(), width, height, preserveAspectRatio ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -417,9 +417,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromResourceAtScale(resourcePath, width, height, preserveAspectRatio));
     }
     
-    private static Reference constructNewFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream(stream.handle(), cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_stream(stream.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -444,9 +444,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromStream(stream, cancellable));
     }
     
-    private static Reference constructNewFromStreamAtScale(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewFromStreamAtScale(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream_at_scale(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_stream_at_scale(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -480,9 +480,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromStreamAtScale(stream, width, height, preserveAspectRatio, cancellable));
     }
     
-    private static Reference constructNewFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+    private static Refcounted constructNewFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream_finish(asyncResult.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_stream_finish(asyncResult.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -497,8 +497,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(constructNewFromStreamFinish(asyncResult));
     }
     
-    private static Reference constructNewFromXpmData(java.lang.String[] data) {
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data).handle()), true);
+    private static Refcounted constructNewFromXpmData(java.lang.String[] data) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data).handle()), true);
         return RESULT;
     }
     
@@ -529,7 +529,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf addAlpha(boolean substituteColor, byte r, byte g, byte b) {
         var RESULT = gtk_h.gdk_pixbuf_add_alpha(handle(), substituteColor ? 1 : 0, r, g, b);
-        return new Pixbuf(References.get(RESULT, true));
+        return new Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -546,7 +546,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf applyEmbeddedOrientation() {
         var RESULT = gtk_h.gdk_pixbuf_apply_embedded_orientation(handle());
-        return new Pixbuf(References.get(RESULT, true));
+        return new Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -593,7 +593,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf compositeColorSimple(int destWidth, int destHeight, InterpType interpType, int overallAlpha, int checkSize, int color1, int color2) {
         var RESULT = gtk_h.gdk_pixbuf_composite_color_simple(handle(), destWidth, destHeight, interpType.getValue(), overallAlpha, checkSize, color1, color2);
-        return new Pixbuf(References.get(RESULT, true));
+        return new Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -605,7 +605,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf copy() {
         var RESULT = gtk_h.gdk_pixbuf_copy(handle());
-        return new Pixbuf(References.get(RESULT, true));
+        return new Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -651,7 +651,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf flip(boolean horizontal) {
         var RESULT = gtk_h.gdk_pixbuf_flip(handle(), horizontal ? 1 : 0);
-        return new Pixbuf(References.get(RESULT, true));
+        return new Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -731,7 +731,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public org.gtk.glib.HashTable getOptions() {
         var RESULT = gtk_h.gdk_pixbuf_get_options(handle());
-        return new org.gtk.glib.HashTable(References.get(RESULT, false));
+        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -792,7 +792,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf newSubpixbuf(int srcX, int srcY, int width, int height) {
         var RESULT = gtk_h.gdk_pixbuf_new_subpixbuf(handle(), srcX, srcY, width, height);
-        return new Pixbuf(References.get(RESULT, true));
+        return new Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -804,7 +804,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public org.gtk.glib.Bytes readPixelBytes() {
         var RESULT = gtk_h.gdk_pixbuf_read_pixel_bytes(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -834,7 +834,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf rotateSimple(PixbufRotation angle) {
         var RESULT = gtk_h.gdk_pixbuf_rotate_simple(handle(), angle.getValue());
-        return new Pixbuf(References.get(RESULT, true));
+        return new Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1004,7 +1004,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf scaleSimple(int destWidth, int destHeight, InterpType interpType) {
         var RESULT = gtk_h.gdk_pixbuf_scale_simple(handle(), destWidth, destHeight, interpType.getValue());
-        return new Pixbuf(References.get(RESULT, true));
+        return new Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1035,7 +1035,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public static PixbufFormat getFileInfo(java.lang.String filename, PointerInteger width, PointerInteger height) {
         var RESULT = gtk_h.gdk_pixbuf_get_file_info(Interop.allocateNativeString(filename).handle(), width.handle(), height.handle());
-        return new PixbufFormat(References.get(RESULT, false));
+        return new PixbufFormat(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1073,7 +1073,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new PixbufFormat(References.get(RESULT, false));
+        return new PixbufFormat(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1082,7 +1082,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public static org.gtk.glib.SList getFormats() {
         var RESULT = gtk_h.gdk_pixbuf_get_formats();
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -89,17 +89,17 @@ import java.lang.invoke.*;
  */
 public class Scale extends Range implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Scale(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Scale(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Scale */
     public static Scale castFrom(org.gtk.gobject.Object gobject) {
-        return new Scale(gobject.getReference());
+        return new Scale(gobject.refcounted());
     }
     
-    private static Reference constructNew(Orientation orientation, Adjustment adjustment) {
-        Reference RESULT = References.get(gtk_h.gtk_scale_new(orientation.getValue(), adjustment.handle()), false);
+    private static Refcounted constructNew(Orientation orientation, Adjustment adjustment) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_scale_new(orientation.getValue(), adjustment.handle()), false);
         return RESULT;
     }
     
@@ -110,8 +110,8 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
         super(constructNew(orientation, adjustment));
     }
     
-    private static Reference constructNewWithRange(Orientation orientation, double min, double max, double step) {
-        Reference RESULT = References.get(gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false);
+    private static Refcounted constructNewWithRange(Orientation orientation, double min, double max, double step) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false);
         return RESULT;
     }
     
@@ -187,7 +187,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      */
     public org.pango.Layout getLayout() {
         var RESULT = gtk_h.gtk_scale_get_layout(handle());
-        return new org.pango.Layout(References.get(RESULT, false));
+        return new org.pango.Layout(Refcounted.get(RESULT, false));
     }
     
     /**

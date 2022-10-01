@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class BlobT extends io.github.jwharm.javagi.ResourceBase {
 
-    public BlobT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BlobT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

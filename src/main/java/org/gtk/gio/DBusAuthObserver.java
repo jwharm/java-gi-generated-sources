@@ -71,17 +71,17 @@ import java.lang.invoke.*;
  */
 public class DBusAuthObserver extends org.gtk.gobject.Object {
 
-    public DBusAuthObserver(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusAuthObserver(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusAuthObserver */
     public static DBusAuthObserver castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusAuthObserver(gobject.getReference());
+        return new DBusAuthObserver(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_dbus_auth_observer_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_auth_observer_new(), true);
         return RESULT;
     }
     
@@ -166,13 +166,13 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         public static boolean signalDBusAuthObserverAllowMechanism(MemoryAddress source, MemoryAddress mechanism, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusAuthObserver.AllowMechanismHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DBusAuthObserver(References.get(source)), mechanism.getUtf8String(0));
+            return handler.signalReceived(new DBusAuthObserver(Refcounted.get(source)), mechanism.getUtf8String(0));
         }
         
         public static boolean signalDBusAuthObserverAuthorizeAuthenticatedPeer(MemoryAddress source, MemoryAddress stream, MemoryAddress credentials, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusAuthObserver.AuthorizeAuthenticatedPeerHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DBusAuthObserver(References.get(source)), new IOStream(References.get(stream, false)), new Credentials(References.get(credentials, false)));
+            return handler.signalReceived(new DBusAuthObserver(Refcounted.get(source)), new IOStream(Refcounted.get(stream, false)), new Credentials(Refcounted.get(credentials, false)));
         }
         
     }

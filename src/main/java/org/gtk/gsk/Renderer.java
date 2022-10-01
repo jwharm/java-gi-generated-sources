@@ -20,17 +20,17 @@ import java.lang.invoke.*;
  */
 public class Renderer extends org.gtk.gobject.Object {
 
-    public Renderer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Renderer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Renderer */
     public static Renderer castFrom(org.gtk.gobject.Object gobject) {
-        return new Renderer(gobject.getReference());
+        return new Renderer(gobject.refcounted());
     }
     
-    private static Reference constructNewForSurface(org.gtk.gdk.Surface surface) {
-        Reference RESULT = References.get(gtk_h.gsk_renderer_new_for_surface(surface.handle()), true);
+    private static Refcounted constructNewForSurface(org.gtk.gdk.Surface surface) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_renderer_new_for_surface(surface.handle()), true);
         return RESULT;
     }
     
@@ -54,7 +54,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Surface getSurface() {
         var RESULT = gtk_h.gsk_renderer_get_surface(handle());
-        return new org.gtk.gdk.Surface(References.get(RESULT, false));
+        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Texture renderTexture(RenderNode root, org.gtk.graphene.Rect viewport) {
         var RESULT = gtk_h.gsk_renderer_render_texture(handle(), root.handle(), viewport.handle());
-        return new org.gtk.gdk.Texture(References.get(RESULT, true));
+        return new org.gtk.gdk.Texture(Refcounted.get(RESULT, true));
     }
     
     /**

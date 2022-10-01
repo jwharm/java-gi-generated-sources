@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class SubprocessLauncher extends org.gtk.gobject.Object {
 
-    public SubprocessLauncher(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SubprocessLauncher(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SubprocessLauncher */
     public static SubprocessLauncher castFrom(org.gtk.gobject.Object gobject) {
-        return new SubprocessLauncher(gobject.getReference());
+        return new SubprocessLauncher(gobject.refcounted());
     }
     
-    private static Reference constructNew(SubprocessFlags flags) {
-        Reference RESULT = References.get(gtk_h.g_subprocess_launcher_new(flags.getValue()), true);
+    private static Refcounted constructNew(SubprocessFlags flags) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_subprocess_launcher_new(flags.getValue()), true);
         return RESULT;
     }
     
@@ -228,7 +228,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Subprocess(References.get(RESULT, true));
+        return new Subprocess(Refcounted.get(RESULT, true));
     }
     
     /**

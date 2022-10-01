@@ -66,17 +66,17 @@ import java.lang.invoke.*;
  */
 public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
 
-    public Flap(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Flap(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Flap */
     public static Flap castFrom(org.gtk.gobject.Object gobject) {
-        return new Flap(gobject.getReference());
+        return new Flap(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_flap_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_flap_new(), false);
         return RESULT;
     }
     
@@ -92,7 +92,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public org.gtk.gtk.Widget getContent() {
         var RESULT = gtk_h.adw_flap_get_content(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -100,7 +100,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public org.gtk.gtk.Widget getFlap() {
         var RESULT = gtk_h.adw_flap_get_flap(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -172,7 +172,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public SpringParams getRevealParams() {
         var RESULT = gtk_h.adw_flap_get_reveal_params(handle());
-        return new SpringParams(References.get(RESULT, true));
+        return new SpringParams(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -188,7 +188,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public org.gtk.gtk.Widget getSeparator() {
         var RESULT = gtk_h.adw_flap_get_separator(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

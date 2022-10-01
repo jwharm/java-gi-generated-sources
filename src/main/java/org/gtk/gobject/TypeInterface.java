@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypeInterface(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeInterface(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TypeInterface() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeInterface.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeInterface.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -26,7 +26,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      */
     public TypeInterface peekParent() {
         var RESULT = gtk_h.g_type_interface_peek_parent(handle());
-        return new TypeInterface(References.get(RESULT, false));
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      */
     public static TypePlugin getPlugin(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType) {
         var RESULT = gtk_h.g_type_interface_get_plugin(instanceType.getValue(), interfaceType.getValue());
-        return new TypePlugin.TypePluginImpl(References.get(RESULT, false));
+        return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      */
     public static TypeInterface peek(TypeClass instanceClass, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_interface_peek(instanceClass.handle(), ifaceType.getValue());
-        return new TypeInterface(References.get(RESULT, false));
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
     /**

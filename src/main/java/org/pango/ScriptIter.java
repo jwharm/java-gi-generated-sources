@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public ScriptIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ScriptIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String text, int length) {
-        Reference RESULT = References.get(gtk_h.pango_script_iter_new(Interop.allocateNativeString(text).handle(), length), true);
+    private static Refcounted constructNew(java.lang.String text, int length) {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_script_iter_new(Interop.allocateNativeString(text).handle(), length), true);
         return RESULT;
     }
     

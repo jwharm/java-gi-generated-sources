@@ -24,17 +24,17 @@ import java.lang.invoke.*;
  */
 public class CellRendererSpin extends CellRendererText {
 
-    public CellRendererSpin(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererSpin(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRendererSpin */
     public static CellRendererSpin castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererSpin(gobject.getReference());
+        return new CellRendererSpin(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_spin_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_spin_new(), false);
         return RESULT;
     }
     

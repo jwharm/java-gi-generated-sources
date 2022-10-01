@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class ListItem extends org.gtk.gobject.Object {
 
-    public ListItem(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ListItem(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ListItem */
     public static ListItem castFrom(org.gtk.gobject.Object gobject) {
-        return new ListItem(gobject.getReference());
+        return new ListItem(gobject.refcounted());
     }
     
     /**
@@ -47,7 +47,7 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_list_item_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = gtk_h.gtk_list_item_get_item(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**

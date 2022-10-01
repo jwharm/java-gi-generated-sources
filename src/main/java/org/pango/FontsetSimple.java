@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class FontsetSimple extends Fontset {
 
-    public FontsetSimple(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontsetSimple(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FontsetSimple */
     public static FontsetSimple castFrom(org.gtk.gobject.Object gobject) {
-        return new FontsetSimple(gobject.getReference());
+        return new FontsetSimple(gobject.refcounted());
     }
     
-    private static Reference constructNew(Language language) {
-        Reference RESULT = References.get(gtk_h.pango_fontset_simple_new(language.handle()), true);
+    private static Refcounted constructNew(Language language) {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_fontset_simple_new(language.handle()), true);
         return RESULT;
     }
     
@@ -41,7 +41,7 @@ public class FontsetSimple extends Fontset {
      * The fontset takes ownership of {@code font}.
      */
     public void append(Font font) {
-        gtk_h.pango_fontset_simple_append(handle(), font.getReference().unowned().handle());
+        gtk_h.pango_fontset_simple_append(handle(), font.refcounted().unowned().handle());
     }
     
     /**

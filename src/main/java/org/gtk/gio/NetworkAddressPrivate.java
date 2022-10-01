@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class NetworkAddressPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public NetworkAddressPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NetworkAddressPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

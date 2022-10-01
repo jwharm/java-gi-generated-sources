@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class PageRange extends io.github.jwharm.javagi.ResourceBase {
 
-    public PageRange(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PageRange(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public PageRange() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkPageRange.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkPageRange.allocate(Interop.getAllocator()).address()));
     }
     
 }

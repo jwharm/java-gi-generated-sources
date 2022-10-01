@@ -24,12 +24,12 @@ import java.lang.invoke.*;
  */
 public class Bitset extends io.github.jwharm.javagi.ResourceBase {
 
-    public Bitset(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Bitset(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewEmpty() {
-        Reference RESULT = References.get(gtk_h.gtk_bitset_new_empty(), true);
+    private static Refcounted constructNewEmpty() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_bitset_new_empty(), true);
         return RESULT;
     }
     
@@ -40,8 +40,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         return new Bitset(constructNewEmpty());
     }
     
-    private static Reference constructNewRange(int start, int nItems) {
-        Reference RESULT = References.get(gtk_h.gtk_bitset_new_range(start, nItems), true);
+    private static Refcounted constructNewRange(int start, int nItems) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_bitset_new_range(start, nItems), true);
         return RESULT;
     }
     
@@ -97,7 +97,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public Bitset copy() {
         var RESULT = gtk_h.gtk_bitset_copy(handle());
-        return new Bitset(References.get(RESULT, true));
+        return new Bitset(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -205,7 +205,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      */
     public Bitset ref() {
         var RESULT = gtk_h.gtk_bitset_ref(handle());
-        return new Bitset(References.get(RESULT, false));
+        return new Bitset(Refcounted.get(RESULT, false));
     }
     
     /**

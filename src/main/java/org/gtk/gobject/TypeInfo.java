@@ -18,12 +18,12 @@ import java.lang.invoke.*;
  */
 public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypeInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TypeInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeInfo.allocate(Interop.getAllocator()).address()));
     }
     
 }

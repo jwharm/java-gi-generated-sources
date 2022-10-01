@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class SignalQuery extends io.github.jwharm.javagi.ResourceBase {
 
-    public SignalQuery(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SignalQuery(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public SignalQuery() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GSignalQuery.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GSignalQuery.allocate(Interop.getAllocator()).address()));
     }
     
 }

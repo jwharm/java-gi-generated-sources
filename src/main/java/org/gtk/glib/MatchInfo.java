@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public MatchInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MatchInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -166,7 +166,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public Regex getRegex() {
         var RESULT = gtk_h.g_match_info_get_regex(handle());
-        return new Regex(References.get(RESULT, true));
+        return new Regex(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -249,7 +249,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public MatchInfo ref() {
         var RESULT = gtk_h.g_match_info_ref(handle());
-        return new MatchInfo(References.get(RESULT, true));
+        return new MatchInfo(Refcounted.get(RESULT, true));
     }
     
     /**

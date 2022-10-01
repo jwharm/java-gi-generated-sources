@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBusInterface {
 
-    public DBusInterfaceSkeleton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusInterfaceSkeleton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusInterfaceSkeleton */
     public static DBusInterfaceSkeleton castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusInterfaceSkeleton(gobject.getReference());
+        return new DBusInterfaceSkeleton(gobject.refcounted());
     }
     
     /**
@@ -56,7 +56,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_connection(handle());
-        return new DBusConnection(References.get(RESULT, false));
+        return new DBusConnection(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -64,7 +64,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public org.gtk.glib.List getConnections() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_connections(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -82,7 +82,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public DBusInterfaceInfo getInfo() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_info(handle());
-        return new DBusInterfaceInfo(References.get(RESULT, false));
+        return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -98,7 +98,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public org.gtk.glib.Variant getProperties() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_properties(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public DBusInterfaceVTable getVtable() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_vtable(handle());
-        return new DBusInterfaceVTable(References.get(RESULT, false));
+        return new DBusInterfaceVTable(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -209,7 +209,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
         public static boolean signalDBusInterfaceSkeletonGAuthorizeMethod(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusInterfaceSkeleton.GAuthorizeMethodHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DBusInterfaceSkeleton(References.get(source)), new DBusMethodInvocation(References.get(invocation, false)));
+            return handler.signalReceived(new DBusInterfaceSkeleton(Refcounted.get(source)), new DBusMethodInvocation(Refcounted.get(invocation, false)));
         }
         
     }

@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Node extends io.github.jwharm.javagi.ResourceBase {
 
-    public Node(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Node(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Node() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GNode.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GNode.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -62,7 +62,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node copy() {
         var RESULT = gtk_h.g_node_copy(handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -77,7 +77,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)));
-            return new Node(References.get(RESULT, false));
+            return new Node(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -107,7 +107,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node find(TraverseType order, TraverseFlags flags, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_find(handle(), order.getValue(), flags.getValue(), data);
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -115,7 +115,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node findChild(TraverseFlags flags, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_find_child(handle(), flags.getValue(), data);
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -124,7 +124,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node firstSibling() {
         var RESULT = gtk_h.g_node_first_sibling(handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -132,7 +132,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node getRoot() {
         var RESULT = gtk_h.g_node_get_root(handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -140,7 +140,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node insert(int position, Node node) {
         var RESULT = gtk_h.g_node_insert(handle(), position, node.handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -148,7 +148,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node insertAfter(Node sibling, Node node) {
         var RESULT = gtk_h.g_node_insert_after(handle(), sibling.handle(), node.handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -156,7 +156,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node insertBefore(Node sibling, Node node) {
         var RESULT = gtk_h.g_node_insert_before(handle(), sibling.handle(), node.handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -174,7 +174,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node lastChild() {
         var RESULT = gtk_h.g_node_last_child(handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node lastSibling() {
         var RESULT = gtk_h.g_node_last_sibling(handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -221,7 +221,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node nthChild(int n) {
         var RESULT = gtk_h.g_node_nth_child(handle(), n);
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -229,7 +229,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public Node prepend(Node node) {
         var RESULT = gtk_h.g_node_prepend(handle(), node.handle());
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -273,7 +273,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Node new_(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_new(data);
-        return new Node(References.get(RESULT, false));
+        return new Node(Refcounted.get(RESULT, false));
     }
     
 }

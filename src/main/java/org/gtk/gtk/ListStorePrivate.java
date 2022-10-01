@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ListStorePrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public ListStorePrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ListStorePrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

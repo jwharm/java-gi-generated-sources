@@ -5,8 +5,8 @@ import java.lang.foreign.MemoryAddress;
 
 public class TypeCValue extends io.github.jwharm.javagi.ResourceBase {
     
-    public TypeCValue(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeCValue(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

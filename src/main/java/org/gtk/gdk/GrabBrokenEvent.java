@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class GrabBrokenEvent extends Event {
 
-    public GrabBrokenEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GrabBrokenEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GrabBrokenEvent */
     public static GrabBrokenEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new GrabBrokenEvent(gobject.getReference());
+        return new GrabBrokenEvent(gobject.refcounted());
     }
     
     /**
@@ -24,7 +24,7 @@ public class GrabBrokenEvent extends Event {
      */
     public Surface getGrabSurface() {
         var RESULT = gtk_h.gdk_grab_broken_event_get_grab_surface(handle());
-        return new Surface(References.get(RESULT, false));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
     /**

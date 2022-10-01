@@ -29,12 +29,12 @@ import java.lang.invoke.*;
  */
 public class SourceFuncs extends io.github.jwharm.javagi.ResourceBase {
 
-    public SourceFuncs(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SourceFuncs(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public SourceFuncs() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GSourceFuncs.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GSourceFuncs.allocate(Interop.getAllocator()).address()));
     }
     
 }

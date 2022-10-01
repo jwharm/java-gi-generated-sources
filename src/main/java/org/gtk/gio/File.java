@@ -119,7 +119,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileOutputStream(References.get(RESULT, true));
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -156,7 +156,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileOutputStream(References.get(RESULT, true));
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -330,7 +330,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileOutputStream(References.get(RESULT, true));
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -368,7 +368,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileOutputStream(References.get(RESULT, true));
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -402,7 +402,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileIOStream(References.get(RESULT, true));
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -440,7 +440,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileIOStream(References.get(RESULT, true));
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -520,7 +520,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public default File dup() {
         var RESULT = gtk_h.g_file_dup(handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -593,7 +593,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileEnumerator(References.get(RESULT, true));
+        return new FileEnumerator(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -632,7 +632,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileEnumerator(References.get(RESULT, true));
+        return new FileEnumerator(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -666,7 +666,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Mount.MountImpl(References.get(RESULT, true));
+        return new Mount.MountImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -703,7 +703,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Mount.MountImpl(References.get(RESULT, true));
+        return new Mount.MountImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -737,7 +737,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public default File getChild(java.lang.String name) {
         var RESULT = gtk_h.g_file_get_child(handle(), Interop.allocateNativeString(name).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -756,7 +756,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -768,7 +768,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public default File getParent() {
         var RESULT = gtk_h.g_file_get_parent(handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -931,7 +931,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -977,7 +977,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1281,7 +1281,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileMonitor(References.get(RESULT, true));
+        return new FileMonitor(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1304,7 +1304,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileMonitor(References.get(RESULT, true));
+        return new FileMonitor(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1329,7 +1329,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileMonitor(References.get(RESULT, true));
+        return new FileMonitor(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1409,7 +1409,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1534,7 +1534,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileIOStream(References.get(RESULT, true));
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1571,7 +1571,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileIOStream(References.get(RESULT, true));
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1642,7 +1642,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1671,7 +1671,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1748,7 +1748,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1788,7 +1788,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1829,7 +1829,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1867,7 +1867,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1888,7 +1888,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileAttributeInfoList(References.get(RESULT, true));
+        return new FileAttributeInfoList(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1906,7 +1906,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileAttributeInfoList(References.get(RESULT, true));
+        return new FileAttributeInfoList(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1928,7 +1928,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInputStream(References.get(RESULT, true));
+        return new FileInputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1965,7 +1965,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInputStream(References.get(RESULT, true));
+        return new FileInputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2017,7 +2017,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileOutputStream(References.get(RESULT, true));
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2155,7 +2155,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileOutputStream(References.get(RESULT, true));
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2176,7 +2176,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileIOStream(References.get(RESULT, true));
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2215,7 +2215,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileIOStream(References.get(RESULT, true));
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2228,7 +2228,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public default File resolveRelativePath(java.lang.String relativePath) {
         var RESULT = gtk_h.g_file_resolve_relative_path(handle(), Interop.allocateNativeString(relativePath).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2435,7 +2435,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2472,7 +2472,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2678,7 +2678,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public static File newForCommandlineArg(java.lang.String arg) {
         var RESULT = gtk_h.g_file_new_for_commandline_arg(Interop.allocateNativeString(arg).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2696,7 +2696,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public static File newForCommandlineArgAndCwd(java.lang.String arg, java.lang.String cwd) {
         var RESULT = gtk_h.g_file_new_for_commandline_arg_and_cwd(Interop.allocateNativeString(arg).handle(), Interop.allocateNativeString(cwd).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2706,7 +2706,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public static File newForPath(java.lang.String path) {
         var RESULT = gtk_h.g_file_new_for_path(Interop.allocateNativeString(path).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2717,7 +2717,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public static File newForUri(java.lang.String uri) {
         var RESULT = gtk_h.g_file_new_for_uri(Interop.allocateNativeString(uri).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2738,7 +2738,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2749,12 +2749,12 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      */
     public static File parseName(java.lang.String parseName) {
         var RESULT = gtk_h.g_file_parse_name(Interop.allocateNativeString(parseName).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     class FileImpl extends org.gtk.gobject.Object implements File {
-        public FileImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public FileImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

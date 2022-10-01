@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Shadow extends io.github.jwharm.javagi.ResourceBase {
 
-    public Shadow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Shadow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Shadow() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GskShadow.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GskShadow.allocate(Interop.getAllocator()).address()));
     }
     
 }

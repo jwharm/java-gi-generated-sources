@@ -93,17 +93,17 @@ import java.lang.invoke.*;
  */
 public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public HeaderBar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public HeaderBar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to HeaderBar */
     public static HeaderBar castFrom(org.gtk.gobject.Object gobject) {
-        return new HeaderBar(gobject.getReference());
+        return new HeaderBar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_header_bar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_header_bar_new(), false);
         return RESULT;
     }
     
@@ -151,7 +151,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public org.gtk.gtk.Widget getTitleWidget() {
         var RESULT = gtk_h.adw_header_bar_get_title_widget(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

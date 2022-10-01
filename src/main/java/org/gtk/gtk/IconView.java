@@ -32,17 +32,17 @@ import java.lang.invoke.*;
  */
 public class IconView extends Widget implements Accessible, Buildable, CellLayout, ConstraintTarget, Scrollable {
 
-    public IconView(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IconView(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to IconView */
     public static IconView castFrom(org.gtk.gobject.Object gobject) {
-        return new IconView(gobject.getReference());
+        return new IconView(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_icon_view_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_icon_view_new(), false);
         return RESULT;
     }
     
@@ -53,8 +53,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         super(constructNew());
     }
     
-    private static Reference constructNewWithArea(CellArea area) {
-        Reference RESULT = References.get(gtk_h.gtk_icon_view_new_with_area(area.handle()), false);
+    private static Refcounted constructNewWithArea(CellArea area) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_icon_view_new_with_area(area.handle()), false);
         return RESULT;
     }
     
@@ -66,8 +66,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         return new IconView(constructNewWithArea(area));
     }
     
-    private static Reference constructNewWithModel(TreeModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_icon_view_new_with_model(model.handle()), false);
+    private static Refcounted constructNewWithModel(TreeModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_icon_view_new_with_model(model.handle()), false);
         return RESULT;
     }
     
@@ -84,7 +84,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public org.gtk.gdk.Paintable createDragIcon(TreePath path) {
         var RESULT = gtk_h.gtk_icon_view_create_drag_icon(handle(), path.handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -238,7 +238,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_icon_view_get_model(handle());
-        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -246,7 +246,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public TreePath getPathAtPos(int x, int y) {
         var RESULT = gtk_h.gtk_icon_view_get_path_at_pos(handle(), x, y);
-        return new TreePath(References.get(RESULT, true));
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -294,7 +294,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public org.gtk.glib.List getSelectedItems() {
         var RESULT = gtk_h.gtk_icon_view_get_selected_items(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -925,49 +925,49 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         public static boolean signalIconViewActivateCursorItem(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconView.ActivateCursorItemHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new IconView(References.get(source)));
+            return handler.signalReceived(new IconView(Refcounted.get(source)));
         }
         
         public static void signalIconViewItemActivated(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconView.ItemActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IconView(References.get(source)), new TreePath(References.get(path, false)));
+            handler.signalReceived(new IconView(Refcounted.get(source)), new TreePath(Refcounted.get(path, false)));
         }
         
         public static boolean signalIconViewMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new IconView(References.get(source)), new MovementStep(step), count, extend != 0, modify != 0);
+            return handler.signalReceived(new IconView(Refcounted.get(source)), new MovementStep(step), count, extend != 0, modify != 0);
         }
         
         public static void signalIconViewSelectAll(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconView.SelectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IconView(References.get(source)));
+            handler.signalReceived(new IconView(Refcounted.get(source)));
         }
         
         public static void signalIconViewSelectCursorItem(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconView.SelectCursorItemHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IconView(References.get(source)));
+            handler.signalReceived(new IconView(Refcounted.get(source)));
         }
         
         public static void signalIconViewSelectionChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconView.SelectionChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IconView(References.get(source)));
+            handler.signalReceived(new IconView(Refcounted.get(source)));
         }
         
         public static void signalIconViewToggleCursorItem(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconView.ToggleCursorItemHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IconView(References.get(source)));
+            handler.signalReceived(new IconView(Refcounted.get(source)));
         }
         
         public static void signalIconViewUnselectAll(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IconView.UnselectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IconView(References.get(source)));
+            handler.signalReceived(new IconView(Refcounted.get(source)));
         }
         
     }

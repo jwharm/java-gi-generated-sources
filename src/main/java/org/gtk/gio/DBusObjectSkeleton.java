@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusObject {
 
-    public DBusObjectSkeleton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusObjectSkeleton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusObjectSkeleton */
     public static DBusObjectSkeleton castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectSkeleton(gobject.getReference());
+        return new DBusObjectSkeleton(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String objectPath) {
-        Reference RESULT = References.get(gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).handle()), true);
+    private static Refcounted constructNew(java.lang.String objectPath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).handle()), true);
         return RESULT;
     }
     
@@ -119,7 +119,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         public static boolean signalDBusObjectSkeletonAuthorizeMethod(MemoryAddress source, MemoryAddress interface_, MemoryAddress invocation, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusObjectSkeleton.AuthorizeMethodHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DBusObjectSkeleton(References.get(source)), new DBusInterfaceSkeleton(References.get(interface_, false)), new DBusMethodInvocation(References.get(invocation, false)));
+            return handler.signalReceived(new DBusObjectSkeleton(Refcounted.get(source)), new DBusInterfaceSkeleton(Refcounted.get(interface_, false)), new DBusMethodInvocation(Refcounted.get(invocation, false)));
         }
         
     }

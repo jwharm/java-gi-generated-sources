@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public GLTexture(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GLTexture(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GLTexture */
     public static GLTexture castFrom(org.gtk.gobject.Object gobject) {
-        return new GLTexture(gobject.getReference());
+        return new GLTexture(gobject.refcounted());
     }
     
-    private static Reference constructNew(GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy, java.lang.foreign.MemoryAddress data) {
-        Reference RESULT = References.get(gtk_h.gdk_gl_texture_new(context.handle(), id, width, height, 
+    private static Refcounted constructNew(GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy, java.lang.foreign.MemoryAddress data) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_gl_texture_new(context.handle(), id, width, height, 
                     Interop.cbDestroyNotifySymbol(), data), true);
         return RESULT;
     }

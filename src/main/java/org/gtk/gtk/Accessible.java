@@ -93,8 +93,8 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
     }
     
     class AccessibleImpl extends org.gtk.gobject.Object implements Accessible {
-        public AccessibleImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public AccessibleImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

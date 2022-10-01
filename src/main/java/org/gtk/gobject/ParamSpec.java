@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpec extends org.gtk.gobject.Object {
 
-    public ParamSpec(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpec(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ParamSpec */
     public static ParamSpec castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpec(gobject.getReference());
+        return new ParamSpec(gobject.refcounted());
     }
     
     /**
@@ -46,7 +46,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public Value getDefaultValue() {
         var RESULT = gtk_h.g_param_spec_get_default_value(handle());
-        return new Value(References.get(RESULT, false));
+        return new Value(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -95,7 +95,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public ParamSpec getRedirectTarget() {
         var RESULT = gtk_h.g_param_spec_get_redirect_target(handle());
-        return new ParamSpec(References.get(RESULT, false));
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -103,7 +103,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public ParamSpec ref() {
         var RESULT = gtk_h.g_param_spec_ref(handle());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -111,7 +111,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public ParamSpec refSink() {
         var RESULT = gtk_h.g_param_spec_ref_sink(handle());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -184,7 +184,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public static ParamSpec internal(org.gtk.gobject.Type paramType, java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_internal(paramType.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, false));
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**

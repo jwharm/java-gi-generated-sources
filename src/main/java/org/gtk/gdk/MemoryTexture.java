@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class MemoryTexture extends Texture implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public MemoryTexture(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MemoryTexture(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MemoryTexture */
     public static MemoryTexture castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryTexture(gobject.getReference());
+        return new MemoryTexture(gobject.refcounted());
     }
     
-    private static Reference constructNew(int width, int height, MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {
-        Reference RESULT = References.get(gtk_h.gdk_memory_texture_new(width, height, format.getValue(), bytes.handle(), stride), true);
+    private static Refcounted constructNew(int width, int height, MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_memory_texture_new(width, height, format.getValue(), bytes.handle(), stride), true);
         return RESULT;
     }
     

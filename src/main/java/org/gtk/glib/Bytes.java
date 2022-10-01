@@ -33,12 +33,12 @@ import java.lang.invoke.*;
  */
 public class Bytes extends io.github.jwharm.javagi.ResourceBase {
 
-    public Bytes(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Bytes(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(byte[] data, long size) {
-        Reference RESULT = References.get(gtk_h.g_bytes_new(Interop.allocateNativeArray(data).handle(), size), true);
+    private static Refcounted constructNew(byte[] data, long size) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_bytes_new(Interop.allocateNativeArray(data).handle(), size), true);
         return RESULT;
     }
     
@@ -51,8 +51,8 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(data, size));
     }
     
-    private static Reference constructNewStatic(byte[] data, long size) {
-        Reference RESULT = References.get(gtk_h.g_bytes_new_static(Interop.allocateNativeArray(data).handle(), size), true);
+    private static Refcounted constructNewStatic(byte[] data, long size) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_bytes_new_static(Interop.allocateNativeArray(data).handle(), size), true);
         return RESULT;
     }
     
@@ -66,8 +66,8 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         return new Bytes(constructNewStatic(data, size));
     }
     
-    private static Reference constructNewTake(byte[] data, long size) {
-        Reference RESULT = References.get(gtk_h.g_bytes_new_take(Interop.allocateNativeArray(data).handle(), size), true);
+    private static Refcounted constructNewTake(byte[] data, long size) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_bytes_new_take(Interop.allocateNativeArray(data).handle(), size), true);
         return RESULT;
     }
     
@@ -89,8 +89,8 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         return new Bytes(constructNewTake(data, size));
     }
     
-    private static Reference constructNewWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, java.lang.foreign.MemoryAddress userData) {
-        Reference RESULT = References.get(gtk_h.g_bytes_new_with_free_func(Interop.allocateNativeArray(data).handle(), size, 
+    private static Refcounted constructNewWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, java.lang.foreign.MemoryAddress userData) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_bytes_new_with_free_func(Interop.allocateNativeArray(data).handle(), size, 
                     Interop.cbDestroyNotifySymbol(), userData), true);
         return RESULT;
     }
@@ -215,7 +215,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      */
     public Bytes newFromBytes(long offset, long length) {
         var RESULT = gtk_h.g_bytes_new_from_bytes(handle(), offset, length);
-        return new Bytes(References.get(RESULT, true));
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -223,7 +223,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      */
     public Bytes ref() {
         var RESULT = gtk_h.g_bytes_ref(handle());
-        return new Bytes(References.get(RESULT, true));
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class ColorNode extends RenderNode {
 
-    public ColorNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ColorNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ColorNode */
     public static ColorNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorNode(gobject.getReference());
+        return new ColorNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
-        Reference RESULT = References.get(gtk_h.gsk_color_node_new(rgba.handle(), bounds.handle()), true);
+    private static Refcounted constructNew(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_color_node_new(rgba.handle(), bounds.handle()), true);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class ColorNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = gtk_h.gsk_color_node_get_color(handle());
-        return new org.gtk.gdk.RGBA(References.get(RESULT, false));
+        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
     }
     
 }

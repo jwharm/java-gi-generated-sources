@@ -73,17 +73,17 @@ import java.lang.invoke.*;
  */
 public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
 
-    public SizeGroup(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SizeGroup(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SizeGroup */
     public static SizeGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SizeGroup(gobject.getReference());
+        return new SizeGroup(gobject.refcounted());
     }
     
-    private static Reference constructNew(SizeGroupMode mode) {
-        Reference RESULT = References.get(gtk_h.gtk_size_group_new(mode.getValue()), true);
+    private static Refcounted constructNew(SizeGroupMode mode) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_size_group_new(mode.getValue()), true);
         return RESULT;
     }
     
@@ -124,7 +124,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      */
     public org.gtk.glib.SList getWidgets() {
         var RESULT = gtk_h.gtk_size_group_get_widgets(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**

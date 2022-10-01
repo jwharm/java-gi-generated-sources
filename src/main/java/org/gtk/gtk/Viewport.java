@@ -25,17 +25,17 @@ import java.lang.invoke.*;
  */
 public class Viewport extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public Viewport(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Viewport(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Viewport */
     public static Viewport castFrom(org.gtk.gobject.Object gobject) {
-        return new Viewport(gobject.getReference());
+        return new Viewport(gobject.refcounted());
     }
     
-    private static Reference constructNew(Adjustment hadjustment, Adjustment vadjustment) {
-        Reference RESULT = References.get(gtk_h.gtk_viewport_new(hadjustment.handle(), vadjustment.handle()), false);
+    private static Refcounted constructNew(Adjustment hadjustment, Adjustment vadjustment) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_viewport_new(hadjustment.handle(), vadjustment.handle()), false);
         return RESULT;
     }
     
@@ -54,7 +54,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_viewport_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

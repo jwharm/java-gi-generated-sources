@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  */
 public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
 
-    public VariantBuilder(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public VariantBuilder(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(VariantType type) {
-        Reference RESULT = References.get(gtk_h.g_variant_builder_new(type.handle()), true);
+    private static Refcounted constructNew(VariantType type) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_builder_new(type.handle()), true);
         return RESULT;
     }
     
@@ -109,7 +109,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public Variant end() {
         var RESULT = gtk_h.g_variant_builder_end(handle());
-        return new Variant(References.get(RESULT, false));
+        return new Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -197,7 +197,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantBuilder ref() {
         var RESULT = gtk_h.g_variant_builder_ref(handle());
-        return new VariantBuilder(References.get(RESULT, true));
+        return new VariantBuilder(Refcounted.get(RESULT, true));
     }
     
     /**

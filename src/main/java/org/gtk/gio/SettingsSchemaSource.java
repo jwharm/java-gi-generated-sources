@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
 
-    public SettingsSchemaSource(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SettingsSchemaSource(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewFromDirectory(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
+    private static Refcounted constructNewFromDirectory(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_settings_schema_source_new_from_directory(Interop.allocateNativeString(directory).handle(), parent.handle(), trusted ? 1 : 0, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_schema_source_new_from_directory(Interop.allocateNativeString(directory).handle(), parent.handle(), trusted ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -92,7 +92,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      */
     public SettingsSchema lookup(java.lang.String schemaId, boolean recursive) {
         var RESULT = gtk_h.g_settings_schema_source_lookup(handle(), Interop.allocateNativeString(schemaId).handle(), recursive ? 1 : 0);
-        return new SettingsSchema(References.get(RESULT, true));
+        return new SettingsSchema(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -100,7 +100,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      */
     public SettingsSchemaSource ref() {
         var RESULT = gtk_h.g_settings_schema_source_ref(handle());
-        return new SettingsSchemaSource(References.get(RESULT, true));
+        return new SettingsSchemaSource(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -127,7 +127,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      */
     public static SettingsSchemaSource getDefault() {
         var RESULT = gtk_h.g_settings_schema_source_get_default();
-        return new SettingsSchemaSource(References.get(RESULT, false));
+        return new SettingsSchemaSource(Refcounted.get(RESULT, false));
     }
     
 }

@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class FilterOutputStream extends OutputStream {
 
-    public FilterOutputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FilterOutputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FilterOutputStream */
     public static FilterOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new FilterOutputStream(gobject.getReference());
+        return new FilterOutputStream(gobject.refcounted());
     }
     
     /**
@@ -27,7 +27,7 @@ public class FilterOutputStream extends OutputStream {
      */
     public OutputStream getBaseStream() {
         var RESULT = gtk_h.g_filter_output_stream_get_base_stream(handle());
-        return new OutputStream(References.get(RESULT, false));
+        return new OutputStream(Refcounted.get(RESULT, false));
     }
     
     /**

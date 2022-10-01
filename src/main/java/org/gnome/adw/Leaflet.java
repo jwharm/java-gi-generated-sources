@@ -40,17 +40,17 @@ import java.lang.invoke.*;
  */
 public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
 
-    public Leaflet(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Leaflet(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Leaflet */
     public static Leaflet castFrom(org.gtk.gobject.Object gobject) {
-        return new Leaflet(gobject.getReference());
+        return new Leaflet(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_leaflet_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_leaflet_new(), false);
         return RESULT;
     }
     
@@ -66,7 +66,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public LeafletPage append(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_leaflet_append(handle(), child.handle());
-        return new LeafletPage(References.get(RESULT, false));
+        return new LeafletPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public org.gtk.gtk.Widget getAdjacentChild(NavigationDirection direction) {
         var RESULT = gtk_h.adw_leaflet_get_adjacent_child(handle(), direction.getValue());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -117,7 +117,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public org.gtk.gtk.Widget getChildByName(java.lang.String name) {
         var RESULT = gtk_h.adw_leaflet_get_child_by_name(handle(), Interop.allocateNativeString(name).handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public SpringParams getChildTransitionParams() {
         var RESULT = gtk_h.adw_leaflet_get_child_transition_params(handle());
-        return new SpringParams(References.get(RESULT, true));
+        return new SpringParams(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -173,7 +173,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public LeafletPage getPage(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_leaflet_get_page(handle(), child.handle());
-        return new LeafletPage(References.get(RESULT, false));
+        return new LeafletPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -185,7 +185,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public org.gtk.gtk.SelectionModel getPages() {
         var RESULT = gtk_h.adw_leaflet_get_pages(handle());
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(References.get(RESULT, true));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -201,7 +201,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public org.gtk.gtk.Widget getVisibleChild() {
         var RESULT = gtk_h.adw_leaflet_get_visible_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -219,7 +219,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public LeafletPage insertChildAfter(org.gtk.gtk.Widget child, org.gtk.gtk.Widget sibling) {
         var RESULT = gtk_h.adw_leaflet_insert_child_after(handle(), child.handle(), sibling.handle());
-        return new LeafletPage(References.get(RESULT, false));
+        return new LeafletPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -241,7 +241,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public LeafletPage prepend(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_leaflet_prepend(handle(), child.handle());
-        return new LeafletPage(References.get(RESULT, false));
+        return new LeafletPage(Refcounted.get(RESULT, false));
     }
     
     /**

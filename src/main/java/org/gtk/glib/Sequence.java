@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class Sequence extends io.github.jwharm.javagi.ResourceBase {
 
-    public Sequence(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Sequence(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -20,7 +20,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public SequenceIter append(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_append(handle(), data);
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -55,7 +55,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public SequenceIter getBeginIter() {
         var RESULT = gtk_h.g_sequence_get_begin_iter(handle());
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public SequenceIter getEndIter() {
         var RESULT = gtk_h.g_sequence_get_end_iter(handle());
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -72,7 +72,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public SequenceIter getIterAtPos(int pos) {
         var RESULT = gtk_h.g_sequence_get_iter_at_pos(handle(), pos);
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -109,7 +109,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
-            return new SequenceIter(References.get(RESULT, false));
+            return new SequenceIter(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -139,7 +139,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
-            return new SequenceIter(References.get(RESULT, false));
+            return new SequenceIter(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -182,7 +182,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
-            return new SequenceIter(References.get(RESULT, false));
+            return new SequenceIter(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -210,7 +210,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
-            return new SequenceIter(References.get(RESULT, false));
+            return new SequenceIter(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -221,7 +221,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public SequenceIter prepend(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_prepend(handle(), data);
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -249,7 +249,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
-            return new SequenceIter(References.get(RESULT, false));
+            return new SequenceIter(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -280,7 +280,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
-            return new SequenceIter(References.get(RESULT, false));
+            return new SequenceIter(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -363,7 +363,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public static SequenceIter insertBefore(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_insert_before(iter.handle(), data);
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -400,7 +400,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      */
     public static SequenceIter rangeGetMidpoint(SequenceIter begin, SequenceIter end) {
         var RESULT = gtk_h.g_sequence_range_get_midpoint(begin.handle(), end.handle());
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**

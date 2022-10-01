@@ -28,17 +28,17 @@ import java.lang.invoke.*;
  */
 public class CellView extends Widget implements Accessible, Buildable, CellLayout, ConstraintTarget, Orientable {
 
-    public CellView(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellView(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellView */
     public static CellView castFrom(org.gtk.gobject.Object gobject) {
-        return new CellView(gobject.getReference());
+        return new CellView(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_view_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new(), false);
         return RESULT;
     }
     
@@ -49,8 +49,8 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         super(constructNew());
     }
     
-    private static Reference constructNewWithContext(CellArea area, CellAreaContext context) {
-        Reference RESULT = References.get(gtk_h.gtk_cell_view_new_with_context(area.handle(), context.handle()), false);
+    private static Refcounted constructNewWithContext(CellArea area, CellAreaContext context) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new_with_context(area.handle(), context.handle()), false);
         return RESULT;
     }
     
@@ -67,8 +67,8 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(constructNewWithContext(area, context));
     }
     
-    private static Reference constructNewWithMarkup(java.lang.String markup) {
-        Reference RESULT = References.get(gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).handle()), false);
+    private static Refcounted constructNewWithMarkup(java.lang.String markup) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).handle()), false);
         return RESULT;
     }
     
@@ -81,8 +81,8 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(constructNewWithMarkup(markup));
     }
     
-    private static Reference constructNewWithText(java.lang.String text) {
-        Reference RESULT = References.get(gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).handle()), false);
+    private static Refcounted constructNewWithText(java.lang.String text) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).handle()), false);
         return RESULT;
     }
     
@@ -94,8 +94,8 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(constructNewWithText(text));
     }
     
-    private static Reference constructNewWithTexture(org.gtk.gdk.Texture texture) {
-        Reference RESULT = References.get(gtk_h.gtk_cell_view_new_with_texture(texture.handle()), false);
+    private static Refcounted constructNewWithTexture(org.gtk.gdk.Texture texture) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new_with_texture(texture.handle()), false);
         return RESULT;
     }
     
@@ -114,7 +114,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      */
     public TreePath getDisplayedRow() {
         var RESULT = gtk_h.gtk_cell_view_get_displayed_row(handle());
-        return new TreePath(References.get(RESULT, true));
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -141,7 +141,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_cell_view_get_model(handle());
-        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -46,13 +46,13 @@ import java.lang.invoke.*;
  */
 public class StyleContext extends org.gtk.gobject.Object {
 
-    public StyleContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StyleContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to StyleContext */
     public static StyleContext castFrom(org.gtk.gobject.Object gobject) {
-        return new StyleContext(gobject.getReference());
+        return new StyleContext(gobject.refcounted());
     }
     
     /**
@@ -111,7 +111,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = gtk_h.gtk_style_context_get_display(handle());
-        return new org.gtk.gdk.Display(References.get(RESULT, false));
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
     /**

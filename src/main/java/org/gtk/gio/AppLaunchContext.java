@@ -12,17 +12,17 @@ import java.lang.invoke.*;
  */
 public class AppLaunchContext extends org.gtk.gobject.Object {
 
-    public AppLaunchContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AppLaunchContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AppLaunchContext */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
-        return new AppLaunchContext(gobject.getReference());
+        return new AppLaunchContext(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_app_launch_context_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_app_launch_context_new(), true);
         return RESULT;
     }
     
@@ -197,19 +197,19 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         public static void signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppLaunchContext.LaunchFailedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppLaunchContext(References.get(source)), startupNotifyId.getUtf8String(0));
+            handler.signalReceived(new AppLaunchContext(Refcounted.get(source)), startupNotifyId.getUtf8String(0));
         }
         
         public static void signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppLaunchContext.LaunchStartedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppLaunchContext(References.get(source)), new AppInfo.AppInfoImpl(References.get(info, false)), new org.gtk.glib.Variant(References.get(platformData, false)));
+            handler.signalReceived(new AppLaunchContext(Refcounted.get(source)), new AppInfo.AppInfoImpl(Refcounted.get(info, false)), new org.gtk.glib.Variant(Refcounted.get(platformData, false)));
         }
         
         public static void signalAppLaunchContextLaunched(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppLaunchContext.LaunchedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppLaunchContext(References.get(source)), new AppInfo.AppInfoImpl(References.get(info, false)), new org.gtk.glib.Variant(References.get(platformData, false)));
+            handler.signalReceived(new AppLaunchContext(Refcounted.get(source)), new AppInfo.AppInfoImpl(Refcounted.get(info, false)), new org.gtk.glib.Variant(Refcounted.get(platformData, false)));
         }
         
     }

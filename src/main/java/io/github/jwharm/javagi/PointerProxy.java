@@ -39,12 +39,12 @@ public class PointerProxy<T extends Proxy> extends Pointer<T> {
      * @return The value stored at the given index
      */
     public T get(int index) {
-        Reference ref = References.get(address.get(
+        Refcounted ref = Refcounted.get(address.get(
                 ValueLayout.ADDRESS, 
                 ValueLayout.ADDRESS.byteSize() * index
         ));
         try {
-            T instance = cls.getDeclaredConstructor(new Class[] {Reference.class}).newInstance(ref);
+            T instance = cls.getDeclaredConstructor(new Class[] {Refcounted.class}).newInstance(ref);
             return instance;
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             return null;

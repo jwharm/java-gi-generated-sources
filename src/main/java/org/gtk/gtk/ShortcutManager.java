@@ -22,8 +22,8 @@ import java.lang.invoke.*;
 public interface ShortcutManager extends io.github.jwharm.javagi.Proxy {
 
     class ShortcutManagerImpl extends org.gtk.gobject.Object implements ShortcutManager {
-        public ShortcutManagerImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ShortcutManagerImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

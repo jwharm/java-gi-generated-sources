@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class TrashStack extends io.github.jwharm.javagi.ResourceBase {
 
-    public TrashStack(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TrashStack(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TrashStack() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTrashStack.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTrashStack.allocate(Interop.getAllocator()).address()));
     }
     
 }

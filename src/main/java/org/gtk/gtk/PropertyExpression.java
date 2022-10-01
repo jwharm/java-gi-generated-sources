@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class PropertyExpression extends Expression {
 
-    public PropertyExpression(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PropertyExpression(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PropertyExpression */
     public static PropertyExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new PropertyExpression(gobject.getReference());
+        return new PropertyExpression(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Type thisType, Expression expression, java.lang.String propertyName) {
-        Reference RESULT = References.get(gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getReference().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true);
+    private static Refcounted constructNew(org.gtk.gobject.Type thisType, Expression expression, java.lang.String propertyName) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_property_expression_new(thisType.getValue(), expression.refcounted().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true);
         return RESULT;
     }
     
@@ -40,8 +40,8 @@ public class PropertyExpression extends Expression {
         super(constructNew(thisType, expression, propertyName));
     }
     
-    private static Reference constructNewForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
-        Reference RESULT = References.get(gtk_h.gtk_property_expression_new_for_pspec(expression.getReference().unowned().handle(), pspec.handle()), true);
+    private static Refcounted constructNewForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_property_expression_new_for_pspec(expression.refcounted().unowned().handle(), pspec.handle()), true);
         return RESULT;
     }
     
@@ -65,7 +65,7 @@ public class PropertyExpression extends Expression {
      */
     public Expression getExpression() {
         var RESULT = gtk_h.gtk_property_expression_get_expression(handle());
-        return new Expression(References.get(RESULT, false));
+        return new Expression(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class PropertyExpression extends Expression {
      */
     public org.gtk.gobject.ParamSpec getPspec() {
         var RESULT = gtk_h.gtk_property_expression_get_pspec(handle());
-        return new org.gtk.gobject.ParamSpec(References.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
     }
     
 }

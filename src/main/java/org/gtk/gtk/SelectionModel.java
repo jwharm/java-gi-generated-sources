@@ -55,7 +55,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      */
     public default Bitset getSelection() {
         var RESULT = gtk_h.gtk_selection_model_get_selection(handle());
-        return new Bitset(References.get(RESULT, true));
+        return new Bitset(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -69,7 +69,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      */
     public default Bitset getSelectionInRange(int position, int nItems) {
         var RESULT = gtk_h.gtk_selection_model_get_selection_in_range(handle(), position, nItems);
-        return new Bitset(References.get(RESULT, true));
+        return new Bitset(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -214,14 +214,14 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         public static void signalSelectionModelSelectionChanged(MemoryAddress source, int position, int nItems, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SelectionModel.SelectionChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SelectionModel.SelectionModelImpl(References.get(source)), position, nItems);
+            handler.signalReceived(new SelectionModel.SelectionModelImpl(Refcounted.get(source)), position, nItems);
         }
         
     }
     
     class SelectionModelImpl extends org.gtk.gobject.Object implements SelectionModel {
-        public SelectionModelImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public SelectionModelImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

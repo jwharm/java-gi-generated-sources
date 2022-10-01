@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class AttrString extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrString(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrString(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AttrString() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrString.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrString.allocate(Interop.getAllocator()).address()));
     }
     
 }

@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class DBusMessage extends org.gtk.gobject.Object {
 
-    public DBusMessage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusMessage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusMessage */
     public static DBusMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusMessage(gobject.getReference());
+        return new DBusMessage(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_dbus_message_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_message_new(), true);
         return RESULT;
     }
     
@@ -32,9 +32,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static Reference constructNewFromBlob(byte[] blob, long blobLen, DBusCapabilityFlags capabilities) throws GErrorException {
+    private static Refcounted constructNewFromBlob(byte[] blob, long blobLen, DBusCapabilityFlags capabilities) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_message_new_from_blob(Interop.allocateNativeArray(blob).handle(), blobLen, capabilities.getValue(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_message_new_from_blob(Interop.allocateNativeArray(blob).handle(), blobLen, capabilities.getValue(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -53,8 +53,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
         return new DBusMessage(constructNewFromBlob(blob, blobLen, capabilities));
     }
     
-    private static Reference constructNewMethodCall(java.lang.String name, java.lang.String path, java.lang.String interface_, java.lang.String method) {
-        Reference RESULT = References.get(gtk_h.g_dbus_message_new_method_call(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(method).handle()), true);
+    private static Refcounted constructNewMethodCall(java.lang.String name, java.lang.String path, java.lang.String interface_, java.lang.String method) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_message_new_method_call(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(method).handle()), true);
         return RESULT;
     }
     
@@ -65,8 +65,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
         return new DBusMessage(constructNewMethodCall(name, path, interface_, method));
     }
     
-    private static Reference constructNewSignal(java.lang.String path, java.lang.String interface_, java.lang.String signal) {
-        Reference RESULT = References.get(gtk_h.g_dbus_message_new_signal(Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(signal).handle()), true);
+    private static Refcounted constructNewSignal(java.lang.String path, java.lang.String interface_, java.lang.String signal) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_message_new_signal(Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(signal).handle()), true);
         return RESULT;
     }
     
@@ -91,7 +91,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DBusMessage(References.get(RESULT, true));
+        return new DBusMessage(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -107,7 +107,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getBody() {
         var RESULT = gtk_h.g_dbus_message_get_body(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -150,7 +150,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getHeader(DBusMessageHeaderField headerField) {
         var RESULT = gtk_h.g_dbus_message_get_header(handle(), headerField.getValue());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -258,7 +258,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public UnixFDList getUnixFdList() {
         var RESULT = gtk_h.g_dbus_message_get_unix_fd_list(handle());
-        return new UnixFDList(References.get(RESULT, false));
+        return new UnixFDList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -273,7 +273,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public DBusMessage newMethodErrorLiteral(java.lang.String errorName, java.lang.String errorMessage) {
         var RESULT = gtk_h.g_dbus_message_new_method_error_literal(handle(), Interop.allocateNativeString(errorName).handle(), Interop.allocateNativeString(errorMessage).handle());
-        return new DBusMessage(References.get(RESULT, true));
+        return new DBusMessage(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -281,7 +281,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public DBusMessage newMethodErrorValist(java.lang.String errorName, java.lang.String errorMessageFormat, VaList varArgs) {
         var RESULT = gtk_h.g_dbus_message_new_method_error_valist(handle(), Interop.allocateNativeString(errorName).handle(), Interop.allocateNativeString(errorMessageFormat).handle(), varArgs);
-        return new DBusMessage(References.get(RESULT, true));
+        return new DBusMessage(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -289,7 +289,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public DBusMessage newMethodReply() {
         var RESULT = gtk_h.g_dbus_message_new_method_reply(handle());
-        return new DBusMessage(References.get(RESULT, true));
+        return new DBusMessage(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class NetworkService extends org.gtk.gobject.Object implements SocketConnectable {
 
-    public NetworkService(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NetworkService(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NetworkService */
     public static NetworkService castFrom(org.gtk.gobject.Object gobject) {
-        return new NetworkService(gobject.getReference());
+        return new NetworkService(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
-        Reference RESULT = References.get(gtk_h.g_network_service_new(Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle()), true);
+    private static Refcounted constructNew(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_network_service_new(Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle()), true);
         return RESULT;
     }
     

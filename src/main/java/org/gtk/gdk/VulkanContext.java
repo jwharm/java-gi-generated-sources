@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
 
-    public VulkanContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public VulkanContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to VulkanContext */
     public static VulkanContext castFrom(org.gtk.gobject.Object gobject) {
-        return new VulkanContext(gobject.getReference());
+        return new VulkanContext(gobject.refcounted());
     }
     
     @FunctionalInterface
@@ -61,7 +61,7 @@ public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
         public static void signalVulkanContextImagesUpdated(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VulkanContext.ImagesUpdatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VulkanContext(References.get(source)));
+            handler.signalReceived(new VulkanContext(Refcounted.get(source)));
         }
         
     }

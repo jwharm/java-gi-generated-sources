@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class ConstantExpression extends Expression {
 
-    public ConstantExpression(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ConstantExpression(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ConstantExpression */
     public static ConstantExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new ConstantExpression(gobject.getReference());
+        return new ConstantExpression(gobject.refcounted());
     }
     
-    private static Reference constructNewForValue(org.gtk.gobject.Value value) {
-        Reference RESULT = References.get(gtk_h.gtk_constant_expression_new_for_value(value.handle()), true);
+    private static Refcounted constructNewForValue(org.gtk.gobject.Value value) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constant_expression_new_for_value(value.handle()), true);
         return RESULT;
     }
     
@@ -36,7 +36,7 @@ public class ConstantExpression extends Expression {
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = gtk_h.gtk_constant_expression_get_value(handle());
-        return new org.gtk.gobject.Value(References.get(RESULT, false));
+        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
     
 }

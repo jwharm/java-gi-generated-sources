@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class RecentData extends io.github.jwharm.javagi.ResourceBase {
 
-    public RecentData(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RecentData(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public RecentData() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkRecentData.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkRecentData.allocate(Interop.getAllocator()).address()));
     }
     
 }

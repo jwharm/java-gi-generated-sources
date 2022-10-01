@@ -69,17 +69,17 @@ import java.lang.invoke.*;
  */
 public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public ViewSwitcherTitle(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ViewSwitcherTitle(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ViewSwitcherTitle */
     public static ViewSwitcherTitle castFrom(org.gtk.gobject.Object gobject) {
-        return new ViewSwitcherTitle(gobject.getReference());
+        return new ViewSwitcherTitle(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_view_switcher_title_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_view_switcher_title_new(), false);
         return RESULT;
     }
     
@@ -95,7 +95,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
      */
     public ViewStack getStack() {
         var RESULT = gtk_h.adw_view_switcher_title_get_stack(handle());
-        return new ViewStack(References.get(RESULT, false));
+        return new ViewStack(Refcounted.get(RESULT, false));
     }
     
     /**

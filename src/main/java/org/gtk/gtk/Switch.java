@@ -35,17 +35,17 @@ import java.lang.invoke.*;
  */
 public class Switch extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public Switch(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Switch(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Switch */
     public static Switch castFrom(org.gtk.gobject.Object gobject) {
-        return new Switch(gobject.getReference());
+        return new Switch(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_switch_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_switch_new(), false);
         return RESULT;
     }
     
@@ -166,13 +166,13 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         public static void signalSwitchActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Switch.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Switch(References.get(source)));
+            handler.signalReceived(new Switch(Refcounted.get(source)));
         }
         
         public static boolean signalSwitchStateSet(MemoryAddress source, int state, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Switch.StateSetHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Switch(References.get(source)), state != 0);
+            return handler.signalReceived(new Switch(Refcounted.get(source)), state != 0);
         }
         
     }

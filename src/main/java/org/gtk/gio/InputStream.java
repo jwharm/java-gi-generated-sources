@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class InputStream extends org.gtk.gobject.Object {
 
-    public InputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to InputStream */
     public static InputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new InputStream(gobject.getReference());
+        return new InputStream(gobject.refcounted());
     }
     
     /**
@@ -302,7 +302,7 @@ public class InputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -350,7 +350,7 @@ public class InputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**

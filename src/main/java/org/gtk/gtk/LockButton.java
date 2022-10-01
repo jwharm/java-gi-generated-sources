@@ -46,17 +46,17 @@ import java.lang.invoke.*;
  */
 public class LockButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public LockButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LockButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to LockButton */
     public static LockButton castFrom(org.gtk.gobject.Object gobject) {
-        return new LockButton(gobject.getReference());
+        return new LockButton(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.Permission permission) {
-        Reference RESULT = References.get(gtk_h.gtk_lock_button_new(permission.handle()), false);
+    private static Refcounted constructNew(org.gtk.gio.Permission permission) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_lock_button_new(permission.handle()), false);
         return RESULT;
     }
     
@@ -72,7 +72,7 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
      */
     public org.gtk.gio.Permission getPermission() {
         var RESULT = gtk_h.gtk_lock_button_get_permission(handle());
-        return new org.gtk.gio.Permission(References.get(RESULT, false));
+        return new org.gtk.gio.Permission(Refcounted.get(RESULT, false));
     }
     
     /**

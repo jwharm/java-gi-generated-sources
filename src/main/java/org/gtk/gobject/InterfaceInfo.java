@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class InterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public InterfaceInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InterfaceInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public InterfaceInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GInterfaceInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GInterfaceInfo.allocate(Interop.getAllocator()).address()));
     }
     
 }

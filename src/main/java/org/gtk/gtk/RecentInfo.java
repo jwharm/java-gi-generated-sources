@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public RecentInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RecentInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -27,7 +27,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.DateTime getAdded() {
         var RESULT = gtk_h.gtk_recent_info_get_added(handle());
-        return new org.gtk.glib.DateTime(References.get(RESULT, false));
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gio.Icon getGicon() {
         var RESULT = gtk_h.gtk_recent_info_get_gicon(handle());
-        return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -130,7 +130,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.DateTime getModified() {
         var RESULT = gtk_h.gtk_recent_info_get_modified(handle());
-        return new org.gtk.glib.DateTime(References.get(RESULT, false));
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.DateTime getVisited() {
         var RESULT = gtk_h.gtk_recent_info_get_visited(handle());
-        return new org.gtk.glib.DateTime(References.get(RESULT, false));
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -234,7 +234,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public RecentInfo ref() {
         var RESULT = gtk_h.gtk_recent_info_ref(handle());
-        return new RecentInfo(References.get(RESULT, true));
+        return new RecentInfo(Refcounted.get(RESULT, true));
     }
     
     /**

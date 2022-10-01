@@ -54,13 +54,13 @@ import java.lang.invoke.*;
  */
 public class Animation extends org.gtk.gobject.Object {
 
-    public Animation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Animation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Animation */
     public static Animation castFrom(org.gtk.gobject.Object gobject) {
-        return new Animation(gobject.getReference());
+        return new Animation(gobject.refcounted());
     }
     
     /**
@@ -79,7 +79,7 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public AnimationTarget getTarget() {
         var RESULT = gtk_h.adw_animation_get_target(handle());
-        return new AnimationTarget(References.get(RESULT, false));
+        return new AnimationTarget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -95,7 +95,7 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public org.gtk.gtk.Widget getWidget() {
         var RESULT = gtk_h.adw_animation_get_widget(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -196,7 +196,7 @@ public class Animation extends org.gtk.gobject.Object {
         public static void signalAnimationDone(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Animation.DoneHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Animation(References.get(source)));
+            handler.signalReceived(new Animation(Refcounted.get(source)));
         }
         
     }

@@ -19,12 +19,12 @@ import java.lang.invoke.*;
  */
 public class Value extends io.github.jwharm.javagi.ResourceBase {
 
-    public Value(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Value(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Value() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GValue.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GValue.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -52,7 +52,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public Object dupObject() {
         var RESULT = gtk_h.g_value_dup_object(handle());
-        return new Object(References.get(RESULT, true));
+        return new Object(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -61,7 +61,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public ParamSpec dupParam() {
         var RESULT = gtk_h.g_value_dup_param(handle());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -78,7 +78,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.Variant dupVariant() {
         var RESULT = gtk_h.g_value_dup_variant(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -175,7 +175,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public Object getObject() {
         var RESULT = gtk_h.g_value_get_object(handle());
-        return new Object(References.get(RESULT, false));
+        return new Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public ParamSpec getParam() {
         var RESULT = gtk_h.g_value_get_param(handle());
-        return new ParamSpec(References.get(RESULT, false));
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -247,7 +247,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.Variant getVariant() {
         var RESULT = gtk_h.g_value_get_variant(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -255,7 +255,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public Value init(org.gtk.gobject.Type gType) {
         var RESULT = gtk_h.g_value_init(handle(), gType.getValue());
-        return new Value(References.get(RESULT, false));
+        return new Value(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -287,7 +287,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      */
     public Value reset() {
         var RESULT = gtk_h.g_value_reset(handle());
-        return new Value(References.get(RESULT, true));
+        return new Value(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -533,7 +533,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * This is an internal function introduced mainly for C marshallers.
      */
     public void takeVariant(org.gtk.glib.Variant variant) {
-        gtk_h.g_value_take_variant(handle(), variant.getReference().unowned().handle());
+        gtk_h.g_value_take_variant(handle(), variant.refcounted().unowned().handle());
     }
     
     /**

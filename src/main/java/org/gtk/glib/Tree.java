@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class Tree extends io.github.jwharm.javagi.ResourceBase {
 
-    public Tree(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Tree(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewFull(CompareDataFunc keyCompareFunc) {
+    private static Refcounted constructNewFull(CompareDataFunc keyCompareFunc) {
         try {
-            Reference RESULT = References.get(gtk_h.g_tree_new_full(
+            Refcounted RESULT = Refcounted.get(gtk_h.g_tree_new_full(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -42,9 +42,9 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         return new Tree(constructNewFull(keyCompareFunc));
     }
     
-    private static Reference constructNewWithData(CompareDataFunc keyCompareFunc) {
+    private static Refcounted constructNewWithData(CompareDataFunc keyCompareFunc) {
         try {
-            Reference RESULT = References.get(gtk_h.g_tree_new_with_data(
+            Refcounted RESULT = Refcounted.get(gtk_h.g_tree_new_with_data(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -164,7 +164,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode insertNode(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_tree_insert_node(handle(), key, value);
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -195,7 +195,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode lookupNode(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_lookup_node(handle(), key);
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -208,7 +208,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode lowerBound(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_lower_bound(handle(), key);
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -225,7 +225,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode nodeFirst() {
         var RESULT = gtk_h.g_tree_node_first(handle());
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -234,7 +234,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode nodeLast() {
         var RESULT = gtk_h.g_tree_node_last(handle());
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -244,7 +244,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public Tree ref() {
         var RESULT = gtk_h.g_tree_ref(handle());
-        return new Tree(References.get(RESULT, true));
+        return new Tree(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -293,7 +293,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode replaceNode(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_tree_replace_node(handle(), key, value);
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -342,7 +342,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchFunc.hashCode(), searchFunc)));
-            return new TreeNode(References.get(RESULT, false));
+            return new TreeNode(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -381,7 +381,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode upperBound(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_upper_bound(handle(), key);
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
 }

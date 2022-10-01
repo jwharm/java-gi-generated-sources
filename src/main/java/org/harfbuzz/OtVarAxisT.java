@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class OtVarAxisT extends io.github.jwharm.javagi.ResourceBase {
 
-    public OtVarAxisT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OtVarAxisT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public OtVarAxisT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_var_axis_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_ot_var_axis_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

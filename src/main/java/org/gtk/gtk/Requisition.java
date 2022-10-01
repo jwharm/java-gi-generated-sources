@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class Requisition extends io.github.jwharm.javagi.ResourceBase {
 
-    public Requisition(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Requisition(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_requisition_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_requisition_new(), true);
         return RESULT;
     }
     
@@ -35,7 +35,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
      */
     public Requisition copy() {
         var RESULT = gtk_h.gtk_requisition_copy(handle());
-        return new Requisition(References.get(RESULT, true));
+        return new Requisition(Refcounted.get(RESULT, true));
     }
     
     /**

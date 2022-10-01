@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class WindowGroupPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public WindowGroupPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WindowGroupPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class TimeCoord extends io.github.jwharm.javagi.ResourceBase {
 
-    public TimeCoord(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TimeCoord(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TimeCoord() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkTimeCoord.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GdkTimeCoord.allocate(Interop.getAllocator()).address()));
     }
     
 }

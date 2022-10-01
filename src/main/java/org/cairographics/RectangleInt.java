@@ -7,12 +7,12 @@ import java.lang.invoke.*;
 
 public class RectangleInt extends io.github.jwharm.javagi.ResourceBase {
 
-    public RectangleInt(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RectangleInt(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public RectangleInt() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.cairo_rectangle_int_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.cairo_rectangle_int_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

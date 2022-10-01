@@ -29,13 +29,13 @@ import java.lang.invoke.*;
  */
 public class FileIOStream extends IOStream implements Seekable {
 
-    public FileIOStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileIOStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileIOStream */
     public static FileIOStream castFrom(org.gtk.gobject.Object gobject) {
-        return new FileIOStream(gobject.getReference());
+        return new FileIOStream(gobject.refcounted());
     }
     
     /**
@@ -73,7 +73,7 @@ public class FileIOStream extends IOStream implements Seekable {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class FileIOStream extends IOStream implements Seekable {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
 }

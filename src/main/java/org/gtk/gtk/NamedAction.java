@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class NamedAction extends ShortcutAction {
 
-    public NamedAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NamedAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NamedAction */
     public static NamedAction castFrom(org.gtk.gobject.Object gobject) {
-        return new NamedAction(gobject.getReference());
+        return new NamedAction(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String name) {
-        Reference RESULT = References.get(gtk_h.gtk_named_action_new(Interop.allocateNativeString(name).handle()), true);
+    private static Refcounted constructNew(java.lang.String name) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_named_action_new(Interop.allocateNativeString(name).handle()), true);
         return RESULT;
     }
     

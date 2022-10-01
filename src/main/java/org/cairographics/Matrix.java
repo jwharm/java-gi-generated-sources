@@ -7,12 +7,12 @@ import java.lang.invoke.*;
 
 public class Matrix extends io.github.jwharm.javagi.ResourceBase {
 
-    public Matrix(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Matrix(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Matrix() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.cairo_matrix_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.cairo_matrix_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

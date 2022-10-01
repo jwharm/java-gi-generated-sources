@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class Texture extends org.gtk.gobject.Object implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public Texture(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Texture(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Texture */
     public static Texture castFrom(org.gtk.gobject.Object gobject) {
-        return new Texture(gobject.getReference());
+        return new Texture(gobject.refcounted());
     }
     
-    private static Reference constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        Reference RESULT = References.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true);
+    private static Refcounted constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true);
         return RESULT;
     }
     
@@ -48,9 +48,9 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(constructNewForPixbuf(pixbuf));
     }
     
-    private static Reference constructNewFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
+    private static Refcounted constructNewFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_texture_new_from_bytes(bytes.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_from_bytes(bytes.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -73,9 +73,9 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(constructNewFromBytes(bytes));
     }
     
-    private static Reference constructNewFromFile(org.gtk.gio.File file) throws GErrorException {
+    private static Refcounted constructNewFromFile(org.gtk.gio.File file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_texture_new_from_file(file.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_from_file(file.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -98,9 +98,9 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(constructNewFromFile(file));
     }
     
-    private static Reference constructNewFromFilename(java.lang.String path) throws GErrorException {
+    private static Refcounted constructNewFromFilename(java.lang.String path) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_texture_new_from_filename(Interop.allocateNativeString(path).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_from_filename(Interop.allocateNativeString(path).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -123,8 +123,8 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(constructNewFromFilename(path));
     }
     
-    private static Reference constructNewFromResource(java.lang.String resourcePath) {
-        Reference RESULT = References.get(gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
+    private static Refcounted constructNewFromResource(java.lang.String resourcePath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
         return RESULT;
     }
     
@@ -220,7 +220,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      */
     public org.gtk.glib.Bytes saveToPngBytes() {
         var RESULT = gtk_h.gdk_texture_save_to_png_bytes(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -249,7 +249,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      */
     public org.gtk.glib.Bytes saveToTiffBytes() {
         var RESULT = gtk_h.gdk_texture_save_to_tiff_bytes(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
 }

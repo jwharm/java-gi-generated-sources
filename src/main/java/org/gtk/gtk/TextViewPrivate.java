@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TextViewPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public TextViewPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextViewPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

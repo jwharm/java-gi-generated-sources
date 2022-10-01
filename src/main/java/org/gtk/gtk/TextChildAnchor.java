@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class TextChildAnchor extends org.gtk.gobject.Object {
 
-    public TextChildAnchor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextChildAnchor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TextChildAnchor */
     public static TextChildAnchor castFrom(org.gtk.gobject.Object gobject) {
-        return new TextChildAnchor(gobject.getReference());
+        return new TextChildAnchor(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_text_child_anchor_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_child_anchor_new(), true);
         return RESULT;
     }
     
@@ -39,8 +39,8 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static Reference constructNewWithReplacement(java.lang.String character) {
-        Reference RESULT = References.get(gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).handle()), true);
+    private static Refcounted constructNewWithReplacement(java.lang.String character) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).handle()), true);
         return RESULT;
     }
     

@@ -25,17 +25,17 @@ import java.lang.invoke.*;
  */
 public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScope {
 
-    public BuilderCScope(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BuilderCScope(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BuilderCScope */
     public static BuilderCScope castFrom(org.gtk.gobject.Object gobject) {
-        return new BuilderCScope(gobject.getReference());
+        return new BuilderCScope(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_builder_cscope_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_builder_cscope_new(), true);
         return RESULT;
     }
     

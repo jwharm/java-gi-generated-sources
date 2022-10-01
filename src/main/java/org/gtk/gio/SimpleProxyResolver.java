@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class SimpleProxyResolver extends org.gtk.gobject.Object implements ProxyResolver {
 
-    public SimpleProxyResolver(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SimpleProxyResolver(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SimpleProxyResolver */
     public static SimpleProxyResolver castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleProxyResolver(gobject.getReference());
+        return new SimpleProxyResolver(gobject.refcounted());
     }
     
     /**
@@ -71,7 +71,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      */
     public static ProxyResolver new_(java.lang.String defaultProxy, java.lang.String[] ignoreHosts) {
         var RESULT = gtk_h.g_simple_proxy_resolver_new(Interop.allocateNativeString(defaultProxy).handle(), Interop.allocateNativeArray(ignoreHosts).handle());
-        return new ProxyResolver.ProxyResolverImpl(References.get(RESULT, true));
+        return new ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, true));
     }
     
 }

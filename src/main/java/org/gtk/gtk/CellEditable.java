@@ -122,20 +122,20 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         public static void signalCellEditableEditingDone(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellEditable.EditingDoneHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
+            handler.signalReceived(new CellEditable.CellEditableImpl(Refcounted.get(source)));
         }
         
         public static void signalCellEditableRemoveWidget(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellEditable.RemoveWidgetHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
+            handler.signalReceived(new CellEditable.CellEditableImpl(Refcounted.get(source)));
         }
         
     }
     
     class CellEditableImpl extends org.gtk.gobject.Object implements CellEditable {
-        public CellEditableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public CellEditableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

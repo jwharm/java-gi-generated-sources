@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class Language extends io.github.jwharm.javagi.ResourceBase {
 
-    public Language(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Language(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -133,7 +133,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Language fromString(java.lang.String language) {
         var RESULT = gtk_h.pango_language_from_string(Interop.allocateNativeString(language).handle());
-        return new Language(References.get(RESULT, false));
+        return new Language(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -171,7 +171,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Language getDefault() {
         var RESULT = gtk_h.pango_language_get_default();
-        return new Language(References.get(RESULT, false));
+        return new Language(Refcounted.get(RESULT, false));
     }
     
     /**

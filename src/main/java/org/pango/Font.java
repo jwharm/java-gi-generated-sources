@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class Font extends org.gtk.gobject.Object {
 
-    public Font(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Font(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Font */
     public static Font castFrom(org.gtk.gobject.Object gobject) {
-        return new Font(gobject.getReference());
+        return new Font(gobject.refcounted());
     }
     
     /**
@@ -28,7 +28,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public FontDescription describe() {
         var RESULT = gtk_h.pango_font_describe(handle());
-        return new FontDescription(References.get(RESULT, true));
+        return new FontDescription(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -39,7 +39,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public FontDescription describeWithAbsoluteSize() {
         var RESULT = gtk_h.pango_font_describe_with_absolute_size(handle());
-        return new FontDescription(References.get(RESULT, true));
+        return new FontDescription(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -47,7 +47,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public Coverage getCoverage(Language language) {
         var RESULT = gtk_h.pango_font_get_coverage(handle(), language.handle());
-        return new Coverage(References.get(RESULT, true));
+        return new Coverage(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public FontFace getFace() {
         var RESULT = gtk_h.pango_font_get_face(handle());
-        return new FontFace(References.get(RESULT, false));
+        return new FontFace(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -86,7 +86,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public FontMap getFontMap() {
         var RESULT = gtk_h.pango_font_get_font_map(handle());
-        return new FontMap(References.get(RESULT, false));
+        return new FontMap(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -115,7 +115,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public org.harfbuzz.FontT getHbFont() {
         var RESULT = gtk_h.pango_font_get_hb_font(handle());
-        return new org.harfbuzz.FontT(References.get(RESULT, false));
+        return new org.harfbuzz.FontT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -145,7 +145,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public FontMetrics getMetrics(Language language) {
         var RESULT = gtk_h.pango_font_get_metrics(handle(), language.handle());
-        return new FontMetrics(References.get(RESULT, true));
+        return new FontMetrics(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -169,7 +169,7 @@ public class Font extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes serialize() {
         var RESULT = gtk_h.pango_font_serialize(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -194,7 +194,7 @@ public class Font extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Font(References.get(RESULT, true));
+        return new Font(Refcounted.get(RESULT, true));
     }
     
 }

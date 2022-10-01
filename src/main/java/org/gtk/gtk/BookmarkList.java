@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public BookmarkList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BookmarkList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BookmarkList */
     public static BookmarkList castFrom(org.gtk.gobject.Object gobject) {
-        return new BookmarkList(gobject.getReference());
+        return new BookmarkList(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String filename, java.lang.String attributes) {
-        Reference RESULT = References.get(gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(attributes).handle()), true);
+    private static Refcounted constructNew(java.lang.String filename, java.lang.String attributes) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(attributes).handle()), true);
         return RESULT;
     }
     

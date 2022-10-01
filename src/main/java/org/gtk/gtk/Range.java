@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class Range extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Range(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Range(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Range */
     public static Range castFrom(org.gtk.gobject.Object gobject) {
-        return new Range(gobject.getReference());
+        return new Range(gobject.refcounted());
     }
     
     /**
@@ -32,7 +32,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_range_get_adjustment(handle());
-        return new Adjustment(References.get(RESULT, false));
+        return new Adjustment(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -386,25 +386,25 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         public static void signalRangeAdjustBounds(MemoryAddress source, double value, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Range.AdjustBoundsHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Range(References.get(source)), value);
+            handler.signalReceived(new Range(Refcounted.get(source)), value);
         }
         
         public static boolean signalRangeChangeValue(MemoryAddress source, int scroll, double value, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Range.ChangeValueHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Range(References.get(source)), new ScrollType(scroll), value);
+            return handler.signalReceived(new Range(Refcounted.get(source)), new ScrollType(scroll), value);
         }
         
         public static void signalRangeMoveSlider(MemoryAddress source, int step, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Range.MoveSliderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Range(References.get(source)), new ScrollType(step));
+            handler.signalReceived(new Range(Refcounted.get(source)), new ScrollType(step));
         }
         
         public static void signalRangeValueChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Range.ValueChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Range(References.get(source)));
+            handler.signalReceived(new Range(Refcounted.get(source)));
         }
         
     }

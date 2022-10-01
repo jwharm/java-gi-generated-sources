@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class SList extends io.github.jwharm.javagi.ResourceBase {
 
-    public SList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public SList() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GSList.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GSList.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -26,7 +26,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList alloc() {
         var RESULT = gtk_h.g_slist_alloc();
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -55,7 +55,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList append(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_append(list.handle(), data);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList concat(org.gtk.glib.SList list1, org.gtk.glib.SList list2) {
         var RESULT = gtk_h.g_slist_concat(list1.handle(), list2.handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList copy(org.gtk.glib.SList list) {
         var RESULT = gtk_h.g_slist_copy(list.handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new org.gtk.glib.SList(References.get(RESULT, false));
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -131,7 +131,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList deleteLink(org.gtk.glib.SList list, org.gtk.glib.SList link) {
         var RESULT = gtk_h.g_slist_delete_link(list.handle(), link.handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -140,7 +140,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList find(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_find(list.handle(), data);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -160,7 +160,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-            return new org.gtk.glib.SList(References.get(RESULT, false));
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -227,7 +227,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList insert(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data, int position) {
         var RESULT = gtk_h.g_slist_insert(list.handle(), data, position);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -235,7 +235,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList insertBefore(org.gtk.glib.SList slist, org.gtk.glib.SList sibling, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_insert_before(slist.handle(), sibling.handle(), data);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -251,7 +251,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-            return new org.gtk.glib.SList(References.get(RESULT, false));
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -271,7 +271,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new org.gtk.glib.SList(References.get(RESULT, false));
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -284,7 +284,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList last(org.gtk.glib.SList list) {
         var RESULT = gtk_h.g_slist_last(list.handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -304,7 +304,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList nth(org.gtk.glib.SList list, int n) {
         var RESULT = gtk_h.g_slist_nth(list.handle(), n);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -339,7 +339,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList prepend(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_prepend(list.handle(), data);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -349,7 +349,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList remove(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_remove(list.handle(), data);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -360,7 +360,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList removeAll(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_remove_all(list.handle(), data);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -377,7 +377,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList removeLink(org.gtk.glib.SList list, org.gtk.glib.SList link) {
         var RESULT = gtk_h.g_slist_remove_link(list.handle(), link.handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -385,7 +385,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.SList reverse(org.gtk.glib.SList list) {
         var RESULT = gtk_h.g_slist_reverse(list.handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -400,7 +400,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
-            return new org.gtk.glib.SList(References.get(RESULT, false));
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

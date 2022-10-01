@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class TouchEvent extends Event {
 
-    public TouchEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TouchEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TouchEvent */
     public static TouchEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new TouchEvent(gobject.getReference());
+        return new TouchEvent(gobject.refcounted());
     }
     
     /**

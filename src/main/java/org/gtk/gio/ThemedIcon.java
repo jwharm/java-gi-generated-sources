@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  */
 public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
 
-    public ThemedIcon(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ThemedIcon(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ThemedIcon */
     public static ThemedIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new ThemedIcon(gobject.getReference());
+        return new ThemedIcon(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String iconname) {
-        Reference RESULT = References.get(gtk_h.g_themed_icon_new(Interop.allocateNativeString(iconname).handle()), true);
+    private static Refcounted constructNew(java.lang.String iconname) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_themed_icon_new(Interop.allocateNativeString(iconname).handle()), true);
         return RESULT;
     }
     
@@ -37,8 +37,8 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
         super(constructNew(iconname));
     }
     
-    private static Reference constructNewFromNames(java.lang.String[] iconnames, int len) {
-        Reference RESULT = References.get(gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames).handle(), len), true);
+    private static Refcounted constructNewFromNames(java.lang.String[] iconnames, int len) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames).handle(), len), true);
         return RESULT;
     }
     
@@ -49,8 +49,8 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
         return new ThemedIcon(constructNewFromNames(iconnames, len));
     }
     
-    private static Reference constructNewWithDefaultFallbacks(java.lang.String iconname) {
-        Reference RESULT = References.get(gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.allocateNativeString(iconname).handle()), true);
+    private static Refcounted constructNewWithDefaultFallbacks(java.lang.String iconname) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.allocateNativeString(iconname).handle()), true);
         return RESULT;
     }
     

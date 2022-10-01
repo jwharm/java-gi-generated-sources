@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class IOSchedulerJob extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOSchedulerJob(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOSchedulerJob(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

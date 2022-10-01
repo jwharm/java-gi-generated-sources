@@ -39,17 +39,17 @@ import java.lang.invoke.*;
  */
 public class Button extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public Button(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Button(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Button */
     public static Button castFrom(org.gtk.gobject.Object gobject) {
-        return new Button(gobject.getReference());
+        return new Button(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_button_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_button_new(), false);
         return RESULT;
     }
     
@@ -62,8 +62,8 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         super(constructNew());
     }
     
-    private static Reference constructNewFromIconName(java.lang.String iconName) {
-        Reference RESULT = References.get(gtk_h.gtk_button_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false);
+    private static Refcounted constructNewFromIconName(java.lang.String iconName) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_button_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false);
         return RESULT;
     }
     
@@ -78,8 +78,8 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         return new Button(constructNewFromIconName(iconName));
     }
     
-    private static Reference constructNewWithLabel(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNewWithLabel(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -90,8 +90,8 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         return new Button(constructNewWithLabel(label));
     }
     
-    private static Reference constructNewWithMnemonic(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNewWithMnemonic(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -112,7 +112,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_button_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -268,13 +268,13 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         public static void signalButtonActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Button.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Button(References.get(source)));
+            handler.signalReceived(new Button(Refcounted.get(source)));
         }
         
         public static void signalButtonClicked(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Button.ClickedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Button(References.get(source)));
+            handler.signalReceived(new Button(Refcounted.get(source)));
         }
         
     }

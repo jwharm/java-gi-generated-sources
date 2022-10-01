@@ -26,12 +26,12 @@ import java.lang.invoke.*;
  */
 public class Private extends io.github.jwharm.javagi.ResourceBase {
 
-    public Private(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Private(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Private() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GPrivate.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GPrivate.allocate(Interop.getAllocator()).address()));
     }
     
     /**

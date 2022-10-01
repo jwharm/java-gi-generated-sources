@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
 
-    public ParamSpecPool(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpecPool(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -40,7 +40,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.List listOwned(org.gtk.gobject.Type ownerType) {
         var RESULT = gtk_h.g_param_spec_pool_list_owned(handle(), ownerType.getValue());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      */
     public ParamSpec lookup(java.lang.String paramName, org.gtk.gobject.Type ownerType, boolean walkAncestors) {
         var RESULT = gtk_h.g_param_spec_pool_lookup(handle(), Interop.allocateNativeString(paramName).handle(), ownerType.getValue(), walkAncestors ? 1 : 0);
-        return new ParamSpec(References.get(RESULT, false));
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -68,7 +68,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      */
     public static ParamSpecPool new_(boolean typePrefixing) {
         var RESULT = gtk_h.g_param_spec_pool_new(typePrefixing ? 1 : 0);
-        return new ParamSpecPool(References.get(RESULT, true));
+        return new ParamSpecPool(Refcounted.get(RESULT, true));
     }
     
 }

@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class CellRendererSpinner extends CellRenderer {
 
-    public CellRendererSpinner(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererSpinner(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRendererSpinner */
     public static CellRendererSpinner castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererSpinner(gobject.getReference());
+        return new CellRendererSpinner(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_spinner_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_spinner_new(), false);
         return RESULT;
     }
     

@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
 
-    public MainLoop(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MainLoop(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(MainContext context, boolean isRunning) {
-        Reference RESULT = References.get(gtk_h.g_main_loop_new(context.handle(), isRunning ? 1 : 0), true);
+    private static Refcounted constructNew(MainContext context, boolean isRunning) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_main_loop_new(context.handle(), isRunning ? 1 : 0), true);
         return RESULT;
     }
     
@@ -32,7 +32,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      */
     public MainContext getContext() {
         var RESULT = gtk_h.g_main_loop_get_context(handle());
-        return new MainContext(References.get(RESULT, false));
+        return new MainContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -59,7 +59,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      */
     public MainLoop ref() {
         var RESULT = gtk_h.g_main_loop_ref(handle());
-        return new MainLoop(References.get(RESULT, true));
+        return new MainLoop(Refcounted.get(RESULT, true));
     }
     
     /**

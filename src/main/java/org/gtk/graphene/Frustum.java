@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Frustum extends io.github.jwharm.javagi.ResourceBase {
 
-    public Frustum(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Frustum(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_frustum_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_frustum_alloc(), true);
         return RESULT;
     }
     
@@ -68,7 +68,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      */
     public Frustum init(Plane p0, Plane p1, Plane p2, Plane p3, Plane p4, Plane p5) {
         var RESULT = gtk_h.graphene_frustum_init(handle(), p0.handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle(), p5.handle());
-        return new Frustum(References.get(RESULT, false));
+        return new Frustum(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -77,7 +77,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      */
     public Frustum initFromFrustum(Frustum src) {
         var RESULT = gtk_h.graphene_frustum_init_from_frustum(handle(), src.handle());
-        return new Frustum(References.get(RESULT, false));
+        return new Frustum(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -85,7 +85,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      */
     public Frustum initFromMatrix(Matrix matrix) {
         var RESULT = gtk_h.graphene_frustum_init_from_matrix(handle(), matrix.handle());
-        return new Frustum(References.get(RESULT, false));
+        return new Frustum(Refcounted.get(RESULT, false));
     }
     
     /**

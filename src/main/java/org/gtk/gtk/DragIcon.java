@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class DragIcon extends Widget implements Accessible, Buildable, ConstraintTarget, Native, Root {
 
-    public DragIcon(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DragIcon(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DragIcon */
     public static DragIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new DragIcon(gobject.getReference());
+        return new DragIcon(gobject.refcounted());
     }
     
     /**
@@ -34,7 +34,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_drag_icon_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      */
     public static Widget createWidgetForValue(org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gtk_drag_icon_create_widget_for_value(value.handle());
-        return new Widget(References.get(RESULT, true));
+        return new Widget(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -69,7 +69,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      */
     public static Widget getForDrag(org.gtk.gdk.Drag drag) {
         var RESULT = gtk_h.gtk_drag_icon_get_for_drag(drag.handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

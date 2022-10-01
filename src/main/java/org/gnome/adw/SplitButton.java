@@ -45,17 +45,17 @@ import java.lang.invoke.*;
  */
 public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public SplitButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SplitButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SplitButton */
     public static SplitButton castFrom(org.gtk.gobject.Object gobject) {
-        return new SplitButton(gobject.getReference());
+        return new SplitButton(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_split_button_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_split_button_new(), false);
         return RESULT;
     }
     
@@ -71,7 +71,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public org.gtk.gtk.Widget getChild() {
         var RESULT = gtk_h.adw_split_button_get_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -106,7 +106,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public org.gtk.gio.MenuModel getMenuModel() {
         var RESULT = gtk_h.adw_split_button_get_menu_model(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public org.gtk.gtk.Popover getPopover() {
         var RESULT = gtk_h.adw_split_button_get_popover(handle());
-        return new org.gtk.gtk.Popover(References.get(RESULT, false));
+        return new org.gtk.gtk.Popover(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -248,13 +248,13 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         public static void signalSplitButtonActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SplitButton.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SplitButton(References.get(source)));
+            handler.signalReceived(new SplitButton(Refcounted.get(source)));
         }
         
         public static void signalSplitButtonClicked(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SplitButton.ClickedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SplitButton(References.get(source)));
+            handler.signalReceived(new SplitButton(Refcounted.get(source)));
         }
         
     }

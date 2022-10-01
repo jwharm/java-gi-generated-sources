@@ -34,13 +34,13 @@ import java.lang.invoke.*;
  */
 public class TreeSelection extends org.gtk.gobject.Object {
 
-    public TreeSelection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeSelection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeSelection */
     public static TreeSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeSelection(gobject.getReference());
+        return new TreeSelection(gobject.refcounted());
     }
     
     /**
@@ -85,7 +85,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getSelectedRows(TreeModel[] model) {
         var RESULT = gtk_h.gtk_tree_selection_get_selected_rows(handle(), Interop.allocateNativeArray(model).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -93,7 +93,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public TreeView getTreeView() {
         var RESULT = gtk_h.gtk_tree_selection_get_tree_view(handle());
-        return new TreeView(References.get(RESULT, false));
+        return new TreeView(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -265,7 +265,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
         public static void signalTreeSelectionChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeSelection.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeSelection(References.get(source)));
+            handler.signalReceived(new TreeSelection(Refcounted.get(source)));
         }
         
     }

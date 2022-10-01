@@ -43,17 +43,17 @@ import java.lang.invoke.*;
  */
 public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public ActionRow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ActionRow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ActionRow */
     public static ActionRow castFrom(org.gtk.gobject.Object gobject) {
-        return new ActionRow(gobject.getReference());
+        return new ActionRow(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_action_row_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_action_row_new(), false);
         return RESULT;
     }
     
@@ -90,7 +90,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
      */
     public org.gtk.gtk.Widget getActivatableWidget() {
         var RESULT = gtk_h.adw_action_row_get_activatable_widget(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -210,7 +210,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         public static void signalActionRowActivated(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ActionRow.ActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ActionRow(References.get(source)));
+            handler.signalReceived(new ActionRow(Refcounted.get(source)));
         }
         
     }

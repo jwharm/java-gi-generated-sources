@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
 
-    public FileAttributeMatcher(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileAttributeMatcher(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String attributes) {
-        Reference RESULT = References.get(gtk_h.g_file_attribute_matcher_new(Interop.allocateNativeString(attributes).handle()), true);
+    private static Refcounted constructNew(java.lang.String attributes) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_file_attribute_matcher_new(Interop.allocateNativeString(attributes).handle()), true);
         return RESULT;
     }
     
@@ -90,7 +90,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      */
     public FileAttributeMatcher ref() {
         var RESULT = gtk_h.g_file_attribute_matcher_ref(handle());
-        return new FileAttributeMatcher(References.get(RESULT, true));
+        return new FileAttributeMatcher(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -105,7 +105,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      */
     public FileAttributeMatcher subtract(FileAttributeMatcher subtract) {
         var RESULT = gtk_h.g_file_attribute_matcher_subtract(handle(), subtract.handle());
-        return new FileAttributeMatcher(References.get(RESULT, true));
+        return new FileAttributeMatcher(Refcounted.get(RESULT, true));
     }
     
     /**

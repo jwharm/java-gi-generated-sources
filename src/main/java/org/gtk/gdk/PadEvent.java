@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class PadEvent extends Event {
 
-    public PadEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PadEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PadEvent */
     public static PadEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new PadEvent(gobject.getReference());
+        return new PadEvent(gobject.refcounted());
     }
     
     /**

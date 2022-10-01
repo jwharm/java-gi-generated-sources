@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGroup, RemoteActionGroup {
 
-    public DBusActionGroup(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusActionGroup(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusActionGroup */
     public static DBusActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusActionGroup(gobject.getReference());
+        return new DBusActionGroup(gobject.refcounted());
     }
     
     /**
@@ -38,7 +38,7 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGro
      */
     public static DBusActionGroup get(DBusConnection connection, java.lang.String busName, java.lang.String objectPath) {
         var RESULT = gtk_h.g_dbus_action_group_get(connection.handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle());
-        return new DBusActionGroup(References.get(RESULT, true));
+        return new DBusActionGroup(Refcounted.get(RESULT, true));
     }
     
 }

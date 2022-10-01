@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class Event extends org.gtk.gobject.Object {
 
-    public Event(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Event(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Event */
     public static Event castFrom(org.gtk.gobject.Object gobject) {
-        return new Event(gobject.getReference());
+        return new Event(gobject.refcounted());
     }
     
     /**
@@ -89,7 +89,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Device getDevice() {
         var RESULT = gtk_h.gdk_event_get_device(handle());
-        return new Device(References.get(RESULT, false));
+        return new Device(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -106,7 +106,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public DeviceTool getDeviceTool() {
         var RESULT = gtk_h.gdk_event_get_device_tool(handle());
-        return new DeviceTool(References.get(RESULT, false));
+        return new DeviceTool(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_event_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public EventSequence getEventSequence() {
         var RESULT = gtk_h.gdk_event_get_event_sequence(handle());
-        return new EventSequence(References.get(RESULT, false));
+        return new EventSequence(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Seat getSeat() {
         var RESULT = gtk_h.gdk_event_get_seat(handle());
-        return new Seat(References.get(RESULT, false));
+        return new Seat(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -191,7 +191,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Surface getSurface() {
         var RESULT = gtk_h.gdk_event_get_surface(handle());
-        return new Surface(References.get(RESULT, false));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -210,7 +210,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Event ref() {
         var RESULT = gtk_h.gdk_event_ref(handle());
-        return new Event(References.get(RESULT, true));
+        return new Event(Refcounted.get(RESULT, true));
     }
     
     /**

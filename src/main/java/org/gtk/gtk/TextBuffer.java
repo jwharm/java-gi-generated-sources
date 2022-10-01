@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class TextBuffer extends org.gtk.gobject.Object {
 
-    public TextBuffer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextBuffer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TextBuffer */
     public static TextBuffer castFrom(org.gtk.gobject.Object gobject) {
-        return new TextBuffer(gobject.getReference());
+        return new TextBuffer(gobject.refcounted());
     }
     
-    private static Reference constructNew(TextTagTable table) {
-        Reference RESULT = References.get(gtk_h.gtk_text_buffer_new(table.handle()), true);
+    private static Refcounted constructNew(TextTagTable table) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_buffer_new(table.handle()), true);
         return RESULT;
     }
     
@@ -164,7 +164,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextChildAnchor createChildAnchor(TextIter iter) {
         var RESULT = gtk_h.gtk_text_buffer_create_child_anchor(handle(), iter.handle());
-        return new TextChildAnchor(References.get(RESULT, false));
+        return new TextChildAnchor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -190,7 +190,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextMark createMark(java.lang.String markName, TextIter where, boolean leftGravity) {
         var RESULT = gtk_h.gtk_text_buffer_create_mark(handle(), Interop.allocateNativeString(markName).handle(), where.handle(), leftGravity ? 1 : 0);
-        return new TextMark(References.get(RESULT, false));
+        return new TextMark(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -379,7 +379,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextMark getInsert() {
         var RESULT = gtk_h.gtk_text_buffer_get_insert(handle());
-        return new TextMark(References.get(RESULT, false));
+        return new TextMark(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -465,7 +465,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextMark getMark(java.lang.String name) {
         var RESULT = gtk_h.gtk_text_buffer_get_mark(handle(), Interop.allocateNativeString(name).handle());
-        return new TextMark(References.get(RESULT, false));
+        return new TextMark(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -508,7 +508,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextMark getSelectionBound() {
         var RESULT = gtk_h.gtk_text_buffer_get_selection_bound(handle());
-        return new TextMark(References.get(RESULT, false));
+        return new TextMark(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -533,7 +533,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.ContentProvider getSelectionContent() {
         var RESULT = gtk_h.gtk_text_buffer_get_selection_content(handle());
-        return new org.gtk.gdk.ContentProvider(References.get(RESULT, true));
+        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -568,7 +568,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextTagTable getTagTable() {
         var RESULT = gtk_h.gtk_text_buffer_get_tag_table(handle());
-        return new TextTagTable(References.get(RESULT, false));
+        return new TextTagTable(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1380,91 +1380,91 @@ public class TextBuffer extends org.gtk.gobject.Object {
         public static void signalTextBufferApplyTag(MemoryAddress source, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.ApplyTagHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new TextTag(References.get(tag, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new TextTag(Refcounted.get(tag, false)), new TextIter(Refcounted.get(start, false)), new TextIter(Refcounted.get(end, false)));
         }
         
         public static void signalTextBufferBeginUserAction(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.BeginUserActionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)));
         }
         
         public static void signalTextBufferChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)));
         }
         
         public static void signalTextBufferDeleteRange(MemoryAddress source, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.DeleteRangeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new TextIter(Refcounted.get(start, false)), new TextIter(Refcounted.get(end, false)));
         }
         
         public static void signalTextBufferEndUserAction(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.EndUserActionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)));
         }
         
         public static void signalTextBufferInsertChildAnchor(MemoryAddress source, MemoryAddress location, MemoryAddress anchor, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.InsertChildAnchorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(location, false)), new TextChildAnchor(References.get(anchor, false)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new TextIter(Refcounted.get(location, false)), new TextChildAnchor(Refcounted.get(anchor, false)));
         }
         
         public static void signalTextBufferInsertPaintable(MemoryAddress source, MemoryAddress location, MemoryAddress paintable, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.InsertPaintableHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(location, false)), new org.gtk.gdk.Paintable.PaintableImpl(References.get(paintable, false)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new TextIter(Refcounted.get(location, false)), new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(paintable, false)));
         }
         
         public static void signalTextBufferInsertText(MemoryAddress source, MemoryAddress location, MemoryAddress text, int len, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.InsertTextHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(location, false)), text.getUtf8String(0), len);
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new TextIter(Refcounted.get(location, false)), text.getUtf8String(0), len);
         }
         
         public static void signalTextBufferMarkDeleted(MemoryAddress source, MemoryAddress mark, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.MarkDeletedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new TextMark(References.get(mark, false)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new TextMark(Refcounted.get(mark, false)));
         }
         
         public static void signalTextBufferMarkSet(MemoryAddress source, MemoryAddress location, MemoryAddress mark, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.MarkSetHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new TextIter(References.get(location, false)), new TextMark(References.get(mark, false)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new TextIter(Refcounted.get(location, false)), new TextMark(Refcounted.get(mark, false)));
         }
         
         public static void signalTextBufferModifiedChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.ModifiedChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)));
         }
         
         public static void signalTextBufferPasteDone(MemoryAddress source, MemoryAddress clipboard, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.PasteDoneHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new org.gtk.gdk.Clipboard(References.get(clipboard, false)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new org.gtk.gdk.Clipboard(Refcounted.get(clipboard, false)));
         }
         
         public static void signalTextBufferRedo(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.RedoHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)));
         }
         
         public static void signalTextBufferRemoveTag(MemoryAddress source, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.RemoveTagHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)), new TextTag(References.get(tag, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)), new TextTag(Refcounted.get(tag, false)), new TextIter(Refcounted.get(start, false)), new TextIter(Refcounted.get(end, false)));
         }
         
         public static void signalTextBufferUndo(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextBuffer.UndoHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextBuffer(References.get(source)));
+            handler.signalReceived(new TextBuffer(Refcounted.get(source)));
         }
         
     }

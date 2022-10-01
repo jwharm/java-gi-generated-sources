@@ -67,8 +67,8 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
     }
     
     class SwipeableImpl extends org.gtk.gobject.Object implements Swipeable {
-        public SwipeableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public SwipeableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

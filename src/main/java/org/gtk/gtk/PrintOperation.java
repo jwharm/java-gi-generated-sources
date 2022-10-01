@@ -71,17 +71,17 @@ import java.lang.invoke.*;
  */
 public class PrintOperation extends org.gtk.gobject.Object implements PrintOperationPreview {
 
-    public PrintOperation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PrintOperation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PrintOperation */
     public static PrintOperation castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintOperation(gobject.getReference());
+        return new PrintOperation(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_print_operation_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_operation_new(), true);
         return RESULT;
     }
     
@@ -120,7 +120,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PageSetup getDefaultPageSetup() {
         var RESULT = gtk_h.gtk_print_operation_get_default_page_setup(handle());
-        return new PageSetup(References.get(RESULT, false));
+        return new PageSetup(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PrintSettings getPrintSettings() {
         var RESULT = gtk_h.gtk_print_operation_get_print_settings(handle());
-        return new PrintSettings(References.get(RESULT, false));
+        return new PrintSettings(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -896,67 +896,67 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         public static void signalPrintOperationBeginPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.BeginPrintHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)), new PrintContext(Refcounted.get(context, false)));
         }
         
         public static void signalPrintOperationCreateCustomWidget(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.CreateCustomWidgetHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)));
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)));
         }
         
         public static void signalPrintOperationCustomWidgetApply(MemoryAddress source, MemoryAddress widget, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.CustomWidgetApplyHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)));
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)), new Widget(Refcounted.get(widget, false)));
         }
         
         public static void signalPrintOperationDone(MemoryAddress source, int result, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.DoneHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationResult(result));
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)), new PrintOperationResult(result));
         }
         
         public static void signalPrintOperationDrawPage(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.DrawPageHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr);
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)), new PrintContext(Refcounted.get(context, false)), pageNr);
         }
         
         public static void signalPrintOperationEndPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.EndPrintHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)), new PrintContext(Refcounted.get(context, false)));
         }
         
         public static boolean signalPrintOperationPaginate(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.PaginateHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
+            return handler.signalReceived(new PrintOperation(Refcounted.get(source)), new PrintContext(Refcounted.get(context, false)));
         }
         
         public static boolean signalPrintOperationPreview(MemoryAddress source, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.PreviewHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationPreview.PrintOperationPreviewImpl(References.get(preview, false)), new PrintContext(References.get(context, false)), new Window(References.get(parent, false)));
+            return handler.signalReceived(new PrintOperation(Refcounted.get(source)), new PrintOperationPreview.PrintOperationPreviewImpl(Refcounted.get(preview, false)), new PrintContext(Refcounted.get(context, false)), new Window(Refcounted.get(parent, false)));
         }
         
         public static void signalPrintOperationRequestPageSetup(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.RequestPageSetupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr, new PageSetup(References.get(setup, false)));
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)), new PrintContext(Refcounted.get(context, false)), pageNr, new PageSetup(Refcounted.get(setup, false)));
         }
         
         public static void signalPrintOperationStatusChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.StatusChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)));
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)));
         }
         
         public static void signalPrintOperationUpdateCustomWidget(MemoryAddress source, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperation.UpdateCustomWidgetHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)), new PageSetup(References.get(setup, false)), new PrintSettings(References.get(settings, false)));
+            handler.signalReceived(new PrintOperation(Refcounted.get(source)), new Widget(Refcounted.get(widget, false)), new PageSetup(Refcounted.get(setup, false)), new PrintSettings(Refcounted.get(settings, false)));
         }
         
     }

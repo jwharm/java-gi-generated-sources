@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
 
-    public UnixMountPoint(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixMountPoint(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -28,7 +28,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public UnixMountPoint copy() {
         var RESULT = gtk_h.g_unix_mount_point_copy(handle());
-        return new UnixMountPoint(References.get(RESULT, true));
+        return new UnixMountPoint(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public Icon guessIcon() {
         var RESULT = gtk_h.g_unix_mount_point_guess_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -100,7 +100,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public Icon guessSymbolicIcon() {
         var RESULT = gtk_h.g_unix_mount_point_guess_symbolic_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -137,7 +137,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
      */
     public static UnixMountPoint at(java.lang.String mountPath, PointerLong timeRead) {
         var RESULT = gtk_h.g_unix_mount_point_at(Interop.allocateNativeString(mountPath).handle(), timeRead.handle());
-        return new UnixMountPoint(References.get(RESULT, true));
+        return new UnixMountPoint(Refcounted.get(RESULT, true));
     }
     
 }

@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
 
-    public TreeRowReference(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeRowReference(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(TreeModel model, TreePath path) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_row_reference_new(model.handle(), path.handle()), true);
+    private static Refcounted constructNew(TreeModel model, TreePath path) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_row_reference_new(model.handle(), path.handle()), true);
         return RESULT;
     }
     
@@ -33,8 +33,8 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(model, path));
     }
     
-    private static Reference constructNewProxy(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_row_reference_new_proxy(proxy.handle(), model.handle(), path.handle()), true);
+    private static Refcounted constructNewProxy(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_row_reference_new_proxy(proxy.handle(), model.handle(), path.handle()), true);
         return RESULT;
     }
     
@@ -73,7 +73,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeRowReference copy() {
         var RESULT = gtk_h.gtk_tree_row_reference_copy(handle());
-        return new TreeRowReference(References.get(RESULT, true));
+        return new TreeRowReference(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -88,7 +88,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_tree_row_reference_get_model(handle());
-        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -97,7 +97,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreePath getPath() {
         var RESULT = gtk_h.gtk_tree_row_reference_get_path(handle());
-        return new TreePath(References.get(RESULT, true));
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
     /**

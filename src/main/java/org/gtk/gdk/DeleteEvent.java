@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class DeleteEvent extends Event {
 
-    public DeleteEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DeleteEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DeleteEvent */
     public static DeleteEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new DeleteEvent(gobject.getReference());
+        return new DeleteEvent(gobject.refcounted());
     }
     
 }

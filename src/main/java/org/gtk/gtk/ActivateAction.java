@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ActivateAction extends ShortcutAction {
 
-    public ActivateAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ActivateAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ActivateAction */
     public static ActivateAction castFrom(org.gtk.gobject.Object gobject) {
-        return new ActivateAction(gobject.getReference());
+        return new ActivateAction(gobject.refcounted());
     }
     
     /**
@@ -27,7 +27,7 @@ public class ActivateAction extends ShortcutAction {
      */
     public static ActivateAction get() {
         var RESULT = gtk_h.gtk_activate_action_get();
-        return new ActivateAction(References.get(RESULT, false));
+        return new ActivateAction(Refcounted.get(RESULT, false));
     }
     
 }

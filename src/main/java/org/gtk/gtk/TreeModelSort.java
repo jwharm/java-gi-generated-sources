@@ -105,17 +105,17 @@ import java.lang.invoke.*;
  */
 public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSource, TreeModel, TreeSortable {
 
-    public TreeModelSort(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeModelSort(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeModelSort */
     public static TreeModelSort castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeModelSort(gobject.getReference());
+        return new TreeModelSort(gobject.refcounted());
     }
     
-    private static Reference constructNewWithModel(TreeModel childModel) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_model_sort_new_with_model(childModel.handle()), true);
+    private static Refcounted constructNewWithModel(TreeModel childModel) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_model_sort_new_with_model(childModel.handle()), true);
         return RESULT;
     }
     
@@ -156,7 +156,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
         var RESULT = gtk_h.gtk_tree_model_sort_convert_child_path_to_path(handle(), childPath.handle());
-        return new TreePath(References.get(RESULT, true));
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -175,7 +175,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreePath convertPathToChildPath(TreePath sortedPath) {
         var RESULT = gtk_h.gtk_tree_model_sort_convert_path_to_child_path(handle(), sortedPath.handle());
-        return new TreePath(References.get(RESULT, true));
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -183,7 +183,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_tree_model_sort_get_model(handle());
-        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**

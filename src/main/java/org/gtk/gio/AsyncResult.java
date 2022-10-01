@@ -98,7 +98,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gobject.Object getSourceObject() {
         var RESULT = gtk_h.g_async_result_get_source_object(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, true));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -140,8 +140,8 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     }
     
     class AsyncResultImpl extends org.gtk.gobject.Object implements AsyncResult {
-        public AsyncResultImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public AsyncResultImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

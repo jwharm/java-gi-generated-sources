@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class AttrColor extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrColor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrColor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AttrColor() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrColor.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrColor.allocate(Interop.getAllocator()).address()));
     }
     
 }

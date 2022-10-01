@@ -1214,7 +1214,7 @@ public final class GLib {
      */
     public static Bytes byteArrayFreeToBytes(byte[] array) {
         var RESULT = gtk_h.g_byte_array_free_to_bytes(Interop.allocateNativeArray(array).handle());
-        return new Bytes(References.get(RESULT, true));
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1435,7 +1435,7 @@ public final class GLib {
      */
     public static Source childWatchSourceNew(Pid pid) {
         var RESULT = gtk_h.g_child_watch_source_new(pid.getValue());
-        return new Source(References.get(RESULT, true));
+        return new Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3218,7 +3218,7 @@ public final class GLib {
      */
     public static org.gtk.glib.HashTable hashTableNewSimilar(org.gtk.glib.HashTable otherHashTable) {
         var RESULT = gtk_h.g_hash_table_new_similar(otherHashTable.handle());
-        return new org.gtk.glib.HashTable(References.get(RESULT, true));
+        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3457,7 +3457,7 @@ public final class GLib {
      */
     public static IConv iconvOpen(java.lang.String toCodeset, java.lang.String fromCodeset) {
         var RESULT = gtk_h.g_iconv_open(Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle());
-        return new IConv(References.get(RESULT, false));
+        return new IConv(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -3542,7 +3542,7 @@ public final class GLib {
      */
     public static Source idleSourceNew() {
         var RESULT = gtk_h.g_idle_source_new();
-        return new Source(References.get(RESULT, true));
+        return new Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3702,7 +3702,7 @@ public final class GLib {
      */
     public static Source ioCreateWatch(IOChannel channel, IOCondition condition) {
         var RESULT = gtk_h.g_io_create_watch(channel.handle(), condition.getValue());
-        return new Source(References.get(RESULT, true));
+        return new Source(Refcounted.get(RESULT, true));
     }
     
     public static Quark keyFileErrorQuark() {
@@ -4201,7 +4201,7 @@ public final class GLib {
      */
     public static MainContext mainContextDefault() {
         var RESULT = gtk_h.g_main_context_default();
-        return new MainContext(References.get(RESULT, false));
+        return new MainContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -4219,7 +4219,7 @@ public final class GLib {
      */
     public static MainContext mainContextGetThreadDefault() {
         var RESULT = gtk_h.g_main_context_get_thread_default();
-        return new MainContext(References.get(RESULT, false));
+        return new MainContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -4232,7 +4232,7 @@ public final class GLib {
      */
     public static MainContext mainContextRefThreadDefault() {
         var RESULT = gtk_h.g_main_context_ref_thread_default();
-        return new MainContext(References.get(RESULT, true));
+        return new MainContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -4240,7 +4240,7 @@ public final class GLib {
      */
     public static Source mainCurrentSource() {
         var RESULT = gtk_h.g_main_current_source();
-        return new Source(References.get(RESULT, false));
+        return new Source(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -4849,7 +4849,7 @@ public final class GLib {
      * after calling this function on it.
      */
     public static void propagateError(Error[] dest, Error src) {
-        gtk_h.g_propagate_error(Interop.allocateNativeArray(dest).handle(), src.getReference().unowned().handle());
+        gtk_h.g_propagate_error(Interop.allocateNativeArray(dest).handle(), src.refcounted().unowned().handle());
     }
     
     /**
@@ -5319,7 +5319,7 @@ public final class GLib {
      */
     public static SequenceIter sequenceInsertBefore(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_insert_before(iter.handle(), data);
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -5356,7 +5356,7 @@ public final class GLib {
      */
     public static SequenceIter sequenceRangeGetMidpoint(SequenceIter begin, SequenceIter end) {
         var RESULT = gtk_h.g_sequence_range_get_midpoint(begin.handle(), end.handle());
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -6934,7 +6934,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-            return new TestCase(References.get(RESULT, false));
+            return new TestCase(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -6945,7 +6945,7 @@ public final class GLib {
      */
     public static TestSuite testCreateSuite(java.lang.String suiteName) {
         var RESULT = gtk_h.g_test_create_suite(Interop.allocateNativeString(suiteName).handle());
-        return new TestSuite(References.get(RESULT, false));
+        return new TestSuite(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -7060,7 +7060,7 @@ public final class GLib {
      */
     public static TestSuite testGetRoot() {
         var RESULT = gtk_h.g_test_get_root();
-        return new TestSuite(References.get(RESULT, false));
+        return new TestSuite(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -7517,7 +7517,7 @@ public final class GLib {
      */
     public static Thread threadSelf() {
         var RESULT = gtk_h.g_thread_self();
-        return new Thread(References.get(RESULT, false));
+        return new Thread(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -7730,7 +7730,7 @@ public final class GLib {
      */
     public static Source timeoutSourceNew(int interval) {
         var RESULT = gtk_h.g_timeout_source_new(interval);
-        return new Source(References.get(RESULT, true));
+        return new Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -7748,7 +7748,7 @@ public final class GLib {
      */
     public static Source timeoutSourceNewSeconds(int interval) {
         var RESULT = gtk_h.g_timeout_source_new_seconds(interval);
-        return new Source(References.get(RESULT, true));
+        return new Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -8334,7 +8334,7 @@ public final class GLib {
      */
     public static Source unixFdSourceNew(int fd, IOCondition condition) {
         var RESULT = gtk_h.g_unix_fd_source_new(fd, condition.getValue());
-        return new Source(References.get(RESULT, true));
+        return new Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -8460,7 +8460,7 @@ public final class GLib {
      */
     public static Source unixSignalSourceNew(int signum) {
         var RESULT = gtk_h.g_unix_signal_source_new(signum);
-        return new Source(References.get(RESULT, true));
+        return new Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -8509,7 +8509,7 @@ public final class GLib {
      */
     public static Uri uriBuild(UriFlags flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
         var RESULT = gtk_h.g_uri_build(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return new Uri(References.get(RESULT, true));
+        return new Uri(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -8524,7 +8524,7 @@ public final class GLib {
      */
     public static Uri uriBuildWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
         var RESULT = gtk_h.g_uri_build_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return new Uri(References.get(RESULT, true));
+        return new Uri(Refcounted.get(RESULT, true));
     }
     
     public static Quark uriErrorQuark() {
@@ -8642,7 +8642,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Uri(References.get(RESULT, true));
+        return new Uri(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -8677,7 +8677,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.HashTable(References.get(RESULT, true));
+        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -8813,7 +8813,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Bytes(References.get(RESULT, true));
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -9391,7 +9391,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Variant(References.get(RESULT, true));
+        return new Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -9437,7 +9437,7 @@ public final class GLib {
     
     public static VariantType variantTypeChecked(java.lang.String arg0) {
         var RESULT = gtk_h.g_variant_type_checked_(Interop.allocateNativeString(arg0).handle());
-        return new VariantType(References.get(RESULT, false));
+        return new VariantType(Refcounted.get(RESULT, false));
     }
     
     public static long variantTypeStringGetDepth(java.lang.String typeString) {
@@ -9567,7 +9567,7 @@ public final class GLib {
     public static boolean __cbIOFunc(MemoryAddress source, int condition, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (IOFunc) Interop.signalRegistry.get(hash);
-        return handler.onIOFunc(new IOChannel(References.get(source, false)), new IOCondition(condition));
+        return handler.onIOFunc(new IOChannel(Refcounted.get(source, false)), new IOCondition(condition));
     }
     
     public static java.lang.foreign.MemoryAddress __cbThreadFunc(MemoryAddress data) {
@@ -9579,13 +9579,13 @@ public final class GLib {
     public static boolean __cbHookCheckMarshaller(MemoryAddress hook, MemoryAddress marshalData) {
         int hash = marshalData.get(ValueLayout.JAVA_INT, 0);
         var handler = (HookCheckMarshaller) Interop.signalRegistry.get(hash);
-        return handler.onHookCheckMarshaller(new Hook(References.get(hook, false)));
+        return handler.onHookCheckMarshaller(new Hook(Refcounted.get(hook, false)));
     }
     
     public static boolean __cbNodeTraverseFunc(MemoryAddress node, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (NodeTraverseFunc) Interop.signalRegistry.get(hash);
-        return handler.onNodeTraverseFunc(new Node(References.get(node, false)));
+        return handler.onNodeTraverseFunc(new Node(Refcounted.get(node, false)));
     }
     
     public static void __cbHookFunc(MemoryAddress data) {
@@ -9609,13 +9609,13 @@ public final class GLib {
     public static boolean __cbHookFindFunc(MemoryAddress hook, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (HookFindFunc) Interop.signalRegistry.get(hash);
-        return handler.onHookFindFunc(new Hook(References.get(hook, false)));
+        return handler.onHookFindFunc(new Hook(Refcounted.get(hook, false)));
     }
     
     public static boolean __cbRegexEvalCallback(MemoryAddress matchInfo, MemoryAddress result, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (RegexEvalCallback) Interop.signalRegistry.get(hash);
-        return handler.onRegexEvalCallback(new MatchInfo(References.get(matchInfo, false)), new String(References.get(result, false)));
+        return handler.onRegexEvalCallback(new MatchInfo(Refcounted.get(matchInfo, false)), new String(Refcounted.get(result, false)));
     }
     
     public static boolean __cbUnixFDSourceFunc(int fd, int condition, MemoryAddress userData) {
@@ -9675,19 +9675,19 @@ public final class GLib {
     public static int __cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SequenceIterCompareFunc) Interop.signalRegistry.get(hash);
-        return handler.onSequenceIterCompareFunc(new SequenceIter(References.get(a, false)), new SequenceIter(References.get(b, false)));
+        return handler.onSequenceIterCompareFunc(new SequenceIter(Refcounted.get(a, false)), new SequenceIter(Refcounted.get(b, false)));
     }
     
     public static void __cbHookMarshaller(MemoryAddress hook, MemoryAddress marshalData) {
         int hash = marshalData.get(ValueLayout.JAVA_INT, 0);
         var handler = (HookMarshaller) Interop.signalRegistry.get(hash);
-        handler.onHookMarshaller(new Hook(References.get(hook, false)));
+        handler.onHookMarshaller(new Hook(Refcounted.get(hook, false)));
     }
     
     public static boolean __cbOptionParseFunc(MemoryAddress context, MemoryAddress group, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (OptionParseFunc) Interop.signalRegistry.get(hash);
-        return handler.onOptionParseFunc(new OptionContext(References.get(context, false)), new OptionGroup(References.get(group, false)));
+        return handler.onOptionParseFunc(new OptionContext(Refcounted.get(context, false)), new OptionGroup(Refcounted.get(group, false)));
     }
     
     public static boolean __cbOptionArgFunc(MemoryAddress optionName, MemoryAddress value, MemoryAddress data) {
@@ -9711,13 +9711,13 @@ public final class GLib {
     public static void __cbOptionErrorFunc(MemoryAddress context, MemoryAddress group, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (OptionErrorFunc) Interop.signalRegistry.get(hash);
-        handler.onOptionErrorFunc(new OptionContext(References.get(context, false)), new OptionGroup(References.get(group, false)));
+        handler.onOptionErrorFunc(new OptionContext(Refcounted.get(context, false)), new OptionGroup(Refcounted.get(group, false)));
     }
     
     public static boolean __cbTraverseNodeFunc(MemoryAddress node, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (TraverseNodeFunc) Interop.signalRegistry.get(hash);
-        return handler.onTraverseNodeFunc(new TreeNode(References.get(node, false)));
+        return handler.onTraverseNodeFunc(new TreeNode(Refcounted.get(node, false)));
     }
     
     public static void __cbHFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
@@ -9753,7 +9753,7 @@ public final class GLib {
     public static void __cbNodeForeachFunc(MemoryAddress node, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (NodeForeachFunc) Interop.signalRegistry.get(hash);
-        handler.onNodeForeachFunc(new Node(References.get(node, false)));
+        handler.onNodeForeachFunc(new Node(Refcounted.get(node, false)));
     }
     
     public static void __cbDataForeachFunc(int keyId, MemoryAddress data, MemoryAddress userData) {

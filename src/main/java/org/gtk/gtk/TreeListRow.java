@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class TreeListRow extends org.gtk.gobject.Object {
 
-    public TreeListRow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeListRow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeListRow */
     public static TreeListRow castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListRow(gobject.getReference());
+        return new TreeListRow(gobject.refcounted());
     }
     
     /**
@@ -35,7 +35,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public TreeListRow getChildRow(int position) {
         var RESULT = gtk_h.gtk_tree_list_row_get_child_row(handle(), position);
-        return new TreeListRow(References.get(RESULT, true));
+        return new TreeListRow(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -48,7 +48,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.ListModel getChildren() {
         var RESULT = gtk_h.gtk_tree_list_row_get_children(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = gtk_h.gtk_tree_list_row_get_item(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, true));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -98,7 +98,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public TreeListRow getParent() {
         var RESULT = gtk_h.gtk_tree_list_row_get_parent(handle());
-        return new TreeListRow(References.get(RESULT, true));
+        return new TreeListRow(Refcounted.get(RESULT, true));
     }
     
     /**

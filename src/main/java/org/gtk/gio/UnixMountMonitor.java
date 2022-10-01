@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class UnixMountMonitor extends org.gtk.gobject.Object {
 
-    public UnixMountMonitor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixMountMonitor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to UnixMountMonitor */
     public static UnixMountMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixMountMonitor(gobject.getReference());
+        return new UnixMountMonitor(gobject.refcounted());
     }
     
     /**
@@ -32,7 +32,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
      */
     public static UnixMountMonitor get() {
         var RESULT = gtk_h.g_unix_mount_monitor_get();
-        return new UnixMountMonitor(References.get(RESULT, true));
+        return new UnixMountMonitor(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -92,13 +92,13 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         public static void signalUnixMountMonitorMountpointsChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (UnixMountMonitor.MountpointsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new UnixMountMonitor(References.get(source)));
+            handler.signalReceived(new UnixMountMonitor(Refcounted.get(source)));
         }
         
         public static void signalUnixMountMonitorMountsChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (UnixMountMonitor.MountsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new UnixMountMonitor(References.get(source)));
+            handler.signalReceived(new UnixMountMonitor(Refcounted.get(source)));
         }
         
     }

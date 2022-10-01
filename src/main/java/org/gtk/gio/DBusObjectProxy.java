@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObject {
 
-    public DBusObjectProxy(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusObjectProxy(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusObjectProxy */
     public static DBusObjectProxy castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectProxy(gobject.getReference());
+        return new DBusObjectProxy(gobject.refcounted());
     }
     
-    private static Reference constructNew(DBusConnection connection, java.lang.String objectPath) {
-        Reference RESULT = References.get(gtk_h.g_dbus_object_proxy_new(connection.handle(), Interop.allocateNativeString(objectPath).handle()), true);
+    private static Refcounted constructNew(DBusConnection connection, java.lang.String objectPath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_object_proxy_new(connection.handle(), Interop.allocateNativeString(objectPath).handle()), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_object_proxy_get_connection(handle());
-        return new DBusConnection(References.get(RESULT, false));
+        return new DBusConnection(Refcounted.get(RESULT, false));
     }
     
 }

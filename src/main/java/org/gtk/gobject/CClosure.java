@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class CClosure extends io.github.jwharm.javagi.ResourceBase {
 
-    public CClosure(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CClosure(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public CClosure() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GCClosure.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GCClosure.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -390,7 +390,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
-            return new Closure(References.get(RESULT, false));
+            return new Closure(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -416,7 +416,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
-            return new Closure(References.get(RESULT, false));
+            return new Closure(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

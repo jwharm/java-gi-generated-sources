@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class MotionEvent extends Event {
 
-    public MotionEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MotionEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MotionEvent */
     public static MotionEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new MotionEvent(gobject.getReference());
+        return new MotionEvent(gobject.refcounted());
     }
     
 }

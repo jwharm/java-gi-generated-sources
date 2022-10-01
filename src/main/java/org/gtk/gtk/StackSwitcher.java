@@ -42,17 +42,17 @@ import java.lang.invoke.*;
  */
 public class StackSwitcher extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public StackSwitcher(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StackSwitcher(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to StackSwitcher */
     public static StackSwitcher castFrom(org.gtk.gobject.Object gobject) {
-        return new StackSwitcher(gobject.getReference());
+        return new StackSwitcher(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_stack_switcher_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_stack_switcher_new(), false);
         return RESULT;
     }
     
@@ -68,7 +68,7 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
      */
     public Stack getStack() {
         var RESULT = gtk_h.gtk_stack_switcher_get_stack(handle());
-        return new Stack(References.get(RESULT, false));
+        return new Stack(Refcounted.get(RESULT, false));
     }
     
     /**

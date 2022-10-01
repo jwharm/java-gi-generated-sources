@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class OutputVector extends io.github.jwharm.javagi.ResourceBase {
 
-    public OutputVector(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OutputVector(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public OutputVector() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GOutputVector.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GOutputVector.allocate(Interop.getAllocator()).address()));
     }
     
 }

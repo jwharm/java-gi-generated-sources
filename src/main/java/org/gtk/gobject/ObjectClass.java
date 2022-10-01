@@ -35,12 +35,12 @@ import java.lang.invoke.*;
  */
 public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public ObjectClass(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ObjectClass(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ObjectClass() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GObjectClass.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GObjectClass.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -48,7 +48,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public ParamSpec findProperty(java.lang.String propertyName) {
         var RESULT = gtk_h.g_object_class_find_property(handle(), Interop.allocateNativeString(propertyName).handle());
-        return new ParamSpec(References.get(RESULT, false));
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**

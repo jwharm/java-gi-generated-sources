@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
 
-    public PatternSpec(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PatternSpec(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String pattern) {
-        Reference RESULT = References.get(gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).handle()), true);
+    private static Refcounted constructNew(java.lang.String pattern) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).handle()), true);
         return RESULT;
     }
     
@@ -32,7 +32,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      */
     public PatternSpec copy() {
         var RESULT = gtk_h.g_pattern_spec_copy(handle());
-        return new PatternSpec(References.get(RESULT, true));
+        return new PatternSpec(Refcounted.get(RESULT, true));
     }
     
     /**

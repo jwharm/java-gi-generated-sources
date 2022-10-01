@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
 
-    public ValueArray(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ValueArray(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

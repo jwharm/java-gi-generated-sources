@@ -41,13 +41,13 @@ import java.lang.invoke.*;
  */
 public class Tooltip extends org.gtk.gobject.Object {
 
-    public Tooltip(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Tooltip(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Tooltip */
     public static Tooltip castFrom(org.gtk.gobject.Object gobject) {
-        return new Tooltip(gobject.getReference());
+        return new Tooltip(gobject.refcounted());
     }
     
     /**

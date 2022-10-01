@@ -36,17 +36,17 @@ import java.lang.invoke.*;
  */
 public class DropDown extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public DropDown(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DropDown(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DropDown */
     public static DropDown castFrom(org.gtk.gobject.Object gobject) {
-        return new DropDown(gobject.getReference());
+        return new DropDown(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel model, Expression expression) {
-        Reference RESULT = References.get(gtk_h.gtk_drop_down_new(model.getReference().unowned().handle(), expression.getReference().unowned().handle()), false);
+    private static Refcounted constructNew(org.gtk.gio.ListModel model, Expression expression) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_drop_down_new(model.refcounted().unowned().handle(), expression.refcounted().unowned().handle()), false);
         return RESULT;
     }
     
@@ -60,8 +60,8 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         super(constructNew(model, expression));
     }
     
-    private static Reference constructNewFromStrings(java.lang.String[] strings) {
-        Reference RESULT = References.get(gtk_h.gtk_drop_down_new_from_strings(Interop.allocateNativeArray(strings).handle()), false);
+    private static Refcounted constructNewFromStrings(java.lang.String[] strings) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_drop_down_new_from_strings(Interop.allocateNativeArray(strings).handle()), false);
         return RESULT;
     }
     
@@ -88,7 +88,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public Expression getExpression() {
         var RESULT = gtk_h.gtk_drop_down_get_expression(handle());
-        return new Expression(References.get(RESULT, false));
+        return new Expression(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -100,7 +100,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public ListItemFactory getFactory() {
         var RESULT = gtk_h.gtk_drop_down_get_factory(handle());
-        return new ListItemFactory(References.get(RESULT, false));
+        return new ListItemFactory(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -108,7 +108,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public ListItemFactory getListFactory() {
         var RESULT = gtk_h.gtk_drop_down_get_list_factory(handle());
-        return new ListItemFactory(References.get(RESULT, false));
+        return new ListItemFactory(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_drop_down_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -132,7 +132,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = gtk_h.gtk_drop_down_get_selected_item(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -233,7 +233,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         public static void signalDropDownActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropDown.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropDown(References.get(source)));
+            handler.signalReceived(new DropDown(Refcounted.get(source)));
         }
         
     }

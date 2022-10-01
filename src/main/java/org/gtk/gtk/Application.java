@@ -72,17 +72,17 @@ import java.lang.invoke.*;
  */
 public class Application extends org.gtk.gio.Application implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
 
-    public Application(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Application(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Application */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        return new Application(gobject.getReference());
+        return new Application(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
-        Reference RESULT = References.get(gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
+    private static Refcounted constructNew(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
         return RESULT;
     }
     
@@ -174,7 +174,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public Window getActiveWindow() {
         var RESULT = gtk_h.gtk_application_get_active_window(handle());
-        return new Window(References.get(RESULT, false));
+        return new Window(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -185,7 +185,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public org.gtk.gio.Menu getMenuById(java.lang.String id) {
         var RESULT = gtk_h.gtk_application_get_menu_by_id(handle(), Interop.allocateNativeString(id).handle());
-        return new org.gtk.gio.Menu(References.get(RESULT, false));
+        return new org.gtk.gio.Menu(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -194,7 +194,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public org.gtk.gio.MenuModel getMenubar() {
         var RESULT = gtk_h.gtk_application_get_menubar(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -205,7 +205,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public Window getWindowById(int id) {
         var RESULT = gtk_h.gtk_application_get_window_by_id(handle(), id);
-        return new Window(References.get(RESULT, false));
+        return new Window(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -221,7 +221,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public org.gtk.glib.List getWindows() {
         var RESULT = gtk_h.gtk_application_get_windows(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -422,19 +422,19 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         public static void signalApplicationQueryEnd(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.QueryEndHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)));
+            handler.signalReceived(new Application(Refcounted.get(source)));
         }
         
         public static void signalApplicationWindowAdded(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.WindowAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)), new Window(References.get(window, false)));
+            handler.signalReceived(new Application(Refcounted.get(source)), new Window(Refcounted.get(window, false)));
         }
         
         public static void signalApplicationWindowRemoved(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.WindowRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)), new Window(References.get(window, false)));
+            handler.signalReceived(new Application(Refcounted.get(source)), new Window(Refcounted.get(window, false)));
         }
         
     }

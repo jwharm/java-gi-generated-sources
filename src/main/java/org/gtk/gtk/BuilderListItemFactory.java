@@ -32,17 +32,17 @@ import java.lang.invoke.*;
  */
 public class BuilderListItemFactory extends ListItemFactory {
 
-    public BuilderListItemFactory(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BuilderListItemFactory(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BuilderListItemFactory */
     public static BuilderListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        return new BuilderListItemFactory(gobject.getReference());
+        return new BuilderListItemFactory(gobject.refcounted());
     }
     
-    private static Reference constructNewFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
-        Reference RESULT = References.get(gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.handle(), bytes.handle()), true);
+    private static Refcounted constructNewFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.handle(), bytes.handle()), true);
         return RESULT;
     }
     
@@ -54,8 +54,8 @@ public class BuilderListItemFactory extends ListItemFactory {
         return new BuilderListItemFactory(constructNewFromBytes(scope, bytes));
     }
     
-    private static Reference constructNewFromResource(BuilderScope scope, java.lang.String resourcePath) {
-        Reference RESULT = References.get(gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.handle(), Interop.allocateNativeString(resourcePath).handle()), true);
+    private static Refcounted constructNewFromResource(BuilderScope scope, java.lang.String resourcePath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.handle(), Interop.allocateNativeString(resourcePath).handle()), true);
         return RESULT;
     }
     
@@ -73,7 +73,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      */
     public org.gtk.glib.Bytes getBytes() {
         var RESULT = gtk_h.gtk_builder_list_item_factory_get_bytes(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, false));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      */
     public BuilderScope getScope() {
         var RESULT = gtk_h.gtk_builder_list_item_factory_get_scope(handle());
-        return new BuilderScope.BuilderScopeImpl(References.get(RESULT, false));
+        return new BuilderScope.BuilderScopeImpl(Refcounted.get(RESULT, false));
     }
     
 }

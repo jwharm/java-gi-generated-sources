@@ -21,13 +21,13 @@ import java.lang.invoke.*;
  */
 public class EventController extends org.gtk.gobject.Object {
 
-    public EventController(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EventController(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EventController */
     public static EventController castFrom(org.gtk.gobject.Object gobject) {
-        return new EventController(gobject.getReference());
+        return new EventController(gobject.refcounted());
     }
     
     /**
@@ -37,7 +37,7 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Event getCurrentEvent() {
         var RESULT = gtk_h.gtk_event_controller_get_current_event(handle());
-        return new org.gtk.gdk.Event(References.get(RESULT, false));
+        return new org.gtk.gdk.Event(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Device getCurrentEventDevice() {
         var RESULT = gtk_h.gtk_event_controller_get_current_event_device(handle());
-        return new org.gtk.gdk.Device(References.get(RESULT, false));
+        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public Widget getWidget() {
         var RESULT = gtk_h.gtk_event_controller_get_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

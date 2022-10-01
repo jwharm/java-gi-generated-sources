@@ -8,8 +8,8 @@ import java.lang.foreign.MemoryAddress;
  */
 public class TokenValue extends io.github.jwharm.javagi.ResourceBase {
     
-    public TokenValue(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TokenValue(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

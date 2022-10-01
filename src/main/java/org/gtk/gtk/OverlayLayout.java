@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  */
 public class OverlayLayout extends LayoutManager {
 
-    public OverlayLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OverlayLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to OverlayLayout */
     public static OverlayLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new OverlayLayout(gobject.getReference());
+        return new OverlayLayout(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_overlay_layout_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_overlay_layout_new(), true);
         return RESULT;
     }
     

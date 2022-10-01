@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class Renderer extends org.gtk.gobject.Object {
 
-    public Renderer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Renderer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Renderer */
     public static Renderer castFrom(org.gtk.gobject.Object gobject) {
-        return new Renderer(gobject.getReference());
+        return new Renderer(gobject.refcounted());
     }
     
     /**
@@ -154,7 +154,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public Color getColor(RenderPart part) {
         var RESULT = gtk_h.pango_renderer_get_color(handle(), part.getValue());
-        return new Color(References.get(RESULT, false));
+        return new Color(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -168,7 +168,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public Layout getLayout() {
         var RESULT = gtk_h.pango_renderer_get_layout(handle());
-        return new Layout(References.get(RESULT, false));
+        return new Layout(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -182,7 +182,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public LayoutLine getLayoutLine() {
         var RESULT = gtk_h.pango_renderer_get_layout_line(handle());
-        return new LayoutLine(References.get(RESULT, false));
+        return new LayoutLine(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -193,7 +193,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public Matrix getMatrix() {
         var RESULT = gtk_h.pango_renderer_get_matrix(handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**

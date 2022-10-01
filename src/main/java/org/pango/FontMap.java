@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public FontMap(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontMap(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FontMap */
     public static FontMap castFrom(org.gtk.gobject.Object gobject) {
-        return new FontMap(gobject.getReference());
+        return new FontMap(gobject.refcounted());
     }
     
     /**
@@ -49,7 +49,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Context createContext() {
         var RESULT = gtk_h.pango_font_map_create_context(handle());
-        return new Context(References.get(RESULT, true));
+        return new Context(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public FontFamily getFamily(java.lang.String name) {
         var RESULT = gtk_h.pango_font_map_get_family(handle(), Interop.allocateNativeString(name).handle());
-        return new FontFamily(References.get(RESULT, false));
+        return new FontFamily(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Font loadFont(Context context, FontDescription desc) {
         var RESULT = gtk_h.pango_font_map_load_font(handle(), context.handle(), desc.handle());
-        return new Font(References.get(RESULT, true));
+        return new Font(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -105,7 +105,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Fontset loadFontset(Context context, FontDescription desc, Language language) {
         var RESULT = gtk_h.pango_font_map_load_fontset(handle(), context.handle(), desc.handle(), language.handle());
-        return new Fontset(References.get(RESULT, true));
+        return new Fontset(Refcounted.get(RESULT, true));
     }
     
 }

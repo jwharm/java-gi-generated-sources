@@ -46,14 +46,14 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
         public static void signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (StyleProvider.GtkPrivateChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new StyleProvider.StyleProviderImpl(References.get(source)));
+            handler.signalReceived(new StyleProvider.StyleProviderImpl(Refcounted.get(source)));
         }
         
     }
     
     class StyleProviderImpl extends org.gtk.gobject.Object implements StyleProvider {
-        public StyleProviderImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public StyleProviderImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class DBusMethodInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusMethodInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusMethodInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public DBusMethodInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusMethodInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusMethodInfo.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -24,7 +24,7 @@ public class DBusMethodInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusMethodInfo ref() {
         var RESULT = gtk_h.g_dbus_method_info_ref(handle());
-        return new DBusMethodInfo(References.get(RESULT, true));
+        return new DBusMethodInfo(Refcounted.get(RESULT, true));
     }
     
     /**

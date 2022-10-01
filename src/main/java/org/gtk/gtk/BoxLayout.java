@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class BoxLayout extends LayoutManager implements Orientable {
 
-    public BoxLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BoxLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BoxLayout */
     public static BoxLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new BoxLayout(gobject.getReference());
+        return new BoxLayout(gobject.refcounted());
     }
     
-    private static Reference constructNew(Orientation orientation) {
-        Reference RESULT = References.get(gtk_h.gtk_box_layout_new(orientation.getValue()), true);
+    private static Refcounted constructNew(Orientation orientation) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_box_layout_new(orientation.getValue()), true);
         return RESULT;
     }
     

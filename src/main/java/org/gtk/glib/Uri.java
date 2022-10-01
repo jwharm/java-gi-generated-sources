@@ -117,8 +117,8 @@ import java.lang.invoke.*;
  */
 public class Uri extends io.github.jwharm.javagi.ResourceBase {
 
-    public Uri(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Uri(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -248,7 +248,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Uri(References.get(RESULT, true));
+        return new Uri(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -256,7 +256,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public Uri ref() {
         var RESULT = gtk_h.g_uri_ref(handle());
-        return new Uri(References.get(RESULT, true));
+        return new Uri(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -305,7 +305,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Uri build(UriFlags flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
         var RESULT = gtk_h.g_uri_build(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return new Uri(References.get(RESULT, true));
+        return new Uri(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -320,7 +320,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Uri buildWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
         var RESULT = gtk_h.g_uri_build_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return new Uri(References.get(RESULT, true));
+        return new Uri(Refcounted.get(RESULT, true));
     }
     
     public static Quark errorQuark() {
@@ -438,7 +438,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Uri(References.get(RESULT, true));
+        return new Uri(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -473,7 +473,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.HashTable(References.get(RESULT, true));
+        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -609,7 +609,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Bytes(References.get(RESULT, true));
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
     /**

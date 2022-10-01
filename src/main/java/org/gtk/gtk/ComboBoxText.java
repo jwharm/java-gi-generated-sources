@@ -64,17 +64,17 @@ import java.lang.invoke.*;
  */
 public class ComboBoxText extends ComboBox implements Accessible, Buildable, CellEditable, CellLayout, ConstraintTarget {
 
-    public ComboBoxText(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ComboBoxText(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ComboBoxText */
     public static ComboBoxText castFrom(org.gtk.gobject.Object gobject) {
-        return new ComboBoxText(gobject.getReference());
+        return new ComboBoxText(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_combo_box_text_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_combo_box_text_new(), false);
         return RESULT;
     }
     
@@ -85,8 +85,8 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
         super(constructNew());
     }
     
-    private static Reference constructNewWithEntry() {
-        Reference RESULT = References.get(gtk_h.gtk_combo_box_text_new_with_entry(), false);
+    private static Refcounted constructNewWithEntry() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_combo_box_text_new_with_entry(), false);
         return RESULT;
     }
     

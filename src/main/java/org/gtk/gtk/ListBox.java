@@ -59,17 +59,17 @@ import java.lang.invoke.*;
  */
 public class ListBox extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public ListBox(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ListBox(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ListBox */
     public static ListBox castFrom(org.gtk.gobject.Object gobject) {
-        return new ListBox(gobject.getReference());
+        return new ListBox(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_list_box_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_list_box_new(), false);
         return RESULT;
     }
     
@@ -159,7 +159,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_list_box_get_adjustment(handle());
-        return new Adjustment(References.get(RESULT, false));
+        return new Adjustment(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -170,7 +170,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public ListBoxRow getRowAtIndex(int index) {
         var RESULT = gtk_h.gtk_list_box_get_row_at_index(handle(), index);
-        return new ListBoxRow(References.get(RESULT, false));
+        return new ListBoxRow(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -178,7 +178,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public ListBoxRow getRowAtY(int y) {
         var RESULT = gtk_h.gtk_list_box_get_row_at_y(handle(), y);
-        return new ListBoxRow(References.get(RESULT, false));
+        return new ListBoxRow(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -190,7 +190,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public ListBoxRow getSelectedRow() {
         var RESULT = gtk_h.gtk_list_box_get_selected_row(handle());
-        return new ListBoxRow(References.get(RESULT, false));
+        return new ListBoxRow(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -198,7 +198,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.glib.List getSelectedRows() {
         var RESULT = gtk_h.gtk_list_box_get_selected_rows(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -698,49 +698,49 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         public static void signalListBoxActivateCursorRow(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBox.ActivateCursorRowHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(References.get(source)));
+            handler.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
         public static void signalListBoxMoveCursor(MemoryAddress source, int object, int p0, int p1, int p2, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(References.get(source)), new MovementStep(object), p0, p1 != 0, p2 != 0);
+            handler.signalReceived(new ListBox(Refcounted.get(source)), new MovementStep(object), p0, p1 != 0, p2 != 0);
         }
         
         public static void signalListBoxRowActivated(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBox.RowActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(References.get(source)), new ListBoxRow(References.get(row, false)));
+            handler.signalReceived(new ListBox(Refcounted.get(source)), new ListBoxRow(Refcounted.get(row, false)));
         }
         
         public static void signalListBoxRowSelected(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBox.RowSelectedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(References.get(source)), new ListBoxRow(References.get(row, false)));
+            handler.signalReceived(new ListBox(Refcounted.get(source)), new ListBoxRow(Refcounted.get(row, false)));
         }
         
         public static void signalListBoxSelectAll(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBox.SelectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(References.get(source)));
+            handler.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
         public static void signalListBoxSelectedRowsChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBox.SelectedRowsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(References.get(source)));
+            handler.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
         public static void signalListBoxToggleCursorRow(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBox.ToggleCursorRowHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(References.get(source)));
+            handler.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
         public static void signalListBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(References.get(source)));
+            handler.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
     }

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class EnumListItem extends org.gtk.gobject.Object {
 
-    public EnumListItem(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EnumListItem(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EnumListItem */
     public static EnumListItem castFrom(org.gtk.gobject.Object gobject) {
-        return new EnumListItem(gobject.getReference());
+        return new EnumListItem(gobject.refcounted());
     }
     
     /**

@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class EventControllerMotion extends EventController {
 
-    public EventControllerMotion(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EventControllerMotion(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EventControllerMotion */
     public static EventControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerMotion(gobject.getReference());
+        return new EventControllerMotion(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_event_controller_motion_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_event_controller_motion_new(), true);
         return RESULT;
     }
     
@@ -138,19 +138,19 @@ public class EventControllerMotion extends EventController {
         public static void signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerMotion.EnterHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerMotion(References.get(source)), x, y);
+            handler.signalReceived(new EventControllerMotion(Refcounted.get(source)), x, y);
         }
         
         public static void signalEventControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerMotion.LeaveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerMotion(References.get(source)));
+            handler.signalReceived(new EventControllerMotion(Refcounted.get(source)));
         }
         
         public static void signalEventControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerMotion.MotionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerMotion(References.get(source)), x, y);
+            handler.signalReceived(new EventControllerMotion(Refcounted.get(source)), x, y);
         }
         
     }

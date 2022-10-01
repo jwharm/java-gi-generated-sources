@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class ClosureExpression extends Expression {
 
-    public ClosureExpression(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ClosureExpression(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ClosureExpression */
     public static ClosureExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new ClosureExpression(gobject.getReference());
+        return new ClosureExpression(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
-        Reference RESULT = References.get(gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.handle(), nParams, Interop.allocateNativeArray(params).handle()), true);
+    private static Refcounted constructNew(org.gtk.gobject.Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.handle(), nParams, Interop.allocateNativeArray(params).handle()), true);
         return RESULT;
     }
     

@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class FontChooserDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, FontChooser, Native, Root, ShortcutManager {
 
-    public FontChooserDialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FontChooserDialog */
     public static FontChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new FontChooserDialog(gobject.getReference());
+        return new FontChooserDialog(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title, Window parent) {
-        Reference RESULT = References.get(gtk_h.gtk_font_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+    private static Refcounted constructNew(java.lang.String title, Window parent) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_font_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
         return RESULT;
     }
     

@@ -55,17 +55,17 @@ import java.lang.invoke.*;
  */
 public class ProgressBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public ProgressBar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ProgressBar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ProgressBar */
     public static ProgressBar castFrom(org.gtk.gobject.Object gobject) {
-        return new ProgressBar(gobject.getReference());
+        return new ProgressBar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_progress_bar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_progress_bar_new(), false);
         return RESULT;
     }
     

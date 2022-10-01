@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class Fontset extends org.gtk.gobject.Object {
 
-    public Fontset(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Fontset(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Fontset */
     public static Fontset castFrom(org.gtk.gobject.Object gobject) {
-        return new Fontset(gobject.getReference());
+        return new Fontset(gobject.refcounted());
     }
     
     /**
@@ -50,7 +50,7 @@ public class Fontset extends org.gtk.gobject.Object {
      */
     public Font getFont(int wc) {
         var RESULT = gtk_h.pango_fontset_get_font(handle(), wc);
-        return new Font(References.get(RESULT, true));
+        return new Font(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -58,7 +58,7 @@ public class Fontset extends org.gtk.gobject.Object {
      */
     public FontMetrics getMetrics() {
         var RESULT = gtk_h.pango_fontset_get_metrics(handle());
-        return new FontMetrics(References.get(RESULT, true));
+        return new FontMetrics(Refcounted.get(RESULT, true));
     }
     
 }

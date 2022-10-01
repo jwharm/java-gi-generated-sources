@@ -47,17 +47,17 @@ import java.lang.invoke.*;
  */
 public class EntryCompletion extends org.gtk.gobject.Object implements Buildable, CellLayout {
 
-    public EntryCompletion(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EntryCompletion(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EntryCompletion */
     public static EntryCompletion castFrom(org.gtk.gobject.Object gobject) {
-        return new EntryCompletion(gobject.getReference());
+        return new EntryCompletion(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_entry_completion_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_entry_completion_new(), true);
         return RESULT;
     }
     
@@ -68,8 +68,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         super(constructNew());
     }
     
-    private static Reference constructNewWithArea(CellArea area) {
-        Reference RESULT = References.get(gtk_h.gtk_entry_completion_new_with_area(area.handle()), true);
+    private static Refcounted constructNewWithArea(CellArea area) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_entry_completion_new_with_area(area.handle()), true);
         return RESULT;
     }
     
@@ -121,7 +121,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public Widget getEntry() {
         var RESULT = gtk_h.gtk_entry_completion_get_entry(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -156,7 +156,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_entry_completion_get_model(handle());
-        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -437,25 +437,25 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         public static boolean signalEntryCompletionCursorOnMatch(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EntryCompletion.CursorOnMatchHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new EntryCompletion(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
+            return handler.signalReceived(new EntryCompletion(Refcounted.get(source)), new TreeModel.TreeModelImpl(Refcounted.get(model, false)), new TreeIter(Refcounted.get(iter, false)));
         }
         
         public static boolean signalEntryCompletionInsertPrefix(MemoryAddress source, MemoryAddress prefix, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EntryCompletion.InsertPrefixHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new EntryCompletion(References.get(source)), prefix.getUtf8String(0));
+            return handler.signalReceived(new EntryCompletion(Refcounted.get(source)), prefix.getUtf8String(0));
         }
         
         public static boolean signalEntryCompletionMatchSelected(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EntryCompletion.MatchSelectedHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new EntryCompletion(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
+            return handler.signalReceived(new EntryCompletion(Refcounted.get(source)), new TreeModel.TreeModelImpl(Refcounted.get(model, false)), new TreeIter(Refcounted.get(iter, false)));
         }
         
         public static void signalEntryCompletionNoMatches(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EntryCompletion.NoMatchesHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EntryCompletion(References.get(source)));
+            handler.signalReceived(new EntryCompletion(Refcounted.get(source)));
         }
         
     }

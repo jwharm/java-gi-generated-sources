@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixSocketAddressPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public UnixSocketAddressPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixSocketAddressPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

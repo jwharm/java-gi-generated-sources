@@ -8,13 +8,13 @@ package org.pango;
  */
 public class LayoutRun extends GlyphItem {
 
-    public LayoutRun(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LayoutRun(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to LayoutRun */
     public static LayoutRun castFrom(org.gtk.gobject.Object gobject) {
-        return new LayoutRun(gobject.getReference());
+        return new LayoutRun(gobject.refcounted());
     }
     
 }

@@ -62,7 +62,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
      */
     public static MemoryMonitor dupDefault() {
         var RESULT = gtk_h.g_memory_monitor_dup_default();
-        return new MemoryMonitor.MemoryMonitorImpl(References.get(RESULT, true));
+        return new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -99,14 +99,14 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
         public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MemoryMonitor.LowMemoryWarningHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MemoryMonitor.MemoryMonitorImpl(References.get(source)), new MemoryMonitorWarningLevel(level));
+            handler.signalReceived(new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(source)), new MemoryMonitorWarningLevel(level));
         }
         
     }
     
     class MemoryMonitorImpl extends org.gtk.gobject.Object implements MemoryMonitor {
-        public MemoryMonitorImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public MemoryMonitorImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

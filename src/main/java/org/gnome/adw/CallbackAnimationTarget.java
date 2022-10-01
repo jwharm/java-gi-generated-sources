@@ -11,18 +11,18 @@ import java.lang.invoke.*;
  */
 public class CallbackAnimationTarget extends AnimationTarget {
 
-    public CallbackAnimationTarget(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CallbackAnimationTarget(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CallbackAnimationTarget */
     public static CallbackAnimationTarget castFrom(org.gtk.gobject.Object gobject) {
-        return new CallbackAnimationTarget(gobject.getReference());
+        return new CallbackAnimationTarget(gobject.refcounted());
     }
     
-    private static Reference constructNew(AnimationTargetFunc callback) {
+    private static Refcounted constructNew(AnimationTargetFunc callback) {
         try {
-            Reference RESULT = References.get(gtk_h.adw_callback_animation_target_new(
+            Refcounted RESULT = Refcounted.get(gtk_h.adw_callback_animation_target_new(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Adw.class, "__cbAnimationTargetFunc",
                             MethodType.methodType(void.class, double.class, MemoryAddress.class)),

@@ -22,6 +22,9 @@ out/
 .settings/
 .metadata/
 
+# Netbeans files
+nb*.xml
+
 # OS X files
 .DS_Store
 

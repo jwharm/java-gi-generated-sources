@@ -71,17 +71,17 @@ import java.lang.invoke.*;
  */
 public class Text extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
-    public Text(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Text(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Text */
     public static Text castFrom(org.gtk.gobject.Object gobject) {
-        return new Text(gobject.getReference());
+        return new Text(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_text_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_new(), false);
         return RESULT;
     }
     
@@ -92,8 +92,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         super(constructNew());
     }
     
-    private static Reference constructNewWithBuffer(EntryBuffer buffer) {
-        Reference RESULT = References.get(gtk_h.gtk_text_new_with_buffer(buffer.handle()), false);
+    private static Refcounted constructNewWithBuffer(EntryBuffer buffer) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_new_with_buffer(buffer.handle()), false);
         return RESULT;
     }
     
@@ -138,7 +138,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public org.pango.AttrList getAttributes() {
         var RESULT = gtk_h.gtk_text_get_attributes(handle());
-        return new org.pango.AttrList(References.get(RESULT, false));
+        return new org.pango.AttrList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -147,7 +147,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public EntryBuffer getBuffer() {
         var RESULT = gtk_h.gtk_text_get_buffer(handle());
-        return new EntryBuffer(References.get(RESULT, false));
+        return new EntryBuffer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -166,7 +166,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = gtk_h.gtk_text_get_extra_menu(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -247,7 +247,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public org.pango.TabArray getTabs() {
         var RESULT = gtk_h.gtk_text_get_tabs(handle());
-        return new org.pango.TabArray(References.get(RESULT, false));
+        return new org.pango.TabArray(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -816,67 +816,67 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         public static void signalTextActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)));
+            handler.signalReceived(new Text(Refcounted.get(source)));
         }
         
         public static void signalTextBackspace(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.BackspaceHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)));
+            handler.signalReceived(new Text(Refcounted.get(source)));
         }
         
         public static void signalTextCopyClipboard(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.CopyClipboardHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)));
+            handler.signalReceived(new Text(Refcounted.get(source)));
         }
         
         public static void signalTextCutClipboard(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.CutClipboardHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)));
+            handler.signalReceived(new Text(Refcounted.get(source)));
         }
         
         public static void signalTextDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)), new DeleteType(type), count);
+            handler.signalReceived(new Text(Refcounted.get(source)), new DeleteType(type), count);
         }
         
         public static void signalTextInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.InsertAtCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)), string.getUtf8String(0));
+            handler.signalReceived(new Text(Refcounted.get(source)), string.getUtf8String(0));
         }
         
         public static void signalTextInsertEmoji(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.InsertEmojiHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)));
+            handler.signalReceived(new Text(Refcounted.get(source)));
         }
         
         public static void signalTextMoveCursor(MemoryAddress source, int step, int count, int extend, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.MoveCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)), new MovementStep(step), count, extend != 0);
+            handler.signalReceived(new Text(Refcounted.get(source)), new MovementStep(step), count, extend != 0);
         }
         
         public static void signalTextPasteClipboard(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.PasteClipboardHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)));
+            handler.signalReceived(new Text(Refcounted.get(source)));
         }
         
         public static void signalTextPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.PreeditChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)), preedit.getUtf8String(0));
+            handler.signalReceived(new Text(Refcounted.get(source)), preedit.getUtf8String(0));
         }
         
         public static void signalTextToggleOverwrite(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Text.ToggleOverwriteHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Text(References.get(source)));
+            handler.signalReceived(new Text(Refcounted.get(source)));
         }
         
     }

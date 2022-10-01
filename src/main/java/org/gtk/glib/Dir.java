@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Dir extends io.github.jwharm.javagi.ResourceBase {
 
-    public Dir(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Dir(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -82,7 +82,7 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Dir(References.get(RESULT, false));
+        return new Dir(Refcounted.get(RESULT, false));
     }
     
 }

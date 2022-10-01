@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class ContainerNode extends RenderNode {
 
-    public ContainerNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ContainerNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ContainerNode */
     public static ContainerNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ContainerNode(gobject.getReference());
+        return new ContainerNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RenderNode[] children, int nChildren) {
-        Reference RESULT = References.get(gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children).handle(), nChildren), true);
+    private static Refcounted constructNew(RenderNode[] children, int nChildren) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children).handle(), nChildren), true);
         return RESULT;
     }
     
@@ -38,7 +38,7 @@ public class ContainerNode extends RenderNode {
      */
     public RenderNode getChild(int idx) {
         var RESULT = gtk_h.gsk_container_node_get_child(handle(), idx);
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**

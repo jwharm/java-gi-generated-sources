@@ -155,17 +155,17 @@ import java.lang.invoke.*;
  */
 public class FileChooserNative extends NativeDialog implements FileChooser {
 
-    public FileChooserNative(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileChooserNative(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileChooserNative */
     public static FileChooserNative castFrom(org.gtk.gobject.Object gobject) {
-        return new FileChooserNative(gobject.getReference());
+        return new FileChooserNative(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
-        Reference RESULT = References.get(gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).handle(), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel).handle(), Interop.allocateNativeString(cancelLabel).handle()), true);
+    private static Refcounted constructNew(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).handle(), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel).handle(), Interop.allocateNativeString(cancelLabel).handle()), true);
         return RESULT;
     }
     

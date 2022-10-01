@@ -28,17 +28,17 @@ import java.lang.invoke.*;
  */
 public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orientable {
 
-    public CellAreaBox(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellAreaBox(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellAreaBox */
     public static CellAreaBox castFrom(org.gtk.gobject.Object gobject) {
-        return new CellAreaBox(gobject.getReference());
+        return new CellAreaBox(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_area_box_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_area_box_new(), false);
         return RESULT;
     }
     

@@ -24,17 +24,17 @@ import java.lang.invoke.*;
  */
 public class GestureLongPress extends GestureSingle {
 
-    public GestureLongPress(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GestureLongPress(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GestureLongPress */
     public static GestureLongPress castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureLongPress(gobject.getReference());
+        return new GestureLongPress(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_gesture_long_press_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_long_press_new(), true);
         return RESULT;
     }
     
@@ -122,13 +122,13 @@ public class GestureLongPress extends GestureSingle {
         public static void signalGestureLongPressCancelled(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureLongPress.CancelledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureLongPress(References.get(source)));
+            handler.signalReceived(new GestureLongPress(Refcounted.get(source)));
         }
         
         public static void signalGestureLongPressPressed(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureLongPress.PressedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureLongPress(References.get(source)), x, y);
+            handler.signalReceived(new GestureLongPress(Refcounted.get(source)), x, y);
         }
         
     }

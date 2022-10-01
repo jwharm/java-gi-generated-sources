@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  */
 public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public LayoutIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LayoutIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -32,7 +32,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public LayoutIter copy() {
         var RESULT = gtk_h.pango_layout_iter_copy(handle());
-        return new LayoutIter(References.get(RESULT, true));
+        return new LayoutIter(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -92,7 +92,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public Layout getLayout() {
         var RESULT = gtk_h.pango_layout_iter_get_layout(handle());
-        return new Layout(References.get(RESULT, false));
+        return new Layout(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -111,7 +111,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public LayoutLine getLine() {
         var RESULT = gtk_h.pango_layout_iter_get_line(handle());
-        return new LayoutLine(References.get(RESULT, false));
+        return new LayoutLine(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -135,7 +135,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public LayoutLine getLineReadonly() {
         var RESULT = gtk_h.pango_layout_iter_get_line_readonly(handle());
-        return new LayoutLine(References.get(RESULT, false));
+        return new LayoutLine(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -168,7 +168,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public LayoutRun getRun() {
         var RESULT = gtk_h.pango_layout_iter_get_run(handle());
-        return new LayoutRun(References.get(RESULT, false));
+        return new LayoutRun(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -208,7 +208,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public LayoutRun getRunReadonly() {
         var RESULT = gtk_h.pango_layout_iter_get_run_readonly(handle());
-        return new LayoutRun(References.get(RESULT, false));
+        return new LayoutRun(Refcounted.get(RESULT, false));
     }
     
     /**

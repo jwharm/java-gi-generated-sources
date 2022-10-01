@@ -28,17 +28,17 @@ import java.lang.invoke.*;
  */
 public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SortListModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SortListModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SortListModel */
     public static SortListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new SortListModel(gobject.getReference());
+        return new SortListModel(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel model, Sorter sorter) {
-        Reference RESULT = References.get(gtk_h.gtk_sort_list_model_new(model.getReference().unowned().handle(), sorter.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(org.gtk.gio.ListModel model, Sorter sorter) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_sort_list_model_new(model.refcounted().unowned().handle(), sorter.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -64,7 +64,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_sort_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public Sorter getSorter() {
         var RESULT = gtk_h.gtk_sort_list_model_get_sorter(handle());
-        return new Sorter(References.get(RESULT, false));
+        return new Sorter(Refcounted.get(RESULT, false));
     }
     
     /**

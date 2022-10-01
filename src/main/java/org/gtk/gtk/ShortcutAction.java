@@ -37,17 +37,17 @@ import java.lang.invoke.*;
  */
 public class ShortcutAction extends org.gtk.gobject.Object {
 
-    public ShortcutAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShortcutAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ShortcutAction */
     public static ShortcutAction castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutAction(gobject.getReference());
+        return new ShortcutAction(gobject.refcounted());
     }
     
-    private static Reference constructParseString(java.lang.String string) {
-        Reference RESULT = References.get(gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).handle()), true);
+    private static Refcounted constructParseString(java.lang.String string) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).handle()), true);
         return RESULT;
     }
     

@@ -38,13 +38,13 @@ import java.lang.invoke.*;
  */
 public class IMContext extends org.gtk.gobject.Object {
 
-    public IMContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IMContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to IMContext */
     public static IMContext castFrom(org.gtk.gobject.Object gobject) {
-        return new IMContext(gobject.getReference());
+        return new IMContext(gobject.refcounted());
     }
     
     /**
@@ -379,37 +379,37 @@ public class IMContext extends org.gtk.gobject.Object {
         public static void signalIMContextCommit(MemoryAddress source, MemoryAddress str, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IMContext.CommitHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IMContext(References.get(source)), str.getUtf8String(0));
+            handler.signalReceived(new IMContext(Refcounted.get(source)), str.getUtf8String(0));
         }
         
         public static boolean signalIMContextDeleteSurrounding(MemoryAddress source, int offset, int nChars, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IMContext.DeleteSurroundingHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new IMContext(References.get(source)), offset, nChars);
+            return handler.signalReceived(new IMContext(Refcounted.get(source)), offset, nChars);
         }
         
         public static void signalIMContextPreeditChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IMContext.PreeditChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IMContext(References.get(source)));
+            handler.signalReceived(new IMContext(Refcounted.get(source)));
         }
         
         public static void signalIMContextPreeditEnd(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IMContext.PreeditEndHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IMContext(References.get(source)));
+            handler.signalReceived(new IMContext(Refcounted.get(source)));
         }
         
         public static void signalIMContextPreeditStart(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IMContext.PreeditStartHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new IMContext(References.get(source)));
+            handler.signalReceived(new IMContext(Refcounted.get(source)));
         }
         
         public static boolean signalIMContextRetrieveSurrounding(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (IMContext.RetrieveSurroundingHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new IMContext(References.get(source)));
+            return handler.signalReceived(new IMContext(Refcounted.get(source)));
         }
         
     }

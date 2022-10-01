@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class UserDataKeyT extends io.github.jwharm.javagi.ResourceBase {
 
-    public UserDataKeyT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UserDataKeyT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public UserDataKeyT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_user_data_key_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_user_data_key_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

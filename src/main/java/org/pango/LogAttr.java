@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class LogAttr extends io.github.jwharm.javagi.ResourceBase {
 
-    public LogAttr(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LogAttr(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public LogAttr() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoLogAttr.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoLogAttr.allocate(Interop.getAllocator()).address()));
     }
     
 }

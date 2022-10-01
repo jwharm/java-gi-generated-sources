@@ -26,17 +26,17 @@ import java.lang.invoke.*;
  */
 public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public PreferencesPage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PreferencesPage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PreferencesPage */
     public static PreferencesPage castFrom(org.gtk.gobject.Object gobject) {
-        return new PreferencesPage(gobject.getReference());
+        return new PreferencesPage(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_preferences_page_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_preferences_page_new(), false);
         return RESULT;
     }
     

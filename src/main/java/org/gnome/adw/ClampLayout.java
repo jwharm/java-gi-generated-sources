@@ -31,17 +31,17 @@ import java.lang.invoke.*;
  */
 public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.Orientable {
 
-    public ClampLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ClampLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ClampLayout */
     public static ClampLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new ClampLayout(gobject.getReference());
+        return new ClampLayout(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_clamp_layout_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_clamp_layout_new(), true);
         return RESULT;
     }
     

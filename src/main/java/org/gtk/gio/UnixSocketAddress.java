@@ -27,17 +27,17 @@ import java.lang.invoke.*;
  */
 public class UnixSocketAddress extends SocketAddress implements SocketConnectable {
 
-    public UnixSocketAddress(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixSocketAddress(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to UnixSocketAddress */
     public static UnixSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixSocketAddress(gobject.getReference());
+        return new UnixSocketAddress(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String path) {
-        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).handle()), true);
+    private static Refcounted constructNew(java.lang.String path) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).handle()), true);
         return RESULT;
     }
     
@@ -51,8 +51,8 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
         super(constructNew(path));
     }
     
-    private static Reference constructNewAbstract(byte[] path, int pathLen) {
-        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new_abstract(Interop.allocateNativeArray(path).handle(), pathLen), true);
+    private static Refcounted constructNewAbstract(byte[] path, int pathLen) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_socket_address_new_abstract(Interop.allocateNativeArray(path).handle(), pathLen), true);
         return RESULT;
     }
     
@@ -64,8 +64,8 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
         return new UnixSocketAddress(constructNewAbstract(path, pathLen));
     }
     
-    private static Reference constructNewWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
-        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new_with_type(Interop.allocateNativeArray(path).handle(), pathLen, type.getValue()), true);
+    private static Refcounted constructNewWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_socket_address_new_with_type(Interop.allocateNativeArray(path).handle(), pathLen, type.getValue()), true);
         return RESULT;
     }
     

@@ -23,12 +23,12 @@ import java.lang.invoke.*;
  */
 public class Scanner extends io.github.jwharm.javagi.ResourceBase {
 
-    public Scanner(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Scanner(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Scanner() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GScanner.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GScanner.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -213,7 +213,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Scanner new_(ScannerConfig configTempl) {
         var RESULT = gtk_h.g_scanner_new(configTempl.handle());
-        return new Scanner(References.get(RESULT, false));
+        return new Scanner(Refcounted.get(RESULT, false));
     }
     
 }

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class FocusEvent extends Event {
 
-    public FocusEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FocusEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FocusEvent */
     public static FocusEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new FocusEvent(gobject.getReference());
+        return new FocusEvent(gobject.refcounted());
     }
     
     /**

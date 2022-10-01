@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class GestureRotate extends Gesture {
 
-    public GestureRotate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GestureRotate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GestureRotate */
     public static GestureRotate castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureRotate(gobject.getReference());
+        return new GestureRotate(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_gesture_rotate_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_rotate_new(), true);
         return RESULT;
     }
     
@@ -78,7 +78,7 @@ public class GestureRotate extends Gesture {
         public static void signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureRotate.AngleChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureRotate(References.get(source)), angle, angleDelta);
+            handler.signalReceived(new GestureRotate(Refcounted.get(source)), angle, angleDelta);
         }
         
     }

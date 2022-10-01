@@ -80,17 +80,17 @@ import java.lang.invoke.*;
  */
 public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap, Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public ApplicationWindow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ApplicationWindow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ApplicationWindow */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ApplicationWindow(gobject.getReference());
+        return new ApplicationWindow(gobject.refcounted());
     }
     
-    private static Reference constructNew(Application application) {
-        Reference RESULT = References.get(gtk_h.gtk_application_window_new(application.handle()), false);
+    private static Refcounted constructNew(Application application) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_application_window_new(application.handle()), false);
         return RESULT;
     }
     
@@ -108,7 +108,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      */
     public ShortcutsWindow getHelpOverlay() {
         var RESULT = gtk_h.gtk_application_window_get_help_overlay(handle());
-        return new ShortcutsWindow(References.get(RESULT, false));
+        return new ShortcutsWindow(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -24,17 +24,17 @@ import java.lang.invoke.*;
  */
 public class Constraint extends org.gtk.gobject.Object {
 
-    public Constraint(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Constraint(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Constraint */
     public static Constraint castFrom(org.gtk.gobject.Object gobject) {
-        return new Constraint(gobject.getReference());
+        return new Constraint(gobject.refcounted());
     }
     
-    private static Reference constructNew(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, ConstraintTarget source, ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
-        Reference RESULT = References.get(gtk_h.gtk_constraint_new(target.handle(), targetAttribute.getValue(), relation.getValue(), source.handle(), sourceAttribute.getValue(), multiplier, constant, strength), true);
+    private static Refcounted constructNew(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, ConstraintTarget source, ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constraint_new(target.handle(), targetAttribute.getValue(), relation.getValue(), source.handle(), sourceAttribute.getValue(), multiplier, constant, strength), true);
         return RESULT;
     }
     
@@ -46,8 +46,8 @@ public class Constraint extends org.gtk.gobject.Object {
         super(constructNew(target, targetAttribute, relation, source, sourceAttribute, multiplier, constant, strength));
     }
     
-    private static Reference constructNewConstant(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
-        Reference RESULT = References.get(gtk_h.gtk_constraint_new_constant(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true);
+    private static Refcounted constructNewConstant(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constraint_new_constant(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true);
         return RESULT;
     }
     
@@ -93,7 +93,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public ConstraintTarget getSource() {
         var RESULT = gtk_h.gtk_constraint_get_source(handle());
-        return new ConstraintTarget.ConstraintTargetImpl(References.get(RESULT, false));
+        return new ConstraintTarget.ConstraintTargetImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -121,7 +121,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public ConstraintTarget getTarget() {
         var RESULT = gtk_h.gtk_constraint_get_target(handle());
-        return new ConstraintTarget.ConstraintTargetImpl(References.get(RESULT, false));
+        return new ConstraintTarget.ConstraintTargetImpl(Refcounted.get(RESULT, false));
     }
     
     /**

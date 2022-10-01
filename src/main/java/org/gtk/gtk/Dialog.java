@@ -130,17 +130,17 @@ import java.lang.invoke.*;
  */
 public class Dialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public Dialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Dialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Dialog */
     public static Dialog castFrom(org.gtk.gobject.Object gobject) {
-        return new Dialog(gobject.getReference());
+        return new Dialog(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_dialog_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_dialog_new(), false);
         return RESULT;
     }
     
@@ -180,7 +180,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Widget addButton(java.lang.String buttonText, int responseId) {
         var RESULT = gtk_h.gtk_dialog_add_button(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -188,7 +188,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Box getContentArea() {
         var RESULT = gtk_h.gtk_dialog_get_content_area(handle());
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -199,7 +199,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public HeaderBar getHeaderBar() {
         var RESULT = gtk_h.gtk_dialog_get_header_bar(handle());
-        return new HeaderBar(References.get(RESULT, false));
+        return new HeaderBar(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -217,7 +217,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Widget getWidgetForResponse(int responseId) {
         var RESULT = gtk_h.gtk_dialog_get_widget_for_response(handle(), responseId);
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -314,13 +314,13 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         public static void signalDialogClose(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Dialog.CloseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Dialog(References.get(source)));
+            handler.signalReceived(new Dialog(Refcounted.get(source)));
         }
         
         public static void signalDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Dialog.ResponseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Dialog(References.get(source)), responseId);
+            handler.signalReceived(new Dialog(Refcounted.get(source)), responseId);
         }
         
     }

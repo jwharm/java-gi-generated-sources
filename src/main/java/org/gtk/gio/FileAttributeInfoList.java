@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase {
 
-    public FileAttributeInfoList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileAttributeInfoList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_file_attribute_info_list_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_file_attribute_info_list_new(), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      */
     public FileAttributeInfoList dup() {
         var RESULT = gtk_h.g_file_attribute_info_list_dup(handle());
-        return new FileAttributeInfoList(References.get(RESULT, true));
+        return new FileAttributeInfoList(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -48,7 +48,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      */
     public FileAttributeInfo lookup(java.lang.String name) {
         var RESULT = gtk_h.g_file_attribute_info_list_lookup(handle(), Interop.allocateNativeString(name).handle());
-        return new FileAttributeInfo(References.get(RESULT, false));
+        return new FileAttributeInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -56,7 +56,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      */
     public FileAttributeInfoList ref() {
         var RESULT = gtk_h.g_file_attribute_info_list_ref(handle());
-        return new FileAttributeInfoList(References.get(RESULT, true));
+        return new FileAttributeInfoList(Refcounted.get(RESULT, true));
     }
     
     /**

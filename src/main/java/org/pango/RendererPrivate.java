@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class RendererPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public RendererPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RendererPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

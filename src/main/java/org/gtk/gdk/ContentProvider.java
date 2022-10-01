@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class ContentProvider extends org.gtk.gobject.Object {
 
-    public ContentProvider(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ContentProvider(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ContentProvider */
     public static ContentProvider castFrom(org.gtk.gobject.Object gobject) {
-        return new ContentProvider(gobject.getReference());
+        return new ContentProvider(gobject.refcounted());
     }
     
-    private static Reference constructNewForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
-        Reference RESULT = References.get(gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).handle(), bytes.handle()), true);
+    private static Refcounted constructNewForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).handle(), bytes.handle()), true);
         return RESULT;
     }
     
@@ -40,8 +40,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
         return new ContentProvider(constructNewForBytes(mimeType, bytes));
     }
     
-    private static Reference constructNewForValue(org.gtk.gobject.Value value) {
-        Reference RESULT = References.get(gtk_h.gdk_content_provider_new_for_value(value.handle()), true);
+    private static Refcounted constructNewForValue(org.gtk.gobject.Value value) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_provider_new_for_value(value.handle()), true);
         return RESULT;
     }
     
@@ -52,8 +52,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
         return new ContentProvider(constructNewForValue(value));
     }
     
-    private static Reference constructNewUnion(ContentProvider[] providers, long nProviders) {
-        Reference RESULT = References.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers).handle(), nProviders), true);
+    private static Refcounted constructNewUnion(ContentProvider[] providers, long nProviders) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers).handle(), nProviders), true);
         return RESULT;
     }
     
@@ -108,7 +108,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public ContentFormats refFormats() {
         var RESULT = gtk_h.gdk_content_provider_ref_formats(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -121,7 +121,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public ContentFormats refStorableFormats() {
         var RESULT = gtk_h.gdk_content_provider_ref_storable_formats(handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -197,7 +197,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
         public static void signalContentProviderContentChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ContentProvider.ContentChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ContentProvider(References.get(source)));
+            handler.signalReceived(new ContentProvider(Refcounted.get(source)));
         }
         
     }

@@ -20,12 +20,12 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DtlsServerConnection.DtlsServerConnectionImpl(References.get(RESULT, true));
+        return new DtlsServerConnection.DtlsServerConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     class DtlsServerConnectionImpl extends org.gtk.gobject.Object implements DtlsServerConnection {
-        public DtlsServerConnectionImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public DtlsServerConnectionImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

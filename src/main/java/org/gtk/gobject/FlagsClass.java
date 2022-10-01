@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class FlagsClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public FlagsClass(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FlagsClass(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public FlagsClass() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GFlagsClass.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GFlagsClass.allocate(Interop.getAllocator()).address()));
     }
     
 }

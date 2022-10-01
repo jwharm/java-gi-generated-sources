@@ -322,13 +322,13 @@ import java.lang.invoke.*;
  */
 public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Buildable, CellLayout {
 
-    public CellArea(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellArea(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellArea */
     public static CellArea castFrom(org.gtk.gobject.Object gobject) {
-        return new CellArea(gobject.getReference());
+        return new CellArea(gobject.refcounted());
     }
     
     /**
@@ -448,7 +448,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellAreaContext copyContext(CellAreaContext context) {
         var RESULT = gtk_h.gtk_cell_area_copy_context(handle(), context.handle());
-        return new CellAreaContext(References.get(RESULT, true));
+        return new CellAreaContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -461,7 +461,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellAreaContext createContext() {
         var RESULT = gtk_h.gtk_cell_area_create_context(handle());
-        return new CellAreaContext(References.get(RESULT, true));
+        return new CellAreaContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -535,7 +535,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellRenderer getCellAtPosition(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, int x, int y, org.gtk.gdk.Rectangle allocArea) {
         var RESULT = gtk_h.gtk_cell_area_get_cell_at_position(handle(), context.handle(), widget.handle(), cellArea.handle(), x, y, allocArea.handle());
-        return new CellRenderer(References.get(RESULT, false));
+        return new CellRenderer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -556,7 +556,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellEditable getEditWidget() {
         var RESULT = gtk_h.gtk_cell_area_get_edit_widget(handle());
-        return new CellEditable.CellEditableImpl(References.get(RESULT, false));
+        return new CellEditable.CellEditableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -565,7 +565,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellRenderer getEditedCell() {
         var RESULT = gtk_h.gtk_cell_area_get_edited_cell(handle());
-        return new CellRenderer(References.get(RESULT, false));
+        return new CellRenderer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -573,7 +573,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellRenderer getFocusCell() {
         var RESULT = gtk_h.gtk_cell_area_get_focus_cell(handle());
-        return new CellRenderer(References.get(RESULT, false));
+        return new CellRenderer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -587,7 +587,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellRenderer getFocusFromSibling(CellRenderer renderer) {
         var RESULT = gtk_h.gtk_cell_area_get_focus_from_sibling(handle(), renderer.handle());
-        return new CellRenderer(References.get(RESULT, false));
+        return new CellRenderer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -595,7 +595,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public org.gtk.glib.List getFocusSiblings(CellRenderer renderer) {
         var RESULT = gtk_h.gtk_cell_area_get_focus_siblings(handle(), renderer.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -886,25 +886,25 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         public static void signalCellAreaAddEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress cellArea, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellArea.AddEditableHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), new CellEditable.CellEditableImpl(References.get(editable, false)), new org.gtk.gdk.Rectangle(References.get(cellArea, false)), path.getUtf8String(0));
+            handler.signalReceived(new CellArea(Refcounted.get(source)), new CellRenderer(Refcounted.get(renderer, false)), new CellEditable.CellEditableImpl(Refcounted.get(editable, false)), new org.gtk.gdk.Rectangle(Refcounted.get(cellArea, false)), path.getUtf8String(0));
         }
         
         public static void signalCellAreaApplyAttributes(MemoryAddress source, MemoryAddress model, MemoryAddress iter, int isExpander, int isExpanded, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellArea.ApplyAttributesHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellArea(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)), isExpander != 0, isExpanded != 0);
+            handler.signalReceived(new CellArea(Refcounted.get(source)), new TreeModel.TreeModelImpl(Refcounted.get(model, false)), new TreeIter(Refcounted.get(iter, false)), isExpander != 0, isExpanded != 0);
         }
         
         public static void signalCellAreaFocusChanged(MemoryAddress source, MemoryAddress renderer, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellArea.FocusChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), path.getUtf8String(0));
+            handler.signalReceived(new CellArea(Refcounted.get(source)), new CellRenderer(Refcounted.get(renderer, false)), path.getUtf8String(0));
         }
         
         public static void signalCellAreaRemoveEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellArea.RemoveEditableHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), new CellEditable.CellEditableImpl(References.get(editable, false)));
+            handler.signalReceived(new CellArea(Refcounted.get(source)), new CellRenderer(Refcounted.get(renderer, false)), new CellEditable.CellEditableImpl(Refcounted.get(editable, false)));
         }
         
     }

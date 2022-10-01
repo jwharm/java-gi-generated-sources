@@ -10,18 +10,18 @@ import java.lang.invoke.*;
  */
 public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public TreeListModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeListModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeListModel */
     public static TreeListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListModel(gobject.getReference());
+        return new TreeListModel(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, TreeListModelCreateModelFunc createFunc) {
+    private static Refcounted constructNew(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, TreeListModelCreateModelFunc createFunc) {
         try {
-            Reference RESULT = References.get(gtk_h.gtk_tree_list_model_new(root.getReference().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, 
+            Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_list_model_new(root.refcounted().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeListModelCreateModelFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -66,7 +66,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public TreeListRow getChildRow(int position) {
         var RESULT = gtk_h.gtk_tree_list_model_get_child_row(handle(), position);
-        return new TreeListRow(References.get(RESULT, true));
+        return new TreeListRow(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_tree_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -115,7 +115,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public TreeListRow getRow(int position) {
         var RESULT = gtk_h.gtk_tree_list_model_get_row(handle(), position);
-        return new TreeListRow(References.get(RESULT, true));
+        return new TreeListRow(Refcounted.get(RESULT, true));
     }
     
     /**

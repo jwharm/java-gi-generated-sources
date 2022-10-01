@@ -96,17 +96,17 @@ import java.lang.invoke.*;
  */
 public class DrawingArea extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public DrawingArea(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DrawingArea(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DrawingArea */
     public static DrawingArea castFrom(org.gtk.gobject.Object gobject) {
-        return new DrawingArea(gobject.getReference());
+        return new DrawingArea(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_drawing_area_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_drawing_area_new(), false);
         return RESULT;
     }
     
@@ -227,7 +227,7 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
         public static void signalDrawingAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DrawingArea.ResizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DrawingArea(References.get(source)), width, height);
+            handler.signalReceived(new DrawingArea(Refcounted.get(source)), width, height);
         }
         
     }

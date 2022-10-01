@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class TlsDatabase extends org.gtk.gobject.Object {
 
-    public TlsDatabase(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TlsDatabase(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TlsDatabase */
     public static TlsDatabase castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsDatabase(gobject.getReference());
+        return new TlsDatabase(gobject.refcounted());
     }
     
     /**
@@ -62,7 +62,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsCertificate(References.get(RESULT, true));
+        return new TlsCertificate(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -96,7 +96,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsCertificate(References.get(RESULT, true));
+        return new TlsCertificate(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -127,7 +127,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsCertificate(References.get(RESULT, true));
+        return new TlsCertificate(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -158,7 +158,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsCertificate(References.get(RESULT, true));
+        return new TlsCertificate(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -173,7 +173,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -208,7 +208,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**

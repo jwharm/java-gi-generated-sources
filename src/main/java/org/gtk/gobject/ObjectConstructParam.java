@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class ObjectConstructParam extends io.github.jwharm.javagi.ResourceBase {
 
-    public ObjectConstructParam(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ObjectConstructParam(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ObjectConstructParam() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GObjectConstructParam.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GObjectConstructParam.allocate(Interop.getAllocator()).address()));
     }
     
 }

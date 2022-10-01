@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MenuAttributeIterPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public MenuAttributeIterPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MenuAttributeIterPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
 
-    public PtrArray(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PtrArray(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public PtrArray() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GPtrArray.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GPtrArray.allocate(Interop.getAllocator()).address()));
     }
     
     /**

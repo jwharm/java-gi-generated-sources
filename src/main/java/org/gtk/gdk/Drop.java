@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class Drop extends org.gtk.gobject.Object {
 
-    public Drop(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Drop(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Drop */
     public static Drop castFrom(org.gtk.gobject.Object gobject) {
-        return new Drop(gobject.getReference());
+        return new Drop(gobject.refcounted());
     }
     
     /**
@@ -68,7 +68,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public Device getDevice() {
         var RESULT = gtk_h.gdk_drop_get_device(handle());
-        return new Device(References.get(RESULT, false));
+        return new Device(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -76,7 +76,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_drop_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public Drag getDrag() {
         var RESULT = gtk_h.gdk_drop_get_drag(handle());
-        return new Drag(References.get(RESULT, false));
+        return new Drag(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public ContentFormats getFormats() {
         var RESULT = gtk_h.gdk_drop_get_formats(handle());
-        return new ContentFormats(References.get(RESULT, false));
+        return new ContentFormats(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -104,7 +104,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public Surface getSurface() {
         var RESULT = gtk_h.gdk_drop_get_surface(handle());
-        return new Surface(References.get(RESULT, false));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class Drop extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.InputStream(References.get(RESULT, true));
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -181,7 +181,7 @@ public class Drop extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Value(References.get(RESULT, false));
+        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
     
     /**

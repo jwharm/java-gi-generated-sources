@@ -25,17 +25,17 @@ import java.lang.invoke.*;
  */
 public class WindowGroup extends org.gtk.gobject.Object {
 
-    public WindowGroup(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WindowGroup(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to WindowGroup */
     public static WindowGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowGroup(gobject.getReference());
+        return new WindowGroup(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_window_group_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_window_group_new(), true);
         return RESULT;
     }
     
@@ -61,7 +61,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List listWindows() {
         var RESULT = gtk_h.gtk_window_group_list_windows(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**

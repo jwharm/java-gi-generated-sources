@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class KeymapKey extends io.github.jwharm.javagi.ResourceBase {
 
-    public KeymapKey(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public KeymapKey(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public KeymapKey() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkKeymapKey.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GdkKeymapKey.allocate(Interop.getAllocator()).address()));
     }
     
 }

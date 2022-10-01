@@ -51,17 +51,17 @@ import java.lang.invoke.*;
  */
 public class Scrollbar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Scrollbar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Scrollbar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Scrollbar */
     public static Scrollbar castFrom(org.gtk.gobject.Object gobject) {
-        return new Scrollbar(gobject.getReference());
+        return new Scrollbar(gobject.refcounted());
     }
     
-    private static Reference constructNew(Orientation orientation, Adjustment adjustment) {
-        Reference RESULT = References.get(gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.handle()), false);
+    private static Refcounted constructNew(Orientation orientation, Adjustment adjustment) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.handle()), false);
         return RESULT;
     }
     
@@ -77,7 +77,7 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_scrollbar_get_adjustment(handle());
-        return new Adjustment(References.get(RESULT, false));
+        return new Adjustment(Refcounted.get(RESULT, false));
     }
     
     /**

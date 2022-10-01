@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrShape(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrShape(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AttrShape() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrShape.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrShape.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -29,7 +29,7 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Attribute new_(Rectangle inkRect, Rectangle logicalRect) {
         var RESULT = gtk_h.pango_attr_shape_new(inkRect.handle(), logicalRect.handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol());
-            return new Attribute(References.get(RESULT, true));
+            return new Attribute(Refcounted.get(RESULT, true));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

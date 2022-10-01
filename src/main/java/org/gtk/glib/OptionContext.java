@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
 
-    public OptionContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OptionContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -22,7 +22,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * ownership of the {@code group} and thus the {@code group} should not be freed.
      */
     public void addGroup(OptionGroup group) {
-        gtk_h.g_option_context_add_group(handle(), group.getReference().unowned().handle());
+        gtk_h.g_option_context_add_group(handle(), group.refcounted().unowned().handle());
     }
     
     /**
@@ -89,7 +89,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public OptionGroup getMainGroup() {
         var RESULT = gtk_h.g_option_context_get_main_group(handle());
-        return new OptionGroup(References.get(RESULT, false));
+        return new OptionGroup(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -210,7 +210,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * treated differently when generating {@code --help} output.
      */
     public void setMainGroup(OptionGroup group) {
-        gtk_h.g_option_context_set_main_group(handle(), group.getReference().unowned().handle());
+        gtk_h.g_option_context_set_main_group(handle(), group.refcounted().unowned().handle());
     }
     
     /**
@@ -314,7 +314,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public static OptionContext new_(java.lang.String parameterString) {
         var RESULT = gtk_h.g_option_context_new(Interop.allocateNativeString(parameterString).handle());
-        return new OptionContext(References.get(RESULT, false));
+        return new OptionContext(Refcounted.get(RESULT, false));
     }
     
 }

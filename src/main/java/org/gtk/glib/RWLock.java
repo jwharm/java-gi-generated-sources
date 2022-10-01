@@ -72,12 +72,12 @@ import java.lang.invoke.*;
  */
 public class RWLock extends io.github.jwharm.javagi.ResourceBase {
 
-    public RWLock(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RWLock(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public RWLock() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GRWLock.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GRWLock.allocate(Interop.getAllocator()).address()));
     }
     
     /**

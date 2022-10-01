@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
 
-    public ExpressionWatch(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ExpressionWatch(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -34,7 +34,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
      */
     public ExpressionWatch ref() {
         var RESULT = gtk_h.gtk_expression_watch_ref(handle());
-        return new ExpressionWatch(References.get(RESULT, true));
+        return new ExpressionWatch(Refcounted.get(RESULT, true));
     }
     
     /**

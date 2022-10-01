@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class SignalInvocationHint extends io.github.jwharm.javagi.ResourceBase {
 
-    public SignalInvocationHint(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SignalInvocationHint(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public SignalInvocationHint() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GSignalInvocationHint.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GSignalInvocationHint.allocate(Interop.getAllocator()).address()));
     }
     
 }

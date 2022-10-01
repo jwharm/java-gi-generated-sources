@@ -56,17 +56,17 @@ import java.lang.invoke.*;
  */
 public class PadController extends EventController {
 
-    public PadController(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PadController(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PadController */
     public static PadController castFrom(org.gtk.gobject.Object gobject) {
-        return new PadController(gobject.getReference());
+        return new PadController(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
-        Reference RESULT = References.get(gtk_h.gtk_pad_controller_new(group.handle(), pad.handle()), true);
+    private static Refcounted constructNew(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_pad_controller_new(group.handle(), pad.handle()), true);
         return RESULT;
     }
     

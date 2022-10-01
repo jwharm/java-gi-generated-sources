@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class Device extends org.gtk.gobject.Object {
 
-    public Device(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Device(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Device */
     public static Device castFrom(org.gtk.gobject.Object gobject) {
-        return new Device(gobject.getReference());
+        return new Device(gobject.refcounted());
     }
     
     /**
@@ -38,7 +38,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public DeviceTool getDeviceTool() {
         var RESULT = gtk_h.gdk_device_get_device_tool(handle());
-        return new DeviceTool(References.get(RESULT, false));
+        return new DeviceTool(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_device_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -135,7 +135,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public Seat getSeat() {
         var RESULT = gtk_h.gdk_device_get_seat(handle());
-        return new Seat(References.get(RESULT, false));
+        return new Seat(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public Surface getSurfaceAtPosition(PointerDouble winX, PointerDouble winY) {
         var RESULT = gtk_h.gdk_device_get_surface_at_position(handle(), winX.handle(), winY.handle());
-        return new Surface(References.get(RESULT, false));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -279,13 +279,13 @@ public class Device extends org.gtk.gobject.Object {
         public static void signalDeviceChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Device.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Device(References.get(source)));
+            handler.signalReceived(new Device(Refcounted.get(source)));
         }
         
         public static void signalDeviceToolChanged(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Device.ToolChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Device(References.get(source)), new DeviceTool(References.get(tool, false)));
+            handler.signalReceived(new Device(Refcounted.get(source)), new DeviceTool(Refcounted.get(tool, false)));
         }
         
     }

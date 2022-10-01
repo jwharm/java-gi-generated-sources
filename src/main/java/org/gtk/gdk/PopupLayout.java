@@ -42,12 +42,12 @@ import java.lang.invoke.*;
  */
 public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
 
-    public PopupLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PopupLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
-        Reference RESULT = References.get(gtk_h.gdk_popup_layout_new(anchorRect.handle(), rectAnchor.getValue(), surfaceAnchor.getValue()), true);
+    private static Refcounted constructNew(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_popup_layout_new(anchorRect.handle(), rectAnchor.getValue(), surfaceAnchor.getValue()), true);
         return RESULT;
     }
     
@@ -74,7 +74,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public PopupLayout copy() {
         var RESULT = gtk_h.gdk_popup_layout_copy(handle());
-        return new PopupLayout(References.get(RESULT, true));
+        return new PopupLayout(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -98,7 +98,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public Rectangle getAnchorRect() {
         var RESULT = gtk_h.gdk_popup_layout_get_anchor_rect(handle());
-        return new Rectangle(References.get(RESULT, false));
+        return new Rectangle(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -136,7 +136,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public PopupLayout ref() {
         var RESULT = gtk_h.gdk_popup_layout_ref(handle());
-        return new PopupLayout(References.get(RESULT, true));
+        return new PopupLayout(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  */
 public class UnicodeFuncsT extends io.github.jwharm.javagi.ResourceBase {
 
-    public UnicodeFuncsT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnicodeFuncsT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

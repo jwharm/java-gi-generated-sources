@@ -170,12 +170,12 @@ import java.lang.invoke.*;
  */
 public class VariantType extends io.github.jwharm.javagi.ResourceBase {
 
-    public VariantType(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public VariantType(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String typeString) {
-        Reference RESULT = References.get(gtk_h.g_variant_type_new(Interop.allocateNativeString(typeString).handle()), true);
+    private static Refcounted constructNew(java.lang.String typeString) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new(Interop.allocateNativeString(typeString).handle()), true);
         return RESULT;
     }
     
@@ -191,8 +191,8 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(typeString));
     }
     
-    private static Reference constructNewArray(VariantType element) {
-        Reference RESULT = References.get(gtk_h.g_variant_type_new_array(element.handle()), true);
+    private static Refcounted constructNewArray(VariantType element) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new_array(element.handle()), true);
         return RESULT;
     }
     
@@ -206,8 +206,8 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         return new VariantType(constructNewArray(element));
     }
     
-    private static Reference constructNewDictEntry(VariantType key, VariantType value) {
-        Reference RESULT = References.get(gtk_h.g_variant_type_new_dict_entry(key.handle(), value.handle()), true);
+    private static Refcounted constructNewDictEntry(VariantType key, VariantType value) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new_dict_entry(key.handle(), value.handle()), true);
         return RESULT;
     }
     
@@ -221,8 +221,8 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         return new VariantType(constructNewDictEntry(key, value));
     }
     
-    private static Reference constructNewMaybe(VariantType element) {
-        Reference RESULT = References.get(gtk_h.g_variant_type_new_maybe(element.handle()), true);
+    private static Refcounted constructNewMaybe(VariantType element) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new_maybe(element.handle()), true);
         return RESULT;
     }
     
@@ -236,8 +236,8 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         return new VariantType(constructNewMaybe(element));
     }
     
-    private static Reference constructNewTuple(VariantType[] items, int length) {
-        Reference RESULT = References.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items).handle(), length), true);
+    private static Refcounted constructNewTuple(VariantType[] items, int length) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items).handle(), length), true);
         return RESULT;
     }
     
@@ -259,7 +259,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantType copy() {
         var RESULT = gtk_h.g_variant_type_copy(handle());
-        return new VariantType(References.get(RESULT, true));
+        return new VariantType(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -279,7 +279,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantType element() {
         var RESULT = gtk_h.g_variant_type_element(handle());
-        return new VariantType(References.get(RESULT, false));
+        return new VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -317,7 +317,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantType first() {
         var RESULT = gtk_h.g_variant_type_first(handle());
-        return new VariantType(References.get(RESULT, false));
+        return new VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -485,7 +485,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantType key() {
         var RESULT = gtk_h.g_variant_type_key(handle());
-        return new VariantType(References.get(RESULT, false));
+        return new VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -519,7 +519,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantType next() {
         var RESULT = gtk_h.g_variant_type_next(handle());
-        return new VariantType(References.get(RESULT, false));
+        return new VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -541,12 +541,12 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantType value() {
         var RESULT = gtk_h.g_variant_type_value(handle());
-        return new VariantType(References.get(RESULT, false));
+        return new VariantType(Refcounted.get(RESULT, false));
     }
     
     public static VariantType checked(java.lang.String arg0) {
         var RESULT = gtk_h.g_variant_type_checked_(Interop.allocateNativeString(arg0).handle());
-        return new VariantType(References.get(RESULT, false));
+        return new VariantType(Refcounted.get(RESULT, false));
     }
     
     public static long stringGetDepth(java.lang.String typeString) {

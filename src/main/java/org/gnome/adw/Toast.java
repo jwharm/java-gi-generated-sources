@@ -123,17 +123,17 @@ import java.lang.invoke.*;
  */
 public class Toast extends org.gtk.gobject.Object {
 
-    public Toast(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Toast(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Toast */
     public static Toast castFrom(org.gtk.gobject.Object gobject) {
-        return new Toast(gobject.getReference());
+        return new Toast(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title) {
-        Reference RESULT = References.get(gtk_h.adw_toast_new(Interop.allocateNativeString(title).handle()), true);
+    private static Refcounted constructNew(java.lang.String title) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_toast_new(Interop.allocateNativeString(title).handle()), true);
         return RESULT;
     }
     
@@ -168,7 +168,7 @@ public class Toast extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getActionTargetValue() {
         var RESULT = gtk_h.adw_toast_get_action_target_value(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -305,7 +305,7 @@ public class Toast extends org.gtk.gobject.Object {
         public static void signalToastDismissed(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Toast.DismissedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Toast(References.get(source)));
+            handler.signalReceived(new Toast(Refcounted.get(source)));
         }
         
     }

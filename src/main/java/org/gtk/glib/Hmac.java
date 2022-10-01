@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class Hmac extends io.github.jwharm.javagi.ResourceBase {
 
-    public Hmac(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Hmac(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -23,7 +23,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      */
     public Hmac copy() {
         var RESULT = gtk_h.g_hmac_copy(handle());
-        return new Hmac(References.get(RESULT, false));
+        return new Hmac(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      */
     public Hmac ref() {
         var RESULT = gtk_h.g_hmac_ref(handle());
-        return new Hmac(References.get(RESULT, false));
+        return new Hmac(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hmac new_(ChecksumType digestType, byte[] key, long keyLen) {
         var RESULT = gtk_h.g_hmac_new(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen);
-        return new Hmac(References.get(RESULT, false));
+        return new Hmac(Refcounted.get(RESULT, false));
     }
     
 }

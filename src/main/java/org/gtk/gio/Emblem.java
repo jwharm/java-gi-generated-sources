@@ -15,17 +15,17 @@ import java.lang.invoke.*;
  */
 public class Emblem extends org.gtk.gobject.Object implements Icon {
 
-    public Emblem(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Emblem(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Emblem */
     public static Emblem castFrom(org.gtk.gobject.Object gobject) {
-        return new Emblem(gobject.getReference());
+        return new Emblem(gobject.refcounted());
     }
     
-    private static Reference constructNew(Icon icon) {
-        Reference RESULT = References.get(gtk_h.g_emblem_new(icon.handle()), true);
+    private static Refcounted constructNew(Icon icon) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_emblem_new(icon.handle()), true);
         return RESULT;
     }
     
@@ -36,8 +36,8 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
         super(constructNew(icon));
     }
     
-    private static Reference constructNewWithOrigin(Icon icon, EmblemOrigin origin) {
-        Reference RESULT = References.get(gtk_h.g_emblem_new_with_origin(icon.handle(), origin.getValue()), true);
+    private static Refcounted constructNewWithOrigin(Icon icon, EmblemOrigin origin) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_emblem_new_with_origin(icon.handle(), origin.getValue()), true);
         return RESULT;
     }
     
@@ -53,7 +53,7 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
      */
     public Icon getIcon() {
         var RESULT = gtk_h.g_emblem_get_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, false));
+        return new Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**

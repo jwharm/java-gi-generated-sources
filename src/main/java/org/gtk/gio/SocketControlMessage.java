@@ -29,13 +29,13 @@ import java.lang.invoke.*;
  */
 public class SocketControlMessage extends org.gtk.gobject.Object {
 
-    public SocketControlMessage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SocketControlMessage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SocketControlMessage */
     public static SocketControlMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketControlMessage(gobject.getReference());
+        return new SocketControlMessage(gobject.refcounted());
     }
     
     /**
@@ -88,7 +88,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      */
     public static SocketControlMessage deserialize(int level, int type, long size, byte[] data) {
         var RESULT = gtk_h.g_socket_control_message_deserialize(level, type, size, Interop.allocateNativeArray(data).handle());
-        return new SocketControlMessage(References.get(RESULT, true));
+        return new SocketControlMessage(Refcounted.get(RESULT, true));
     }
     
 }

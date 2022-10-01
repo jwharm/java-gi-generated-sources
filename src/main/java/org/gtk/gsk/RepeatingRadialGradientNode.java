@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class RepeatingRadialGradientNode extends RenderNode {
 
-    public RepeatingRadialGradientNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RepeatingRadialGradientNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to RepeatingRadialGradientNode */
     public static RepeatingRadialGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RepeatingRadialGradientNode(gobject.getReference());
+        return new RepeatingRadialGradientNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
-        Reference RESULT = References.get(gtk_h.gsk_repeating_radial_gradient_node_new(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+    private static Refcounted constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_repeating_radial_gradient_node_new(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
         return RESULT;
     }
     

@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class Thread extends io.github.jwharm.javagi.ResourceBase {
 
-    public Thread(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Thread(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String name, ThreadFunc func) {
+    private static Refcounted constructNew(java.lang.String name, ThreadFunc func) {
         try {
-            Reference RESULT = References.get(gtk_h.g_thread_new(Interop.allocateNativeString(name).handle(), 
+            Refcounted RESULT = Refcounted.get(gtk_h.g_thread_new(Interop.allocateNativeString(name).handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
@@ -74,10 +74,10 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(name, func));
     }
     
-    private static Reference constructTryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
+    private static Refcounted constructTryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Reference RESULT = References.get(gtk_h.g_thread_try_new(Interop.allocateNativeString(name).handle(), 
+            Refcounted RESULT = Refcounted.get(gtk_h.g_thread_try_new(Interop.allocateNativeString(name).handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
@@ -132,7 +132,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      */
     public Thread ref() {
         var RESULT = gtk_h.g_thread_ref(handle());
-        return new Thread(References.get(RESULT, true));
+        return new Thread(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -184,7 +184,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Thread self() {
         var RESULT = gtk_h.g_thread_self();
-        return new Thread(References.get(RESULT, false));
+        return new Thread(Refcounted.get(RESULT, false));
     }
     
     /**

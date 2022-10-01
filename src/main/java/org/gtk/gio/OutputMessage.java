@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  */
 public class OutputMessage extends io.github.jwharm.javagi.ResourceBase {
 
-    public OutputMessage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OutputMessage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public OutputMessage() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GOutputMessage.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GOutputMessage.allocate(Interop.getAllocator()).address()));
     }
     
 }

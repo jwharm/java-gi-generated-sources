@@ -49,17 +49,17 @@ import java.lang.invoke.*;
  */
 public class SignalListItemFactory extends ListItemFactory {
 
-    public SignalListItemFactory(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SignalListItemFactory(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SignalListItemFactory */
     public static SignalListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        return new SignalListItemFactory(gobject.getReference());
+        return new SignalListItemFactory(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_signal_list_item_factory_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_signal_list_item_factory_new(), true);
         return RESULT;
     }
     
@@ -203,25 +203,25 @@ public class SignalListItemFactory extends ListItemFactory {
         public static void signalSignalListItemFactoryBind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SignalListItemFactory.BindHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
+            handler.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new ListItem(Refcounted.get(listitem, false)));
         }
         
         public static void signalSignalListItemFactorySetup(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SignalListItemFactory.SetupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
+            handler.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new ListItem(Refcounted.get(listitem, false)));
         }
         
         public static void signalSignalListItemFactoryTeardown(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SignalListItemFactory.TeardownHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
+            handler.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new ListItem(Refcounted.get(listitem, false)));
         }
         
         public static void signalSignalListItemFactoryUnbind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SignalListItemFactory.UnbindHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
+            handler.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new ListItem(Refcounted.get(listitem, false)));
         }
         
     }

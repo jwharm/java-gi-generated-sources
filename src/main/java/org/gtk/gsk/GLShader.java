@@ -122,17 +122,17 @@ import java.lang.invoke.*;
  */
 public class GLShader extends org.gtk.gobject.Object {
 
-    public GLShader(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GLShader(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GLShader */
     public static GLShader castFrom(org.gtk.gobject.Object gobject) {
-        return new GLShader(gobject.getReference());
+        return new GLShader(gobject.refcounted());
     }
     
-    private static Reference constructNewFromBytes(org.gtk.glib.Bytes sourcecode) {
-        Reference RESULT = References.get(gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.handle()), true);
+    private static Refcounted constructNewFromBytes(org.gtk.glib.Bytes sourcecode) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.handle()), true);
         return RESULT;
     }
     
@@ -143,8 +143,8 @@ public class GLShader extends org.gtk.gobject.Object {
         return new GLShader(constructNewFromBytes(sourcecode));
     }
     
-    private static Reference constructNewFromResource(java.lang.String resourcePath) {
-        Reference RESULT = References.get(gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
+    private static Refcounted constructNewFromResource(java.lang.String resourcePath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
         return RESULT;
     }
     
@@ -202,7 +202,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes formatArgsVa(VaList uniforms) {
         var RESULT = gtk_h.gsk_gl_shader_format_args_va(handle(), uniforms);
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -314,7 +314,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes getSource() {
         var RESULT = gtk_h.gsk_gl_shader_get_source(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, false));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
     }
     
     /**

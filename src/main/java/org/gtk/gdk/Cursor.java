@@ -42,17 +42,17 @@ import java.lang.invoke.*;
  */
 public class Cursor extends org.gtk.gobject.Object {
 
-    public Cursor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Cursor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Cursor */
     public static Cursor castFrom(org.gtk.gobject.Object gobject) {
-        return new Cursor(gobject.getReference());
+        return new Cursor(gobject.refcounted());
     }
     
-    private static Reference constructNewFromName(java.lang.String name, Cursor fallback) {
-        Reference RESULT = References.get(gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).handle(), fallback.handle()), true);
+    private static Refcounted constructNewFromName(java.lang.String name, Cursor fallback) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).handle(), fallback.handle()), true);
         return RESULT;
     }
     
@@ -79,8 +79,8 @@ public class Cursor extends org.gtk.gobject.Object {
         return new Cursor(constructNewFromName(name, fallback));
     }
     
-    private static Reference constructNewFromTexture(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
-        Reference RESULT = References.get(gtk_h.gdk_cursor_new_from_texture(texture.handle(), hotspotX, hotspotY, fallback.handle()), true);
+    private static Refcounted constructNewFromTexture(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_cursor_new_from_texture(texture.handle(), hotspotX, hotspotY, fallback.handle()), true);
         return RESULT;
     }
     
@@ -102,7 +102,7 @@ public class Cursor extends org.gtk.gobject.Object {
      */
     public Cursor getFallback() {
         var RESULT = gtk_h.gdk_cursor_get_fallback(handle());
-        return new Cursor(References.get(RESULT, false));
+        return new Cursor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -150,7 +150,7 @@ public class Cursor extends org.gtk.gobject.Object {
      */
     public Texture getTexture() {
         var RESULT = gtk_h.gdk_cursor_get_texture(handle());
-        return new Texture(References.get(RESULT, false));
+        return new Texture(Refcounted.get(RESULT, false));
     }
     
 }

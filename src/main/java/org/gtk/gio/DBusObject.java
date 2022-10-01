@@ -19,7 +19,7 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
      */
     public default DBusInterface getInterface(java.lang.String interfaceName) {
         var RESULT = gtk_h.g_dbus_object_get_interface(handle(), Interop.allocateNativeString(interfaceName).handle());
-        return new DBusInterface.DBusInterfaceImpl(References.get(RESULT, true));
+        return new DBusInterface.DBusInterfaceImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -27,7 +27,7 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.List getInterfaces() {
         var RESULT = gtk_h.g_dbus_object_get_interfaces(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -95,20 +95,20 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
         public static void signalDBusObjectInterfaceAdded(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusObject.InterfaceAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DBusObject.DBusObjectImpl(References.get(source)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
+            handler.signalReceived(new DBusObject.DBusObjectImpl(Refcounted.get(source)), new DBusInterface.DBusInterfaceImpl(Refcounted.get(interface_, false)));
         }
         
         public static void signalDBusObjectInterfaceRemoved(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusObject.InterfaceRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DBusObject.DBusObjectImpl(References.get(source)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
+            handler.signalReceived(new DBusObject.DBusObjectImpl(Refcounted.get(source)), new DBusInterface.DBusInterfaceImpl(Refcounted.get(interface_, false)));
         }
         
     }
     
     class DBusObjectImpl extends org.gtk.gobject.Object implements DBusObject {
-        public DBusObjectImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public DBusObjectImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

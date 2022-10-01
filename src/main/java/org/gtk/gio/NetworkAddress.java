@@ -19,17 +19,17 @@ import java.lang.invoke.*;
  */
 public class NetworkAddress extends org.gtk.gobject.Object implements SocketConnectable {
 
-    public NetworkAddress(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NetworkAddress(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NetworkAddress */
     public static NetworkAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new NetworkAddress(gobject.getReference());
+        return new NetworkAddress(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String hostname, short port) {
-        Reference RESULT = References.get(gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).handle(), port), true);
+    private static Refcounted constructNew(java.lang.String hostname, short port) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).handle(), port), true);
         return RESULT;
     }
     
@@ -47,8 +47,8 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
         super(constructNew(hostname, port));
     }
     
-    private static Reference constructNewLoopback(short port) {
-        Reference RESULT = References.get(gtk_h.g_network_address_new_loopback(port), true);
+    private static Refcounted constructNewLoopback(short port) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_network_address_new_loopback(port), true);
         return RESULT;
     }
     
@@ -124,7 +124,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new NetworkAddress(References.get(RESULT, true));
+        return new NetworkAddress(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -141,7 +141,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new NetworkAddress(References.get(RESULT, true));
+        return new NetworkAddress(Refcounted.get(RESULT, true));
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SimpleActionGroupPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public SimpleActionGroupPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SimpleActionGroupPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

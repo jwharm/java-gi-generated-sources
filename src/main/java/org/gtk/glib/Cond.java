@@ -74,12 +74,12 @@ import java.lang.invoke.*;
  */
 public class Cond extends io.github.jwharm.javagi.ResourceBase {
 
-    public Cond(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Cond(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Cond() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GCond.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GCond.allocate(Interop.getAllocator()).address()));
     }
     
     /**

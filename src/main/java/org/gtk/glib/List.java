@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class List extends io.github.jwharm.javagi.ResourceBase {
 
-    public List(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public List(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public List() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GList.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GList.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -25,7 +25,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List alloc() {
         var RESULT = gtk_h.g_list_alloc();
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List append(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_append(list.handle(), data);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List concat(org.gtk.glib.List list1, org.gtk.glib.List list2) {
         var RESULT = gtk_h.g_list_concat(list1.handle(), list2.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -84,7 +84,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List copy(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_copy(list.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -119,7 +119,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new org.gtk.glib.List(References.get(RESULT, false));
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -132,7 +132,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List deleteLink(org.gtk.glib.List list, org.gtk.glib.List link) {
         var RESULT = gtk_h.g_list_delete_link(list.handle(), link.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -140,7 +140,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List find(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_find(list.handle(), data);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -160,7 +160,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-            return new org.gtk.glib.List(References.get(RESULT, false));
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -171,7 +171,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List first(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_first(list.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -237,7 +237,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List insert(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data, int position) {
         var RESULT = gtk_h.g_list_insert(list.handle(), data, position);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -245,7 +245,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List insertBefore(org.gtk.glib.List list, org.gtk.glib.List sibling, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_insert_before(list.handle(), sibling.handle(), data);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -253,7 +253,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List insertBeforeLink(org.gtk.glib.List list, org.gtk.glib.List sibling, org.gtk.glib.List link) {
         var RESULT = gtk_h.g_list_insert_before_link(list.handle(), sibling.handle(), link.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -274,7 +274,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-            return new org.gtk.glib.List(References.get(RESULT, false));
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -299,7 +299,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new org.gtk.glib.List(References.get(RESULT, false));
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -310,7 +310,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List last(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_last(list.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -335,7 +335,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List nth(org.gtk.glib.List list, int n) {
         var RESULT = gtk_h.g_list_nth(list.handle(), n);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -355,7 +355,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List nthPrev(org.gtk.glib.List list, int n) {
         var RESULT = gtk_h.g_list_nth_prev(list.handle(), n);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -386,7 +386,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List prepend(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_prepend(list.handle(), data);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -396,7 +396,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List remove(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_remove(list.handle(), data);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -407,7 +407,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List removeAll(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_remove_all(list.handle(), data);
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -426,7 +426,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List removeLink(org.gtk.glib.List list, org.gtk.glib.List llink) {
         var RESULT = gtk_h.g_list_remove_link(list.handle(), llink.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -435,7 +435,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List reverse(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_reverse(list.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -451,7 +451,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
-            return new org.gtk.glib.List(References.get(RESULT, false));
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

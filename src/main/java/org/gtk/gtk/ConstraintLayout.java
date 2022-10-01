@@ -176,17 +176,17 @@ import java.lang.invoke.*;
  */
 public class ConstraintLayout extends LayoutManager implements Buildable {
 
-    public ConstraintLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ConstraintLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ConstraintLayout */
     public static ConstraintLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new ConstraintLayout(gobject.getReference());
+        return new ConstraintLayout(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_constraint_layout_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constraint_layout_new(), true);
         return RESULT;
     }
     
@@ -215,7 +215,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * this function.
      */
     public void addConstraint(Constraint constraint) {
-        gtk_h.gtk_constraint_layout_add_constraint(handle(), constraint.getReference().unowned().handle());
+        gtk_h.gtk_constraint_layout_add_constraint(handle(), constraint.refcounted().unowned().handle());
     }
     
     /**
@@ -303,7 +303,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -316,7 +316,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * this function.
      */
     public void addGuide(ConstraintGuide guide) {
-        gtk_h.gtk_constraint_layout_add_guide(handle(), guide.getReference().unowned().handle());
+        gtk_h.gtk_constraint_layout_add_guide(handle(), guide.refcounted().unowned().handle());
     }
     
     /**
@@ -332,7 +332,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      */
     public org.gtk.gio.ListModel observeConstraints() {
         var RESULT = gtk_h.gtk_constraint_layout_observe_constraints(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -348,7 +348,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      */
     public org.gtk.gio.ListModel observeGuides() {
         var RESULT = gtk_h.gtk_constraint_layout_observe_guides(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**

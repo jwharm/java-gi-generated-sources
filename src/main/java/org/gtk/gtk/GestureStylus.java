@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class GestureStylus extends GestureSingle {
 
-    public GestureStylus(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GestureStylus(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GestureStylus */
     public static GestureStylus castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureStylus(gobject.getReference());
+        return new GestureStylus(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_gesture_stylus_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_stylus_new(), true);
         return RESULT;
     }
     
@@ -90,7 +90,7 @@ public class GestureStylus extends GestureSingle {
      */
     public org.gtk.gdk.DeviceTool getDeviceTool() {
         var RESULT = gtk_h.gtk_gesture_stylus_get_device_tool(handle());
-        return new org.gtk.gdk.DeviceTool(References.get(RESULT, false));
+        return new org.gtk.gdk.DeviceTool(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -202,25 +202,25 @@ public class GestureStylus extends GestureSingle {
         public static void signalGestureStylusDown(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureStylus.DownHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureStylus(References.get(source)), x, y);
+            handler.signalReceived(new GestureStylus(Refcounted.get(source)), x, y);
         }
         
         public static void signalGestureStylusMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureStylus.MotionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureStylus(References.get(source)), x, y);
+            handler.signalReceived(new GestureStylus(Refcounted.get(source)), x, y);
         }
         
         public static void signalGestureStylusProximity(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureStylus.ProximityHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureStylus(References.get(source)), x, y);
+            handler.signalReceived(new GestureStylus(Refcounted.get(source)), x, y);
         }
         
         public static void signalGestureStylusUp(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureStylus.UpHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureStylus(References.get(source)), x, y);
+            handler.signalReceived(new GestureStylus(Refcounted.get(source)), x, y);
         }
         
     }

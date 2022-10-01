@@ -24,17 +24,17 @@ import java.lang.invoke.*;
  */
 public class Spinner extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Spinner(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Spinner(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Spinner */
     public static Spinner castFrom(org.gtk.gobject.Object gobject) {
-        return new Spinner(gobject.getReference());
+        return new Spinner(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_spinner_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_spinner_new(), false);
         return RESULT;
     }
     

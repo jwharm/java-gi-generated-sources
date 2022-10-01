@@ -29,7 +29,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
      */
     public default Surface getParent() {
         var RESULT = gtk_h.gdk_popup_get_parent(handle());
-        return new Surface(References.get(RESULT, false));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -93,8 +93,8 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
     }
     
     class PopupImpl extends org.gtk.gobject.Object implements Popup {
-        public PopupImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public PopupImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

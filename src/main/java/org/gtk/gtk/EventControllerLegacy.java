@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class EventControllerLegacy extends EventController {
 
-    public EventControllerLegacy(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EventControllerLegacy(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EventControllerLegacy */
     public static EventControllerLegacy castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerLegacy(gobject.getReference());
+        return new EventControllerLegacy(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_event_controller_legacy_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_event_controller_legacy_new(), true);
         return RESULT;
     }
     
@@ -66,7 +66,7 @@ public class EventControllerLegacy extends EventController {
         public static boolean signalEventControllerLegacyEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerLegacy.EventHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new EventControllerLegacy(References.get(source)), new org.gtk.gdk.Event(References.get(event, false)));
+            return handler.signalReceived(new EventControllerLegacy(Refcounted.get(source)), new org.gtk.gdk.Event(Refcounted.get(event, false)));
         }
         
     }

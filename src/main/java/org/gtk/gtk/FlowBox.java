@@ -55,17 +55,17 @@ import java.lang.invoke.*;
  */
 public class FlowBox extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public FlowBox(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FlowBox(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FlowBox */
     public static FlowBox castFrom(org.gtk.gobject.Object gobject) {
-        return new FlowBox(gobject.getReference());
+        return new FlowBox(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_flow_box_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_flow_box_new(), false);
         return RESULT;
     }
     
@@ -133,7 +133,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public FlowBoxChild getChildAtIndex(int idx) {
         var RESULT = gtk_h.gtk_flow_box_get_child_at_index(handle(), idx);
-        return new FlowBoxChild(References.get(RESULT, false));
+        return new FlowBoxChild(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -143,7 +143,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public FlowBoxChild getChildAtPos(int x, int y) {
         var RESULT = gtk_h.gtk_flow_box_get_child_at_pos(handle(), x, y);
-        return new FlowBoxChild(References.get(RESULT, false));
+        return new FlowBoxChild(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -191,7 +191,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.glib.List getSelectedChildren() {
         var RESULT = gtk_h.gtk_flow_box_get_selected_children(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -681,43 +681,43 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         public static void signalFlowBoxActivateCursorChild(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FlowBox.ActivateCursorChildHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FlowBox(References.get(source)));
+            handler.signalReceived(new FlowBox(Refcounted.get(source)));
         }
         
         public static void signalFlowBoxChildActivated(MemoryAddress source, MemoryAddress child, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FlowBox.ChildActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FlowBox(References.get(source)), new FlowBoxChild(References.get(child, false)));
+            handler.signalReceived(new FlowBox(Refcounted.get(source)), new FlowBoxChild(Refcounted.get(child, false)));
         }
         
         public static boolean signalFlowBoxMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FlowBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new FlowBox(References.get(source)), new MovementStep(step), count, extend != 0, modify != 0);
+            return handler.signalReceived(new FlowBox(Refcounted.get(source)), new MovementStep(step), count, extend != 0, modify != 0);
         }
         
         public static void signalFlowBoxSelectAll(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FlowBox.SelectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FlowBox(References.get(source)));
+            handler.signalReceived(new FlowBox(Refcounted.get(source)));
         }
         
         public static void signalFlowBoxSelectedChildrenChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FlowBox.SelectedChildrenChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FlowBox(References.get(source)));
+            handler.signalReceived(new FlowBox(Refcounted.get(source)));
         }
         
         public static void signalFlowBoxToggleCursorChild(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FlowBox.ToggleCursorChildHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FlowBox(References.get(source)));
+            handler.signalReceived(new FlowBox(Refcounted.get(source)));
         }
         
         public static void signalFlowBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FlowBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FlowBox(References.get(source)));
+            handler.signalReceived(new FlowBox(Refcounted.get(source)));
         }
         
     }

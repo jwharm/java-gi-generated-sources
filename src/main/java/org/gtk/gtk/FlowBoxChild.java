@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class FlowBoxChild extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public FlowBoxChild(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FlowBoxChild(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FlowBoxChild */
     public static FlowBoxChild castFrom(org.gtk.gobject.Object gobject) {
-        return new FlowBoxChild(gobject.getReference());
+        return new FlowBoxChild(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_flow_box_child_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_flow_box_child_new(), false);
         return RESULT;
     }
     
@@ -63,7 +63,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_flow_box_child_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -129,7 +129,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
         public static void signalFlowBoxChildActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FlowBoxChild.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FlowBoxChild(References.get(source)));
+            handler.signalReceived(new FlowBoxChild(Refcounted.get(source)));
         }
         
     }

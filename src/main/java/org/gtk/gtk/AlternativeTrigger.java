@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class AlternativeTrigger extends ShortcutTrigger {
 
-    public AlternativeTrigger(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AlternativeTrigger(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AlternativeTrigger */
     public static AlternativeTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new AlternativeTrigger(gobject.getReference());
+        return new AlternativeTrigger(gobject.refcounted());
     }
     
-    private static Reference constructNew(ShortcutTrigger first, ShortcutTrigger second) {
-        Reference RESULT = References.get(gtk_h.gtk_alternative_trigger_new(first.getReference().unowned().handle(), second.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(ShortcutTrigger first, ShortcutTrigger second) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_alternative_trigger_new(first.refcounted().unowned().handle(), second.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -48,7 +48,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      */
     public ShortcutTrigger getFirst() {
         var RESULT = gtk_h.gtk_alternative_trigger_get_first(handle());
-        return new ShortcutTrigger(References.get(RESULT, false));
+        return new ShortcutTrigger(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -60,7 +60,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      */
     public ShortcutTrigger getSecond() {
         var RESULT = gtk_h.gtk_alternative_trigger_get_second(handle());
-        return new ShortcutTrigger(References.get(RESULT, false));
+        return new ShortcutTrigger(Refcounted.get(RESULT, false));
     }
     
 }

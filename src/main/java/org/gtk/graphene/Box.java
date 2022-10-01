@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class Box extends io.github.jwharm.javagi.ResourceBase {
 
-    public Box(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Box(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_box_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_box_alloc(), true);
         return RESULT;
     }
     
@@ -161,7 +161,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public Box init(Point3D min, Point3D max) {
         var RESULT = gtk_h.graphene_box_init(handle(), min.handle(), max.handle());
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -170,7 +170,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public Box initFromBox(Box src) {
         var RESULT = gtk_h.graphene_box_init_from_box(handle(), src.handle());
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -182,7 +182,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public Box initFromPoints(int nPoints, Point3D[] points) {
         var RESULT = gtk_h.graphene_box_init_from_points(handle(), nPoints, Interop.allocateNativeArray(points).handle());
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -191,7 +191,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public Box initFromVec3(Vec3 min, Vec3 max) {
         var RESULT = gtk_h.graphene_box_init_from_vec3(handle(), min.handle(), max.handle());
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -203,7 +203,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public Box initFromVectors(int nVectors, Vec3[] vectors) {
         var RESULT = gtk_h.graphene_box_init_from_vectors(handle(), nVectors, Interop.allocateNativeArray(vectors).handle());
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -231,7 +231,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Box empty() {
         var RESULT = gtk_h.graphene_box_empty();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -241,7 +241,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Box infinite() {
         var RESULT = gtk_h.graphene_box_infinite();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -252,7 +252,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Box minusOne() {
         var RESULT = gtk_h.graphene_box_minus_one();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -263,7 +263,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Box one() {
         var RESULT = gtk_h.graphene_box_one();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -274,7 +274,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Box oneMinusOne() {
         var RESULT = gtk_h.graphene_box_one_minus_one();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -284,7 +284,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Box zero() {
         var RESULT = gtk_h.graphene_box_zero();
-        return new Box(References.get(RESULT, false));
+        return new Box(Refcounted.get(RESULT, false));
     }
     
 }

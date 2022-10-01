@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class Menu extends MenuModel {
 
-    public Menu(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Menu(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Menu */
     public static Menu castFrom(org.gtk.gobject.Object gobject) {
-        return new Menu(gobject.getReference());
+        return new Menu(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_menu_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_menu_new(), true);
         return RESULT;
     }
     

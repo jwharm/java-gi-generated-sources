@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class FileMonitor extends org.gtk.gobject.Object {
 
-    public FileMonitor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileMonitor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileMonitor */
     public static FileMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new FileMonitor(gobject.getReference());
+        return new FileMonitor(gobject.refcounted());
     }
     
     /**
@@ -127,7 +127,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
         public static void signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FileMonitor.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileMonitor(References.get(source)), new File.FileImpl(References.get(file, false)), new File.FileImpl(References.get(otherFile, false)), new FileMonitorEvent(eventType));
+            handler.signalReceived(new FileMonitor(Refcounted.get(source)), new File.FileImpl(Refcounted.get(file, false)), new File.FileImpl(Refcounted.get(otherFile, false)), new FileMonitorEvent(eventType));
         }
         
     }

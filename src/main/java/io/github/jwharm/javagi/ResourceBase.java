@@ -4,17 +4,17 @@ import java.lang.foreign.MemoryAddress;
 
 public class ResourceBase implements Proxy {
 
-    private Reference reference;
+    private Refcounted ref;
 
-    public ResourceBase(Reference reference) {
-        this.reference = reference;
+    public ResourceBase(Refcounted ref) {
+        this.ref = ref;
     }
 
     public MemoryAddress handle() {
-        return reference.handle();
+        return this.ref.handle();
     }
 
-    public Reference getReference() {
-        return this.reference;
+    public Refcounted refcounted() {
+        return this.ref;
     }
 }

@@ -29,17 +29,17 @@ import java.lang.invoke.*;
  */
 public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public TabBar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TabBar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TabBar */
     public static TabBar castFrom(org.gtk.gobject.Object gobject) {
-        return new TabBar(gobject.getReference());
+        return new TabBar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_tab_bar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_tab_bar_new(), false);
         return RESULT;
     }
     
@@ -63,7 +63,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public org.gtk.gtk.Widget getEndActionWidget() {
         var RESULT = gtk_h.adw_tab_bar_get_end_action_widget(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -95,7 +95,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public org.gtk.gtk.Widget getStartActionWidget() {
         var RESULT = gtk_h.adw_tab_bar_get_start_action_widget(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -111,7 +111,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public TabView getView() {
         var RESULT = gtk_h.adw_tab_bar_get_view(handle());
-        return new TabView(References.get(RESULT, false));
+        return new TabView(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -209,7 +209,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         public static boolean signalTabBarExtraDragDrop(MemoryAddress source, MemoryAddress page, MemoryAddress value, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TabBar.ExtraDragDropHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TabBar(References.get(source)), new TabPage(References.get(page, false)), new org.gtk.gobject.Value(References.get(value, false)));
+            return handler.signalReceived(new TabBar(Refcounted.get(source)), new TabPage(Refcounted.get(page, false)), new org.gtk.gobject.Value(Refcounted.get(value, false)));
         }
         
     }

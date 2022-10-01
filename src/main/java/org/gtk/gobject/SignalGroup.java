@@ -29,17 +29,17 @@ import java.lang.invoke.*;
  */
 public class SignalGroup extends Object {
 
-    public SignalGroup(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SignalGroup(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SignalGroup */
     public static SignalGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SignalGroup(gobject.getReference());
+        return new SignalGroup(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Type targetType) {
-        Reference RESULT = References.get(gtk_h.g_signal_group_new(targetType.getValue()), true);
+    private static Refcounted constructNew(org.gtk.gobject.Type targetType) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_signal_group_new(targetType.getValue()), true);
         return RESULT;
     }
     
@@ -156,7 +156,7 @@ public class SignalGroup extends Object {
      */
     public Object dupTarget() {
         var RESULT = gtk_h.g_signal_group_dup_target(handle());
-        return new Object(References.get(RESULT, true));
+        return new Object(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -245,13 +245,13 @@ public class SignalGroup extends Object {
         public static void signalSignalGroupBind(MemoryAddress source, MemoryAddress instance, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SignalGroup.BindHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalGroup(References.get(source)), new Object(References.get(instance, false)));
+            handler.signalReceived(new SignalGroup(Refcounted.get(source)), new Object(Refcounted.get(instance, false)));
         }
         
         public static void signalSignalGroupUnbind(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SignalGroup.UnbindHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalGroup(References.get(source)));
+            handler.signalReceived(new SignalGroup(Refcounted.get(source)));
         }
         
     }

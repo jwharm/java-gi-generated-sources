@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class DNDEvent extends Event {
 
-    public DNDEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DNDEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DNDEvent */
     public static DNDEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new DNDEvent(gobject.getReference());
+        return new DNDEvent(gobject.refcounted());
     }
     
     /**
@@ -24,7 +24,7 @@ public class DNDEvent extends Event {
      */
     public Drop getDrop() {
         var RESULT = gtk_h.gdk_dnd_event_get_drop(handle());
-        return new Drop(References.get(RESULT, false));
+        return new Drop(Refcounted.get(RESULT, false));
     }
     
 }

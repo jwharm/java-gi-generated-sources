@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  */
 public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
 
-    public Rectangle(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Rectangle(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Rectangle() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoRectangle.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoRectangle.allocate(Interop.getAllocator()).address()));
     }
     
 }

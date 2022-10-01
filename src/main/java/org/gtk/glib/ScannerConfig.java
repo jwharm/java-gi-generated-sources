@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class ScannerConfig extends io.github.jwharm.javagi.ResourceBase {
 
-    public ScannerConfig(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ScannerConfig(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ScannerConfig() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GScannerConfig.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GScannerConfig.allocate(Interop.getAllocator()).address()));
     }
     
 }

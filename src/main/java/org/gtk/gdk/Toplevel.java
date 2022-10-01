@@ -281,14 +281,14 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         public static void signalToplevelComputeSize(MemoryAddress source, MemoryAddress size, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Toplevel.ComputeSizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Toplevel.ToplevelImpl(References.get(source)), new ToplevelSize(References.get(size, false)));
+            handler.signalReceived(new Toplevel.ToplevelImpl(Refcounted.get(source)), new ToplevelSize(Refcounted.get(size, false)));
         }
         
     }
     
     class ToplevelImpl extends org.gtk.gobject.Object implements Toplevel {
-        public ToplevelImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ToplevelImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class FileAttributeInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public FileAttributeInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileAttributeInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public FileAttributeInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GFileAttributeInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GFileAttributeInfo.allocate(Interop.getAllocator()).address()));
     }
     
 }

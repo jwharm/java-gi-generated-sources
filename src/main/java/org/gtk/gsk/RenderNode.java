@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class RenderNode extends org.gtk.gobject.Object {
 
-    public RenderNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RenderNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to RenderNode */
     public static RenderNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RenderNode(gobject.getReference());
+        return new RenderNode(gobject.refcounted());
     }
     
     /**
@@ -67,7 +67,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public RenderNode ref() {
         var RESULT = gtk_h.gsk_render_node_ref(handle());
-        return new RenderNode(References.get(RESULT, true));
+        return new RenderNode(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes serialize() {
         var RESULT = gtk_h.gsk_render_node_serialize(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -128,7 +128,7 @@ public class RenderNode extends org.gtk.gobject.Object {
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(errorFunc.hashCode(), errorFunc)));
-            return new RenderNode(References.get(RESULT, true));
+            return new RenderNode(Refcounted.get(RESULT, true));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

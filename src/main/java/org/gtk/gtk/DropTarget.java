@@ -80,17 +80,17 @@ import java.lang.invoke.*;
  */
 public class DropTarget extends EventController {
 
-    public DropTarget(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DropTarget(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DropTarget */
     public static DropTarget castFrom(org.gtk.gobject.Object gobject) {
-        return new DropTarget(gobject.getReference());
+        return new DropTarget(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Type type, org.gtk.gdk.DragAction actions) {
-        Reference RESULT = References.get(gtk_h.gtk_drop_target_new(type.getValue(), actions.getValue()), true);
+    private static Refcounted constructNew(org.gtk.gobject.Type type, org.gtk.gdk.DragAction actions) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_drop_target_new(type.getValue(), actions.getValue()), true);
         return RESULT;
     }
     
@@ -120,7 +120,7 @@ public class DropTarget extends EventController {
      */
     public org.gtk.gdk.Drop getCurrentDrop() {
         var RESULT = gtk_h.gtk_drop_target_get_current_drop(handle());
-        return new org.gtk.gdk.Drop(References.get(RESULT, false));
+        return new org.gtk.gdk.Drop(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -130,7 +130,7 @@ public class DropTarget extends EventController {
      */
     public org.gtk.gdk.ContentFormats getFormats() {
         var RESULT = gtk_h.gtk_drop_target_get_formats(handle());
-        return new org.gtk.gdk.ContentFormats(References.get(RESULT, false));
+        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -156,7 +156,7 @@ public class DropTarget extends EventController {
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = gtk_h.gtk_drop_target_get_value(handle());
-        return new org.gtk.gobject.Value(References.get(RESULT, false));
+        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -357,31 +357,31 @@ public class DropTarget extends EventController {
         public static boolean signalDropTargetAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTarget.AcceptHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DropTarget(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
+            return handler.signalReceived(new DropTarget(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)));
         }
         
         public static boolean signalDropTargetDrop(MemoryAddress source, MemoryAddress value, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTarget.DropHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DropTarget(References.get(source)), new org.gtk.gobject.Value(References.get(value, false)), x, y);
+            return handler.signalReceived(new DropTarget(Refcounted.get(source)), new org.gtk.gobject.Value(Refcounted.get(value, false)), x, y);
         }
         
         public static void signalDropTargetEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTarget.EnterHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTarget(References.get(source)), x, y);
+            handler.signalReceived(new DropTarget(Refcounted.get(source)), x, y);
         }
         
         public static void signalDropTargetLeave(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTarget.LeaveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTarget(References.get(source)));
+            handler.signalReceived(new DropTarget(Refcounted.get(source)));
         }
         
         public static void signalDropTargetMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTarget.MotionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTarget(References.get(source)), x, y);
+            handler.signalReceived(new DropTarget(Refcounted.get(source)), x, y);
         }
         
     }

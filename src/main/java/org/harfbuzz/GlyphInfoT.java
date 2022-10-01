@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class GlyphInfoT extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphInfoT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GlyphInfoT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public GlyphInfoT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_glyph_info_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_glyph_info_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

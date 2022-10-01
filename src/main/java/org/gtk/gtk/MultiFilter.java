@@ -10,20 +10,20 @@ import java.lang.invoke.*;
  */
 public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Buildable {
 
-    public MultiFilter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MultiFilter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MultiFilter */
     public static MultiFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new MultiFilter(gobject.getReference());
+        return new MultiFilter(gobject.refcounted());
     }
     
     /**
      * Adds a {@code filter} to {@code self} to use for matching.
      */
     public void append(Filter filter) {
-        gtk_h.gtk_multi_filter_append(handle(), filter.getReference().unowned().handle());
+        gtk_h.gtk_multi_filter_append(handle(), filter.refcounted().unowned().handle());
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MenuModelPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public MenuModelPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MenuModelPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

@@ -24,17 +24,17 @@ import java.lang.invoke.*;
  */
 public class StackSidebar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public StackSidebar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StackSidebar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to StackSidebar */
     public static StackSidebar castFrom(org.gtk.gobject.Object gobject) {
-        return new StackSidebar(gobject.getReference());
+        return new StackSidebar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_stack_sidebar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_stack_sidebar_new(), false);
         return RESULT;
     }
     
@@ -50,7 +50,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
      */
     public Stack getStack() {
         var RESULT = gtk_h.gtk_stack_sidebar_get_stack(handle());
-        return new Stack(References.get(RESULT, false));
+        return new Stack(Refcounted.get(RESULT, false));
     }
     
     /**

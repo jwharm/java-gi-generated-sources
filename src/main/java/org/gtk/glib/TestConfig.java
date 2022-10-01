@@ -7,12 +7,12 @@ import java.lang.invoke.*;
 
 public class TestConfig extends io.github.jwharm.javagi.ResourceBase {
 
-    public TestConfig(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TestConfig(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TestConfig() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTestConfig.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTestConfig.allocate(Interop.getAllocator()).address()));
     }
     
 }

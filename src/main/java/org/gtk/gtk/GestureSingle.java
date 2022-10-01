@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class GestureSingle extends Gesture {
 
-    public GestureSingle(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GestureSingle(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GestureSingle */
     public static GestureSingle castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureSingle(gobject.getReference());
+        return new GestureSingle(gobject.refcounted());
     }
     
     /**
@@ -59,7 +59,7 @@ public class GestureSingle extends Gesture {
      */
     public org.gtk.gdk.EventSequence getCurrentSequence() {
         var RESULT = gtk_h.gtk_gesture_single_get_current_sequence(handle());
-        return new org.gtk.gdk.EventSequence(References.get(RESULT, true));
+        return new org.gtk.gdk.EventSequence(Refcounted.get(RESULT, true));
     }
     
     /**

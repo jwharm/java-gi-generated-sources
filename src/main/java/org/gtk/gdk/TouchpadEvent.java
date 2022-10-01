@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class TouchpadEvent extends Event {
 
-    public TouchpadEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TouchpadEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TouchpadEvent */
     public static TouchpadEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new TouchpadEvent(gobject.getReference());
+        return new TouchpadEvent(gobject.refcounted());
     }
     
     /**

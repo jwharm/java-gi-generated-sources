@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class DateTime extends io.github.jwharm.javagi.ResourceBase {
 
-    public DateTime(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DateTime(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new(tz.handle(), year, month, day, hour, minute, seconds), true);
+    private static Refcounted constructNew(TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new(tz.handle(), year, month, day, hour, minute, seconds), true);
         return RESULT;
     }
     
@@ -53,8 +53,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(tz, year, month, day, hour, minute, seconds));
     }
     
-    private static Reference constructNewFromIso8601(java.lang.String text, TimeZone defaultTz) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true);
+    private static Refcounted constructNewFromIso8601(java.lang.String text, TimeZone defaultTz) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true);
         return RESULT;
     }
     
@@ -113,8 +113,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromIso8601(text, defaultTz));
     }
     
-    private static Reference constructNewFromTimevalLocal(TimeVal tv) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_from_timeval_local(tv.handle()), true);
+    private static Refcounted constructNewFromTimevalLocal(TimeVal tv) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_timeval_local(tv.handle()), true);
         return RESULT;
     }
     
@@ -136,8 +136,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromTimevalLocal(tv));
     }
     
-    private static Reference constructNewFromTimevalUtc(TimeVal tv) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_from_timeval_utc(tv.handle()), true);
+    private static Refcounted constructNewFromTimevalUtc(TimeVal tv) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_timeval_utc(tv.handle()), true);
         return RESULT;
     }
     
@@ -157,8 +157,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromTimevalUtc(tv));
     }
     
-    private static Reference constructNewFromUnixLocal(long t) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_from_unix_local(t), true);
+    private static Refcounted constructNewFromUnixLocal(long t) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_unix_local(t), true);
         return RESULT;
     }
     
@@ -179,8 +179,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromUnixLocal(t));
     }
     
-    private static Reference constructNewFromUnixUtc(long t) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_from_unix_utc(t), true);
+    private static Refcounted constructNewFromUnixUtc(long t) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_unix_utc(t), true);
         return RESULT;
     }
     
@@ -200,8 +200,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromUnixUtc(t));
     }
     
-    private static Reference constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true);
+    private static Refcounted constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true);
         return RESULT;
     }
     
@@ -216,8 +216,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewLocal(year, month, day, hour, minute, seconds));
     }
     
-    private static Reference constructNewNow(TimeZone tz) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_now(tz.handle()), true);
+    private static Refcounted constructNewNow(TimeZone tz) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_now(tz.handle()), true);
         return RESULT;
     }
     
@@ -236,8 +236,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewNow(tz));
     }
     
-    private static Reference constructNewNowLocal() {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_now_local(), true);
+    private static Refcounted constructNewNowLocal() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_now_local(), true);
         return RESULT;
     }
     
@@ -252,8 +252,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewNowLocal());
     }
     
-    private static Reference constructNewNowUtc() {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_now_utc(), true);
+    private static Refcounted constructNewNowUtc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_now_utc(), true);
         return RESULT;
     }
     
@@ -267,8 +267,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewNowUtc());
     }
     
-    private static Reference constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        Reference RESULT = References.get(gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true);
+    private static Refcounted constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true);
         return RESULT;
     }
     
@@ -288,7 +288,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime add(TimeSpan timespan) {
         var RESULT = gtk_h.g_date_time_add(handle(), timespan.getValue());
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -297,7 +297,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime addDays(int days) {
         var RESULT = gtk_h.g_date_time_add_days(handle(), days);
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -306,7 +306,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime addFull(int years, int months, int days, int hours, int minutes, double seconds) {
         var RESULT = gtk_h.g_date_time_add_full(handle(), years, months, days, hours, minutes, seconds);
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -315,7 +315,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime addHours(int hours) {
         var RESULT = gtk_h.g_date_time_add_hours(handle(), hours);
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -324,7 +324,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime addMinutes(int minutes) {
         var RESULT = gtk_h.g_date_time_add_minutes(handle(), minutes);
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -338,7 +338,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime addMonths(int months) {
         var RESULT = gtk_h.g_date_time_add_months(handle(), months);
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -347,7 +347,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime addSeconds(double seconds) {
         var RESULT = gtk_h.g_date_time_add_seconds(handle(), seconds);
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -356,7 +356,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime addWeeks(int weeks) {
         var RESULT = gtk_h.g_date_time_add_weeks(handle(), weeks);
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -368,7 +368,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime addYears(int years) {
         var RESULT = gtk_h.g_date_time_add_years(handle(), years);
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -605,7 +605,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public TimeZone getTimezone() {
         var RESULT = gtk_h.g_date_time_get_timezone(handle());
-        return new TimeZone(References.get(RESULT, false));
+        return new TimeZone(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -733,7 +733,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime ref() {
         var RESULT = gtk_h.g_date_time_ref(handle());
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -745,7 +745,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime toLocal() {
         var RESULT = gtk_h.g_date_time_to_local(handle());
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -758,7 +758,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime toTimezone(TimeZone tz) {
         var RESULT = gtk_h.g_date_time_to_timezone(handle(), tz.handle());
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -782,7 +782,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateTime toUtc() {
         var RESULT = gtk_h.g_date_time_to_utc(handle());
-        return new DateTime(References.get(RESULT, true));
+        return new DateTime(Refcounted.get(RESULT, true));
     }
     
     /**

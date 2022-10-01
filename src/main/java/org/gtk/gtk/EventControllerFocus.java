@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class EventControllerFocus extends EventController {
 
-    public EventControllerFocus(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EventControllerFocus(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EventControllerFocus */
     public static EventControllerFocus castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerFocus(gobject.getReference());
+        return new EventControllerFocus(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_event_controller_focus_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_event_controller_focus_new(), true);
         return RESULT;
     }
     
@@ -129,13 +129,13 @@ public class EventControllerFocus extends EventController {
         public static void signalEventControllerFocusEnter(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerFocus.EnterHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerFocus(References.get(source)));
+            handler.signalReceived(new EventControllerFocus(Refcounted.get(source)));
         }
         
         public static void signalEventControllerFocusLeave(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerFocus.LeaveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerFocus(References.get(source)));
+            handler.signalReceived(new EventControllerFocus(Refcounted.get(source)));
         }
         
     }

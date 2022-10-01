@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusAnnotationInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusAnnotationInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public DBusAnnotationInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusAnnotationInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusAnnotationInfo.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -24,7 +24,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusAnnotationInfo ref() {
         var RESULT = gtk_h.g_dbus_annotation_info_ref(handle());
-        return new DBusAnnotationInfo(References.get(RESULT, true));
+        return new DBusAnnotationInfo(Refcounted.get(RESULT, true));
     }
     
     /**

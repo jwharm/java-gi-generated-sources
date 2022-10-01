@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class Data extends io.github.jwharm.javagi.ResourceBase {
 
-    public Data(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Data(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

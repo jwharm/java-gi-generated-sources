@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class NativeSocketAddress extends SocketAddress implements SocketConnectable {
 
-    public NativeSocketAddress(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NativeSocketAddress(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NativeSocketAddress */
     public static NativeSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new NativeSocketAddress(gobject.getReference());
+        return new NativeSocketAddress(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.foreign.MemoryAddress native_, long len) {
-        Reference RESULT = References.get(gtk_h.g_native_socket_address_new(native_, len), true);
+    private static Refcounted constructNew(java.lang.foreign.MemoryAddress native_, long len) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_native_socket_address_new(native_, len), true);
         return RESULT;
     }
     

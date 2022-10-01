@@ -65,17 +65,17 @@ import java.lang.invoke.*;
  */
 public class RecentManager extends org.gtk.gobject.Object {
 
-    public RecentManager(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RecentManager(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to RecentManager */
     public static RecentManager castFrom(org.gtk.gobject.Object gobject) {
-        return new RecentManager(gobject.getReference());
+        return new RecentManager(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_recent_manager_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_recent_manager_new(), true);
         return RESULT;
     }
     
@@ -142,7 +142,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getItems() {
         var RESULT = gtk_h.gtk_recent_manager_get_items(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -165,7 +165,7 @@ public class RecentManager extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new RecentInfo(References.get(RESULT, true));
+        return new RecentInfo(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -214,7 +214,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public static RecentManager getDefault() {
         var RESULT = gtk_h.gtk_recent_manager_get_default();
-        return new RecentManager(References.get(RESULT, false));
+        return new RecentManager(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -252,7 +252,7 @@ public class RecentManager extends org.gtk.gobject.Object {
         public static void signalRecentManagerChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (RecentManager.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new RecentManager(References.get(source)));
+            handler.signalReceived(new RecentManager(Refcounted.get(source)));
         }
         
     }

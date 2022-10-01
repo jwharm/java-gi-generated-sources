@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ConverterOutputStreamPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public ConverterOutputStreamPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ConverterOutputStreamPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

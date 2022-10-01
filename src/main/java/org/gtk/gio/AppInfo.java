@@ -104,7 +104,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public default AppInfo dup() {
         var RESULT = gtk_h.g_app_info_dup(handle());
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -158,7 +158,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public default Icon getIcon() {
         var RESULT = gtk_h.g_app_info_get_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, false));
+        return new Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -380,7 +380,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -395,7 +395,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static org.gtk.glib.List getAll() {
         var RESULT = gtk_h.g_app_info_get_all();
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -406,7 +406,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static org.gtk.glib.List getAllForType(java.lang.String contentType) {
         var RESULT = gtk_h.g_app_info_get_all_for_type(Interop.allocateNativeString(contentType).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -414,7 +414,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static AppInfo getDefaultForType(java.lang.String contentType, boolean mustSupportUris) {
         var RESULT = gtk_h.g_app_info_get_default_for_type(Interop.allocateNativeString(contentType).handle(), mustSupportUris ? 1 : 0);
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -425,7 +425,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static AppInfo getDefaultForUriScheme(java.lang.String uriScheme) {
         var RESULT = gtk_h.g_app_info_get_default_for_uri_scheme(Interop.allocateNativeString(uriScheme).handle());
-        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -435,7 +435,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static org.gtk.glib.List getFallbackForType(java.lang.String contentType) {
         var RESULT = gtk_h.g_app_info_get_fallback_for_type(Interop.allocateNativeString(contentType).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -448,7 +448,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static org.gtk.glib.List getRecommendedForType(java.lang.String contentType) {
         var RESULT = gtk_h.g_app_info_get_recommended_for_type(Interop.allocateNativeString(contentType).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -520,8 +520,8 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     }
     
     class AppInfoImpl extends org.gtk.gobject.Object implements AppInfo {
-        public AppInfoImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public AppInfoImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

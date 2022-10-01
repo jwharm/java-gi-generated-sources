@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class AssistantPage extends org.gtk.gobject.Object {
 
-    public AssistantPage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AssistantPage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AssistantPage */
     public static AssistantPage castFrom(org.gtk.gobject.Object gobject) {
-        return new AssistantPage(gobject.getReference());
+        return new AssistantPage(gobject.refcounted());
     }
     
     /**
@@ -24,7 +24,7 @@ public class AssistantPage extends org.gtk.gobject.Object {
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_assistant_page_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
 }

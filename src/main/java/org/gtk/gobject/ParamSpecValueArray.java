@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecValueArray extends ParamSpec {
 
-    public ParamSpecValueArray(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpecValueArray(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ParamSpecValueArray */
     public static ParamSpecValueArray castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecValueArray(gobject.getReference());
+        return new ParamSpecValueArray(gobject.refcounted());
     }
     
 }

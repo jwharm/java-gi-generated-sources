@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class GestureZoom extends Gesture {
 
-    public GestureZoom(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GestureZoom(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GestureZoom */
     public static GestureZoom castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureZoom(gobject.getReference());
+        return new GestureZoom(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_gesture_zoom_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_zoom_new(), true);
         return RESULT;
     }
     
@@ -80,7 +80,7 @@ public class GestureZoom extends Gesture {
         public static void signalGestureZoomScaleChanged(MemoryAddress source, double scale, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureZoom.ScaleChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureZoom(References.get(source)), scale);
+            handler.signalReceived(new GestureZoom(Refcounted.get(source)), scale);
         }
         
     }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class WidgetClassPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public WidgetClassPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WidgetClassPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

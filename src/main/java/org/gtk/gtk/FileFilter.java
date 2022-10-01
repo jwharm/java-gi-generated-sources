@@ -55,17 +55,17 @@ import java.lang.invoke.*;
  */
 public class FileFilter extends Filter implements Buildable {
 
-    public FileFilter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileFilter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileFilter */
     public static FileFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new FileFilter(gobject.getReference());
+        return new FileFilter(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_file_filter_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_file_filter_new(), true);
         return RESULT;
     }
     
@@ -89,8 +89,8 @@ public class FileFilter extends Filter implements Buildable {
         super(constructNew());
     }
     
-    private static Reference constructNewFromGvariant(org.gtk.glib.Variant variant) {
-        Reference RESULT = References.get(gtk_h.gtk_file_filter_new_from_gvariant(variant.handle()), true);
+    private static Refcounted constructNewFromGvariant(org.gtk.glib.Variant variant) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_file_filter_new_from_gvariant(variant.handle()), true);
         return RESULT;
     }
     
@@ -184,7 +184,7 @@ public class FileFilter extends Filter implements Buildable {
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = gtk_h.gtk_file_filter_to_gvariant(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
 }

@@ -96,17 +96,17 @@ import java.lang.invoke.*;
  */
 public class Entry extends Widget implements Accessible, Buildable, CellEditable, ConstraintTarget, Editable {
 
-    public Entry(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Entry(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Entry */
     public static Entry castFrom(org.gtk.gobject.Object gobject) {
-        return new Entry(gobject.getReference());
+        return new Entry(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_entry_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_entry_new(), false);
         return RESULT;
     }
     
@@ -117,8 +117,8 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         super(constructNew());
     }
     
-    private static Reference constructNewWithBuffer(EntryBuffer buffer) {
-        Reference RESULT = References.get(gtk_h.gtk_entry_new_with_buffer(buffer.handle()), false);
+    private static Refcounted constructNewWithBuffer(EntryBuffer buffer) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_entry_new_with_buffer(buffer.handle()), false);
         return RESULT;
     }
     
@@ -154,7 +154,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public org.pango.AttrList getAttributes() {
         var RESULT = gtk_h.gtk_entry_get_attributes(handle());
-        return new org.pango.AttrList(References.get(RESULT, false));
+        return new org.pango.AttrList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -163,7 +163,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public EntryBuffer getBuffer() {
         var RESULT = gtk_h.gtk_entry_get_buffer(handle());
-        return new EntryBuffer(References.get(RESULT, false));
+        return new EntryBuffer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -172,7 +172,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public EntryCompletion getCompletion() {
         var RESULT = gtk_h.gtk_entry_get_completion(handle());
-        return new EntryCompletion(References.get(RESULT, false));
+        return new EntryCompletion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -189,7 +189,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = gtk_h.gtk_entry_get_extra_menu(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -244,7 +244,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public org.gtk.gio.Icon getIconGicon(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_gicon(handle(), iconPos.getValue());
-        return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -265,7 +265,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public org.gtk.gdk.Paintable getIconPaintable(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_paintable(handle(), iconPos.getValue());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -384,7 +384,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public org.pango.TabArray getTabs() {
         var RESULT = gtk_h.gtk_entry_get_tabs(handle());
-        return new org.pango.TabArray(References.get(RESULT, false));
+        return new org.pango.TabArray(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -821,19 +821,19 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         public static void signalEntryActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Entry.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Entry(References.get(source)));
+            handler.signalReceived(new Entry(Refcounted.get(source)));
         }
         
         public static void signalEntryIconPress(MemoryAddress source, int iconPos, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Entry.IconPressHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
+            handler.signalReceived(new Entry(Refcounted.get(source)), new EntryIconPosition(iconPos));
         }
         
         public static void signalEntryIconRelease(MemoryAddress source, int iconPos, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Entry.IconReleaseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
+            handler.signalReceived(new Entry(Refcounted.get(source)), new EntryIconPosition(iconPos));
         }
         
     }

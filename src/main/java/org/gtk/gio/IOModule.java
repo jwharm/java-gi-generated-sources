@@ -12,17 +12,17 @@ import java.lang.invoke.*;
  */
 public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobject.TypePlugin {
 
-    public IOModule(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOModule(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to IOModule */
     public static IOModule castFrom(org.gtk.gobject.Object gobject) {
-        return new IOModule(gobject.getReference());
+        return new IOModule(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String filename) {
-        Reference RESULT = References.get(gtk_h.g_io_module_new(Interop.allocateNativeString(filename).handle()), true);
+    private static Refcounted constructNew(java.lang.String filename) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_io_module_new(Interop.allocateNativeString(filename).handle()), true);
         return RESULT;
     }
     

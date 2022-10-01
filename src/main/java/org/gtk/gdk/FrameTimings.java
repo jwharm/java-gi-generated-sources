@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  */
 public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
 
-    public FrameTimings(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FrameTimings(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -107,7 +107,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      */
     public FrameTimings ref() {
         var RESULT = gtk_h.gdk_frame_timings_ref(handle());
-        return new FrameTimings(References.get(RESULT, true));
+        return new FrameTimings(Refcounted.get(RESULT, true));
     }
     
     /**

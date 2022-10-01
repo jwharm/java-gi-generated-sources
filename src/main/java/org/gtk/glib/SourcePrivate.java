@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SourcePrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public SourcePrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SourcePrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

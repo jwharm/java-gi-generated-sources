@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DBusInterfaceSkeletonPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusInterfaceSkeletonPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusInterfaceSkeletonPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

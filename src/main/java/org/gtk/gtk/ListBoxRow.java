@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class ListBoxRow extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public ListBoxRow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ListBoxRow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ListBoxRow */
     public static ListBoxRow castFrom(org.gtk.gobject.Object gobject) {
-        return new ListBoxRow(gobject.getReference());
+        return new ListBoxRow(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_list_box_row_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_list_box_row_new(), false);
         return RESULT;
     }
     
@@ -68,7 +68,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_list_box_row_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public Widget getHeader() {
         var RESULT = gtk_h.gtk_list_box_row_get_header(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -177,7 +177,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         public static void signalListBoxRowActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListBoxRow.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBoxRow(References.get(source)));
+            handler.signalReceived(new ListBoxRow(Refcounted.get(source)));
         }
         
     }

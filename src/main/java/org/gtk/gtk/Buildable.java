@@ -34,8 +34,8 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
     }
     
     class BuildableImpl extends org.gtk.gobject.Object implements Buildable {
-        public BuildableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public BuildableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

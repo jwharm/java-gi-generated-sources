@@ -42,13 +42,13 @@ import java.lang.invoke.*;
  */
 public class FrameClock extends org.gtk.gobject.Object {
 
-    public FrameClock(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FrameClock(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FrameClock */
     public static FrameClock castFrom(org.gtk.gobject.Object gobject) {
-        return new FrameClock(gobject.getReference());
+        return new FrameClock(gobject.refcounted());
     }
     
     /**
@@ -78,7 +78,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public FrameTimings getCurrentTimings() {
         var RESULT = gtk_h.gdk_frame_clock_get_current_timings(handle());
-        return new FrameTimings(References.get(RESULT, false));
+        return new FrameTimings(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -151,7 +151,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public FrameTimings getTimings(long frameCounter) {
         var RESULT = gtk_h.gdk_frame_clock_get_timings(handle(), frameCounter);
-        return new FrameTimings(References.get(RESULT, false));
+        return new FrameTimings(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -382,43 +382,43 @@ public class FrameClock extends org.gtk.gobject.Object {
         public static void signalFrameClockAfterPaint(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FrameClock.AfterPaintHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(References.get(source)));
+            handler.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockBeforePaint(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FrameClock.BeforePaintHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(References.get(source)));
+            handler.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockFlushEvents(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FrameClock.FlushEventsHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(References.get(source)));
+            handler.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockLayout(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FrameClock.LayoutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(References.get(source)));
+            handler.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockPaint(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FrameClock.PaintHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(References.get(source)));
+            handler.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockResumeEvents(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FrameClock.ResumeEventsHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(References.get(source)));
+            handler.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockUpdate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FrameClock.UpdateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(References.get(source)));
+            handler.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
     }

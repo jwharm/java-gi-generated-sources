@@ -25,17 +25,17 @@ import java.lang.invoke.*;
  */
 public class TimedAnimation extends Animation {
 
-    public TimedAnimation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TimedAnimation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TimedAnimation */
     public static TimedAnimation castFrom(org.gtk.gobject.Object gobject) {
-        return new TimedAnimation(gobject.getReference());
+        return new TimedAnimation(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gtk.Widget widget, double from, double to, int duration, AnimationTarget target) {
-        Reference RESULT = References.get(gtk_h.adw_timed_animation_new(widget.handle(), from, to, duration, target.getReference().unowned().handle()), false);
+    private static Refcounted constructNew(org.gtk.gtk.Widget widget, double from, double to, int duration, AnimationTarget target) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_timed_animation_new(widget.handle(), from, to, duration, target.refcounted().unowned().handle()), false);
         return RESULT;
     }
     

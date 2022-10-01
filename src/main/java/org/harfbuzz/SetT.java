@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class SetT extends io.github.jwharm.javagi.ResourceBase {
 
-    public SetT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SetT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

@@ -15,12 +15,12 @@ import java.lang.invoke.*;
  */
 public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public BitsetIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BitsetIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public BitsetIter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBitsetIter.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkBitsetIter.allocate(Interop.getAllocator()).address()));
     }
     
     /**

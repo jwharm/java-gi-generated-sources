@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class Rand extends io.github.jwharm.javagi.ResourceBase {
 
-    public Rand(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Rand(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -22,7 +22,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      */
     public Rand copy() {
         var RESULT = gtk_h.g_rand_copy(handle());
-        return new Rand(References.get(RESULT, false));
+        return new Rand(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -95,7 +95,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Rand new_() {
         var RESULT = gtk_h.g_rand_new();
-        return new Rand(References.get(RESULT, false));
+        return new Rand(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -103,7 +103,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Rand newWithSeed(int seed) {
         var RESULT = gtk_h.g_rand_new_with_seed(seed);
-        return new Rand(References.get(RESULT, false));
+        return new Rand(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -111,7 +111,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Rand newWithSeedArray(PointerInteger seed, int seedLength) {
         var RESULT = gtk_h.g_rand_new_with_seed_array(seed.handle(), seedLength);
-        return new Rand(References.get(RESULT, false));
+        return new Rand(Refcounted.get(RESULT, false));
     }
     
 }

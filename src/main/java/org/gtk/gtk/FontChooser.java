@@ -46,7 +46,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.pango.FontDescription getFontDesc() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_desc(handle());
-        return new org.pango.FontDescription(References.get(RESULT, true));
+        return new org.pango.FontDescription(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -57,7 +57,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.pango.FontFace getFontFace() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_face(handle());
-        return new org.pango.FontFace(References.get(RESULT, false));
+        return new org.pango.FontFace(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -69,7 +69,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.pango.FontFamily getFontFamily() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_family(handle());
-        return new org.pango.FontFamily(References.get(RESULT, false));
+        return new org.pango.FontFamily(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -86,7 +86,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.pango.FontMap getFontMap() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_map(handle());
-        return new org.pango.FontMap(References.get(RESULT, true));
+        return new org.pango.FontMap(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -258,14 +258,14 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
         public static void signalFontChooserFontActivated(MemoryAddress source, MemoryAddress fontname, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FontChooser.FontActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FontChooser.FontChooserImpl(References.get(source)), fontname.getUtf8String(0));
+            handler.signalReceived(new FontChooser.FontChooserImpl(Refcounted.get(source)), fontname.getUtf8String(0));
         }
         
     }
     
     class FontChooserImpl extends org.gtk.gobject.Object implements FontChooser {
-        public FontChooserImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public FontChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

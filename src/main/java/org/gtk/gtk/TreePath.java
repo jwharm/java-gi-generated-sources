@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class TreePath extends io.github.jwharm.javagi.ResourceBase {
 
-    public TreePath(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreePath(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_tree_path_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_path_new(), true);
         return RESULT;
     }
     
@@ -27,8 +27,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    private static Reference constructNewFirst() {
-        Reference RESULT = References.get(gtk_h.gtk_tree_path_new_first(), true);
+    private static Refcounted constructNewFirst() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_path_new_first(), true);
         return RESULT;
     }
     
@@ -41,8 +41,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         return new TreePath(constructNewFirst());
     }
     
-    private static Reference constructNewFromIndicesv(int[] indices, long length) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_path_new_from_indicesv(Interop.allocateNativeArray(indices).handle(), length), true);
+    private static Refcounted constructNewFromIndicesv(int[] indices, long length) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_path_new_from_indicesv(Interop.allocateNativeArray(indices).handle(), length), true);
         return RESULT;
     }
     
@@ -53,8 +53,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         return new TreePath(constructNewFromIndicesv(indices, length));
     }
     
-    private static Reference constructNewFromString(java.lang.String path) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).handle()), true);
+    private static Refcounted constructNewFromString(java.lang.String path) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).handle()), true);
         return RESULT;
     }
     
@@ -97,7 +97,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreePath copy() {
         var RESULT = gtk_h.gtk_tree_path_copy(handle());
-        return new TreePath(References.get(RESULT, true));
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
     /**

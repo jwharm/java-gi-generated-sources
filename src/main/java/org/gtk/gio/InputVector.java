@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class InputVector extends io.github.jwharm.javagi.ResourceBase {
 
-    public InputVector(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InputVector(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public InputVector() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GInputVector.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GInputVector.allocate(Interop.getAllocator()).address()));
     }
     
 }

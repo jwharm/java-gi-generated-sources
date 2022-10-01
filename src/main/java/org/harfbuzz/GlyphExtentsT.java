@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class GlyphExtentsT extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphExtentsT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GlyphExtentsT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public GlyphExtentsT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_glyph_extents_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_glyph_extents_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

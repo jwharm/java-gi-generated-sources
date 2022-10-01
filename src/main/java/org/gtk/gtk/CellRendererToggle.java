@@ -15,17 +15,17 @@ import java.lang.invoke.*;
  */
 public class CellRendererToggle extends CellRenderer {
 
-    public CellRendererToggle(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererToggle(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRendererToggle */
     public static CellRendererToggle castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererToggle(gobject.getReference());
+        return new CellRendererToggle(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_toggle_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_toggle_new(), false);
         return RESULT;
     }
     
@@ -130,7 +130,7 @@ public class CellRendererToggle extends CellRenderer {
         public static void signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellRendererToggle.ToggledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererToggle(References.get(source)), path.getUtf8String(0));
+            handler.signalReceived(new CellRendererToggle(Refcounted.get(source)), path.getUtf8String(0));
         }
         
     }

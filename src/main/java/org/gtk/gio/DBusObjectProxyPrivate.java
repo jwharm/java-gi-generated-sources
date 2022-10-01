@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DBusObjectProxyPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusObjectProxyPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusObjectProxyPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

@@ -126,13 +126,13 @@ import java.lang.invoke.*;
  */
 public class MenuModel extends org.gtk.gobject.Object {
 
-    public MenuModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MenuModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MenuModel */
     public static MenuModel castFrom(org.gtk.gobject.Object gobject) {
-        return new MenuModel(gobject.getReference());
+        return new MenuModel(gobject.refcounted());
     }
     
     /**
@@ -150,7 +150,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
         var RESULT = gtk_h.g_menu_model_get_item_attribute_value(handle(), itemIndex, Interop.allocateNativeString(attribute).handle(), expectedType.handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -162,7 +162,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public MenuModel getItemLink(int itemIndex, java.lang.String link) {
         var RESULT = gtk_h.g_menu_model_get_item_link(handle(), itemIndex, Interop.allocateNativeString(link).handle());
-        return new MenuModel(References.get(RESULT, true));
+        return new MenuModel(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -213,7 +213,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public MenuAttributeIter iterateItemAttributes(int itemIndex) {
         var RESULT = gtk_h.g_menu_model_iterate_item_attributes(handle(), itemIndex);
-        return new MenuAttributeIter(References.get(RESULT, true));
+        return new MenuAttributeIter(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -224,7 +224,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public MenuLinkIter iterateItemLinks(int itemIndex) {
         var RESULT = gtk_h.g_menu_model_iterate_item_links(handle(), itemIndex);
-        return new MenuLinkIter(References.get(RESULT, true));
+        return new MenuLinkIter(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -277,7 +277,7 @@ public class MenuModel extends org.gtk.gobject.Object {
         public static void signalMenuModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MenuModel.ItemsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MenuModel(References.get(source)), position, removed, added);
+            handler.signalReceived(new MenuModel(Refcounted.get(source)), position, removed, added);
         }
         
     }

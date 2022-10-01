@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CellRendererClassPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public CellRendererClassPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererClassPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

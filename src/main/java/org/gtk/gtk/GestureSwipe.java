@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class GestureSwipe extends GestureSingle {
 
-    public GestureSwipe(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GestureSwipe(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GestureSwipe */
     public static GestureSwipe castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureSwipe(gobject.getReference());
+        return new GestureSwipe(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_gesture_swipe_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_swipe_new(), true);
         return RESULT;
     }
     
@@ -87,7 +87,7 @@ public class GestureSwipe extends GestureSingle {
         public static void signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureSwipe.SwipeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureSwipe(References.get(source)), velocityX, velocityY);
+            handler.signalReceived(new GestureSwipe(Refcounted.get(source)), velocityX, velocityY);
         }
         
     }

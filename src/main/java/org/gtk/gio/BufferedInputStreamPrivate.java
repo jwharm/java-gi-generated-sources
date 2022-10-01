@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class BufferedInputStreamPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public BufferedInputStreamPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BufferedInputStreamPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

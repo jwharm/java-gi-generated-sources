@@ -17,12 +17,12 @@ import java.lang.invoke.*;
  */
 public class ParamSpecTypeInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public ParamSpecTypeInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpecTypeInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ParamSpecTypeInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GParamSpecTypeInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GParamSpecTypeInfo.allocate(Interop.getAllocator()).address()));
     }
     
 }

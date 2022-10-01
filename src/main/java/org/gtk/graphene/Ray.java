@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Ray extends io.github.jwharm.javagi.ResourceBase {
 
-    public Ray(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Ray(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_ray_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_ray_alloc(), true);
         return RESULT;
     }
     
@@ -106,7 +106,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      */
     public Ray init(Point3D origin, Vec3 direction) {
         var RESULT = gtk_h.graphene_ray_init(handle(), origin.handle(), direction.handle());
-        return new Ray(References.get(RESULT, false));
+        return new Ray(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -115,7 +115,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      */
     public Ray initFromRay(Ray src) {
         var RESULT = gtk_h.graphene_ray_init_from_ray(handle(), src.handle());
-        return new Ray(References.get(RESULT, false));
+        return new Ray(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -123,7 +123,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      */
     public Ray initFromVec3(Vec3 origin, Vec3 direction) {
         var RESULT = gtk_h.graphene_ray_init_from_vec3(handle(), origin.handle(), direction.handle());
-        return new Ray(References.get(RESULT, false));
+        return new Ray(Refcounted.get(RESULT, false));
     }
     
     /**

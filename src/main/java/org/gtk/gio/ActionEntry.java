@@ -19,12 +19,12 @@ import java.lang.invoke.*;
  */
 public class ActionEntry extends io.github.jwharm.javagi.ResourceBase {
 
-    public ActionEntry(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ActionEntry(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ActionEntry() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GActionEntry.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GActionEntry.allocate(Interop.getAllocator()).address()));
     }
     
 }

@@ -54,7 +54,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Variant serialize() {
         var RESULT = gtk_h.g_icon_serialize(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -88,7 +88,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      */
     public static Icon deserialize(org.gtk.glib.Variant value) {
         var RESULT = gtk_h.g_icon_deserialize(value.handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -113,12 +113,12 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     class IconImpl extends org.gtk.gobject.Object implements Icon {
-        public IconImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public IconImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusNodeInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusNodeInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewForXml(java.lang.String xmlData) throws GErrorException {
+    private static Refcounted constructNewForXml(java.lang.String xmlData) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_node_info_new_for_xml(Interop.allocateNativeString(xmlData).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_node_info_new_for_xml(Interop.allocateNativeString(xmlData).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -54,7 +54,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusInterfaceInfo lookupInterface(java.lang.String name) {
         var RESULT = gtk_h.g_dbus_node_info_lookup_interface(handle(), Interop.allocateNativeString(name).handle());
-        return new DBusInterfaceInfo(References.get(RESULT, false));
+        return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusNodeInfo ref() {
         var RESULT = gtk_h.g_dbus_node_info_ref(handle());
-        return new DBusNodeInfo(References.get(RESULT, true));
+        return new DBusNodeInfo(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -18,12 +18,12 @@ import java.lang.invoke.*;
  */
 public class Matrix extends io.github.jwharm.javagi.ResourceBase {
 
-    public Matrix(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Matrix(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Matrix() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoMatrix.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoMatrix.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -40,7 +40,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix copy() {
         var RESULT = gtk_h.pango_matrix_copy(handle());
-        return new Matrix(References.get(RESULT, true));
+        return new Matrix(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -143,7 +143,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * using {@link extents_to_pixels#null}'s first argument.
      */
     public void transformPixelRectangle(Rectangle rect) {
-        gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.getReference().unowned().handle());
+        gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.refcounted().unowned().handle());
     }
     
     /**
@@ -174,7 +174,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * example).
      */
     public void transformRectangle(Rectangle rect) {
-        gtk_h.pango_matrix_transform_rectangle(handle(), rect.getReference().unowned().handle());
+        gtk_h.pango_matrix_transform_rectangle(handle(), rect.refcounted().unowned().handle());
     }
     
     /**

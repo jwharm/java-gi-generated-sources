@@ -32,17 +32,17 @@ import java.lang.invoke.*;
  */
 public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public Avatar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Avatar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Avatar */
     public static Avatar castFrom(org.gtk.gobject.Object gobject) {
-        return new Avatar(gobject.getReference());
+        return new Avatar(gobject.refcounted());
     }
     
-    private static Reference constructNew(int size, java.lang.String text, boolean showInitials) {
-        Reference RESULT = References.get(gtk_h.adw_avatar_new(size, Interop.allocateNativeString(text).handle(), showInitials ? 1 : 0), false);
+    private static Refcounted constructNew(int size, java.lang.String text, boolean showInitials) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_avatar_new(size, Interop.allocateNativeString(text).handle(), showInitials ? 1 : 0), false);
         return RESULT;
     }
     
@@ -60,7 +60,7 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public org.gtk.gdk.Texture drawToTexture(int scaleFactor) {
         var RESULT = gtk_h.adw_avatar_draw_to_texture(handle(), scaleFactor);
-        return new org.gtk.gdk.Texture(References.get(RESULT, true));
+        return new org.gtk.gdk.Texture(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -68,7 +68,7 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public org.gtk.gdk.Paintable getCustomImage() {
         var RESULT = gtk_h.adw_avatar_get_custom_image(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
     /**

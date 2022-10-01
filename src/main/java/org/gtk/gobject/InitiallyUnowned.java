@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class InitiallyUnowned extends Object {
 
-    public InitiallyUnowned(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InitiallyUnowned(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to InitiallyUnowned */
     public static InitiallyUnowned castFrom(org.gtk.gobject.Object gobject) {
-        return new InitiallyUnowned(gobject.getReference());
+        return new InitiallyUnowned(gobject.refcounted());
     }
     
 }

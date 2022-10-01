@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class Seat extends org.gtk.gobject.Object {
 
-    public Seat(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Seat(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Seat */
     public static Seat castFrom(org.gtk.gobject.Object gobject) {
-        return new Seat(gobject.getReference());
+        return new Seat(gobject.refcounted());
     }
     
     /**
@@ -33,7 +33,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getDevices(SeatCapabilities capabilities) {
         var RESULT = gtk_h.gdk_seat_get_devices(handle(), capabilities.getValue());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -41,7 +41,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_seat_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -49,7 +49,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Device getKeyboard() {
         var RESULT = gtk_h.gdk_seat_get_keyboard(handle());
-        return new Device(References.get(RESULT, false));
+        return new Device(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Device getPointer() {
         var RESULT = gtk_h.gdk_seat_get_pointer(handle());
-        return new Device(References.get(RESULT, false));
+        return new Device(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getTools() {
         var RESULT = gtk_h.gdk_seat_get_tools(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -183,25 +183,25 @@ public class Seat extends org.gtk.gobject.Object {
         public static void signalSeatDeviceAdded(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Seat.DeviceAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Seat(References.get(source)), new Device(References.get(device, false)));
+            handler.signalReceived(new Seat(Refcounted.get(source)), new Device(Refcounted.get(device, false)));
         }
         
         public static void signalSeatDeviceRemoved(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Seat.DeviceRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Seat(References.get(source)), new Device(References.get(device, false)));
+            handler.signalReceived(new Seat(Refcounted.get(source)), new Device(Refcounted.get(device, false)));
         }
         
         public static void signalSeatToolAdded(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Seat.ToolAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Seat(References.get(source)), new DeviceTool(References.get(tool, false)));
+            handler.signalReceived(new Seat(Refcounted.get(source)), new DeviceTool(Refcounted.get(tool, false)));
         }
         
         public static void signalSeatToolRemoved(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Seat.ToolRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Seat(References.get(source)), new DeviceTool(References.get(tool, false)));
+            handler.signalReceived(new Seat(Refcounted.get(source)), new DeviceTool(Refcounted.get(tool, false)));
         }
         
     }

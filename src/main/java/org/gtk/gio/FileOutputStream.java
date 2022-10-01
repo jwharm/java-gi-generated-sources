@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class FileOutputStream extends OutputStream implements Seekable {
 
-    public FileOutputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileOutputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileOutputStream */
     public static FileOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new FileOutputStream(gobject.getReference());
+        return new FileOutputStream(gobject.refcounted());
     }
     
     /**
@@ -67,7 +67,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -102,7 +102,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
 }

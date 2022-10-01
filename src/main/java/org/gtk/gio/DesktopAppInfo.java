@@ -15,17 +15,17 @@ import java.lang.invoke.*;
  */
 public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
 
-    public DesktopAppInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DesktopAppInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DesktopAppInfo */
     public static DesktopAppInfo castFrom(org.gtk.gobject.Object gobject) {
-        return new DesktopAppInfo(gobject.getReference());
+        return new DesktopAppInfo(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String desktopId) {
-        Reference RESULT = References.get(gtk_h.g_desktop_app_info_new(Interop.allocateNativeString(desktopId).handle()), true);
+    private static Refcounted constructNew(java.lang.String desktopId) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_desktop_app_info_new(Interop.allocateNativeString(desktopId).handle()), true);
         return RESULT;
     }
     
@@ -46,8 +46,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
         super(constructNew(desktopId));
     }
     
-    private static Reference constructNewFromFilename(java.lang.String filename) {
-        Reference RESULT = References.get(gtk_h.g_desktop_app_info_new_from_filename(Interop.allocateNativeString(filename).handle()), true);
+    private static Refcounted constructNewFromFilename(java.lang.String filename) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_desktop_app_info_new_from_filename(Interop.allocateNativeString(filename).handle()), true);
         return RESULT;
     }
     
@@ -58,8 +58,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
         return new DesktopAppInfo(constructNewFromFilename(filename));
     }
     
-    private static Reference constructNewFromKeyfile(org.gtk.glib.KeyFile keyFile) {
-        Reference RESULT = References.get(gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.handle()), true);
+    private static Refcounted constructNewFromKeyfile(org.gtk.glib.KeyFile keyFile) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.handle()), true);
         return RESULT;
     }
     
@@ -329,7 +329,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      */
     public static org.gtk.glib.List getImplementations(java.lang.String interface_) {
         var RESULT = gtk_h.g_desktop_app_info_get_implementations(Interop.allocateNativeString(interface_).handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**

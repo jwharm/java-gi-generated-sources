@@ -60,17 +60,17 @@ import java.lang.invoke.*;
  */
 public class CheckButton extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public CheckButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CheckButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CheckButton */
     public static CheckButton castFrom(org.gtk.gobject.Object gobject) {
-        return new CheckButton(gobject.getReference());
+        return new CheckButton(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_check_button_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_check_button_new(), false);
         return RESULT;
     }
     
@@ -81,8 +81,8 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         super(constructNew());
     }
     
-    private static Reference constructNewWithLabel(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_check_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNewWithLabel(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_check_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -93,8 +93,8 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         return new CheckButton(constructNewWithLabel(label));
     }
     
-    private static Reference constructNewWithMnemonic(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_check_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNewWithMnemonic(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_check_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -261,13 +261,13 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         public static void signalCheckButtonActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CheckButton.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CheckButton(References.get(source)));
+            handler.signalReceived(new CheckButton(Refcounted.get(source)));
         }
         
         public static void signalCheckButtonToggled(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CheckButton.ToggledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CheckButton(References.get(source)));
+            handler.signalReceived(new CheckButton(Refcounted.get(source)));
         }
         
     }

@@ -60,18 +60,18 @@ import java.lang.invoke.*;
  */
 public class Socket extends org.gtk.gobject.Object implements DatagramBased, Initable {
 
-    public Socket(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Socket(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Socket */
     public static Socket castFrom(org.gtk.gobject.Object gobject) {
-        return new Socket(gobject.getReference());
+        return new Socket(gobject.refcounted());
     }
     
-    private static Reference constructNew(SocketFamily family, SocketType type, SocketProtocol protocol) throws GErrorException {
+    private static Refcounted constructNew(SocketFamily family, SocketType type, SocketProtocol protocol) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_socket_new(family.getValue(), type.getValue(), protocol.getValue(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_socket_new(family.getValue(), type.getValue(), protocol.getValue(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -97,9 +97,9 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         super(constructNew(family, type, protocol));
     }
     
-    private static Reference constructNewFromFd(int fd) throws GErrorException {
+    private static Refcounted constructNewFromFd(int fd) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_socket_new_from_fd(fd, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_socket_new_from_fd(fd, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -143,7 +143,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Socket(References.get(RESULT, true));
+        return new Socket(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -339,7 +339,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public SocketConnection connectionFactoryCreateConnection() {
         var RESULT = gtk_h.g_socket_connection_factory_create_connection(handle());
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -366,7 +366,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public org.gtk.glib.Source createSource(org.gtk.glib.IOCondition condition, Cancellable cancellable) {
         var RESULT = gtk_h.g_socket_create_source(handle(), condition.getValue(), cancellable.handle());
-        return new org.gtk.glib.Source(References.get(RESULT, true));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -437,7 +437,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Credentials(References.get(RESULT, true));
+        return new Credentials(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -489,7 +489,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketAddress(References.get(RESULT, true));
+        return new SocketAddress(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -554,7 +554,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketAddress(References.get(RESULT, true));
+        return new SocketAddress(Refcounted.get(RESULT, true));
     }
     
     /**

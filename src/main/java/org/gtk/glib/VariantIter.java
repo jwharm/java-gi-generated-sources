@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public VariantIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public VariantIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public VariantIter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GVariantIter.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GVariantIter.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -33,7 +33,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantIter copy() {
         var RESULT = gtk_h.g_variant_iter_copy(handle());
-        return new VariantIter(References.get(RESULT, true));
+        return new VariantIter(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -101,7 +101,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public Variant nextValue() {
         var RESULT = gtk_h.g_variant_iter_next_value(handle());
-        return new Variant(References.get(RESULT, true));
+        return new Variant(Refcounted.get(RESULT, true));
     }
     
 }

@@ -33,13 +33,13 @@ import java.lang.invoke.*;
  */
 public class SettingsBackend extends org.gtk.gobject.Object {
 
-    public SettingsBackend(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SettingsBackend(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SettingsBackend */
     public static SettingsBackend castFrom(org.gtk.gobject.Object gobject) {
-        return new SettingsBackend(gobject.getReference());
+        return new SettingsBackend(gobject.refcounted());
     }
     
     /**
@@ -176,7 +176,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      */
     public static SettingsBackend getDefault() {
         var RESULT = gtk_h.g_settings_backend_get_default();
-        return new SettingsBackend(References.get(RESULT, true));
+        return new SettingsBackend(Refcounted.get(RESULT, true));
     }
     
 }

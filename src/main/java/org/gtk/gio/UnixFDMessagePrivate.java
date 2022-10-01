@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixFDMessagePrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public UnixFDMessagePrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixFDMessagePrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

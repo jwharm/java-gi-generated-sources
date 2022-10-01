@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class Surface extends io.github.jwharm.javagi.ResourceBase {
 
-    public Surface(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Surface(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

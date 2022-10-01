@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class AspectFrame extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public AspectFrame(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AspectFrame(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AspectFrame */
     public static AspectFrame castFrom(org.gtk.gobject.Object gobject) {
-        return new AspectFrame(gobject.getReference());
+        return new AspectFrame(gobject.refcounted());
     }
     
-    private static Reference constructNew(float xalign, float yalign, float ratio, boolean obeyChild) {
-        Reference RESULT = References.get(gtk_h.gtk_aspect_frame_new(xalign, yalign, ratio, obeyChild ? 1 : 0), false);
+    private static Refcounted constructNew(float xalign, float yalign, float ratio, boolean obeyChild) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_aspect_frame_new(xalign, yalign, ratio, obeyChild ? 1 : 0), false);
         return RESULT;
     }
     
@@ -43,7 +43,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_aspect_frame_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

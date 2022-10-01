@@ -51,17 +51,17 @@ import java.lang.invoke.*;
  */
 public class Frame extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Frame(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Frame(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Frame */
     public static Frame castFrom(org.gtk.gobject.Object gobject) {
-        return new Frame(gobject.getReference());
+        return new Frame(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_frame_new(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNew(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_frame_new(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -79,7 +79,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_frame_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -106,7 +106,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getLabelWidget() {
         var RESULT = gtk_h.gtk_frame_get_label_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

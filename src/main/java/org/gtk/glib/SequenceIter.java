@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public SequenceIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SequenceIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -39,7 +39,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public Sequence getSequence() {
         var RESULT = gtk_h.g_sequence_iter_get_sequence(handle());
-        return new Sequence(References.get(RESULT, false));
+        return new Sequence(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -66,7 +66,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public SequenceIter move(int delta) {
         var RESULT = gtk_h.g_sequence_iter_move(handle(), delta);
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -75,7 +75,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public SequenceIter next() {
         var RESULT = gtk_h.g_sequence_iter_next(handle());
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -84,7 +84,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public SequenceIter prev() {
         var RESULT = gtk_h.g_sequence_iter_prev(handle());
-        return new SequenceIter(References.get(RESULT, false));
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
 }

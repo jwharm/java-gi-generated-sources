@@ -12,17 +12,17 @@ import java.lang.invoke.*;
  */
 public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, Buildable {
 
-    public EveryFilter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EveryFilter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EveryFilter */
     public static EveryFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new EveryFilter(gobject.getReference());
+        return new EveryFilter(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_every_filter_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_every_filter_new(), true);
         return RESULT;
     }
     

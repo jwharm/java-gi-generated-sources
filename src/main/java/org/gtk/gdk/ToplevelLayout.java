@@ -18,12 +18,12 @@ import java.lang.invoke.*;
  */
 public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
 
-    public ToplevelLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ToplevelLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gdk_toplevel_layout_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_toplevel_layout_new(), true);
         return RESULT;
     }
     
@@ -45,7 +45,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public ToplevelLayout copy() {
         var RESULT = gtk_h.gdk_toplevel_layout_copy(handle());
-        return new ToplevelLayout(References.get(RESULT, true));
+        return new ToplevelLayout(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -72,7 +72,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public Monitor getFullscreenMonitor() {
         var RESULT = gtk_h.gdk_toplevel_layout_get_fullscreen_monitor(handle());
-        return new Monitor(References.get(RESULT, false));
+        return new Monitor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public ToplevelLayout ref() {
         var RESULT = gtk_h.gdk_toplevel_layout_ref(handle());
-        return new ToplevelLayout(References.get(RESULT, true));
+        return new ToplevelLayout(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class DrawStateT extends io.github.jwharm.javagi.ResourceBase {
 
-    public DrawStateT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DrawStateT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public DrawStateT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_draw_state_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_draw_state_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

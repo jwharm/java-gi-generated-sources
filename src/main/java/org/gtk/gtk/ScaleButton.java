@@ -19,17 +19,17 @@ import java.lang.invoke.*;
  */
 public class ScaleButton extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public ScaleButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ScaleButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ScaleButton */
     public static ScaleButton castFrom(org.gtk.gobject.Object gobject) {
-        return new ScaleButton(gobject.getReference());
+        return new ScaleButton(gobject.refcounted());
     }
     
-    private static Reference constructNew(double min, double max, double step, java.lang.String[] icons) {
-        Reference RESULT = References.get(gtk_h.gtk_scale_button_new(min, max, step, Interop.allocateNativeArray(icons).handle()), false);
+    private static Refcounted constructNew(double min, double max, double step, java.lang.String[] icons) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_scale_button_new(min, max, step, Interop.allocateNativeArray(icons).handle()), false);
         return RESULT;
     }
     
@@ -50,7 +50,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_scale_button_get_adjustment(handle());
-        return new Adjustment(References.get(RESULT, false));
+        return new Adjustment(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      */
     public Button getMinusButton() {
         var RESULT = gtk_h.gtk_scale_button_get_minus_button(handle());
-        return new Button(References.get(RESULT, false));
+        return new Button(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -66,7 +66,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      */
     public Button getPlusButton() {
         var RESULT = gtk_h.gtk_scale_button_get_plus_button(handle());
-        return new Button(References.get(RESULT, false));
+        return new Button(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      */
     public Widget getPopup() {
         var RESULT = gtk_h.gtk_scale_button_get_popup(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -207,19 +207,19 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
         public static void signalScaleButtonPopdown(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ScaleButton.PopdownHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScaleButton(References.get(source)));
+            handler.signalReceived(new ScaleButton(Refcounted.get(source)));
         }
         
         public static void signalScaleButtonPopup(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ScaleButton.PopupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScaleButton(References.get(source)));
+            handler.signalReceived(new ScaleButton(Refcounted.get(source)));
         }
         
         public static void signalScaleButtonValueChanged(MemoryAddress source, double value, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ScaleButton.ValueChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScaleButton(References.get(source)), value);
+            handler.signalReceived(new ScaleButton(Refcounted.get(source)), value);
         }
         
     }

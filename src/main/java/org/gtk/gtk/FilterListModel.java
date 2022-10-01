@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public FilterListModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FilterListModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FilterListModel */
     public static FilterListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new FilterListModel(gobject.getReference());
+        return new FilterListModel(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel model, Filter filter) {
-        Reference RESULT = References.get(gtk_h.gtk_filter_list_model_new(model.getReference().unowned().handle(), filter.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(org.gtk.gio.ListModel model, Filter filter) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_filter_list_model_new(model.refcounted().unowned().handle(), filter.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -45,7 +45,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      */
     public Filter getFilter() {
         var RESULT = gtk_h.gtk_filter_list_model_get_filter(handle());
-        return new Filter(References.get(RESULT, false));
+        return new Filter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_filter_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**

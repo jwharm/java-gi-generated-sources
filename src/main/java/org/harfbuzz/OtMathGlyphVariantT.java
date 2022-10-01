@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class OtMathGlyphVariantT extends io.github.jwharm.javagi.ResourceBase {
 
-    public OtMathGlyphVariantT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OtMathGlyphVariantT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public OtMathGlyphVariantT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_glyph_variant_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_glyph_variant_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

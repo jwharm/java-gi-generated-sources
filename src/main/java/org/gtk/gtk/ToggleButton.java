@@ -80,17 +80,17 @@ import java.lang.invoke.*;
  */
 public class ToggleButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public ToggleButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ToggleButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ToggleButton */
     public static ToggleButton castFrom(org.gtk.gobject.Object gobject) {
-        return new ToggleButton(gobject.getReference());
+        return new ToggleButton(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_toggle_button_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_toggle_button_new(), false);
         return RESULT;
     }
     
@@ -103,8 +103,8 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         super(constructNew());
     }
     
-    private static Reference constructNewWithLabel(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNewWithLabel(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -115,8 +115,8 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         return new ToggleButton(constructNewWithLabel(label));
     }
     
-    private static Reference constructNewWithMnemonic(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNewWithMnemonic(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -211,7 +211,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         public static void signalToggleButtonToggled(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ToggleButton.ToggledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ToggleButton(References.get(source)));
+            handler.signalReceived(new ToggleButton(Refcounted.get(source)));
         }
         
     }

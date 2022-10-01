@@ -19,17 +19,17 @@ import java.lang.invoke.*;
  */
 public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.Orientable {
 
-    public SwipeTracker(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SwipeTracker(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SwipeTracker */
     public static SwipeTracker castFrom(org.gtk.gobject.Object gobject) {
-        return new SwipeTracker(gobject.getReference());
+        return new SwipeTracker(gobject.refcounted());
     }
     
-    private static Reference constructNew(Swipeable swipeable) {
-        Reference RESULT = References.get(gtk_h.adw_swipe_tracker_new(swipeable.handle()), true);
+    private static Refcounted constructNew(Swipeable swipeable) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_swipe_tracker_new(swipeable.handle()), true);
         return RESULT;
     }
     
@@ -77,7 +77,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      */
     public Swipeable getSwipeable() {
         var RESULT = gtk_h.adw_swipe_tracker_get_swipeable(handle());
-        return new Swipeable.SwipeableImpl(References.get(RESULT, false));
+        return new Swipeable.SwipeableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -236,25 +236,25 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         public static void signalSwipeTrackerBeginSwipe(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SwipeTracker.BeginSwipeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SwipeTracker(References.get(source)));
+            handler.signalReceived(new SwipeTracker(Refcounted.get(source)));
         }
         
         public static void signalSwipeTrackerEndSwipe(MemoryAddress source, double velocity, double to, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SwipeTracker.EndSwipeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SwipeTracker(References.get(source)), velocity, to);
+            handler.signalReceived(new SwipeTracker(Refcounted.get(source)), velocity, to);
         }
         
         public static void signalSwipeTrackerPrepare(MemoryAddress source, int direction, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SwipeTracker.PrepareHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SwipeTracker(References.get(source)), new NavigationDirection(direction));
+            handler.signalReceived(new SwipeTracker(Refcounted.get(source)), new NavigationDirection(direction));
         }
         
         public static void signalSwipeTrackerUpdateSwipe(MemoryAddress source, double progress, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SwipeTracker.UpdateSwipeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SwipeTracker(References.get(source)), progress);
+            handler.signalReceived(new SwipeTracker(Refcounted.get(source)), progress);
         }
         
     }

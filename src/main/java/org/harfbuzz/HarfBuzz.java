@@ -99,7 +99,7 @@ public final class HarfBuzz {
      */
     public static BlobT blobCopyWritableOrFail(BlobT blob) {
         var RESULT = gtk_h.hb_blob_copy_writable_or_fail(blob.handle());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -108,7 +108,7 @@ public final class HarfBuzz {
      */
     public static BlobT blobCreateFromFile(java.lang.String fileName) {
         var RESULT = gtk_h.hb_blob_create_from_file(Interop.allocateNativeString(fileName).handle());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -117,7 +117,7 @@ public final class HarfBuzz {
      */
     public static BlobT blobCreateFromFileOrFail(java.lang.String fileName) {
         var RESULT = gtk_h.hb_blob_create_from_file_or_fail(Interop.allocateNativeString(fileName).handle());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -131,7 +131,7 @@ public final class HarfBuzz {
      */
     public static BlobT blobCreateSubBlob(BlobT parent, int offset, int length) {
         var RESULT = gtk_h.hb_blob_create_sub_blob(parent.handle(), offset, length);
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -172,7 +172,7 @@ public final class HarfBuzz {
      */
     public static BlobT blobGetEmpty() {
         var RESULT = gtk_h.hb_blob_get_empty();
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -214,7 +214,7 @@ public final class HarfBuzz {
      */
     public static BlobT blobReference(BlobT blob) {
         var RESULT = gtk_h.hb_blob_reference(blob.handle());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -317,7 +317,7 @@ public final class HarfBuzz {
      */
     public static BufferT bufferCreate() {
         var RESULT = gtk_h.hb_buffer_create();
-        return new BufferT(References.get(RESULT, true));
+        return new BufferT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -326,7 +326,7 @@ public final class HarfBuzz {
      */
     public static BufferT bufferCreateSimilar(BufferT src) {
         var RESULT = gtk_h.hb_buffer_create_similar(src.handle());
-        return new BufferT(References.get(RESULT, true));
+        return new BufferT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -398,7 +398,7 @@ public final class HarfBuzz {
      */
     public static BufferT bufferGetEmpty() {
         var RESULT = gtk_h.hb_buffer_get_empty();
-        return new BufferT(References.get(RESULT, true));
+        return new BufferT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -445,7 +445,7 @@ public final class HarfBuzz {
      */
     public static LanguageT bufferGetLanguage(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_language(buffer.handle());
-        return new LanguageT(References.get(RESULT, false));
+        return new LanguageT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -493,7 +493,7 @@ public final class HarfBuzz {
      */
     public static UnicodeFuncsT bufferGetUnicodeFuncs(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_unicode_funcs(buffer.handle());
-        return new UnicodeFuncsT(References.get(RESULT, true));
+        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -566,7 +566,7 @@ public final class HarfBuzz {
      */
     public static BufferT bufferReference(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_reference(buffer.handle());
-        return new BufferT(References.get(RESULT, true));
+        return new BufferT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -930,7 +930,7 @@ public final class HarfBuzz {
      */
     public static DrawFuncsT drawFuncsCreate() {
         var RESULT = gtk_h.hb_draw_funcs_create();
-        return new DrawFuncsT(References.get(RESULT, true));
+        return new DrawFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -963,7 +963,7 @@ public final class HarfBuzz {
      */
     public static DrawFuncsT drawFuncsReference(DrawFuncsT dfuncs) {
         var RESULT = gtk_h.hb_draw_funcs_reference(dfuncs.handle());
-        return new DrawFuncsT(References.get(RESULT, true));
+        return new DrawFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1003,7 +1003,7 @@ public final class HarfBuzz {
      */
     public static FaceT faceBuilderCreate() {
         var RESULT = gtk_h.hb_face_builder_create();
-        return new FaceT(References.get(RESULT, true));
+        return new FaceT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1056,7 +1056,7 @@ public final class HarfBuzz {
      */
     public static FaceT faceCreate(BlobT blob, int index) {
         var RESULT = gtk_h.hb_face_create(blob.handle(), index);
-        return new FaceT(References.get(RESULT, true));
+        return new FaceT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1073,7 +1073,7 @@ public final class HarfBuzz {
      */
     public static FaceT faceGetEmpty() {
         var RESULT = gtk_h.hb_face_get_empty();
-        return new FaceT(References.get(RESULT, true));
+        return new FaceT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1140,7 +1140,7 @@ public final class HarfBuzz {
      */
     public static FaceT faceReference(FaceT face) {
         var RESULT = gtk_h.hb_face_reference(face.handle());
-        return new FaceT(References.get(RESULT, true));
+        return new FaceT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1150,7 +1150,7 @@ public final class HarfBuzz {
      */
     public static BlobT faceReferenceBlob(FaceT face) {
         var RESULT = gtk_h.hb_face_reference_blob(face.handle());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1159,7 +1159,7 @@ public final class HarfBuzz {
      */
     public static BlobT faceReferenceTable(FaceT face, TagT tag) {
         var RESULT = gtk_h.hb_face_reference_table(face.handle(), tag.getValue());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1267,7 +1267,7 @@ public final class HarfBuzz {
      */
     public static FontT fontCreate(FaceT face) {
         var RESULT = gtk_h.hb_font_create(face.handle());
-        return new FontT(References.get(RESULT, true));
+        return new FontT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1276,7 +1276,7 @@ public final class HarfBuzz {
      */
     public static FontT fontCreateSubFont(FontT parent) {
         var RESULT = gtk_h.hb_font_create_sub_font(parent.handle());
-        return new FontT(References.get(RESULT, true));
+        return new FontT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1293,7 +1293,7 @@ public final class HarfBuzz {
      */
     public static FontFuncsT fontFuncsCreate() {
         var RESULT = gtk_h.hb_font_funcs_create();
-        return new FontFuncsT(References.get(RESULT, true));
+        return new FontFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1310,7 +1310,7 @@ public final class HarfBuzz {
      */
     public static FontFuncsT fontFuncsGetEmpty() {
         var RESULT = gtk_h.hb_font_funcs_get_empty();
-        return new FontFuncsT(References.get(RESULT, true));
+        return new FontFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1342,7 +1342,7 @@ public final class HarfBuzz {
      */
     public static FontFuncsT fontFuncsReference(FontFuncsT ffuncs) {
         var RESULT = gtk_h.hb_font_funcs_reference(ffuncs.handle());
-        return new FontFuncsT(References.get(RESULT, true));
+        return new FontFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1350,7 +1350,7 @@ public final class HarfBuzz {
      */
     public static FontT fontGetEmpty() {
         var RESULT = gtk_h.hb_font_get_empty();
-        return new FontT(References.get(RESULT, true));
+        return new FontT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1369,7 +1369,7 @@ public final class HarfBuzz {
      */
     public static FaceT fontGetFace(FontT font) {
         var RESULT = gtk_h.hb_font_get_face(font.handle());
-        return new FaceT(References.get(RESULT, false));
+        return new FaceT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1648,7 +1648,7 @@ public final class HarfBuzz {
      */
     public static FontT fontGetParent(FontT font) {
         var RESULT = gtk_h.hb_font_get_parent(font.handle());
-        return new FontT(References.get(RESULT, false));
+        return new FontT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1787,7 +1787,7 @@ public final class HarfBuzz {
      */
     public static FontT fontReference(FontT font) {
         var RESULT = gtk_h.hb_font_reference(font.handle());
-        return new FontT(References.get(RESULT, true));
+        return new FontT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1970,7 +1970,7 @@ public final class HarfBuzz {
      */
     public static BlobT glibBlobCreate(org.gtk.glib.Bytes gbytes) {
         var RESULT = gtk_h.hb_glib_blob_create(gbytes.handle());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1979,7 +1979,7 @@ public final class HarfBuzz {
      */
     public static UnicodeFuncsT glibGetUnicodeFuncs() {
         var RESULT = gtk_h.hb_glib_get_unicode_funcs();
-        return new UnicodeFuncsT(References.get(RESULT, false));
+        return new UnicodeFuncsT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -2014,7 +2014,7 @@ public final class HarfBuzz {
      */
     public static LanguageT languageFromString(byte[] str, int len) {
         var RESULT = gtk_h.hb_language_from_string(Interop.allocateNativeArray(str).handle(), len);
-        return new LanguageT(References.get(RESULT, false));
+        return new LanguageT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -2029,7 +2029,7 @@ public final class HarfBuzz {
      */
     public static LanguageT languageGetDefault() {
         var RESULT = gtk_h.hb_language_get_default();
-        return new LanguageT(References.get(RESULT, false));
+        return new LanguageT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -2060,7 +2060,7 @@ public final class HarfBuzz {
      */
     public static MapT mapCreate() {
         var RESULT = gtk_h.hb_map_create();
-        return new MapT(References.get(RESULT, true));
+        return new MapT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2092,7 +2092,7 @@ public final class HarfBuzz {
      */
     public static MapT mapGetEmpty() {
         var RESULT = gtk_h.hb_map_get_empty();
-        return new MapT(References.get(RESULT, true));
+        return new MapT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2133,7 +2133,7 @@ public final class HarfBuzz {
      */
     public static MapT mapReference(MapT map) {
         var RESULT = gtk_h.hb_map_reference(map.handle());
-        return new MapT(References.get(RESULT, true));
+        return new MapT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2161,7 +2161,7 @@ public final class HarfBuzz {
      */
     public static BlobT otColorGlyphReferencePng(FontT font, CodepointT glyph) {
         var RESULT = gtk_h.hb_ot_color_glyph_reference_png(font.handle(), glyph.getValue());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2171,7 +2171,7 @@ public final class HarfBuzz {
      */
     public static BlobT otColorGlyphReferenceSvg(FaceT face, CodepointT glyph) {
         var RESULT = gtk_h.hb_ot_color_glyph_reference_svg(face.handle(), glyph.getValue());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2798,7 +2798,7 @@ public final class HarfBuzz {
      */
     public static BlobT otMetaReferenceEntry(FaceT face, OtMetaTagT metaTag) {
         var RESULT = gtk_h.hb_ot_meta_reference_entry(face.handle(), metaTag.getValue());
-        return new BlobT(References.get(RESULT, true));
+        return new BlobT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -2918,7 +2918,7 @@ public final class HarfBuzz {
      */
     public static LanguageT otTagToLanguage(TagT tag) {
         var RESULT = gtk_h.hb_ot_tag_to_language(tag.getValue());
-        return new LanguageT(References.get(RESULT, false));
+        return new LanguageT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -3153,7 +3153,7 @@ public final class HarfBuzz {
      */
     public static SetT setCopy(SetT set) {
         var RESULT = gtk_h.hb_set_copy(set.handle());
-        return new SetT(References.get(RESULT, true));
+        return new SetT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3161,7 +3161,7 @@ public final class HarfBuzz {
      */
     public static SetT setCreate() {
         var RESULT = gtk_h.hb_set_create();
-        return new SetT(References.get(RESULT, true));
+        return new SetT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3196,7 +3196,7 @@ public final class HarfBuzz {
      */
     public static SetT setGetEmpty() {
         var RESULT = gtk_h.hb_set_get_empty();
-        return new SetT(References.get(RESULT, true));
+        return new SetT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3338,7 +3338,7 @@ public final class HarfBuzz {
      */
     public static SetT setReference(SetT set) {
         var RESULT = gtk_h.hb_set_reference(set.handle());
-        return new SetT(References.get(RESULT, true));
+        return new SetT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3405,7 +3405,7 @@ public final class HarfBuzz {
      */
     public static ShapePlanT shapePlanCreate(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
         var RESULT = gtk_h.hb_shape_plan_create(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(shaperList).handle());
-        return new ShapePlanT(References.get(RESULT, true));
+        return new ShapePlanT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3415,7 +3415,7 @@ public final class HarfBuzz {
      */
     public static ShapePlanT shapePlanCreate2(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
         var RESULT = gtk_h.hb_shape_plan_create2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(coords).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
-        return new ShapePlanT(References.get(RESULT, true));
+        return new ShapePlanT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3424,7 +3424,7 @@ public final class HarfBuzz {
      */
     public static ShapePlanT shapePlanCreateCached(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
         var RESULT = gtk_h.hb_shape_plan_create_cached(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(shaperList).handle());
-        return new ShapePlanT(References.get(RESULT, true));
+        return new ShapePlanT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3435,7 +3435,7 @@ public final class HarfBuzz {
      */
     public static ShapePlanT shapePlanCreateCached2(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
         var RESULT = gtk_h.hb_shape_plan_create_cached2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(coords).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
-        return new ShapePlanT(References.get(RESULT, true));
+        return new ShapePlanT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3461,7 +3461,7 @@ public final class HarfBuzz {
      */
     public static ShapePlanT shapePlanGetEmpty() {
         var RESULT = gtk_h.hb_shape_plan_get_empty();
-        return new ShapePlanT(References.get(RESULT, true));
+        return new ShapePlanT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3486,7 +3486,7 @@ public final class HarfBuzz {
      */
     public static ShapePlanT shapePlanReference(ShapePlanT shapePlan) {
         var RESULT = gtk_h.hb_shape_plan_reference(shapePlan.handle());
-        return new ShapePlanT(References.get(RESULT, true));
+        return new ShapePlanT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3561,7 +3561,7 @@ public final class HarfBuzz {
      */
     public static UnicodeFuncsT unicodeFuncsCreate(UnicodeFuncsT parent) {
         var RESULT = gtk_h.hb_unicode_funcs_create(parent.handle());
-        return new UnicodeFuncsT(References.get(RESULT, true));
+        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3579,7 +3579,7 @@ public final class HarfBuzz {
      */
     public static UnicodeFuncsT unicodeFuncsGetDefault() {
         var RESULT = gtk_h.hb_unicode_funcs_get_default();
-        return new UnicodeFuncsT(References.get(RESULT, false));
+        return new UnicodeFuncsT(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -3587,7 +3587,7 @@ public final class HarfBuzz {
      */
     public static UnicodeFuncsT unicodeFuncsGetEmpty() {
         var RESULT = gtk_h.hb_unicode_funcs_get_empty();
-        return new UnicodeFuncsT(References.get(RESULT, true));
+        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3596,7 +3596,7 @@ public final class HarfBuzz {
      */
     public static UnicodeFuncsT unicodeFuncsGetParent(UnicodeFuncsT ufuncs) {
         var RESULT = gtk_h.hb_unicode_funcs_get_parent(ufuncs.handle());
-        return new UnicodeFuncsT(References.get(RESULT, true));
+        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -3630,7 +3630,7 @@ public final class HarfBuzz {
      */
     public static UnicodeFuncsT unicodeFuncsReference(UnicodeFuncsT ufuncs) {
         var RESULT = gtk_h.hb_unicode_funcs_reference(ufuncs.handle());
-        return new UnicodeFuncsT(References.get(RESULT, true));
+        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
     }
     
     /**

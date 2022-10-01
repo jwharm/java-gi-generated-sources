@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class StringObject extends org.gtk.gobject.Object {
 
-    public StringObject(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StringObject(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to StringObject */
     public static StringObject castFrom(org.gtk.gobject.Object gobject) {
-        return new StringObject(gobject.getReference());
+        return new StringObject(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String string) {
-        Reference RESULT = References.get(gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).handle()), true);
+    private static Refcounted constructNew(java.lang.String string) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).handle()), true);
         return RESULT;
     }
     

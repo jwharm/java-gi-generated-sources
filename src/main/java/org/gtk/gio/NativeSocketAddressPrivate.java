@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class NativeSocketAddressPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public NativeSocketAddressPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NativeSocketAddressPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

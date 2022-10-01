@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class SourceCallbackFuncs extends io.github.jwharm.javagi.ResourceBase {
 
-    public SourceCallbackFuncs(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SourceCallbackFuncs(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public SourceCallbackFuncs() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GSourceCallbackFuncs.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GSourceCallbackFuncs.allocate(Interop.getAllocator()).address()));
     }
     
 }

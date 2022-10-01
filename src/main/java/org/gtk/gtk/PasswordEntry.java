@@ -41,17 +41,17 @@ import java.lang.invoke.*;
  */
 public class PasswordEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
-    public PasswordEntry(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PasswordEntry(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PasswordEntry */
     public static PasswordEntry castFrom(org.gtk.gobject.Object gobject) {
-        return new PasswordEntry(gobject.getReference());
+        return new PasswordEntry(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_password_entry_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_password_entry_new(), false);
         return RESULT;
     }
     
@@ -67,7 +67,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = gtk_h.gtk_password_entry_get_extra_menu(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -130,7 +130,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
         public static void signalPasswordEntryActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PasswordEntry.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PasswordEntry(References.get(source)));
+            handler.signalReceived(new PasswordEntry(Refcounted.get(source)));
         }
         
     }

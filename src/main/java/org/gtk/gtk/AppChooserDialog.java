@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class AppChooserDialog extends Dialog implements Accessible, AppChooser, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public AppChooserDialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AppChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AppChooserDialog */
     public static AppChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new AppChooserDialog(gobject.getReference());
+        return new AppChooserDialog(gobject.refcounted());
     }
     
-    private static Reference constructNew(Window parent, DialogFlags flags, org.gtk.gio.File file) {
-        Reference RESULT = References.get(gtk_h.gtk_app_chooser_dialog_new(parent.handle(), flags.getValue(), file.handle()), false);
+    private static Refcounted constructNew(Window parent, DialogFlags flags, org.gtk.gio.File file) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_app_chooser_dialog_new(parent.handle(), flags.getValue(), file.handle()), false);
         return RESULT;
     }
     
@@ -44,8 +44,8 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
         super(constructNew(parent, flags, file));
     }
     
-    private static Reference constructNewForContentType(Window parent, DialogFlags flags, java.lang.String contentType) {
-        Reference RESULT = References.get(gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.handle(), flags.getValue(), Interop.allocateNativeString(contentType).handle()), false);
+    private static Refcounted constructNewForContentType(Window parent, DialogFlags flags, java.lang.String contentType) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.handle(), flags.getValue(), Interop.allocateNativeString(contentType).handle()), false);
         return RESULT;
     }
     
@@ -71,7 +71,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      */
     public Widget getWidget() {
         var RESULT = gtk_h.gtk_app_chooser_dialog_get_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
 
-    public TestSuite(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TestSuite(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**

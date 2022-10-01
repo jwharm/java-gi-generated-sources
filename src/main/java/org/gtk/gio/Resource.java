@@ -145,13 +145,13 @@ import java.lang.invoke.*;
  */
 public class Resource extends io.github.jwharm.javagi.ResourceBase {
 
-    public Resource(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Resource(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewFromData(org.gtk.glib.Bytes data) throws GErrorException {
+    private static Refcounted constructNewFromData(org.gtk.glib.Bytes data) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_resource_new_from_data(data.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_resource_new_from_data(data.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -248,7 +248,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -263,7 +263,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new InputStream(References.get(RESULT, true));
+        return new InputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -272,7 +272,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public Resource ref() {
         var RESULT = gtk_h.g_resource_ref(handle());
-        return new Resource(References.get(RESULT, true));
+        return new Resource(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -303,7 +303,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Resource(References.get(RESULT, true));
+        return new Resource(Refcounted.get(RESULT, true));
     }
     
 }

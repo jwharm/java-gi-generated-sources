@@ -28,17 +28,17 @@ import java.lang.invoke.*;
  */
 public class UnixCredentialsMessage extends SocketControlMessage {
 
-    public UnixCredentialsMessage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixCredentialsMessage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to UnixCredentialsMessage */
     public static UnixCredentialsMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixCredentialsMessage(gobject.getReference());
+        return new UnixCredentialsMessage(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_unix_credentials_message_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_credentials_message_new(), true);
         return RESULT;
     }
     
@@ -49,8 +49,8 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         super(constructNew());
     }
     
-    private static Reference constructNewWithCredentials(Credentials credentials) {
-        Reference RESULT = References.get(gtk_h.g_unix_credentials_message_new_with_credentials(credentials.handle()), true);
+    private static Refcounted constructNewWithCredentials(Credentials credentials) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_credentials_message_new_with_credentials(credentials.handle()), true);
         return RESULT;
     }
     
@@ -66,7 +66,7 @@ public class UnixCredentialsMessage extends SocketControlMessage {
      */
     public Credentials getCredentials() {
         var RESULT = gtk_h.g_unix_credentials_message_get_credentials(handle());
-        return new Credentials(References.get(RESULT, false));
+        return new Credentials(Refcounted.get(RESULT, false));
     }
     
     /**

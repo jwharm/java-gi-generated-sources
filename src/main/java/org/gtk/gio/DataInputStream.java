@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class DataInputStream extends BufferedInputStream implements Seekable {
 
-    public DataInputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DataInputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DataInputStream */
     public static DataInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new DataInputStream(gobject.getReference());
+        return new DataInputStream(gobject.refcounted());
     }
     
-    private static Reference constructNew(InputStream baseStream) {
-        Reference RESULT = References.get(gtk_h.g_data_input_stream_new(baseStream.handle()), true);
+    private static Refcounted constructNew(InputStream baseStream) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_data_input_stream_new(baseStream.handle()), true);
         return RESULT;
     }
     

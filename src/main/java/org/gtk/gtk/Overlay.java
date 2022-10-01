@@ -41,17 +41,17 @@ import java.lang.invoke.*;
  */
 public class Overlay extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Overlay(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Overlay(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Overlay */
     public static Overlay castFrom(org.gtk.gobject.Object gobject) {
-        return new Overlay(gobject.getReference());
+        return new Overlay(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_overlay_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_overlay_new(), false);
         return RESULT;
     }
     
@@ -81,7 +81,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_overlay_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -177,7 +177,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
         public static boolean signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Overlay.GetChildPositionHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Overlay(References.get(source)), new Widget(References.get(widget, false)), new org.gtk.gdk.Rectangle(References.get(allocation, false)));
+            return handler.signalReceived(new Overlay(Refcounted.get(source)), new Widget(Refcounted.get(widget, false)), new org.gtk.gdk.Rectangle(Refcounted.get(allocation, false)));
         }
         
     }

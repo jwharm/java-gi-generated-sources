@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
 
-    public MappedFile(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MappedFile(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String filename, boolean writable) throws GErrorException {
+    private static Refcounted constructNew(java.lang.String filename, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_mapped_file_new(Interop.allocateNativeString(filename).handle(), writable ? 1 : 0, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_mapped_file_new(Interop.allocateNativeString(filename).handle(), writable ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -47,9 +47,9 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(filename, writable));
     }
     
-    private static Reference constructNewFromFd(int fd, boolean writable) throws GErrorException {
+    private static Refcounted constructNewFromFd(int fd, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_mapped_file_new_from_fd(fd, writable ? 1 : 0, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_mapped_file_new_from_fd(fd, writable ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -80,7 +80,7 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public Bytes getBytes() {
         var RESULT = gtk_h.g_mapped_file_get_bytes(handle());
-        return new Bytes(References.get(RESULT, true));
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -110,7 +110,7 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public MappedFile ref() {
         var RESULT = gtk_h.g_mapped_file_ref(handle());
-        return new MappedFile(References.get(RESULT, true));
+        return new MappedFile(Refcounted.get(RESULT, true));
     }
     
     /**

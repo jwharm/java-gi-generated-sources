@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class LeafletPage extends org.gtk.gobject.Object {
 
-    public LeafletPage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LeafletPage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to LeafletPage */
     public static LeafletPage castFrom(org.gtk.gobject.Object gobject) {
-        return new LeafletPage(gobject.getReference());
+        return new LeafletPage(gobject.refcounted());
     }
     
     /**
@@ -24,7 +24,7 @@ public class LeafletPage extends org.gtk.gobject.Object {
      */
     public org.gtk.gtk.Widget getChild() {
         var RESULT = gtk_h.adw_leaflet_page_get_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

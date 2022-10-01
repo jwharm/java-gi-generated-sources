@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class Snapshot extends org.gtk.gdk.Snapshot {
 
-    public Snapshot(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Snapshot(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Snapshot */
     public static Snapshot castFrom(org.gtk.gobject.Object gobject) {
-        return new Snapshot(gobject.getReference());
+        return new Snapshot(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_snapshot_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_snapshot_new(), true);
         return RESULT;
     }
     
@@ -57,7 +57,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.cairographics.Context appendCairo(org.gtk.graphene.Rect bounds) {
         var RESULT = gtk_h.gtk_snapshot_append_cairo(handle(), bounds.handle());
-        return new org.cairographics.Context(References.get(RESULT, true));
+        return new org.cairographics.Context(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -151,7 +151,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.gtk.gsk.RenderNode freeToNode() {
         var RESULT = gtk_h.gtk_snapshot_free_to_node(handle());
-        return new org.gtk.gsk.RenderNode(References.get(RESULT, true));
+        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -160,7 +160,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.gtk.gdk.Paintable freeToPaintable(org.gtk.graphene.Size size) {
         var RESULT = gtk_h.gtk_snapshot_free_to_paintable(handle(), size.handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -287,7 +287,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * For details on how to write shaders, see {@link org.gtk.gsk.GLShader}.
      */
     public void pushGlShader(org.gtk.gsk.GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes takeArgs) {
-        gtk_h.gtk_snapshot_push_gl_shader(handle(), shader.handle(), bounds.handle(), takeArgs.getReference().unowned().handle());
+        gtk_h.gtk_snapshot_push_gl_shader(handle(), shader.handle(), bounds.handle(), takeArgs.refcounted().unowned().handle());
     }
     
     /**
@@ -441,7 +441,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.gtk.gsk.RenderNode toNode() {
         var RESULT = gtk_h.gtk_snapshot_to_node(handle());
-        return new org.gtk.gsk.RenderNode(References.get(RESULT, true));
+        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -454,7 +454,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.gtk.gdk.Paintable toPaintable(org.gtk.graphene.Size size) {
         var RESULT = gtk_h.gtk_snapshot_to_paintable(handle(), size.handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -31,17 +31,17 @@ import java.lang.invoke.*;
  */
 public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public DirectoryList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DirectoryList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DirectoryList */
     public static DirectoryList castFrom(org.gtk.gobject.Object gobject) {
-        return new DirectoryList(gobject.getReference());
+        return new DirectoryList(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String attributes, org.gtk.gio.File file) {
-        Reference RESULT = References.get(gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).handle(), file.handle()), true);
+    private static Refcounted constructNew(java.lang.String attributes, org.gtk.gio.File file) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).handle(), file.handle()), true);
         return RESULT;
     }
     
@@ -75,7 +75,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.glib.Error getError() {
         var RESULT = gtk_h.gtk_directory_list_get_error(handle());
-        return new org.gtk.glib.Error(References.get(RESULT, false));
+        return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -83,7 +83,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_directory_list_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
     }
     
     /**

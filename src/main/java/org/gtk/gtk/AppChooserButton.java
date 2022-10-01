@@ -36,17 +36,17 @@ import java.lang.invoke.*;
  */
 public class AppChooserButton extends Widget implements Accessible, AppChooser, Buildable, ConstraintTarget {
 
-    public AppChooserButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AppChooserButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AppChooserButton */
     public static AppChooserButton castFrom(org.gtk.gobject.Object gobject) {
-        return new AppChooserButton(gobject.getReference());
+        return new AppChooserButton(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String contentType) {
-        Reference RESULT = References.get(gtk_h.gtk_app_chooser_button_new(Interop.allocateNativeString(contentType).handle()), false);
+    private static Refcounted constructNew(java.lang.String contentType) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_app_chooser_button_new(Interop.allocateNativeString(contentType).handle()), false);
         return RESULT;
     }
     
@@ -248,19 +248,19 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
         public static void signalAppChooserButtonActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppChooserButton.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppChooserButton(References.get(source)));
+            handler.signalReceived(new AppChooserButton(Refcounted.get(source)));
         }
         
         public static void signalAppChooserButtonChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppChooserButton.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppChooserButton(References.get(source)));
+            handler.signalReceived(new AppChooserButton(Refcounted.get(source)));
         }
         
         public static void signalAppChooserButtonCustomItemActivated(MemoryAddress source, MemoryAddress itemName, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppChooserButton.CustomItemActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppChooserButton(References.get(source)), itemName.getUtf8String(0));
+            handler.signalReceived(new AppChooserButton(Refcounted.get(source)), itemName.getUtf8String(0));
         }
         
     }

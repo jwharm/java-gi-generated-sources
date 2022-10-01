@@ -58,17 +58,17 @@ import java.lang.invoke.*;
  */
 public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public ViewStack(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ViewStack(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ViewStack */
     public static ViewStack castFrom(org.gtk.gobject.Object gobject) {
-        return new ViewStack(gobject.getReference());
+        return new ViewStack(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_view_stack_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_view_stack_new(), false);
         return RESULT;
     }
     
@@ -84,7 +84,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public ViewStackPage add(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_view_stack_add(handle(), child.handle());
-        return new ViewStackPage(References.get(RESULT, false));
+        return new ViewStackPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -94,7 +94,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public ViewStackPage addNamed(org.gtk.gtk.Widget child, java.lang.String name) {
         var RESULT = gtk_h.adw_view_stack_add_named(handle(), child.handle(), Interop.allocateNativeString(name).handle());
-        return new ViewStackPage(References.get(RESULT, false));
+        return new ViewStackPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -105,7 +105,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public ViewStackPage addTitled(org.gtk.gtk.Widget child, java.lang.String name, java.lang.String title) {
         var RESULT = gtk_h.adw_view_stack_add_titled(handle(), child.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(title).handle());
-        return new ViewStackPage(References.get(RESULT, false));
+        return new ViewStackPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -113,7 +113,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public org.gtk.gtk.Widget getChildByName(java.lang.String name) {
         var RESULT = gtk_h.adw_view_stack_get_child_by_name(handle(), Interop.allocateNativeString(name).handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -129,7 +129,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public ViewStackPage getPage(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_view_stack_get_page(handle(), child.handle());
-        return new ViewStackPage(References.get(RESULT, false));
+        return new ViewStackPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public org.gtk.gtk.SelectionModel getPages() {
         var RESULT = gtk_h.adw_view_stack_get_pages(handle());
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(References.get(RESULT, true));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -157,7 +157,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public org.gtk.gtk.Widget getVisibleChild() {
         var RESULT = gtk_h.adw_view_stack_get_visible_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

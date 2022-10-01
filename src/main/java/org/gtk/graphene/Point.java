@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Point extends io.github.jwharm.javagi.ResourceBase {
 
-    public Point(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Point(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_point_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_point_alloc(), true);
         return RESULT;
     }
     
@@ -80,7 +80,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      */
     public Point init(float x, float y) {
         var RESULT = gtk_h.graphene_point_init(handle(), x, y);
-        return new Point(References.get(RESULT, false));
+        return new Point(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -88,7 +88,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      */
     public Point initFromPoint(Point src) {
         var RESULT = gtk_h.graphene_point_init_from_point(handle(), src.handle());
-        return new Point(References.get(RESULT, false));
+        return new Point(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      */
     public Point initFromVec2(Vec2 src) {
         var RESULT = gtk_h.graphene_point_init_from_vec2(handle(), src.handle());
-        return new Point(References.get(RESULT, false));
+        return new Point(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -129,7 +129,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Point zero() {
         var RESULT = gtk_h.graphene_point_zero();
-        return new Point(References.get(RESULT, false));
+        return new Point(Refcounted.get(RESULT, false));
     }
     
 }

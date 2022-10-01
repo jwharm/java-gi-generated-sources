@@ -121,17 +121,17 @@ import java.lang.invoke.*;
  */
 public class SpinButton extends Widget implements Accessible, Buildable, CellEditable, ConstraintTarget, Editable, Orientable {
 
-    public SpinButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SpinButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SpinButton */
     public static SpinButton castFrom(org.gtk.gobject.Object gobject) {
-        return new SpinButton(gobject.getReference());
+        return new SpinButton(gobject.refcounted());
     }
     
-    private static Reference constructNew(Adjustment adjustment, double climbRate, int digits) {
-        Reference RESULT = References.get(gtk_h.gtk_spin_button_new(adjustment.handle(), climbRate, digits), false);
+    private static Refcounted constructNew(Adjustment adjustment, double climbRate, int digits) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_spin_button_new(adjustment.handle(), climbRate, digits), false);
         return RESULT;
     }
     
@@ -142,8 +142,8 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         super(constructNew(adjustment, climbRate, digits));
     }
     
-    private static Reference constructNewWithRange(double min, double max, double step) {
-        Reference RESULT = References.get(gtk_h.gtk_spin_button_new_with_range(min, max, step), false);
+    private static Refcounted constructNewWithRange(double min, double max, double step) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_spin_button_new_with_range(min, max, step), false);
         return RESULT;
     }
     
@@ -181,7 +181,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_spin_button_get_adjustment(handle());
-        return new Adjustment(References.get(RESULT, false));
+        return new Adjustment(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -545,31 +545,31 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         public static void signalSpinButtonChangeValue(MemoryAddress source, int scroll, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SpinButton.ChangeValueHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SpinButton(References.get(source)), new ScrollType(scroll));
+            handler.signalReceived(new SpinButton(Refcounted.get(source)), new ScrollType(scroll));
         }
         
         public static void signalSpinButtonInput(MemoryAddress source, double newValue, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SpinButton.InputHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SpinButton(References.get(source)), newValue);
+            handler.signalReceived(new SpinButton(Refcounted.get(source)), newValue);
         }
         
         public static boolean signalSpinButtonOutput(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SpinButton.OutputHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new SpinButton(References.get(source)));
+            return handler.signalReceived(new SpinButton(Refcounted.get(source)));
         }
         
         public static void signalSpinButtonValueChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SpinButton.ValueChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SpinButton(References.get(source)));
+            handler.signalReceived(new SpinButton(Refcounted.get(source)));
         }
         
         public static void signalSpinButtonWrapped(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SpinButton.WrappedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SpinButton(References.get(source)));
+            handler.signalReceived(new SpinButton(Refcounted.get(source)));
         }
         
     }

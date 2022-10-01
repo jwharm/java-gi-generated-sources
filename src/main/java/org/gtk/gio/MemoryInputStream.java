@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class MemoryInputStream extends InputStream implements PollableInputStream, Seekable {
 
-    public MemoryInputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MemoryInputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MemoryInputStream */
     public static MemoryInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryInputStream(gobject.getReference());
+        return new MemoryInputStream(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_memory_input_stream_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_memory_input_stream_new(), true);
         return RESULT;
     }
     
@@ -35,8 +35,8 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
         super(constructNew());
     }
     
-    private static Reference constructNewFromBytes(org.gtk.glib.Bytes bytes) {
-        Reference RESULT = References.get(gtk_h.g_memory_input_stream_new_from_bytes(bytes.handle()), true);
+    private static Refcounted constructNewFromBytes(org.gtk.glib.Bytes bytes) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_memory_input_stream_new_from_bytes(bytes.handle()), true);
         return RESULT;
     }
     

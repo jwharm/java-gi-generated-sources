@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  */
 public class AttrClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrClass(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrClass(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AttrClass() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrClass.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrClass.allocate(Interop.getAllocator()).address()));
     }
     
 }

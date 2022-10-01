@@ -134,7 +134,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Source createSource(org.gtk.glib.IOCondition condition, Cancellable cancellable) {
         var RESULT = gtk_h.g_datagram_based_create_source(handle(), condition.getValue(), cancellable.handle());
-        return new org.gtk.glib.Source(References.get(RESULT, true));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -251,8 +251,8 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     }
     
     class DatagramBasedImpl extends org.gtk.gobject.Object implements DatagramBased {
-        public DatagramBasedImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public DatagramBasedImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

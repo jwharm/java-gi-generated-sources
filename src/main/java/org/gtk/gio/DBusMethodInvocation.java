@@ -16,13 +16,13 @@ import java.lang.invoke.*;
  */
 public class DBusMethodInvocation extends org.gtk.gobject.Object {
 
-    public DBusMethodInvocation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusMethodInvocation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusMethodInvocation */
     public static DBusMethodInvocation castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusMethodInvocation(gobject.getReference());
+        return new DBusMethodInvocation(gobject.refcounted());
     }
     
     /**
@@ -30,7 +30,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_connection(handle());
-        return new DBusConnection(References.get(RESULT, false));
+        return new DBusConnection(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public DBusMessage getMessage() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_message(handle());
-        return new DBusMessage(References.get(RESULT, false));
+        return new DBusMessage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public DBusMethodInfo getMethodInfo() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_method_info(handle());
-        return new DBusMethodInfo(References.get(RESULT, false));
+        return new DBusMethodInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getParameters() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_parameters(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public DBusPropertyInfo getPropertyInfo() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_property_info(handle());
-        return new DBusPropertyInfo(References.get(RESULT, false));
+        return new DBusPropertyInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -239,7 +239,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * {@code invocation}.
      */
     public void takeError(org.gtk.glib.Error error) {
-        gtk_h.g_dbus_method_invocation_take_error(handle(), error.getReference().unowned().handle());
+        gtk_h.g_dbus_method_invocation_take_error(handle(), error.refcounted().unowned().handle());
     }
     
 }

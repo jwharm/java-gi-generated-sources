@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class TcpWrapperConnection extends TcpConnection {
 
-    public TcpWrapperConnection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TcpWrapperConnection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TcpWrapperConnection */
     public static TcpWrapperConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new TcpWrapperConnection(gobject.getReference());
+        return new TcpWrapperConnection(gobject.refcounted());
     }
     
-    private static Reference constructNew(IOStream baseIoStream, Socket socket) {
-        Reference RESULT = References.get(gtk_h.g_tcp_wrapper_connection_new(baseIoStream.handle(), socket.handle()), true);
+    private static Refcounted constructNew(IOStream baseIoStream, Socket socket) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_tcp_wrapper_connection_new(baseIoStream.handle(), socket.handle()), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class TcpWrapperConnection extends TcpConnection {
      */
     public IOStream getBaseIoStream() {
         var RESULT = gtk_h.g_tcp_wrapper_connection_get_base_io_stream(handle());
-        return new IOStream(References.get(RESULT, false));
+        return new IOStream(Refcounted.get(RESULT, false));
     }
     
 }

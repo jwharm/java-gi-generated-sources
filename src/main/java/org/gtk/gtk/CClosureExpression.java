@@ -10,18 +10,18 @@ import java.lang.invoke.*;
  */
 public class CClosureExpression extends Expression {
 
-    public CClosureExpression(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CClosureExpression(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CClosureExpression */
     public static CClosureExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new CClosureExpression(gobject.getReference());
+        return new CClosureExpression(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
+    private static Refcounted constructNew(org.gtk.gobject.Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
         try {
-            Reference RESULT = References.get(gtk_h.gtk_cclosure_expression_new(valueType.getValue(), 
+            Refcounted RESULT = Refcounted.get(gtk_h.gtk_cclosure_expression_new(valueType.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

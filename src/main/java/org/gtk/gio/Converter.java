@@ -119,8 +119,8 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
     }
     
     class ConverterImpl extends org.gtk.gobject.Object implements Converter {
-        public ConverterImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ConverterImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

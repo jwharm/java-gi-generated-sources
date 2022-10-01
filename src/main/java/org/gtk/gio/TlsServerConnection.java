@@ -25,12 +25,12 @@ public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsServerConnection.TlsServerConnectionImpl(References.get(RESULT, true));
+        return new TlsServerConnection.TlsServerConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     class TlsServerConnectionImpl extends org.gtk.gobject.Object implements TlsServerConnection {
-        public TlsServerConnectionImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public TlsServerConnectionImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class TabPage extends org.gtk.gobject.Object {
 
-    public TabPage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TabPage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TabPage */
     public static TabPage castFrom(org.gtk.gobject.Object gobject) {
-        return new TabPage(gobject.getReference());
+        return new TabPage(gobject.refcounted());
     }
     
     /**
@@ -24,7 +24,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public org.gtk.gtk.Widget getChild() {
         var RESULT = gtk_h.adw_tab_page_get_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -32,7 +32,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.Icon getIcon() {
         var RESULT = gtk_h.adw_tab_page_get_icon(handle());
-        return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.Icon getIndicatorIcon() {
         var RESULT = gtk_h.adw_tab_page_get_indicator_icon(handle());
-        return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -72,7 +72,7 @@ public class TabPage extends org.gtk.gobject.Object {
      */
     public TabPage getParent() {
         var RESULT = gtk_h.adw_tab_page_get_parent(handle());
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**

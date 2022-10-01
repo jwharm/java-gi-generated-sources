@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class SignalAction extends ShortcutAction {
 
-    public SignalAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SignalAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SignalAction */
     public static SignalAction castFrom(org.gtk.gobject.Object gobject) {
-        return new SignalAction(gobject.getReference());
+        return new SignalAction(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String signalName) {
-        Reference RESULT = References.get(gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).handle()), true);
+    private static Refcounted constructNew(java.lang.String signalName) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).handle()), true);
         return RESULT;
     }
     

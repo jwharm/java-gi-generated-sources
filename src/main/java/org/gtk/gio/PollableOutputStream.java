@@ -39,7 +39,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Source createSource(Cancellable cancellable) {
         var RESULT = gtk_h.g_pollable_output_stream_create_source(handle(), cancellable.handle());
-        return new org.gtk.glib.Source(References.get(RESULT, true));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -111,8 +111,8 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     }
     
     class PollableOutputStreamImpl extends org.gtk.gobject.Object implements PollableOutputStream {
-        public PollableOutputStreamImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public PollableOutputStreamImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

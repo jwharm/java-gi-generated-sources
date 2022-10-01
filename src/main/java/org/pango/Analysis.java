@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class Analysis extends io.github.jwharm.javagi.ResourceBase {
 
-    public Analysis(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Analysis(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Analysis() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAnalysis.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAnalysis.allocate(Interop.getAllocator()).address()));
     }
     
 }

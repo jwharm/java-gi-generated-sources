@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class ColorStop extends io.github.jwharm.javagi.ResourceBase {
 
-    public ColorStop(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ColorStop(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ColorStop() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GskColorStop.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GskColorStop.allocate(Interop.getAllocator()).address()));
     }
     
 }

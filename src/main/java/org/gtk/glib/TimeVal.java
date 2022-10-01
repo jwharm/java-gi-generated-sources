@@ -19,12 +19,12 @@ import java.lang.invoke.*;
  */
 public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
 
-    public TimeVal(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TimeVal(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TimeVal() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTimeVal.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTimeVal.allocate(Interop.getAllocator()).address()));
     }
     
 }

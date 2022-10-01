@@ -31,17 +31,17 @@ import java.lang.invoke.*;
  */
 public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
 
-    public Squeezer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Squeezer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Squeezer */
     public static Squeezer castFrom(org.gtk.gobject.Object gobject) {
-        return new Squeezer(gobject.getReference());
+        return new Squeezer(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_squeezer_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_squeezer_new(), false);
         return RESULT;
     }
     
@@ -57,7 +57,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public SqueezerPage add(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_squeezer_add(handle(), child.handle());
-        return new SqueezerPage(References.get(RESULT, false));
+        return new SqueezerPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public SqueezerPage getPage(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_squeezer_get_page(handle(), child.handle());
-        return new SqueezerPage(References.get(RESULT, false));
+        return new SqueezerPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -100,7 +100,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public org.gtk.gtk.SelectionModel getPages() {
         var RESULT = gtk_h.adw_squeezer_get_pages(handle());
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(References.get(RESULT, true));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -140,7 +140,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public org.gtk.gtk.Widget getVisibleChild() {
         var RESULT = gtk_h.adw_squeezer_get_visible_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableIcon {
 
-    public BytesIcon(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BytesIcon(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BytesIcon */
     public static BytesIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new BytesIcon(gobject.getReference());
+        return new BytesIcon(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.glib.Bytes bytes) {
-        Reference RESULT = References.get(gtk_h.g_bytes_icon_new(bytes.handle()), true);
+    private static Refcounted constructNew(org.gtk.glib.Bytes bytes) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_bytes_icon_new(bytes.handle()), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
      */
     public org.gtk.glib.Bytes getBytes() {
         var RESULT = gtk_h.g_bytes_icon_get_bytes(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, false));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
     }
     
 }

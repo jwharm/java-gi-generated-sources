@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class TlsConnection extends IOStream {
 
-    public TlsConnection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TlsConnection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TlsConnection */
     public static TlsConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsConnection(gobject.getReference());
+        return new TlsConnection(gobject.refcounted());
     }
     
     /**
@@ -39,7 +39,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsCertificate getCertificate() {
         var RESULT = gtk_h.g_tls_connection_get_certificate(handle());
-        return new TlsCertificate(References.get(RESULT, false));
+        return new TlsCertificate(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsDatabase getDatabase() {
         var RESULT = gtk_h.g_tls_connection_get_database(handle());
-        return new TlsDatabase(References.get(RESULT, false));
+        return new TlsDatabase(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -97,7 +97,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsInteraction getInteraction() {
         var RESULT = gtk_h.g_tls_connection_get_interaction(handle());
-        return new TlsInteraction(References.get(RESULT, false));
+        return new TlsInteraction(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -121,7 +121,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsCertificate getPeerCertificate() {
         var RESULT = gtk_h.g_tls_connection_get_peer_certificate(handle());
-        return new TlsCertificate(References.get(RESULT, false));
+        return new TlsCertificate(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -404,7 +404,7 @@ public class TlsConnection extends IOStream {
         public static boolean signalTlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TlsConnection(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
+            return handler.signalReceived(new TlsConnection(Refcounted.get(source)), new TlsCertificate(Refcounted.get(peerCert, false)), new TlsCertificateFlags(errors));
         }
         
     }

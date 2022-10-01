@@ -12,17 +12,17 @@ import java.lang.invoke.*;
  */
 public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, SymbolicPaintable {
 
-    public IconPaintable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IconPaintable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to IconPaintable */
     public static IconPaintable castFrom(org.gtk.gobject.Object gobject) {
-        return new IconPaintable(gobject.getReference());
+        return new IconPaintable(gobject.refcounted());
     }
     
-    private static Reference constructNewForFile(org.gtk.gio.File file, int size, int scale) {
-        Reference RESULT = References.get(gtk_h.gtk_icon_paintable_new_for_file(file.handle(), size, scale), true);
+    private static Refcounted constructNewForFile(org.gtk.gio.File file, int size, int scale) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_icon_paintable_new_for_file(file.handle(), size, scale), true);
         return RESULT;
     }
     
@@ -42,7 +42,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_icon_paintable_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(References.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**

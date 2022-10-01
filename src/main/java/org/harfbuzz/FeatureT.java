@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  */
 public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
 
-    public FeatureT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FeatureT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public FeatureT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_feature_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_feature_t.allocate(Interop.getAllocator()).address()));
     }
     
     /**

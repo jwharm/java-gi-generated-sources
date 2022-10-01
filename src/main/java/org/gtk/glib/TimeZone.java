@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
 
-    public TimeZone(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TimeZone(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewIdentifier(java.lang.String identifier) {
-        Reference RESULT = References.get(gtk_h.g_time_zone_new_identifier(Interop.allocateNativeString(identifier).handle()), true);
+    private static Refcounted constructNewIdentifier(java.lang.String identifier) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_time_zone_new_identifier(Interop.allocateNativeString(identifier).handle()), true);
         return RESULT;
     }
     
@@ -91,8 +91,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         return new TimeZone(constructNewIdentifier(identifier));
     }
     
-    private static Reference constructNewLocal() {
-        Reference RESULT = References.get(gtk_h.g_time_zone_new_local(), true);
+    private static Refcounted constructNewLocal() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_time_zone_new_local(), true);
         return RESULT;
     }
     
@@ -111,8 +111,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         return new TimeZone(constructNewLocal());
     }
     
-    private static Reference constructNewOffset(int seconds) {
-        Reference RESULT = References.get(gtk_h.g_time_zone_new_offset(seconds), true);
+    private static Refcounted constructNewOffset(int seconds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_time_zone_new_offset(seconds), true);
         return RESULT;
     }
     
@@ -127,8 +127,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         return new TimeZone(constructNewOffset(seconds));
     }
     
-    private static Reference constructNewUtc() {
-        Reference RESULT = References.get(gtk_h.g_time_zone_new_utc(), true);
+    private static Refcounted constructNewUtc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_time_zone_new_utc(), true);
         return RESULT;
     }
     
@@ -248,7 +248,7 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      */
     public TimeZone ref() {
         var RESULT = gtk_h.g_time_zone_ref(handle());
-        return new TimeZone(References.get(RESULT, true));
+        return new TimeZone(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class MnemonicTrigger extends ShortcutTrigger {
 
-    public MnemonicTrigger(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MnemonicTrigger(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MnemonicTrigger */
     public static MnemonicTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new MnemonicTrigger(gobject.getReference());
+        return new MnemonicTrigger(gobject.refcounted());
     }
     
-    private static Reference constructNew(int keyval) {
-        Reference RESULT = References.get(gtk_h.gtk_mnemonic_trigger_new(keyval), true);
+    private static Refcounted constructNew(int keyval) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_mnemonic_trigger_new(keyval), true);
         return RESULT;
     }
     

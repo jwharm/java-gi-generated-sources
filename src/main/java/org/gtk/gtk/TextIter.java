@@ -15,12 +15,12 @@ import java.lang.invoke.*;
  */
 public class TextIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public TextIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TextIter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTextIter.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkTextIter.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -319,7 +319,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public TextIter copy() {
         var RESULT = gtk_h.gtk_text_iter_copy(handle());
-        return new TextIter(References.get(RESULT, true));
+        return new TextIter(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -723,7 +723,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public TextBuffer getBuffer() {
         var RESULT = gtk_h.gtk_text_iter_get_buffer(handle());
-        return new TextBuffer(References.get(RESULT, false));
+        return new TextBuffer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -768,7 +768,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public TextChildAnchor getChildAnchor() {
         var RESULT = gtk_h.gtk_text_iter_get_child_anchor(handle());
-        return new TextChildAnchor(References.get(RESULT, false));
+        return new TextChildAnchor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -779,7 +779,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.pango.Language getLanguage() {
         var RESULT = gtk_h.gtk_text_iter_get_language(handle());
-        return new org.pango.Language(References.get(RESULT, true));
+        return new org.pango.Language(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -828,7 +828,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.SList getMarks() {
         var RESULT = gtk_h.gtk_text_iter_get_marks(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -851,7 +851,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gdk.Paintable getPaintable() {
         var RESULT = gtk_h.gtk_text_iter_get_paintable(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -882,7 +882,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.SList getTags() {
         var RESULT = gtk_h.gtk_text_iter_get_tags(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -911,7 +911,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.SList getToggledTags(boolean toggledOn) {
         var RESULT = gtk_h.gtk_text_iter_get_toggled_tags(handle(), toggledOn ? 1 : 0);
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
     /**

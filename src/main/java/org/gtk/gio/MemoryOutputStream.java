@@ -14,18 +14,18 @@ import java.lang.invoke.*;
  */
 public class MemoryOutputStream extends OutputStream implements PollableOutputStream, Seekable {
 
-    public MemoryOutputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MemoryOutputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MemoryOutputStream */
     public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryOutputStream(gobject.getReference());
+        return new MemoryOutputStream(gobject.refcounted());
     }
     
-    private static Reference constructNew(long size, ReallocFunc reallocFunction) {
+    private static Refcounted constructNew(long size, ReallocFunc reallocFunction) {
         try {
-            Reference RESULT = References.get(gtk_h.g_memory_output_stream_new(
+            Refcounted RESULT = Refcounted.get(gtk_h.g_memory_output_stream_new(
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(reallocFunction.hashCode(), reallocFunction)), size, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbReallocFunc",
@@ -86,8 +86,8 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
         super(constructNew(size, reallocFunction));
     }
     
-    private static Reference constructNewResizable() {
-        Reference RESULT = References.get(gtk_h.g_memory_output_stream_new_resizable(), true);
+    private static Refcounted constructNewResizable() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_memory_output_stream_new_resizable(), true);
         return RESULT;
     }
     
@@ -147,7 +147,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      */
     public org.gtk.glib.Bytes stealAsBytes() {
         var RESULT = gtk_h.g_memory_output_stream_steal_as_bytes(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
     /**

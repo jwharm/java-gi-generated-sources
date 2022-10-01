@@ -44,17 +44,17 @@ import java.lang.invoke.*;
  */
 public class GridView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
-    public GridView(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GridView(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GridView */
     public static GridView castFrom(org.gtk.gobject.Object gobject) {
-        return new GridView(gobject.getReference());
+        return new GridView(gobject.refcounted());
     }
     
-    private static Reference constructNew(SelectionModel model, ListItemFactory factory) {
-        Reference RESULT = References.get(gtk_h.gtk_grid_view_new(model.getReference().unowned().handle(), factory.getReference().unowned().handle()), false);
+    private static Refcounted constructNew(SelectionModel model, ListItemFactory factory) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_grid_view_new(model.refcounted().unowned().handle(), factory.refcounted().unowned().handle()), false);
         return RESULT;
     }
     
@@ -86,7 +86,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      */
     public ListItemFactory getFactory() {
         var RESULT = gtk_h.gtk_grid_view_get_factory(handle());
-        return new ListItemFactory(References.get(RESULT, false));
+        return new ListItemFactory(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -110,7 +110,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_grid_view_get_model(handle());
-        return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -213,7 +213,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
         public static void signalGridViewActivate(MemoryAddress source, int position, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GridView.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GridView(References.get(source)), position);
+            handler.signalReceived(new GridView(Refcounted.get(source)), position);
         }
         
     }

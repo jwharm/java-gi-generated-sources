@@ -50,12 +50,12 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
      */
     public static PowerProfileMonitor dupDefault() {
         var RESULT = gtk_h.g_power_profile_monitor_dup_default();
-        return new PowerProfileMonitor.PowerProfileMonitorImpl(References.get(RESULT, true));
+        return new PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
     }
     
     class PowerProfileMonitorImpl extends org.gtk.gobject.Object implements PowerProfileMonitor {
-        public PowerProfileMonitorImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public PowerProfileMonitorImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

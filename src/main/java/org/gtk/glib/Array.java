@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Array extends io.github.jwharm.javagi.ResourceBase {
 
-    public Array(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Array(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Array() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GArray.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GArray.allocate(Interop.getAllocator()).address()));
     }
     
     /**

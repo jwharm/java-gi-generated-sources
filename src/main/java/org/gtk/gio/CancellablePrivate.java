@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CancellablePrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public CancellablePrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CancellablePrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

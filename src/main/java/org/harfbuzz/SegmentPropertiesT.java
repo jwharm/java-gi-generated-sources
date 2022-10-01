@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class SegmentPropertiesT extends io.github.jwharm.javagi.ResourceBase {
 
-    public SegmentPropertiesT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SegmentPropertiesT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public SegmentPropertiesT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_segment_properties_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_segment_properties_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

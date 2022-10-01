@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TcpWrapperConnectionPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public TcpWrapperConnectionPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TcpWrapperConnectionPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

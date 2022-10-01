@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  */
 public class BindingGroup extends Object {
 
-    public BindingGroup(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BindingGroup(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BindingGroup */
     public static BindingGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new BindingGroup(gobject.getReference());
+        return new BindingGroup(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_binding_group_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_binding_group_new(), true);
         return RESULT;
     }
     
@@ -98,7 +98,7 @@ public class BindingGroup extends Object {
      */
     public Object dupSource() {
         var RESULT = gtk_h.g_binding_group_dup_source(handle());
-        return new Object(References.get(RESULT, false));
+        return new Object(Refcounted.get(RESULT, false));
     }
     
     /**

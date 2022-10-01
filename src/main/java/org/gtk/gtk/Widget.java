@@ -369,13 +369,13 @@ import java.lang.invoke.*;
  */
 public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessible, Buildable, ConstraintTarget {
 
-    public Widget(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Widget(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Widget */
     public static Widget castFrom(org.gtk.gobject.Object gobject) {
-        return new Widget(gobject.getReference());
+        return new Widget(gobject.refcounted());
     }
     
     /**
@@ -438,7 +438,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * creating any kind of {@link EventController}.
      */
     public void addController(EventController controller) {
-        gtk_h.gtk_widget_add_controller(handle(), controller.getReference().unowned().handle());
+        gtk_h.gtk_widget_add_controller(handle(), controller.refcounted().unowned().handle());
     }
     
     /**
@@ -519,7 +519,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@link Widget#sizeAllocate}.
      */
     public void allocate(int width, int height, int baseline, org.gtk.gsk.Transform transform) {
-        gtk_h.gtk_widget_allocate(handle(), width, height, baseline, transform.getReference().unowned().handle());
+        gtk_h.gtk_widget_allocate(handle(), width, height, baseline, transform.refcounted().unowned().handle());
     }
     
     /**
@@ -631,7 +631,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.pango.Context createPangoContext() {
         var RESULT = gtk_h.gtk_widget_create_pango_context(handle());
-        return new org.pango.Context(References.get(RESULT, true));
+        return new org.pango.Context(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -646,7 +646,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.pango.Layout createPangoLayout(java.lang.String text) {
         var RESULT = gtk_h.gtk_widget_create_pango_layout(handle(), Interop.allocateNativeString(text).handle());
-        return new org.pango.Layout(References.get(RESULT, true));
+        return new org.pango.Layout(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -733,7 +733,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getAncestor(org.gtk.gobject.Type widgetType) {
         var RESULT = gtk_h.gtk_widget_get_ancestor(handle(), widgetType.getValue());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -780,7 +780,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.Clipboard getClipboard() {
         var RESULT = gtk_h.gtk_widget_get_clipboard(handle());
-        return new org.gtk.gdk.Clipboard(References.get(RESULT, false));
+        return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -806,7 +806,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.Cursor getCursor() {
         var RESULT = gtk_h.gtk_widget_get_cursor(handle());
-        return new org.gtk.gdk.Cursor(References.get(RESULT, false));
+        return new org.gtk.gdk.Cursor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -832,7 +832,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = gtk_h.gtk_widget_get_display(handle());
-        return new org.gtk.gdk.Display(References.get(RESULT, false));
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -842,7 +842,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getFirstChild() {
         var RESULT = gtk_h.gtk_widget_get_first_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -850,7 +850,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getFocusChild() {
         var RESULT = gtk_h.gtk_widget_get_focus_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -881,7 +881,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.pango.FontMap getFontMap() {
         var RESULT = gtk_h.gtk_widget_get_font_map(handle());
-        return new org.pango.FontMap(References.get(RESULT, false));
+        return new org.pango.FontMap(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -891,7 +891,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.cairographics.FontOptions getFontOptions() {
         var RESULT = gtk_h.gtk_widget_get_font_options(handle());
-        return new org.cairographics.FontOptions(References.get(RESULT, false));
+        return new org.cairographics.FontOptions(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -920,7 +920,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.FrameClock getFrameClock() {
         var RESULT = gtk_h.gtk_widget_get_frame_clock(handle());
-        return new org.gtk.gdk.FrameClock(References.get(RESULT, false));
+        return new org.gtk.gdk.FrameClock(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1005,7 +1005,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getLastChild() {
         var RESULT = gtk_h.gtk_widget_get_last_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1015,7 +1015,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public LayoutManager getLayoutManager() {
         var RESULT = gtk_h.gtk_widget_get_layout_manager(handle());
-        return new LayoutManager(References.get(RESULT, false));
+        return new LayoutManager(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1078,7 +1078,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Native getNative() {
         var RESULT = gtk_h.gtk_widget_get_native(handle());
-        return new Native.NativeImpl(References.get(RESULT, false));
+        return new Native.NativeImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1088,7 +1088,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getNextSibling() {
         var RESULT = gtk_h.gtk_widget_get_next_sibling(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1122,7 +1122,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.pango.Context getPangoContext() {
         var RESULT = gtk_h.gtk_widget_get_pango_context(handle());
-        return new org.pango.Context(References.get(RESULT, false));
+        return new org.pango.Context(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1130,7 +1130,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getParent() {
         var RESULT = gtk_h.gtk_widget_get_parent(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1160,7 +1160,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getPrevSibling() {
         var RESULT = gtk_h.gtk_widget_get_prev_sibling(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1174,7 +1174,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.Clipboard getPrimaryClipboard() {
         var RESULT = gtk_h.gtk_widget_get_primary_clipboard(handle());
-        return new org.gtk.gdk.Clipboard(References.get(RESULT, false));
+        return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1221,7 +1221,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Root getRoot() {
         var RESULT = gtk_h.gtk_widget_get_root(handle());
-        return new Root.RootImpl(References.get(RESULT, false));
+        return new Root.RootImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1263,7 +1263,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Settings getSettings() {
         var RESULT = gtk_h.gtk_widget_get_settings(handle());
-        return new Settings(References.get(RESULT, false));
+        return new Settings(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1321,7 +1321,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public StyleContext getStyleContext() {
         var RESULT = gtk_h.gtk_widget_get_style_context(handle());
-        return new StyleContext(References.get(RESULT, false));
+        return new StyleContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1338,7 +1338,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gobject.Object getTemplateChild(org.gtk.gobject.Type widgetType, java.lang.String name) {
         var RESULT = gtk_h.gtk_widget_get_template_child(handle(), widgetType.getValue(), Interop.allocateNativeString(name).handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1700,7 +1700,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.glib.List listMnemonicLabels() {
         var RESULT = gtk_h.gtk_widget_list_mnemonic_labels(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1748,7 +1748,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gio.ListModel observeChildren() {
         var RESULT = gtk_h.gtk_widget_observe_children(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1764,7 +1764,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gio.ListModel observeControllers() {
         var RESULT = gtk_h.gtk_widget_observe_controllers(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1785,7 +1785,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget pick(double x, double y, PickFlags flags) {
         var RESULT = gtk_h.gtk_widget_pick(handle(), x, y, flags.getValue());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -2140,7 +2140,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * implementation for measuring and allocating the children of {@code widget}.
      */
     public void setLayoutManager(LayoutManager layoutManager) {
-        gtk_h.gtk_widget_set_layout_manager(handle(), layoutManager.getReference().unowned().handle());
+        gtk_h.gtk_widget_set_layout_manager(handle(), layoutManager.refcounted().unowned().handle());
     }
     
     /**
@@ -2917,79 +2917,79 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         public static void signalWidgetDestroy(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.DestroyHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)));
+            handler.signalReceived(new Widget(Refcounted.get(source)));
         }
         
         public static void signalWidgetDirectionChanged(MemoryAddress source, int previousDirection, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.DirectionChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)), new TextDirection(previousDirection));
+            handler.signalReceived(new Widget(Refcounted.get(source)), new TextDirection(previousDirection));
         }
         
         public static void signalWidgetHide(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.HideHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)));
+            handler.signalReceived(new Widget(Refcounted.get(source)));
         }
         
         public static boolean signalWidgetKeynavFailed(MemoryAddress source, int direction, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.KeynavFailedHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
+            return handler.signalReceived(new Widget(Refcounted.get(source)), new DirectionType(direction));
         }
         
         public static void signalWidgetMap(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.MapHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)));
+            handler.signalReceived(new Widget(Refcounted.get(source)));
         }
         
         public static boolean signalWidgetMnemonicActivate(MemoryAddress source, int groupCycling, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.MnemonicActivateHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Widget(References.get(source)), groupCycling != 0);
+            return handler.signalReceived(new Widget(Refcounted.get(source)), groupCycling != 0);
         }
         
         public static void signalWidgetMoveFocus(MemoryAddress source, int direction, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.MoveFocusHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
+            handler.signalReceived(new Widget(Refcounted.get(source)), new DirectionType(direction));
         }
         
         public static boolean signalWidgetQueryTooltip(MemoryAddress source, int x, int y, int keyboardMode, MemoryAddress tooltip, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.QueryTooltipHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Widget(References.get(source)), x, y, keyboardMode != 0, new Tooltip(References.get(tooltip, false)));
+            return handler.signalReceived(new Widget(Refcounted.get(source)), x, y, keyboardMode != 0, new Tooltip(Refcounted.get(tooltip, false)));
         }
         
         public static void signalWidgetRealize(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.RealizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)));
+            handler.signalReceived(new Widget(Refcounted.get(source)));
         }
         
         public static void signalWidgetShow(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.ShowHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)));
+            handler.signalReceived(new Widget(Refcounted.get(source)));
         }
         
         public static void signalWidgetStateFlagsChanged(MemoryAddress source, int flags, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.StateFlagsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)), new StateFlags(flags));
+            handler.signalReceived(new Widget(Refcounted.get(source)), new StateFlags(flags));
         }
         
         public static void signalWidgetUnmap(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.UnmapHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)));
+            handler.signalReceived(new Widget(Refcounted.get(source)));
         }
         
         public static void signalWidgetUnrealize(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Widget.UnrealizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Widget(References.get(source)));
+            handler.signalReceived(new Widget(Refcounted.get(source)));
         }
         
     }

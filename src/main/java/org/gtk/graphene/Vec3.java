@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
 
-    public Vec3(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Vec3(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_vec3_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_vec3_alloc(), true);
         return RESULT;
     }
     
@@ -150,7 +150,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      */
     public Vec3 init(float x, float y, float z) {
         var RESULT = gtk_h.graphene_vec3_init(handle(), x, y, z);
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -158,7 +158,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      */
     public Vec3 initFromFloat(float[] src) {
         var RESULT = gtk_h.graphene_vec3_init_from_float(handle(), Interop.allocateNativeArray(src).handle());
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -167,7 +167,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      */
     public Vec3 initFromVec3(Vec3 src) {
         var RESULT = gtk_h.graphene_vec3_init_from_vec3(handle(), src.handle());
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -260,7 +260,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec3 one() {
         var RESULT = gtk_h.graphene_vec3_one();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -269,7 +269,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec3 xAxis() {
         var RESULT = gtk_h.graphene_vec3_x_axis();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -278,7 +278,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec3 yAxis() {
         var RESULT = gtk_h.graphene_vec3_y_axis();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -287,7 +287,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec3 zAxis() {
         var RESULT = gtk_h.graphene_vec3_z_axis();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -296,7 +296,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec3 zero() {
         var RESULT = gtk_h.graphene_vec3_zero();
-        return new Vec3(References.get(RESULT, false));
+        return new Vec3(Refcounted.get(RESULT, false));
     }
     
 }

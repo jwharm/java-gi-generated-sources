@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class LinearGradientNode extends RenderNode {
 
-    public LinearGradientNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LinearGradientNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to LinearGradientNode */
     public static LinearGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new LinearGradientNode(gobject.getReference());
+        return new LinearGradientNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
-        Reference RESULT = References.get(gtk_h.gsk_linear_gradient_node_new(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+    private static Refcounted constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_linear_gradient_node_new(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
         return RESULT;
     }
     
@@ -45,7 +45,7 @@ public class LinearGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getEnd() {
         var RESULT = gtk_h.gsk_linear_gradient_node_get_end(handle());
-        return new org.gtk.graphene.Point(References.get(RESULT, false));
+        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -61,7 +61,7 @@ public class LinearGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getStart() {
         var RESULT = gtk_h.gsk_linear_gradient_node_get_start(handle());
-        return new org.gtk.graphene.Point(References.get(RESULT, false));
+        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
     }
     
 }

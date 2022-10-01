@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class FileList extends io.github.jwharm.javagi.ResourceBase {
 
-    public FileList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -21,7 +21,7 @@ public class FileList extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.SList getFiles() {
         var RESULT = gtk_h.gdk_file_list_get_files(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, false));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
 }

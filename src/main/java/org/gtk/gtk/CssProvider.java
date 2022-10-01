@@ -38,17 +38,17 @@ import java.lang.invoke.*;
  */
 public class CssProvider extends org.gtk.gobject.Object implements StyleProvider {
 
-    public CssProvider(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CssProvider(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CssProvider */
     public static CssProvider castFrom(org.gtk.gobject.Object gobject) {
-        return new CssProvider(gobject.getReference());
+        return new CssProvider(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_css_provider_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_css_provider_new(), true);
         return RESULT;
     }
     
@@ -164,7 +164,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
         public static void signalCssProviderParsingError(MemoryAddress source, MemoryAddress section, MemoryAddress error, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CssProvider.ParsingErrorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CssProvider(References.get(source)), new CssSection(References.get(section, false)), new org.gtk.glib.Error(References.get(error, false)));
+            handler.signalReceived(new CssProvider(Refcounted.get(source)), new CssSection(Refcounted.get(section, false)), new org.gtk.glib.Error(Refcounted.get(error, false)));
         }
         
     }

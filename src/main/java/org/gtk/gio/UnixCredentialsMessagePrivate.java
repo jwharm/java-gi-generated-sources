@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixCredentialsMessagePrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public UnixCredentialsMessagePrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixCredentialsMessagePrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

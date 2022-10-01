@@ -19,12 +19,12 @@ import java.lang.invoke.*;
  */
 public class GlyphVisAttr extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphVisAttr(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GlyphVisAttr(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public GlyphVisAttr() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphVisAttr.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphVisAttr.allocate(Interop.getAllocator()).address()));
     }
     
 }

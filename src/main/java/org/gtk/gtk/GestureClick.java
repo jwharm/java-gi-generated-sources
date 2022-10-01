@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  */
 public class GestureClick extends GestureSingle {
 
-    public GestureClick(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GestureClick(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GestureClick */
     public static GestureClick castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureClick(gobject.getReference());
+        return new GestureClick(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_gesture_click_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_click_new(), true);
         return RESULT;
     }
     
@@ -157,25 +157,25 @@ public class GestureClick extends GestureSingle {
         public static void signalGestureClickPressed(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureClick.PressedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureClick(References.get(source)), nPress, x, y);
+            handler.signalReceived(new GestureClick(Refcounted.get(source)), nPress, x, y);
         }
         
         public static void signalGestureClickReleased(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureClick.ReleasedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureClick(References.get(source)), nPress, x, y);
+            handler.signalReceived(new GestureClick(Refcounted.get(source)), nPress, x, y);
         }
         
         public static void signalGestureClickStopped(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureClick.StoppedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureClick(References.get(source)));
+            handler.signalReceived(new GestureClick(Refcounted.get(source)));
         }
         
         public static void signalGestureClickUnpairedRelease(MemoryAddress source, double x, double y, int button, MemoryAddress sequence, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureClick.UnpairedReleaseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureClick(References.get(source)), x, y, button, new org.gtk.gdk.EventSequence(References.get(sequence, false)));
+            handler.signalReceived(new GestureClick(Refcounted.get(source)), x, y, button, new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)));
         }
         
     }

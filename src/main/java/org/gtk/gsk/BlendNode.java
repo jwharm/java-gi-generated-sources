@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class BlendNode extends RenderNode {
 
-    public BlendNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BlendNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BlendNode */
     public static BlendNode castFrom(org.gtk.gobject.Object gobject) {
-        return new BlendNode(gobject.getReference());
+        return new BlendNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RenderNode bottom, RenderNode top, BlendMode blendMode) {
-        Reference RESULT = References.get(gtk_h.gsk_blend_node_new(bottom.handle(), top.handle(), blendMode.getValue()), true);
+    private static Refcounted constructNew(RenderNode bottom, RenderNode top, BlendMode blendMode) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_blend_node_new(bottom.handle(), top.handle(), blendMode.getValue()), true);
         return RESULT;
     }
     
@@ -45,7 +45,7 @@ public class BlendNode extends RenderNode {
      */
     public RenderNode getBottomChild() {
         var RESULT = gtk_h.gsk_blend_node_get_bottom_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -53,7 +53,7 @@ public class BlendNode extends RenderNode {
      */
     public RenderNode getTopChild() {
         var RESULT = gtk_h.gsk_blend_node_get_top_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
 }

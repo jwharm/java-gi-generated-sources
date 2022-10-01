@@ -76,17 +76,17 @@ import java.lang.invoke.*;
  */
 public class Paned extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Paned(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Paned(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Paned */
     public static Paned castFrom(org.gtk.gobject.Object gobject) {
-        return new Paned(gobject.getReference());
+        return new Paned(gobject.refcounted());
     }
     
-    private static Reference constructNew(Orientation orientation) {
-        Reference RESULT = References.get(gtk_h.gtk_paned_new(orientation.getValue()), false);
+    private static Refcounted constructNew(Orientation orientation) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_paned_new(orientation.getValue()), false);
         return RESULT;
     }
     
@@ -102,7 +102,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getEndChild() {
         var RESULT = gtk_h.gtk_paned_get_end_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -150,7 +150,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getStartChild() {
         var RESULT = gtk_h.gtk_paned_get_start_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -412,37 +412,37 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         public static boolean signalPanedAcceptPosition(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Paned.AcceptPositionHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Paned(References.get(source)));
+            return handler.signalReceived(new Paned(Refcounted.get(source)));
         }
         
         public static boolean signalPanedCancelPosition(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Paned.CancelPositionHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Paned(References.get(source)));
+            return handler.signalReceived(new Paned(Refcounted.get(source)));
         }
         
         public static boolean signalPanedCycleChildFocus(MemoryAddress source, int reversed, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Paned.CycleChildFocusHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Paned(References.get(source)), reversed != 0);
+            return handler.signalReceived(new Paned(Refcounted.get(source)), reversed != 0);
         }
         
         public static boolean signalPanedCycleHandleFocus(MemoryAddress source, int reversed, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Paned.CycleHandleFocusHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Paned(References.get(source)), reversed != 0);
+            return handler.signalReceived(new Paned(Refcounted.get(source)), reversed != 0);
         }
         
         public static boolean signalPanedMoveHandle(MemoryAddress source, int scrollType, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Paned.MoveHandleHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Paned(References.get(source)), new ScrollType(scrollType));
+            return handler.signalReceived(new Paned(Refcounted.get(source)), new ScrollType(scrollType));
         }
         
         public static boolean signalPanedToggleHandleFocus(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Paned.ToggleHandleFocusHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Paned(References.get(source)));
+            return handler.signalReceived(new Paned(Refcounted.get(source)));
         }
         
     }

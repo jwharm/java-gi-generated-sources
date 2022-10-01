@@ -89,12 +89,12 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
      */
     public static ProxyResolver getDefault() {
         var RESULT = gtk_h.g_proxy_resolver_get_default();
-        return new ProxyResolver.ProxyResolverImpl(References.get(RESULT, false));
+        return new ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, false));
     }
     
     class ProxyResolverImpl extends org.gtk.gobject.Object implements ProxyResolver {
-        public ProxyResolverImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ProxyResolverImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  */
 public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable, org.gtk.gtk.Scrollable {
 
-    public ClampScrollable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ClampScrollable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ClampScrollable */
     public static ClampScrollable castFrom(org.gtk.gobject.Object gobject) {
-        return new ClampScrollable(gobject.getReference());
+        return new ClampScrollable(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_clamp_scrollable_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_clamp_scrollable_new(), false);
         return RESULT;
     }
     
@@ -42,7 +42,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      */
     public org.gtk.gtk.Widget getChild() {
         var RESULT = gtk_h.adw_clamp_scrollable_get_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

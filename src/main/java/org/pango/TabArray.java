@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  */
 public class TabArray extends io.github.jwharm.javagi.ResourceBase {
 
-    public TabArray(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TabArray(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(int initialSize, boolean positionsInPixels) {
-        Reference RESULT = References.get(gtk_h.pango_tab_array_new(initialSize, positionsInPixels ? 1 : 0), true);
+    private static Refcounted constructNew(int initialSize, boolean positionsInPixels) {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_tab_array_new(initialSize, positionsInPixels ? 1 : 0), true);
         return RESULT;
     }
     
@@ -38,7 +38,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public TabArray copy() {
         var RESULT = gtk_h.pango_tab_array_copy(handle());
-        return new TabArray(References.get(RESULT, true));
+        return new TabArray(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -167,7 +167,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static TabArray fromString(java.lang.String text) {
         var RESULT = gtk_h.pango_tab_array_from_string(Interop.allocateNativeString(text).handle());
-        return new TabArray(References.get(RESULT, true));
+        return new TabArray(Refcounted.get(RESULT, true));
     }
     
 }

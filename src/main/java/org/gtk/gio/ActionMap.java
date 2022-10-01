@@ -80,7 +80,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      */
     public default Action lookupAction(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_map_lookup_action(handle(), Interop.allocateNativeString(actionName).handle());
-        return new Action.ActionImpl(References.get(RESULT, false));
+        return new Action.ActionImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -93,8 +93,8 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
     }
     
     class ActionMapImpl extends org.gtk.gobject.Object implements ActionMap {
-        public ActionMapImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ActionMapImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ButtonEvent extends Event {
 
-    public ButtonEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ButtonEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ButtonEvent */
     public static ButtonEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new ButtonEvent(gobject.getReference());
+        return new ButtonEvent(gobject.refcounted());
     }
     
     /**

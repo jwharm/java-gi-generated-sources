@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIcon {
 
-    public FileIcon(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileIcon(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileIcon */
     public static FileIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new FileIcon(gobject.getReference());
+        return new FileIcon(gobject.refcounted());
     }
     
-    private static Reference constructNew(File file) {
-        Reference RESULT = References.get(gtk_h.g_file_icon_new(file.handle()), true);
+    private static Refcounted constructNew(File file) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_file_icon_new(file.handle()), true);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
      */
     public File getFile() {
         var RESULT = gtk_h.g_file_icon_get_file(handle());
-        return new File.FileImpl(References.get(RESULT, false));
+        return new File.FileImpl(Refcounted.get(RESULT, false));
     }
     
 }

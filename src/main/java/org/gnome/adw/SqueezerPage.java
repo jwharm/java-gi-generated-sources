@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class SqueezerPage extends org.gtk.gobject.Object {
 
-    public SqueezerPage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SqueezerPage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SqueezerPage */
     public static SqueezerPage castFrom(org.gtk.gobject.Object gobject) {
-        return new SqueezerPage(gobject.getReference());
+        return new SqueezerPage(gobject.refcounted());
     }
     
     /**
@@ -24,7 +24,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
      */
     public org.gtk.gtk.Widget getChild() {
         var RESULT = gtk_h.adw_squeezer_page_get_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -39,12 +39,12 @@ import java.lang.invoke.*;
  */
 public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
 
-    public SpringParams(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SpringParams(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(double dampingRatio, double mass, double stiffness) {
-        Reference RESULT = References.get(gtk_h.adw_spring_params_new(dampingRatio, mass, stiffness), true);
+    private static Refcounted constructNew(double dampingRatio, double mass, double stiffness) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_spring_params_new(dampingRatio, mass, stiffness), true);
         return RESULT;
     }
     
@@ -69,8 +69,8 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(dampingRatio, mass, stiffness));
     }
     
-    private static Reference constructNewFull(double damping, double mass, double stiffness) {
-        Reference RESULT = References.get(gtk_h.adw_spring_params_new_full(damping, mass, stiffness), true);
+    private static Refcounted constructNewFull(double damping, double mass, double stiffness) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_spring_params_new_full(damping, mass, stiffness), true);
         return RESULT;
     }
     
@@ -121,7 +121,7 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
      */
     public SpringParams ref() {
         var RESULT = gtk_h.adw_spring_params_ref(handle());
-        return new SpringParams(References.get(RESULT, true));
+        return new SpringParams(Refcounted.get(RESULT, true));
     }
     
     /**

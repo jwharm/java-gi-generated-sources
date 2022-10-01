@@ -21,12 +21,12 @@ import java.lang.invoke.*;
  */
 public class Rect extends io.github.jwharm.javagi.ResourceBase {
 
-    public Rect(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Rect(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Rect() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.graphene_rect_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.graphene_rect_t.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -160,7 +160,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public Rect init(float x, float y, float width, float height) {
         var RESULT = gtk_h.graphene_rect_init(handle(), x, y, width, height);
-        return new Rect(References.get(RESULT, false));
+        return new Rect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -171,7 +171,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public Rect initFromRect(Rect src) {
         var RESULT = gtk_h.graphene_rect_init_from_rect(handle(), src.handle());
-        return new Rect(References.get(RESULT, false));
+        return new Rect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -192,7 +192,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public Rect inset(float dX, float dY) {
         var RESULT = gtk_h.graphene_rect_inset(handle(), dX, dY);
-        return new Rect(References.get(RESULT, false));
+        return new Rect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -247,7 +247,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public Rect normalize() {
         var RESULT = gtk_h.graphene_rect_normalize(handle());
-        return new Rect(References.get(RESULT, false));
+        return new Rect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -268,7 +268,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public Rect offset(float dX, float dY) {
         var RESULT = gtk_h.graphene_rect_offset(handle(), dX, dY);
-        return new Rect(References.get(RESULT, false));
+        return new Rect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -333,7 +333,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Rect alloc() {
         var RESULT = gtk_h.graphene_rect_alloc();
-        return new Rect(References.get(RESULT, true));
+        return new Rect(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -342,7 +342,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Rect zero() {
         var RESULT = gtk_h.graphene_rect_zero();
-        return new Rect(References.get(RESULT, false));
+        return new Rect(Refcounted.get(RESULT, false));
     }
     
 }

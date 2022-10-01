@@ -78,13 +78,13 @@ import java.lang.invoke.*;
  */
 public class PrintContext extends org.gtk.gobject.Object {
 
-    public PrintContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PrintContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PrintContext */
     public static PrintContext castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintContext(gobject.getReference());
+        return new PrintContext(gobject.refcounted());
     }
     
     /**
@@ -93,7 +93,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public org.pango.Context createPangoContext() {
         var RESULT = gtk_h.gtk_print_context_create_pango_context(handle());
-        return new org.pango.Context(References.get(RESULT, true));
+        return new org.pango.Context(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -102,7 +102,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public org.pango.Layout createPangoLayout() {
         var RESULT = gtk_h.gtk_print_context_create_pango_layout(handle());
-        return new org.pango.Layout(References.get(RESULT, true));
+        return new org.pango.Layout(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -111,7 +111,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public org.cairographics.Context getCairoContext() {
         var RESULT = gtk_h.gtk_print_context_get_cairo_context(handle());
-        return new org.cairographics.Context(References.get(RESULT, false));
+        return new org.cairographics.Context(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public PageSetup getPageSetup() {
         var RESULT = gtk_h.gtk_print_context_get_page_setup(handle());
-        return new PageSetup(References.get(RESULT, false));
+        return new PageSetup(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -164,7 +164,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public org.pango.FontMap getPangoFontmap() {
         var RESULT = gtk_h.gtk_print_context_get_pango_fontmap(handle());
-        return new org.pango.FontMap(References.get(RESULT, false));
+        return new org.pango.FontMap(Refcounted.get(RESULT, false));
     }
     
     /**

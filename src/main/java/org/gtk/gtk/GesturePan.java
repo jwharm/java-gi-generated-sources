@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class GesturePan extends GestureDrag {
 
-    public GesturePan(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GesturePan(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GesturePan */
     public static GesturePan castFrom(org.gtk.gobject.Object gobject) {
-        return new GesturePan(gobject.getReference());
+        return new GesturePan(gobject.refcounted());
     }
     
-    private static Reference constructNew(Orientation orientation) {
-        Reference RESULT = References.get(gtk_h.gtk_gesture_pan_new(orientation.getValue()), true);
+    private static Refcounted constructNew(Orientation orientation) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_pan_new(orientation.getValue()), true);
         return RESULT;
     }
     
@@ -90,7 +90,7 @@ public class GesturePan extends GestureDrag {
         public static void signalGesturePanPan(MemoryAddress source, int direction, double offset, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GesturePan.PanHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GesturePan(References.get(source)), new PanDirection(direction), offset);
+            handler.signalReceived(new GesturePan(Refcounted.get(source)), new PanDirection(direction), offset);
         }
         
     }

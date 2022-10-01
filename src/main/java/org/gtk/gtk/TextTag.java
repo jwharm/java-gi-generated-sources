@@ -27,17 +27,17 @@ import java.lang.invoke.*;
  */
 public class TextTag extends org.gtk.gobject.Object {
 
-    public TextTag(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextTag(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TextTag */
     public static TextTag castFrom(org.gtk.gobject.Object gobject) {
-        return new TextTag(gobject.getReference());
+        return new TextTag(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String name) {
-        Reference RESULT = References.get(gtk_h.gtk_text_tag_new(Interop.allocateNativeString(name).handle()), true);
+    private static Refcounted constructNew(java.lang.String name) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_tag_new(Interop.allocateNativeString(name).handle()), true);
         return RESULT;
     }
     

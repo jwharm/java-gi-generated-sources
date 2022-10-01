@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class OpacityNode extends RenderNode {
 
-    public OpacityNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OpacityNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to OpacityNode */
     public static OpacityNode castFrom(org.gtk.gobject.Object gobject) {
-        return new OpacityNode(gobject.getReference());
+        return new OpacityNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RenderNode child, float opacity) {
-        Reference RESULT = References.get(gtk_h.gsk_opacity_node_new(child.handle(), opacity), true);
+    private static Refcounted constructNew(RenderNode child, float opacity) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_opacity_node_new(child.handle(), opacity), true);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class OpacityNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_opacity_node_get_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**

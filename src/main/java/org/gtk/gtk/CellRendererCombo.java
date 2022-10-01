@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class CellRendererCombo extends CellRendererText {
 
-    public CellRendererCombo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererCombo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRendererCombo */
     public static CellRendererCombo castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererCombo(gobject.getReference());
+        return new CellRendererCombo(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_combo_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_combo_new(), false);
         return RESULT;
     }
     
@@ -89,7 +89,7 @@ public class CellRendererCombo extends CellRendererText {
         public static void signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellRendererCombo.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererCombo(References.get(source)), pathString.getUtf8String(0), new TreeIter(References.get(newIter, false)));
+            handler.signalReceived(new CellRendererCombo(Refcounted.get(source)), pathString.getUtf8String(0), new TreeIter(Refcounted.get(newIter, false)));
         }
         
     }

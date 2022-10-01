@@ -71,17 +71,17 @@ import java.lang.invoke.*;
  */
 public class MenuButton extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public MenuButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MenuButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MenuButton */
     public static MenuButton castFrom(org.gtk.gobject.Object gobject) {
-        return new MenuButton(gobject.getReference());
+        return new MenuButton(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_menu_button_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_menu_button_new(), false);
         return RESULT;
     }
     
@@ -109,7 +109,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_menu_button_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -149,7 +149,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      */
     public org.gtk.gio.MenuModel getMenuModel() {
         var RESULT = gtk_h.gtk_menu_button_get_menu_model(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -160,7 +160,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      */
     public Popover getPopover() {
         var RESULT = gtk_h.gtk_menu_button_get_popover(handle());
-        return new Popover(References.get(RESULT, false));
+        return new Popover(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -375,7 +375,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
         public static void signalMenuButtonActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MenuButton.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MenuButton(References.get(source)));
+            handler.signalReceived(new MenuButton(Refcounted.get(source)));
         }
         
     }

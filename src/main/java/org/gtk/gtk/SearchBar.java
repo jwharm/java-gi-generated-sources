@@ -53,17 +53,17 @@ import java.lang.invoke.*;
  */
 public class SearchBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public SearchBar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SearchBar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SearchBar */
     public static SearchBar castFrom(org.gtk.gobject.Object gobject) {
-        return new SearchBar(gobject.getReference());
+        return new SearchBar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_search_bar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_search_bar_new(), false);
         return RESULT;
     }
     
@@ -94,7 +94,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_search_bar_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getKeyCaptureWidget() {
         var RESULT = gtk_h.gtk_search_bar_get_key_capture_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

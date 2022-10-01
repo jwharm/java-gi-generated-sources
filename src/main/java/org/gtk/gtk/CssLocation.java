@@ -21,12 +21,12 @@ import java.lang.invoke.*;
  */
 public class CssLocation extends io.github.jwharm.javagi.ResourceBase {
 
-    public CssLocation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CssLocation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public CssLocation() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCssLocation.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkCssLocation.allocate(Interop.getAllocator()).address()));
     }
     
 }

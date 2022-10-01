@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
 
-    public AsyncQueue(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AsyncQueue(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -186,7 +186,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      */
     public AsyncQueue ref() {
         var RESULT = gtk_h.g_async_queue_ref(handle());
-        return new AsyncQueue(References.get(RESULT, false));
+        return new AsyncQueue(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -342,7 +342,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      */
     public static AsyncQueue new_() {
         var RESULT = gtk_h.g_async_queue_new();
-        return new AsyncQueue(References.get(RESULT, false));
+        return new AsyncQueue(Refcounted.get(RESULT, false));
     }
     
 }

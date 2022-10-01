@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CssProviderPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public CssProviderPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CssProviderPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

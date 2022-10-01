@@ -60,17 +60,17 @@ import java.lang.invoke.*;
  */
 public class PropertyAction extends org.gtk.gobject.Object implements Action {
 
-    public PropertyAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PropertyAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PropertyAction */
     public static PropertyAction castFrom(org.gtk.gobject.Object gobject) {
-        return new PropertyAction(gobject.getReference());
+        return new PropertyAction(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String name, org.gtk.gobject.Object object, java.lang.String propertyName) {
-        Reference RESULT = References.get(gtk_h.g_property_action_new(Interop.allocateNativeString(name).handle(), object.handle(), Interop.allocateNativeString(propertyName).handle()), true);
+    private static Refcounted constructNew(java.lang.String name, org.gtk.gobject.Object object, java.lang.String propertyName) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_property_action_new(Interop.allocateNativeString(name).handle(), object.handle(), Interop.allocateNativeString(propertyName).handle()), true);
         return RESULT;
     }
     

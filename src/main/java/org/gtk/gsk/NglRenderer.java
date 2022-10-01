@@ -7,13 +7,13 @@ import java.lang.invoke.*;
 
 public class NglRenderer extends Renderer {
 
-    public NglRenderer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NglRenderer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NglRenderer */
     public static NglRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new NglRenderer(gobject.getReference());
+        return new NglRenderer(gobject.refcounted());
     }
     
 }

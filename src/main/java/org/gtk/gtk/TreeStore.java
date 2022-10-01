@@ -36,17 +36,17 @@ import java.lang.invoke.*;
  */
 public class TreeStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
 
-    public TreeStore(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeStore(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeStore */
     public static TreeStore castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeStore(gobject.getReference());
+        return new TreeStore(gobject.refcounted());
     }
     
-    private static Reference constructNewv(int nColumns, org.gtk.gobject.Type[] types) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle()), true);
+    private static Refcounted constructNewv(int nColumns, org.gtk.gobject.Type[] types) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle()), true);
         return RESULT;
     }
     

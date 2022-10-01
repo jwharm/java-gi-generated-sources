@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TextTagPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public TextTagPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextTagPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

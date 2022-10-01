@@ -22,17 +22,17 @@ import java.lang.invoke.*;
  */
 public class MountOperation extends org.gtk.gio.MountOperation {
 
-    public MountOperation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MountOperation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MountOperation */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        return new MountOperation(gobject.getReference());
+        return new MountOperation(gobject.refcounted());
     }
     
-    private static Reference constructNew(Window parent) {
-        Reference RESULT = References.get(gtk_h.gtk_mount_operation_new(parent.handle()), true);
+    private static Refcounted constructNew(Window parent) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_mount_operation_new(parent.handle()), true);
         return RESULT;
     }
     
@@ -49,7 +49,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = gtk_h.gtk_mount_operation_get_display(handle());
-        return new org.gtk.gdk.Display(References.get(RESULT, false));
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      */
     public Window getParent() {
         var RESULT = gtk_h.gtk_mount_operation_get_parent(handle());
-        return new Window(References.get(RESULT, false));
+        return new Window(Refcounted.get(RESULT, false));
     }
     
     /**

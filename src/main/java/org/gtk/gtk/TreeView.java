@@ -101,17 +101,17 @@ import java.lang.invoke.*;
  */
 public class TreeView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public TreeView(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeView(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeView */
     public static TreeView castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeView(gobject.getReference());
+        return new TreeView(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_tree_view_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_view_new(), false);
         return RESULT;
     }
     
@@ -122,8 +122,8 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
-    private static Reference constructNewWithModel(TreeModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_view_new_with_model(model.handle()), false);
+    private static Refcounted constructNewWithModel(TreeModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_view_new_with_model(model.handle()), false);
         return RESULT;
     }
     
@@ -219,7 +219,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gdk.Paintable createRowDragIcon(TreePath path) {
         var RESULT = gtk_h.gtk_tree_view_create_row_drag_icon(handle(), path.handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -304,7 +304,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeViewColumn getColumn(int n) {
         var RESULT = gtk_h.gtk_tree_view_get_column(handle(), n);
-        return new TreeViewColumn(References.get(RESULT, false));
+        return new TreeViewColumn(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -313,7 +313,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.glib.List getColumns() {
         var RESULT = gtk_h.gtk_tree_view_get_columns(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -370,7 +370,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeViewColumn getExpanderColumn() {
         var RESULT = gtk_h.gtk_tree_view_get_expander_column(handle());
-        return new TreeViewColumn(References.get(RESULT, false));
+        return new TreeViewColumn(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -436,7 +436,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_tree_view_get_model(handle());
-        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -504,7 +504,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public Editable getSearchEntry() {
         var RESULT = gtk_h.gtk_tree_view_get_search_entry(handle());
-        return new Editable.EditableImpl(References.get(RESULT, false));
+        return new Editable.EditableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -512,7 +512,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeSelection getSelection() {
         var RESULT = gtk_h.gtk_tree_view_get_selection(handle());
-        return new TreeSelection(References.get(RESULT, false));
+        return new TreeSelection(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1469,91 +1469,91 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         public static void signalTreeViewColumnsChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.ColumnsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeView(References.get(source)));
+            handler.signalReceived(new TreeView(Refcounted.get(source)));
         }
         
         public static void signalTreeViewCursorChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.CursorChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeView(References.get(source)));
+            handler.signalReceived(new TreeView(Refcounted.get(source)));
         }
         
         public static boolean signalTreeViewExpandCollapseCursorRow(MemoryAddress source, int object, int p0, int p1, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.ExpandCollapseCursorRowHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)), object != 0, p0 != 0, p1 != 0);
+            return handler.signalReceived(new TreeView(Refcounted.get(source)), object != 0, p0 != 0, p1 != 0);
         }
         
         public static boolean signalTreeViewMoveCursor(MemoryAddress source, int step, int direction, int extend, int modify, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)), new MovementStep(step), direction, extend != 0, modify != 0);
+            return handler.signalReceived(new TreeView(Refcounted.get(source)), new MovementStep(step), direction, extend != 0, modify != 0);
         }
         
         public static void signalTreeViewRowActivated(MemoryAddress source, MemoryAddress path, MemoryAddress column, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.RowActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeView(References.get(source)), new TreePath(References.get(path, false)), new TreeViewColumn(References.get(column, false)));
+            handler.signalReceived(new TreeView(Refcounted.get(source)), new TreePath(Refcounted.get(path, false)), new TreeViewColumn(Refcounted.get(column, false)));
         }
         
         public static void signalTreeViewRowCollapsed(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.RowCollapsedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
+            handler.signalReceived(new TreeView(Refcounted.get(source)), new TreeIter(Refcounted.get(iter, false)), new TreePath(Refcounted.get(path, false)));
         }
         
         public static void signalTreeViewRowExpanded(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.RowExpandedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
+            handler.signalReceived(new TreeView(Refcounted.get(source)), new TreeIter(Refcounted.get(iter, false)), new TreePath(Refcounted.get(path, false)));
         }
         
         public static boolean signalTreeViewSelectAll(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.SelectAllHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)));
+            return handler.signalReceived(new TreeView(Refcounted.get(source)));
         }
         
         public static boolean signalTreeViewSelectCursorParent(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.SelectCursorParentHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)));
+            return handler.signalReceived(new TreeView(Refcounted.get(source)));
         }
         
         public static boolean signalTreeViewSelectCursorRow(MemoryAddress source, int object, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.SelectCursorRowHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)), object != 0);
+            return handler.signalReceived(new TreeView(Refcounted.get(source)), object != 0);
         }
         
         public static boolean signalTreeViewStartInteractiveSearch(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.StartInteractiveSearchHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)));
+            return handler.signalReceived(new TreeView(Refcounted.get(source)));
         }
         
         public static boolean signalTreeViewTestCollapseRow(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.TestCollapseRowHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
+            return handler.signalReceived(new TreeView(Refcounted.get(source)), new TreeIter(Refcounted.get(iter, false)), new TreePath(Refcounted.get(path, false)));
         }
         
         public static boolean signalTreeViewTestExpandRow(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.TestExpandRowHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
+            return handler.signalReceived(new TreeView(Refcounted.get(source)), new TreeIter(Refcounted.get(iter, false)), new TreePath(Refcounted.get(path, false)));
         }
         
         public static boolean signalTreeViewToggleCursorRow(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.ToggleCursorRowHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)));
+            return handler.signalReceived(new TreeView(Refcounted.get(source)));
         }
         
         public static boolean signalTreeViewUnselectAll(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeView.UnselectAllHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TreeView(References.get(source)));
+            return handler.signalReceived(new TreeView(Refcounted.get(source)));
         }
         
     }

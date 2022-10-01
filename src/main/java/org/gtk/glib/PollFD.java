@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class PollFD extends io.github.jwharm.javagi.ResourceBase {
 
-    public PollFD(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PollFD(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public PollFD() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GPollFD.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GPollFD.allocate(Interop.getAllocator()).address()));
     }
     
 }

@@ -30,8 +30,8 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
     }
     
     class OrientableImpl extends org.gtk.gobject.Object implements Orientable {
-        public OrientableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public OrientableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

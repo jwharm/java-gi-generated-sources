@@ -20,8 +20,8 @@ import java.lang.invoke.*;
  */
 public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
 
-    public StrvBuilder(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StrvBuilder(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -58,7 +58,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public StrvBuilder ref() {
         var RESULT = gtk_h.g_strv_builder_ref(handle());
-        return new StrvBuilder(References.get(RESULT, true));
+        return new StrvBuilder(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -77,7 +77,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      */
     public static StrvBuilder new_() {
         var RESULT = gtk_h.g_strv_builder_new();
-        return new StrvBuilder(References.get(RESULT, true));
+        return new StrvBuilder(Refcounted.get(RESULT, true));
     }
     
 }

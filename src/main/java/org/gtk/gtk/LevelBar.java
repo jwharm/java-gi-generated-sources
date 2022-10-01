@@ -106,17 +106,17 @@ import java.lang.invoke.*;
  */
 public class LevelBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public LevelBar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LevelBar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to LevelBar */
     public static LevelBar castFrom(org.gtk.gobject.Object gobject) {
-        return new LevelBar(gobject.getReference());
+        return new LevelBar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_level_bar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_level_bar_new(), false);
         return RESULT;
     }
     
@@ -127,8 +127,8 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
-    private static Reference constructNewForInterval(double minValue, double maxValue) {
-        Reference RESULT = References.get(gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false);
+    private static Refcounted constructNewForInterval(double minValue, double maxValue) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false);
         return RESULT;
     }
     
@@ -291,7 +291,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         public static void signalLevelBarOffsetChanged(MemoryAddress source, MemoryAddress name, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (LevelBar.OffsetChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new LevelBar(References.get(source)), name.getUtf8String(0));
+            handler.signalReceived(new LevelBar(Refcounted.get(source)), name.getUtf8String(0));
         }
         
     }

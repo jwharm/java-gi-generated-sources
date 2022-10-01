@@ -103,13 +103,13 @@ import java.lang.invoke.*;
  */
 public class Gesture extends EventController {
 
-    public Gesture(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Gesture(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Gesture */
     public static Gesture castFrom(org.gtk.gobject.Object gobject) {
-        return new Gesture(gobject.getReference());
+        return new Gesture(gobject.refcounted());
     }
     
     /**
@@ -150,7 +150,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.gdk.Device getDevice() {
         var RESULT = gtk_h.gtk_gesture_get_device(handle());
-        return new org.gtk.gdk.Device(References.get(RESULT, false));
+        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -158,7 +158,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.glib.List getGroup() {
         var RESULT = gtk_h.gtk_gesture_get_group(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -170,7 +170,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.gdk.Event getLastEvent(org.gtk.gdk.EventSequence sequence) {
         var RESULT = gtk_h.gtk_gesture_get_last_event(handle(), sequence.handle());
-        return new org.gtk.gdk.Event(References.get(RESULT, false));
+        return new org.gtk.gdk.Event(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -178,7 +178,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.gdk.EventSequence getLastUpdatedSequence() {
         var RESULT = gtk_h.gtk_gesture_get_last_updated_sequence(handle());
-        return new org.gtk.gdk.EventSequence(References.get(RESULT, false));
+        return new org.gtk.gdk.EventSequence(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -207,7 +207,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.glib.List getSequences() {
         var RESULT = gtk_h.gtk_gesture_get_sequences(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -505,31 +505,31 @@ public class Gesture extends EventController {
         public static void signalGestureBegin(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Gesture.BeginHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
+            handler.signalReceived(new Gesture(Refcounted.get(source)), new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)));
         }
         
         public static void signalGestureCancel(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Gesture.CancelHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
+            handler.signalReceived(new Gesture(Refcounted.get(source)), new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)));
         }
         
         public static void signalGestureEnd(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Gesture.EndHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
+            handler.signalReceived(new Gesture(Refcounted.get(source)), new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)));
         }
         
         public static void signalGestureSequenceStateChanged(MemoryAddress source, MemoryAddress sequence, int state, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Gesture.SequenceStateChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)), new EventSequenceState(state));
+            handler.signalReceived(new Gesture(Refcounted.get(source)), new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)), new EventSequenceState(state));
         }
         
         public static void signalGestureUpdate(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Gesture.UpdateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
+            handler.signalReceived(new Gesture(Refcounted.get(source)), new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)));
         }
         
     }

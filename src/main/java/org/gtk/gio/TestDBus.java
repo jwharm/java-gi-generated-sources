@@ -81,17 +81,17 @@ import java.lang.invoke.*;
  */
 public class TestDBus extends org.gtk.gobject.Object {
 
-    public TestDBus(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TestDBus(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TestDBus */
     public static TestDBus castFrom(org.gtk.gobject.Object gobject) {
-        return new TestDBus(gobject.getReference());
+        return new TestDBus(gobject.refcounted());
     }
     
-    private static Reference constructNew(TestDBusFlags flags) {
-        Reference RESULT = References.get(gtk_h.g_test_dbus_new(flags.getValue()), true);
+    private static Refcounted constructNew(TestDBusFlags flags) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_test_dbus_new(flags.getValue()), true);
         return RESULT;
     }
     

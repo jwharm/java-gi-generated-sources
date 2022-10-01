@@ -66,18 +66,18 @@ import java.lang.invoke.*;
  */
 public class Subprocess extends org.gtk.gobject.Object implements Initable {
 
-    public Subprocess(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Subprocess(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Subprocess */
     public static Subprocess castFrom(org.gtk.gobject.Object gobject) {
-        return new Subprocess(gobject.getReference());
+        return new Subprocess(gobject.refcounted());
     }
     
-    private static Reference constructNewv(java.lang.String[] argv, SubprocessFlags flags) throws GErrorException {
+    private static Refcounted constructNewv(java.lang.String[] argv, SubprocessFlags flags) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_subprocess_newv(Interop.allocateNativeArray(argv).handle(), flags.getValue(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_subprocess_newv(Interop.allocateNativeArray(argv).handle(), flags.getValue(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -313,7 +313,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public InputStream getStderrPipe() {
         var RESULT = gtk_h.g_subprocess_get_stderr_pipe(handle());
-        return new InputStream(References.get(RESULT, false));
+        return new InputStream(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -325,7 +325,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public OutputStream getStdinPipe() {
         var RESULT = gtk_h.g_subprocess_get_stdin_pipe(handle());
-        return new OutputStream(References.get(RESULT, false));
+        return new OutputStream(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -337,7 +337,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public InputStream getStdoutPipe() {
         var RESULT = gtk_h.g_subprocess_get_stdout_pipe(handle());
-        return new InputStream(References.get(RESULT, false));
+        return new InputStream(Refcounted.get(RESULT, false));
     }
     
     /**

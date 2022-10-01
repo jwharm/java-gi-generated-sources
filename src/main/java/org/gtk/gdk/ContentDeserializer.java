@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class ContentDeserializer extends org.gtk.gobject.Object implements org.gtk.gio.AsyncResult {
 
-    public ContentDeserializer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ContentDeserializer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ContentDeserializer */
     public static ContentDeserializer castFrom(org.gtk.gobject.Object gobject) {
-        return new ContentDeserializer(gobject.getReference());
+        return new ContentDeserializer(gobject.refcounted());
     }
     
     /**
@@ -36,7 +36,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      */
     public org.gtk.gio.Cancellable getCancellable() {
         var RESULT = gtk_h.gdk_content_deserializer_get_cancellable(handle());
-        return new org.gtk.gio.Cancellable(References.get(RESULT, false));
+        return new org.gtk.gio.Cancellable(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      */
     public org.gtk.gio.InputStream getInputStream() {
         var RESULT = gtk_h.gdk_content_deserializer_get_input_stream(handle());
-        return new org.gtk.gio.InputStream(References.get(RESULT, false));
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -98,7 +98,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = gtk_h.gdk_content_deserializer_get_value(handle());
-        return new org.gtk.gobject.Value(References.get(RESULT, false));
+        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -107,7 +107,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This function consumes {@code error}.
      */
     public void returnError(org.gtk.glib.Error error) {
-        gtk_h.gdk_content_deserializer_return_error(handle(), error.getReference().unowned().handle());
+        gtk_h.gdk_content_deserializer_return_error(handle(), error.refcounted().unowned().handle());
     }
     
     /**

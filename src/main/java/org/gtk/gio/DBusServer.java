@@ -27,18 +27,18 @@ import java.lang.invoke.*;
  */
 public class DBusServer extends org.gtk.gobject.Object implements Initable {
 
-    public DBusServer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusServer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusServer */
     public static DBusServer castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusServer(gobject.getReference());
+        return new DBusServer(gobject.refcounted());
     }
     
-    private static Reference constructNewSync(java.lang.String address, DBusServerFlags flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewSync(java.lang.String address, DBusServerFlags flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_server_new_sync(Interop.allocateNativeString(address).handle(), flags.getValue(), Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_server_new_sync(Interop.allocateNativeString(address).handle(), flags.getValue(), Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -172,7 +172,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
         public static boolean signalDBusServerNewConnection(MemoryAddress source, MemoryAddress connection, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusServer.NewConnectionHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DBusServer(References.get(source)), new DBusConnection(References.get(connection, false)));
+            return handler.signalReceived(new DBusServer(Refcounted.get(source)), new DBusConnection(Refcounted.get(connection, false)));
         }
         
     }

@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class String extends io.github.jwharm.javagi.ResourceBase {
 
-    public String(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public String(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String init) {
-        Reference RESULT = References.get(gtk_h.g_string_new(Interop.allocateNativeString(init).handle()), true);
+    private static Refcounted constructNew(java.lang.String init) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_string_new(Interop.allocateNativeString(init).handle()), true);
         return RESULT;
     }
     
@@ -26,8 +26,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(init));
     }
     
-    private static Reference constructNewLen(java.lang.String init, long len) {
-        Reference RESULT = References.get(gtk_h.g_string_new_len(Interop.allocateNativeString(init).handle(), len), true);
+    private static Refcounted constructNewLen(java.lang.String init, long len) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_string_new_len(Interop.allocateNativeString(init).handle(), len), true);
         return RESULT;
     }
     
@@ -44,8 +44,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         return new String(constructNewLen(init, len));
     }
     
-    private static Reference constructSizedNew(long dflSize) {
-        Reference RESULT = References.get(gtk_h.g_string_sized_new(dflSize), true);
+    private static Refcounted constructSizedNew(long dflSize) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_string_sized_new(dflSize), true);
         return RESULT;
     }
     
@@ -65,7 +65,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String append(java.lang.String val) {
         var RESULT = gtk_h.g_string_append(handle(), Interop.allocateNativeString(val).handle());
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String appendC(byte c) {
         var RESULT = gtk_h.g_string_append_c(handle(), c);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -90,7 +90,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String appendLen(java.lang.String val, long len) {
         var RESULT = gtk_h.g_string_append_len(handle(), Interop.allocateNativeString(val).handle(), len);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String appendUnichar(int wc) {
         var RESULT = gtk_h.g_string_append_unichar(handle(), wc);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -108,7 +108,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String appendUriEscaped(java.lang.String unescaped, java.lang.String reservedCharsAllowed, boolean allowUtf8) {
         var RESULT = gtk_h.g_string_append_uri_escaped(handle(), Interop.allocateNativeString(unescaped).handle(), Interop.allocateNativeString(reservedCharsAllowed).handle(), allowUtf8 ? 1 : 0);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -126,7 +126,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String asciiDown() {
         var RESULT = gtk_h.g_string_ascii_down(handle());
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -134,7 +134,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String asciiUp() {
         var RESULT = gtk_h.g_string_ascii_up(handle());
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -145,7 +145,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String assign(java.lang.String rval) {
         var RESULT = gtk_h.g_string_assign(handle(), Interop.allocateNativeString(rval).handle());
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -163,7 +163,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String erase(long pos, long len) {
         var RESULT = gtk_h.g_string_erase(handle(), pos, len);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -189,7 +189,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public Bytes freeToBytes() {
         var RESULT = gtk_h.g_string_free_to_bytes(handle());
-        return new Bytes(References.get(RESULT, true));
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -206,7 +206,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String insert(long pos, java.lang.String val) {
         var RESULT = gtk_h.g_string_insert(handle(), pos, Interop.allocateNativeString(val).handle());
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -214,7 +214,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String insertC(long pos, byte c) {
         var RESULT = gtk_h.g_string_insert_c(handle(), pos, c);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -231,7 +231,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String insertLen(long pos, java.lang.String val, long len) {
         var RESULT = gtk_h.g_string_insert_len(handle(), pos, Interop.allocateNativeString(val).handle(), len);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -240,7 +240,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String insertUnichar(long pos, int wc) {
         var RESULT = gtk_h.g_string_insert_unichar(handle(), pos, wc);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -248,7 +248,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String overwrite(long pos, java.lang.String val) {
         var RESULT = gtk_h.g_string_overwrite(handle(), pos, Interop.allocateNativeString(val).handle());
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -257,7 +257,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String overwriteLen(long pos, java.lang.String val, long len) {
         var RESULT = gtk_h.g_string_overwrite_len(handle(), pos, Interop.allocateNativeString(val).handle(), len);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -266,7 +266,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String prepend(java.lang.String val) {
         var RESULT = gtk_h.g_string_prepend(handle(), Interop.allocateNativeString(val).handle());
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -275,7 +275,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String prependC(byte c) {
         var RESULT = gtk_h.g_string_prepend_c(handle(), c);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -291,7 +291,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String prependLen(java.lang.String val, long len) {
         var RESULT = gtk_h.g_string_prepend_len(handle(), Interop.allocateNativeString(val).handle(), len);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -300,7 +300,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String prependUnichar(int wc) {
         var RESULT = gtk_h.g_string_prepend_unichar(handle(), wc);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -328,7 +328,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String setSize(long len) {
         var RESULT = gtk_h.g_string_set_size(handle(), len);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -336,7 +336,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      */
     public String truncate(long len) {
         var RESULT = gtk_h.g_string_truncate(handle(), len);
-        return new String(References.get(RESULT, false));
+        return new String(Refcounted.get(RESULT, false));
     }
     
     /**

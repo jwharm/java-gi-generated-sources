@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
 
-    public ThreadPool(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ThreadPool(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ThreadPool() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GThreadPool.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GThreadPool.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -229,7 +229,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new ThreadPool(References.get(RESULT, false));
+            return new ThreadPool(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -255,7 +255,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new ThreadPool(References.get(RESULT, true));
+            return new ThreadPool(Refcounted.get(RESULT, true));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

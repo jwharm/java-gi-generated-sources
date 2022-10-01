@@ -46,13 +46,13 @@ import java.lang.invoke.*;
  */
 public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
 
-    public CellRenderer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRenderer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRenderer */
     public static CellRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRenderer(gobject.getReference());
+        return new CellRenderer(gobject.refcounted());
     }
     
     /**
@@ -259,7 +259,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public CellEditable startEditing(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
         var RESULT = gtk_h.gtk_cell_renderer_start_editing(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
-        return new CellEditable.CellEditableImpl(References.get(RESULT, false));
+        return new CellEditable.CellEditableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -364,13 +364,13 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         public static void signalCellRendererEditingCanceled(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellRenderer.EditingCanceledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRenderer(References.get(source)));
+            handler.signalReceived(new CellRenderer(Refcounted.get(source)));
         }
         
         public static void signalCellRendererEditingStarted(MemoryAddress source, MemoryAddress editable, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellRenderer.EditingStartedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRenderer(References.get(source)), new CellEditable.CellEditableImpl(References.get(editable, false)), path.getUtf8String(0));
+            handler.signalReceived(new CellRenderer(Refcounted.get(source)), new CellEditable.CellEditableImpl(Refcounted.get(editable, false)), path.getUtf8String(0));
         }
         
     }

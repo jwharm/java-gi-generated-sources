@@ -35,7 +35,7 @@ public final class GdkPixbuf {
     public static boolean __cbPixbufModuleSaveCallbackFunc(MemoryAddress saveFunc, MemoryAddress userData, MemoryAddress pixbuf, MemoryAddress optionKeys, MemoryAddress optionValues) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (PixbufModuleSaveCallbackFunc) Interop.signalRegistry.get(hash);
-        return handler.onPixbufModuleSaveCallbackFunc(null /* Unsupported parameter type */, new Pixbuf(References.get(pixbuf, false)), new PointerString(optionKeys).iterator(), new PointerString(optionValues).iterator());
+        return handler.onPixbufModuleSaveCallbackFunc(null /* Unsupported parameter type */, new Pixbuf(Refcounted.get(pixbuf, false)), new PointerString(optionKeys).iterator(), new PointerString(optionValues).iterator());
     }
     
     public static boolean __cbPixbufSaveFunc(MemoryAddress buf, long count, MemoryAddress error, MemoryAddress data) {
@@ -47,13 +47,13 @@ public final class GdkPixbuf {
     public static void __cbPixbufModuleUpdatedFunc(MemoryAddress pixbuf, int x, int y, int width, int height, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (PixbufModuleUpdatedFunc) Interop.signalRegistry.get(hash);
-        handler.onPixbufModuleUpdatedFunc(new Pixbuf(References.get(pixbuf, false)), x, y, width, height);
+        handler.onPixbufModuleUpdatedFunc(new Pixbuf(Refcounted.get(pixbuf, false)), x, y, width, height);
     }
     
     public static void __cbPixbufModulePreparedFunc(MemoryAddress pixbuf, MemoryAddress anim, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (PixbufModulePreparedFunc) Interop.signalRegistry.get(hash);
-        handler.onPixbufModulePreparedFunc(new Pixbuf(References.get(pixbuf, false)), new PixbufAnimation(References.get(anim, false)));
+        handler.onPixbufModulePreparedFunc(new Pixbuf(Refcounted.get(pixbuf, false)), new PixbufAnimation(Refcounted.get(anim, false)));
     }
     
     public static java.lang.foreign.MemoryAddress __cbPixbufModuleBeginLoadFunc(MemoryAddress sizeFunc, MemoryAddress preparedFunc, MemoryAddress updatedFunc, MemoryAddress userData) {

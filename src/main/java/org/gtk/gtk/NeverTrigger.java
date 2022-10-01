@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class NeverTrigger extends ShortcutTrigger {
 
-    public NeverTrigger(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NeverTrigger(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NeverTrigger */
     public static NeverTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new NeverTrigger(gobject.getReference());
+        return new NeverTrigger(gobject.refcounted());
     }
     
     /**
@@ -28,7 +28,7 @@ public class NeverTrigger extends ShortcutTrigger {
      */
     public static NeverTrigger get() {
         var RESULT = gtk_h.gtk_never_trigger_get();
-        return new NeverTrigger(References.get(RESULT, false));
+        return new NeverTrigger(Refcounted.get(RESULT, false));
     }
     
 }

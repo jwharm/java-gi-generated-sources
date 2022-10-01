@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class Context extends io.github.jwharm.javagi.ResourceBase {
 
-    public Context(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Context(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

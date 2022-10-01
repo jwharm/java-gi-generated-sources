@@ -67,17 +67,17 @@ import java.lang.invoke.*;
  */
 public class PrintUnixDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public PrintUnixDialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PrintUnixDialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PrintUnixDialog */
     public static PrintUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintUnixDialog(gobject.getReference());
+        return new PrintUnixDialog(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title, Window parent) {
-        Reference RESULT = References.get(gtk_h.gtk_print_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+    private static Refcounted constructNew(java.lang.String title, Window parent) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
         return RESULT;
     }
     
@@ -132,7 +132,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public PageSetup getPageSetup() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_page_setup(handle());
-        return new PageSetup(References.get(RESULT, false));
+        return new PageSetup(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -148,7 +148,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public Printer getSelectedPrinter() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_selected_printer(handle());
-        return new Printer(References.get(RESULT, false));
+        return new Printer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -160,7 +160,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public PrintSettings getPrintSettings() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_settings(handle());
-        return new PrintSettings(References.get(RESULT, true));
+        return new PrintSettings(Refcounted.get(RESULT, true));
     }
     
     /**

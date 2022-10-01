@@ -74,17 +74,17 @@ import java.lang.invoke.*;
  */
 public class ColumnView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public ColumnView(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ColumnView(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ColumnView */
     public static ColumnView castFrom(org.gtk.gobject.Object gobject) {
-        return new ColumnView(gobject.getReference());
+        return new ColumnView(gobject.refcounted());
     }
     
-    private static Reference constructNew(SelectionModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_column_view_new(model.getReference().unowned().handle()), false);
+    private static Refcounted constructNew(SelectionModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_column_view_new(model.refcounted().unowned().handle()), false);
         return RESULT;
     }
     
@@ -114,7 +114,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public org.gtk.gio.ListModel getColumns() {
         var RESULT = gtk_h.gtk_column_view_get_columns(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -130,7 +130,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_column_view_get_model(handle());
-        return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -191,7 +191,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public Sorter getSorter() {
         var RESULT = gtk_h.gtk_column_view_get_sorter(handle());
-        return new Sorter(References.get(RESULT, false));
+        return new Sorter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -311,7 +311,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         public static void signalColumnViewActivate(MemoryAddress source, int position, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ColumnView.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ColumnView(References.get(source)), position);
+            handler.signalReceived(new ColumnView(Refcounted.get(source)), position);
         }
         
     }

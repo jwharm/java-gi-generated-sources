@@ -20,17 +20,17 @@ import java.lang.invoke.*;
  */
 public class ShortcutTrigger extends org.gtk.gobject.Object {
 
-    public ShortcutTrigger(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShortcutTrigger(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ShortcutTrigger */
     public static ShortcutTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutTrigger(gobject.getReference());
+        return new ShortcutTrigger(gobject.refcounted());
     }
     
-    private static Reference constructParseString(java.lang.String string) {
-        Reference RESULT = References.get(gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).handle()), true);
+    private static Refcounted constructParseString(java.lang.String string) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).handle()), true);
         return RESULT;
     }
     

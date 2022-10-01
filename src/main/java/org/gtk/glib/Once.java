@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class Once extends io.github.jwharm.javagi.ResourceBase {
 
-    public Once(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Once(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Once() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GOnce.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GOnce.allocate(Interop.getAllocator()).address()));
     }
     
     /**

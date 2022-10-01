@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class ObjectExpression extends Expression {
 
-    public ObjectExpression(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ObjectExpression(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ObjectExpression */
     public static ObjectExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new ObjectExpression(gobject.getReference());
+        return new ObjectExpression(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Object object) {
-        Reference RESULT = References.get(gtk_h.gtk_object_expression_new(object.handle()), true);
+    private static Refcounted constructNew(org.gtk.gobject.Object object) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_object_expression_new(object.handle()), true);
         return RESULT;
     }
     
@@ -42,7 +42,7 @@ public class ObjectExpression extends Expression {
      */
     public org.gtk.gobject.Object getObject() {
         var RESULT = gtk_h.gtk_object_expression_get_object(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
 }

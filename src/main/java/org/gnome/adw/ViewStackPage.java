@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ViewStackPage extends org.gtk.gobject.Object {
 
-    public ViewStackPage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ViewStackPage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ViewStackPage */
     public static ViewStackPage castFrom(org.gtk.gobject.Object gobject) {
-        return new ViewStackPage(gobject.getReference());
+        return new ViewStackPage(gobject.refcounted());
     }
     
     /**
@@ -32,7 +32,7 @@ public class ViewStackPage extends org.gtk.gobject.Object {
      */
     public org.gtk.gtk.Widget getChild() {
         var RESULT = gtk_h.adw_view_stack_page_get_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

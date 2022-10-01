@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
 
-    public ByteArray(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ByteArray(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public ByteArray() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GByteArray.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GByteArray.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -50,7 +50,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Bytes freeToBytes(byte[] array) {
         var RESULT = gtk_h.g_byte_array_free_to_bytes(Interop.allocateNativeArray(array).handle());
-        return new Bytes(References.get(RESULT, true));
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
     /**

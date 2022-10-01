@@ -45,17 +45,17 @@ import java.lang.invoke.*;
  */
 public class Statusbar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Statusbar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Statusbar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Statusbar */
     public static Statusbar castFrom(org.gtk.gobject.Object gobject) {
-        return new Statusbar(gobject.getReference());
+        return new Statusbar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_statusbar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_statusbar_new(), false);
         return RESULT;
     }
     
@@ -170,13 +170,13 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
         public static void signalStatusbarTextPopped(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Statusbar.TextPoppedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Statusbar(References.get(source)), contextId, text.getUtf8String(0));
+            handler.signalReceived(new Statusbar(Refcounted.get(source)), contextId, text.getUtf8String(0));
         }
         
         public static void signalStatusbarTextPushed(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Statusbar.TextPushedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Statusbar(References.get(source)), contextId, text.getUtf8String(0));
+            handler.signalReceived(new Statusbar(Refcounted.get(source)), contextId, text.getUtf8String(0));
         }
         
     }

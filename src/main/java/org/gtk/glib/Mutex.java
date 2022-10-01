@@ -51,8 +51,8 @@ import java.lang.foreign.MemoryAddress;
  */
 public class Mutex extends io.github.jwharm.javagi.ResourceBase {
     
-    public Mutex(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Mutex(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

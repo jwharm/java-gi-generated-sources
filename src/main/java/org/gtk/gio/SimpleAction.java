@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class SimpleAction extends org.gtk.gobject.Object implements Action {
 
-    public SimpleAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SimpleAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SimpleAction */
     public static SimpleAction castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleAction(gobject.getReference());
+        return new SimpleAction(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String name, org.gtk.glib.VariantType parameterType) {
-        Reference RESULT = References.get(gtk_h.g_simple_action_new(Interop.allocateNativeString(name).handle(), parameterType.handle()), true);
+    private static Refcounted constructNew(java.lang.String name, org.gtk.glib.VariantType parameterType) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_simple_action_new(Interop.allocateNativeString(name).handle(), parameterType.handle()), true);
         return RESULT;
     }
     
@@ -38,8 +38,8 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         super(constructNew(name, parameterType));
     }
     
-    private static Reference constructNewStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
-        Reference RESULT = References.get(gtk_h.g_simple_action_new_stateful(Interop.allocateNativeString(name).handle(), parameterType.handle(), state.handle()), true);
+    private static Refcounted constructNewStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_simple_action_new_stateful(Interop.allocateNativeString(name).handle(), parameterType.handle(), state.handle()), true);
         return RESULT;
     }
     
@@ -195,13 +195,13 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         public static void signalSimpleActionActivate(MemoryAddress source, MemoryAddress parameter, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SimpleAction.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SimpleAction(References.get(source)), new org.gtk.glib.Variant(References.get(parameter, false)));
+            handler.signalReceived(new SimpleAction(Refcounted.get(source)), new org.gtk.glib.Variant(Refcounted.get(parameter, false)));
         }
         
         public static void signalSimpleActionChangeState(MemoryAddress source, MemoryAddress value, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SimpleAction.ChangeStateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SimpleAction(References.get(source)), new org.gtk.glib.Variant(References.get(value, false)));
+            handler.signalReceived(new SimpleAction(Refcounted.get(source)), new org.gtk.glib.Variant(Refcounted.get(value, false)));
         }
         
     }

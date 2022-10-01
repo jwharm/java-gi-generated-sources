@@ -35,17 +35,17 @@ import java.lang.invoke.*;
  */
 public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, Buildable {
 
-    public StringList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StringList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to StringList */
     public static StringList castFrom(org.gtk.gobject.Object gobject) {
-        return new StringList(gobject.getReference());
+        return new StringList(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String[] strings) {
-        Reference RESULT = References.get(gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings).handle()), true);
+    private static Refcounted constructNew(java.lang.String[] strings) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings).handle()), true);
         return RESULT;
     }
     

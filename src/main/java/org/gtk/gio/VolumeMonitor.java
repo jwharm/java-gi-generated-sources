@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class VolumeMonitor extends org.gtk.gobject.Object {
 
-    public VolumeMonitor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public VolumeMonitor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to VolumeMonitor */
     public static VolumeMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new VolumeMonitor(gobject.getReference());
+        return new VolumeMonitor(gobject.refcounted());
     }
     
     /**
@@ -37,7 +37,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getConnectedDrives() {
         var RESULT = gtk_h.g_volume_monitor_get_connected_drives(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -45,7 +45,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public Mount getMountForUuid(java.lang.String uuid) {
         var RESULT = gtk_h.g_volume_monitor_get_mount_for_uuid(handle(), Interop.allocateNativeString(uuid).handle());
-        return new Mount.MountImpl(References.get(RESULT, true));
+        return new Mount.MountImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -56,7 +56,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getMounts() {
         var RESULT = gtk_h.g_volume_monitor_get_mounts(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -64,7 +64,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public Volume getVolumeForUuid(java.lang.String uuid) {
         var RESULT = gtk_h.g_volume_monitor_get_volume_for_uuid(handle(), Interop.allocateNativeString(uuid).handle());
-        return new Volume.VolumeImpl(References.get(RESULT, true));
+        return new Volume.VolumeImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -75,7 +75,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getVolumes() {
         var RESULT = gtk_h.g_volume_monitor_get_volumes(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public static VolumeMonitor get() {
         var RESULT = gtk_h.g_volume_monitor_get();
-        return new VolumeMonitor(References.get(RESULT, true));
+        return new VolumeMonitor(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -406,73 +406,73 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         public static void signalVolumeMonitorDriveChanged(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.DriveChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Drive.DriveImpl(Refcounted.get(drive, false)));
         }
         
         public static void signalVolumeMonitorDriveConnected(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.DriveConnectedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Drive.DriveImpl(Refcounted.get(drive, false)));
         }
         
         public static void signalVolumeMonitorDriveDisconnected(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.DriveDisconnectedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Drive.DriveImpl(Refcounted.get(drive, false)));
         }
         
         public static void signalVolumeMonitorDriveEjectButton(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.DriveEjectButtonHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Drive.DriveImpl(Refcounted.get(drive, false)));
         }
         
         public static void signalVolumeMonitorDriveStopButton(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.DriveStopButtonHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Drive.DriveImpl(Refcounted.get(drive, false)));
         }
         
         public static void signalVolumeMonitorMountAdded(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.MountAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Mount.MountImpl(Refcounted.get(mount, false)));
         }
         
         public static void signalVolumeMonitorMountChanged(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.MountChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Mount.MountImpl(Refcounted.get(mount, false)));
         }
         
         public static void signalVolumeMonitorMountPreUnmount(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.MountPreUnmountHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Mount.MountImpl(Refcounted.get(mount, false)));
         }
         
         public static void signalVolumeMonitorMountRemoved(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.MountRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Mount.MountImpl(Refcounted.get(mount, false)));
         }
         
         public static void signalVolumeMonitorVolumeAdded(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.VolumeAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Volume.VolumeImpl(Refcounted.get(volume, false)));
         }
         
         public static void signalVolumeMonitorVolumeChanged(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.VolumeChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Volume.VolumeImpl(Refcounted.get(volume, false)));
         }
         
         public static void signalVolumeMonitorVolumeRemoved(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (VolumeMonitor.VolumeRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
+            handler.signalReceived(new VolumeMonitor(Refcounted.get(source)), new Volume.VolumeImpl(Refcounted.get(volume, false)));
         }
         
     }

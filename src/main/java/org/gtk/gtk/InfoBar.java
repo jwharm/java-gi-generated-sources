@@ -82,17 +82,17 @@ import java.lang.invoke.*;
  */
 public class InfoBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public InfoBar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InfoBar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to InfoBar */
     public static InfoBar castFrom(org.gtk.gobject.Object gobject) {
-        return new InfoBar(gobject.getReference());
+        return new InfoBar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_info_bar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_info_bar_new(), false);
         return RESULT;
     }
     
@@ -125,7 +125,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      */
     public Button addButton(java.lang.String buttonText, int responseId) {
         var RESULT = gtk_h.gtk_info_bar_add_button(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
-        return new Button(References.get(RESULT, false));
+        return new Button(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -304,13 +304,13 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
         public static void signalInfoBarClose(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (InfoBar.CloseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new InfoBar(References.get(source)));
+            handler.signalReceived(new InfoBar(Refcounted.get(source)));
         }
         
         public static void signalInfoBarResponse(MemoryAddress source, int responseId, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (InfoBar.ResponseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new InfoBar(References.get(source)), responseId);
+            handler.signalReceived(new InfoBar(Refcounted.get(source)), responseId);
         }
         
     }

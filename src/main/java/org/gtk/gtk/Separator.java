@@ -25,17 +25,17 @@ import java.lang.invoke.*;
  */
 public class Separator extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Separator(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Separator(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Separator */
     public static Separator castFrom(org.gtk.gobject.Object gobject) {
-        return new Separator(gobject.getReference());
+        return new Separator(gobject.refcounted());
     }
     
-    private static Reference constructNew(Orientation orientation) {
-        Reference RESULT = References.get(gtk_h.gtk_separator_new(orientation.getValue()), false);
+    private static Refcounted constructNew(Orientation orientation) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_separator_new(orientation.getValue()), false);
         return RESULT;
     }
     

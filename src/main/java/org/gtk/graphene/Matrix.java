@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Matrix extends io.github.jwharm.javagi.ResourceBase {
 
-    public Matrix(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Matrix(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_matrix_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_matrix_alloc(), true);
         return RESULT;
     }
     
@@ -176,7 +176,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initFrom2d(double xx, double yx, double xy, double yy, double x0, double y0) {
         var RESULT = gtk_h.graphene_matrix_init_from_2d(handle(), xx, yx, xy, yy, x0, y0);
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -185,7 +185,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initFromFloat(float[] v) {
         var RESULT = gtk_h.graphene_matrix_init_from_float(handle(), Interop.allocateNativeArray(v).handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -194,7 +194,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initFromMatrix(Matrix src) {
         var RESULT = gtk_h.graphene_matrix_init_from_matrix(handle(), src.handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -203,7 +203,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initFromVec4(Vec4 v0, Vec4 v1, Vec4 v2, Vec4 v3) {
         var RESULT = gtk_h.graphene_matrix_init_from_vec4(handle(), v0.handle(), v1.handle(), v2.handle(), v3.handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -213,7 +213,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
         var RESULT = gtk_h.graphene_matrix_init_frustum(handle(), left, right, bottom, top, zNear, zFar);
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -221,7 +221,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initIdentity() {
         var RESULT = gtk_h.graphene_matrix_init_identity(handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -244,7 +244,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initLookAt(Vec3 eye, Vec3 center, Vec3 up) {
         var RESULT = gtk_h.graphene_matrix_init_look_at(handle(), eye.handle(), center.handle(), up.handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -252,7 +252,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initOrtho(float left, float right, float top, float bottom, float zNear, float zFar) {
         var RESULT = gtk_h.graphene_matrix_init_ortho(handle(), left, right, top, bottom, zNear, zFar);
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -260,7 +260,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initPerspective(float fovy, float aspect, float zNear, float zFar) {
         var RESULT = gtk_h.graphene_matrix_init_perspective(handle(), fovy, aspect, zNear, zFar);
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -269,7 +269,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initRotate(float angle, Vec3 axis) {
         var RESULT = gtk_h.graphene_matrix_init_rotate(handle(), angle, axis.handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -277,7 +277,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initScale(float x, float y, float z) {
         var RESULT = gtk_h.graphene_matrix_init_scale(handle(), x, y, z);
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -286,7 +286,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initSkew(float xSkew, float ySkew) {
         var RESULT = gtk_h.graphene_matrix_init_skew(handle(), xSkew, ySkew);
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -295,7 +295,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public Matrix initTranslate(Point3D p) {
         var RESULT = gtk_h.graphene_matrix_init_translate(handle(), p.handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**

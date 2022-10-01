@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SocketServicePrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public SocketServicePrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SocketServicePrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

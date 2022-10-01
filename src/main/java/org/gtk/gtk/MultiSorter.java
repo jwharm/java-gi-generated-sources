@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Buildable {
 
-    public MultiSorter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MultiSorter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MultiSorter */
     public static MultiSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new MultiSorter(gobject.getReference());
+        return new MultiSorter(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_multi_sorter_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_multi_sorter_new(), true);
         return RESULT;
     }
     
@@ -47,7 +47,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * sort with the given {@code sorter}.
      */
     public void append(Sorter sorter) {
-        gtk_h.gtk_multi_sorter_append(handle(), sorter.getReference().unowned().handle());
+        gtk_h.gtk_multi_sorter_append(handle(), sorter.refcounted().unowned().handle());
     }
     
     /**

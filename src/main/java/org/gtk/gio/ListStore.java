@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class ListStore extends org.gtk.gobject.Object implements ListModel {
 
-    public ListStore(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ListStore(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ListStore */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        return new ListStore(gobject.getReference());
+        return new ListStore(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Type itemType) {
-        Reference RESULT = References.get(gtk_h.g_list_store_new(itemType.getValue()), true);
+    private static Refcounted constructNew(org.gtk.gobject.Type itemType) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_list_store_new(itemType.getValue()), true);
         return RESULT;
     }
     

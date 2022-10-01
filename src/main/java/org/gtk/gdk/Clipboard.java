@@ -26,13 +26,13 @@ import java.lang.invoke.*;
  */
 public class Clipboard extends org.gtk.gobject.Object {
 
-    public Clipboard(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Clipboard(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Clipboard */
     public static Clipboard castFrom(org.gtk.gobject.Object gobject) {
-        return new Clipboard(gobject.getReference());
+        return new Clipboard(gobject.refcounted());
     }
     
     /**
@@ -43,7 +43,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public ContentProvider getContent() {
         var RESULT = gtk_h.gdk_clipboard_get_content(handle());
-        return new ContentProvider(References.get(RESULT, false));
+        return new ContentProvider(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -51,7 +51,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_clipboard_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public ContentFormats getFormats() {
         var RESULT = gtk_h.gdk_clipboard_get_formats(handle());
-        return new ContentFormats(References.get(RESULT, false));
+        return new ContentFormats(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -111,7 +111,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.InputStream(References.get(RESULT, true));
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -187,7 +187,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Texture(References.get(RESULT, true));
+        return new Texture(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -226,7 +226,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Value(References.get(RESULT, false));
+        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -350,7 +350,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         public static void signalClipboardChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Clipboard.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Clipboard(References.get(source)));
+            handler.signalReceived(new Clipboard(Refcounted.get(source)));
         }
         
     }

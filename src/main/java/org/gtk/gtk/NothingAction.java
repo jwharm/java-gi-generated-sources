@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class NothingAction extends ShortcutAction {
 
-    public NothingAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NothingAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NothingAction */
     public static NothingAction castFrom(org.gtk.gobject.Object gobject) {
-        return new NothingAction(gobject.getReference());
+        return new NothingAction(gobject.refcounted());
     }
     
     /**
@@ -27,7 +27,7 @@ public class NothingAction extends ShortcutAction {
      */
     public static NothingAction get() {
         var RESULT = gtk_h.gtk_nothing_action_get();
-        return new NothingAction(References.get(RESULT, false));
+        return new NothingAction(Refcounted.get(RESULT, false));
     }
     
 }

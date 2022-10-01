@@ -56,17 +56,17 @@ import java.lang.invoke.*;
  */
 public class PixbufLoader extends org.gtk.gobject.Object {
 
-    public PixbufLoader(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PixbufLoader(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PixbufLoader */
     public static PixbufLoader castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufLoader(gobject.getReference());
+        return new PixbufLoader(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_loader_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_loader_new(), true);
         return RESULT;
     }
     
@@ -77,9 +77,9 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static Reference constructNewWithMimeType(java.lang.String mimeType) throws GErrorException {
+    private static Refcounted constructNewWithMimeType(java.lang.String mimeType) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_loader_new_with_mime_type(Interop.allocateNativeString(mimeType).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_loader_new_with_mime_type(Interop.allocateNativeString(mimeType).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -107,9 +107,9 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         return new PixbufLoader(constructNewWithMimeType(mimeType));
     }
     
-    private static Reference constructNewWithType(java.lang.String imageType) throws GErrorException {
+    private static Refcounted constructNewWithType(java.lang.String imageType) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_loader_new_with_type(Interop.allocateNativeString(imageType).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_loader_new_with_type(Interop.allocateNativeString(imageType).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -174,7 +174,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public PixbufAnimation getAnimation() {
         var RESULT = gtk_h.gdk_pixbuf_loader_get_animation(handle());
-        return new PixbufAnimation(References.get(RESULT, false));
+        return new PixbufAnimation(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public PixbufFormat getFormat() {
         var RESULT = gtk_h.gdk_pixbuf_loader_get_format(handle());
-        return new PixbufFormat(References.get(RESULT, false));
+        return new PixbufFormat(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -205,7 +205,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public Pixbuf getPixbuf() {
         var RESULT = gtk_h.gdk_pixbuf_loader_get_pixbuf(handle());
-        return new Pixbuf(References.get(RESULT, false));
+        return new Pixbuf(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -377,25 +377,25 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         public static void signalPixbufLoaderAreaPrepared(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PixbufLoader.AreaPreparedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PixbufLoader(References.get(source)));
+            handler.signalReceived(new PixbufLoader(Refcounted.get(source)));
         }
         
         public static void signalPixbufLoaderAreaUpdated(MemoryAddress source, int x, int y, int width, int height, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PixbufLoader.AreaUpdatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PixbufLoader(References.get(source)), x, y, width, height);
+            handler.signalReceived(new PixbufLoader(Refcounted.get(source)), x, y, width, height);
         }
         
         public static void signalPixbufLoaderClosed(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PixbufLoader.ClosedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PixbufLoader(References.get(source)));
+            handler.signalReceived(new PixbufLoader(Refcounted.get(source)));
         }
         
         public static void signalPixbufLoaderSizePrepared(MemoryAddress source, int width, int height, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PixbufLoader.SizePreparedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PixbufLoader(References.get(source)), width, height);
+            handler.signalReceived(new PixbufLoader(Refcounted.get(source)), width, height);
         }
         
     }

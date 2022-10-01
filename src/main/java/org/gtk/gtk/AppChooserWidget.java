@@ -32,17 +32,17 @@ import java.lang.invoke.*;
  */
 public class AppChooserWidget extends Widget implements Accessible, AppChooser, Buildable, ConstraintTarget {
 
-    public AppChooserWidget(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AppChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AppChooserWidget */
     public static AppChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new AppChooserWidget(gobject.getReference());
+        return new AppChooserWidget(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String contentType) {
-        Reference RESULT = References.get(gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).handle()), false);
+    private static Refcounted constructNew(java.lang.String contentType) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).handle()), false);
         return RESULT;
     }
     
@@ -217,13 +217,13 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
         public static void signalAppChooserWidgetApplicationActivated(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppChooserWidget.ApplicationActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppChooserWidget(References.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(References.get(application, false)));
+            handler.signalReceived(new AppChooserWidget(Refcounted.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(application, false)));
         }
         
         public static void signalAppChooserWidgetApplicationSelected(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AppChooserWidget.ApplicationSelectedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppChooserWidget(References.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(References.get(application, false)));
+            handler.signalReceived(new AppChooserWidget(Refcounted.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(application, false)));
         }
         
     }

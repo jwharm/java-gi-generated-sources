@@ -35,17 +35,17 @@ import java.lang.invoke.*;
  */
 public class LinkButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public LinkButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LinkButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to LinkButton */
     public static LinkButton castFrom(org.gtk.gobject.Object gobject) {
-        return new LinkButton(gobject.getReference());
+        return new LinkButton(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String uri) {
-        Reference RESULT = References.get(gtk_h.gtk_link_button_new(Interop.allocateNativeString(uri).handle()), false);
+    private static Refcounted constructNew(java.lang.String uri) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_link_button_new(Interop.allocateNativeString(uri).handle()), false);
         return RESULT;
     }
     
@@ -56,8 +56,8 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
         super(constructNew(uri));
     }
     
-    private static Reference constructNewWithLabel(java.lang.String uri, java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNewWithLabel(java.lang.String uri, java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -145,7 +145,7 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
         public static boolean signalLinkButtonActivateLink(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (LinkButton.ActivateLinkHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new LinkButton(References.get(source)));
+            return handler.signalReceived(new LinkButton(Refcounted.get(source)));
         }
         
     }

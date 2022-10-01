@@ -52,17 +52,17 @@ import java.lang.invoke.*;
  */
 public class Fixed extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Fixed(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Fixed(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Fixed */
     public static Fixed castFrom(org.gtk.gobject.Object gobject) {
-        return new Fixed(gobject.getReference());
+        return new Fixed(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_fixed_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_fixed_new(), false);
         return RESULT;
     }
     
@@ -89,7 +89,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gsk.Transform getChildTransform(Widget widget) {
         var RESULT = gtk_h.gtk_fixed_get_child_transform(handle(), widget.handle());
-        return new org.gtk.gsk.Transform(References.get(RESULT, false));
+        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
     }
     
     /**

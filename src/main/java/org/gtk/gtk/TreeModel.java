@@ -216,7 +216,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      */
     public default TreeModel filterNew(TreePath root) {
         var RESULT = gtk_h.gtk_tree_model_filter_new(handle(), root.handle());
-        return new TreeModel.TreeModelImpl(References.get(RESULT, true));
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -307,7 +307,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      */
     public default TreePath getPath(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_get_path(handle(), iter.handle());
-        return new TreePath(References.get(RESULT, true));
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -688,38 +688,38 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         public static void signalTreeModelRowChanged(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeModel.RowChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
+            handler.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new TreePath(Refcounted.get(path, false)), new TreeIter(Refcounted.get(iter, false)));
         }
         
         public static void signalTreeModelRowDeleted(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeModel.RowDeletedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)));
+            handler.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new TreePath(Refcounted.get(path, false)));
         }
         
         public static void signalTreeModelRowHasChildToggled(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeModel.RowHasChildToggledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
+            handler.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new TreePath(Refcounted.get(path, false)), new TreeIter(Refcounted.get(iter, false)));
         }
         
         public static void signalTreeModelRowInserted(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeModel.RowInsertedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
+            handler.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new TreePath(Refcounted.get(path, false)), new TreeIter(Refcounted.get(iter, false)));
         }
         
         public static void signalTreeModelRowsReordered(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress newOrder, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeModel.RowsReorderedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)), newOrder);
+            handler.signalReceived(new TreeModel.TreeModelImpl(Refcounted.get(source)), new TreePath(Refcounted.get(path, false)), new TreeIter(Refcounted.get(iter, false)), newOrder);
         }
         
     }
     
     class TreeModelImpl extends org.gtk.gobject.Object implements TreeModel {
-        public TreeModelImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public TreeModelImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

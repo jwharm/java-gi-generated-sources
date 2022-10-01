@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FileOutputStreamPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public FileOutputStreamPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileOutputStreamPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

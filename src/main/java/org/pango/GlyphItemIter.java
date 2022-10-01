@@ -49,12 +49,12 @@ import java.lang.invoke.*;
  */
 public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphItemIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GlyphItemIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public GlyphItemIter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphItemIter.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphItemIter.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -62,7 +62,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public GlyphItemIter copy() {
         var RESULT = gtk_h.pango_glyph_item_iter_copy(handle());
-        return new GlyphItemIter(References.get(RESULT, true));
+        return new GlyphItemIter(Refcounted.get(RESULT, true));
     }
     
     /**

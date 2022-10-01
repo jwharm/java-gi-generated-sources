@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class Resolver extends org.gtk.gobject.Object {
 
-    public Resolver(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Resolver(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Resolver */
     public static Resolver castFrom(org.gtk.gobject.Object gobject) {
-        return new Resolver(gobject.getReference());
+        return new Resolver(gobject.refcounted());
     }
     
     /**
@@ -113,7 +113,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -150,7 +150,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -164,7 +164,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -201,7 +201,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -222,7 +222,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -261,7 +261,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -293,7 +293,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -331,7 +331,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -376,7 +376,7 @@ public class Resolver extends org.gtk.gobject.Object {
      */
     public static Resolver getDefault() {
         var RESULT = gtk_h.g_resolver_get_default();
-        return new Resolver(References.get(RESULT, true));
+        return new Resolver(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -411,7 +411,7 @@ public class Resolver extends org.gtk.gobject.Object {
         public static void signalResolverReload(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Resolver.ReloadHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Resolver(References.get(source)));
+            handler.signalReceived(new Resolver(Refcounted.get(source)));
         }
         
     }

@@ -37,17 +37,17 @@ import java.lang.invoke.*;
  */
 public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
 
-    public Window(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Window(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Window */
     public static Window castFrom(org.gtk.gobject.Object gobject) {
-        return new Window(gobject.getReference());
+        return new Window(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_window_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_window_new(), false);
         return RESULT;
     }
     
@@ -65,7 +65,7 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      */
     public org.gtk.gtk.Widget getContent() {
         var RESULT = gtk_h.adw_window_get_content(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

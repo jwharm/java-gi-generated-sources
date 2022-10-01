@@ -29,7 +29,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gdk.ContentProvider dragDataGet(TreePath path) {
         var RESULT = gtk_h.gtk_tree_drag_source_drag_data_get(handle(), path.handle());
-        return new org.gtk.gdk.ContentProvider(References.get(RESULT, true));
+        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -43,8 +43,8 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
     }
     
     class TreeDragSourceImpl extends org.gtk.gobject.Object implements TreeDragSource {
-        public TreeDragSourceImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public TreeDragSourceImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

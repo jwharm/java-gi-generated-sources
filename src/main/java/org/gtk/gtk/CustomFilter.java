@@ -10,18 +10,18 @@ import java.lang.invoke.*;
  */
 public class CustomFilter extends Filter {
 
-    public CustomFilter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CustomFilter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CustomFilter */
     public static CustomFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new CustomFilter(gobject.getReference());
+        return new CustomFilter(gobject.refcounted());
     }
     
-    private static Reference constructNew(CustomFilterFunc matchFunc) {
+    private static Refcounted constructNew(CustomFilterFunc matchFunc) {
         try {
-            Reference RESULT = References.get(gtk_h.gtk_custom_filter_new(
+            Refcounted RESULT = Refcounted.get(gtk_h.gtk_custom_filter_new(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbCustomFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),

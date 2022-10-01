@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class Printer extends org.gtk.gobject.Object {
 
-    public Printer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Printer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Printer */
     public static Printer castFrom(org.gtk.gobject.Object gobject) {
-        return new Printer(gobject.getReference());
+        return new Printer(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String name, PrintBackend backend, boolean virtual) {
-        Reference RESULT = References.get(gtk_h.gtk_printer_new(Interop.allocateNativeString(name).handle(), backend.handle(), virtual ? 1 : 0), true);
+    private static Refcounted constructNew(java.lang.String name, PrintBackend backend, boolean virtual) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_printer_new(Interop.allocateNativeString(name).handle(), backend.handle(), virtual ? 1 : 0), true);
         return RESULT;
     }
     
@@ -70,7 +70,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public PrintBackend getBackend() {
         var RESULT = gtk_h.gtk_printer_get_backend(handle());
-        return new PrintBackend(References.get(RESULT, false));
+        return new PrintBackend(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -94,7 +94,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public PageSetup getDefaultPageSize() {
         var RESULT = gtk_h.gtk_printer_get_default_page_size(handle());
-        return new PageSetup(References.get(RESULT, true));
+        return new PageSetup(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -239,7 +239,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List listPapers() {
         var RESULT = gtk_h.gtk_printer_list_papers(handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -288,7 +288,7 @@ public class Printer extends org.gtk.gobject.Object {
         public static void signalPrinterDetailsAcquired(MemoryAddress source, int success, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Printer.DetailsAcquiredHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Printer(References.get(source)), success != 0);
+            handler.signalReceived(new Printer(Refcounted.get(source)), success != 0);
         }
         
     }

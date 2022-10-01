@@ -23,12 +23,12 @@ import java.lang.invoke.*;
  */
 public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
 
-    public SrvTarget(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SrvTarget(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String hostname, short port, short priority, short weight) {
-        Reference RESULT = References.get(gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).handle(), port, priority, weight), true);
+    private static Refcounted constructNew(java.lang.String hostname, short port, short priority, short weight) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).handle(), port, priority, weight), true);
         return RESULT;
     }
     
@@ -47,7 +47,7 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
      */
     public SrvTarget copy() {
         var RESULT = gtk_h.g_srv_target_copy(handle());
-        return new SrvTarget(References.get(RESULT, true));
+        return new SrvTarget(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -101,7 +101,7 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List listSort(org.gtk.glib.List targets) {
         var RESULT = gtk_h.g_srv_target_list_sort(targets.handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
 }

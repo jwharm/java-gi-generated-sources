@@ -188,17 +188,17 @@ import java.lang.invoke.*;
  */
 public class Label extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Label(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Label(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Label */
     public static Label castFrom(org.gtk.gobject.Object gobject) {
-        return new Label(gobject.getReference());
+        return new Label(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String str) {
-        Reference RESULT = References.get(gtk_h.gtk_label_new(Interop.allocateNativeString(str).handle()), false);
+    private static Refcounted constructNew(java.lang.String str) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_label_new(Interop.allocateNativeString(str).handle()), false);
         return RESULT;
     }
     
@@ -211,8 +211,8 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         super(constructNew(str));
     }
     
-    private static Reference constructNewWithMnemonic(java.lang.String str) {
-        Reference RESULT = References.get(gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).handle()), false);
+    private static Refcounted constructNewWithMnemonic(java.lang.String str) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).handle()), false);
         return RESULT;
     }
     
@@ -248,7 +248,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.pango.AttrList getAttributes() {
         var RESULT = gtk_h.gtk_label_get_attributes(handle());
-        return new org.pango.AttrList(References.get(RESULT, false));
+        return new org.pango.AttrList(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -283,7 +283,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = gtk_h.gtk_label_get_extra_menu(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -318,7 +318,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.pango.Layout getLayout() {
         var RESULT = gtk_h.gtk_label_get_layout(handle());
-        return new org.pango.Layout(References.get(RESULT, false));
+        return new org.pango.Layout(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -375,7 +375,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getMnemonicWidget() {
         var RESULT = gtk_h.gtk_label_get_mnemonic_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -920,25 +920,25 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         public static void signalLabelActivateCurrentLink(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Label.ActivateCurrentLinkHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Label(References.get(source)));
+            handler.signalReceived(new Label(Refcounted.get(source)));
         }
         
         public static boolean signalLabelActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Label.ActivateLinkHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Label(References.get(source)), uri.getUtf8String(0));
+            return handler.signalReceived(new Label(Refcounted.get(source)), uri.getUtf8String(0));
         }
         
         public static void signalLabelCopyClipboard(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Label.CopyClipboardHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Label(References.get(source)));
+            handler.signalReceived(new Label(Refcounted.get(source)));
         }
         
         public static void signalLabelMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Label.MoveCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Label(References.get(source)), new MovementStep(step), count, extendSelection != 0);
+            handler.signalReceived(new Label(Refcounted.get(source)), new MovementStep(step), count, extendSelection != 0);
         }
         
     }

@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  */
 public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public HashTableIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public HashTableIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public HashTableIter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GHashTableIter.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GHashTableIter.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -29,7 +29,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.HashTable getHashTable() {
         var RESULT = gtk_h.g_hash_table_iter_get_hash_table(handle());
-        return new org.gtk.glib.HashTable(References.get(RESULT, false));
+        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
     }
     
     /**

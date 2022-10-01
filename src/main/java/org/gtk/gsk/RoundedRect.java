@@ -22,12 +22,12 @@ import java.lang.invoke.*;
  */
 public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
 
-    public RoundedRect(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RoundedRect(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public RoundedRect() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GskRoundedRect.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GskRoundedRect.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -54,7 +54,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public RoundedRect init(org.gtk.graphene.Rect bounds, org.gtk.graphene.Size topLeft, org.gtk.graphene.Size topRight, org.gtk.graphene.Size bottomRight, org.gtk.graphene.Size bottomLeft) {
         var RESULT = gtk_h.gsk_rounded_rect_init(handle(), bounds.handle(), topLeft.handle(), topRight.handle(), bottomRight.handle(), bottomLeft.handle());
-        return new RoundedRect(References.get(RESULT, false));
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public RoundedRect initCopy(RoundedRect src) {
         var RESULT = gtk_h.gsk_rounded_rect_init_copy(handle(), src.handle());
-        return new RoundedRect(References.get(RESULT, false));
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public RoundedRect initFromRect(org.gtk.graphene.Rect bounds, float radius) {
         var RESULT = gtk_h.gsk_rounded_rect_init_from_rect(handle(), bounds.handle(), radius);
-        return new RoundedRect(References.get(RESULT, false));
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -106,7 +106,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public RoundedRect normalize() {
         var RESULT = gtk_h.gsk_rounded_rect_normalize(handle());
-        return new RoundedRect(References.get(RESULT, false));
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public RoundedRect offset(float dx, float dy) {
         var RESULT = gtk_h.gsk_rounded_rect_offset(handle(), dx, dy);
-        return new RoundedRect(References.get(RESULT, false));
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -131,7 +131,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      */
     public RoundedRect shrink(float top, float right, float bottom, float left) {
         var RESULT = gtk_h.gsk_rounded_rect_shrink(handle(), top, right, bottom, left);
-        return new RoundedRect(References.get(RESULT, false));
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
 }

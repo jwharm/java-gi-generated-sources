@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public FontFamily(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontFamily(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FontFamily */
     public static FontFamily castFrom(org.gtk.gobject.Object gobject) {
-        return new FontFamily(gobject.getReference());
+        return new FontFamily(gobject.refcounted());
     }
     
     /**
@@ -28,7 +28,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      */
     public FontFace getFace(java.lang.String name) {
         var RESULT = gtk_h.pango_font_family_get_face(handle(), Interop.allocateNativeString(name).handle());
-        return new FontFace(References.get(RESULT, false));
+        return new FontFace(Refcounted.get(RESULT, false));
     }
     
     /**

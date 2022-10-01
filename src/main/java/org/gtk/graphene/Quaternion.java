@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
 
-    public Quaternion(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Quaternion(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_quaternion_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_quaternion_alloc(), true);
         return RESULT;
     }
     
@@ -66,7 +66,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion init(float x, float y, float z, float w) {
         var RESULT = gtk_h.graphene_quaternion_init(handle(), x, y, z, w);
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -75,7 +75,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion initFromAngleVec3(float angle, Vec3 axis) {
         var RESULT = gtk_h.graphene_quaternion_init_from_angle_vec3(handle(), angle, axis.handle());
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion initFromAngles(float degX, float degY, float degZ) {
         var RESULT = gtk_h.graphene_quaternion_init_from_angles(handle(), degX, degY, degZ);
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -95,7 +95,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion initFromEuler(Euler e) {
         var RESULT = gtk_h.graphene_quaternion_init_from_euler(handle(), e.handle());
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -104,7 +104,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion initFromMatrix(Matrix m) {
         var RESULT = gtk_h.graphene_quaternion_init_from_matrix(handle(), m.handle());
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion initFromQuaternion(Quaternion src) {
         var RESULT = gtk_h.graphene_quaternion_init_from_quaternion(handle(), src.handle());
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -124,7 +124,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion initFromRadians(float radX, float radY, float radZ) {
         var RESULT = gtk_h.graphene_quaternion_init_from_radians(handle(), radX, radY, radZ);
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -132,7 +132,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion initFromVec4(Vec4 src) {
         var RESULT = gtk_h.graphene_quaternion_init_from_vec4(handle(), src.handle());
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quaternion initIdentity() {
         var RESULT = gtk_h.graphene_quaternion_init_identity(handle());
-        return new Quaternion(References.get(RESULT, false));
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
     /**

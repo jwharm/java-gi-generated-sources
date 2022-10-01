@@ -106,17 +106,17 @@ import java.lang.invoke.*;
  */
 public class ListView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
-    public ListView(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ListView(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ListView */
     public static ListView castFrom(org.gtk.gobject.Object gobject) {
-        return new ListView(gobject.getReference());
+        return new ListView(gobject.refcounted());
     }
     
-    private static Reference constructNew(SelectionModel model, ListItemFactory factory) {
-        Reference RESULT = References.get(gtk_h.gtk_list_view_new(model.getReference().unowned().handle(), factory.getReference().unowned().handle()), false);
+    private static Refcounted constructNew(SelectionModel model, ListItemFactory factory) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_list_view_new(model.refcounted().unowned().handle(), factory.refcounted().unowned().handle()), false);
         return RESULT;
     }
     
@@ -148,7 +148,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      */
     public ListItemFactory getFactory() {
         var RESULT = gtk_h.gtk_list_view_get_factory(handle());
-        return new ListItemFactory(References.get(RESULT, false));
+        return new ListItemFactory(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -156,7 +156,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_list_view_get_model(handle());
-        return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -252,7 +252,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         public static void signalListViewActivate(MemoryAddress source, int position, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListView.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListView(References.get(source)), position);
+            handler.signalReceived(new ListView(Refcounted.get(source)), position);
         }
         
     }

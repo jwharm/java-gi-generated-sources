@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class NumericSorter extends Sorter {
 
-    public NumericSorter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NumericSorter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NumericSorter */
     public static NumericSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new NumericSorter(gobject.getReference());
+        return new NumericSorter(gobject.refcounted());
     }
     
-    private static Reference constructNew(Expression expression) {
-        Reference RESULT = References.get(gtk_h.gtk_numeric_sorter_new(expression.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(Expression expression) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_numeric_sorter_new(expression.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -42,7 +42,7 @@ public class NumericSorter extends Sorter {
      */
     public Expression getExpression() {
         var RESULT = gtk_h.gtk_numeric_sorter_get_expression(handle());
-        return new Expression(References.get(RESULT, false));
+        return new Expression(Refcounted.get(RESULT, false));
     }
     
     /**

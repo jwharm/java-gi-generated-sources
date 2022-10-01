@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class SimpleActionGroup extends org.gtk.gobject.Object implements ActionGroup, ActionMap {
 
-    public SimpleActionGroup(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SimpleActionGroup(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SimpleActionGroup */
     public static SimpleActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleActionGroup(gobject.getReference());
+        return new SimpleActionGroup(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_simple_action_group_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_simple_action_group_new(), true);
         return RESULT;
     }
     

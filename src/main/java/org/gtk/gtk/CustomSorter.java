@@ -11,18 +11,18 @@ import java.lang.invoke.*;
  */
 public class CustomSorter extends Sorter {
 
-    public CustomSorter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CustomSorter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CustomSorter */
     public static CustomSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new CustomSorter(gobject.getReference());
+        return new CustomSorter(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.glib.CompareDataFunc sortFunc) {
+    private static Refcounted constructNew(org.gtk.glib.CompareDataFunc sortFunc) {
         try {
-            Reference RESULT = References.get(gtk_h.gtk_custom_sorter_new(
+            Refcounted RESULT = Refcounted.get(gtk_h.gtk_custom_sorter_new(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

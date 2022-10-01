@@ -27,13 +27,13 @@ import java.lang.invoke.*;
  */
 public class Filter extends org.gtk.gobject.Object {
 
-    public Filter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Filter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Filter */
     public static Filter castFrom(org.gtk.gobject.Object gobject) {
-        return new Filter(gobject.getReference());
+        return new Filter(gobject.refcounted());
     }
     
     /**
@@ -118,7 +118,7 @@ public class Filter extends org.gtk.gobject.Object {
         public static void signalFilterChanged(MemoryAddress source, int change, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Filter.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Filter(References.get(source)), new FilterChange(change));
+            handler.signalReceived(new Filter(Refcounted.get(source)), new FilterChange(change));
         }
         
     }

@@ -18,12 +18,12 @@ import java.lang.invoke.*;
  */
 public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public UriParamsIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UriParamsIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public UriParamsIter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GUriParamsIter.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GUriParamsIter.allocate(Interop.getAllocator()).address()));
     }
     
     /**

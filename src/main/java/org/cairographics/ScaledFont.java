@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ScaledFont extends io.github.jwharm.javagi.ResourceBase {
 
-    public ScaledFont(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ScaledFont(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

@@ -43,17 +43,17 @@ import java.lang.invoke.*;
  */
 public class TextView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public TextView(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextView(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TextView */
     public static TextView castFrom(org.gtk.gobject.Object gobject) {
-        return new TextView(gobject.getReference());
+        return new TextView(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_text_view_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_view_new(), false);
         return RESULT;
     }
     
@@ -69,8 +69,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
-    private static Reference constructNewWithBuffer(TextBuffer buffer) {
-        Reference RESULT = References.get(gtk_h.gtk_text_view_new_with_buffer(buffer.handle()), false);
+    private static Refcounted constructNewWithBuffer(TextBuffer buffer) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_view_new_with_buffer(buffer.handle()), false);
         return RESULT;
     }
     
@@ -206,7 +206,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public TextBuffer getBuffer() {
         var RESULT = gtk_h.gtk_text_view_get_buffer(handle());
-        return new TextBuffer(References.get(RESULT, false));
+        return new TextBuffer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -259,7 +259,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = gtk_h.gtk_text_view_get_extra_menu(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -272,7 +272,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getGutter(TextWindowType win) {
         var RESULT = gtk_h.gtk_text_view_get_gutter(handle(), win.getValue());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -395,7 +395,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.pango.Context getLtrContext() {
         var RESULT = gtk_h.gtk_text_view_get_ltr_context(handle());
-        return new org.pango.Context(References.get(RESULT, false));
+        return new org.pango.Context(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -463,7 +463,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.pango.Context getRtlContext() {
         var RESULT = gtk_h.gtk_text_view_get_rtl_context(handle());
-        return new org.pango.Context(References.get(RESULT, false));
+        return new org.pango.Context(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -475,7 +475,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.pango.TabArray getTabs() {
         var RESULT = gtk_h.gtk_text_view_get_tabs(handle());
-        return new org.pango.TabArray(References.get(RESULT, true));
+        return new org.pango.TabArray(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1393,91 +1393,91 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         public static void signalTextViewBackspace(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.BackspaceHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)));
+            handler.signalReceived(new TextView(Refcounted.get(source)));
         }
         
         public static void signalTextViewCopyClipboard(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.CopyClipboardHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)));
+            handler.signalReceived(new TextView(Refcounted.get(source)));
         }
         
         public static void signalTextViewCutClipboard(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.CutClipboardHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)));
+            handler.signalReceived(new TextView(Refcounted.get(source)));
         }
         
         public static void signalTextViewDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)), new DeleteType(type), count);
+            handler.signalReceived(new TextView(Refcounted.get(source)), new DeleteType(type), count);
         }
         
         public static boolean signalTextViewExtendSelection(MemoryAddress source, int granularity, MemoryAddress location, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.ExtendSelectionHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TextView(References.get(source)), new TextExtendSelection(granularity), new TextIter(References.get(location, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
+            return handler.signalReceived(new TextView(Refcounted.get(source)), new TextExtendSelection(granularity), new TextIter(Refcounted.get(location, false)), new TextIter(Refcounted.get(start, false)), new TextIter(Refcounted.get(end, false)));
         }
         
         public static void signalTextViewInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.InsertAtCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)), string.getUtf8String(0));
+            handler.signalReceived(new TextView(Refcounted.get(source)), string.getUtf8String(0));
         }
         
         public static void signalTextViewInsertEmoji(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.InsertEmojiHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)));
+            handler.signalReceived(new TextView(Refcounted.get(source)));
         }
         
         public static void signalTextViewMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)), new MovementStep(step), count, extendSelection != 0);
+            handler.signalReceived(new TextView(Refcounted.get(source)), new MovementStep(step), count, extendSelection != 0);
         }
         
         public static void signalTextViewMoveViewport(MemoryAddress source, int step, int count, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.MoveViewportHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)), new ScrollStep(step), count);
+            handler.signalReceived(new TextView(Refcounted.get(source)), new ScrollStep(step), count);
         }
         
         public static void signalTextViewPasteClipboard(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.PasteClipboardHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)));
+            handler.signalReceived(new TextView(Refcounted.get(source)));
         }
         
         public static void signalTextViewPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.PreeditChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)), preedit.getUtf8String(0));
+            handler.signalReceived(new TextView(Refcounted.get(source)), preedit.getUtf8String(0));
         }
         
         public static void signalTextViewSelectAll(MemoryAddress source, int select, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.SelectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)), select != 0);
+            handler.signalReceived(new TextView(Refcounted.get(source)), select != 0);
         }
         
         public static void signalTextViewSetAnchor(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.SetAnchorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)));
+            handler.signalReceived(new TextView(Refcounted.get(source)));
         }
         
         public static void signalTextViewToggleCursorVisible(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.ToggleCursorVisibleHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)));
+            handler.signalReceived(new TextView(Refcounted.get(source)));
         }
         
         public static void signalTextViewToggleOverwrite(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextView.ToggleOverwriteHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextView(References.get(source)));
+            handler.signalReceived(new TextView(Refcounted.get(source)));
         }
         
     }

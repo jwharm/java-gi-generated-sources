@@ -137,7 +137,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      */
     public default File getActivationRoot() {
         var RESULT = gtk_h.g_volume_get_activation_root(handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -145,7 +145,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      */
     public default Drive getDrive() {
         var RESULT = gtk_h.g_volume_get_drive(handle());
-        return new Drive.DriveImpl(References.get(RESULT, true));
+        return new Drive.DriveImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -153,7 +153,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      */
     public default Icon getIcon() {
         var RESULT = gtk_h.g_volume_get_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -171,7 +171,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      */
     public default Mount getMount() {
         var RESULT = gtk_h.g_volume_get_mount(handle());
-        return new Mount.MountImpl(References.get(RESULT, true));
+        return new Mount.MountImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -195,7 +195,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      */
     public default Icon getSymbolicIcon() {
         var RESULT = gtk_h.g_volume_get_symbolic_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, true));
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -313,20 +313,20 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         public static void signalVolumeChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Volume.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
+            handler.signalReceived(new Volume.VolumeImpl(Refcounted.get(source)));
         }
         
         public static void signalVolumeRemoved(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Volume.RemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
+            handler.signalReceived(new Volume.VolumeImpl(Refcounted.get(source)));
         }
         
     }
     
     class VolumeImpl extends org.gtk.gobject.Object implements Volume {
-        public VolumeImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public VolumeImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

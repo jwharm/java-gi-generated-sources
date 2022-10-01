@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.ResourceBase {
 
-    public AatLayoutFeatureSelectorInfoT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AatLayoutFeatureSelectorInfoT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AatLayoutFeatureSelectorInfoT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_aat_layout_feature_selector_info_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_aat_layout_feature_selector_info_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

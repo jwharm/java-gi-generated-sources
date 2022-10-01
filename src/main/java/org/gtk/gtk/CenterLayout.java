@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  */
 public class CenterLayout extends LayoutManager {
 
-    public CenterLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CenterLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CenterLayout */
     public static CenterLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new CenterLayout(gobject.getReference());
+        return new CenterLayout(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_center_layout_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_center_layout_new(), true);
         return RESULT;
     }
     
@@ -50,7 +50,7 @@ public class CenterLayout extends LayoutManager {
      */
     public Widget getCenterWidget() {
         var RESULT = gtk_h.gtk_center_layout_get_center_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class CenterLayout extends LayoutManager {
      */
     public Widget getEndWidget() {
         var RESULT = gtk_h.gtk_center_layout_get_end_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class CenterLayout extends LayoutManager {
      */
     public Widget getStartWidget() {
         var RESULT = gtk_h.gtk_center_layout_get_start_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

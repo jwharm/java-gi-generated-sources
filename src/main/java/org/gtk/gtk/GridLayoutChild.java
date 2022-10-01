@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class GridLayoutChild extends LayoutChild {
 
-    public GridLayoutChild(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GridLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GridLayoutChild */
     public static GridLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        return new GridLayoutChild(gobject.getReference());
+        return new GridLayoutChild(gobject.refcounted());
     }
     
     /**

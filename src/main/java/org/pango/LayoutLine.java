@@ -15,12 +15,12 @@ import java.lang.invoke.*;
  */
 public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
 
-    public LayoutLine(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public LayoutLine(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public LayoutLine() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoLayoutLine.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoLayoutLine.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -115,7 +115,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      */
     public LayoutLine ref() {
         var RESULT = gtk_h.pango_layout_line_ref(handle());
-        return new LayoutLine(References.get(RESULT, true));
+        return new LayoutLine(Refcounted.get(RESULT, true));
     }
     
     /**

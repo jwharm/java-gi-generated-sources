@@ -12,17 +12,17 @@ import java.lang.invoke.*;
  */
 public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public EnumListModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EnumListModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EnumListModel */
     public static EnumListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new EnumListModel(gobject.getReference());
+        return new EnumListModel(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gobject.Type enumType) {
-        Reference RESULT = References.get(gtk_h.adw_enum_list_model_new(enumType.getValue()), true);
+    private static Refcounted constructNew(org.gtk.gobject.Type enumType) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_enum_list_model_new(enumType.getValue()), true);
         return RESULT;
     }
     

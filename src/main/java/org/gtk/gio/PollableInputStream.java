@@ -39,7 +39,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Source createSource(Cancellable cancellable) {
         var RESULT = gtk_h.g_pollable_input_stream_create_source(handle(), cancellable.handle());
-        return new org.gtk.glib.Source(References.get(RESULT, true));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -80,8 +80,8 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     }
     
     class PollableInputStreamImpl extends org.gtk.gobject.Object implements PollableInputStream {
-        public PollableInputStreamImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public PollableInputStreamImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

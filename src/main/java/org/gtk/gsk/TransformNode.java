@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class TransformNode extends RenderNode {
 
-    public TransformNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TransformNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TransformNode */
     public static TransformNode castFrom(org.gtk.gobject.Object gobject) {
-        return new TransformNode(gobject.getReference());
+        return new TransformNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RenderNode child, Transform transform) {
-        Reference RESULT = References.get(gtk_h.gsk_transform_node_new(child.handle(), transform.handle()), true);
+    private static Refcounted constructNew(RenderNode child, Transform transform) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_transform_node_new(child.handle(), transform.handle()), true);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class TransformNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_transform_node_get_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -45,7 +45,7 @@ public class TransformNode extends RenderNode {
      */
     public Transform getTransform() {
         var RESULT = gtk_h.gsk_transform_node_get_transform(handle());
-        return new Transform(References.get(RESULT, false));
+        return new Transform(Refcounted.get(RESULT, false));
     }
     
 }

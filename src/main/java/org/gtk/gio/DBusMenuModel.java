@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class DBusMenuModel extends MenuModel {
 
-    public DBusMenuModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusMenuModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusMenuModel */
     public static DBusMenuModel castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusMenuModel(gobject.getReference());
+        return new DBusMenuModel(gobject.refcounted());
     }
     
     /**
@@ -33,7 +33,7 @@ public class DBusMenuModel extends MenuModel {
      */
     public static DBusMenuModel get(DBusConnection connection, java.lang.String busName, java.lang.String objectPath) {
         var RESULT = gtk_h.g_dbus_menu_model_get(connection.handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle());
-        return new DBusMenuModel(References.get(RESULT, true));
+        return new DBusMenuModel(Refcounted.get(RESULT, true));
     }
     
 }

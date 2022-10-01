@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class IConv extends io.github.jwharm.javagi.ResourceBase {
 
-    public IConv(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IConv(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -60,7 +60,7 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      */
     public static IConv open(java.lang.String toCodeset, java.lang.String fromCodeset) {
         var RESULT = gtk_h.g_iconv_open(Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle());
-        return new IConv(References.get(RESULT, false));
+        return new IConv(Refcounted.get(RESULT, false));
     }
     
 }

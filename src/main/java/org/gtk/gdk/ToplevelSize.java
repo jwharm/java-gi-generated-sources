@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
 
-    public ToplevelSize(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ToplevelSize(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**

@@ -45,17 +45,17 @@ import java.lang.invoke.*;
  */
 public class Assistant extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public Assistant(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Assistant(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Assistant */
     public static Assistant castFrom(org.gtk.gobject.Object gobject) {
-        return new Assistant(gobject.getReference());
+        return new Assistant(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_assistant_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_assistant_new(), false);
         return RESULT;
     }
     
@@ -118,7 +118,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public Widget getNthPage(int pageNum) {
         var RESULT = gtk_h.gtk_assistant_get_nth_page(handle(), pageNum);
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -126,7 +126,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public AssistantPage getPage(Widget child) {
         var RESULT = gtk_h.gtk_assistant_get_page(handle(), child.handle());
-        return new AssistantPage(References.get(RESULT, false));
+        return new AssistantPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -158,7 +158,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public org.gtk.gio.ListModel getPages() {
         var RESULT = gtk_h.gtk_assistant_get_pages(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -447,31 +447,31 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         public static void signalAssistantApply(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Assistant.ApplyHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(References.get(source)));
+            handler.signalReceived(new Assistant(Refcounted.get(source)));
         }
         
         public static void signalAssistantCancel(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Assistant.CancelHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(References.get(source)));
+            handler.signalReceived(new Assistant(Refcounted.get(source)));
         }
         
         public static void signalAssistantClose(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Assistant.CloseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(References.get(source)));
+            handler.signalReceived(new Assistant(Refcounted.get(source)));
         }
         
         public static void signalAssistantEscape(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Assistant.EscapeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(References.get(source)));
+            handler.signalReceived(new Assistant(Refcounted.get(source)));
         }
         
         public static void signalAssistantPrepare(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Assistant.PrepareHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(References.get(source)), new Widget(References.get(page, false)));
+            handler.signalReceived(new Assistant(Refcounted.get(source)), new Widget(Refcounted.get(page, false)));
         }
         
     }

@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class TypePluginClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypePluginClass(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypePluginClass(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TypePluginClass() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypePluginClass.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypePluginClass.allocate(Interop.getAllocator()).address()));
     }
     
 }

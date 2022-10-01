@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class IMContextSimplePrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public IMContextSimplePrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IMContextSimplePrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

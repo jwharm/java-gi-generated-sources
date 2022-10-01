@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class Region extends io.github.jwharm.javagi.ResourceBase {
 
-    public Region(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Region(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

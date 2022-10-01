@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  */
 public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
 
-    public PixbufFormat(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PixbufFormat(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public PixbufFormat() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufFormat.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufFormat.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -27,7 +27,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      */
     public PixbufFormat copy() {
         var RESULT = gtk_h.gdk_pixbuf_format_copy(handle());
-        return new PixbufFormat(References.get(RESULT, true));
+        return new PixbufFormat(Refcounted.get(RESULT, true));
     }
     
     /**

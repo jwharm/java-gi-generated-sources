@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class BlurNode extends RenderNode {
 
-    public BlurNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BlurNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BlurNode */
     public static BlurNode castFrom(org.gtk.gobject.Object gobject) {
-        return new BlurNode(gobject.getReference());
+        return new BlurNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RenderNode child, float radius) {
-        Reference RESULT = References.get(gtk_h.gsk_blur_node_new(child.handle(), radius), true);
+    private static Refcounted constructNew(RenderNode child, float radius) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_blur_node_new(child.handle(), radius), true);
         return RESULT;
     }
     
@@ -36,7 +36,7 @@ public class BlurNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_blur_node_get_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**

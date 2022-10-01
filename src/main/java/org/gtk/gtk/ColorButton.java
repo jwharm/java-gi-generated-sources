@@ -27,17 +27,17 @@ import java.lang.invoke.*;
  */
 public class ColorButton extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
 
-    public ColorButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ColorButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ColorButton */
     public static ColorButton castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorButton(gobject.getReference());
+        return new ColorButton(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_color_button_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_color_button_new(), false);
         return RESULT;
     }
     
@@ -54,8 +54,8 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
         super(constructNew());
     }
     
-    private static Reference constructNewWithRgba(org.gtk.gdk.RGBA rgba) {
-        Reference RESULT = References.get(gtk_h.gtk_color_button_new_with_rgba(rgba.handle()), false);
+    private static Refcounted constructNewWithRgba(org.gtk.gdk.RGBA rgba) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_color_button_new_with_rgba(rgba.handle()), false);
         return RESULT;
     }
     
@@ -163,13 +163,13 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
         public static void signalColorButtonActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ColorButton.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ColorButton(References.get(source)));
+            handler.signalReceived(new ColorButton(Refcounted.get(source)));
         }
         
         public static void signalColorButtonColorSet(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ColorButton.ColorSetHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ColorButton(References.get(source)));
+            handler.signalReceived(new ColorButton(Refcounted.get(source)));
         }
         
     }

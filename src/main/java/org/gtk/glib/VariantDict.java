@@ -98,12 +98,12 @@ import java.lang.invoke.*;
  */
 public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
 
-    public VariantDict(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public VariantDict(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(Variant fromAsv) {
-        Reference RESULT = References.get(gtk_h.g_variant_dict_new(fromAsv.handle()), true);
+    private static Refcounted constructNew(Variant fromAsv) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_dict_new(fromAsv.handle()), true);
         return RESULT;
     }
     
@@ -162,7 +162,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      */
     public Variant end() {
         var RESULT = gtk_h.g_variant_dict_end(handle());
-        return new Variant(References.get(RESULT, false));
+        return new Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -211,7 +211,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
         var RESULT = gtk_h.g_variant_dict_lookup_value(handle(), Interop.allocateNativeString(key).handle(), expectedType.handle());
-        return new Variant(References.get(RESULT, true));
+        return new Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -222,7 +222,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantDict ref() {
         var RESULT = gtk_h.g_variant_dict_ref(handle());
-        return new VariantDict(References.get(RESULT, true));
+        return new VariantDict(Refcounted.get(RESULT, true));
     }
     
     /**

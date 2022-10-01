@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class MnemonicAction extends ShortcutAction {
 
-    public MnemonicAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MnemonicAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MnemonicAction */
     public static MnemonicAction castFrom(org.gtk.gobject.Object gobject) {
-        return new MnemonicAction(gobject.getReference());
+        return new MnemonicAction(gobject.refcounted());
     }
     
     /**
@@ -27,7 +27,7 @@ public class MnemonicAction extends ShortcutAction {
      */
     public static MnemonicAction get() {
         var RESULT = gtk_h.gtk_mnemonic_action_get();
-        return new MnemonicAction(References.get(RESULT, false));
+        return new MnemonicAction(Refcounted.get(RESULT, false));
     }
     
 }

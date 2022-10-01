@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
 
-    public Vec4(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Vec4(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_vec4_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_vec4_alloc(), true);
         return RESULT;
     }
     
@@ -127,7 +127,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public Vec4 init(float x, float y, float z, float w) {
         var RESULT = gtk_h.graphene_vec4_init(handle(), x, y, z, w);
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -135,7 +135,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public Vec4 initFromFloat(float[] src) {
         var RESULT = gtk_h.graphene_vec4_init_from_float(handle(), Interop.allocateNativeArray(src).handle());
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -144,7 +144,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public Vec4 initFromVec2(Vec2 src, float z, float w) {
         var RESULT = gtk_h.graphene_vec4_init_from_vec2(handle(), src.handle(), z, w);
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public Vec4 initFromVec3(Vec3 src, float w) {
         var RESULT = gtk_h.graphene_vec4_init_from_vec3(handle(), src.handle(), w);
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -162,7 +162,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public Vec4 initFromVec4(Vec4 src) {
         var RESULT = gtk_h.graphene_vec4_init_from_vec4(handle(), src.handle());
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -256,7 +256,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec4 one() {
         var RESULT = gtk_h.graphene_vec4_one();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -265,7 +265,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec4 wAxis() {
         var RESULT = gtk_h.graphene_vec4_w_axis();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -274,7 +274,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec4 xAxis() {
         var RESULT = gtk_h.graphene_vec4_x_axis();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -283,7 +283,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec4 yAxis() {
         var RESULT = gtk_h.graphene_vec4_y_axis();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -292,7 +292,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec4 zAxis() {
         var RESULT = gtk_h.graphene_vec4_z_axis();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -301,7 +301,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Vec4 zero() {
         var RESULT = gtk_h.graphene_vec4_zero();
-        return new Vec4(References.get(RESULT, false));
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
 }

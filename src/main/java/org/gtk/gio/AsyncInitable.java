@@ -197,8 +197,8 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
     }
     
     class AsyncInitableImpl extends org.gtk.gobject.Object implements AsyncInitable {
-        public AsyncInitableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public AsyncInitableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

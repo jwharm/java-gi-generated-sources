@@ -49,17 +49,17 @@ import java.lang.invoke.*;
  */
 public class ShortcutController extends EventController implements org.gtk.gio.ListModel, Buildable {
 
-    public ShortcutController(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShortcutController(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ShortcutController */
     public static ShortcutController castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutController(gobject.getReference());
+        return new ShortcutController(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_shortcut_controller_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_controller_new(), true);
         return RESULT;
     }
     
@@ -70,8 +70,8 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
         super(constructNew());
     }
     
-    private static Reference constructNewForModel(org.gtk.gio.ListModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_shortcut_controller_new_for_model(model.handle()), true);
+    private static Refcounted constructNewForModel(org.gtk.gio.ListModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_controller_new_for_model(model.handle()), true);
         return RESULT;
     }
     
@@ -94,7 +94,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * function does nothing.
      */
     public void addShortcut(Shortcut shortcut) {
-        gtk_h.gtk_shortcut_controller_add_shortcut(handle(), shortcut.getReference().unowned().handle());
+        gtk_h.gtk_shortcut_controller_add_shortcut(handle(), shortcut.refcounted().unowned().handle());
     }
     
     /**

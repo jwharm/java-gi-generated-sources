@@ -19,17 +19,17 @@ import java.lang.invoke.*;
  */
 public class InetAddress extends org.gtk.gobject.Object {
 
-    public InetAddress(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InetAddress(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to InetAddress */
     public static InetAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new InetAddress(gobject.getReference());
+        return new InetAddress(gobject.refcounted());
     }
     
-    private static Reference constructNewAny(SocketFamily family) {
-        Reference RESULT = References.get(gtk_h.g_inet_address_new_any(family.getValue()), true);
+    private static Refcounted constructNewAny(SocketFamily family) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_address_new_any(family.getValue()), true);
         return RESULT;
     }
     
@@ -41,8 +41,8 @@ public class InetAddress extends org.gtk.gobject.Object {
         return new InetAddress(constructNewAny(family));
     }
     
-    private static Reference constructNewFromBytes(byte[] bytes, SocketFamily family) {
-        Reference RESULT = References.get(gtk_h.g_inet_address_new_from_bytes(Interop.allocateNativeArray(bytes).handle(), family.getValue()), true);
+    private static Refcounted constructNewFromBytes(byte[] bytes, SocketFamily family) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_address_new_from_bytes(Interop.allocateNativeArray(bytes).handle(), family.getValue()), true);
         return RESULT;
     }
     
@@ -55,8 +55,8 @@ public class InetAddress extends org.gtk.gobject.Object {
         return new InetAddress(constructNewFromBytes(bytes, family));
     }
     
-    private static Reference constructNewFromString(java.lang.String string) {
-        Reference RESULT = References.get(gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).handle()), true);
+    private static Refcounted constructNewFromString(java.lang.String string) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).handle()), true);
         return RESULT;
     }
     
@@ -67,8 +67,8 @@ public class InetAddress extends org.gtk.gobject.Object {
         return new InetAddress(constructNewFromString(string));
     }
     
-    private static Reference constructNewLoopback(SocketFamily family) {
-        Reference RESULT = References.get(gtk_h.g_inet_address_new_loopback(family.getValue()), true);
+    private static Refcounted constructNewLoopback(SocketFamily family) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_address_new_loopback(family.getValue()), true);
         return RESULT;
     }
     

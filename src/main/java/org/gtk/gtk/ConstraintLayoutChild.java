@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ConstraintLayoutChild extends LayoutChild {
 
-    public ConstraintLayoutChild(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ConstraintLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ConstraintLayoutChild */
     public static ConstraintLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        return new ConstraintLayoutChild(gobject.getReference());
+        return new ConstraintLayoutChild(gobject.refcounted());
     }
     
 }

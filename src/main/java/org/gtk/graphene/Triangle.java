@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Triangle extends io.github.jwharm.javagi.ResourceBase {
 
-    public Triangle(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Triangle(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_triangle_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_triangle_alloc(), true);
         return RESULT;
     }
     
@@ -157,7 +157,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      */
     public Triangle initFromFloat(float[] a, float[] b, float[] c) {
         var RESULT = gtk_h.graphene_triangle_init_from_float(handle(), Interop.allocateNativeArray(a).handle(), Interop.allocateNativeArray(b).handle(), Interop.allocateNativeArray(c).handle());
-        return new Triangle(References.get(RESULT, false));
+        return new Triangle(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -165,7 +165,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      */
     public Triangle initFromPoint3d(Point3D a, Point3D b, Point3D c) {
         var RESULT = gtk_h.graphene_triangle_init_from_point3d(handle(), a.handle(), b.handle(), c.handle());
-        return new Triangle(References.get(RESULT, false));
+        return new Triangle(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -173,7 +173,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      */
     public Triangle initFromVec3(Vec3 a, Vec3 b, Vec3 c) {
         var RESULT = gtk_h.graphene_triangle_init_from_vec3(handle(), a.handle(), b.handle(), c.handle());
-        return new Triangle(References.get(RESULT, false));
+        return new Triangle(Refcounted.get(RESULT, false));
     }
     
 }

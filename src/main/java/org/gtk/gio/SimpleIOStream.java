@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class SimpleIOStream extends IOStream {
 
-    public SimpleIOStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SimpleIOStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SimpleIOStream */
     public static SimpleIOStream castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleIOStream(gobject.getReference());
+        return new SimpleIOStream(gobject.refcounted());
     }
     
-    private static Reference constructNew(InputStream inputStream, OutputStream outputStream) {
-        Reference RESULT = References.get(gtk_h.g_simple_io_stream_new(inputStream.handle(), outputStream.handle()), true);
+    private static Refcounted constructNew(InputStream inputStream, OutputStream outputStream) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_simple_io_stream_new(inputStream.handle(), outputStream.handle()), true);
         return RESULT;
     }
     

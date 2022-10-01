@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class ColumnViewColumn extends org.gtk.gobject.Object {
 
-    public ColumnViewColumn(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ColumnViewColumn(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ColumnViewColumn */
     public static ColumnViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        return new ColumnViewColumn(gobject.getReference());
+        return new ColumnViewColumn(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title, ListItemFactory factory) {
-        Reference RESULT = References.get(gtk_h.gtk_column_view_column_new(Interop.allocateNativeString(title).handle(), factory.getReference().unowned().handle()), true);
+    private static Refcounted constructNew(java.lang.String title, ListItemFactory factory) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_column_view_column_new(Interop.allocateNativeString(title).handle(), factory.refcounted().unowned().handle()), true);
         return RESULT;
     }
     
@@ -59,7 +59,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public ColumnView getColumnView() {
         var RESULT = gtk_h.gtk_column_view_column_get_column_view(handle());
-        return new ColumnView(References.get(RESULT, false));
+        return new ColumnView(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -76,7 +76,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public ListItemFactory getFactory() {
         var RESULT = gtk_h.gtk_column_view_column_get_factory(handle());
-        return new ListItemFactory(References.get(RESULT, false));
+        return new ListItemFactory(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -93,7 +93,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.MenuModel getHeaderMenu() {
         var RESULT = gtk_h.gtk_column_view_column_get_header_menu(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -109,7 +109,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public Sorter getSorter() {
         var RESULT = gtk_h.gtk_column_view_column_get_sorter(handle());
-        return new Sorter(References.get(RESULT, false));
+        return new Sorter(Refcounted.get(RESULT, false));
     }
     
     /**

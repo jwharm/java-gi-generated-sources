@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecLong extends ParamSpec {
 
-    public ParamSpecLong(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpecLong(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ParamSpecLong */
     public static ParamSpecLong castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecLong(gobject.getReference());
+        return new ParamSpecLong(gobject.refcounted());
     }
     
 }

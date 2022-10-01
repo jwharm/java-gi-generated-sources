@@ -296,17 +296,17 @@ import java.lang.invoke.*;
  */
 public class Settings extends org.gtk.gobject.Object {
 
-    public Settings(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Settings(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Settings */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
-        return new Settings(gobject.getReference());
+        return new Settings(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String schemaId) {
-        Reference RESULT = References.get(gtk_h.g_settings_new(Interop.allocateNativeString(schemaId).handle()), true);
+    private static Refcounted constructNew(java.lang.String schemaId) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new(Interop.allocateNativeString(schemaId).handle()), true);
         return RESULT;
     }
     
@@ -329,8 +329,8 @@ public class Settings extends org.gtk.gobject.Object {
         super(constructNew(schemaId));
     }
     
-    private static Reference constructNewFull(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
-        Reference RESULT = References.get(gtk_h.g_settings_new_full(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
+    private static Refcounted constructNewFull(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new_full(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
         return RESULT;
     }
     
@@ -363,8 +363,8 @@ public class Settings extends org.gtk.gobject.Object {
         return new Settings(constructNewFull(schema, backend, path));
     }
     
-    private static Reference constructNewWithBackend(java.lang.String schemaId, SettingsBackend backend) {
-        Reference RESULT = References.get(gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true);
+    private static Refcounted constructNewWithBackend(java.lang.String schemaId, SettingsBackend backend) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true);
         return RESULT;
     }
     
@@ -382,8 +382,8 @@ public class Settings extends org.gtk.gobject.Object {
         return new Settings(constructNewWithBackend(schemaId, backend));
     }
     
-    private static Reference constructNewWithBackendAndPath(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
-        Reference RESULT = References.get(gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
+    private static Refcounted constructNewWithBackendAndPath(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
         return RESULT;
     }
     
@@ -398,8 +398,8 @@ public class Settings extends org.gtk.gobject.Object {
         return new Settings(constructNewWithBackendAndPath(schemaId, backend, path));
     }
     
-    private static Reference constructNewWithPath(java.lang.String schemaId, java.lang.String path) {
-        Reference RESULT = References.get(gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true);
+    private static Refcounted constructNewWithPath(java.lang.String schemaId, java.lang.String path) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true);
         return RESULT;
     }
     
@@ -531,7 +531,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public Action createAction(java.lang.String key) {
         var RESULT = gtk_h.g_settings_create_action(handle(), Interop.allocateNativeString(key).handle());
-        return new Action.ActionImpl(References.get(RESULT, true));
+        return new Action.ActionImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -569,7 +569,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public Settings getChild(java.lang.String name) {
         var RESULT = gtk_h.g_settings_get_child(handle(), Interop.allocateNativeString(name).handle());
-        return new Settings(References.get(RESULT, true));
+        return new Settings(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -597,7 +597,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getDefaultValue(java.lang.String key) {
         var RESULT = gtk_h.g_settings_get_default_value(handle(), Interop.allocateNativeString(key).handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -804,7 +804,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getUserValue(java.lang.String key) {
         var RESULT = gtk_h.g_settings_get_user_value(handle(), Interop.allocateNativeString(key).handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -815,7 +815,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getValue(java.lang.String key) {
         var RESULT = gtk_h.g_settings_get_value(handle(), Interop.allocateNativeString(key).handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1205,25 +1205,25 @@ public class Settings extends org.gtk.gobject.Object {
         public static boolean signalSettingsChangeEvent(MemoryAddress source, MemoryAddress keys, int nKeys, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Settings.ChangeEventHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Settings(References.get(source)), new PointerInteger(keys).iterator(), nKeys);
+            return handler.signalReceived(new Settings(Refcounted.get(source)), new PointerInteger(keys).iterator(), nKeys);
         }
         
         public static void signalSettingsChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Settings.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Settings(References.get(source)), key.getUtf8String(0));
+            handler.signalReceived(new Settings(Refcounted.get(source)), key.getUtf8String(0));
         }
         
         public static boolean signalSettingsWritableChangeEvent(MemoryAddress source, int key, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Settings.WritableChangeEventHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Settings(References.get(source)), key);
+            return handler.signalReceived(new Settings(Refcounted.get(source)), key);
         }
         
         public static void signalSettingsWritableChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Settings.WritableChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Settings(References.get(source)), key.getUtf8String(0));
+            handler.signalReceived(new Settings(Refcounted.get(source)), key.getUtf8String(0));
         }
         
     }

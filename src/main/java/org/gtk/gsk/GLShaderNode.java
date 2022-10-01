@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class GLShaderNode extends RenderNode {
 
-    public GLShaderNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GLShaderNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GLShaderNode */
     public static GLShaderNode castFrom(org.gtk.gobject.Object gobject) {
-        return new GLShaderNode(gobject.getReference());
+        return new GLShaderNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes args, RenderNode[] children, int nChildren) {
-        Reference RESULT = References.get(gtk_h.gsk_gl_shader_node_new(shader.handle(), bounds.handle(), args.handle(), Interop.allocateNativeArray(children).handle(), nChildren), true);
+    private static Refcounted constructNew(GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes args, RenderNode[] children, int nChildren) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_gl_shader_node_new(shader.handle(), bounds.handle(), args.handle(), Interop.allocateNativeArray(children).handle(), nChildren), true);
         return RESULT;
     }
     
@@ -52,7 +52,7 @@ public class GLShaderNode extends RenderNode {
      */
     public org.gtk.glib.Bytes getArgs() {
         var RESULT = gtk_h.gsk_gl_shader_node_get_args(handle());
-        return new org.gtk.glib.Bytes(References.get(RESULT, false));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -60,7 +60,7 @@ public class GLShaderNode extends RenderNode {
      */
     public RenderNode getChild(int idx) {
         var RESULT = gtk_h.gsk_gl_shader_node_get_child(handle(), idx);
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -76,7 +76,7 @@ public class GLShaderNode extends RenderNode {
      */
     public GLShader getShader() {
         var RESULT = gtk_h.gsk_gl_shader_node_get_shader(handle());
-        return new GLShader(References.get(RESULT, false));
+        return new GLShader(Refcounted.get(RESULT, false));
     }
     
 }

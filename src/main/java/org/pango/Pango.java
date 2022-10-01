@@ -37,7 +37,7 @@ public final class Pango {
      */
     public static Attribute attrAllowBreaksNew(boolean allowBreaks) {
         var RESULT = gtk_h.pango_attr_allow_breaks_new(allowBreaks ? 1 : 0);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -45,7 +45,7 @@ public final class Pango {
      */
     public static Attribute attrBackgroundAlphaNew(short alpha) {
         var RESULT = gtk_h.pango_attr_background_alpha_new(alpha);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -53,7 +53,7 @@ public final class Pango {
      */
     public static Attribute attrBackgroundNew(short red, short green, short blue) {
         var RESULT = gtk_h.pango_attr_background_new(red, green, blue);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -69,7 +69,7 @@ public final class Pango {
      */
     public static Attribute attrBaselineShiftNew(int shift) {
         var RESULT = gtk_h.pango_attr_baseline_shift_new(shift);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -92,7 +92,7 @@ public final class Pango {
      */
     public static Attribute attrFallbackNew(boolean enableFallback) {
         var RESULT = gtk_h.pango_attr_fallback_new(enableFallback ? 1 : 0);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -100,7 +100,7 @@ public final class Pango {
      */
     public static Attribute attrFamilyNew(java.lang.String family) {
         var RESULT = gtk_h.pango_attr_family_new(Interop.allocateNativeString(family).handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -111,7 +111,7 @@ public final class Pango {
      */
     public static Attribute attrFontDescNew(FontDescription desc) {
         var RESULT = gtk_h.pango_attr_font_desc_new(desc.handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -122,7 +122,7 @@ public final class Pango {
      */
     public static Attribute attrFontFeaturesNew(java.lang.String features) {
         var RESULT = gtk_h.pango_attr_font_features_new(Interop.allocateNativeString(features).handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -133,7 +133,7 @@ public final class Pango {
      */
     public static Attribute attrFontScaleNew(FontScale scale) {
         var RESULT = gtk_h.pango_attr_font_scale_new(scale.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -141,7 +141,7 @@ public final class Pango {
      */
     public static Attribute attrForegroundAlphaNew(short alpha) {
         var RESULT = gtk_h.pango_attr_foreground_alpha_new(alpha);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -149,7 +149,7 @@ public final class Pango {
      */
     public static Attribute attrForegroundNew(short red, short green, short blue) {
         var RESULT = gtk_h.pango_attr_foreground_new(red, green, blue);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -157,7 +157,7 @@ public final class Pango {
      */
     public static Attribute attrGravityHintNew(GravityHint hint) {
         var RESULT = gtk_h.pango_attr_gravity_hint_new(hint.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -165,7 +165,7 @@ public final class Pango {
      */
     public static Attribute attrGravityNew(Gravity gravity) {
         var RESULT = gtk_h.pango_attr_gravity_new(gravity.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -177,7 +177,7 @@ public final class Pango {
      */
     public static Attribute attrInsertHyphensNew(boolean insertHyphens) {
         var RESULT = gtk_h.pango_attr_insert_hyphens_new(insertHyphens ? 1 : 0);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -185,7 +185,7 @@ public final class Pango {
      */
     public static Attribute attrLanguageNew(Language language) {
         var RESULT = gtk_h.pango_attr_language_new(language.handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -193,7 +193,7 @@ public final class Pango {
      */
     public static Attribute attrLetterSpacingNew(int letterSpacing) {
         var RESULT = gtk_h.pango_attr_letter_spacing_new(letterSpacing);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -206,7 +206,7 @@ public final class Pango {
      */
     public static Attribute attrLineHeightNew(double factor) {
         var RESULT = gtk_h.pango_attr_line_height_new(factor);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -219,7 +219,7 @@ public final class Pango {
      */
     public static Attribute attrLineHeightNewAbsolute(int height) {
         var RESULT = gtk_h.pango_attr_line_height_new_absolute(height);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -230,7 +230,7 @@ public final class Pango {
      */
     public static AttrList attrListFromString(java.lang.String text) {
         var RESULT = gtk_h.pango_attr_list_from_string(Interop.allocateNativeString(text).handle());
-        return new AttrList(References.get(RESULT, true));
+        return new AttrList(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -241,7 +241,7 @@ public final class Pango {
      */
     public static Attribute attrOverlineColorNew(short red, short green, short blue) {
         var RESULT = gtk_h.pango_attr_overline_color_new(red, green, blue);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -249,7 +249,7 @@ public final class Pango {
      */
     public static Attribute attrOverlineNew(Overline overline) {
         var RESULT = gtk_h.pango_attr_overline_new(overline.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -257,7 +257,7 @@ public final class Pango {
      */
     public static Attribute attrRiseNew(int rise) {
         var RESULT = gtk_h.pango_attr_rise_new(rise);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -268,7 +268,7 @@ public final class Pango {
      */
     public static Attribute attrScaleNew(double scaleFactor) {
         var RESULT = gtk_h.pango_attr_scale_new(scaleFactor);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -279,7 +279,7 @@ public final class Pango {
      */
     public static Attribute attrSentenceNew() {
         var RESULT = gtk_h.pango_attr_sentence_new();
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -292,7 +292,7 @@ public final class Pango {
      */
     public static Attribute attrShapeNew(Rectangle inkRect, Rectangle logicalRect) {
         var RESULT = gtk_h.pango_attr_shape_new(inkRect.handle(), logicalRect.handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -312,7 +312,7 @@ public final class Pango {
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol());
-            return new Attribute(References.get(RESULT, true));
+            return new Attribute(Refcounted.get(RESULT, true));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -324,7 +324,7 @@ public final class Pango {
      */
     public static Attribute attrShowNew(ShowFlags flags) {
         var RESULT = gtk_h.pango_attr_show_new(flags.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -332,7 +332,7 @@ public final class Pango {
      */
     public static Attribute attrSizeNew(int size) {
         var RESULT = gtk_h.pango_attr_size_new(size);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -340,7 +340,7 @@ public final class Pango {
      */
     public static Attribute attrSizeNewAbsolute(int size) {
         var RESULT = gtk_h.pango_attr_size_new_absolute(size);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -348,7 +348,7 @@ public final class Pango {
      */
     public static Attribute attrStretchNew(Stretch stretch) {
         var RESULT = gtk_h.pango_attr_stretch_new(stretch.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -359,7 +359,7 @@ public final class Pango {
      */
     public static Attribute attrStrikethroughColorNew(short red, short green, short blue) {
         var RESULT = gtk_h.pango_attr_strikethrough_color_new(red, green, blue);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -367,7 +367,7 @@ public final class Pango {
      */
     public static Attribute attrStrikethroughNew(boolean strikethrough) {
         var RESULT = gtk_h.pango_attr_strikethrough_new(strikethrough ? 1 : 0);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -375,7 +375,7 @@ public final class Pango {
      */
     public static Attribute attrStyleNew(Style style) {
         var RESULT = gtk_h.pango_attr_style_new(style.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -384,7 +384,7 @@ public final class Pango {
      */
     public static Attribute attrTextTransformNew(TextTransform transform) {
         var RESULT = gtk_h.pango_attr_text_transform_new(transform.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -422,7 +422,7 @@ public final class Pango {
      */
     public static Attribute attrUnderlineColorNew(short red, short green, short blue) {
         var RESULT = gtk_h.pango_attr_underline_color_new(red, green, blue);
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -430,7 +430,7 @@ public final class Pango {
      */
     public static Attribute attrUnderlineNew(Underline underline) {
         var RESULT = gtk_h.pango_attr_underline_new(underline.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -438,7 +438,7 @@ public final class Pango {
      */
     public static Attribute attrVariantNew(Variant variant) {
         var RESULT = gtk_h.pango_attr_variant_new(variant.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -446,7 +446,7 @@ public final class Pango {
      */
     public static Attribute attrWeightNew(Weight weight) {
         var RESULT = gtk_h.pango_attr_weight_new(weight.getValue());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -457,7 +457,7 @@ public final class Pango {
      */
     public static Attribute attrWordNew() {
         var RESULT = gtk_h.pango_attr_word_new();
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -587,7 +587,7 @@ public final class Pango {
      */
     public static FontDescription fontDescriptionFromString(java.lang.String str) {
         var RESULT = gtk_h.pango_font_description_from_string(Interop.allocateNativeString(str).handle());
-        return new FontDescription(References.get(RESULT, true));
+        return new FontDescription(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -691,7 +691,7 @@ public final class Pango {
      */
     public static org.gtk.glib.List itemize(Context context, java.lang.String text, int startIndex, int length, AttrList attrs, AttrIterator cachedIter) {
         var RESULT = gtk_h.pango_itemize(context.handle(), Interop.allocateNativeString(text).handle(), startIndex, length, attrs.handle(), cachedIter.handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -703,7 +703,7 @@ public final class Pango {
      */
     public static org.gtk.glib.List itemizeWithBaseDir(Context context, Direction baseDir, java.lang.String text, int startIndex, int length, AttrList attrs, AttrIterator cachedIter) {
         var RESULT = gtk_h.pango_itemize_with_base_dir(context.handle(), baseDir.getValue(), Interop.allocateNativeString(text).handle(), startIndex, length, attrs.handle(), cachedIter.handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -722,7 +722,7 @@ public final class Pango {
      */
     public static Language languageFromString(java.lang.String language) {
         var RESULT = gtk_h.pango_language_from_string(Interop.allocateNativeString(language).handle());
-        return new Language(References.get(RESULT, false));
+        return new Language(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -760,7 +760,7 @@ public final class Pango {
      */
     public static Language languageGetDefault() {
         var RESULT = gtk_h.pango_language_get_default();
-        return new Language(References.get(RESULT, false));
+        return new Language(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -843,7 +843,7 @@ public final class Pango {
      */
     public static org.gtk.glib.MarkupParseContext markupParserNew(int accelMarker) {
         var RESULT = gtk_h.pango_markup_parser_new(accelMarker);
-        return new org.gtk.glib.MarkupParseContext(References.get(RESULT, false));
+        return new org.gtk.glib.MarkupParseContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -950,7 +950,7 @@ public final class Pango {
      */
     public static org.gtk.glib.List reorderItems(org.gtk.glib.List items) {
         var RESULT = gtk_h.pango_reorder_items(items.handle());
-        return new org.gtk.glib.List(References.get(RESULT, true));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -986,7 +986,7 @@ public final class Pango {
      */
     public static Language scriptGetSampleLanguage(Script script) {
         var RESULT = gtk_h.pango_script_get_sample_language(script.getValue());
-        return new Language(References.get(RESULT, true));
+        return new Language(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1078,7 +1078,7 @@ public final class Pango {
      */
     public static TabArray tabArrayFromString(java.lang.String text) {
         var RESULT = gtk_h.pango_tab_array_from_string(Interop.allocateNativeString(text).handle());
-        return new TabArray(References.get(RESULT, true));
+        return new TabArray(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1183,7 +1183,7 @@ public final class Pango {
     public static boolean __cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (FontsetForeachFunc) Interop.signalRegistry.get(hash);
-        return handler.onFontsetForeachFunc(new Fontset(References.get(fontset, false)), new Font(References.get(font, false)));
+        return handler.onFontsetForeachFunc(new Fontset(Refcounted.get(fontset, false)), new Font(Refcounted.get(font, false)));
     }
     
     public static java.lang.foreign.MemoryAddress __cbAttrDataCopyFunc(MemoryAddress userData) {
@@ -1195,7 +1195,7 @@ public final class Pango {
     public static boolean __cbAttrFilterFunc(MemoryAddress attribute, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (AttrFilterFunc) Interop.signalRegistry.get(hash);
-        return handler.onAttrFilterFunc(new Attribute(References.get(attribute, false)));
+        return handler.onAttrFilterFunc(new Attribute(Refcounted.get(attribute, false)));
     }
     
 }

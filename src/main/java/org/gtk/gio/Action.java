@@ -98,7 +98,7 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.VariantType getParameterType() {
         var RESULT = gtk_h.g_action_get_parameter_type(handle());
-        return new org.gtk.glib.VariantType(References.get(RESULT, false));
+        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -113,7 +113,7 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Variant getState() {
         var RESULT = gtk_h.g_action_get_state(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -138,7 +138,7 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Variant getStateHint() {
         var RESULT = gtk_h.g_action_get_state_hint(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -157,7 +157,7 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.VariantType getStateType() {
         var RESULT = gtk_h.g_action_get_state_type(handle());
-        return new org.gtk.glib.VariantType(References.get(RESULT, false));
+        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -227,8 +227,8 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     }
     
     class ActionImpl extends org.gtk.gobject.Object implements Action {
-        public ActionImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ActionImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

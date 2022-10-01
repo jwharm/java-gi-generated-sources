@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Sphere extends io.github.jwharm.javagi.ResourceBase {
 
-    public Sphere(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Sphere(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_sphere_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_sphere_alloc(), true);
         return RESULT;
     }
     
@@ -89,7 +89,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      */
     public Sphere init(Point3D center, float radius) {
         var RESULT = gtk_h.graphene_sphere_init(handle(), center.handle(), radius);
-        return new Sphere(References.get(RESULT, false));
+        return new Sphere(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -101,7 +101,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      */
     public Sphere initFromPoints(int nPoints, Point3D[] points, Point3D center) {
         var RESULT = gtk_h.graphene_sphere_init_from_points(handle(), nPoints, Interop.allocateNativeArray(points).handle(), center.handle());
-        return new Sphere(References.get(RESULT, false));
+        return new Sphere(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -113,7 +113,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
      */
     public Sphere initFromVectors(int nVectors, Vec3[] vectors, Point3D center) {
         var RESULT = gtk_h.graphene_sphere_init_from_vectors(handle(), nVectors, Interop.allocateNativeArray(vectors).handle(), center.handle());
-        return new Sphere(References.get(RESULT, false));
+        return new Sphere(Refcounted.get(RESULT, false));
     }
     
     /**

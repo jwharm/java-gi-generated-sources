@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class PixbufAnimationIter extends org.gtk.gobject.Object {
 
-    public PixbufAnimationIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PixbufAnimationIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PixbufAnimationIter */
     public static PixbufAnimationIter castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufAnimationIter(gobject.getReference());
+        return new PixbufAnimationIter(gobject.refcounted());
     }
     
     /**
@@ -83,7 +83,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      */
     public Pixbuf getPixbuf() {
         var RESULT = gtk_h.gdk_pixbuf_animation_iter_get_pixbuf(handle());
-        return new Pixbuf(References.get(RESULT, false));
+        return new Pixbuf(Refcounted.get(RESULT, false));
     }
     
     /**

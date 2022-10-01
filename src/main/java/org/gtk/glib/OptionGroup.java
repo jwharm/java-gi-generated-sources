@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  */
 public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
 
-    public OptionGroup(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OptionGroup(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String name, java.lang.String description, java.lang.String helpDescription, java.lang.foreign.MemoryAddress userData, DestroyNotify destroy) {
-        Reference RESULT = References.get(gtk_h.g_option_group_new(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(helpDescription).handle(), userData, 
+    private static Refcounted constructNew(java.lang.String name, java.lang.String description, java.lang.String helpDescription, java.lang.foreign.MemoryAddress userData, DestroyNotify destroy) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_option_group_new(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(helpDescription).handle(), userData, 
                     Interop.cbDestroyNotifySymbol()), true);
         return RESULT;
     }
@@ -45,7 +45,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      */
     public OptionGroup ref() {
         var RESULT = gtk_h.g_option_group_ref(handle());
-        return new OptionGroup(References.get(RESULT, true));
+        return new OptionGroup(Refcounted.get(RESULT, true));
     }
     
     /**

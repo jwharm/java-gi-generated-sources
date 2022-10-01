@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FileEnumeratorPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public FileEnumeratorPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileEnumeratorPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

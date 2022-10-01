@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class TextNode extends RenderNode {
 
-    public TextNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TextNode */
     public static TextNode castFrom(org.gtk.gobject.Object gobject) {
-        return new TextNode(gobject.getReference());
+        return new TextNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
-        Reference RESULT = References.get(gtk_h.gsk_text_node_new(font.handle(), glyphs.handle(), color.handle(), offset.handle()), true);
+    private static Refcounted constructNew(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_text_node_new(font.handle(), glyphs.handle(), color.handle(), offset.handle()), true);
         return RESULT;
     }
     
@@ -39,7 +39,7 @@ public class TextNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = gtk_h.gsk_text_node_get_color(handle());
-        return new org.gtk.gdk.RGBA(References.get(RESULT, false));
+        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -47,7 +47,7 @@ public class TextNode extends RenderNode {
      */
     public org.pango.Font getFont() {
         var RESULT = gtk_h.gsk_text_node_get_font(handle());
-        return new org.pango.Font(References.get(RESULT, false));
+        return new org.pango.Font(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class TextNode extends RenderNode {
      */
     public org.gtk.graphene.Point getOffset() {
         var RESULT = gtk_h.gsk_text_node_get_offset(handle());
-        return new org.gtk.graphene.Point(References.get(RESULT, false));
+        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
     }
     
     /**

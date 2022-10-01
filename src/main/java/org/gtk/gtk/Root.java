@@ -27,7 +27,7 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gdk.Display getDisplay() {
         var RESULT = gtk_h.gtk_root_get_display(handle());
-        return new org.gtk.gdk.Display(References.get(RESULT, false));
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      */
     public default Widget getFocus() {
         var RESULT = gtk_h.gtk_root_get_focus(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -58,8 +58,8 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
     }
     
     class RootImpl extends org.gtk.gobject.Object implements Root {
-        public RootImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public RootImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

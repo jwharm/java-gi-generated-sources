@@ -30,17 +30,17 @@ import java.lang.invoke.*;
  */
 public class Revealer extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Revealer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Revealer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Revealer */
     public static Revealer castFrom(org.gtk.gobject.Object gobject) {
-        return new Revealer(gobject.getReference());
+        return new Revealer(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_revealer_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_revealer_new(), false);
         return RESULT;
     }
     
@@ -56,7 +56,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_revealer_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

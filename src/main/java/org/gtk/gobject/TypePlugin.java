@@ -94,8 +94,8 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
     }
     
     class TypePluginImpl extends org.gtk.gobject.Object implements TypePlugin {
-        public TypePluginImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public TypePluginImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

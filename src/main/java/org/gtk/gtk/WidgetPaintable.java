@@ -29,17 +29,17 @@ import java.lang.invoke.*;
  */
 public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
 
-    public WidgetPaintable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WidgetPaintable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to WidgetPaintable */
     public static WidgetPaintable castFrom(org.gtk.gobject.Object gobject) {
-        return new WidgetPaintable(gobject.getReference());
+        return new WidgetPaintable(gobject.refcounted());
     }
     
-    private static Reference constructNew(Widget widget) {
-        Reference RESULT = References.get(gtk_h.gtk_widget_paintable_new(widget.handle()), true);
+    private static Refcounted constructNew(Widget widget) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_widget_paintable_new(widget.handle()), true);
         return RESULT;
     }
     
@@ -55,7 +55,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      */
     public Widget getWidget() {
         var RESULT = gtk_h.gtk_widget_paintable_get_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

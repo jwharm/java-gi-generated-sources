@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TreeModelFilterPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public TreeModelFilterPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeModelFilterPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

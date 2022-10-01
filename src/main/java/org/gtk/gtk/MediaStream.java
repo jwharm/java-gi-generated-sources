@@ -26,13 +26,13 @@ import java.lang.invoke.*;
  */
 public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
 
-    public MediaStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MediaStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MediaStream */
     public static MediaStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MediaStream(gobject.getReference());
+        return new MediaStream(gobject.refcounted());
     }
     
     /**
@@ -60,7 +60,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * {@link MediaStream#unprepared}.
      */
     public void gerror(org.gtk.glib.Error error) {
-        gtk_h.gtk_media_stream_gerror(handle(), error.getReference().unowned().handle());
+        gtk_h.gtk_media_stream_gerror(handle(), error.refcounted().unowned().handle());
     }
     
     /**
@@ -99,7 +99,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public org.gtk.glib.Error getError() {
         var RESULT = gtk_h.gtk_media_stream_get_error(handle());
-        return new org.gtk.glib.Error(References.get(RESULT, false));
+        return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
     }
     
     /**

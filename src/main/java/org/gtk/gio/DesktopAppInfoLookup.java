@@ -12,8 +12,8 @@ import java.lang.invoke.*;
 public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.Proxy {
 
     class DesktopAppInfoLookupImpl extends org.gtk.gobject.Object implements DesktopAppInfoLookup {
-        public DesktopAppInfoLookupImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public DesktopAppInfoLookupImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

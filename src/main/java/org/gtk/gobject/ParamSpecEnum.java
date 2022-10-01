@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecEnum extends ParamSpec {
 
-    public ParamSpecEnum(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpecEnum(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ParamSpecEnum */
     public static ParamSpecEnum castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecEnum(gobject.getReference());
+        return new ParamSpecEnum(gobject.refcounted());
     }
     
 }

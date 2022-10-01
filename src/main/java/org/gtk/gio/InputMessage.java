@@ -28,12 +28,12 @@ import java.lang.invoke.*;
  */
 public class InputMessage extends io.github.jwharm.javagi.ResourceBase {
 
-    public InputMessage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InputMessage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public InputMessage() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GInputMessage.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GInputMessage.allocate(Interop.getAllocator()).address()));
     }
     
 }

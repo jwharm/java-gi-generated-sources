@@ -56,17 +56,17 @@ import java.lang.invoke.*;
  */
 public class AboutDialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public AboutDialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AboutDialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AboutDialog */
     public static AboutDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new AboutDialog(gobject.getReference());
+        return new AboutDialog(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_about_dialog_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_about_dialog_new(), false);
         return RESULT;
     }
     
@@ -148,7 +148,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      */
     public org.gtk.gdk.Paintable getLogo() {
         var RESULT = gtk_h.gtk_about_dialog_get_logo(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -404,7 +404,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
         public static boolean signalAboutDialogActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (AboutDialog.ActivateLinkHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new AboutDialog(References.get(source)), uri.getUtf8String(0));
+            return handler.signalReceived(new AboutDialog(Refcounted.get(source)), uri.getUtf8String(0));
         }
         
     }

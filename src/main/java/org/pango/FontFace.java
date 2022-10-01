@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class FontFace extends org.gtk.gobject.Object {
 
-    public FontFace(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontFace(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FontFace */
     public static FontFace castFrom(org.gtk.gobject.Object gobject) {
-        return new FontFace(gobject.getReference());
+        return new FontFace(gobject.refcounted());
     }
     
     /**
@@ -29,7 +29,7 @@ public class FontFace extends org.gtk.gobject.Object {
      */
     public FontDescription describe() {
         var RESULT = gtk_h.pango_font_face_describe(handle());
-        return new FontDescription(References.get(RESULT, true));
+        return new FontDescription(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class FontFace extends org.gtk.gobject.Object {
      */
     public FontFamily getFamily() {
         var RESULT = gtk_h.pango_font_face_get_family(handle());
-        return new FontFamily(References.get(RESULT, false));
+        return new FontFamily(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -114,20 +114,20 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         public static void signalPrintOperationPreviewGotPageSize(MemoryAddress source, MemoryAddress context, MemoryAddress pageSetup, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperationPreview.GotPageSizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)), new PageSetup(References.get(pageSetup, false)));
+            handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(Refcounted.get(source)), new PrintContext(Refcounted.get(context, false)), new PageSetup(Refcounted.get(pageSetup, false)));
         }
         
         public static void signalPrintOperationPreviewReady(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintOperationPreview.ReadyHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)));
+            handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(Refcounted.get(source)), new PrintContext(Refcounted.get(context, false)));
         }
         
     }
     
     class PrintOperationPreviewImpl extends org.gtk.gobject.Object implements PrintOperationPreview {
-        public PrintOperationPreviewImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public PrintOperationPreviewImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

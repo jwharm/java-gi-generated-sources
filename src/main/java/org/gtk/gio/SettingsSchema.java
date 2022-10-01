@@ -99,8 +99,8 @@ import java.lang.invoke.*;
  */
 public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
 
-    public SettingsSchema(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SettingsSchema(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -119,7 +119,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      */
     public SettingsSchemaKey getKey(java.lang.String name) {
         var RESULT = gtk_h.g_settings_schema_get_key(handle(), Interop.allocateNativeString(name).handle());
-        return new SettingsSchemaKey(References.get(RESULT, true));
+        return new SettingsSchemaKey(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -174,7 +174,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      */
     public SettingsSchema ref() {
         var RESULT = gtk_h.g_settings_schema_ref(handle());
-        return new SettingsSchema(References.get(RESULT, true));
+        return new SettingsSchema(Refcounted.get(RESULT, true));
     }
     
     /**

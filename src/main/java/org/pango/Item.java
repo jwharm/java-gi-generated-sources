@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Item extends io.github.jwharm.javagi.ResourceBase {
 
-    public Item(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Item(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.pango_item_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_item_new(), true);
         return RESULT;
     }
     
@@ -51,7 +51,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      */
     public Item copy() {
         var RESULT = gtk_h.pango_item_copy(handle());
-        return new Item(References.get(RESULT, true));
+        return new Item(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -77,7 +77,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      */
     public Item split(int splitIndex, int splitOffset) {
         var RESULT = gtk_h.pango_item_split(handle(), splitIndex, splitOffset);
-        return new Item(References.get(RESULT, true));
+        return new Item(Refcounted.get(RESULT, true));
     }
     
 }

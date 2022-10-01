@@ -26,13 +26,13 @@ import java.lang.invoke.*;
  */
 public class NativeDialog extends org.gtk.gobject.Object {
 
-    public NativeDialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NativeDialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NativeDialog */
     public static NativeDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new NativeDialog(gobject.getReference());
+        return new NativeDialog(gobject.refcounted());
     }
     
     /**
@@ -73,7 +73,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      */
     public Window getTransientFor() {
         var RESULT = gtk_h.gtk_native_dialog_get_transient_for(handle());
-        return new Window(References.get(RESULT, false));
+        return new Window(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -179,7 +179,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
         public static void signalNativeDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (NativeDialog.ResponseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new NativeDialog(References.get(source)), responseId);
+            handler.signalReceived(new NativeDialog(Refcounted.get(source)), responseId);
         }
         
     }

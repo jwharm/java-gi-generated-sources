@@ -30,17 +30,17 @@ import java.lang.invoke.*;
  */
 public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
 
-    public TextTagTable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextTagTable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TextTagTable */
     public static TextTagTable castFrom(org.gtk.gobject.Object gobject) {
-        return new TextTagTable(gobject.getReference());
+        return new TextTagTable(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_text_tag_table_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_tag_table_new(), true);
         return RESULT;
     }
     
@@ -99,7 +99,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      */
     public TextTag lookup(java.lang.String name) {
         var RESULT = gtk_h.gtk_text_tag_table_lookup(handle(), Interop.allocateNativeString(name).handle());
-        return new TextTag(References.get(RESULT, false));
+        return new TextTag(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -200,19 +200,19 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         public static void signalTextTagTableTagAdded(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextTagTable.TagAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)));
+            handler.signalReceived(new TextTagTable(Refcounted.get(source)), new TextTag(Refcounted.get(tag, false)));
         }
         
         public static void signalTextTagTableTagChanged(MemoryAddress source, MemoryAddress tag, int sizeChanged, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextTagTable.TagChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)), sizeChanged != 0);
+            handler.signalReceived(new TextTagTable(Refcounted.get(source)), new TextTag(Refcounted.get(tag, false)), sizeChanged != 0);
         }
         
         public static void signalTextTagTableTagRemoved(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TextTagTable.TagRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)));
+            handler.signalReceived(new TextTagTable(Refcounted.get(source)), new TextTag(Refcounted.get(tag, false)));
         }
         
     }

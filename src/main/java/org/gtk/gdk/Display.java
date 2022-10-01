@@ -25,13 +25,13 @@ import java.lang.invoke.*;
  */
 public class Display extends org.gtk.gobject.Object {
 
-    public Display(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Display(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Display */
     public static Display castFrom(org.gtk.gobject.Object gobject) {
-        return new Display(gobject.getReference());
+        return new Display(gobject.refcounted());
     }
     
     /**
@@ -67,7 +67,7 @@ public class Display extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new GLContext(References.get(RESULT, true));
+        return new GLContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -100,7 +100,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public AppLaunchContext getAppLaunchContext() {
         var RESULT = gtk_h.gdk_display_get_app_launch_context(handle());
-        return new AppLaunchContext(References.get(RESULT, true));
+        return new AppLaunchContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public Clipboard getClipboard() {
         var RESULT = gtk_h.gdk_display_get_clipboard(handle());
-        return new Clipboard(References.get(RESULT, false));
+        return new Clipboard(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -119,7 +119,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public Seat getDefaultSeat() {
         var RESULT = gtk_h.gdk_display_get_default_seat(handle());
-        return new Seat(References.get(RESULT, false));
+        return new Seat(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -131,7 +131,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public Monitor getMonitorAtSurface(Surface surface) {
         var RESULT = gtk_h.gdk_display_get_monitor_at_surface(handle(), surface.handle());
-        return new Monitor(References.get(RESULT, false));
+        return new Monitor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -145,7 +145,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.ListModel getMonitors() {
         var RESULT = gtk_h.gdk_display_get_monitors(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -164,7 +164,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public Clipboard getPrimaryClipboard() {
         var RESULT = gtk_h.gdk_display_get_primary_clipboard(handle());
-        return new Clipboard(References.get(RESULT, false));
+        return new Clipboard(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -233,7 +233,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List listSeats() {
         var RESULT = gtk_h.gdk_display_list_seats(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -387,7 +387,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public static Display getDefault() {
         var RESULT = gtk_h.gdk_display_get_default();
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -397,7 +397,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public static Display open(java.lang.String displayName) {
         var RESULT = gtk_h.gdk_display_open(Interop.allocateNativeString(displayName).handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -535,31 +535,31 @@ public class Display extends org.gtk.gobject.Object {
         public static void signalDisplayClosed(MemoryAddress source, int isError, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Display.ClosedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Display(References.get(source)), isError != 0);
+            handler.signalReceived(new Display(Refcounted.get(source)), isError != 0);
         }
         
         public static void signalDisplayOpened(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Display.OpenedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Display(References.get(source)));
+            handler.signalReceived(new Display(Refcounted.get(source)));
         }
         
         public static void signalDisplaySeatAdded(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Display.SeatAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Display(References.get(source)), new Seat(References.get(seat, false)));
+            handler.signalReceived(new Display(Refcounted.get(source)), new Seat(Refcounted.get(seat, false)));
         }
         
         public static void signalDisplaySeatRemoved(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Display.SeatRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Display(References.get(source)), new Seat(References.get(seat, false)));
+            handler.signalReceived(new Display(Refcounted.get(source)), new Seat(Refcounted.get(seat, false)));
         }
         
         public static void signalDisplaySettingChanged(MemoryAddress source, MemoryAddress setting, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Display.SettingChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Display(References.get(source)), setting.getUtf8String(0));
+            handler.signalReceived(new Display(Refcounted.get(source)), setting.getUtf8String(0));
         }
         
     }

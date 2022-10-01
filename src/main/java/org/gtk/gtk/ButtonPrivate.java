@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ButtonPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public ButtonPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ButtonPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

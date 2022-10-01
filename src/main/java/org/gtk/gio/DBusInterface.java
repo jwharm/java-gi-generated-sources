@@ -17,7 +17,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      */
     public default DBusObject dupObject() {
         var RESULT = gtk_h.g_dbus_interface_dup_object(handle());
-        return new DBusObject.DBusObjectImpl(References.get(RESULT, true));
+        return new DBusObject.DBusObjectImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -26,7 +26,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      */
     public default DBusInterfaceInfo getInfo() {
         var RESULT = gtk_h.g_dbus_interface_get_info(handle());
-        return new DBusInterfaceInfo(References.get(RESULT, false));
+        return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -38,7 +38,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      */
     public default DBusObject getObject() {
         var RESULT = gtk_h.g_dbus_interface_get_object(handle());
-        return new DBusObject.DBusObjectImpl(References.get(RESULT, false));
+        return new DBusObject.DBusObjectImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -51,8 +51,8 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     }
     
     class DBusInterfaceImpl extends org.gtk.gobject.Object implements DBusInterface {
-        public DBusInterfaceImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public DBusInterfaceImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

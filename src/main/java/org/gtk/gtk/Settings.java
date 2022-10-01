@@ -35,13 +35,13 @@ import java.lang.invoke.*;
  */
 public class Settings extends org.gtk.gobject.Object implements StyleProvider {
 
-    public Settings(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Settings(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Settings */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
-        return new Settings(gobject.getReference());
+        return new Settings(gobject.refcounted());
     }
     
     /**
@@ -63,7 +63,7 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      */
     public static Settings getDefault() {
         var RESULT = gtk_h.gtk_settings_get_default();
-        return new Settings(References.get(RESULT, false));
+        return new Settings(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      */
     public static Settings getForDisplay(org.gtk.gdk.Display display) {
         var RESULT = gtk_h.gtk_settings_get_for_display(display.handle());
-        return new Settings(References.get(RESULT, false));
+        return new Settings(Refcounted.get(RESULT, false));
     }
     
 }

@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class AttrFloat extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrFloat(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrFloat(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AttrFloat() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFloat.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFloat.allocate(Interop.getAllocator()).address()));
     }
     
 }

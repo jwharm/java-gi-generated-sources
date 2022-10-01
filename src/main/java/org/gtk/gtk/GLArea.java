@@ -111,17 +111,17 @@ import java.lang.invoke.*;
  */
 public class GLArea extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public GLArea(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GLArea(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GLArea */
     public static GLArea castFrom(org.gtk.gobject.Object gobject) {
-        return new GLArea(gobject.getReference());
+        return new GLArea(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_gl_area_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gl_area_new(), false);
         return RESULT;
     }
     
@@ -160,7 +160,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public org.gtk.gdk.GLContext getContext() {
         var RESULT = gtk_h.gtk_gl_area_get_context(handle());
-        return new org.gtk.gdk.GLContext(References.get(RESULT, false));
+        return new org.gtk.gdk.GLContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -168,7 +168,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public org.gtk.glib.Error getError() {
         var RESULT = gtk_h.gtk_gl_area_get_error(handle());
-        return new org.gtk.glib.Error(References.get(RESULT, false));
+        return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -407,19 +407,19 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
         public static void signalGLAreaCreateContext(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GLArea.CreateContextHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GLArea(References.get(source)));
+            handler.signalReceived(new GLArea(Refcounted.get(source)));
         }
         
         public static boolean signalGLAreaRender(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GLArea.RenderHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new GLArea(References.get(source)), new org.gtk.gdk.GLContext(References.get(context, false)));
+            return handler.signalReceived(new GLArea(Refcounted.get(source)), new org.gtk.gdk.GLContext(Refcounted.get(context, false)));
         }
         
         public static void signalGLAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GLArea.ResizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GLArea(References.get(source)), width, height);
+            handler.signalReceived(new GLArea(Refcounted.get(source)), width, height);
         }
         
     }

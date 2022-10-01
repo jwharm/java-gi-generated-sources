@@ -15,12 +15,12 @@ import java.lang.invoke.*;
  */
 public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
 
-    public FontDescription(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontDescription(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.pango_font_description_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_font_description_new(), true);
         return RESULT;
     }
     
@@ -54,7 +54,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public FontDescription copy() {
         var RESULT = gtk_h.pango_font_description_copy(handle());
-        return new FontDescription(References.get(RESULT, true));
+        return new FontDescription(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -68,7 +68,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public FontDescription copyStatic() {
         var RESULT = gtk_h.pango_font_description_copy_static(handle());
-        return new FontDescription(References.get(RESULT, true));
+        return new FontDescription(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -457,7 +457,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public static FontDescription fromString(java.lang.String str) {
         var RESULT = gtk_h.pango_font_description_from_string(Interop.allocateNativeString(str).handle());
-        return new FontDescription(References.get(RESULT, true));
+        return new FontDescription(Refcounted.get(RESULT, true));
     }
     
 }

@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecOverride extends ParamSpec {
 
-    public ParamSpecOverride(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ParamSpecOverride(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ParamSpecOverride */
     public static ParamSpecOverride castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecOverride(gobject.getReference());
+        return new ParamSpecOverride(gobject.refcounted());
     }
     
 }

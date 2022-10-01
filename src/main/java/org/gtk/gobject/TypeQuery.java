@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class TypeQuery extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypeQuery(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeQuery(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TypeQuery() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeQuery.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeQuery.allocate(Interop.getAllocator()).address()));
     }
     
 }

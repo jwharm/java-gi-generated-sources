@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class RoundedClipNode extends RenderNode {
 
-    public RoundedClipNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RoundedClipNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to RoundedClipNode */
     public static RoundedClipNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RoundedClipNode(gobject.getReference());
+        return new RoundedClipNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RenderNode child, RoundedRect clip) {
-        Reference RESULT = References.get(gtk_h.gsk_rounded_clip_node_new(child.handle(), clip.handle()), false);
+    private static Refcounted constructNew(RenderNode child, RoundedRect clip) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_rounded_clip_node_new(child.handle(), clip.handle()), false);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class RoundedClipNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_rounded_clip_node_get_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -45,7 +45,7 @@ public class RoundedClipNode extends RenderNode {
      */
     public RoundedRect getClip() {
         var RESULT = gtk_h.gsk_rounded_clip_node_get_clip(handle());
-        return new RoundedRect(References.get(RESULT, false));
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
 }

@@ -7,13 +7,13 @@ import java.lang.invoke.*;
 
 public class NativeVolumeMonitor extends VolumeMonitor {
 
-    public NativeVolumeMonitor(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public NativeVolumeMonitor(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to NativeVolumeMonitor */
     public static NativeVolumeMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new NativeVolumeMonitor(gobject.getReference());
+        return new NativeVolumeMonitor(gobject.refcounted());
     }
     
 }

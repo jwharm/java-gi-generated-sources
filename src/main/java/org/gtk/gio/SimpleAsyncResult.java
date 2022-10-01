@@ -174,18 +174,18 @@ import java.lang.invoke.*;
  */
 public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncResult {
 
-    public SimpleAsyncResult(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SimpleAsyncResult(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SimpleAsyncResult */
     public static SimpleAsyncResult castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleAsyncResult(gobject.getReference());
+        return new SimpleAsyncResult(gobject.refcounted());
     }
     
-    private static Reference constructNewFromError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+    private static Refcounted constructNewFromError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
         try {
-            Reference RESULT = References.get(gtk_h.g_simple_async_result_new_from_error(sourceObject.handle(), 
+            Refcounted RESULT = Refcounted.get(gtk_h.g_simple_async_result_new_from_error(sourceObject.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -205,9 +205,9 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
         return new SimpleAsyncResult(constructNewFromError(sourceObject, callback, error));
     }
     
-    private static Reference constructNewTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+    private static Refcounted constructNewTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
         try {
-            Reference RESULT = References.get(gtk_h.g_simple_async_result_new_take_error(sourceObject.handle(), 
+            Refcounted RESULT = Refcounted.get(gtk_h.g_simple_async_result_new_take_error(sourceObject.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

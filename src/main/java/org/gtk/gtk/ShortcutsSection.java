@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class ShortcutsSection extends Box implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public ShortcutsSection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShortcutsSection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ShortcutsSection */
     public static ShortcutsSection castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutsSection(gobject.getReference());
+        return new ShortcutsSection(gobject.refcounted());
     }
     
     @FunctionalInterface
@@ -59,7 +59,7 @@ public class ShortcutsSection extends Box implements Accessible, Buildable, Cons
         public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ShortcutsSection.ChangeCurrentPageHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new ShortcutsSection(References.get(source)), object);
+            return handler.signalReceived(new ShortcutsSection(Refcounted.get(source)), object);
         }
         
     }

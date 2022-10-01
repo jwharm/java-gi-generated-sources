@@ -16,8 +16,8 @@ import java.lang.invoke.*;
  */
 public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrIterator(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrIterator(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -25,7 +25,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrIterator copy() {
         var RESULT = gtk_h.pango_attr_iterator_copy(handle());
-        return new AttrIterator(References.get(RESULT, true));
+        return new AttrIterator(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -45,7 +45,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      */
     public Attribute get(AttrType type) {
         var RESULT = gtk_h.pango_attr_iterator_get(handle(), type.getValue());
-        return new Attribute(References.get(RESULT, false));
+        return new Attribute(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.SList getAttrs() {
         var RESULT = gtk_h.pango_attr_iterator_get_attrs(handle());
-        return new org.gtk.glib.SList(References.get(RESULT, true));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
     }
     
     /**

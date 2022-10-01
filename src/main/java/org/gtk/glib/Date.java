@@ -20,12 +20,12 @@ import java.lang.invoke.*;
  */
 public class Date extends io.github.jwharm.javagi.ResourceBase {
 
-    public Date(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Date(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_date_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_new(), true);
         return RESULT;
     }
     
@@ -39,8 +39,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    private static Reference constructNewDmy(DateDay day, DateMonth month, DateYear year) {
-        Reference RESULT = References.get(gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true);
+    private static Refcounted constructNewDmy(DateDay day, DateMonth month, DateYear year) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true);
         return RESULT;
     }
     
@@ -55,8 +55,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         return new Date(constructNewDmy(day, month, year));
     }
     
-    private static Reference constructNewJulian(int julianDay) {
-        Reference RESULT = References.get(gtk_h.g_date_new_julian(julianDay), true);
+    private static Refcounted constructNewJulian(int julianDay) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_date_new_julian(julianDay), true);
         return RESULT;
     }
     
@@ -138,7 +138,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public Date copy() {
         var RESULT = gtk_h.g_date_copy(handle());
-        return new Date(References.get(RESULT, true));
+        return new Date(Refcounted.get(RESULT, true));
     }
     
     /**

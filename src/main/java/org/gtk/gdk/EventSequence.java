@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class EventSequence extends io.github.jwharm.javagi.ResourceBase {
 
-    public EventSequence(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EventSequence(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

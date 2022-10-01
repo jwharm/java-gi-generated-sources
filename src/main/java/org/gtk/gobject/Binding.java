@@ -87,13 +87,13 @@ import java.lang.invoke.*;
  */
 public class Binding extends Object {
 
-    public Binding(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Binding(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Binding */
     public static Binding castFrom(org.gtk.gobject.Object gobject) {
-        return new Binding(gobject.getReference());
+        return new Binding(gobject.refcounted());
     }
     
     /**
@@ -105,7 +105,7 @@ public class Binding extends Object {
      */
     public Object dupSource() {
         var RESULT = gtk_h.g_binding_dup_source(handle());
-        return new Object(References.get(RESULT, true));
+        return new Object(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -117,7 +117,7 @@ public class Binding extends Object {
      */
     public Object dupTarget() {
         var RESULT = gtk_h.g_binding_dup_target(handle());
-        return new Object(References.get(RESULT, true));
+        return new Object(Refcounted.get(RESULT, true));
     }
     
     /**

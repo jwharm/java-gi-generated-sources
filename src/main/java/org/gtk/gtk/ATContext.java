@@ -15,17 +15,17 @@ import java.lang.invoke.*;
  */
 public class ATContext extends org.gtk.gobject.Object {
 
-    public ATContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ATContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ATContext */
     public static ATContext castFrom(org.gtk.gobject.Object gobject) {
-        return new ATContext(gobject.getReference());
+        return new ATContext(gobject.refcounted());
     }
     
-    private static Reference constructCreate(AccessibleRole accessibleRole, Accessible accessible, org.gtk.gdk.Display display) {
-        Reference RESULT = References.get(gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.handle(), display.handle()), true);
+    private static Refcounted constructCreate(AccessibleRole accessibleRole, Accessible accessible, org.gtk.gdk.Display display) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.handle(), display.handle()), true);
         return RESULT;
     }
     
@@ -45,7 +45,7 @@ public class ATContext extends org.gtk.gobject.Object {
      */
     public Accessible getAccessible() {
         var RESULT = gtk_h.gtk_at_context_get_accessible(handle());
-        return new Accessible.AccessibleImpl(References.get(RESULT, false));
+        return new Accessible.AccessibleImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -88,7 +88,7 @@ public class ATContext extends org.gtk.gobject.Object {
         public static void signalATContextStateChange(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ATContext.StateChangeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ATContext(References.get(source)));
+            handler.signalReceived(new ATContext(Refcounted.get(source)));
         }
         
     }

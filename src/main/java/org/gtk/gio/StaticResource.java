@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
 
-    public StaticResource(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StaticResource(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public StaticResource() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GStaticResource.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GStaticResource.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -39,7 +39,7 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      */
     public Resource getResource() {
         var RESULT = gtk_h.g_static_resource_get_resource(handle());
-        return new Resource(References.get(RESULT, false));
+        return new Resource(Refcounted.get(RESULT, false));
     }
     
     /**

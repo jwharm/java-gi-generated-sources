@@ -42,17 +42,17 @@ import java.lang.invoke.*;
  */
 public class Application extends org.gtk.gtk.Application implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
 
-    public Application(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Application(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Application */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        return new Application(gobject.getReference());
+        return new Application(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
-        Reference RESULT = References.get(gtk_h.adw_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
+    private static Refcounted constructNew(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
         return RESULT;
     }
     
@@ -74,7 +74,7 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      */
     public StyleManager getStyleManager() {
         var RESULT = gtk_h.adw_application_get_style_manager(handle());
-        return new StyleManager(References.get(RESULT, false));
+        return new StyleManager(Refcounted.get(RESULT, false));
     }
     
 }

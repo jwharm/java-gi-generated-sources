@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class VariationT extends io.github.jwharm.javagi.ResourceBase {
 
-    public VariationT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public VariationT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public VariationT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_variation_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_variation_t.allocate(Interop.getAllocator()).address()));
     }
     
     /**

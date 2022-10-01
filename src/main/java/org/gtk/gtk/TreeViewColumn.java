@@ -19,17 +19,17 @@ import java.lang.invoke.*;
  */
 public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements Buildable, CellLayout {
 
-    public TreeViewColumn(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeViewColumn(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeViewColumn */
     public static TreeViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeViewColumn(gobject.getReference());
+        return new TreeViewColumn(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_tree_view_column_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_view_column_new(), false);
         return RESULT;
     }
     
@@ -40,8 +40,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         super(constructNew());
     }
     
-    private static Reference constructNewWithArea(CellArea area) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_view_column_new_with_area(area.handle()), false);
+    private static Refcounted constructNewWithArea(CellArea area) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_view_column_new_with_area(area.handle()), false);
         return RESULT;
     }
     
@@ -150,7 +150,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public Widget getButton() {
         var RESULT = gtk_h.gtk_tree_view_column_get_button(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -270,7 +270,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public Widget getTreeView() {
         var RESULT = gtk_h.gtk_tree_view_column_get_tree_view(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -288,7 +288,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public Widget getWidget() {
         var RESULT = gtk_h.gtk_tree_view_column_get_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -546,7 +546,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         public static void signalTreeViewColumnClicked(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeViewColumn.ClickedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeViewColumn(References.get(source)));
+            handler.signalReceived(new TreeViewColumn(Refcounted.get(source)));
         }
         
     }

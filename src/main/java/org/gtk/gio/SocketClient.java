@@ -22,17 +22,17 @@ import java.lang.invoke.*;
  */
 public class SocketClient extends org.gtk.gobject.Object {
 
-    public SocketClient(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SocketClient(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SocketClient */
     public static SocketClient castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketClient(gobject.getReference());
+        return new SocketClient(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_socket_client_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_socket_client_new(), true);
         return RESULT;
     }
     
@@ -94,7 +94,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -136,7 +136,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -177,7 +177,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -210,7 +210,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -235,7 +235,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -265,7 +265,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -297,7 +297,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -330,7 +330,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -358,7 +358,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketAddress getLocalAddress() {
         var RESULT = gtk_h.g_socket_client_get_local_address(handle());
-        return new SocketAddress(References.get(RESULT, false));
+        return new SocketAddress(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -378,7 +378,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public ProxyResolver getProxyResolver() {
         var RESULT = gtk_h.g_socket_client_get_proxy_resolver(handle());
-        return new ProxyResolver.ProxyResolverImpl(References.get(RESULT, false));
+        return new ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -619,7 +619,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         public static void signalSocketClientEvent(MemoryAddress source, int event, MemoryAddress connectable, MemoryAddress connection, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SocketClient.EventHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SocketClient(References.get(source)), new SocketClientEvent(event), new SocketConnectable.SocketConnectableImpl(References.get(connectable, false)), new IOStream(References.get(connection, false)));
+            handler.signalReceived(new SocketClient(Refcounted.get(source)), new SocketClientEvent(event), new SocketConnectable.SocketConnectableImpl(Refcounted.get(connectable, false)), new IOStream(Refcounted.get(connection, false)));
         }
         
     }

@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class IOFuncs extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOFuncs(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOFuncs(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public IOFuncs() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GIOFuncs.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GIOFuncs.allocate(Interop.getAllocator()).address()));
     }
     
 }

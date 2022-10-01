@@ -19,13 +19,13 @@ import java.lang.invoke.*;
  */
 public class Drag extends org.gtk.gobject.Object {
 
-    public Drag(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Drag(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Drag */
     public static Drag castFrom(org.gtk.gobject.Object gobject) {
-        return new Drag(gobject.getReference());
+        return new Drag(gobject.refcounted());
     }
     
     /**
@@ -58,7 +58,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public ContentProvider getContent() {
         var RESULT = gtk_h.gdk_drag_get_content(handle());
-        return new ContentProvider(References.get(RESULT, false));
+        return new ContentProvider(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -66,7 +66,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public Device getDevice() {
         var RESULT = gtk_h.gdk_drag_get_device(handle());
-        return new Device(References.get(RESULT, false));
+        return new Device(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_drag_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -88,7 +88,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public Surface getDragSurface() {
         var RESULT = gtk_h.gdk_drag_get_drag_surface(handle());
-        return new Surface(References.get(RESULT, false));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public ContentFormats getFormats() {
         var RESULT = gtk_h.gdk_drag_get_formats(handle());
-        return new ContentFormats(References.get(RESULT, false));
+        return new ContentFormats(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public Surface getSurface() {
         var RESULT = gtk_h.gdk_drag_get_surface(handle());
-        return new Surface(References.get(RESULT, false));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -143,7 +143,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public static Drag begin(Surface surface, Device device, ContentProvider content, DragAction actions, double dx, double dy) {
         var RESULT = gtk_h.gdk_drag_begin(surface.handle(), device.handle(), content.handle(), actions.getValue(), dx, dy);
-        return new Drag(References.get(RESULT, true));
+        return new Drag(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -231,19 +231,19 @@ public class Drag extends org.gtk.gobject.Object {
         public static void signalDragCancel(MemoryAddress source, int reason, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Drag.CancelHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Drag(References.get(source)), new DragCancelReason(reason));
+            handler.signalReceived(new Drag(Refcounted.get(source)), new DragCancelReason(reason));
         }
         
         public static void signalDragDndFinished(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Drag.DndFinishedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Drag(References.get(source)));
+            handler.signalReceived(new Drag(Refcounted.get(source)));
         }
         
         public static void signalDragDropPerformed(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Drag.DropPerformedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Drag(References.get(source)));
+            handler.signalReceived(new Drag(Refcounted.get(source)));
         }
         
     }

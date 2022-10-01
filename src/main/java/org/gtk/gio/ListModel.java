@@ -115,7 +115,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gobject.Object getObject(int position) {
         var RESULT = gtk_h.g_list_model_get_object(handle(), position);
-        return new org.gtk.gobject.Object(References.get(RESULT, true));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -180,14 +180,14 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         public static void signalListModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ListModel.ItemsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListModel.ListModelImpl(References.get(source)), position, removed, added);
+            handler.signalReceived(new ListModel.ListModelImpl(Refcounted.get(source)), position, removed, added);
         }
         
     }
     
     class ListModelImpl extends org.gtk.gobject.Object implements ListModel {
-        public ListModelImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ListModelImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

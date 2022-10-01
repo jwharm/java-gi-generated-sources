@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class GestureDrag extends GestureSingle {
 
-    public GestureDrag(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GestureDrag(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GestureDrag */
     public static GestureDrag castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureDrag(gobject.getReference());
+        return new GestureDrag(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_gesture_drag_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_drag_new(), true);
         return RESULT;
     }
     
@@ -146,19 +146,19 @@ public class GestureDrag extends GestureSingle {
         public static void signalGestureDragDragBegin(MemoryAddress source, double startX, double startY, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureDrag.DragBeginHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureDrag(References.get(source)), startX, startY);
+            handler.signalReceived(new GestureDrag(Refcounted.get(source)), startX, startY);
         }
         
         public static void signalGestureDragDragEnd(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureDrag.DragEndHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
+            handler.signalReceived(new GestureDrag(Refcounted.get(source)), offsetX, offsetY);
         }
         
         public static void signalGestureDragDragUpdate(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (GestureDrag.DragUpdateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
+            handler.signalReceived(new GestureDrag(Refcounted.get(source)), offsetX, offsetY);
         }
         
     }

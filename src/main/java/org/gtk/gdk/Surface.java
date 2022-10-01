@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class Surface extends org.gtk.gobject.Object {
 
-    public Surface(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Surface(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Surface */
     public static Surface castFrom(org.gtk.gobject.Object gobject) {
-        return new Surface(gobject.getReference());
+        return new Surface(gobject.refcounted());
     }
     
-    private static Reference constructNewPopup(Surface parent, boolean autohide) {
-        Reference RESULT = References.get(gtk_h.gdk_surface_new_popup(parent.handle(), autohide ? 1 : 0), true);
+    private static Refcounted constructNewPopup(Surface parent, boolean autohide) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_surface_new_popup(parent.handle(), autohide ? 1 : 0), true);
         return RESULT;
     }
     
@@ -42,8 +42,8 @@ public class Surface extends org.gtk.gobject.Object {
         return new Surface(constructNewPopup(parent, autohide));
     }
     
-    private static Reference constructNewToplevel(Display display) {
-        Reference RESULT = References.get(gtk_h.gdk_surface_new_toplevel(display.handle()), true);
+    private static Refcounted constructNewToplevel(Display display) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_surface_new_toplevel(display.handle()), true);
         return RESULT;
     }
     
@@ -69,7 +69,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public CairoContext createCairoContext() {
         var RESULT = gtk_h.gdk_surface_create_cairo_context(handle());
-        return new CairoContext(References.get(RESULT, true));
+        return new CairoContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -86,7 +86,7 @@ public class Surface extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new GLContext(References.get(RESULT, true));
+        return new GLContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public org.cairographics.Surface createSimilarSurface(org.cairographics.Content content, int width, int height) {
         var RESULT = gtk_h.gdk_surface_create_similar_surface(handle(), content.getValue(), width, height);
-        return new org.cairographics.Surface(References.get(RESULT, true));
+        return new org.cairographics.Surface(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -122,7 +122,7 @@ public class Surface extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new VulkanContext(References.get(RESULT, true));
+        return new VulkanContext(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -151,7 +151,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public Cursor getCursor() {
         var RESULT = gtk_h.gdk_surface_get_cursor(handle());
-        return new Cursor(References.get(RESULT, false));
+        return new Cursor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -165,7 +165,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public Cursor getDeviceCursor(Device device) {
         var RESULT = gtk_h.gdk_surface_get_device_cursor(handle(), device.handle());
-        return new Cursor(References.get(RESULT, false));
+        return new Cursor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -184,7 +184,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_surface_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -195,7 +195,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public FrameClock getFrameClock() {
         var RESULT = gtk_h.gdk_surface_get_frame_clock(handle());
-        return new FrameClock(References.get(RESULT, false));
+        return new FrameClock(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -507,31 +507,31 @@ public class Surface extends org.gtk.gobject.Object {
         public static void signalSurfaceEnterMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Surface.EnterMonitorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Surface(References.get(source)), new Monitor(References.get(monitor, false)));
+            handler.signalReceived(new Surface(Refcounted.get(source)), new Monitor(Refcounted.get(monitor, false)));
         }
         
         public static boolean signalSurfaceEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Surface.EventHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Surface(References.get(source)), new Event(References.get(event, false)));
+            return handler.signalReceived(new Surface(Refcounted.get(source)), new Event(Refcounted.get(event, false)));
         }
         
         public static void signalSurfaceLayout(MemoryAddress source, int width, int height, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Surface.LayoutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Surface(References.get(source)), width, height);
+            handler.signalReceived(new Surface(Refcounted.get(source)), width, height);
         }
         
         public static void signalSurfaceLeaveMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Surface.LeaveMonitorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Surface(References.get(source)), new Monitor(References.get(monitor, false)));
+            handler.signalReceived(new Surface(Refcounted.get(source)), new Monitor(Refcounted.get(monitor, false)));
         }
         
         public static boolean signalSurfaceRender(MemoryAddress source, MemoryAddress region, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Surface.RenderHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Surface(References.get(source)), new org.cairographics.Region(References.get(region, false)));
+            return handler.signalReceived(new Surface(Refcounted.get(source)), new org.cairographics.Region(Refcounted.get(region, false)));
         }
         
     }

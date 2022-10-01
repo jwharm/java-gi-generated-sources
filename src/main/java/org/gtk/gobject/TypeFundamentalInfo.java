@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class TypeFundamentalInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypeFundamentalInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeFundamentalInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TypeFundamentalInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeFundamentalInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeFundamentalInfo.allocate(Interop.getAllocator()).address()));
     }
     
 }

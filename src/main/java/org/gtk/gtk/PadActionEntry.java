@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class PadActionEntry extends io.github.jwharm.javagi.ResourceBase {
 
-    public PadActionEntry(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PadActionEntry(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public PadActionEntry() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkPadActionEntry.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkPadActionEntry.allocate(Interop.getAllocator()).address()));
     }
     
 }

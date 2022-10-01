@@ -41,17 +41,17 @@ import java.lang.invoke.*;
  */
 public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public ToastOverlay(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ToastOverlay(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ToastOverlay */
     public static ToastOverlay castFrom(org.gtk.gobject.Object gobject) {
-        return new ToastOverlay(gobject.getReference());
+        return new ToastOverlay(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_toast_overlay_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_toast_overlay_new(), false);
         return RESULT;
     }
     
@@ -70,7 +70,7 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * the priority of {@code toast}. See {@code Toast:priority}.
      */
     public void addToast(Toast toast) {
-        gtk_h.adw_toast_overlay_add_toast(handle(), toast.getReference().unowned().handle());
+        gtk_h.adw_toast_overlay_add_toast(handle(), toast.refcounted().unowned().handle());
     }
     
     /**
@@ -78,7 +78,7 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public org.gtk.gtk.Widget getChild() {
         var RESULT = gtk_h.adw_toast_overlay_get_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

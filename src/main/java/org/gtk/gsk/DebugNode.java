@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class DebugNode extends RenderNode {
 
-    public DebugNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DebugNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DebugNode */
     public static DebugNode castFrom(org.gtk.gobject.Object gobject) {
-        return new DebugNode(gobject.getReference());
+        return new DebugNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RenderNode child, java.lang.String message) {
-        Reference RESULT = References.get(gtk_h.gsk_debug_node_new(child.handle(), Interop.allocateNativeString(message).handle()), true);
+    private static Refcounted constructNew(RenderNode child, java.lang.String message) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_debug_node_new(child.handle(), Interop.allocateNativeString(message).handle()), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class DebugNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_debug_node_get_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class KeyEvent extends Event {
 
-    public KeyEvent(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public KeyEvent(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to KeyEvent */
     public static KeyEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new KeyEvent(gobject.getReference());
+        return new KeyEvent(gobject.refcounted());
     }
     
     /**

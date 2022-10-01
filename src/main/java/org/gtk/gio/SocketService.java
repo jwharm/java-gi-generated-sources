@@ -35,17 +35,17 @@ import java.lang.invoke.*;
  */
 public class SocketService extends SocketListener {
 
-    public SocketService(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SocketService(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SocketService */
     public static SocketService castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketService(gobject.getReference());
+        return new SocketService(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_socket_service_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_socket_service_new(), true);
         return RESULT;
     }
     
@@ -144,7 +144,7 @@ public class SocketService extends SocketListener {
         public static boolean signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SocketService.IncomingHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new SocketService(References.get(source)), new SocketConnection(References.get(connection, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)));
+            return handler.signalReceived(new SocketService(Refcounted.get(source)), new SocketConnection(Refcounted.get(connection, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)));
         }
         
     }

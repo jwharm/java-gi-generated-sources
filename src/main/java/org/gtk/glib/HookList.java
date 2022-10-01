@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class HookList extends io.github.jwharm.javagi.ResourceBase {
 
-    public HookList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public HookList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public HookList() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GHookList.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GHookList.allocate(Interop.getAllocator()).address()));
     }
     
     /**

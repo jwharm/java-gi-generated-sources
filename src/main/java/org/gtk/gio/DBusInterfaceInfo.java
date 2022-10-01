@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusInterfaceInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusInterfaceInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public DBusInterfaceInfo() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusInterfaceInfo.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusInterfaceInfo.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -63,7 +63,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusMethodInfo lookupMethod(java.lang.String name) {
         var RESULT = gtk_h.g_dbus_interface_info_lookup_method(handle(), Interop.allocateNativeString(name).handle());
-        return new DBusMethodInfo(References.get(RESULT, false));
+        return new DBusMethodInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusPropertyInfo lookupProperty(java.lang.String name) {
         var RESULT = gtk_h.g_dbus_interface_info_lookup_property(handle(), Interop.allocateNativeString(name).handle());
-        return new DBusPropertyInfo(References.get(RESULT, false));
+        return new DBusPropertyInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -85,7 +85,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusSignalInfo lookupSignal(java.lang.String name) {
         var RESULT = gtk_h.g_dbus_interface_info_lookup_signal(handle(), Interop.allocateNativeString(name).handle());
-        return new DBusSignalInfo(References.get(RESULT, false));
+        return new DBusSignalInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -94,7 +94,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public DBusInterfaceInfo ref() {
         var RESULT = gtk_h.g_dbus_interface_info_ref(handle());
-        return new DBusInterfaceInfo(References.get(RESULT, true));
+        return new DBusInterfaceInfo(Refcounted.get(RESULT, true));
     }
     
     /**

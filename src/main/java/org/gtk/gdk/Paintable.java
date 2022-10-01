@@ -80,7 +80,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      */
     public default Paintable getCurrentImage() {
         var RESULT = gtk_h.gdk_paintable_get_current_image(handle());
-        return new Paintable.PaintableImpl(References.get(RESULT, true));
+        return new Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -206,7 +206,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      */
     public static Paintable newEmpty(int intrinsicWidth, int intrinsicHeight) {
         var RESULT = gtk_h.gdk_paintable_new_empty(intrinsicWidth, intrinsicHeight);
-        return new Paintable.PaintableImpl(References.get(RESULT, true));
+        return new Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -278,20 +278,20 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         public static void signalPaintableInvalidateContents(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Paintable.InvalidateContentsHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Paintable.PaintableImpl(References.get(source)));
+            handler.signalReceived(new Paintable.PaintableImpl(Refcounted.get(source)));
         }
         
         public static void signalPaintableInvalidateSize(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Paintable.InvalidateSizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Paintable.PaintableImpl(References.get(source)));
+            handler.signalReceived(new Paintable.PaintableImpl(Refcounted.get(source)));
         }
         
     }
     
     class PaintableImpl extends org.gtk.gobject.Object implements Paintable {
-        public PaintableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public PaintableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

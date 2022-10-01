@@ -37,17 +37,17 @@ import java.lang.invoke.*;
  */
 public class EditableLabel extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
-    public EditableLabel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EditableLabel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EditableLabel */
     public static EditableLabel castFrom(org.gtk.gobject.Object gobject) {
-        return new EditableLabel(gobject.getReference());
+        return new EditableLabel(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String str) {
-        Reference RESULT = References.get(gtk_h.gtk_editable_label_new(Interop.allocateNativeString(str).handle()), false);
+    private static Refcounted constructNew(java.lang.String str) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_editable_label_new(Interop.allocateNativeString(str).handle()), false);
         return RESULT;
     }
     

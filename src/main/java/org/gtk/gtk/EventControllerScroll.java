@@ -43,17 +43,17 @@ import java.lang.invoke.*;
  */
 public class EventControllerScroll extends EventController {
 
-    public EventControllerScroll(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EventControllerScroll(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EventControllerScroll */
     public static EventControllerScroll castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerScroll(gobject.getReference());
+        return new EventControllerScroll(gobject.refcounted());
     }
     
-    private static Reference constructNew(EventControllerScrollFlags flags) {
-        Reference RESULT = References.get(gtk_h.gtk_event_controller_scroll_new(flags.getValue()), true);
+    private static Refcounted constructNew(EventControllerScrollFlags flags) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_event_controller_scroll_new(flags.getValue()), true);
         return RESULT;
     }
     
@@ -198,25 +198,25 @@ public class EventControllerScroll extends EventController {
         public static void signalEventControllerScrollDecelerate(MemoryAddress source, double velX, double velY, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerScroll.DecelerateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerScroll(References.get(source)), velX, velY);
+            handler.signalReceived(new EventControllerScroll(Refcounted.get(source)), velX, velY);
         }
         
         public static boolean signalEventControllerScrollScroll(MemoryAddress source, double dx, double dy, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerScroll.ScrollHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new EventControllerScroll(References.get(source)), dx, dy);
+            return handler.signalReceived(new EventControllerScroll(Refcounted.get(source)), dx, dy);
         }
         
         public static void signalEventControllerScrollScrollBegin(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerScroll.ScrollBeginHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerScroll(References.get(source)));
+            handler.signalReceived(new EventControllerScroll(Refcounted.get(source)));
         }
         
         public static void signalEventControllerScrollScrollEnd(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerScroll.ScrollEndHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerScroll(References.get(source)));
+            handler.signalReceived(new EventControllerScroll(Refcounted.get(source)));
         }
         
     }

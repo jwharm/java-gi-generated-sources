@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class Error extends io.github.jwharm.javagi.ResourceBase {
 
-    public Error(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Error(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewLiteral(Quark domain, int code, java.lang.String message) {
-        Reference RESULT = References.get(gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true);
+    private static Refcounted constructNewLiteral(Quark domain, int code, java.lang.String message) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true);
         return RESULT;
     }
     
@@ -30,8 +30,8 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
         return new Error(constructNewLiteral(domain, code, message));
     }
     
-    private static Reference constructNewValist(Quark domain, int code, java.lang.String format, VaList args) {
-        Reference RESULT = References.get(gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true);
+    private static Refcounted constructNewValist(Quark domain, int code, java.lang.String format, VaList args) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true);
         return RESULT;
     }
     
@@ -48,7 +48,7 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
      */
     public Error copy() {
         var RESULT = gtk_h.g_error_copy(handle());
-        return new Error(References.get(RESULT, true));
+        return new Error(Refcounted.get(RESULT, true));
     }
     
     /**

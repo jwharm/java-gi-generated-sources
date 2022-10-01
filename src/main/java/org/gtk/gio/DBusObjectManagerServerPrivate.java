@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DBusObjectManagerServerPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusObjectManagerServerPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusObjectManagerServerPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

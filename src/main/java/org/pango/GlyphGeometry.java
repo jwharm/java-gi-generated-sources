@@ -24,12 +24,12 @@ import java.lang.invoke.*;
  */
 public class GlyphGeometry extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphGeometry(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GlyphGeometry(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public GlyphGeometry() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphGeometry.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphGeometry.allocate(Interop.getAllocator()).address()));
     }
     
 }

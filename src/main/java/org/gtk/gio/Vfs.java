@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class Vfs extends org.gtk.gobject.Object {
 
-    public Vfs(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Vfs(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Vfs */
     public static Vfs castFrom(org.gtk.gobject.Object gobject) {
-        return new Vfs(gobject.getReference());
+        return new Vfs(gobject.refcounted());
     }
     
     /**
@@ -24,7 +24,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File getFileForPath(java.lang.String path) {
         var RESULT = gtk_h.g_vfs_get_file_for_path(handle(), Interop.allocateNativeString(path).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -36,7 +36,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File getFileForUri(java.lang.String uri) {
         var RESULT = gtk_h.g_vfs_get_file_for_uri(handle(), Interop.allocateNativeString(uri).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -62,7 +62,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File parseName(java.lang.String parseName) {
         var RESULT = gtk_h.g_vfs_parse_name(handle(), Interop.allocateNativeString(parseName).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -124,7 +124,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public static Vfs getDefault() {
         var RESULT = gtk_h.g_vfs_get_default();
-        return new Vfs(References.get(RESULT, false));
+        return new Vfs(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -132,7 +132,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public static Vfs getLocal() {
         var RESULT = gtk_h.g_vfs_get_local();
-        return new Vfs(References.get(RESULT, false));
+        return new Vfs(Refcounted.get(RESULT, false));
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TlsConnectionPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public TlsConnectionPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TlsConnectionPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

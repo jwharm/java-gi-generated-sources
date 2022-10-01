@@ -24,8 +24,8 @@ public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
     }
     
     class FileDescriptorBasedImpl extends org.gtk.gobject.Object implements FileDescriptorBased {
-        public FileDescriptorBasedImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public FileDescriptorBasedImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Quad extends io.github.jwharm.javagi.ResourceBase {
 
-    public Quad(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Quad(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_quad_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_quad_alloc(), true);
         return RESULT;
     }
     
@@ -58,7 +58,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      */
     public Point getPoint(int index) {
         var RESULT = gtk_h.graphene_quad_get_point(handle(), index);
-        return new Point(References.get(RESULT, false));
+        return new Point(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -66,7 +66,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quad init(Point p1, Point p2, Point p3, Point p4) {
         var RESULT = gtk_h.graphene_quad_init(handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle());
-        return new Quad(References.get(RESULT, false));
+        return new Quad(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quad initFromPoints(Point[] points) {
         var RESULT = gtk_h.graphene_quad_init_from_points(handle(), Interop.allocateNativeArray(points).handle());
-        return new Quad(References.get(RESULT, false));
+        return new Quad(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -83,7 +83,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      */
     public Quad initFromRect(Rect r) {
         var RESULT = gtk_h.graphene_quad_init_from_rect(handle(), r.handle());
-        return new Quad(References.get(RESULT, false));
+        return new Quad(Refcounted.get(RESULT, false));
     }
     
 }

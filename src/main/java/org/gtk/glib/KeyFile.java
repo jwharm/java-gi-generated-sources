@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
 
-    public KeyFile(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public KeyFile(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_key_file_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_key_file_new(), true);
         return RESULT;
     }
     
@@ -463,7 +463,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      */
     public KeyFile ref() {
         var RESULT = gtk_h.g_key_file_ref(handle());
-        return new KeyFile(References.get(RESULT, true));
+        return new KeyFile(Refcounted.get(RESULT, true));
     }
     
     /**

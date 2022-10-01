@@ -46,17 +46,17 @@ import java.lang.invoke.*;
  */
 public class Credentials extends org.gtk.gobject.Object {
 
-    public Credentials(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Credentials(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Credentials */
     public static Credentials castFrom(org.gtk.gobject.Object gobject) {
-        return new Credentials(gobject.getReference());
+        return new Credentials(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_credentials_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_credentials_new(), true);
         return RESULT;
     }
     

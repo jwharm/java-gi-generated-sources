@@ -50,12 +50,12 @@ import java.lang.invoke.*;
  */
 public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusInterfaceVTable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusInterfaceVTable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public DBusInterfaceVTable() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusInterfaceVTable.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusInterfaceVTable.allocate(Interop.getAllocator()).address()));
     }
     
 }

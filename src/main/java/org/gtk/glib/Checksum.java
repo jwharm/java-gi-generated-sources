@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Checksum extends io.github.jwharm.javagi.ResourceBase {
 
-    public Checksum(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Checksum(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(ChecksumType checksumType) {
-        Reference RESULT = References.get(gtk_h.g_checksum_new(checksumType.getValue()), true);
+    private static Refcounted constructNew(ChecksumType checksumType) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_checksum_new(checksumType.getValue()), true);
         return RESULT;
     }
     
@@ -48,7 +48,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
      */
     public Checksum copy() {
         var RESULT = gtk_h.g_checksum_copy(handle());
-        return new Checksum(References.get(RESULT, true));
+        return new Checksum(Refcounted.get(RESULT, true));
     }
     
     /**

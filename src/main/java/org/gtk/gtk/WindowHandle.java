@@ -21,17 +21,17 @@ import java.lang.invoke.*;
  */
 public class WindowHandle extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public WindowHandle(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WindowHandle(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to WindowHandle */
     public static WindowHandle castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowHandle(gobject.getReference());
+        return new WindowHandle(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_window_handle_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_window_handle_new(), false);
         return RESULT;
     }
     
@@ -47,7 +47,7 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_window_handle_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**

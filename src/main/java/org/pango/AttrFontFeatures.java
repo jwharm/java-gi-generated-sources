@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrFontFeatures(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AttrFontFeatures(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public AttrFontFeatures() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFontFeatures.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFontFeatures.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -27,7 +27,7 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Attribute new_(java.lang.String features) {
         var RESULT = gtk_h.pango_attr_font_features_new(Interop.allocateNativeString(features).handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
 }

@@ -42,17 +42,17 @@ import java.lang.invoke.*;
  */
 public class TextMark extends org.gtk.gobject.Object {
 
-    public TextMark(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TextMark(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TextMark */
     public static TextMark castFrom(org.gtk.gobject.Object gobject) {
-        return new TextMark(gobject.getReference());
+        return new TextMark(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String name, boolean leftGravity) {
-        Reference RESULT = References.get(gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).handle(), leftGravity ? 1 : 0), true);
+    private static Refcounted constructNew(java.lang.String name, boolean leftGravity) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).handle(), leftGravity ? 1 : 0), true);
         return RESULT;
     }
     
@@ -80,7 +80,7 @@ public class TextMark extends org.gtk.gobject.Object {
      */
     public TextBuffer getBuffer() {
         var RESULT = gtk_h.gtk_text_mark_get_buffer(handle());
-        return new TextBuffer(References.get(RESULT, false));
+        return new TextBuffer(Refcounted.get(RESULT, false));
     }
     
     /**

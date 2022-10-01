@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class HashTable extends io.github.jwharm.javagi.ResourceBase {
 
-    public HashTable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public HashTable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -175,7 +175,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List getKeys(org.gtk.glib.HashTable hashTable) {
         var RESULT = gtk_h.g_hash_table_get_keys(hashTable.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -212,7 +212,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.List getValues(org.gtk.glib.HashTable hashTable) {
         var RESULT = gtk_h.g_hash_table_get_values(hashTable.handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -272,7 +272,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.HashTable newSimilar(org.gtk.glib.HashTable otherHashTable) {
         var RESULT = gtk_h.g_hash_table_new_similar(otherHashTable.handle());
-        return new org.gtk.glib.HashTable(References.get(RESULT, true));
+        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -281,7 +281,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.HashTable ref(org.gtk.glib.HashTable hashTable) {
         var RESULT = gtk_h.g_hash_table_ref(hashTable.handle());
-        return new org.gtk.glib.HashTable(References.get(RESULT, false));
+        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
     }
     
     /**

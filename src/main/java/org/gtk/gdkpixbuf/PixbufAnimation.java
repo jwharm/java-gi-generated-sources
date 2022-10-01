@@ -22,18 +22,18 @@ import java.lang.invoke.*;
  */
 public class PixbufAnimation extends org.gtk.gobject.Object {
 
-    public PixbufAnimation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PixbufAnimation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PixbufAnimation */
     public static PixbufAnimation castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufAnimation(gobject.getReference());
+        return new PixbufAnimation(gobject.refcounted());
     }
     
-    private static Reference constructNewFromFile(java.lang.String filename) throws GErrorException {
+    private static Refcounted constructNewFromFile(java.lang.String filename) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_animation_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -54,9 +54,9 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         return new PixbufAnimation(constructNewFromFile(filename));
     }
     
-    private static Reference constructNewFromResource(java.lang.String resourcePath) throws GErrorException {
+    private static Refcounted constructNewFromResource(java.lang.String resourcePath) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_resource(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_animation_new_from_resource(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -73,9 +73,9 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         return new PixbufAnimation(constructNewFromResource(resourcePath));
     }
     
-    private static Reference constructNewFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_stream(stream.handle(), cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_animation_new_from_stream(stream.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -100,9 +100,9 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         return new PixbufAnimation(constructNewFromStream(stream, cancellable));
     }
     
-    private static Reference constructNewFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+    private static Refcounted constructNewFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_stream_finish(asyncResult.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_animation_new_from_stream_finish(asyncResult.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -163,7 +163,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      */
     public PixbufAnimationIter getIter(org.gtk.glib.TimeVal startTime) {
         var RESULT = gtk_h.gdk_pixbuf_animation_get_iter(handle(), startTime.handle());
-        return new PixbufAnimationIter(References.get(RESULT, true));
+        return new PixbufAnimationIter(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -181,7 +181,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      */
     public Pixbuf getStaticImage() {
         var RESULT = gtk_h.gdk_pixbuf_animation_get_static_image(handle());
-        return new Pixbuf(References.get(RESULT, false));
+        return new Pixbuf(Refcounted.get(RESULT, false));
     }
     
     /**

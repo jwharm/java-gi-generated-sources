@@ -58,17 +58,17 @@ import java.lang.invoke.*;
  */
 public class Calendar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Calendar(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Calendar(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Calendar */
     public static Calendar castFrom(org.gtk.gobject.Object gobject) {
-        return new Calendar(gobject.getReference());
+        return new Calendar(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_calendar_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_calendar_new(), false);
         return RESULT;
     }
     
@@ -94,7 +94,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.glib.DateTime getDate() {
         var RESULT = gtk_h.gtk_calendar_get_date(handle());
-        return new org.gtk.glib.DateTime(References.get(RESULT, true));
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -320,31 +320,31 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         public static void signalCalendarDaySelected(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Calendar.DaySelectedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Calendar(References.get(source)));
+            handler.signalReceived(new Calendar(Refcounted.get(source)));
         }
         
         public static void signalCalendarNextMonth(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Calendar.NextMonthHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Calendar(References.get(source)));
+            handler.signalReceived(new Calendar(Refcounted.get(source)));
         }
         
         public static void signalCalendarNextYear(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Calendar.NextYearHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Calendar(References.get(source)));
+            handler.signalReceived(new Calendar(Refcounted.get(source)));
         }
         
         public static void signalCalendarPrevMonth(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Calendar.PrevMonthHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Calendar(References.get(source)));
+            handler.signalReceived(new Calendar(Refcounted.get(source)));
         }
         
         public static void signalCalendarPrevYear(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Calendar.PrevYearHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Calendar(References.get(source)));
+            handler.signalReceived(new Calendar(Refcounted.get(source)));
         }
         
     }

@@ -131,17 +131,17 @@ import java.lang.invoke.*;
  */
 public class Application extends org.gtk.gobject.Object implements ActionGroup, ActionMap {
 
-    public Application(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Application(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Application */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        return new Application(gobject.getReference());
+        return new Application(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String applicationId, ApplicationFlags flags) {
-        Reference RESULT = References.get(gtk_h.g_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
+    private static Refcounted constructNew(java.lang.String applicationId, ApplicationFlags flags) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
         return RESULT;
     }
     
@@ -278,7 +278,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * {@link ApplicationFlags#HANDLES_COMMAND_LINE} was given.
      */
     public void addOptionGroup(org.gtk.glib.OptionGroup group) {
-        gtk_h.g_application_add_option_group(handle(), group.getReference().unowned().handle());
+        gtk_h.g_application_add_option_group(handle(), group.refcounted().unowned().handle());
     }
     
     /**
@@ -318,7 +318,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public DBusConnection getDbusConnection() {
         var RESULT = gtk_h.g_application_get_dbus_connection(handle());
-        return new DBusConnection(References.get(RESULT, false));
+        return new DBusConnection(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -819,7 +819,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public static Application getDefault() {
         var RESULT = gtk_h.g_application_get_default();
-        return new Application(References.get(RESULT, false));
+        return new Application(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1121,43 +1121,43 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         public static void signalApplicationActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)));
+            handler.signalReceived(new Application(Refcounted.get(source)));
         }
         
         public static void signalApplicationCommandLine(MemoryAddress source, MemoryAddress commandLine, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.CommandLineHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)), new ApplicationCommandLine(References.get(commandLine, false)));
+            handler.signalReceived(new Application(Refcounted.get(source)), new ApplicationCommandLine(Refcounted.get(commandLine, false)));
         }
         
         public static void signalApplicationHandleLocalOptions(MemoryAddress source, MemoryAddress options, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.HandleLocalOptionsHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)), new org.gtk.glib.VariantDict(References.get(options, false)));
+            handler.signalReceived(new Application(Refcounted.get(source)), new org.gtk.glib.VariantDict(Refcounted.get(options, false)));
         }
         
         public static boolean signalApplicationNameLost(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.NameLostHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Application(References.get(source)));
+            return handler.signalReceived(new Application(Refcounted.get(source)));
         }
         
         public static void signalApplicationOpen(MemoryAddress source, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.OpenHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)), new PointerProxy<File>(files, File.class).iterator(), nFiles, hint.getUtf8String(0));
+            handler.signalReceived(new Application(Refcounted.get(source)), new PointerProxy<File>(files, File.class).iterator(), nFiles, hint.getUtf8String(0));
         }
         
         public static void signalApplicationShutdown(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.ShutdownHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)));
+            handler.signalReceived(new Application(Refcounted.get(source)));
         }
         
         public static void signalApplicationStartup(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.StartupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(References.get(source)));
+            handler.signalReceived(new Application(Refcounted.get(source)));
         }
         
     }

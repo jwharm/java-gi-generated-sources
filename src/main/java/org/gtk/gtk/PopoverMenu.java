@@ -117,17 +117,17 @@ import java.lang.invoke.*;
  */
 public class PopoverMenu extends Popover implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
 
-    public PopoverMenu(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PopoverMenu(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PopoverMenu */
     public static PopoverMenu castFrom(org.gtk.gobject.Object gobject) {
-        return new PopoverMenu(gobject.getReference());
+        return new PopoverMenu(gobject.refcounted());
     }
     
-    private static Reference constructNewFromModel(org.gtk.gio.MenuModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_popover_menu_new_from_model(model.handle()), false);
+    private static Refcounted constructNewFromModel(org.gtk.gio.MenuModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_popover_menu_new_from_model(model.handle()), false);
         return RESULT;
     }
     
@@ -150,8 +150,8 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
         return new PopoverMenu(constructNewFromModel(model));
     }
     
-    private static Reference constructNewFromModelFull(org.gtk.gio.MenuModel model, PopoverMenuFlags flags) {
-        Reference RESULT = References.get(gtk_h.gtk_popover_menu_new_from_model_full(model.handle(), flags.getValue()), true);
+    private static Refcounted constructNewFromModelFull(org.gtk.gio.MenuModel model, PopoverMenuFlags flags) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_popover_menu_new_from_model_full(model.handle(), flags.getValue()), true);
         return RESULT;
     }
     
@@ -188,7 +188,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      */
     public org.gtk.gio.MenuModel getMenuModel() {
         var RESULT = gtk_h.gtk_popover_menu_get_menu_model(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**

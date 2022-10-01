@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class FixedLayoutChild extends LayoutChild {
 
-    public FixedLayoutChild(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FixedLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FixedLayoutChild */
     public static FixedLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        return new FixedLayoutChild(gobject.getReference());
+        return new FixedLayoutChild(gobject.refcounted());
     }
     
     /**
@@ -24,7 +24,7 @@ public class FixedLayoutChild extends LayoutChild {
      */
     public org.gtk.gsk.Transform getTransform() {
         var RESULT = gtk_h.gtk_fixed_layout_child_get_transform(handle());
-        return new org.gtk.gsk.Transform(References.get(RESULT, false));
+        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
     }
     
     /**

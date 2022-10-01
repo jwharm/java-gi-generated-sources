@@ -33,7 +33,7 @@ public final class Gsk {
      */
     public static RenderNode valueDupRenderNode(org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gsk_value_dup_render_node(value.handle());
-        return new RenderNode(References.get(RESULT, true));
+        return new RenderNode(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -41,7 +41,7 @@ public final class Gsk {
      */
     public static RenderNode valueGetRenderNode(org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gsk_value_get_render_node(value.handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -59,13 +59,13 @@ public final class Gsk {
      * This function transfers the ownership of the {@code node} to the {@code GValue}.
      */
     public static void valueTakeRenderNode(org.gtk.gobject.Value value, RenderNode node) {
-        gtk_h.gsk_value_take_render_node(value.handle(), node.getReference().unowned().handle());
+        gtk_h.gsk_value_take_render_node(value.handle(), node.refcounted().unowned().handle());
     }
     
     public static void __cbParseErrorFunc(MemoryAddress start, MemoryAddress end, MemoryAddress error, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ParseErrorFunc) Interop.signalRegistry.get(hash);
-        handler.onParseErrorFunc(new ParseLocation(References.get(start, false)), new ParseLocation(References.get(end, false)), new org.gtk.glib.Error(References.get(error, false)));
+        handler.onParseErrorFunc(new ParseLocation(Refcounted.get(start, false)), new ParseLocation(Refcounted.get(end, false)), new org.gtk.glib.Error(Refcounted.get(error, false)));
     }
     
 }

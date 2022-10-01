@@ -12,17 +12,17 @@ import java.lang.invoke.*;
  */
 public class ShortcutLabel extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public ShortcutLabel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShortcutLabel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ShortcutLabel */
     public static ShortcutLabel castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutLabel(gobject.getReference());
+        return new ShortcutLabel(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String accelerator) {
-        Reference RESULT = References.get(gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).handle()), false);
+    private static Refcounted constructNew(java.lang.String accelerator) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).handle()), false);
         return RESULT;
     }
     

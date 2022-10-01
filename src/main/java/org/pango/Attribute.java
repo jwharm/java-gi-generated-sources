@@ -17,12 +17,12 @@ import java.lang.invoke.*;
  */
 public class Attribute extends io.github.jwharm.javagi.ResourceBase {
 
-    public Attribute(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Attribute(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Attribute() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttribute.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttribute.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -32,7 +32,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrColor asColor() {
         var RESULT = gtk_h.pango_attribute_as_color(handle());
-        return new AttrColor(References.get(RESULT, false));
+        return new AttrColor(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrFloat asFloat() {
         var RESULT = gtk_h.pango_attribute_as_float(handle());
-        return new AttrFloat(References.get(RESULT, false));
+        return new AttrFloat(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -52,7 +52,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrFontDesc asFontDesc() {
         var RESULT = gtk_h.pango_attribute_as_font_desc(handle());
-        return new AttrFontDesc(References.get(RESULT, false));
+        return new AttrFontDesc(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -62,7 +62,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrFontFeatures asFontFeatures() {
         var RESULT = gtk_h.pango_attribute_as_font_features(handle());
-        return new AttrFontFeatures(References.get(RESULT, false));
+        return new AttrFontFeatures(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -72,7 +72,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrInt asInt() {
         var RESULT = gtk_h.pango_attribute_as_int(handle());
-        return new AttrInt(References.get(RESULT, false));
+        return new AttrInt(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -82,7 +82,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrLanguage asLanguage() {
         var RESULT = gtk_h.pango_attribute_as_language(handle());
-        return new AttrLanguage(References.get(RESULT, false));
+        return new AttrLanguage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -92,7 +92,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrShape asShape() {
         var RESULT = gtk_h.pango_attribute_as_shape(handle());
-        return new AttrShape(References.get(RESULT, false));
+        return new AttrShape(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrSize asSize() {
         var RESULT = gtk_h.pango_attribute_as_size(handle());
-        return new AttrSize(References.get(RESULT, false));
+        return new AttrSize(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrString asString() {
         var RESULT = gtk_h.pango_attribute_as_string(handle());
-        return new AttrString(References.get(RESULT, false));
+        return new AttrString(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -120,7 +120,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      */
     public Attribute copy() {
         var RESULT = gtk_h.pango_attribute_copy(handle());
-        return new Attribute(References.get(RESULT, true));
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
     /**

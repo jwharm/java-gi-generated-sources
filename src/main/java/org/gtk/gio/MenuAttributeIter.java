@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class MenuAttributeIter extends org.gtk.gobject.Object {
 
-    public MenuAttributeIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MenuAttributeIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MenuAttributeIter */
     public static MenuAttributeIter castFrom(org.gtk.gobject.Object gobject) {
-        return new MenuAttributeIter(gobject.getReference());
+        return new MenuAttributeIter(gobject.refcounted());
     }
     
     /**
@@ -60,7 +60,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getValue() {
         var RESULT = gtk_h.g_menu_attribute_iter_get_value(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**

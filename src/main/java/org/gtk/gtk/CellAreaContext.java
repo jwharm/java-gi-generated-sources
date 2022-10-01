@@ -21,13 +21,13 @@ import java.lang.invoke.*;
  */
 public class CellAreaContext extends org.gtk.gobject.Object {
 
-    public CellAreaContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellAreaContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellAreaContext */
     public static CellAreaContext castFrom(org.gtk.gobject.Object gobject) {
-        return new CellAreaContext(gobject.getReference());
+        return new CellAreaContext(gobject.refcounted());
     }
     
     /**
@@ -71,7 +71,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      */
     public CellArea getArea() {
         var RESULT = gtk_h.gtk_cell_area_context_get_area(handle());
-        return new CellArea(References.get(RESULT, false));
+        return new CellArea(Refcounted.get(RESULT, false));
     }
     
     /**

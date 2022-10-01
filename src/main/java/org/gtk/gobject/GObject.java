@@ -262,7 +262,7 @@ public final class GObject {
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
-            return new Closure(References.get(RESULT, false));
+            return new Closure(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -288,7 +288,7 @@ public final class GObject {
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
-            return new Closure(References.get(RESULT, false));
+            return new Closure(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -347,7 +347,7 @@ public final class GObject {
      * }</pre>
      */
     public static void enumCompleteTypeInfo(org.gtk.gobject.Type gEnumType, TypeInfo info, EnumValue constValues) {
-        gtk_h.g_enum_complete_type_info(gEnumType.getValue(), info.getReference().unowned().handle(), constValues.handle());
+        gtk_h.g_enum_complete_type_info(gEnumType.getValue(), info.refcounted().unowned().handle(), constValues.handle());
     }
     
     /**
@@ -355,7 +355,7 @@ public final class GObject {
      */
     public static EnumValue enumGetValue(EnumClass enumClass, int value) {
         var RESULT = gtk_h.g_enum_get_value(enumClass.handle(), value);
-        return new EnumValue(References.get(RESULT, false));
+        return new EnumValue(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -363,7 +363,7 @@ public final class GObject {
      */
     public static EnumValue enumGetValueByName(EnumClass enumClass, java.lang.String name) {
         var RESULT = gtk_h.g_enum_get_value_by_name(enumClass.handle(), Interop.allocateNativeString(name).handle());
-        return new EnumValue(References.get(RESULT, false));
+        return new EnumValue(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -371,7 +371,7 @@ public final class GObject {
      */
     public static EnumValue enumGetValueByNick(EnumClass enumClass, java.lang.String nick) {
         var RESULT = gtk_h.g_enum_get_value_by_nick(enumClass.handle(), Interop.allocateNativeString(nick).handle());
-        return new EnumValue(References.get(RESULT, false));
+        return new EnumValue(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -403,7 +403,7 @@ public final class GObject {
      * g_enum_complete_type_info() above.
      */
     public static void flagsCompleteTypeInfo(org.gtk.gobject.Type gFlagsType, TypeInfo info, FlagsValue constValues) {
-        gtk_h.g_flags_complete_type_info(gFlagsType.getValue(), info.getReference().unowned().handle(), constValues.handle());
+        gtk_h.g_flags_complete_type_info(gFlagsType.getValue(), info.refcounted().unowned().handle(), constValues.handle());
     }
     
     /**
@@ -411,7 +411,7 @@ public final class GObject {
      */
     public static FlagsValue flagsGetFirstValue(FlagsClass flagsClass, int value) {
         var RESULT = gtk_h.g_flags_get_first_value(flagsClass.handle(), value);
-        return new FlagsValue(References.get(RESULT, false));
+        return new FlagsValue(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -419,7 +419,7 @@ public final class GObject {
      */
     public static FlagsValue flagsGetValueByName(FlagsClass flagsClass, java.lang.String name) {
         var RESULT = gtk_h.g_flags_get_value_by_name(flagsClass.handle(), Interop.allocateNativeString(name).handle());
-        return new FlagsValue(References.get(RESULT, false));
+        return new FlagsValue(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -427,7 +427,7 @@ public final class GObject {
      */
     public static FlagsValue flagsGetValueByNick(FlagsClass flagsClass, java.lang.String nick) {
         var RESULT = gtk_h.g_flags_get_value_by_nick(flagsClass.handle(), Interop.allocateNativeString(nick).handle());
-        return new FlagsValue(References.get(RESULT, false));
+        return new FlagsValue(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -470,7 +470,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecBoolean(java.lang.String name, java.lang.String nick, java.lang.String blurb, boolean defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_boolean(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), defaultValue ? 1 : 0, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -481,7 +481,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecBoxed(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type boxedType, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_boxed(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), boxedType.getValue(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -489,7 +489,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecChar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_char(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -500,7 +500,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecDouble(java.lang.String name, java.lang.String nick, java.lang.String blurb, double minimum, double maximum, double defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_double(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -511,7 +511,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecEnum(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type enumType, int defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_enum(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), enumType.getValue(), defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -522,7 +522,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecFlags(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type flagsType, int defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_flags(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flagsType.getValue(), defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -532,7 +532,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecFloat(java.lang.String name, java.lang.String nick, java.lang.String blurb, float minimum, float maximum, float defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_float(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -543,7 +543,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecGtype(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type isAType, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_gtype(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), isAType.getValue(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -553,7 +553,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecInt(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minimum, int maximum, int defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_int(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -563,7 +563,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecInt64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_int64(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -573,7 +573,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecLong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_long(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -584,7 +584,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecObject(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type objectType, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_object(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), objectType.getValue(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -594,7 +594,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecOverride(java.lang.String name, ParamSpec overridden) {
         var RESULT = gtk_h.g_param_spec_override(Interop.allocateNativeString(name).handle(), overridden.handle());
-        return new ParamSpec(References.get(RESULT, false));
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -605,7 +605,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecParam(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type paramType, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_param(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), paramType.getValue(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -617,7 +617,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecPointer(java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_pointer(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -627,7 +627,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecString(java.lang.String name, java.lang.String nick, java.lang.String blurb, java.lang.String defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_string(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), Interop.allocateNativeString(defaultValue).handle(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -635,7 +635,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecUchar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_uchar(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -645,7 +645,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecUint(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minimum, int maximum, int defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_uint(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -656,7 +656,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecUint64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_uint64(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -667,7 +667,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecUlong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_ulong(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -679,7 +679,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecUnichar(java.lang.String name, java.lang.String nick, java.lang.String blurb, int defaultValue, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_unichar(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), defaultValue, flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -692,7 +692,7 @@ public final class GObject {
      */
     public static ParamSpec paramSpecValueArray(java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamSpec elementSpec, ParamFlags flags) {
         var RESULT = gtk_h.g_param_spec_value_array(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), elementSpec.handle(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, false));
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -704,8 +704,8 @@ public final class GObject {
      * See g_param_spec_internal() for details on property names.
      */
     public static ParamSpec paramSpecVariant(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.glib.VariantType type, org.gtk.glib.Variant defaultValue, ParamFlags flags) {
-        var RESULT = gtk_h.g_param_spec_variant(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), type.handle(), defaultValue.getReference().unowned().handle(), flags.getValue());
-        return new ParamSpec(References.get(RESULT, true));
+        var RESULT = gtk_h.g_param_spec_variant(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), type.handle(), defaultValue.refcounted().unowned().handle(), flags.getValue());
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -906,7 +906,7 @@ public final class GObject {
      * connected, in contrast to g_signal_emit() and g_signal_emit_valist().
      */
     public static void signalEmitv(Value[] instanceAndParams, int signalId, org.gtk.glib.Quark detail, Value returnValue) {
-        gtk_h.g_signal_emitv(Interop.allocateNativeArray(instanceAndParams).handle(), signalId, detail.getValue(), returnValue.getReference().unowned().handle());
+        gtk_h.g_signal_emitv(Interop.allocateNativeArray(instanceAndParams).handle(), signalId, detail.getValue(), returnValue.refcounted().unowned().handle());
     }
     
     /**
@@ -914,7 +914,7 @@ public final class GObject {
      */
     public static SignalInvocationHint signalGetInvocationHint(Object instance) {
         var RESULT = gtk_h.g_signal_get_invocation_hint(instance.handle());
-        return new SignalInvocationHint(References.get(RESULT, false));
+        return new SignalInvocationHint(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1182,7 +1182,7 @@ public final class GObject {
      */
     public static Closure signalTypeCclosureNew(org.gtk.gobject.Type itype, int structOffset) {
         var RESULT = gtk_h.g_signal_type_cclosure_new(itype.getValue(), structOffset);
-        return new Closure(References.get(RESULT, false));
+        return new Closure(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1312,7 +1312,7 @@ public final class GObject {
     
     public static TypeClass typeCheckClassCast(TypeClass gClass, org.gtk.gobject.Type isAType) {
         var RESULT = gtk_h.g_type_check_class_cast(gClass.handle(), isAType.getValue());
-        return new TypeClass(References.get(RESULT, false));
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
     public static boolean typeCheckClassIsA(TypeClass gClass, org.gtk.gobject.Type isAType) {
@@ -1331,7 +1331,7 @@ public final class GObject {
     
     public static TypeInstance typeCheckInstanceCast(TypeInstance instance, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_check_instance_cast(instance.handle(), ifaceType.getValue());
-        return new TypeInstance(References.get(RESULT, false));
+        return new TypeInstance(Refcounted.get(RESULT, false));
     }
     
     public static boolean typeCheckInstanceIsA(TypeInstance instance, org.gtk.gobject.Type ifaceType) {
@@ -1381,7 +1381,7 @@ public final class GObject {
      */
     public static TypeClass typeClassPeek(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_peek(type.getValue());
-        return new TypeClass(References.get(RESULT, false));
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1390,7 +1390,7 @@ public final class GObject {
      */
     public static TypeClass typeClassPeekStatic(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_peek_static(type.getValue());
-        return new TypeClass(References.get(RESULT, false));
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1400,7 +1400,7 @@ public final class GObject {
      */
     public static TypeClass typeClassRef(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_ref(type.getValue());
-        return new TypeClass(References.get(RESULT, false));
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1423,7 +1423,7 @@ public final class GObject {
      */
     public static TypeInstance typeCreateInstance(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_create_instance(type.getValue());
-        return new TypeInstance(References.get(RESULT, false));
+        return new TypeInstance(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1432,7 +1432,7 @@ public final class GObject {
      */
     public static TypeInterface typeDefaultInterfacePeek(org.gtk.gobject.Type gType) {
         var RESULT = gtk_h.g_type_default_interface_peek(gType.getValue());
-        return new TypeInterface(References.get(RESULT, false));
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1449,7 +1449,7 @@ public final class GObject {
      */
     public static TypeInterface typeDefaultInterfaceRef(org.gtk.gobject.Type gType) {
         var RESULT = gtk_h.g_type_default_interface_ref(gType.getValue());
-        return new TypeInterface(References.get(RESULT, false));
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1548,7 +1548,7 @@ public final class GObject {
      */
     public static TypePlugin typeGetPlugin(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_get_plugin(type.getValue());
-        return new TypePlugin.TypePluginImpl(References.get(RESULT, false));
+        return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1595,7 +1595,7 @@ public final class GObject {
      */
     public static TypePlugin typeInterfaceGetPlugin(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType) {
         var RESULT = gtk_h.g_type_interface_get_plugin(instanceType.getValue(), interfaceType.getValue());
-        return new TypePlugin.TypePluginImpl(References.get(RESULT, false));
+        return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1617,7 +1617,7 @@ public final class GObject {
      */
     public static TypeInterface typeInterfacePeek(TypeClass instanceClass, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_interface_peek(instanceClass.handle(), ifaceType.getValue());
-        return new TypeInterface(References.get(RESULT, false));
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1808,7 +1808,7 @@ public final class GObject {
      */
     public static TypeValueTable typeValueTablePeek(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_value_table_peek(type.getValue());
-        return new TypeValueTable(References.get(RESULT, false));
+        return new TypeValueTable(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -1834,79 +1834,79 @@ public final class GObject {
     public static void __cbToggleNotify(MemoryAddress data, MemoryAddress object, int isLastRef) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ToggleNotify) Interop.signalRegistry.get(hash);
-        handler.onToggleNotify(new Object(References.get(object, false)), isLastRef != 0);
+        handler.onToggleNotify(new Object(Refcounted.get(object, false)), isLastRef != 0);
     }
     
     public static void __cbClassInitFunc(MemoryAddress gClass, MemoryAddress classData) {
         int hash = classData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClassInitFunc) Interop.signalRegistry.get(hash);
-        handler.onClassInitFunc(new TypeClass(References.get(gClass, false)));
+        handler.onClassInitFunc(new TypeClass(Refcounted.get(gClass, false)));
     }
     
     public static void __cbInterfaceInitFunc(MemoryAddress gIface, MemoryAddress ifaceData) {
         int hash = ifaceData.get(ValueLayout.JAVA_INT, 0);
         var handler = (InterfaceInitFunc) Interop.signalRegistry.get(hash);
-        handler.onInterfaceInitFunc(new TypeInterface(References.get(gIface, false)));
+        handler.onInterfaceInitFunc(new TypeInterface(Refcounted.get(gIface, false)));
     }
     
     public static boolean __cbSignalAccumulator(MemoryAddress ihint, MemoryAddress returnAccu, MemoryAddress handlerReturn, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SignalAccumulator) Interop.signalRegistry.get(hash);
-        return handler.onSignalAccumulator(new SignalInvocationHint(References.get(ihint, false)), new Value(References.get(returnAccu, false)), new Value(References.get(handlerReturn, false)));
+        return handler.onSignalAccumulator(new SignalInvocationHint(Refcounted.get(ihint, false)), new Value(Refcounted.get(returnAccu, false)), new Value(Refcounted.get(handlerReturn, false)));
     }
     
     public static void __cbClosureMarshal(MemoryAddress closure, MemoryAddress returnValue, int nParamValues, MemoryAddress paramValues, MemoryAddress invocationHint, MemoryAddress marshalData) {
         int hash = marshalData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClosureMarshal) Interop.signalRegistry.get(hash);
-        handler.onClosureMarshal(new Closure(References.get(closure, false)), new Value(References.get(returnValue, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class).iterator(), invocationHint);
+        handler.onClosureMarshal(new Closure(Refcounted.get(closure, false)), new Value(Refcounted.get(returnValue, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class).iterator(), invocationHint);
     }
     
     public static void __cbClosureNotify(MemoryAddress data, MemoryAddress closure) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClosureNotify) Interop.signalRegistry.get(hash);
-        handler.onClosureNotify(new Closure(References.get(closure, false)));
+        handler.onClosureNotify(new Closure(Refcounted.get(closure, false)));
     }
     
     public static boolean __cbTypeClassCacheFunc(MemoryAddress cacheData, MemoryAddress gClass) {
         int hash = cacheData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TypeClassCacheFunc) Interop.signalRegistry.get(hash);
-        return handler.onTypeClassCacheFunc(new TypeClass(References.get(gClass, false)));
+        return handler.onTypeClassCacheFunc(new TypeClass(Refcounted.get(gClass, false)));
     }
     
     public static boolean __cbBindingTransformFunc(MemoryAddress binding, MemoryAddress fromValue, MemoryAddress toValue, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (BindingTransformFunc) Interop.signalRegistry.get(hash);
-        return handler.onBindingTransformFunc(new Binding(References.get(binding, false)), new Value(References.get(fromValue, false)), new Value(References.get(toValue, false)));
+        return handler.onBindingTransformFunc(new Binding(Refcounted.get(binding, false)), new Value(Refcounted.get(fromValue, false)), new Value(Refcounted.get(toValue, false)));
     }
     
     public static void __cbClassFinalizeFunc(MemoryAddress gClass, MemoryAddress classData) {
         int hash = classData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClassFinalizeFunc) Interop.signalRegistry.get(hash);
-        handler.onClassFinalizeFunc(new TypeClass(References.get(gClass, false)));
+        handler.onClassFinalizeFunc(new TypeClass(Refcounted.get(gClass, false)));
     }
     
     public static boolean __cbSignalEmissionHook(MemoryAddress ihint, int nParamValues, MemoryAddress paramValues, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SignalEmissionHook) Interop.signalRegistry.get(hash);
-        return handler.onSignalEmissionHook(new SignalInvocationHint(References.get(ihint, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class).iterator());
+        return handler.onSignalEmissionHook(new SignalInvocationHint(Refcounted.get(ihint, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class).iterator());
     }
     
     public static void __cbInterfaceFinalizeFunc(MemoryAddress gIface, MemoryAddress ifaceData) {
         int hash = ifaceData.get(ValueLayout.JAVA_INT, 0);
         var handler = (InterfaceFinalizeFunc) Interop.signalRegistry.get(hash);
-        handler.onInterfaceFinalizeFunc(new TypeInterface(References.get(gIface, false)));
+        handler.onInterfaceFinalizeFunc(new TypeInterface(Refcounted.get(gIface, false)));
     }
     
     public static void __cbWeakNotify(MemoryAddress data, MemoryAddress whereTheObjectWas) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (WeakNotify) Interop.signalRegistry.get(hash);
-        handler.onWeakNotify(new Object(References.get(whereTheObjectWas, false)));
+        handler.onWeakNotify(new Object(Refcounted.get(whereTheObjectWas, false)));
     }
     
     public static void __cbTypeInterfaceCheckFunc(MemoryAddress checkData, MemoryAddress gIface) {
         int hash = checkData.get(ValueLayout.JAVA_INT, 0);
         var handler = (TypeInterfaceCheckFunc) Interop.signalRegistry.get(hash);
-        handler.onTypeInterfaceCheckFunc(new TypeInterface(References.get(gIface, false)));
+        handler.onTypeInterfaceCheckFunc(new TypeInterface(Refcounted.get(gIface, false)));
     }
     
 }

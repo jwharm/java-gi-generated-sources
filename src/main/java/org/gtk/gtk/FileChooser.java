@@ -124,7 +124,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gio.File getCurrentFolder() {
         var RESULT = gtk_h.gtk_file_chooser_get_current_folder(handle());
-        return new org.gtk.gio.File.FileImpl(References.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -150,7 +150,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_file_chooser_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(References.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -159,7 +159,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gio.ListModel getFiles() {
         var RESULT = gtk_h.gtk_file_chooser_get_files(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -167,7 +167,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default FileFilter getFilter() {
         var RESULT = gtk_h.gtk_file_chooser_get_filter(handle());
-        return new FileFilter(References.get(RESULT, false));
+        return new FileFilter(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -181,7 +181,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gio.ListModel getFilters() {
         var RESULT = gtk_h.gtk_file_chooser_get_filters(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -201,7 +201,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gio.ListModel getShortcutFolders() {
         var RESULT = gtk_h.gtk_file_chooser_get_shortcut_folders(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -374,8 +374,8 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     }
     
     class FileChooserImpl extends org.gtk.gobject.Object implements FileChooser {
-        public FileChooserImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public FileChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

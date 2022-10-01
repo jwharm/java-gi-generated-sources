@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
 
-    public StringChunk(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StringChunk(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -92,7 +92,7 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
      */
     public static StringChunk new_(long size) {
         var RESULT = gtk_h.g_string_chunk_new(size);
-        return new StringChunk(References.get(RESULT, false));
+        return new StringChunk(Refcounted.get(RESULT, false));
     }
     
 }

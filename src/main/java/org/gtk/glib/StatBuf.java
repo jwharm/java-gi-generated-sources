@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class StatBuf extends io.github.jwharm.javagi.ResourceBase {
 
-    public StatBuf(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public StatBuf(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public StatBuf() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GStatBuf.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GStatBuf.allocate(Interop.getAllocator()).address()));
     }
     
 }

@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class CairoRenderer extends Renderer {
 
-    public CairoRenderer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CairoRenderer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CairoRenderer */
     public static CairoRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new CairoRenderer(gobject.getReference());
+        return new CairoRenderer(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gsk_cairo_renderer_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_cairo_renderer_new(), true);
         return RESULT;
     }
     

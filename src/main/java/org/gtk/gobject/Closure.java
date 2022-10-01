@@ -58,12 +58,12 @@ import java.lang.invoke.*;
  */
 public class Closure extends io.github.jwharm.javagi.ResourceBase {
 
-    public Closure(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Closure(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewObject(int sizeofClosure, Object object) {
-        Reference RESULT = References.get(gtk_h.g_closure_new_object(sizeofClosure, object.handle()), true);
+    private static Refcounted constructNewObject(int sizeofClosure, Object object) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_closure_new_object(sizeofClosure, object.handle()), true);
         return RESULT;
     }
     
@@ -77,8 +77,8 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         return new Closure(constructNewObject(sizeofClosure, object));
     }
     
-    private static Reference constructNewSimple(int sizeofClosure, java.lang.foreign.MemoryAddress data) {
-        Reference RESULT = References.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false);
+    private static Refcounted constructNewSimple(int sizeofClosure, java.lang.foreign.MemoryAddress data) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false);
         return RESULT;
     }
     
@@ -231,7 +231,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public Closure ref() {
         var RESULT = gtk_h.g_closure_ref(handle());
-        return new Closure(References.get(RESULT, false));
+        return new Closure(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -85,17 +85,17 @@ import java.lang.invoke.*;
  */
 public class DragSource extends GestureSingle {
 
-    public DragSource(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DragSource(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DragSource */
     public static DragSource castFrom(org.gtk.gobject.Object gobject) {
-        return new DragSource(gobject.getReference());
+        return new DragSource(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_drag_source_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_drag_source_new(), true);
         return RESULT;
     }
     
@@ -126,7 +126,7 @@ public class DragSource extends GestureSingle {
      */
     public org.gtk.gdk.ContentProvider getContent() {
         var RESULT = gtk_h.gtk_drag_source_get_content(handle());
-        return new org.gtk.gdk.ContentProvider(References.get(RESULT, false));
+        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -134,7 +134,7 @@ public class DragSource extends GestureSingle {
      */
     public org.gtk.gdk.Drag getDrag() {
         var RESULT = gtk_h.gtk_drag_source_get_drag(handle());
-        return new org.gtk.gdk.Drag(References.get(RESULT, false));
+        return new org.gtk.gdk.Drag(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -309,25 +309,25 @@ public class DragSource extends GestureSingle {
         public static void signalDragSourceDragBegin(MemoryAddress source, MemoryAddress drag, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DragSource.DragBeginHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)));
+            handler.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)));
         }
         
         public static boolean signalDragSourceDragCancel(MemoryAddress source, MemoryAddress drag, int reason, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DragSource.DragCancelHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)), new org.gtk.gdk.DragCancelReason(reason));
+            return handler.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)), new org.gtk.gdk.DragCancelReason(reason));
         }
         
         public static void signalDragSourceDragEnd(MemoryAddress source, MemoryAddress drag, int deleteData, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DragSource.DragEndHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)), deleteData != 0);
+            handler.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)), deleteData != 0);
         }
         
         public static void signalDragSourcePrepare(MemoryAddress source, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DragSource.PrepareHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DragSource(References.get(source)), x, y);
+            handler.signalReceived(new DragSource(Refcounted.get(source)), x, y);
         }
         
     }

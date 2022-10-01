@@ -25,17 +25,17 @@ import java.lang.invoke.*;
  */
 public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
 
-    public Carousel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Carousel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Carousel */
     public static Carousel castFrom(org.gtk.gobject.Object gobject) {
-        return new Carousel(gobject.getReference());
+        return new Carousel(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_carousel_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_carousel_new(), false);
         return RESULT;
     }
     
@@ -98,7 +98,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      */
     public org.gtk.gtk.Widget getNthPage(int n) {
         var RESULT = gtk_h.adw_carousel_get_nth_page(handle(), n);
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -124,7 +124,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      */
     public SpringParams getScrollParams() {
         var RESULT = gtk_h.adw_carousel_get_scroll_params(handle());
-        return new SpringParams(References.get(RESULT, true));
+        return new SpringParams(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -261,7 +261,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         public static void signalCarouselPageChanged(MemoryAddress source, int index, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Carousel.PageChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Carousel(References.get(source)), index);
+            handler.signalReceived(new Carousel(Refcounted.get(source)), index);
         }
         
     }

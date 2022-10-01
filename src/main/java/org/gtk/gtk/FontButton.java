@@ -26,17 +26,17 @@ import java.lang.invoke.*;
  */
 public class FontButton extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
 
-    public FontButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FontButton */
     public static FontButton castFrom(org.gtk.gobject.Object gobject) {
-        return new FontButton(gobject.getReference());
+        return new FontButton(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_font_button_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_font_button_new(), false);
         return RESULT;
     }
     
@@ -47,8 +47,8 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
         super(constructNew());
     }
     
-    private static Reference constructNewWithFont(java.lang.String fontname) {
-        Reference RESULT = References.get(gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).handle()), false);
+    private static Refcounted constructNewWithFont(java.lang.String fontname) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).handle()), false);
         return RESULT;
     }
     
@@ -188,13 +188,13 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
         public static void signalFontButtonActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FontButton.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FontButton(References.get(source)));
+            handler.signalReceived(new FontButton(Refcounted.get(source)));
         }
         
         public static void signalFontButtonFontSet(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (FontButton.FontSetHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FontButton(References.get(source)));
+            handler.signalReceived(new FontButton(Refcounted.get(source)));
         }
         
     }

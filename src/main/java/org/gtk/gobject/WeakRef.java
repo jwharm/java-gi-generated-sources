@@ -33,12 +33,12 @@ import java.lang.invoke.*;
  */
 public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
 
-    public WeakRef(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WeakRef(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public WeakRef() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GWeakRef.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GWeakRef.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -65,7 +65,7 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      */
     public Object get() {
         var RESULT = gtk_h.g_weak_ref_get(handle());
-        return new Object(References.get(RESULT, true));
+        return new Object(Refcounted.get(RESULT, true));
     }
     
     /**

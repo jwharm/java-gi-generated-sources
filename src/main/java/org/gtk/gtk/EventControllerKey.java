@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class EventControllerKey extends EventController {
 
-    public EventControllerKey(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public EventControllerKey(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to EventControllerKey */
     public static EventControllerKey castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerKey(gobject.getReference());
+        return new EventControllerKey(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_event_controller_key_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_event_controller_key_new(), true);
         return RESULT;
     }
     
@@ -60,7 +60,7 @@ public class EventControllerKey extends EventController {
      */
     public IMContext getImContext() {
         var RESULT = gtk_h.gtk_event_controller_key_get_im_context(handle());
-        return new IMContext(References.get(RESULT, false));
+        return new IMContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -183,25 +183,25 @@ public class EventControllerKey extends EventController {
         public static void signalEventControllerKeyImUpdate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerKey.ImUpdateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerKey(References.get(source)));
+            handler.signalReceived(new EventControllerKey(Refcounted.get(source)));
         }
         
         public static boolean signalEventControllerKeyKeyPressed(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerKey.KeyPressedHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new EventControllerKey(References.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
+            return handler.signalReceived(new EventControllerKey(Refcounted.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
         }
         
         public static void signalEventControllerKeyKeyReleased(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerKey.KeyReleasedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerKey(References.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
+            handler.signalReceived(new EventControllerKey(Refcounted.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
         }
         
         public static boolean signalEventControllerKeyModifiers(MemoryAddress source, int keyval, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (EventControllerKey.ModifiersHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new EventControllerKey(References.get(source)), new org.gtk.gdk.ModifierType(keyval));
+            return handler.signalReceived(new EventControllerKey(Refcounted.get(source)), new org.gtk.gdk.ModifierType(keyval));
         }
         
     }

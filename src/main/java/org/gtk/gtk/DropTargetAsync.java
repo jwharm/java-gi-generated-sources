@@ -43,17 +43,17 @@ import java.lang.invoke.*;
  */
 public class DropTargetAsync extends EventController {
 
-    public DropTargetAsync(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DropTargetAsync(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DropTargetAsync */
     public static DropTargetAsync castFrom(org.gtk.gobject.Object gobject) {
-        return new DropTargetAsync(gobject.getReference());
+        return new DropTargetAsync(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
-        Reference RESULT = References.get(gtk_h.gtk_drop_target_async_new(formats.getReference().unowned().handle(), actions.getValue()), true);
+    private static Refcounted constructNew(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_drop_target_async_new(formats.refcounted().unowned().handle(), actions.getValue()), true);
         return RESULT;
     }
     
@@ -79,7 +79,7 @@ public class DropTargetAsync extends EventController {
      */
     public org.gtk.gdk.ContentFormats getFormats() {
         var RESULT = gtk_h.gtk_drop_target_async_get_formats(handle());
-        return new org.gtk.gdk.ContentFormats(References.get(RESULT, true));
+        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -274,31 +274,31 @@ public class DropTargetAsync extends EventController {
         public static boolean signalDropTargetAsyncAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTargetAsync.AcceptHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
+            return handler.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)));
         }
         
         public static void signalDropTargetAsyncDragEnter(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTargetAsync.DragEnterHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
+            handler.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)), x, y);
         }
         
         public static void signalDropTargetAsyncDragLeave(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTargetAsync.DragLeaveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
+            handler.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)));
         }
         
         public static void signalDropTargetAsyncDragMotion(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTargetAsync.DragMotionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
+            handler.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)), x, y);
         }
         
         public static boolean signalDropTargetAsyncDrop(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DropTargetAsync.DropHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
+            return handler.signalReceived(new DropTargetAsync(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)), x, y);
         }
         
     }

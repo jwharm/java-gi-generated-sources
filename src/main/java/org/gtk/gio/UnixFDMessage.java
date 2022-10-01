@@ -22,17 +22,17 @@ import java.lang.invoke.*;
  */
 public class UnixFDMessage extends SocketControlMessage {
 
-    public UnixFDMessage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixFDMessage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to UnixFDMessage */
     public static UnixFDMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixFDMessage(gobject.getReference());
+        return new UnixFDMessage(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_unix_fd_message_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_fd_message_new(), true);
         return RESULT;
     }
     
@@ -44,8 +44,8 @@ public class UnixFDMessage extends SocketControlMessage {
         super(constructNew());
     }
     
-    private static Reference constructNewWithFdList(UnixFDList fdList) {
-        Reference RESULT = References.get(gtk_h.g_unix_fd_message_new_with_fd_list(fdList.handle()), true);
+    private static Refcounted constructNewWithFdList(UnixFDList fdList) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_fd_message_new_with_fd_list(fdList.handle()), true);
         return RESULT;
     }
     
@@ -82,7 +82,7 @@ public class UnixFDMessage extends SocketControlMessage {
      */
     public UnixFDList getFdList() {
         var RESULT = gtk_h.g_unix_fd_message_get_fd_list(handle());
-        return new UnixFDList(References.get(RESULT, false));
+        return new UnixFDList(Refcounted.get(RESULT, false));
     }
     
     /**

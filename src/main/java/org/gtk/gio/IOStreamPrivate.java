@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class IOStreamPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOStreamPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOStreamPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

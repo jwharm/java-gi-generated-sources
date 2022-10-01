@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class RadialGradientNode extends RenderNode {
 
-    public RadialGradientNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RadialGradientNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to RadialGradientNode */
     public static RadialGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RadialGradientNode(gobject.getReference());
+        return new RadialGradientNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
-        Reference RESULT = References.get(gtk_h.gsk_radial_gradient_node_new(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+    private static Refcounted constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_radial_gradient_node_new(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class RadialGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getCenter() {
         var RESULT = gtk_h.gsk_radial_gradient_node_get_center(handle());
-        return new org.gtk.graphene.Point(References.get(RESULT, false));
+        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
     }
     
     /**

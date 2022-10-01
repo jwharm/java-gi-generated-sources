@@ -59,17 +59,17 @@ import java.lang.invoke.*;
  */
 public class WindowControls extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public WindowControls(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public WindowControls(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to WindowControls */
     public static WindowControls castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowControls(gobject.getReference());
+        return new WindowControls(gobject.refcounted());
     }
     
-    private static Reference constructNew(PackType side) {
-        Reference RESULT = References.get(gtk_h.gtk_window_controls_new(side.getValue()), false);
+    private static Refcounted constructNew(PackType side) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_window_controls_new(side.getValue()), false);
         return RESULT;
     }
     

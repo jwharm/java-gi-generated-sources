@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  */
 public class MarkupParser extends io.github.jwharm.javagi.ResourceBase {
 
-    public MarkupParser(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MarkupParser(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public MarkupParser() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GMarkupParser.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GMarkupParser.allocate(Interop.getAllocator()).address()));
     }
     
 }

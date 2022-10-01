@@ -4604,7 +4604,7 @@ public final class Gdk {
      */
     public static org.cairographics.Region cairoRegionCreateFromSurface(org.cairographics.Surface surface) {
         var RESULT = gtk_h.gdk_cairo_region_create_from_surface(surface.handle());
-        return new org.cairographics.Region(References.get(RESULT, true));
+        return new org.cairographics.Region(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -4671,7 +4671,7 @@ public final class Gdk {
      */
     public static ContentFormats contentFormatsParse(java.lang.String string) {
         var RESULT = gtk_h.gdk_content_formats_parse(Interop.allocateNativeString(string).handle());
-        return new ContentFormats(References.get(RESULT, true));
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -4898,7 +4898,7 @@ public final class Gdk {
      */
     public static Paintable paintableNewEmpty(int intrinsicWidth, int intrinsicHeight) {
         var RESULT = gtk_h.gdk_paintable_new_empty(intrinsicWidth, intrinsicHeight);
-        return new Paintable.PaintableImpl(References.get(RESULT, true));
+        return new Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -4915,7 +4915,7 @@ public final class Gdk {
      */
     public static org.cairographics.Region pangoLayoutGetClipRegion(org.pango.Layout layout, int xOrigin, int yOrigin, PointerInteger indexRanges, int nRanges) {
         var RESULT = gtk_h.gdk_pango_layout_get_clip_region(layout.handle(), xOrigin, yOrigin, indexRanges.handle(), nRanges);
-        return new org.cairographics.Region(References.get(RESULT, true));
+        return new org.cairographics.Region(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -4937,7 +4937,7 @@ public final class Gdk {
      */
     public static org.cairographics.Region pangoLayoutLineGetClipRegion(org.pango.LayoutLine line, int xOrigin, int yOrigin, int[] indexRanges, int nRanges) {
         var RESULT = gtk_h.gdk_pango_layout_line_get_clip_region(line.handle(), xOrigin, yOrigin, Interop.allocateNativeArray(indexRanges).handle(), nRanges);
-        return new org.cairographics.Region(References.get(RESULT, true));
+        return new org.cairographics.Region(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -4951,7 +4951,7 @@ public final class Gdk {
      */
     public static org.gtk.gdkpixbuf.Pixbuf pixbufGetFromSurface(org.cairographics.Surface surface, int srcX, int srcY, int width, int height) {
         var RESULT = gtk_h.gdk_pixbuf_get_from_surface(surface.handle(), srcX, srcY, width, height);
-        return new org.gtk.gdkpixbuf.Pixbuf(References.get(RESULT, true));
+        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -4963,7 +4963,7 @@ public final class Gdk {
      */
     public static org.gtk.gdkpixbuf.Pixbuf pixbufGetFromTexture(Texture texture) {
         var RESULT = gtk_h.gdk_pixbuf_get_from_texture(texture.handle());
-        return new org.gtk.gdkpixbuf.Pixbuf(References.get(RESULT, true));
+        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, true));
     }
     
     /**

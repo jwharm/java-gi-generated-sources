@@ -15,12 +15,12 @@ import java.lang.invoke.*;
  */
 public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphItem(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GlyphItem(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public GlyphItem() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphItem.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphItem.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -44,7 +44,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.SList applyAttrs(java.lang.String text, AttrList list) {
         var RESULT = gtk_h.pango_glyph_item_apply_attrs(handle(), Interop.allocateNativeString(text).handle(), list.handle());
-        return new org.gtk.glib.SList(References.get(RESULT, true));
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -52,7 +52,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      */
     public GlyphItem copy() {
         var RESULT = gtk_h.pango_glyph_item_copy(handle());
-        return new GlyphItem(References.get(RESULT, true));
+        return new GlyphItem(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -98,7 +98,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      */
     public GlyphItem split(java.lang.String text, int splitIndex) {
         var RESULT = gtk_h.pango_glyph_item_split(handle(), Interop.allocateNativeString(text).handle(), splitIndex);
-        return new GlyphItem(References.get(RESULT, true));
+        return new GlyphItem(Refcounted.get(RESULT, true));
     }
     
 }

@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class CustomLayout extends LayoutManager {
 
-    public CustomLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CustomLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CustomLayout */
     public static CustomLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new CustomLayout(gobject.getReference());
+        return new CustomLayout(gobject.refcounted());
     }
     
 }

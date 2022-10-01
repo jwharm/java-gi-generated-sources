@@ -11,8 +11,8 @@ import java.lang.foreign.MemoryAddress;
  */
 public class FloatIEEE754 extends io.github.jwharm.javagi.ResourceBase {
     
-    public FloatIEEE754(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FloatIEEE754(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

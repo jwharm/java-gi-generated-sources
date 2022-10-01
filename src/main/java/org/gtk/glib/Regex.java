@@ -74,13 +74,13 @@ import java.lang.invoke.*;
  */
 public class Regex extends io.github.jwharm.javagi.ResourceBase {
 
-    public Regex(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Regex(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(java.lang.String pattern, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) throws GErrorException {
+    private static Refcounted constructNew(java.lang.String pattern, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_regex_new(Interop.allocateNativeString(pattern).handle(), compileOptions.getValue(), matchOptions.getValue(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_regex_new(Interop.allocateNativeString(pattern).handle(), compileOptions.getValue(), matchOptions.getValue(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -352,7 +352,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public Regex ref() {
         var RESULT = gtk_h.g_regex_ref(handle());
-        return new Regex(References.get(RESULT, true));
+        return new Regex(Refcounted.get(RESULT, true));
     }
     
     /**

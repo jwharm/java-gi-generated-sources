@@ -139,14 +139,14 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         public static void signalTreeSortableSortColumnChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TreeSortable.SortColumnChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TreeSortable.TreeSortableImpl(References.get(source)));
+            handler.signalReceived(new TreeSortable.TreeSortableImpl(Refcounted.get(source)));
         }
         
     }
     
     class TreeSortableImpl extends org.gtk.gobject.Object implements TreeSortable {
-        public TreeSortableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public TreeSortableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

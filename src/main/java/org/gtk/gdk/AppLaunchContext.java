@@ -28,13 +28,13 @@ import java.lang.invoke.*;
  */
 public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
 
-    public AppLaunchContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AppLaunchContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to AppLaunchContext */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
-        return new AppLaunchContext(gobject.getReference());
+        return new AppLaunchContext(gobject.refcounted());
     }
     
     /**
@@ -42,7 +42,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_app_launch_context_get_display(handle());
-        return new Display(References.get(RESULT, false));
+        return new Display(Refcounted.get(RESULT, false));
     }
     
     /**

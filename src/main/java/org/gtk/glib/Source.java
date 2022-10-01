@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class Source extends io.github.jwharm.javagi.ResourceBase {
 
-    public Source(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Source(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(SourceFuncs sourceFuncs, int structSize) {
-        Reference RESULT = References.get(gtk_h.g_source_new(sourceFuncs.handle(), structSize), true);
+    private static Refcounted constructNew(SourceFuncs sourceFuncs, int structSize) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_source_new(sourceFuncs.handle(), structSize), true);
         return RESULT;
     }
     
@@ -148,7 +148,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public MainContext getContext() {
         var RESULT = gtk_h.g_source_get_context(handle());
-        return new MainContext(References.get(RESULT, false));
+        return new MainContext(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -334,7 +334,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public Source ref() {
         var RESULT = gtk_h.g_source_ref(handle());
-        return new Source(References.get(RESULT, true));
+        return new Source(Refcounted.get(RESULT, true));
     }
     
     /**

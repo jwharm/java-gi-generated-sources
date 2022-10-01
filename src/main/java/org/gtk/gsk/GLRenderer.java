@@ -7,17 +7,17 @@ import java.lang.invoke.*;
 
 public class GLRenderer extends Renderer {
 
-    public GLRenderer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GLRenderer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GLRenderer */
     public static GLRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new GLRenderer(gobject.getReference());
+        return new GLRenderer(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gsk_gl_renderer_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_gl_renderer_new(), true);
         return RESULT;
     }
     

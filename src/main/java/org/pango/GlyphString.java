@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  */
 public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphString(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GlyphString(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.pango_glyph_string_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_glyph_string_new(), true);
         return RESULT;
     }
     
@@ -35,7 +35,7 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      */
     public GlyphString copy() {
         var RESULT = gtk_h.pango_glyph_string_copy(handle());
-        return new GlyphString(References.get(RESULT, true));
+        return new GlyphString(Refcounted.get(RESULT, true));
     }
     
     /**

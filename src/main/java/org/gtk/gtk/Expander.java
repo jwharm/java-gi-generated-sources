@@ -100,17 +100,17 @@ import java.lang.invoke.*;
  */
 public class Expander extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Expander(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Expander(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Expander */
     public static Expander castFrom(org.gtk.gobject.Object gobject) {
-        return new Expander(gobject.getReference());
+        return new Expander(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_expander_new(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNew(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_expander_new(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -121,8 +121,8 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         super(constructNew(label));
     }
     
-    private static Reference constructNewWithMnemonic(java.lang.String label) {
-        Reference RESULT = References.get(gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
+    private static Refcounted constructNewWithMnemonic(java.lang.String label) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
         return RESULT;
     }
     
@@ -145,7 +145,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_expander_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -177,7 +177,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getLabelWidget() {
         var RESULT = gtk_h.gtk_expander_get_label_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -294,7 +294,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         public static void signalExpanderActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Expander.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Expander(References.get(source)));
+            handler.signalReceived(new Expander(Refcounted.get(source)));
         }
         
     }

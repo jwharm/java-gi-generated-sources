@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TestCase extends io.github.jwharm.javagi.ResourceBase {
 
-    public TestCase(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TestCase(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**

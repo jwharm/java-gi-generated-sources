@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class Parameter extends io.github.jwharm.javagi.ResourceBase {
 
-    public Parameter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Parameter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Parameter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GParameter.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GParameter.allocate(Interop.getAllocator()).address()));
     }
     
 }

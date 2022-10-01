@@ -169,13 +169,13 @@ import java.lang.invoke.*;
  */
 public class ApplicationCommandLine extends org.gtk.gobject.Object {
 
-    public ApplicationCommandLine(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ApplicationCommandLine(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ApplicationCommandLine */
     public static ApplicationCommandLine castFrom(org.gtk.gobject.Object gobject) {
-        return new ApplicationCommandLine(gobject.getReference());
+        return new ApplicationCommandLine(gobject.refcounted());
     }
     
     /**
@@ -188,7 +188,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public File createFileForArg(java.lang.String arg) {
         var RESULT = gtk_h.g_application_command_line_create_file_for_arg(handle(), Interop.allocateNativeString(arg).handle());
-        return new File.FileImpl(References.get(RESULT, true));
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -276,7 +276,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.VariantDict getOptionsDict() {
         var RESULT = gtk_h.g_application_command_line_get_options_dict(handle());
-        return new org.gtk.glib.VariantDict(References.get(RESULT, false));
+        return new org.gtk.glib.VariantDict(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -291,7 +291,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getPlatformData() {
         var RESULT = gtk_h.g_application_command_line_get_platform_data(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -308,7 +308,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public InputStream getStdin() {
         var RESULT = gtk_h.g_application_command_line_get_stdin(handle());
-        return new InputStream(References.get(RESULT, true));
+        return new InputStream(Refcounted.get(RESULT, true));
     }
     
     /**

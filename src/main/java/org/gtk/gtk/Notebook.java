@@ -102,17 +102,17 @@ import java.lang.invoke.*;
  */
 public class Notebook extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Notebook(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Notebook(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Notebook */
     public static Notebook castFrom(org.gtk.gobject.Object gobject) {
-        return new Notebook(gobject.getReference());
+        return new Notebook(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_notebook_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_notebook_new(), false);
         return RESULT;
     }
     
@@ -159,7 +159,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getActionWidget(PackType packType) {
         var RESULT = gtk_h.gtk_notebook_get_action_widget(handle(), packType.getValue());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getMenuLabel(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_menu_label(handle(), child.handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -208,7 +208,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getNthPage(int pageNum) {
         var RESULT = gtk_h.gtk_notebook_get_nth_page(handle(), pageNum);
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -216,7 +216,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public NotebookPage getPage(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_page(handle(), child.handle());
-        return new NotebookPage(References.get(RESULT, false));
+        return new NotebookPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -228,7 +228,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gio.ListModel getPages() {
         var RESULT = gtk_h.gtk_notebook_get_pages(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -271,7 +271,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getTabLabel(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_tab_label(handle(), child.handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -811,61 +811,61 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         public static boolean signalNotebookChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.ChangeCurrentPageHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Notebook(References.get(source)), object);
+            return handler.signalReceived(new Notebook(Refcounted.get(source)), object);
         }
         
         public static void signalNotebookCreateWindow(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.CreateWindowHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(page, false)));
+            handler.signalReceived(new Notebook(Refcounted.get(source)), new Widget(Refcounted.get(page, false)));
         }
         
         public static boolean signalNotebookFocusTab(MemoryAddress source, int object, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.FocusTabHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Notebook(References.get(source)), new NotebookTab(object));
+            return handler.signalReceived(new Notebook(Refcounted.get(source)), new NotebookTab(object));
         }
         
         public static void signalNotebookMoveFocusOut(MemoryAddress source, int object, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object));
+            handler.signalReceived(new Notebook(Refcounted.get(source)), new DirectionType(object));
         }
         
         public static void signalNotebookPageAdded(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.PageAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
+            handler.signalReceived(new Notebook(Refcounted.get(source)), new Widget(Refcounted.get(child, false)), pageNum);
         }
         
         public static void signalNotebookPageRemoved(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.PageRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
+            handler.signalReceived(new Notebook(Refcounted.get(source)), new Widget(Refcounted.get(child, false)), pageNum);
         }
         
         public static void signalNotebookPageReordered(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.PageReorderedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
+            handler.signalReceived(new Notebook(Refcounted.get(source)), new Widget(Refcounted.get(child, false)), pageNum);
         }
         
         public static boolean signalNotebookReorderTab(MemoryAddress source, int object, int p0, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.ReorderTabHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object), p0 != 0);
+            return handler.signalReceived(new Notebook(Refcounted.get(source)), new DirectionType(object), p0 != 0);
         }
         
         public static boolean signalNotebookSelectPage(MemoryAddress source, int object, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.SelectPageHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Notebook(References.get(source)), object != 0);
+            return handler.signalReceived(new Notebook(Refcounted.get(source)), object != 0);
         }
         
         public static void signalNotebookSwitchPage(MemoryAddress source, MemoryAddress page, int pageNum, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Notebook.SwitchPageHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(page, false)), pageNum);
+            handler.signalReceived(new Notebook(Refcounted.get(source)), new Widget(Refcounted.get(page, false)), pageNum);
         }
         
     }

@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class ShadowNode extends RenderNode {
 
-    public ShadowNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ShadowNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ShadowNode */
     public static ShadowNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ShadowNode(gobject.getReference());
+        return new ShadowNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RenderNode child, Shadow[] shadows, long nShadows) {
-        Reference RESULT = References.get(gtk_h.gsk_shadow_node_new(child.handle(), Interop.allocateNativeArray(shadows).handle(), nShadows), true);
+    private static Refcounted constructNew(RenderNode child, Shadow[] shadows, long nShadows) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_shadow_node_new(child.handle(), Interop.allocateNativeArray(shadows).handle(), nShadows), true);
         return RESULT;
     }
     
@@ -37,7 +37,7 @@ public class ShadowNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_shadow_node_get_child(handle());
-        return new RenderNode(References.get(RESULT, false));
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -53,7 +53,7 @@ public class ShadowNode extends RenderNode {
      */
     public Shadow getShadow(long i) {
         var RESULT = gtk_h.gsk_shadow_node_get_shadow(handle(), i);
-        return new Shadow(References.get(RESULT, false));
+        return new Shadow(Refcounted.get(RESULT, false));
     }
     
 }

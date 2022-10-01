@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class UnixMountEntry extends io.github.jwharm.javagi.ResourceBase {
 
-    public UnixMountEntry(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixMountEntry(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

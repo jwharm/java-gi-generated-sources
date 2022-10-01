@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class Plane extends io.github.jwharm.javagi.ResourceBase {
 
-    public Plane(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Plane(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructAlloc() {
-        Reference RESULT = References.get(gtk_h.graphene_plane_alloc(), true);
+    private static Refcounted constructAlloc() {
+        Refcounted RESULT = Refcounted.get(gtk_h.graphene_plane_alloc(), true);
         return RESULT;
     }
     
@@ -77,7 +77,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      */
     public Plane init(Vec3 normal, float constant) {
         var RESULT = gtk_h.graphene_plane_init(handle(), normal.handle(), constant);
-        return new Plane(References.get(RESULT, false));
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -86,7 +86,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      */
     public Plane initFromPlane(Plane src) {
         var RESULT = gtk_h.graphene_plane_init_from_plane(handle(), src.handle());
-        return new Plane(References.get(RESULT, false));
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -95,7 +95,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      */
     public Plane initFromPoint(Vec3 normal, Point3D point) {
         var RESULT = gtk_h.graphene_plane_init_from_point(handle(), normal.handle(), point.handle());
-        return new Plane(References.get(RESULT, false));
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -107,7 +107,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      */
     public Plane initFromPoints(Point3D a, Point3D b, Point3D c) {
         var RESULT = gtk_h.graphene_plane_init_from_points(handle(), a.handle(), b.handle(), c.handle());
-        return new Plane(References.get(RESULT, false));
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      */
     public Plane initFromVec4(Vec4 src) {
         var RESULT = gtk_h.graphene_plane_init_from_vec4(handle(), src.handle());
-        return new Plane(References.get(RESULT, false));
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
     /**

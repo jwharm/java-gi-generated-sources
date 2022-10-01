@@ -48,17 +48,17 @@ import java.lang.invoke.*;
  */
 public class Image extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Image(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Image(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Image */
     public static Image castFrom(org.gtk.gobject.Object gobject) {
-        return new Image(gobject.getReference());
+        return new Image(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_image_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new(), false);
         return RESULT;
     }
     
@@ -69,8 +69,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         super(constructNew());
     }
     
-    private static Reference constructNewFromFile(java.lang.String filename) {
-        Reference RESULT = References.get(gtk_h.gtk_image_new_from_file(Interop.allocateNativeString(filename).handle()), false);
+    private static Refcounted constructNewFromFile(java.lang.String filename) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_file(Interop.allocateNativeString(filename).handle()), false);
         return RESULT;
     }
     
@@ -93,8 +93,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromFile(filename));
     }
     
-    private static Reference constructNewFromGicon(org.gtk.gio.Icon icon) {
-        Reference RESULT = References.get(gtk_h.gtk_image_new_from_gicon(icon.handle()), false);
+    private static Refcounted constructNewFromGicon(org.gtk.gio.Icon icon) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_gicon(icon.handle()), false);
         return RESULT;
     }
     
@@ -109,8 +109,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromGicon(icon));
     }
     
-    private static Reference constructNewFromIconName(java.lang.String iconName) {
-        Reference RESULT = References.get(gtk_h.gtk_image_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false);
+    private static Refcounted constructNewFromIconName(java.lang.String iconName) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false);
         return RESULT;
     }
     
@@ -125,8 +125,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromIconName(iconName));
     }
     
-    private static Reference constructNewFromPaintable(org.gtk.gdk.Paintable paintable) {
-        Reference RESULT = References.get(gtk_h.gtk_image_new_from_paintable(paintable.handle()), false);
+    private static Refcounted constructNewFromPaintable(org.gtk.gdk.Paintable paintable) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_paintable(paintable.handle()), false);
         return RESULT;
     }
     
@@ -144,8 +144,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromPaintable(paintable));
     }
     
-    private static Reference constructNewFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        Reference RESULT = References.get(gtk_h.gtk_image_new_from_pixbuf(pixbuf.handle()), false);
+    private static Refcounted constructNewFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_pixbuf(pixbuf.handle()), false);
         return RESULT;
     }
     
@@ -167,8 +167,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromPixbuf(pixbuf));
     }
     
-    private static Reference constructNewFromResource(java.lang.String resourcePath) {
-        Reference RESULT = References.get(gtk_h.gtk_image_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), false);
+    private static Refcounted constructNewFromResource(java.lang.String resourcePath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), false);
         return RESULT;
     }
     
@@ -208,7 +208,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gio.Icon getGicon() {
         var RESULT = gtk_h.gtk_image_get_gicon(handle());
-        return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -242,7 +242,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gdk.Paintable getPaintable() {
         var RESULT = gtk_h.gtk_image_get_paintable(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
     /**

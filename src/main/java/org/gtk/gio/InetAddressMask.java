@@ -13,18 +13,18 @@ import java.lang.invoke.*;
  */
 public class InetAddressMask extends org.gtk.gobject.Object implements Initable {
 
-    public InetAddressMask(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InetAddressMask(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to InetAddressMask */
     public static InetAddressMask castFrom(org.gtk.gobject.Object gobject) {
-        return new InetAddressMask(gobject.getReference());
+        return new InetAddressMask(gobject.refcounted());
     }
     
-    private static Reference constructNew(InetAddress addr, int length) throws GErrorException {
+    private static Refcounted constructNew(InetAddress addr, int length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_inet_address_mask_new(addr.handle(), length, GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_address_mask_new(addr.handle(), length, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -39,9 +39,9 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
         super(constructNew(addr, length));
     }
     
-    private static Reference constructNewFromString(java.lang.String maskString) throws GErrorException {
+    private static Refcounted constructNewFromString(java.lang.String maskString) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_inet_address_mask_new_from_string(Interop.allocateNativeString(maskString).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_address_mask_new_from_string(Interop.allocateNativeString(maskString).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -71,7 +71,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      */
     public InetAddress getAddress() {
         var RESULT = gtk_h.g_inet_address_mask_get_address(handle());
-        return new InetAddress(References.get(RESULT, false));
+        return new InetAddress(Refcounted.get(RESULT, false));
     }
     
     /**

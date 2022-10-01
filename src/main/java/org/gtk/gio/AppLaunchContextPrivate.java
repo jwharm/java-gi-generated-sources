@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class AppLaunchContextPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public AppLaunchContextPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public AppLaunchContextPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

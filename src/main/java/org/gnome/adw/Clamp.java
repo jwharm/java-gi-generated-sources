@@ -35,17 +35,17 @@ import java.lang.invoke.*;
  */
 public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
 
-    public Clamp(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Clamp(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Clamp */
     public static Clamp castFrom(org.gtk.gobject.Object gobject) {
-        return new Clamp(gobject.getReference());
+        return new Clamp(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_clamp_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_clamp_new(), false);
         return RESULT;
     }
     
@@ -61,7 +61,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public org.gtk.gtk.Widget getChild() {
         var RESULT = gtk_h.adw_clamp_get_child(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

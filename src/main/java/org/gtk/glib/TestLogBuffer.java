@@ -7,12 +7,12 @@ import java.lang.invoke.*;
 
 public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
 
-    public TestLogBuffer(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TestLogBuffer(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TestLogBuffer() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTestLogBuffer.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTestLogBuffer.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -27,7 +27,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
      */
     public TestLogMsg pop() {
         var RESULT = gtk_h.g_test_log_buffer_pop(handle());
-        return new TestLogMsg(References.get(RESULT, false));
+        return new TestLogMsg(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
      */
     public static TestLogBuffer new_() {
         var RESULT = gtk_h.g_test_log_buffer_new();
-        return new TestLogBuffer(References.get(RESULT, false));
+        return new TestLogBuffer(Refcounted.get(RESULT, false));
     }
     
 }

@@ -12,17 +12,17 @@ import java.lang.invoke.*;
  */
 public class Cancellable extends org.gtk.gobject.Object {
 
-    public Cancellable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Cancellable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Cancellable */
     public static Cancellable castFrom(org.gtk.gobject.Object gobject) {
-        return new Cancellable(gobject.getReference());
+        return new Cancellable(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_cancellable_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_cancellable_new(), true);
         return RESULT;
     }
     
@@ -251,7 +251,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Source sourceNew() {
         var RESULT = gtk_h.g_cancellable_source_new(handle());
-        return new org.gtk.glib.Source(References.get(RESULT, true));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -259,7 +259,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      */
     public static Cancellable getCurrent() {
         var RESULT = gtk_h.g_cancellable_get_current();
-        return new Cancellable(References.get(RESULT, false));
+        return new Cancellable(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -343,7 +343,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         public static void signalCancellableCancelled(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Cancellable.CancelledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Cancellable(References.get(source)));
+            handler.signalReceived(new Cancellable(Refcounted.get(source)));
         }
         
     }

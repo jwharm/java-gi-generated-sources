@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOModuleScope(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOModuleScope(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -44,7 +44,7 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
      */
     public static IOModuleScope new_(IOModuleScopeFlags flags) {
         var RESULT = gtk_h.g_io_module_scope_new(flags.getValue());
-        return new IOModuleScope(References.get(RESULT, true));
+        return new IOModuleScope(Refcounted.get(RESULT, true));
     }
     
 }

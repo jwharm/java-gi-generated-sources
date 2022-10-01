@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class Border extends io.github.jwharm.javagi.ResourceBase {
 
-    public Border(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Border(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_border_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_border_new(), true);
         return RESULT;
     }
     
@@ -33,7 +33,7 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
      */
     public Border copy() {
         var RESULT = gtk_h.gtk_border_copy(handle());
-        return new Border(References.get(RESULT, true));
+        return new Border(Refcounted.get(RESULT, true));
     }
     
     /**

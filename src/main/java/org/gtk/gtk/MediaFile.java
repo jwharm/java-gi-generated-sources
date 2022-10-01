@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
 
-    public MediaFile(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MediaFile(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MediaFile */
     public static MediaFile castFrom(org.gtk.gobject.Object gobject) {
-        return new MediaFile(gobject.getReference());
+        return new MediaFile(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_media_file_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new(), true);
         return RESULT;
     }
     
@@ -38,8 +38,8 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         super(constructNew());
     }
     
-    private static Reference constructNewForFile(org.gtk.gio.File file) {
-        Reference RESULT = References.get(gtk_h.gtk_media_file_new_for_file(file.handle()), true);
+    private static Refcounted constructNewForFile(org.gtk.gio.File file) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new_for_file(file.handle()), true);
         return RESULT;
     }
     
@@ -50,8 +50,8 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(constructNewForFile(file));
     }
     
-    private static Reference constructNewForFilename(java.lang.String filename) {
-        Reference RESULT = References.get(gtk_h.gtk_media_file_new_for_filename(Interop.allocateNativeString(filename).handle()), true);
+    private static Refcounted constructNewForFilename(java.lang.String filename) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new_for_filename(Interop.allocateNativeString(filename).handle()), true);
         return RESULT;
     }
     
@@ -65,8 +65,8 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(constructNewForFilename(filename));
     }
     
-    private static Reference constructNewForInputStream(org.gtk.gio.InputStream stream) {
-        Reference RESULT = References.get(gtk_h.gtk_media_file_new_for_input_stream(stream.handle()), true);
+    private static Refcounted constructNewForInputStream(org.gtk.gio.InputStream stream) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new_for_input_stream(stream.handle()), true);
         return RESULT;
     }
     
@@ -80,8 +80,8 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(constructNewForInputStream(stream));
     }
     
-    private static Reference constructNewForResource(java.lang.String resourcePath) {
-        Reference RESULT = References.get(gtk_h.gtk_media_file_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), true);
+    private static Refcounted constructNewForResource(java.lang.String resourcePath) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), true);
         return RESULT;
     }
     
@@ -110,7 +110,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_media_file_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -121,7 +121,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      */
     public org.gtk.gio.InputStream getInputStream() {
         var RESULT = gtk_h.gtk_media_file_get_input_stream(handle());
-        return new org.gtk.gio.InputStream(References.get(RESULT, false));
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
     }
     
     /**

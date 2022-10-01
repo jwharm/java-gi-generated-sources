@@ -14,17 +14,17 @@ import java.lang.invoke.*;
  */
 public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SliceListModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SliceListModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SliceListModel */
     public static SliceListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new SliceListModel(gobject.getReference());
+        return new SliceListModel(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gio.ListModel model, int offset, int size) {
-        Reference RESULT = References.get(gtk_h.gtk_slice_list_model_new(model.getReference().unowned().handle(), offset, size), true);
+    private static Refcounted constructNew(org.gtk.gio.ListModel model, int offset, int size) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_slice_list_model_new(model.refcounted().unowned().handle(), offset, size), true);
         return RESULT;
     }
     
@@ -43,7 +43,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_slice_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**

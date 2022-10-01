@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  */
 public class BinLayout extends LayoutManager {
 
-    public BinLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BinLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BinLayout */
     public static BinLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new BinLayout(gobject.getReference());
+        return new BinLayout(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_bin_layout_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_bin_layout_new(), true);
         return RESULT;
     }
     

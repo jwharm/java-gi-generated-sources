@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class PixbufSimpleAnim extends PixbufAnimation {
 
-    public PixbufSimpleAnim(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PixbufSimpleAnim(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PixbufSimpleAnim */
     public static PixbufSimpleAnim castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufSimpleAnim(gobject.getReference());
+        return new PixbufSimpleAnim(gobject.refcounted());
     }
     
-    private static Reference constructNew(int width, int height, float rate) {
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true);
+    private static Refcounted constructNew(int width, int height, float rate) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true);
         return RESULT;
     }
     

@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class CssSection extends io.github.jwharm.javagi.ResourceBase {
 
-    public CssSection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CssSection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNew(org.gtk.gio.File file, CssLocation start, CssLocation end) {
-        Reference RESULT = References.get(gtk_h.gtk_css_section_new(file.handle(), start.handle(), end.handle()), true);
+    private static Refcounted constructNew(org.gtk.gio.File file, CssLocation start, CssLocation end) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_css_section_new(file.handle(), start.handle(), end.handle()), true);
         return RESULT;
     }
     
@@ -36,7 +36,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      */
     public CssLocation getEndLocation() {
         var RESULT = gtk_h.gtk_css_section_get_end_location(handle());
-        return new CssLocation(References.get(RESULT, false));
+        return new CssLocation(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -47,7 +47,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_css_section_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -62,7 +62,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      */
     public CssSection getParent() {
         var RESULT = gtk_h.gtk_css_section_get_parent(handle());
-        return new CssSection(References.get(RESULT, false));
+        return new CssSection(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      */
     public CssLocation getStartLocation() {
         var RESULT = gtk_h.gtk_css_section_get_start_location(handle());
-        return new CssLocation(References.get(RESULT, false));
+        return new CssLocation(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -88,7 +88,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      */
     public CssSection ref() {
         var RESULT = gtk_h.gtk_css_section_ref(handle());
-        return new CssSection(References.get(RESULT, true));
+        return new CssSection(Refcounted.get(RESULT, true));
     }
     
     /**

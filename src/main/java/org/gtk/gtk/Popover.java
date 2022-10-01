@@ -85,17 +85,17 @@ import java.lang.invoke.*;
  */
 public class Popover extends Widget implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
 
-    public Popover(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Popover(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Popover */
     public static Popover castFrom(org.gtk.gobject.Object gobject) {
-        return new Popover(gobject.getReference());
+        return new Popover(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_popover_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_popover_new(), false);
         return RESULT;
     }
     
@@ -130,7 +130,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_popover_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -353,13 +353,13 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
         public static void signalPopoverActivateDefault(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Popover.ActivateDefaultHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Popover(References.get(source)));
+            handler.signalReceived(new Popover(Refcounted.get(source)));
         }
         
         public static void signalPopoverClosed(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Popover.ClosedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Popover(References.get(source)));
+            handler.signalReceived(new Popover(Refcounted.get(source)));
         }
         
     }

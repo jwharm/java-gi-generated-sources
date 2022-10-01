@@ -53,18 +53,18 @@ import java.lang.invoke.*;
  */
 public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, DBusInterface, Initable {
 
-    public DBusProxy(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusProxy(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusProxy */
     public static DBusProxy castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusProxy(gobject.getReference());
+        return new DBusProxy(gobject.refcounted());
     }
     
-    private static Reference constructNewFinish(AsyncResult res) throws GErrorException {
+    private static Refcounted constructNewFinish(AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_proxy_new_finish(res.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_proxy_new_finish(res.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -78,9 +78,9 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         return new DBusProxy(constructNewFinish(res));
     }
     
-    private static Reference constructNewForBusFinish(AsyncResult res) throws GErrorException {
+    private static Refcounted constructNewForBusFinish(AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_proxy_new_for_bus_finish(res.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_proxy_new_for_bus_finish(res.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -94,9 +94,9 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         return new DBusProxy(constructNewForBusFinish(res));
     }
     
-    private static Reference constructNewForBusSync(BusType busType, DBusProxyFlags flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewForBusSync(BusType busType, DBusProxyFlags flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_proxy_new_for_bus_sync(busType.getValue(), flags.getValue(), info.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_proxy_new_for_bus_sync(busType.getValue(), flags.getValue(), info.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -112,9 +112,9 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         return new DBusProxy(constructNewForBusSync(busType, flags, info, name, objectPath, interfaceName, cancellable));
     }
     
-    private static Reference constructNewSync(DBusConnection connection, DBusProxyFlags flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewSync(DBusConnection connection, DBusProxyFlags flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_proxy_new_sync(connection.handle(), flags.getValue(), info.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_proxy_new_sync(connection.handle(), flags.getValue(), info.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -216,7 +216,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -261,7 +261,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -292,7 +292,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -306,7 +306,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -319,7 +319,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      */
     public org.gtk.glib.Variant getCachedProperty(java.lang.String propertyName) {
         var RESULT = gtk_h.g_dbus_proxy_get_cached_property(handle(), Interop.allocateNativeString(propertyName).handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -335,7 +335,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_proxy_get_connection(handle());
-        return new DBusConnection(References.get(RESULT, false));
+        return new DBusConnection(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -365,7 +365,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      */
     public DBusInterfaceInfo getInterfaceInfo() {
         var RESULT = gtk_h.g_dbus_proxy_get_interface_info(handle());
-        return new DBusInterfaceInfo(References.get(RESULT, false));
+        return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -600,13 +600,13 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         public static void signalDBusProxyGPropertiesChanged(MemoryAddress source, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusProxy.GPropertiesChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DBusProxy(References.get(source)), new org.gtk.glib.Variant(References.get(changedProperties, false)), new PointerString(invalidatedProperties).iterator());
+            handler.signalReceived(new DBusProxy(Refcounted.get(source)), new org.gtk.glib.Variant(Refcounted.get(changedProperties, false)), new PointerString(invalidatedProperties).iterator());
         }
         
         public static void signalDBusProxyGSignal(MemoryAddress source, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusProxy.GSignalHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DBusProxy(References.get(source)), senderName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
+            handler.signalReceived(new DBusProxy(Refcounted.get(source)), senderName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(Refcounted.get(parameters, false)));
         }
         
     }

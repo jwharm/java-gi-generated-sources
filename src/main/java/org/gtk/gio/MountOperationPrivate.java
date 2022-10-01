@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MountOperationPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public MountOperationPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MountOperationPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

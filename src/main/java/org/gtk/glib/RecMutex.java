@@ -21,12 +21,12 @@ import java.lang.invoke.*;
  */
 public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
 
-    public RecMutex(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public RecMutex(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public RecMutex() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GRecMutex.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GRecMutex.allocate(Interop.getAllocator()).address()));
     }
     
     /**

@@ -10,18 +10,18 @@ import java.lang.invoke.*;
  */
 public class CallbackAction extends ShortcutAction {
 
-    public CallbackAction(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CallbackAction(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CallbackAction */
     public static CallbackAction castFrom(org.gtk.gobject.Object gobject) {
-        return new CallbackAction(gobject.getReference());
+        return new CallbackAction(gobject.refcounted());
     }
     
-    private static Reference constructNew(ShortcutFunc callback) {
+    private static Refcounted constructNew(ShortcutFunc callback) {
         try {
-            Reference RESULT = References.get(gtk_h.gtk_callback_action_new(
+            Refcounted RESULT = Refcounted.get(gtk_h.gtk_callback_action_new(
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbShortcutFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

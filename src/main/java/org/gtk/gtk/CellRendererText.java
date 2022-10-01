@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class CellRendererText extends CellRenderer {
 
-    public CellRendererText(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellRendererText(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CellRendererText */
     public static CellRendererText castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererText(gobject.getReference());
+        return new CellRendererText(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_text_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_text_new(), false);
         return RESULT;
     }
     
@@ -91,7 +91,7 @@ public class CellRendererText extends CellRenderer {
         public static void signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (CellRendererText.EditedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererText(References.get(source)), path.getUtf8String(0), newText.getUtf8String(0));
+            handler.signalReceived(new CellRendererText(Refcounted.get(source)), path.getUtf8String(0), newText.getUtf8String(0));
         }
         
     }

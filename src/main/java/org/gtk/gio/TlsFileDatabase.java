@@ -24,12 +24,12 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new TlsFileDatabase.TlsFileDatabaseImpl(References.get(RESULT, true));
+        return new TlsFileDatabase.TlsFileDatabaseImpl(Refcounted.get(RESULT, true));
     }
     
     class TlsFileDatabaseImpl extends org.gtk.gobject.Object implements TlsFileDatabase {
-        public TlsFileDatabaseImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public TlsFileDatabaseImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

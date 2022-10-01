@@ -53,17 +53,17 @@ import java.lang.invoke.*;
  */
 public class Notification extends org.gtk.gobject.Object {
 
-    public Notification(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Notification(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Notification */
     public static Notification castFrom(org.gtk.gobject.Object gobject) {
-        return new Notification(gobject.getReference());
+        return new Notification(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title) {
-        Reference RESULT = References.get(gtk_h.g_notification_new(Interop.allocateNativeString(title).handle()), true);
+    private static Refcounted constructNew(java.lang.String title) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_notification_new(Interop.allocateNativeString(title).handle()), true);
         return RESULT;
     }
     

@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class Coverage extends org.gtk.gobject.Object {
 
-    public Coverage(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Coverage(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Coverage */
     public static Coverage castFrom(org.gtk.gobject.Object gobject) {
-        return new Coverage(gobject.getReference());
+        return new Coverage(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.pango_coverage_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_coverage_new(), true);
         return RESULT;
     }
     
@@ -43,7 +43,7 @@ public class Coverage extends org.gtk.gobject.Object {
      */
     public Coverage copy() {
         var RESULT = gtk_h.pango_coverage_copy(handle());
-        return new Coverage(References.get(RESULT, true));
+        return new Coverage(Refcounted.get(RESULT, true));
     }
     
     /**

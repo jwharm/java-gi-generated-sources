@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOExtension(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOExtension(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -48,7 +48,7 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.TypeClass refClass() {
         var RESULT = gtk_h.g_io_extension_ref_class(handle());
-        return new org.gtk.gobject.TypeClass(References.get(RESULT, true));
+        return new org.gtk.gobject.TypeClass(Refcounted.get(RESULT, true));
     }
     
 }

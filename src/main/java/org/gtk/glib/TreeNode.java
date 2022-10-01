@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
 
-    public TreeNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**
@@ -28,7 +28,7 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode next() {
         var RESULT = gtk_h.g_tree_node_next(handle());
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -37,7 +37,7 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode previous() {
         var RESULT = gtk_h.g_tree_node_previous(handle());
-        return new TreeNode(References.get(RESULT, false));
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
     /**

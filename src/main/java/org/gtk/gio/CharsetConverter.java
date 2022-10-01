@@ -11,18 +11,18 @@ import java.lang.invoke.*;
  */
 public class CharsetConverter extends org.gtk.gobject.Object implements Converter, Initable {
 
-    public CharsetConverter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CharsetConverter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to CharsetConverter */
     public static CharsetConverter castFrom(org.gtk.gobject.Object gobject) {
-        return new CharsetConverter(gobject.getReference());
+        return new CharsetConverter(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
+    private static Refcounted constructNew(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_charset_converter_new(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_charset_converter_new(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

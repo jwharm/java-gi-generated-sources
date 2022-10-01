@@ -58,18 +58,18 @@ import java.lang.invoke.*;
  */
 public class DBusConnection extends org.gtk.gobject.Object implements AsyncInitable, Initable {
 
-    public DBusConnection(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DBusConnection(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DBusConnection */
     public static DBusConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusConnection(gobject.getReference());
+        return new DBusConnection(gobject.refcounted());
     }
     
-    private static Reference constructNewFinish(AsyncResult res) throws GErrorException {
+    private static Refcounted constructNewFinish(AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_finish(res.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_connection_new_finish(res.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -83,9 +83,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         return new DBusConnection(constructNewFinish(res));
     }
     
-    private static Reference constructNewForAddressFinish(AsyncResult res) throws GErrorException {
+    private static Refcounted constructNewForAddressFinish(AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_for_address_finish(res.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_connection_new_for_address_finish(res.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -99,9 +99,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         return new DBusConnection(constructNewForAddressFinish(res));
     }
     
-    private static Reference constructNewForAddressSync(java.lang.String address, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewForAddressSync(java.lang.String address, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_for_address_sync(Interop.allocateNativeString(address).handle(), flags.getValue(), observer.handle(), cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_connection_new_for_address_sync(Interop.allocateNativeString(address).handle(), flags.getValue(), observer.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -131,9 +131,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         return new DBusConnection(constructNewForAddressSync(address, flags, observer, cancellable));
     }
     
-    private static Reference constructNewSync(IOStream stream, java.lang.String guid, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewSync(IOStream stream, java.lang.String guid, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_sync(stream.handle(), Interop.allocateNativeString(guid).handle(), flags.getValue(), observer.handle(), cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_connection_new_sync(stream.handle(), Interop.allocateNativeString(guid).handle(), flags.getValue(), observer.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -276,7 +276,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -323,7 +323,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -377,7 +377,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -393,7 +393,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(References.get(RESULT, true));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -653,7 +653,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public Credentials getPeerCredentials() {
         var RESULT = gtk_h.g_dbus_connection_get_peer_credentials(handle());
-        return new Credentials(References.get(RESULT, false));
+        return new Credentials(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -665,7 +665,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public IOStream getStream() {
         var RESULT = gtk_h.g_dbus_connection_get_stream(handle());
-        return new IOStream(References.get(RESULT, false));
+        return new IOStream(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -904,7 +904,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DBusMessage(References.get(RESULT, true));
+        return new DBusMessage(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -945,7 +945,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new DBusMessage(References.get(RESULT, true));
+        return new DBusMessage(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -1225,7 +1225,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         public static void signalDBusConnectionClosed(MemoryAddress source, int remotePeerVanished, MemoryAddress error, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusConnection.ClosedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DBusConnection(References.get(source)), remotePeerVanished != 0, new org.gtk.glib.Error(References.get(error, false)));
+            handler.signalReceived(new DBusConnection(Refcounted.get(source)), remotePeerVanished != 0, new org.gtk.glib.Error(Refcounted.get(error, false)));
         }
         
     }

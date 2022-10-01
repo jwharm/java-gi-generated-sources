@@ -13,17 +13,17 @@ import java.lang.invoke.*;
  */
 public class VolumeButton extends ScaleButton implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public VolumeButton(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public VolumeButton(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to VolumeButton */
     public static VolumeButton castFrom(org.gtk.gobject.Object gobject) {
-        return new VolumeButton(gobject.getReference());
+        return new VolumeButton(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_volume_button_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_volume_button_new(), false);
         return RESULT;
     }
     

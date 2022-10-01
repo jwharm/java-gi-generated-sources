@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap, org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
 
-    public ApplicationWindow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ApplicationWindow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ApplicationWindow */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ApplicationWindow(gobject.getReference());
+        return new ApplicationWindow(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gtk.Application app) {
-        Reference RESULT = References.get(gtk_h.adw_application_window_new(app.handle()), false);
+    private static Refcounted constructNew(org.gtk.gtk.Application app) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_application_window_new(app.handle()), false);
         return RESULT;
     }
     
@@ -51,7 +51,7 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      */
     public org.gtk.gtk.Widget getContent() {
         var RESULT = gtk_h.adw_application_window_get_content(handle());
-        return new org.gtk.gtk.Widget(References.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
     /**

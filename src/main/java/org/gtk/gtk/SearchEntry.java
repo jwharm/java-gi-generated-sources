@@ -53,17 +53,17 @@ import java.lang.invoke.*;
  */
 public class SearchEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
-    public SearchEntry(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SearchEntry(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SearchEntry */
     public static SearchEntry castFrom(org.gtk.gobject.Object gobject) {
-        return new SearchEntry(gobject.getReference());
+        return new SearchEntry(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_search_entry_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_search_entry_new(), false);
         return RESULT;
     }
     
@@ -79,7 +79,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      */
     public Widget getKeyCaptureWidget() {
         var RESULT = gtk_h.gtk_search_entry_get_key_capture_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -292,37 +292,37 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         public static void signalSearchEntryActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SearchEntry.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(References.get(source)));
+            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntryNextMatch(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SearchEntry.NextMatchHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(References.get(source)));
+            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntryPreviousMatch(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SearchEntry.PreviousMatchHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(References.get(source)));
+            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntrySearchChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SearchEntry.SearchChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(References.get(source)));
+            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntrySearchStarted(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SearchEntry.SearchStartedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(References.get(source)));
+            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntryStopSearch(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SearchEntry.StopSearchHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(References.get(source)));
+            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
     }

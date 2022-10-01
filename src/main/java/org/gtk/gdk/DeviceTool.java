@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class DeviceTool extends org.gtk.gobject.Object {
 
-    public DeviceTool(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DeviceTool(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DeviceTool */
     public static DeviceTool castFrom(org.gtk.gobject.Object gobject) {
-        return new DeviceTool(gobject.getReference());
+        return new DeviceTool(gobject.refcounted());
     }
     
     /**

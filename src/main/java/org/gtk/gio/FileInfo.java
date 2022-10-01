@@ -38,17 +38,17 @@ import java.lang.invoke.*;
  */
 public class FileInfo extends org.gtk.gobject.Object {
 
-    public FileInfo(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileInfo(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileInfo */
     public static FileInfo castFrom(org.gtk.gobject.Object gobject) {
-        return new FileInfo(gobject.getReference());
+        return new FileInfo(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_file_info_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_file_info_new(), true);
         return RESULT;
     }
     
@@ -79,7 +79,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public FileInfo dup() {
         var RESULT = gtk_h.g_file_info_dup(handle());
-        return new FileInfo(References.get(RESULT, true));
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -92,7 +92,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getAccessDateTime() {
         var RESULT = gtk_h.g_file_info_get_access_date_time(handle());
-        return new org.gtk.glib.DateTime(References.get(RESULT, true));
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -157,7 +157,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getAttributeObject(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_object(handle(), Interop.allocateNativeString(attribute).handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -232,7 +232,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getCreationDateTime() {
         var RESULT = gtk_h.g_file_info_get_creation_date_time(handle());
-        return new org.gtk.glib.DateTime(References.get(RESULT, true));
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -242,7 +242,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getDeletionDate() {
         var RESULT = gtk_h.g_file_info_get_deletion_date(handle());
-        return new org.gtk.glib.DateTime(References.get(RESULT, true));
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -284,7 +284,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public Icon getIcon() {
         var RESULT = gtk_h.g_file_info_get_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, false));
+        return new Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -321,7 +321,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getModificationDateTime() {
         var RESULT = gtk_h.g_file_info_get_modification_date_time(handle());
-        return new org.gtk.glib.DateTime(References.get(RESULT, true));
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -356,7 +356,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public Icon getSymbolicIcon() {
         var RESULT = gtk_h.g_file_info_get_symbolic_icon(handle());
-        return new Icon.IconImpl(References.get(RESULT, false));
+        return new Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**

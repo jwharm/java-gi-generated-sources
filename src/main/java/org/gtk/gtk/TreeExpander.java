@@ -48,17 +48,17 @@ import java.lang.invoke.*;
  */
 public class TreeExpander extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public TreeExpander(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeExpander(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TreeExpander */
     public static TreeExpander castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeExpander(gobject.getReference());
+        return new TreeExpander(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_tree_expander_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_expander_new(), false);
         return RESULT;
     }
     
@@ -74,7 +74,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_tree_expander_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = gtk_h.gtk_tree_expander_get_item(handle());
-        return new org.gtk.gobject.Object(References.get(RESULT, true));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -104,7 +104,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public TreeListRow getListRow() {
         var RESULT = gtk_h.gtk_tree_expander_get_list_row(handle());
-        return new TreeListRow(References.get(RESULT, false));
+        return new TreeListRow(Refcounted.get(RESULT, false));
     }
     
     /**

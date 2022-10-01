@@ -186,13 +186,13 @@ import java.lang.invoke.*;
  */
 public class FileChooserDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, FileChooser, Native, Root, ShortcutManager {
 
-    public FileChooserDialog(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FileChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to FileChooserDialog */
     public static FileChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new FileChooserDialog(gobject.getReference());
+        return new FileChooserDialog(gobject.refcounted());
     }
     
 }

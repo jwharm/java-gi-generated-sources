@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOChannel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public IOChannel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
-    private static Reference constructNewFile(java.lang.String filename, java.lang.String mode) throws GErrorException {
+    private static Refcounted constructNewFile(java.lang.String filename, java.lang.String mode) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_io_channel_new_file(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(mode).handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_io_channel_new_file(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(mode).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -36,8 +36,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         return new IOChannel(constructNewFile(filename, mode));
     }
     
-    private static Reference constructUnixNew(int fd) {
-        Reference RESULT = References.get(gtk_h.g_io_channel_unix_new(fd), true);
+    private static Refcounted constructUnixNew(int fd) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_io_channel_unix_new(fd), true);
         return RESULT;
     }
     
@@ -234,7 +234,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public IOChannel ref() {
         var RESULT = gtk_h.g_io_channel_ref(handle());
-        return new IOChannel(References.get(RESULT, true));
+        return new IOChannel(Refcounted.get(RESULT, true));
     }
     
     /**

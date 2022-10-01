@@ -18,17 +18,17 @@ import java.lang.invoke.*;
  */
 public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public PreferencesRow(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PreferencesRow(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PreferencesRow */
     public static PreferencesRow castFrom(org.gtk.gobject.Object gobject) {
-        return new PreferencesRow(gobject.getReference());
+        return new PreferencesRow(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_preferences_row_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_preferences_row_new(), false);
         return RESULT;
     }
     

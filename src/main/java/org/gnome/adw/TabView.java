@@ -51,17 +51,17 @@ import java.lang.invoke.*;
  */
 public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
 
-    public TabView(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TabView(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TabView */
     public static TabView castFrom(org.gtk.gobject.Object gobject) {
-        return new TabView(gobject.getReference());
+        return new TabView(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.adw_tab_view_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_tab_view_new(), false);
         return RESULT;
     }
     
@@ -83,7 +83,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage addPage(org.gtk.gtk.Widget child, TabPage parent) {
         var RESULT = gtk_h.adw_tab_view_add_page(handle(), child.handle(), parent.handle());
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage append(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_tab_view_append(handle(), child.handle());
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage appendPinned(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_tab_view_append_pinned(handle(), child.handle());
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -170,7 +170,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public org.gtk.gio.Icon getDefaultIcon() {
         var RESULT = gtk_h.adw_tab_view_get_default_icon(handle());
-        return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -186,7 +186,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public org.gtk.gio.MenuModel getMenuModel() {
         var RESULT = gtk_h.adw_tab_view_get_menu_model(handle());
-        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -210,7 +210,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage getNthPage(int position) {
         var RESULT = gtk_h.adw_tab_view_get_nth_page(handle(), position);
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -218,7 +218,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage getPage(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_tab_view_get_page(handle(), child.handle());
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -238,7 +238,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public org.gtk.gtk.SelectionModel getPages() {
         var RESULT = gtk_h.adw_tab_view_get_pages(handle());
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(References.get(RESULT, true));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -246,7 +246,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage getSelectedPage() {
         var RESULT = gtk_h.adw_tab_view_get_selected_page(handle());
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -257,7 +257,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage insert(org.gtk.gtk.Widget child, int position) {
         var RESULT = gtk_h.adw_tab_view_insert(handle(), child.handle(), position);
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -268,7 +268,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage insertPinned(org.gtk.gtk.Widget child, int position) {
         var RESULT = gtk_h.adw_tab_view_insert_pinned(handle(), child.handle(), position);
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -276,7 +276,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage prepend(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_tab_view_prepend(handle(), child.handle());
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -284,7 +284,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public TabPage prependPinned(org.gtk.gtk.Widget child) {
         var RESULT = gtk_h.adw_tab_view_prepend_pinned(handle(), child.handle());
-        return new TabPage(References.get(RESULT, false));
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -650,43 +650,43 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         public static boolean signalTabViewClosePage(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TabView.ClosePageHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
+            return handler.signalReceived(new TabView(Refcounted.get(source)), new TabPage(Refcounted.get(page, false)));
         }
         
         public static void signalTabViewCreateWindow(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TabView.CreateWindowHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TabView(References.get(source)));
+            handler.signalReceived(new TabView(Refcounted.get(source)));
         }
         
         public static void signalTabViewIndicatorActivated(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TabView.IndicatorActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
+            handler.signalReceived(new TabView(Refcounted.get(source)), new TabPage(Refcounted.get(page, false)));
         }
         
         public static void signalTabViewPageAttached(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TabView.PageAttachedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
+            handler.signalReceived(new TabView(Refcounted.get(source)), new TabPage(Refcounted.get(page, false)), position);
         }
         
         public static void signalTabViewPageDetached(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TabView.PageDetachedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
+            handler.signalReceived(new TabView(Refcounted.get(source)), new TabPage(Refcounted.get(page, false)), position);
         }
         
         public static void signalTabViewPageReordered(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TabView.PageReorderedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
+            handler.signalReceived(new TabView(Refcounted.get(source)), new TabPage(Refcounted.get(page, false)), position);
         }
         
         public static void signalTabViewSetupMenu(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (TabView.SetupMenuHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
+            handler.signalReceived(new TabView(Refcounted.get(source)), new TabPage(Refcounted.get(page, false)));
         }
         
     }

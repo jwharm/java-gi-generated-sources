@@ -39,12 +39,12 @@ import java.lang.invoke.*;
  */
 public class PixbufModulePattern extends io.github.jwharm.javagi.ResourceBase {
 
-    public PixbufModulePattern(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PixbufModulePattern(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public PixbufModulePattern() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufModulePattern.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufModulePattern.allocate(Interop.getAllocator()).address()));
     }
     
 }

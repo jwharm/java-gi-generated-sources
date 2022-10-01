@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class BufferT extends io.github.jwharm.javagi.ResourceBase {
 
-    public BufferT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BufferT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

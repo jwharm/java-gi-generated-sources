@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase {
 
-    public BuildableParseContext(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BuildableParseContext(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /**

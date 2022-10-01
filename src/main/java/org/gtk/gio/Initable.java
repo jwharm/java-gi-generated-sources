@@ -93,12 +93,12 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Object(References.get(RESULT, true));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
     class InitableImpl extends org.gtk.gobject.Object implements Initable {
-        public InitableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public InitableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

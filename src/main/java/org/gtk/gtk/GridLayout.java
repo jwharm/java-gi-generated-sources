@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class GridLayout extends LayoutManager {
 
-    public GridLayout(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public GridLayout(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to GridLayout */
     public static GridLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new GridLayout(gobject.getReference());
+        return new GridLayout(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_grid_layout_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_grid_layout_new(), true);
         return RESULT;
     }
     

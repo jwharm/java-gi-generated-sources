@@ -115,18 +115,18 @@ import java.lang.invoke.*;
  */
 public class DebugControllerDBus extends org.gtk.gobject.Object implements DebugController, Initable {
 
-    public DebugControllerDBus(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DebugControllerDBus(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to DebugControllerDBus */
     public static DebugControllerDBus castFrom(org.gtk.gobject.Object gobject) {
-        return new DebugControllerDBus(gobject.getReference());
+        return new DebugControllerDBus(gobject.refcounted());
     }
     
-    private static Reference constructNew(DBusConnection connection, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNew(DBusConnection connection, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_debug_controller_dbus_new(connection.handle(), cancellable.handle(), GERROR), true);
+        Refcounted RESULT = Refcounted.get(gtk_h.g_debug_controller_dbus_new(connection.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -215,7 +215,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
         public static boolean signalDebugControllerDBusAuthorize(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DebugControllerDBus.AuthorizeHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DebugControllerDBus(References.get(source)), new DBusMethodInvocation(References.get(invocation, false)));
+            return handler.signalReceived(new DebugControllerDBus(Refcounted.get(source)), new DBusMethodInvocation(Refcounted.get(invocation, false)));
         }
         
     }

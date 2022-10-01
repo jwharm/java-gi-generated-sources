@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class BufferedOutputStream extends FilterOutputStream implements Seekable {
 
-    public BufferedOutputStream(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public BufferedOutputStream(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to BufferedOutputStream */
     public static BufferedOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new BufferedOutputStream(gobject.getReference());
+        return new BufferedOutputStream(gobject.refcounted());
     }
     
-    private static Reference constructNew(OutputStream baseStream) {
-        Reference RESULT = References.get(gtk_h.g_buffered_output_stream_new(baseStream.handle()), true);
+    private static Refcounted constructNew(OutputStream baseStream) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_buffered_output_stream_new(baseStream.handle()), true);
         return RESULT;
     }
     
@@ -44,8 +44,8 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
         super(constructNew(baseStream));
     }
     
-    private static Reference constructNewSized(OutputStream baseStream, long size) {
-        Reference RESULT = References.get(gtk_h.g_buffered_output_stream_new_sized(baseStream.handle(), size), true);
+    private static Refcounted constructNewSized(OutputStream baseStream, long size) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_buffered_output_stream_new_sized(baseStream.handle(), size), true);
         return RESULT;
     }
     

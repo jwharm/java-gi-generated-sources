@@ -17,17 +17,17 @@ import java.lang.invoke.*;
  */
 public class Context extends org.gtk.gobject.Object {
 
-    public Context(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Context(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Context */
     public static Context castFrom(org.gtk.gobject.Object gobject) {
-        return new Context(gobject.getReference());
+        return new Context(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.pango_context_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.pango_context_new(), true);
         return RESULT;
     }
     
@@ -86,7 +86,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public FontDescription getFontDescription() {
         var RESULT = gtk_h.pango_context_get_font_description(handle());
-        return new FontDescription(References.get(RESULT, false));
+        return new FontDescription(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -94,7 +94,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public FontMap getFontMap() {
         var RESULT = gtk_h.pango_context_get_font_map(handle());
-        return new FontMap(References.get(RESULT, false));
+        return new FontMap(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Language getLanguage() {
         var RESULT = gtk_h.pango_context_get_language(handle());
-        return new Language(References.get(RESULT, true));
+        return new Language(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -136,7 +136,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Matrix getMatrix() {
         var RESULT = gtk_h.pango_context_get_matrix(handle());
-        return new Matrix(References.get(RESULT, false));
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -154,7 +154,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public FontMetrics getMetrics(FontDescription desc, Language language) {
         var RESULT = gtk_h.pango_context_get_metrics(handle(), desc.handle(), language.handle());
-        return new FontMetrics(References.get(RESULT, true));
+        return new FontMetrics(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -198,7 +198,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Font loadFont(FontDescription desc) {
         var RESULT = gtk_h.pango_context_load_font(handle(), desc.handle());
-        return new Font(References.get(RESULT, true));
+        return new Font(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -207,7 +207,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Fontset loadFontset(FontDescription desc, Language language) {
         var RESULT = gtk_h.pango_context_load_fontset(handle(), desc.handle(), language.handle());
-        return new Fontset(References.get(RESULT, true));
+        return new Fontset(Refcounted.get(RESULT, true));
     }
     
     /**

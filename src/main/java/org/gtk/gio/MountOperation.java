@@ -30,17 +30,17 @@ import java.lang.invoke.*;
  */
 public class MountOperation extends org.gtk.gobject.Object {
 
-    public MountOperation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public MountOperation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to MountOperation */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        return new MountOperation(gobject.getReference());
+        return new MountOperation(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_mount_operation_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_mount_operation_new(), true);
         return RESULT;
     }
     
@@ -396,37 +396,37 @@ public class MountOperation extends org.gtk.gobject.Object {
         public static void signalMountOperationAborted(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MountOperation.AbortedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(References.get(source)));
+            handler.signalReceived(new MountOperation(Refcounted.get(source)));
         }
         
         public static void signalMountOperationAskPassword(MemoryAddress source, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MountOperation.AskPasswordHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), defaultUser.getUtf8String(0), defaultDomain.getUtf8String(0), new AskPasswordFlags(flags));
+            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), defaultUser.getUtf8String(0), defaultDomain.getUtf8String(0), new AskPasswordFlags(flags));
         }
         
         public static void signalMountOperationAskQuestion(MemoryAddress source, MemoryAddress message, MemoryAddress choices, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MountOperation.AskQuestionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), new PointerString(choices).iterator());
+            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), new PointerString(choices).iterator());
         }
         
         public static void signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MountOperation.ReplyHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(References.get(source)), new MountOperationResult(result));
+            handler.signalReceived(new MountOperation(Refcounted.get(source)), new MountOperationResult(result));
         }
         
         public static void signalMountOperationShowProcesses(MemoryAddress source, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MountOperation.ShowProcessesHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), new PointerInteger(processes).iterator(), new PointerString(choices).iterator());
+            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), new PointerInteger(processes).iterator(), new PointerString(choices).iterator());
         }
         
         public static void signalMountOperationShowUnmountProgress(MemoryAddress source, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MountOperation.ShowUnmountProgressHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), timeLeft, bytesLeft);
+            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), timeLeft, bytesLeft);
         }
         
     }

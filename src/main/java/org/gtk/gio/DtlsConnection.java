@@ -104,7 +104,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      */
     public default TlsCertificate getCertificate() {
         var RESULT = gtk_h.g_dtls_connection_get_certificate(handle());
-        return new TlsCertificate(References.get(RESULT, false));
+        return new TlsCertificate(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -152,7 +152,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      */
     public default TlsDatabase getDatabase() {
         var RESULT = gtk_h.g_dtls_connection_get_database(handle());
-        return new TlsDatabase(References.get(RESULT, false));
+        return new TlsDatabase(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -162,7 +162,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      */
     public default TlsInteraction getInteraction() {
         var RESULT = gtk_h.g_dtls_connection_get_interaction(handle());
-        return new TlsInteraction(References.get(RESULT, false));
+        return new TlsInteraction(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -186,7 +186,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      */
     public default TlsCertificate getPeerCertificate() {
         var RESULT = gtk_h.g_dtls_connection_get_peer_certificate(handle());
-        return new TlsCertificate(References.get(RESULT, false));
+        return new TlsCertificate(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -518,14 +518,14 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         public static boolean signalDtlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DtlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DtlsConnection.DtlsConnectionImpl(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
+            return handler.signalReceived(new DtlsConnection.DtlsConnectionImpl(Refcounted.get(source)), new TlsCertificate(Refcounted.get(peerCert, false)), new TlsCertificateFlags(errors));
         }
         
     }
     
     class DtlsConnectionImpl extends org.gtk.gobject.Object implements DtlsConnection {
-        public DtlsConnectionImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public DtlsConnectionImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

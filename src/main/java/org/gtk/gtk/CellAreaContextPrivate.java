@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CellAreaContextPrivate extends io.github.jwharm.javagi.ResourceBase {
 
-    public CellAreaContextPrivate(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellAreaContextPrivate(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

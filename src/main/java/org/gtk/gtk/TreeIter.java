@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  */
 public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public TreeIter(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TreeIter(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TreeIter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeIter.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkTreeIter.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -32,7 +32,7 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeIter copy() {
         var RESULT = gtk_h.gtk_tree_iter_copy(handle());
-        return new TreeIter(References.get(RESULT, true));
+        return new TreeIter(Refcounted.get(RESULT, true));
     }
     
     /**

@@ -39,13 +39,13 @@ import java.lang.invoke.*;
  */
 public class TypeModule extends Object implements TypePlugin {
 
-    public TypeModule(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeModule(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to TypeModule */
     public static TypeModule castFrom(org.gtk.gobject.Object gobject) {
-        return new TypeModule(gobject.getReference());
+        return new TypeModule(gobject.refcounted());
     }
     
     /**

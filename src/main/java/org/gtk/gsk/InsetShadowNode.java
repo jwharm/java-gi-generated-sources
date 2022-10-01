@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class InsetShadowNode extends RenderNode {
 
-    public InsetShadowNode(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public InsetShadowNode(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to InsetShadowNode */
     public static InsetShadowNode castFrom(org.gtk.gobject.Object gobject) {
-        return new InsetShadowNode(gobject.getReference());
+        return new InsetShadowNode(gobject.refcounted());
     }
     
-    private static Reference constructNew(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
-        Reference RESULT = References.get(gtk_h.gsk_inset_shadow_node_new(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true);
+    private static Refcounted constructNew(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gsk_inset_shadow_node_new(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true);
         return RESULT;
     }
     
@@ -45,7 +45,7 @@ public class InsetShadowNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = gtk_h.gsk_inset_shadow_node_get_color(handle());
-        return new org.gtk.gdk.RGBA(References.get(RESULT, false));
+        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -69,7 +69,7 @@ public class InsetShadowNode extends RenderNode {
      */
     public RoundedRect getOutline() {
         var RESULT = gtk_h.gsk_inset_shadow_node_get_outline(handle());
-        return new RoundedRect(References.get(RESULT, false));
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
     /**

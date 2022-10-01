@@ -19,17 +19,17 @@ import java.lang.invoke.*;
  */
 public class UnixFDList extends org.gtk.gobject.Object {
 
-    public UnixFDList(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public UnixFDList(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to UnixFDList */
     public static UnixFDList castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixFDList(gobject.getReference());
+        return new UnixFDList(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_unix_fd_list_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_fd_list_new(), true);
         return RESULT;
     }
     
@@ -40,8 +40,8 @@ public class UnixFDList extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static Reference constructNewFromArray(int[] fds, int nFds) {
-        Reference RESULT = References.get(gtk_h.g_unix_fd_list_new_from_array(Interop.allocateNativeArray(fds).handle(), nFds), true);
+    private static Refcounted constructNewFromArray(int[] fds, int nFds) {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_fd_list_new_from_array(Interop.allocateNativeArray(fds).handle(), nFds), true);
         return RESULT;
     }
     

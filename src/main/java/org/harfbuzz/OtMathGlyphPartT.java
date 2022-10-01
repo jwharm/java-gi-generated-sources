@@ -12,12 +12,12 @@ import java.lang.invoke.*;
  */
 public class OtMathGlyphPartT extends io.github.jwharm.javagi.ResourceBase {
 
-    public OtMathGlyphPartT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OtMathGlyphPartT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public OtMathGlyphPartT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_glyph_part_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_glyph_part_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

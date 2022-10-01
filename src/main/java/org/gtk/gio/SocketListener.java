@@ -23,17 +23,17 @@ import java.lang.invoke.*;
  */
 public class SocketListener extends org.gtk.gobject.Object {
 
-    public SocketListener(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SocketListener(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SocketListener */
     public static SocketListener castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketListener(gobject.getReference());
+        return new SocketListener(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.g_socket_listener_new(), true);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.g_socket_listener_new(), true);
         return RESULT;
     }
     
@@ -65,7 +65,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -98,7 +98,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(References.get(RESULT, true));
+        return new SocketConnection(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -123,7 +123,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Socket(References.get(RESULT, true));
+        return new Socket(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -156,7 +156,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Socket(References.get(RESULT, true));
+        return new Socket(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -313,7 +313,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         public static void signalSocketListenerEvent(MemoryAddress source, int event, MemoryAddress socket, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (SocketListener.EventHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SocketListener(References.get(source)), new SocketListenerEvent(event), new Socket(References.get(socket, false)));
+            handler.signalReceived(new SocketListener(Refcounted.get(source)), new SocketListenerEvent(event), new Socket(Refcounted.get(socket, false)));
         }
         
     }

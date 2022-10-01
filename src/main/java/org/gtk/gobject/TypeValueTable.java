@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  */
 public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypeValueTable(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public TypeValueTable(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public TypeValueTable() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeValueTable.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeValueTable.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -28,7 +28,7 @@ public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static TypeValueTable peek(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_value_table_peek(type.getValue());
-        return new TypeValueTable(References.get(RESULT, false));
+        return new TypeValueTable(Refcounted.get(RESULT, false));
     }
     
 }

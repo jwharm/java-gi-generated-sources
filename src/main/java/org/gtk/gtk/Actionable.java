@@ -35,7 +35,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.Variant getActionTargetValue() {
         var RESULT = gtk_h.gtk_actionable_get_action_target_value(handle());
-        return new org.gtk.glib.Variant(References.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -93,8 +93,8 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
     }
     
     class ActionableImpl extends org.gtk.gobject.Object implements Actionable {
-        public ActionableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public ActionableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

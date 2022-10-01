@@ -153,7 +153,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      */
     public default CellArea getArea() {
         var RESULT = gtk_h.gtk_cell_layout_get_area(handle());
-        return new CellArea(References.get(RESULT, false));
+        return new CellArea(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -161,7 +161,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.glib.List getCells() {
         var RESULT = gtk_h.gtk_cell_layout_get_cells(handle());
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -221,8 +221,8 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     }
     
     class CellLayoutImpl extends org.gtk.gobject.Object implements CellLayout {
-        public CellLayoutImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public CellLayoutImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

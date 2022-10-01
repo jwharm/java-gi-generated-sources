@@ -7,17 +7,17 @@ import java.lang.invoke.*;
 
 public class PixbufNonAnim extends PixbufAnimation {
 
-    public PixbufNonAnim(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PixbufNonAnim(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PixbufNonAnim */
     public static PixbufNonAnim castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufNonAnim(gobject.getReference());
+        return new PixbufNonAnim(gobject.refcounted());
     }
     
-    private static Reference constructNew(Pixbuf pixbuf) {
-        Reference RESULT = References.get(gtk_h.gdk_pixbuf_non_anim_new(pixbuf.handle()), true);
+    private static Refcounted constructNew(Pixbuf pixbuf) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_non_anim_new(pixbuf.handle()), true);
         return RESULT;
     }
     

@@ -71,7 +71,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
      */
     public default SocketAddressEnumerator enumerate() {
         var RESULT = gtk_h.g_socket_connectable_enumerate(handle());
-        return new SocketAddressEnumerator(References.get(RESULT, true));
+        return new SocketAddressEnumerator(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -85,7 +85,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
      */
     public default SocketAddressEnumerator proxyEnumerate() {
         var RESULT = gtk_h.g_socket_connectable_proxy_enumerate(handle());
-        return new SocketAddressEnumerator(References.get(RESULT, true));
+        return new SocketAddressEnumerator(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -103,8 +103,8 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     }
     
     class SocketConnectableImpl extends org.gtk.gobject.Object implements SocketConnectable {
-        public SocketConnectableImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public SocketConnectableImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

@@ -33,7 +33,7 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
      */
     public default org.gtk.gio.AppInfo getAppInfo() {
         var RESULT = gtk_h.gtk_app_chooser_get_app_info(handle());
-        return new org.gtk.gio.AppInfo.AppInfoImpl(References.get(RESULT, true));
+        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
     /**
@@ -53,8 +53,8 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
     }
     
     class AppChooserImpl extends org.gtk.gobject.Object implements AppChooser {
-        public AppChooserImpl(io.github.jwharm.javagi.Reference reference) {
-            super(reference);
+        public AppChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
+            super(ref);
         }
     }
 }

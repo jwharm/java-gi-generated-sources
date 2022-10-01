@@ -11,17 +11,17 @@ import java.lang.invoke.*;
  */
 public class SelectionFilterModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SelectionFilterModel(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SelectionFilterModel(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SelectionFilterModel */
     public static SelectionFilterModel castFrom(org.gtk.gobject.Object gobject) {
-        return new SelectionFilterModel(gobject.getReference());
+        return new SelectionFilterModel(gobject.refcounted());
     }
     
-    private static Reference constructNew(SelectionModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_selection_filter_model_new(model.handle()), true);
+    private static Refcounted constructNew(SelectionModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_selection_filter_model_new(model.handle()), true);
         return RESULT;
     }
     
@@ -38,7 +38,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_selection_filter_model_get_model(handle());
-        return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**

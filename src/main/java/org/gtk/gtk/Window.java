@@ -65,17 +65,17 @@ import java.lang.invoke.*;
  */
 public class Window extends Widget implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public Window(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Window(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to Window */
     public static Window castFrom(org.gtk.gobject.Object gobject) {
-        return new Window(gobject.getReference());
+        return new Window(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_window_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_window_new(), false);
         return RESULT;
     }
     
@@ -153,7 +153,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Application getApplication() {
         var RESULT = gtk_h.gtk_window_get_application(handle());
-        return new Application(References.get(RESULT, false));
+        return new Application(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -161,7 +161,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_window_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -188,7 +188,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Widget getDefaultWidget() {
         var RESULT = gtk_h.gtk_window_get_default_widget(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -217,7 +217,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Widget getFocus() {
         var RESULT = gtk_h.gtk_window_get_focus(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -235,7 +235,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public WindowGroup getGroup() {
         var RESULT = gtk_h.gtk_window_get_group(handle());
-        return new WindowGroup(References.get(RESULT, false));
+        return new WindowGroup(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -301,7 +301,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Widget getTitlebar() {
         var RESULT = gtk_h.gtk_window_get_titlebar(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -309,7 +309,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Window getTransientFor() {
         var RESULT = gtk_h.gtk_window_get_transient_for(handle());
-        return new Window(References.get(RESULT, false));
+        return new Window(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -791,7 +791,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public static org.gtk.gio.ListModel getToplevels() {
         var RESULT = gtk_h.gtk_window_get_toplevels();
-        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -805,7 +805,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public static org.gtk.glib.List listToplevels() {
         var RESULT = gtk_h.gtk_window_list_toplevels();
-        return new org.gtk.glib.List(References.get(RESULT, false));
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -998,31 +998,31 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         public static void signalWindowActivateDefault(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Window.ActivateDefaultHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Window(References.get(source)));
+            handler.signalReceived(new Window(Refcounted.get(source)));
         }
         
         public static void signalWindowActivateFocus(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Window.ActivateFocusHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Window(References.get(source)));
+            handler.signalReceived(new Window(Refcounted.get(source)));
         }
         
         public static boolean signalWindowCloseRequest(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Window.CloseRequestHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Window(References.get(source)));
+            return handler.signalReceived(new Window(Refcounted.get(source)));
         }
         
         public static boolean signalWindowEnableDebugging(MemoryAddress source, int toggle, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Window.EnableDebuggingHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Window(References.get(source)), toggle != 0);
+            return handler.signalReceived(new Window(Refcounted.get(source)), toggle != 0);
         }
         
         public static void signalWindowKeysChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Window.KeysChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Window(References.get(source)));
+            handler.signalReceived(new Window(Refcounted.get(source)));
         }
         
     }

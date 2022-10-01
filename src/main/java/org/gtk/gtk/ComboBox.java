@@ -69,17 +69,17 @@ import java.lang.invoke.*;
  */
 public class ComboBox extends Widget implements Accessible, Buildable, CellEditable, CellLayout, ConstraintTarget {
 
-    public ComboBox(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public ComboBox(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to ComboBox */
     public static ComboBox castFrom(org.gtk.gobject.Object gobject) {
-        return new ComboBox(gobject.getReference());
+        return new ComboBox(gobject.refcounted());
     }
     
-    private static Reference constructNew() {
-        Reference RESULT = References.get(gtk_h.gtk_combo_box_new(), false);
+    private static Refcounted constructNew() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_combo_box_new(), false);
         return RESULT;
     }
     
@@ -90,8 +90,8 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         super(constructNew());
     }
     
-    private static Reference constructNewWithEntry() {
-        Reference RESULT = References.get(gtk_h.gtk_combo_box_new_with_entry(), false);
+    private static Refcounted constructNewWithEntry() {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_combo_box_new_with_entry(), false);
         return RESULT;
     }
     
@@ -106,8 +106,8 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         return new ComboBox(constructNewWithEntry());
     }
     
-    private static Reference constructNewWithModel(TreeModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_combo_box_new_with_model(model.handle()), false);
+    private static Refcounted constructNewWithModel(TreeModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_combo_box_new_with_model(model.handle()), false);
         return RESULT;
     }
     
@@ -118,8 +118,8 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         return new ComboBox(constructNewWithModel(model));
     }
     
-    private static Reference constructNewWithModelAndEntry(TreeModel model) {
-        Reference RESULT = References.get(gtk_h.gtk_combo_box_new_with_model_and_entry(model.handle()), false);
+    private static Refcounted constructNewWithModelAndEntry(TreeModel model) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_combo_box_new_with_model_and_entry(model.handle()), false);
         return RESULT;
     }
     
@@ -189,7 +189,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_combo_box_get_child(handle());
-        return new Widget(References.get(RESULT, false));
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -223,7 +223,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_combo_box_get_model(handle());
-        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -597,37 +597,37 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         public static void signalComboBoxActivate(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ComboBox.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ComboBox(References.get(source)));
+            handler.signalReceived(new ComboBox(Refcounted.get(source)));
         }
         
         public static void signalComboBoxChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ComboBox.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ComboBox(References.get(source)));
+            handler.signalReceived(new ComboBox(Refcounted.get(source)));
         }
         
         public static void signalComboBoxFormatEntryText(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ComboBox.FormatEntryTextHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ComboBox(References.get(source)), path.getUtf8String(0));
+            handler.signalReceived(new ComboBox(Refcounted.get(source)), path.getUtf8String(0));
         }
         
         public static void signalComboBoxMoveActive(MemoryAddress source, int scrollType, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ComboBox.MoveActiveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ComboBox(References.get(source)), new ScrollType(scrollType));
+            handler.signalReceived(new ComboBox(Refcounted.get(source)), new ScrollType(scrollType));
         }
         
         public static boolean signalComboBoxPopdown(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ComboBox.PopdownHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new ComboBox(References.get(source)));
+            return handler.signalReceived(new ComboBox(Refcounted.get(source)));
         }
         
         public static void signalComboBoxPopup(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (ComboBox.PopupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ComboBox(References.get(source)));
+            handler.signalReceived(new ComboBox(Refcounted.get(source)));
         }
         
     }

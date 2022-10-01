@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class Hook extends io.github.jwharm.javagi.ResourceBase {
 
-    public Hook(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public Hook(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public Hook() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GHook.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GHook.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -32,7 +32,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hook alloc(HookList hookList) {
         var RESULT = gtk_h.g_hook_alloc(hookList.handle());
-        return new Hook(References.get(RESULT, false));
+        return new Hook(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -64,7 +64,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new Hook(References.get(RESULT, false));
+            return new Hook(Refcounted.get(RESULT, false));
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +75,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hook findData(HookList hookList, boolean needValids, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_hook_find_data(hookList.handle(), needValids ? 1 : 0, data);
-        return new Hook(References.get(RESULT, false));
+        return new Hook(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -83,7 +83,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hook findFunc(HookList hookList, boolean needValids, java.lang.foreign.MemoryAddress func) {
         var RESULT = gtk_h.g_hook_find_func(hookList.handle(), needValids ? 1 : 0, func);
-        return new Hook(References.get(RESULT, false));
+        return new Hook(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hook findFuncData(HookList hookList, boolean needValids, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_hook_find_func_data(hookList.handle(), needValids ? 1 : 0, func, data);
-        return new Hook(References.get(RESULT, false));
+        return new Hook(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hook firstValid(HookList hookList, boolean mayBeInCall) {
         var RESULT = gtk_h.g_hook_first_valid(hookList.handle(), mayBeInCall ? 1 : 0);
-        return new Hook(References.get(RESULT, false));
+        return new Hook(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -118,7 +118,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hook get(HookList hookList, long hookId) {
         var RESULT = gtk_h.g_hook_get(hookList.handle(), hookId);
-        return new Hook(References.get(RESULT, false));
+        return new Hook(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -136,7 +136,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hook nextValid(HookList hookList, Hook hook, boolean mayBeInCall) {
         var RESULT = gtk_h.g_hook_next_valid(hookList.handle(), hook.handle(), mayBeInCall ? 1 : 0);
-        return new Hook(References.get(RESULT, false));
+        return new Hook(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -151,7 +151,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Hook ref(HookList hookList, Hook hook) {
         var RESULT = gtk_h.g_hook_ref(hookList.handle(), hook.handle());
-        return new Hook(References.get(RESULT, false));
+        return new Hook(Refcounted.get(RESULT, false));
     }
     
     /**

@@ -40,17 +40,17 @@ import java.lang.invoke.*;
  */
 public class SpringAnimation extends Animation {
 
-    public SpringAnimation(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public SpringAnimation(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to SpringAnimation */
     public static SpringAnimation castFrom(org.gtk.gobject.Object gobject) {
-        return new SpringAnimation(gobject.getReference());
+        return new SpringAnimation(gobject.refcounted());
     }
     
-    private static Reference constructNew(org.gtk.gtk.Widget widget, double from, double to, SpringParams springParams, AnimationTarget target) {
-        Reference RESULT = References.get(gtk_h.adw_spring_animation_new(widget.handle(), from, to, springParams.getReference().unowned().handle(), target.getReference().unowned().handle()), false);
+    private static Refcounted constructNew(org.gtk.gtk.Widget widget, double from, double to, SpringParams springParams, AnimationTarget target) {
+        Refcounted RESULT = Refcounted.get(gtk_h.adw_spring_animation_new(widget.handle(), from, to, springParams.refcounted().unowned().handle(), target.refcounted().unowned().handle()), false);
         return RESULT;
     }
     
@@ -101,7 +101,7 @@ public class SpringAnimation extends Animation {
      */
     public SpringParams getSpringParams() {
         var RESULT = gtk_h.adw_spring_animation_get_spring_params(handle());
-        return new SpringParams(References.get(RESULT, false));
+        return new SpringParams(Refcounted.get(RESULT, false));
     }
     
     /**

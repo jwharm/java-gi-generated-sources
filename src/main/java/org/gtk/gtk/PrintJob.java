@@ -19,17 +19,17 @@ import java.lang.invoke.*;
  */
 public class PrintJob extends org.gtk.gobject.Object {
 
-    public PrintJob(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public PrintJob(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to PrintJob */
     public static PrintJob castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintJob(gobject.getReference());
+        return new PrintJob(gobject.refcounted());
     }
     
-    private static Reference constructNew(java.lang.String title, Printer printer, PrintSettings settings, PageSetup pageSetup) {
-        Reference RESULT = References.get(gtk_h.gtk_print_job_new(Interop.allocateNativeString(title).handle(), printer.handle(), settings.handle(), pageSetup.handle()), true);
+    private static Refcounted constructNew(java.lang.String title, Printer printer, PrintSettings settings, PageSetup pageSetup) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_job_new(Interop.allocateNativeString(title).handle(), printer.handle(), settings.handle(), pageSetup.handle()), true);
         return RESULT;
     }
     
@@ -101,7 +101,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public Printer getPrinter() {
         var RESULT = gtk_h.gtk_print_job_get_printer(handle());
-        return new Printer(References.get(RESULT, false));
+        return new Printer(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -133,7 +133,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public PrintSettings getSettings() {
         var RESULT = gtk_h.gtk_print_job_get_settings(handle());
-        return new PrintSettings(References.get(RESULT, false));
+        return new PrintSettings(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -154,7 +154,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.cairographics.Surface(References.get(RESULT, false));
+        return new org.cairographics.Surface(Refcounted.get(RESULT, false));
     }
     
     /**
@@ -353,7 +353,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         public static void signalPrintJobStatusChanged(MemoryAddress source, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (PrintJob.StatusChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PrintJob(References.get(source)));
+            handler.signalReceived(new PrintJob(Refcounted.get(source)));
         }
         
     }

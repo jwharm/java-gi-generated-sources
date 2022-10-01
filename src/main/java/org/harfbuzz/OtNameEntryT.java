@@ -10,12 +10,12 @@ import java.lang.invoke.*;
  */
 public class OtNameEntryT extends io.github.jwharm.javagi.ResourceBase {
 
-    public OtNameEntryT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public OtNameEntryT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public OtNameEntryT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_name_entry_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_ot_name_entry_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

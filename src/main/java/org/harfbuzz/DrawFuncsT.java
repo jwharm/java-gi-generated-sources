@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  */
 public class DrawFuncsT extends io.github.jwharm.javagi.ResourceBase {
 
-    public DrawFuncsT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public DrawFuncsT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
 }

@@ -10,17 +10,17 @@ import java.lang.invoke.*;
  */
 public class KeyvalTrigger extends ShortcutTrigger {
 
-    public KeyvalTrigger(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public KeyvalTrigger(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     /** Cast object to KeyvalTrigger */
     public static KeyvalTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new KeyvalTrigger(gobject.getReference());
+        return new KeyvalTrigger(gobject.refcounted());
     }
     
-    private static Reference constructNew(int keyval, org.gtk.gdk.ModifierType modifiers) {
-        Reference RESULT = References.get(gtk_h.gtk_keyval_trigger_new(keyval, modifiers.getValue()), true);
+    private static Refcounted constructNew(int keyval, org.gtk.gdk.ModifierType modifiers) {
+        Refcounted RESULT = Refcounted.get(gtk_h.gtk_keyval_trigger_new(keyval, modifiers.getValue()), true);
         return RESULT;
     }
     

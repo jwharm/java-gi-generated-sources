@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  */
 public class FontExtentsT extends io.github.jwharm.javagi.ResourceBase {
 
-    public FontExtentsT(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public FontExtentsT(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public FontExtentsT() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_font_extents_t.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_font_extents_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

@@ -7,12 +7,12 @@ import java.lang.invoke.*;
 
 public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public CellAreaClass(io.github.jwharm.javagi.Reference reference) {
-        super(reference);
+    public CellAreaClass(io.github.jwharm.javagi.Refcounted ref) {
+        super(ref);
     }
     
     public CellAreaClass() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCellAreaClass.allocate(Interop.getAllocator()).address()));
+        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkCellAreaClass.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -20,7 +20,7 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gobject.ParamSpec findCellProperty(java.lang.String propertyName) {
         var RESULT = gtk_h.gtk_cell_area_class_find_cell_property(handle(), Interop.allocateNativeString(propertyName).handle());
-        return new org.gtk.gobject.ParamSpec(References.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
     }
     
     /**
