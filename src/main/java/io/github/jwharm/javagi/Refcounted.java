@@ -1,7 +1,10 @@
 package io.github.jwharm.javagi;
 
 import java.lang.foreign.Addressable;
+import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.ValueLayout;
+import java.lang.invoke.MethodHandle;
 import java.lang.ref.Cleaner;
 import java.util.Collections;
 import java.util.Set;
@@ -12,6 +15,11 @@ public class Refcounted {
     private final static Cleaner cleaner = Cleaner.create();
     private Refcounted.State state;
     private Cleaner.Cleanable cleanable;
+    
+    private static final MethodHandle g_object_unref = Interop.downcallHandle(
+        "g_object_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
 
     private static class State implements Runnable {
         Addressable address;
@@ -24,7 +32,11 @@ public class Refcounted {
 
         public void run() {
             if (owned) {
-                // io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_unref(address);
+                try {
+                    g_object_unref.invokeExact(address);
+                } catch (Throwable ERR) {
+                    throw new AssertionError("Unexpected exception occured: ", ERR);
+                }
             }
         }
     }
