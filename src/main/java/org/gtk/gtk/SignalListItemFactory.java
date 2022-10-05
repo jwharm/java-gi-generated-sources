@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -58,9 +57,18 @@ public class SignalListItemFactory extends ListItemFactory {
         return new SignalListItemFactory(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_signal_list_item_factory_new = Interop.downcallHandle(
+        "gtk_signal_list_item_factory_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_signal_list_item_factory_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_signal_list_item_factory_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -90,19 +98,19 @@ public class SignalListItemFactory extends ListItemFactory {
      */
     public SignalHandle onBind(BindHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("bind").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryBind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -121,19 +129,19 @@ public class SignalListItemFactory extends ListItemFactory {
      */
     public SignalHandle onSetup(SetupHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("setup").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactorySetup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -152,19 +160,19 @@ public class SignalListItemFactory extends ListItemFactory {
      */
     public SignalHandle onTeardown(TeardownHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("teardown").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryTeardown",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -182,19 +190,19 @@ public class SignalListItemFactory extends ListItemFactory {
      */
     public SignalHandle onUnbind(UnbindHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("unbind").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryUnbind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,6 +18,11 @@ public class NothingAction extends ShortcutAction {
         return new NothingAction(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_nothing_action_get = Interop.downcallHandle(
+        "gtk_nothing_action_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the nothing action.
      * <p>
@@ -26,8 +30,12 @@ public class NothingAction extends ShortcutAction {
      * activating it always fails.
      */
     public static NothingAction get() {
-        var RESULT = gtk_h.gtk_nothing_action_get();
-        return new NothingAction(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_nothing_action_get.invokeExact();
+            return new NothingAction(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

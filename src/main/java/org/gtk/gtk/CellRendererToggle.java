@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,9 +23,18 @@ public class CellRendererToggle extends CellRenderer {
         return new CellRendererToggle(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_cell_renderer_toggle_new = Interop.downcallHandle(
+        "gtk_cell_renderer_toggle_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_renderer_toggle_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_toggle_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -42,45 +50,95 @@ public class CellRendererToggle extends CellRenderer {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_cell_renderer_toggle_get_activatable = Interop.downcallHandle(
+        "gtk_cell_renderer_toggle_get_activatable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether the cell renderer is activatable. See
      * gtk_cell_renderer_toggle_set_activatable().
      */
     public boolean getActivatable() {
-        var RESULT = gtk_h.gtk_cell_renderer_toggle_get_activatable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_toggle_get_activatable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_toggle_get_active = Interop.downcallHandle(
+        "gtk_cell_renderer_toggle_get_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the cell renderer is active. See
      * gtk_cell_renderer_toggle_set_active().
      */
     public boolean getActive() {
-        var RESULT = gtk_h.gtk_cell_renderer_toggle_get_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_toggle_get_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_toggle_get_radio = Interop.downcallHandle(
+        "gtk_cell_renderer_toggle_get_radio",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether we’re rendering radio toggles rather than checkboxes.
      */
     public boolean getRadio() {
-        var RESULT = gtk_h.gtk_cell_renderer_toggle_get_radio(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_toggle_get_radio.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_toggle_set_activatable = Interop.downcallHandle(
+        "gtk_cell_renderer_toggle_set_activatable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Makes the cell renderer activatable.
      */
     public void setActivatable(boolean setting) {
-        gtk_h.gtk_cell_renderer_toggle_set_activatable(handle(), setting ? 1 : 0);
+        try {
+            gtk_cell_renderer_toggle_set_activatable.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_toggle_set_active = Interop.downcallHandle(
+        "gtk_cell_renderer_toggle_set_active",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Activates or deactivates a cell renderer.
      */
     public void setActive(boolean setting) {
-        gtk_h.gtk_cell_renderer_toggle_set_active(handle(), setting ? 1 : 0);
+        try {
+            gtk_cell_renderer_toggle_set_active.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_toggle_set_radio = Interop.downcallHandle(
+        "gtk_cell_renderer_toggle_set_radio",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code radio} is {@code true}, the cell renderer renders a radio toggle
@@ -92,7 +150,11 @@ public class CellRendererToggle extends CellRenderer {
      * columns with cell renderer properties).
      */
     public void setRadio(boolean radio) {
-        gtk_h.gtk_cell_renderer_toggle_set_radio(handle(), radio ? 1 : 0);
+        try {
+            gtk_cell_renderer_toggle_set_radio.invokeExact(handle(), radio ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -109,19 +171,19 @@ public class CellRendererToggle extends CellRenderer {
      */
     public SignalHandle onToggled(ToggledHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("toggled").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRendererToggle.Callbacks.class, "signalCellRendererToggleToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -105,9 +104,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         return new Entry(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_entry_new = Interop.downcallHandle(
+        "gtk_entry_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_entry_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_entry_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -117,9 +125,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         super(constructNew());
     }
     
+    static final MethodHandle gtk_entry_new_with_buffer = Interop.downcallHandle(
+        "gtk_entry_new_with_buffer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithBuffer(EntryBuffer buffer) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_entry_new_with_buffer(buffer.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_entry_new_with_buffer.invokeExact(buffer.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -129,13 +146,27 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         return new Entry(constructNewWithBuffer(buffer));
     }
     
+    static final MethodHandle gtk_entry_get_activates_default = Interop.downcallHandle(
+        "gtk_entry_get_activates_default",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the value set by gtk_entry_set_activates_default().
      */
     public boolean getActivatesDefault() {
-        var RESULT = gtk_h.gtk_entry_get_activates_default(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_entry_get_activates_default.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_alignment = Interop.downcallHandle(
+        "gtk_entry_get_alignment",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value set by gtk_entry_set_alignment().
@@ -143,9 +174,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See also: {@code Gtk.Editable:xalign}
      */
     public float getAlignment() {
-        var RESULT = gtk_h.gtk_entry_get_alignment(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gtk_entry_get_alignment.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_attributes = Interop.downcallHandle(
+        "gtk_entry_get_attributes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the attribute list of the {@code GtkEntry}.
@@ -153,60 +193,123 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See {@link Entry#setAttributes}.
      */
     public org.pango.AttrList getAttributes() {
-        var RESULT = gtk_h.gtk_entry_get_attributes(handle());
-        return new org.pango.AttrList(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_attributes.invokeExact(handle());
+            return new org.pango.AttrList(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_buffer = Interop.downcallHandle(
+        "gtk_entry_get_buffer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the {@code GtkEntryBuffer} object which holds the text for
      * this widget.
      */
     public EntryBuffer getBuffer() {
-        var RESULT = gtk_h.gtk_entry_get_buffer(handle());
-        return new EntryBuffer(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_buffer.invokeExact(handle());
+            return new EntryBuffer(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_completion = Interop.downcallHandle(
+        "gtk_entry_get_completion",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the auxiliary completion object currently
      * in use by {@code entry}.
      */
     public EntryCompletion getCompletion() {
-        var RESULT = gtk_h.gtk_entry_get_completion(handle());
-        return new EntryCompletion(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_completion.invokeExact(handle());
+            return new EntryCompletion(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_current_icon_drag_source = Interop.downcallHandle(
+        "gtk_entry_get_current_icon_drag_source",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the index of the icon which is the source of the
      * current  DND operation, or -1.
      */
     public int getCurrentIconDragSource() {
-        var RESULT = gtk_h.gtk_entry_get_current_icon_drag_source(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_entry_get_current_icon_drag_source.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_extra_menu = Interop.downcallHandle(
+        "gtk_entry_get_extra_menu",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the menu model set with gtk_entry_set_extra_menu().
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
-        var RESULT = gtk_h.gtk_entry_get_extra_menu(handle());
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_extra_menu.invokeExact(handle());
+            return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_has_frame = Interop.downcallHandle(
+        "gtk_entry_get_has_frame",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value set by gtk_entry_set_has_frame().
      */
     public boolean getHasFrame() {
-        var RESULT = gtk_h.gtk_entry_get_has_frame(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_entry_get_has_frame.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_activatable = Interop.downcallHandle(
+        "gtk_entry_get_icon_activatable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns whether the icon is activatable.
      */
     public boolean getIconActivatable(EntryIconPosition iconPos) {
-        var RESULT = gtk_h.gtk_entry_get_icon_activatable(handle(), iconPos.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_entry_get_icon_activatable.invokeExact(handle(), iconPos.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_area = Interop.downcallHandle(
+        "gtk_entry_get_icon_area",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the area where entry’s icon at {@code icon_pos} is drawn.
@@ -220,8 +323,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * relative to {@code entry}'s allocation.
      */
     public void getIconArea(EntryIconPosition iconPos, org.gtk.gdk.Rectangle iconArea) {
-        gtk_h.gtk_entry_get_icon_area(handle(), iconPos.getValue(), iconArea.handle());
+        try {
+            gtk_entry_get_icon_area.invokeExact(handle(), iconPos.getValue(), iconArea.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_at_pos = Interop.downcallHandle(
+        "gtk_entry_get_icon_at_pos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Finds the icon at the given position and return its index.
@@ -232,9 +344,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      *  {@code Gtk.Widget::query-tooltip} signal handler.
      */
     public int getIconAtPos(int x, int y) {
-        var RESULT = gtk_h.gtk_entry_get_icon_at_pos(handle(), x, y);
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_entry_get_icon_at_pos.invokeExact(handle(), x, y);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_gicon = Interop.downcallHandle(
+        "gtk_entry_get_icon_gicon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the {@code GIcon} used for the icon.
@@ -243,9 +364,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * set by some other method (e.g., by {@code GdkPaintable} or icon name).
      */
     public org.gtk.gio.Icon getIconGicon(EntryIconPosition iconPos) {
-        var RESULT = gtk_h.gtk_entry_get_icon_gicon(handle(), iconPos.getValue());
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_icon_gicon.invokeExact(handle(), iconPos.getValue());
+            return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_name = Interop.downcallHandle(
+        "gtk_entry_get_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the icon name used for the icon.
@@ -254,9 +384,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * by some other method (e.g., by {@code GdkPaintable} or gicon).
      */
     public java.lang.String getIconName(EntryIconPosition iconPos) {
-        var RESULT = gtk_h.gtk_entry_get_icon_name(handle(), iconPos.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_icon_name.invokeExact(handle(), iconPos.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_paintable = Interop.downcallHandle(
+        "gtk_entry_get_icon_paintable",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the {@code GdkPaintable} used for the icon.
@@ -264,17 +403,35 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * If no {@code GdkPaintable} was used for the icon, {@code null} is returned.
      */
     public org.gtk.gdk.Paintable getIconPaintable(EntryIconPosition iconPos) {
-        var RESULT = gtk_h.gtk_entry_get_icon_paintable(handle(), iconPos.getValue());
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_icon_paintable.invokeExact(handle(), iconPos.getValue());
+            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_sensitive = Interop.downcallHandle(
+        "gtk_entry_get_icon_sensitive",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns whether the icon appears sensitive or insensitive.
      */
     public boolean getIconSensitive(EntryIconPosition iconPos) {
-        var RESULT = gtk_h.gtk_entry_get_icon_sensitive(handle(), iconPos.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_entry_get_icon_sensitive.invokeExact(handle(), iconPos.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_storage_type = Interop.downcallHandle(
+        "gtk_entry_get_icon_storage_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the type of representation being used by the icon
@@ -284,52 +441,106 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * be {@link ImageType#EMPTY}.
      */
     public ImageType getIconStorageType(EntryIconPosition iconPos) {
-        var RESULT = gtk_h.gtk_entry_get_icon_storage_type(handle(), iconPos.getValue());
-        return new ImageType(RESULT);
+        try {
+            var RESULT = (int) gtk_entry_get_icon_storage_type.invokeExact(handle(), iconPos.getValue());
+            return new ImageType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_tooltip_markup = Interop.downcallHandle(
+        "gtk_entry_get_icon_tooltip_markup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the contents of the tooltip on the icon at the specified
      * position in {@code entry}.
      */
     public java.lang.String getIconTooltipMarkup(EntryIconPosition iconPos) {
-        var RESULT = gtk_h.gtk_entry_get_icon_tooltip_markup(handle(), iconPos.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_icon_tooltip_markup.invokeExact(handle(), iconPos.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_icon_tooltip_text = Interop.downcallHandle(
+        "gtk_entry_get_icon_tooltip_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the contents of the tooltip on the icon at the specified
      * position in {@code entry}.
      */
     public java.lang.String getIconTooltipText(EntryIconPosition iconPos) {
-        var RESULT = gtk_h.gtk_entry_get_icon_tooltip_text(handle(), iconPos.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_icon_tooltip_text.invokeExact(handle(), iconPos.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_input_hints = Interop.downcallHandle(
+        "gtk_entry_get_input_hints",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the input hints of this {@code GtkEntry}.
      */
     public InputHints getInputHints() {
-        var RESULT = gtk_h.gtk_entry_get_input_hints(handle());
-        return new InputHints(RESULT);
+        try {
+            var RESULT = (int) gtk_entry_get_input_hints.invokeExact(handle());
+            return new InputHints(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_input_purpose = Interop.downcallHandle(
+        "gtk_entry_get_input_purpose",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the input purpose of the {@code GtkEntry}.
      */
     public InputPurpose getInputPurpose() {
-        var RESULT = gtk_h.gtk_entry_get_input_purpose(handle());
-        return new InputPurpose(RESULT);
+        try {
+            var RESULT = (int) gtk_entry_get_input_purpose.invokeExact(handle());
+            return new InputPurpose(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_invisible_char = Interop.downcallHandle(
+        "gtk_entry_get_invisible_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the character displayed in place of the actual text
      * in “password mode”.
      */
     public int getInvisibleChar() {
-        var RESULT = gtk_h.gtk_entry_get_invisible_char(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_entry_get_invisible_char.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_max_length = Interop.downcallHandle(
+        "gtk_entry_get_max_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the maximum allowed length of the text in {@code entry}.
@@ -337,26 +548,53 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See {@link Entry#setMaxLength}.
      */
     public int getMaxLength() {
-        var RESULT = gtk_h.gtk_entry_get_max_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_entry_get_max_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_overwrite_mode = Interop.downcallHandle(
+        "gtk_entry_get_overwrite_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the {@code GtkEntry} is in overwrite mode.
      */
     public boolean getOverwriteMode() {
-        var RESULT = gtk_h.gtk_entry_get_overwrite_mode(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_entry_get_overwrite_mode.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_placeholder_text = Interop.downcallHandle(
+        "gtk_entry_get_placeholder_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the text that will be displayed when {@code entry}
      * is empty and unfocused
      */
     public java.lang.String getPlaceholderText() {
-        var RESULT = gtk_h.gtk_entry_get_placeholder_text(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_placeholder_text.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_progress_fraction = Interop.downcallHandle(
+        "gtk_entry_get_progress_fraction",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current fraction of the task that’s been completed.
@@ -364,18 +602,36 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See {@link Entry#setProgressFraction}.
      */
     public double getProgressFraction() {
-        var RESULT = gtk_h.gtk_entry_get_progress_fraction(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_entry_get_progress_fraction.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_progress_pulse_step = Interop.downcallHandle(
+        "gtk_entry_get_progress_pulse_step",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the pulse step set with
      * gtk_entry_set_progress_pulse_step().
      */
     public double getProgressPulseStep() {
-        var RESULT = gtk_h.gtk_entry_get_progress_pulse_step(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_entry_get_progress_pulse_step.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_tabs = Interop.downcallHandle(
+        "gtk_entry_get_tabs",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the tabstops of the `GtkEntry.
@@ -383,9 +639,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See {@link Entry#setTabs}.
      */
     public org.pango.TabArray getTabs() {
-        var RESULT = gtk_h.gtk_entry_get_tabs(handle());
-        return new org.pango.TabArray(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_get_tabs.invokeExact(handle());
+            return new org.pango.TabArray(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_text_length = Interop.downcallHandle(
+        "gtk_entry_get_text_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the current length of the text in {@code entry}.
@@ -394,9 +659,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * and calling {@link EntryBuffer#getLength} on it.
      */
     public short getTextLength() {
-        var RESULT = gtk_h.gtk_entry_get_text_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (short) gtk_entry_get_text_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_get_visibility = Interop.downcallHandle(
+        "gtk_entry_get_visibility",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves whether the text in {@code entry} is visible.
@@ -404,9 +678,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See {@link Entry#setVisibility}.
      */
     public boolean getVisibility() {
-        var RESULT = gtk_h.gtk_entry_get_visibility(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_entry_get_visibility.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_grab_focus_without_selecting = Interop.downcallHandle(
+        "gtk_entry_grab_focus_without_selecting",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Causes {@code entry} to have keyboard focus.
@@ -417,9 +700,18 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * in, such as search-as-you-type entries.
      */
     public boolean grabFocusWithoutSelecting() {
-        var RESULT = gtk_h.gtk_entry_grab_focus_without_selecting(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_entry_grab_focus_without_selecting.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_progress_pulse = Interop.downcallHandle(
+        "gtk_entry_progress_pulse",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Indicates that some progress is made, but you don’t
@@ -432,8 +724,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * by {@link Entry#setProgressPulseStep}).
      */
     public void progressPulse() {
-        gtk_h.gtk_entry_progress_pulse(handle());
+        try {
+            gtk_entry_progress_pulse.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_reset_im_context = Interop.downcallHandle(
+        "gtk_entry_reset_im_context",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Reset the input method context of the entry if needed.
@@ -442,8 +743,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * would confuse on-going input method behavior.
      */
     public void resetImContext() {
-        gtk_h.gtk_entry_reset_im_context(handle());
+        try {
+            gtk_entry_reset_im_context.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_activates_default = Interop.downcallHandle(
+        "gtk_entry_set_activates_default",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether pressing Enter in the {@code entry} will activate the default
@@ -453,8 +763,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * since the default widget is usually one of the dialog buttons.
      */
     public void setActivatesDefault(boolean setting) {
-        gtk_h.gtk_entry_set_activates_default(handle(), setting ? 1 : 0);
+        try {
+            gtk_entry_set_activates_default.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_alignment = Interop.downcallHandle(
+        "gtk_entry_set_alignment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the alignment for the contents of the entry.
@@ -465,8 +784,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See also: {@code Gtk.Editable:xalign}
      */
     public void setAlignment(float xalign) {
-        gtk_h.gtk_entry_set_alignment(handle(), xalign);
+        try {
+            gtk_entry_set_alignment.invokeExact(handle(), xalign);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_attributes = Interop.downcallHandle(
+        "gtk_entry_set_attributes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@code PangoAttrList}.
@@ -478,16 +806,34 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * with unlimited extent.
      */
     public void setAttributes(org.pango.AttrList attrs) {
-        gtk_h.gtk_entry_set_attributes(handle(), attrs.handle());
+        try {
+            gtk_entry_set_attributes.invokeExact(handle(), attrs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_buffer = Interop.downcallHandle(
+        "gtk_entry_set_buffer",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the {@code GtkEntryBuffer} object which holds the text for
      * this widget.
      */
     public void setBuffer(EntryBuffer buffer) {
-        gtk_h.gtk_entry_set_buffer(handle(), buffer.handle());
+        try {
+            gtk_entry_set_buffer.invokeExact(handle(), buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_completion = Interop.downcallHandle(
+        "gtk_entry_set_completion",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code completion} to be the auxiliary completion object
@@ -498,30 +844,66 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Completion is disabled if {@code completion} is set to {@code null}.
      */
     public void setCompletion(EntryCompletion completion) {
-        gtk_h.gtk_entry_set_completion(handle(), completion.handle());
+        try {
+            gtk_entry_set_completion.invokeExact(handle(), completion.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_extra_menu = Interop.downcallHandle(
+        "gtk_entry_set_extra_menu",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a menu model to add when constructing
      * the context menu for {@code entry}.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
-        gtk_h.gtk_entry_set_extra_menu(handle(), model.handle());
+        try {
+            gtk_entry_set_extra_menu.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_has_frame = Interop.downcallHandle(
+        "gtk_entry_set_has_frame",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the entry has a beveled frame around it.
      */
     public void setHasFrame(boolean setting) {
-        gtk_h.gtk_entry_set_has_frame(handle(), setting ? 1 : 0);
+        try {
+            gtk_entry_set_has_frame.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_icon_activatable = Interop.downcallHandle(
+        "gtk_entry_set_icon_activatable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the icon is activatable.
      */
     public void setIconActivatable(EntryIconPosition iconPos, boolean activatable) {
-        gtk_h.gtk_entry_set_icon_activatable(handle(), iconPos.getValue(), activatable ? 1 : 0);
+        try {
+            gtk_entry_set_icon_activatable.invokeExact(handle(), iconPos.getValue(), activatable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_icon_drag_source = Interop.downcallHandle(
+        "gtk_entry_set_icon_drag_source",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets up the icon at the given position as drag source.
@@ -530,8 +912,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * operation when the user clicks and drags the icon.
      */
     public void setIconDragSource(EntryIconPosition iconPos, org.gtk.gdk.ContentProvider provider, org.gtk.gdk.DragAction actions) {
-        gtk_h.gtk_entry_set_icon_drag_source(handle(), iconPos.getValue(), provider.handle(), actions.getValue());
+        try {
+            gtk_entry_set_icon_drag_source.invokeExact(handle(), iconPos.getValue(), provider.handle(), actions.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_icon_from_gicon = Interop.downcallHandle(
+        "gtk_entry_set_icon_from_gicon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon shown in the entry at the specified position
@@ -544,8 +935,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * specified position.
      */
     public void setIconFromGicon(EntryIconPosition iconPos, org.gtk.gio.Icon icon) {
-        gtk_h.gtk_entry_set_icon_from_gicon(handle(), iconPos.getValue(), icon.handle());
+        try {
+            gtk_entry_set_icon_from_gicon.invokeExact(handle(), iconPos.getValue(), icon.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_icon_from_icon_name = Interop.downcallHandle(
+        "gtk_entry_set_icon_from_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon shown in the entry at the specified position
@@ -558,8 +958,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * specified position.
      */
     public void setIconFromIconName(EntryIconPosition iconPos, java.lang.String iconName) {
-        gtk_h.gtk_entry_set_icon_from_icon_name(handle(), iconPos.getValue(), Interop.allocateNativeString(iconName).handle());
+        try {
+            gtk_entry_set_icon_from_icon_name.invokeExact(handle(), iconPos.getValue(), Interop.allocateNativeString(iconName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_icon_from_paintable = Interop.downcallHandle(
+        "gtk_entry_set_icon_from_paintable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon shown in the specified position using a {@code GdkPaintable}.
@@ -567,15 +976,33 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * If {@code paintable} is {@code null}, no icon will be shown in the specified position.
      */
     public void setIconFromPaintable(EntryIconPosition iconPos, org.gtk.gdk.Paintable paintable) {
-        gtk_h.gtk_entry_set_icon_from_paintable(handle(), iconPos.getValue(), paintable.handle());
+        try {
+            gtk_entry_set_icon_from_paintable.invokeExact(handle(), iconPos.getValue(), paintable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_icon_sensitive = Interop.downcallHandle(
+        "gtk_entry_set_icon_sensitive",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the sensitivity for the specified icon.
      */
     public void setIconSensitive(EntryIconPosition iconPos, boolean sensitive) {
-        gtk_h.gtk_entry_set_icon_sensitive(handle(), iconPos.getValue(), sensitive ? 1 : 0);
+        try {
+            gtk_entry_set_icon_sensitive.invokeExact(handle(), iconPos.getValue(), sensitive ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_icon_tooltip_markup = Interop.downcallHandle(
+        "gtk_entry_set_icon_tooltip_markup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code tooltip} as the contents of the tooltip for the icon at
@@ -589,8 +1016,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * {@link Entry#setIconTooltipText}.
      */
     public void setIconTooltipMarkup(EntryIconPosition iconPos, java.lang.String tooltip) {
-        gtk_h.gtk_entry_set_icon_tooltip_markup(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip).handle());
+        try {
+            gtk_entry_set_icon_tooltip_markup.invokeExact(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_icon_tooltip_text = Interop.downcallHandle(
+        "gtk_entry_set_icon_tooltip_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code tooltip} as the contents of the tooltip for the icon
@@ -612,24 +1048,51 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * achieves the same result.
      */
     public void setIconTooltipText(EntryIconPosition iconPos, java.lang.String tooltip) {
-        gtk_h.gtk_entry_set_icon_tooltip_text(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip).handle());
+        try {
+            gtk_entry_set_icon_tooltip_text.invokeExact(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_input_hints = Interop.downcallHandle(
+        "gtk_entry_set_input_hints",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set additional hints which allow input methods to
      * fine-tune their behavior.
      */
     public void setInputHints(InputHints hints) {
-        gtk_h.gtk_entry_set_input_hints(handle(), hints.getValue());
+        try {
+            gtk_entry_set_input_hints.invokeExact(handle(), hints.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_input_purpose = Interop.downcallHandle(
+        "gtk_entry_set_input_purpose",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the input purpose which can be used by input methods
      * to adjust their behavior.
      */
     public void setInputPurpose(InputPurpose purpose) {
-        gtk_h.gtk_entry_set_input_purpose(handle(), purpose.getValue());
+        try {
+            gtk_entry_set_input_purpose.invokeExact(handle(), purpose.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_invisible_char = Interop.downcallHandle(
+        "gtk_entry_set_invisible_char",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the character to use in place of the actual text
@@ -644,8 +1107,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * on the screen as they type.
      */
     public void setInvisibleChar(int ch) {
-        gtk_h.gtk_entry_set_invisible_char(handle(), ch);
+        try {
+            gtk_entry_set_invisible_char.invokeExact(handle(), ch);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_max_length = Interop.downcallHandle(
+        "gtk_entry_set_max_length",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the maximum allowed length of the contents of the widget.
@@ -657,15 +1129,33 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * calling {@link EntryBuffer#setMaxLength} on it.
      */
     public void setMaxLength(int max) {
-        gtk_h.gtk_entry_set_max_length(handle(), max);
+        try {
+            gtk_entry_set_max_length.invokeExact(handle(), max);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_overwrite_mode = Interop.downcallHandle(
+        "gtk_entry_set_overwrite_mode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the text is overwritten when typing in the {@code GtkEntry}.
      */
     public void setOverwriteMode(boolean overwrite) {
-        gtk_h.gtk_entry_set_overwrite_mode(handle(), overwrite ? 1 : 0);
+        try {
+            gtk_entry_set_overwrite_mode.invokeExact(handle(), overwrite ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_placeholder_text = Interop.downcallHandle(
+        "gtk_entry_set_placeholder_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets text to be displayed in {@code entry} when it is empty.
@@ -674,8 +1164,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * contents of the {@code GtkEntry}.
      */
     public void setPlaceholderText(java.lang.String text) {
-        gtk_h.gtk_entry_set_placeholder_text(handle(), Interop.allocateNativeString(text).handle());
+        try {
+            gtk_entry_set_placeholder_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_progress_fraction = Interop.downcallHandle(
+        "gtk_entry_set_progress_fraction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Causes the entry’s progress indicator to “fill in” the given
@@ -684,8 +1183,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * The fraction should be between 0.0 and 1.0, inclusive.
      */
     public void setProgressFraction(double fraction) {
-        gtk_h.gtk_entry_set_progress_fraction(handle(), fraction);
+        try {
+            gtk_entry_set_progress_fraction.invokeExact(handle(), fraction);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_progress_pulse_step = Interop.downcallHandle(
+        "gtk_entry_set_progress_pulse_step",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the fraction of total entry width to move the progress
@@ -695,8 +1203,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * the progress.
      */
     public void setProgressPulseStep(double fraction) {
-        gtk_h.gtk_entry_set_progress_pulse_step(handle(), fraction);
+        try {
+            gtk_entry_set_progress_pulse_step.invokeExact(handle(), fraction);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_tabs = Interop.downcallHandle(
+        "gtk_entry_set_tabs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@code PangoTabArray}.
@@ -704,8 +1221,17 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * The tabstops in the array are applied to the entry text.
      */
     public void setTabs(org.pango.TabArray tabs) {
-        gtk_h.gtk_entry_set_tabs(handle(), tabs.handle());
+        try {
+            gtk_entry_set_tabs.invokeExact(handle(), tabs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_set_visibility = Interop.downcallHandle(
+        "gtk_entry_set_visibility",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the contents of the entry are visible or not.
@@ -724,15 +1250,28 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * in addition to setting visibility to {@code false}.
      */
     public void setVisibility(boolean visible) {
-        gtk_h.gtk_entry_set_visibility(handle(), visible ? 1 : 0);
+        try {
+            gtk_entry_set_visibility.invokeExact(handle(), visible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_unset_invisible_char = Interop.downcallHandle(
+        "gtk_entry_unset_invisible_char",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unsets the invisible char, so that the default invisible char
      * is used again. See {@link Entry#setInvisibleChar}.
      */
     public void unsetInvisibleChar() {
-        gtk_h.gtk_entry_unset_invisible_char(handle());
+        try {
+            gtk_entry_unset_invisible_char.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -747,19 +1286,19 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -773,19 +1312,19 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public SignalHandle onIconPress(IconPressHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("icon-press").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryIconPress",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -800,19 +1339,19 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public SignalHandle onIconRelease(IconReleaseHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("icon-release").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryIconRelease",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

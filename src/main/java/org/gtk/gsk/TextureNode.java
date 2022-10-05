@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class TextureNode extends RenderNode {
         return new TextureNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_texture_node_new = Interop.downcallHandle(
+        "gsk_texture_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_texture_node_new(texture.handle(), bounds.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_texture_node_new.invokeExact(texture.handle(), bounds.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,12 +40,21 @@ public class TextureNode extends RenderNode {
         super(constructNew(texture, bounds));
     }
     
+    static final MethodHandle gsk_texture_node_get_texture = Interop.downcallHandle(
+        "gsk_texture_node_get_texture",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the {@code GdkTexture} used when creating this {@code GskRenderNode}.
      */
     public org.gtk.gdk.Texture getTexture() {
-        var RESULT = gtk_h.gsk_texture_node_get_texture(handle());
-        return new org.gtk.gdk.Texture(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_texture_node_get_texture.invokeExact(handle());
+            return new org.gtk.gdk.Texture(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

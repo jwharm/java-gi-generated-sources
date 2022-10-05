@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,19 +18,24 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         return new TreeListModel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_tree_list_model_new = Interop.downcallHandle(
+        "gtk_tree_list_model_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, TreeListModelCreateModelFunc createFunc) {
         try {
-            Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_list_model_new(root.refcounted().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, 
-                    Linker.nativeLinker().upcallStub(
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_list_model_new.invokeExact(root.refcounted().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeListModelCreateModelFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(createFunc.hashCode(), createFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(createFunc.hashCode(), createFunc)), 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -43,6 +47,11 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         super(constructNew(root, passthrough, autoexpand, createFunc));
     }
     
+    static final MethodHandle gtk_tree_list_model_get_autoexpand = Interop.downcallHandle(
+        "gtk_tree_list_model_get_autoexpand",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets whether the model is set to automatically expand new rows
      * that get added.
@@ -51,9 +60,18 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * models or via {@link TreeListRow#setExpanded}.
      */
     public boolean getAutoexpand() {
-        var RESULT = gtk_h.gtk_tree_list_model_get_autoexpand(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_list_model_get_autoexpand.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_model_get_child_row = Interop.downcallHandle(
+        "gtk_tree_list_model_get_child_row",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the row item corresponding to the child at index {@code position} for
@@ -65,17 +83,35 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Do not confuse this function with {@link TreeListModel#getRow}.
      */
     public TreeListRow getChildRow(int position) {
-        var RESULT = gtk_h.gtk_tree_list_model_get_child_row(handle(), position);
-        return new TreeListRow(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_list_model_get_child_row.invokeExact(handle(), position);
+            return new TreeListRow(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_model_get_model = Interop.downcallHandle(
+        "gtk_tree_list_model_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the root model that {@code self} was created with.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = gtk_h.gtk_tree_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_list_model_get_model.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_model_get_passthrough = Interop.downcallHandle(
+        "gtk_tree_list_model_get_passthrough",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the model is passing through original row items.
@@ -90,9 +126,18 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * to get the custom {@code GtkTreeListRow}s.
      */
     public boolean getPassthrough() {
-        var RESULT = gtk_h.gtk_tree_list_model_get_passthrough(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_list_model_get_passthrough.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_model_get_row = Interop.downcallHandle(
+        "gtk_tree_list_model_get_row",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the row object for the given row.
@@ -114,9 +159,18 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Do not confuse this function with {@link TreeListModel#getChildRow}.
      */
     public TreeListRow getRow(int position) {
-        var RESULT = gtk_h.gtk_tree_list_model_get_row(handle(), position);
-        return new TreeListRow(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_list_model_get_row.invokeExact(handle(), position);
+            return new TreeListRow(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_model_set_autoexpand = Interop.downcallHandle(
+        "gtk_tree_list_model_set_autoexpand",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the model should autoexpand.
@@ -126,7 +180,11 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * to the underlying models or via {@link TreeListRow#setExpanded}.
      */
     public void setAutoexpand(boolean autoexpand) {
-        gtk_h.gtk_tree_list_model_set_autoexpand(handle(), autoexpand ? 1 : 0);
+        try {
+            gtk_tree_list_model_set_autoexpand.invokeExact(handle(), autoexpand ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

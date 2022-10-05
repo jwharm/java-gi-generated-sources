@@ -1,6 +1,6 @@
 package io.github.jwharm.javagi;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Addressable;
 
 public class ResourceBase implements Proxy {
 
@@ -10,7 +10,7 @@ public class ResourceBase implements Proxy {
         this.ref = ref;
     }
 
-    public MemoryAddress handle() {
+    public Addressable handle() {
         return this.ref.handle();
     }
 

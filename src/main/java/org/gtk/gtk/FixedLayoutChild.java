@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,19 +18,37 @@ public class FixedLayoutChild extends LayoutChild {
         return new FixedLayoutChild(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_fixed_layout_child_get_transform = Interop.downcallHandle(
+        "gtk_fixed_layout_child_get_transform",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the transformation of the child.
      */
     public org.gtk.gsk.Transform getTransform() {
-        var RESULT = gtk_h.gtk_fixed_layout_child_get_transform(handle());
-        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_fixed_layout_child_get_transform.invokeExact(handle());
+            return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_fixed_layout_child_set_transform = Interop.downcallHandle(
+        "gtk_fixed_layout_child_set_transform",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the transformation of the child of a {@code GtkFixedLayout}.
      */
     public void setTransform(org.gtk.gsk.Transform transform) {
-        gtk_h.gtk_fixed_layout_child_set_transform(handle(), transform.handle());
+        try {
+            gtk_fixed_layout_child_set_transform.invokeExact(handle(), transform.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

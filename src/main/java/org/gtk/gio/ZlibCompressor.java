@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
         return new ZlibCompressor(gobject.refcounted());
     }
     
+    static final MethodHandle g_zlib_compressor_new = Interop.downcallHandle(
+        "g_zlib_compressor_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(ZlibCompressorFormat format, int level) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_zlib_compressor_new(format.getValue(), level), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_zlib_compressor_new.invokeExact(format.getValue(), level), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,13 +40,27 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
         super(constructNew(format, level));
     }
     
+    static final MethodHandle g_zlib_compressor_get_file_info = Interop.downcallHandle(
+        "g_zlib_compressor_get_file_info",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the {@link ZlibCompressor}:file-info property.
      */
     public FileInfo getFileInfo() {
-        var RESULT = gtk_h.g_zlib_compressor_get_file_info(handle());
-        return new FileInfo(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_zlib_compressor_get_file_info.invokeExact(handle());
+            return new FileInfo(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_zlib_compressor_set_file_info = Interop.downcallHandle(
+        "g_zlib_compressor_set_file_info",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code file_info} in {@code compressor}. If non-{@code null}, and {@code compressor}'s
@@ -51,7 +73,11 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
      * or after resetting it with g_converter_reset().
      */
     public void setFileInfo(FileInfo fileInfo) {
-        gtk_h.g_zlib_compressor_set_file_info(handle(), fileInfo.handle());
+        try {
+            g_zlib_compressor_set_file_info.invokeExact(handle(), fileInfo.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

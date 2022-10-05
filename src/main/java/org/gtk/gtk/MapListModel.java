@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -45,19 +44,24 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         return new MapListModel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_map_list_model_new = Interop.downcallHandle(
+        "gtk_map_list_model_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc) {
         try {
-            Refcounted RESULT = Refcounted.get(gtk_h.gtk_map_list_model_new(model.refcounted().unowned().handle(), 
-                    Linker.nativeLinker().upcallStub(
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_map_list_model_new.invokeExact(model.refcounted().unowned().handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -68,21 +72,44 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         super(constructNew(model, mapFunc));
     }
     
+    static final MethodHandle gtk_map_list_model_get_model = Interop.downcallHandle(
+        "gtk_map_list_model_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the model that is currently being mapped or {@code null} if none.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = gtk_h.gtk_map_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_map_list_model_get_model.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_map_list_model_has_map = Interop.downcallHandle(
+        "gtk_map_list_model_has_map",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if a map function is currently set on {@code self}.
      */
     public boolean hasMap() {
-        var RESULT = gtk_h.gtk_map_list_model_has_map(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_map_list_model_has_map.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_map_list_model_set_map_func = Interop.downcallHandle(
+        "gtk_map_list_model_set_map_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the function used to map items.
@@ -99,18 +126,23 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      */
     public void setMapFunc(MapListModelMapFunc mapFunc) {
         try {
-            gtk_h.gtk_map_list_model_set_map_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_map_list_model_set_map_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_map_list_model_set_model = Interop.downcallHandle(
+        "gtk_map_list_model_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the model to be mapped.
@@ -120,7 +152,11 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * they are doing and have set up an appropriate map function.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        gtk_h.gtk_map_list_model_set_model(handle(), model.handle());
+        try {
+            gtk_map_list_model_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

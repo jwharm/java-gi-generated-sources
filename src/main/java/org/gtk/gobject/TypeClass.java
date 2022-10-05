@@ -1,6 +1,5 @@
 package org.gtk.gobject;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,9 +13,10 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public TypeClass() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeClass.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_type_class_get_instance_private_offset = Interop.downcallHandle(
+        "g_type_class_get_instance_private_offset",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the offset of the private data for instances of {@code g_class}.
@@ -29,14 +29,32 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * data area for {@code g_class} using g_type_class_add_private().
      */
     public int getInstancePrivateOffset() {
-        var RESULT = gtk_h.g_type_class_get_instance_private_offset(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_type_class_get_instance_private_offset.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_type_class_get_private = Interop.downcallHandle(
+        "g_type_class_get_private",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     public java.lang.foreign.MemoryAddress getPrivate(org.gtk.gobject.Type privateType) {
-        var RESULT = gtk_h.g_type_class_get_private(handle(), privateType.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_type_class_get_private.invokeExact(handle(), privateType.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_class_peek_parent = Interop.downcallHandle(
+        "g_type_class_peek_parent",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This is a convenience function often needed in class initializers.
@@ -49,9 +67,18 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * g_type_class_peek (g_type_parent (G_TYPE_FROM_CLASS (g_class)))
      */
     public TypeClass peekParent() {
-        var RESULT = gtk_h.g_type_class_peek_parent(handle());
-        return new TypeClass(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_type_class_peek_parent.invokeExact(handle());
+            return new TypeClass(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_class_unref = Interop.downcallHandle(
+        "g_type_class_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrements the reference count of the class structure being passed in.
@@ -60,8 +87,17 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * class pointer after g_type_class_unref() are invalid.
      */
     public void unref() {
-        gtk_h.g_type_class_unref(handle());
+        try {
+            g_type_class_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_class_unref_uncached = Interop.downcallHandle(
+        "g_type_class_unref_uncached",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * A variant of g_type_class_unref() for use in {@link TypeClassCacheFunc}
@@ -70,12 +106,30 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * otherwise.
      */
     public void unrefUncached() {
-        gtk_h.g_type_class_unref_uncached(handle());
+        try {
+            g_type_class_unref_uncached.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_type_class_adjust_private_offset = Interop.downcallHandle(
+        "g_type_class_adjust_private_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     public static void adjustPrivateOffset(java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
-        gtk_h.g_type_class_adjust_private_offset(gClass, privateSizeOrOffset.handle());
+        try {
+            g_type_class_adjust_private_offset.invokeExact(gClass, privateSizeOrOffset.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_class_peek = Interop.downcallHandle(
+        "g_type_class_peek",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is essentially the same as g_type_class_ref(),
@@ -85,18 +139,36 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * referenced before).
      */
     public static TypeClass peek(org.gtk.gobject.Type type) {
-        var RESULT = gtk_h.g_type_class_peek(type.getValue());
-        return new TypeClass(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_type_class_peek.invokeExact(type.getValue());
+            return new TypeClass(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_class_peek_static = Interop.downcallHandle(
+        "g_type_class_peek_static",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * A more efficient version of g_type_class_peek() which works only for
      * static types.
      */
     public static TypeClass peekStatic(org.gtk.gobject.Type type) {
-        var RESULT = gtk_h.g_type_class_peek_static(type.getValue());
-        return new TypeClass(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_type_class_peek_static.invokeExact(type.getValue());
+            return new TypeClass(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_class_ref = Interop.downcallHandle(
+        "g_type_class_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Increments the reference count of the class structure belonging to
@@ -104,8 +176,12 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * exist already.
      */
     public static TypeClass ref(org.gtk.gobject.Type type) {
-        var RESULT = gtk_h.g_type_class_ref(type.getValue());
-        return new TypeClass(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_type_class_ref.invokeExact(type.getValue());
+            return new TypeClass(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

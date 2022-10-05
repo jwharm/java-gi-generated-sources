@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,10 +13,6 @@ public class OptionEntry extends io.github.jwharm.javagi.ResourceBase {
 
     public OptionEntry(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public OptionEntry() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GOptionEntry.allocate(Interop.getAllocator()).address()));
     }
     
 }

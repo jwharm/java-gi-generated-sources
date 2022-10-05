@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,9 +22,18 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
         return new MediaControls(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_media_controls_new = Interop.downcallHandle(
+        "gtk_media_controls_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(MediaStream stream) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_controls_new(stream.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_media_controls_new.invokeExact(stream.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -35,19 +43,37 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
         super(constructNew(stream));
     }
     
+    static final MethodHandle gtk_media_controls_get_media_stream = Interop.downcallHandle(
+        "gtk_media_controls_get_media_stream",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the media stream managed by {@code controls} or {@code null} if none.
      */
     public MediaStream getMediaStream() {
-        var RESULT = gtk_h.gtk_media_controls_get_media_stream(handle());
-        return new MediaStream(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_media_controls_get_media_stream.invokeExact(handle());
+            return new MediaStream(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_media_controls_set_media_stream = Interop.downcallHandle(
+        "gtk_media_controls_set_media_stream",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the stream that is controlled by {@code controls}.
      */
     public void setMediaStream(MediaStream stream) {
-        gtk_h.gtk_media_controls_set_media_stream(handle(), stream.handle());
+        try {
+            gtk_media_controls_set_media_stream.invokeExact(handle(), stream.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

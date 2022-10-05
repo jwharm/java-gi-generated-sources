@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,10 +18,19 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
         return new GLTexture(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_gl_texture_new = Interop.downcallHandle(
+        "gdk_gl_texture_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy, java.lang.foreign.MemoryAddress data) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_gl_texture_new(context.handle(), id, width, height, 
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_gl_texture_new.invokeExact(context.handle(), id, width, height, 
                     Interop.cbDestroyNotifySymbol(), data), true);
-        return RESULT;
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -36,6 +44,11 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
         super(constructNew(context, id, width, height, destroy, data));
     }
     
+    static final MethodHandle gdk_gl_texture_release = Interop.downcallHandle(
+        "gdk_gl_texture_release",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Releases the GL resources held by a {@code GdkGLTexture}.
      * <p>
@@ -44,7 +57,11 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
      * function has been called.
      */
     public void release() {
-        gtk_h.gdk_gl_texture_release(handle());
+        try {
+            gdk_gl_texture_release.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class ClosureExpression extends Expression {
         return new ClosureExpression(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_closure_expression_new = Interop.downcallHandle(
+        "gtk_closure_expression_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gobject.Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.handle(), nParams, Interop.allocateNativeArray(params).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_closure_expression_new.invokeExact(valueType.getValue(), closure.handle(), nParams, Interop.allocateNativeArray(params).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**

@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,10 +14,6 @@ public class StatBuf extends io.github.jwharm.javagi.ResourceBase {
 
     public StatBuf(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public StatBuf() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GStatBuf.allocate(Interop.getAllocator()).address()));
     }
     
 }

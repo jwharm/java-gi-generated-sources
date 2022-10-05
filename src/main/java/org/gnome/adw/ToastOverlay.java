@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,9 +49,18 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         return new ToastOverlay(gobject.refcounted());
     }
     
+    static final MethodHandle adw_toast_overlay_new = Interop.downcallHandle(
+        "adw_toast_overlay_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_toast_overlay_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_toast_overlay_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -62,6 +70,11 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         super(constructNew());
     }
     
+    static final MethodHandle adw_toast_overlay_add_toast = Interop.downcallHandle(
+        "adw_toast_overlay_add_toast",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Displays {@code toast}.
      * <p>
@@ -70,22 +83,44 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * the priority of {@code toast}. See {@code Toast:priority}.
      */
     public void addToast(Toast toast) {
-        gtk_h.adw_toast_overlay_add_toast(handle(), toast.refcounted().unowned().handle());
+        try {
+            adw_toast_overlay_add_toast.invokeExact(handle(), toast.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_toast_overlay_get_child = Interop.downcallHandle(
+        "adw_toast_overlay_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the child widget of {@code self}.
      */
     public org.gtk.gtk.Widget getChild() {
-        var RESULT = gtk_h.adw_toast_overlay_get_child(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_toast_overlay_get_child.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_toast_overlay_set_child = Interop.downcallHandle(
+        "adw_toast_overlay_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code self}.
      */
     public void setChild(org.gtk.gtk.Widget child) {
-        gtk_h.adw_toast_overlay_set_child(handle(), child.handle());
+        try {
+            adw_toast_overlay_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

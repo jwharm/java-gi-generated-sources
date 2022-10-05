@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -108,6 +107,11 @@ import java.lang.invoke.*;
  */
 public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_async_initable_init_async = Interop.downcallHandle(
+        "g_async_initable_init_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Starts asynchronous initialization of the object implementing the
      * interface. This must be done before any real use of the object after
@@ -148,17 +152,22 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      */
     public default void initAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_async_initable_init_async(handle(), ioPriority, cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_async_initable_init_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_async_initable_init_finish = Interop.downcallHandle(
+        "g_async_initable_init_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finishes asynchronous initialization and returns the result.
@@ -166,12 +175,21 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      */
     public default boolean initFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_async_initable_init_finish(handle(), res.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_async_initable_init_finish.invokeExact(handle(), res.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_async_initable_new_valist_async = Interop.downcallHandle(
+        "g_async_initable_new_valist_async",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Helper function for constructing {@link AsyncInitable} object. This is
@@ -184,15 +202,15 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      */
     public static void newValistAsync(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_async_initable_new_valist_async(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, ioPriority, cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_async_initable_new_valist_async.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, ioPriority, cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

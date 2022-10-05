@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_main_context_new = Interop.downcallHandle(
+        "g_main_context_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_main_context_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_main_context_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -27,9 +35,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
+    static final MethodHandle g_main_context_new_with_flags = Interop.downcallHandle(
+        "g_main_context_new_with_flags",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewWithFlags(MainContextFlags flags) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_main_context_new_with_flags(flags.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_main_context_new_with_flags.invokeExact(flags.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -38,6 +55,11 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public static MainContext newWithFlags(MainContextFlags flags) {
         return new MainContext(constructNewWithFlags(flags));
     }
+    
+    static final MethodHandle g_main_context_acquire = Interop.downcallHandle(
+        "g_main_context_acquire",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to become the owner of the specified context.
@@ -52,9 +74,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_check(), g_main_context_dispatch().
      */
     public boolean acquire() {
-        var RESULT = gtk_h.g_main_context_acquire(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_main_context_acquire.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_add_poll = Interop.downcallHandle(
+        "g_main_context_add_poll",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds a file descriptor to the set of file descriptors polled for
@@ -62,8 +93,17 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * a typical event source will use g_source_add_unix_fd() instead.
      */
     public void addPoll(PollFD fd, int priority) {
-        gtk_h.g_main_context_add_poll(handle(), fd.handle(), priority);
+        try {
+            g_main_context_add_poll.invokeExact(handle(), fd.handle(), priority);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_check = Interop.downcallHandle(
+        "g_main_context_check",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Passes the results of polling back to the main loop. You should be
@@ -75,9 +115,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_acquire() before you may call this function.
      */
     public boolean check(int maxPriority, PollFD[] fds, int nFds) {
-        var RESULT = gtk_h.g_main_context_check(handle(), maxPriority, Interop.allocateNativeArray(fds).handle(), nFds);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_main_context_check.invokeExact(handle(), maxPriority, Interop.allocateNativeArray(fds).handle(), nFds);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_dispatch = Interop.downcallHandle(
+        "g_main_context_dispatch",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Dispatches all pending sources.
@@ -86,8 +135,17 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_acquire() before you may call this function.
      */
     public void dispatch() {
-        gtk_h.g_main_context_dispatch(handle());
+        try {
+            g_main_context_dispatch.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_find_source_by_funcs_user_data = Interop.downcallHandle(
+        "g_main_context_find_source_by_funcs_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds a source with the given source functions and user data.  If
@@ -95,9 +153,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * the first one found will be returned.
      */
     public Source findSourceByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_main_context_find_source_by_funcs_user_data(handle(), funcs.handle(), userData);
-        return new Source(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_find_source_by_funcs_user_data.invokeExact(handle(), funcs.handle(), userData);
+            return new Source(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_find_source_by_id = Interop.downcallHandle(
+        "g_main_context_find_source_by_id",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Finds a {@link Source} given a pair of context and ID.
@@ -114,9 +181,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * wrong source.
      */
     public Source findSourceById(int sourceId) {
-        var RESULT = gtk_h.g_main_context_find_source_by_id(handle(), sourceId);
-        return new Source(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_find_source_by_id.invokeExact(handle(), sourceId);
+            return new Source(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_find_source_by_user_data = Interop.downcallHandle(
+        "g_main_context_find_source_by_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds a source with the given user data for the callback.  If
@@ -124,9 +200,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * one found will be returned.
      */
     public Source findSourceByUserData(java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_main_context_find_source_by_user_data(handle(), userData);
-        return new Source(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_find_source_by_user_data.invokeExact(handle(), userData);
+            return new Source(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_invoke = Interop.downcallHandle(
+        "g_main_context_invoke",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Invokes a function in such a way that {@code context} is owned during the
@@ -153,17 +238,22 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void invoke(SourceFunc function) {
         try {
-            gtk_h.g_main_context_invoke(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_main_context_invoke.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_main_context_invoke_full = Interop.downcallHandle(
+        "g_main_context_invoke_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Invokes a function in such a way that {@code context} is owned during the
@@ -178,18 +268,23 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void invokeFull(int priority, SourceFunc function) {
         try {
-            gtk_h.g_main_context_invoke_full(handle(), priority, 
-                    Linker.nativeLinker().upcallStub(
+            g_main_context_invoke_full.invokeExact(handle(), priority, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_main_context_is_owner = Interop.downcallHandle(
+        "g_main_context_is_owner",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether this thread holds the (recursive)
@@ -198,9 +293,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * blocking to get ownership of {@code context}.
      */
     public boolean isOwner() {
-        var RESULT = gtk_h.g_main_context_is_owner(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_main_context_is_owner.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_iteration = Interop.downcallHandle(
+        "g_main_context_iteration",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Runs a single iteration for the given main loop. This involves
@@ -217,25 +321,52 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * be interrupted for other reasons than an event source becoming ready.
      */
     public boolean iteration(boolean mayBlock) {
-        var RESULT = gtk_h.g_main_context_iteration(handle(), mayBlock ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_main_context_iteration.invokeExact(handle(), mayBlock ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_pending = Interop.downcallHandle(
+        "g_main_context_pending",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if any sources have pending events for the given context.
      */
     public boolean pending() {
-        var RESULT = gtk_h.g_main_context_pending(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_main_context_pending.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_pop_thread_default = Interop.downcallHandle(
+        "g_main_context_pop_thread_default",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Pops {@code context} off the thread-default context stack (verifying that
      * it was on the top of the stack).
      */
     public void popThreadDefault() {
-        gtk_h.g_main_context_pop_thread_default(handle());
+        try {
+            g_main_context_pop_thread_default.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_prepare = Interop.downcallHandle(
+        "g_main_context_prepare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prepares to poll sources within a main loop. The resulting information
@@ -245,9 +376,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_acquire() before you may call this function.
      */
     public boolean prepare(PointerInteger priority) {
-        var RESULT = gtk_h.g_main_context_prepare(handle(), priority.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_main_context_prepare.invokeExact(handle(), priority.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_push_thread_default = Interop.downcallHandle(
+        "g_main_context_push_thread_default",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Acquires {@code context} and sets it as the thread-default context for the
@@ -290,8 +430,17 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * see g_file_supports_thread_contexts().
      */
     public void pushThreadDefault() {
-        gtk_h.g_main_context_push_thread_default(handle());
+        try {
+            g_main_context_push_thread_default.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_query = Interop.downcallHandle(
+        "g_main_context_query",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines information necessary to poll this main loop. You should
@@ -303,17 +452,35 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_acquire() before you may call this function.
      */
     public int query(int maxPriority, PointerInteger timeout, PollFD[] fds, int nFds) {
-        var RESULT = gtk_h.g_main_context_query(handle(), maxPriority, timeout.handle(), Interop.allocateNativeArray(fds).handle(), nFds);
-        return RESULT;
+        try {
+            var RESULT = (int) g_main_context_query.invokeExact(handle(), maxPriority, timeout.handle(), Interop.allocateNativeArray(fds).handle(), nFds);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_ref = Interop.downcallHandle(
+        "g_main_context_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on a {@link MainContext} object by one.
      */
     public MainContext ref() {
-        var RESULT = gtk_h.g_main_context_ref(handle());
-        return new MainContext(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_ref.invokeExact(handle());
+            return new MainContext(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_release = Interop.downcallHandle(
+        "g_main_context_release",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases ownership of a context previously acquired by this thread
@@ -322,24 +489,51 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * is called as many times as it was acquired.
      */
     public void release() {
-        gtk_h.g_main_context_release(handle());
+        try {
+            g_main_context_release.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_remove_poll = Interop.downcallHandle(
+        "g_main_context_remove_poll",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes file descriptor from the set of file descriptors to be
      * polled for a particular context.
      */
     public void removePoll(PollFD fd) {
-        gtk_h.g_main_context_remove_poll(handle(), fd.handle());
+        try {
+            g_main_context_remove_poll.invokeExact(handle(), fd.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_unref = Interop.downcallHandle(
+        "g_main_context_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on a {@link MainContext} object by one. If
      * the result is zero, free the context and free all associated memory.
      */
     public void unref() {
-        gtk_h.g_main_context_unref(handle());
+        try {
+            g_main_context_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_wakeup = Interop.downcallHandle(
+        "g_main_context_wakeup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code context} is currently blocking in g_main_context_iteration()
@@ -372,8 +566,17 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public void wakeup() {
-        gtk_h.g_main_context_wakeup(handle());
+        try {
+            g_main_context_wakeup.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_default = Interop.downcallHandle(
+        "g_main_context_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the global default main context. This is the main context
@@ -382,9 +585,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_get_thread_default().
      */
     public static MainContext default_() {
-        var RESULT = gtk_h.g_main_context_default();
-        return new MainContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_default.invokeExact();
+            return new MainContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_get_thread_default = Interop.downcallHandle(
+        "g_main_context_get_thread_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the thread-default {@link MainContext} for this thread. Asynchronous
@@ -400,9 +612,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_ref_thread_default() instead.
      */
     public static MainContext getThreadDefault() {
-        var RESULT = gtk_h.g_main_context_get_thread_default();
-        return new MainContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_get_thread_default.invokeExact();
+            return new MainContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_ref_thread_default = Interop.downcallHandle(
+        "g_main_context_ref_thread_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the thread-default {@link MainContext} for this thread, as with
@@ -413,8 +634,12 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * (with a ref added to it) rather than returning {@code null}.
      */
     public static MainContext refThreadDefault() {
-        var RESULT = gtk_h.g_main_context_ref_thread_default();
-        return new MainContext(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_ref_thread_default.invokeExact();
+            return new MainContext(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

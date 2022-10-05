@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -34,9 +33,18 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
         return new Viewport(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_viewport_new = Interop.downcallHandle(
+        "gtk_viewport_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Adjustment hadjustment, Adjustment vadjustment) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_viewport_new(hadjustment.handle(), vadjustment.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_viewport_new.invokeExact(hadjustment.handle(), vadjustment.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -49,36 +57,72 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
         super(constructNew(hadjustment, vadjustment));
     }
     
+    static final MethodHandle gtk_viewport_get_child = Interop.downcallHandle(
+        "gtk_viewport_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the child widget of {@code viewport}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_viewport_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_viewport_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_viewport_get_scroll_to_focus = Interop.downcallHandle(
+        "gtk_viewport_get_scroll_to_focus",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the viewport is scrolling to keep the focused
      * child in view.
      */
     public boolean getScrollToFocus() {
-        var RESULT = gtk_h.gtk_viewport_get_scroll_to_focus(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_viewport_get_scroll_to_focus.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_viewport_set_child = Interop.downcallHandle(
+        "gtk_viewport_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code viewport}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_viewport_set_child(handle(), child.handle());
+        try {
+            gtk_viewport_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_viewport_set_scroll_to_focus = Interop.downcallHandle(
+        "gtk_viewport_set_scroll_to_focus",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the viewport should automatically scroll
      * to keep the focused child in view.
      */
     public void setScrollToFocus(boolean scrollToFocus) {
-        gtk_h.gtk_viewport_set_scroll_to_focus(handle(), scrollToFocus ? 1 : 0);
+        try {
+            gtk_viewport_set_scroll_to_focus.invokeExact(handle(), scrollToFocus ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -74,9 +73,18 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         return new Window(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_window_new = Interop.downcallHandle(
+        "gtk_window_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_window_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_window_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -97,6 +105,11 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         super(constructNew());
     }
     
+    static final MethodHandle gtk_window_close = Interop.downcallHandle(
+        "gtk_window_close",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Requests that the window is closed.
      * <p>
@@ -107,15 +120,33 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * titlebars.
      */
     public void close() {
-        gtk_h.gtk_window_close(handle());
+        try {
+            gtk_window_close.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_destroy = Interop.downcallHandle(
+        "gtk_window_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Drop the internal reference GTK holds on toplevel windows.
      */
     public void destroy() {
-        gtk_h.gtk_window_destroy(handle());
+        try {
+            gtk_window_destroy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_fullscreen = Interop.downcallHandle(
+        "gtk_window_fullscreen",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Asks to place {@code window} in the fullscreen state.
@@ -130,8 +161,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * notifications of the {@code Gtk.Window:fullscreened} property.
      */
     public void fullscreen() {
-        gtk_h.gtk_window_fullscreen(handle());
+        try {
+            gtk_window_fullscreen.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_fullscreen_on_monitor = Interop.downcallHandle(
+        "gtk_window_fullscreen_on_monitor",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Asks to place {@code window} in the fullscreen state on the given {@code monitor}.
@@ -145,32 +185,68 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * notifications of the {@code Gtk.Window:fullscreened} property.
      */
     public void fullscreenOnMonitor(org.gtk.gdk.Monitor monitor) {
-        gtk_h.gtk_window_fullscreen_on_monitor(handle(), monitor.handle());
+        try {
+            gtk_window_fullscreen_on_monitor.invokeExact(handle(), monitor.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_application = Interop.downcallHandle(
+        "gtk_window_get_application",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GtkApplication} associated with the window.
      */
     public Application getApplication() {
-        var RESULT = gtk_h.gtk_window_get_application(handle());
-        return new Application(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_application.invokeExact(handle());
+            return new Application(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_child = Interop.downcallHandle(
+        "gtk_window_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the child widget of {@code window}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_window_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_decorated = Interop.downcallHandle(
+        "gtk_window_get_decorated",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the window has been set to have decorations.
      */
     public boolean getDecorated() {
-        var RESULT = gtk_h.gtk_window_get_decorated(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_decorated.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_default_size = Interop.downcallHandle(
+        "gtk_window_get_default_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the default size of the window.
@@ -180,32 +256,68 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * “natural” size of the window will be used.
      */
     public void getDefaultSize(PointerInteger width, PointerInteger height) {
-        gtk_h.gtk_window_get_default_size(handle(), width.handle(), height.handle());
+        try {
+            gtk_window_get_default_size.invokeExact(handle(), width.handle(), height.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_default_widget = Interop.downcallHandle(
+        "gtk_window_get_default_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the default widget for {@code window}.
      */
     public Widget getDefaultWidget() {
-        var RESULT = gtk_h.gtk_window_get_default_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_default_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_deletable = Interop.downcallHandle(
+        "gtk_window_get_deletable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the window has been set to have a close button.
      */
     public boolean getDeletable() {
-        var RESULT = gtk_h.gtk_window_get_deletable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_deletable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_destroy_with_parent = Interop.downcallHandle(
+        "gtk_window_get_destroy_with_parent",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the window will be destroyed with its transient parent.
      */
     public boolean getDestroyWithParent() {
-        var RESULT = gtk_h.gtk_window_get_destroy_with_parent(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_destroy_with_parent.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_focus = Interop.downcallHandle(
+        "gtk_window_get_focus",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the current focused widget within the window.
@@ -216,17 +328,35 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * not be {@code true} for the widget.
      */
     public Widget getFocus() {
-        var RESULT = gtk_h.gtk_window_get_focus(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_focus.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_focus_visible = Interop.downcallHandle(
+        "gtk_window_get_focus_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether “focus rectangles” are supposed to be visible.
      */
     public boolean getFocusVisible() {
-        var RESULT = gtk_h.gtk_window_get_focus_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_focus_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_group = Interop.downcallHandle(
+        "gtk_window_get_group",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the group for {@code window}.
@@ -234,91 +364,190 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * If the window has no group, then the default group is returned.
      */
     public WindowGroup getGroup() {
-        var RESULT = gtk_h.gtk_window_get_group(handle());
-        return new WindowGroup(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_group.invokeExact(handle());
+            return new WindowGroup(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_handle_menubar_accel = Interop.downcallHandle(
+        "gtk_window_get_handle_menubar_accel",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether this window reacts to F10 key presses by
      * activating a menubar it contains.
      */
     public boolean getHandleMenubarAccel() {
-        var RESULT = gtk_h.gtk_window_get_handle_menubar_accel(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_handle_menubar_accel.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_hide_on_close = Interop.downcallHandle(
+        "gtk_window_get_hide_on_close",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the window will be hidden when the close button is clicked.
      */
     public boolean getHideOnClose() {
-        var RESULT = gtk_h.gtk_window_get_hide_on_close(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_hide_on_close.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_icon_name = Interop.downcallHandle(
+        "gtk_window_get_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the name of the themed icon for the window.
      */
     public java.lang.String getIconName() {
-        var RESULT = gtk_h.gtk_window_get_icon_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_icon_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_mnemonics_visible = Interop.downcallHandle(
+        "gtk_window_get_mnemonics_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether mnemonics are supposed to be visible.
      */
     public boolean getMnemonicsVisible() {
-        var RESULT = gtk_h.gtk_window_get_mnemonics_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_mnemonics_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_modal = Interop.downcallHandle(
+        "gtk_window_get_modal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the window is modal.
      */
     public boolean getModal() {
-        var RESULT = gtk_h.gtk_window_get_modal(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_modal.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_resizable = Interop.downcallHandle(
+        "gtk_window_get_resizable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value set by gtk_window_set_resizable().
      */
     public boolean getResizable() {
-        var RESULT = gtk_h.gtk_window_get_resizable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_get_resizable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_title = Interop.downcallHandle(
+        "gtk_window_get_title",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the title of the window.
      */
     public java.lang.String getTitle() {
-        var RESULT = gtk_h.gtk_window_get_title(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_title.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_titlebar = Interop.downcallHandle(
+        "gtk_window_get_titlebar",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the custom titlebar that has been set with
      * gtk_window_set_titlebar().
      */
     public Widget getTitlebar() {
-        var RESULT = gtk_h.gtk_window_get_titlebar(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_titlebar.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_transient_for = Interop.downcallHandle(
+        "gtk_window_get_transient_for",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the transient parent for this window.
      */
     public Window getTransientFor() {
-        var RESULT = gtk_h.gtk_window_get_transient_for(handle());
-        return new Window(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_transient_for.invokeExact(handle());
+            return new Window(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_has_group = Interop.downcallHandle(
+        "gtk_window_has_group",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether {@code window} has an explicit window group.
      */
     public boolean hasGroup() {
-        var RESULT = gtk_h.gtk_window_has_group(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_has_group.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_is_active = Interop.downcallHandle(
+        "gtk_window_is_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the window is part of the current active toplevel.
@@ -330,9 +559,18 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * differently in an active window from a widget in an inactive window.
      */
     public boolean isActive() {
-        var RESULT = gtk_h.gtk_window_is_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_is_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_is_fullscreen = Interop.downcallHandle(
+        "gtk_window_is_fullscreen",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the current fullscreen state of {@code window}.
@@ -347,9 +585,18 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * initial requested state is fullscreen.
      */
     public boolean isFullscreen() {
-        var RESULT = gtk_h.gtk_window_is_fullscreen(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_is_fullscreen.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_is_maximized = Interop.downcallHandle(
+        "gtk_window_is_maximized",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the current maximized state of {@code window}.
@@ -364,9 +611,18 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * initial requested state is maximized.
      */
     public boolean isMaximized() {
-        var RESULT = gtk_h.gtk_window_is_maximized(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_window_is_maximized.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_maximize = Interop.downcallHandle(
+        "gtk_window_maximize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Asks to maximize {@code window}, so that it fills the screen.
@@ -386,8 +642,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * property.
      */
     public void maximize() {
-        gtk_h.gtk_window_maximize(handle());
+        try {
+            gtk_window_maximize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_minimize = Interop.downcallHandle(
+        "gtk_window_minimize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Asks to minimize the specified {@code window}.
@@ -406,8 +671,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * {@code Gdk.Toplevel:state} property.
      */
     public void minimize() {
-        gtk_h.gtk_window_minimize(handle());
+        try {
+            gtk_window_minimize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_present = Interop.downcallHandle(
+        "gtk_window_present",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Presents a window to the user.
@@ -417,8 +691,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * stealing prevention to work correctly.
      */
     public void present() {
-        gtk_h.gtk_window_present(handle());
+        try {
+            gtk_window_present.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_present_with_time = Interop.downcallHandle(
+        "gtk_window_present_with_time",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Presents a window to the user.
@@ -443,8 +726,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * the window is ready to be shown.
      */
     public void presentWithTime(int timestamp) {
-        gtk_h.gtk_window_present_with_time(handle(), timestamp);
+        try {
+            gtk_window_present_with_time.invokeExact(handle(), timestamp);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_application = Interop.downcallHandle(
+        "gtk_window_set_application",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets or unsets the {@code GtkApplication} associated with the window.
@@ -462,15 +754,33 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * as relevant.
      */
     public void setApplication(Application application) {
-        gtk_h.gtk_window_set_application(handle(), application.handle());
+        try {
+            gtk_window_set_application.invokeExact(handle(), application.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_child = Interop.downcallHandle(
+        "gtk_window_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code window}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_window_set_child(handle(), child.handle());
+        try {
+            gtk_window_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_decorated = Interop.downcallHandle(
+        "gtk_window_set_decorated",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the window should be decorated.
@@ -488,8 +798,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * policy involved.
      */
     public void setDecorated(boolean setting) {
-        gtk_h.gtk_window_set_decorated(handle(), setting ? 1 : 0);
+        try {
+            gtk_window_set_decorated.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_default_size = Interop.downcallHandle(
+        "gtk_window_set_default_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the default size of a window.
@@ -519,8 +838,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * or shrinking windows.
      */
     public void setDefaultSize(int width, int height) {
-        gtk_h.gtk_window_set_default_size(handle(), width, height);
+        try {
+            gtk_window_set_default_size.invokeExact(handle(), width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_default_widget = Interop.downcallHandle(
+        "gtk_window_set_default_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the default widget.
@@ -529,8 +857,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * presses Enter in a dialog (for example).
      */
     public void setDefaultWidget(Widget defaultWidget) {
-        gtk_h.gtk_window_set_default_widget(handle(), defaultWidget.handle());
+        try {
+            gtk_window_set_default_widget.invokeExact(handle(), defaultWidget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_deletable = Interop.downcallHandle(
+        "gtk_window_set_deletable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the window should be deletable.
@@ -547,8 +884,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * manager policy involved.
      */
     public void setDeletable(boolean setting) {
-        gtk_h.gtk_window_set_deletable(handle(), setting ? 1 : 0);
+        try {
+            gtk_window_set_deletable.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_destroy_with_parent = Interop.downcallHandle(
+        "gtk_window_set_destroy_with_parent",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code setting} is {@code true}, then destroying the transient parent of {@code window}
@@ -558,8 +904,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * of the main window they are associated with, for example.
      */
     public void setDestroyWithParent(boolean setting) {
-        gtk_h.gtk_window_set_destroy_with_parent(handle(), setting ? 1 : 0);
+        try {
+            gtk_window_set_destroy_with_parent.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_display = Interop.downcallHandle(
+        "gtk_window_set_display",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GdkDisplay} where the {@code window} is displayed.
@@ -568,8 +923,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * and then remapped on the new display.
      */
     public void setDisplay(org.gtk.gdk.Display display) {
-        gtk_h.gtk_window_set_display(handle(), display.handle());
+        try {
+            gtk_window_set_display.invokeExact(handle(), display.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_focus = Interop.downcallHandle(
+        "gtk_window_set_focus",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the focus widget.
@@ -581,31 +945,67 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * to use {@link Widget#grabFocus} instead of this function.
      */
     public void setFocus(Widget focus) {
-        gtk_h.gtk_window_set_focus(handle(), focus.handle());
+        try {
+            gtk_window_set_focus.invokeExact(handle(), focus.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_focus_visible = Interop.downcallHandle(
+        "gtk_window_set_focus_visible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether “focus rectangles” are supposed to be visible.
      */
     public void setFocusVisible(boolean setting) {
-        gtk_h.gtk_window_set_focus_visible(handle(), setting ? 1 : 0);
+        try {
+            gtk_window_set_focus_visible.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_handle_menubar_accel = Interop.downcallHandle(
+        "gtk_window_set_handle_menubar_accel",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether this window should react to F10 key presses
      * by activating a menubar it contains.
      */
     public void setHandleMenubarAccel(boolean handleMenubarAccel) {
-        gtk_h.gtk_window_set_handle_menubar_accel(handle(), handleMenubarAccel ? 1 : 0);
+        try {
+            gtk_window_set_handle_menubar_accel.invokeExact(handle(), handleMenubarAccel ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_hide_on_close = Interop.downcallHandle(
+        "gtk_window_set_hide_on_close",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code setting} is {@code true}, then clicking the close button on the window
      * will not destroy it, but only hide it.
      */
     public void setHideOnClose(boolean setting) {
-        gtk_h.gtk_window_set_hide_on_close(handle(), setting ? 1 : 0);
+        try {
+            gtk_window_set_hide_on_close.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_icon_name = Interop.downcallHandle(
+        "gtk_window_set_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon for the window from a named themed icon.
@@ -617,15 +1017,33 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * property which is mentioned in the ICCCM.
      */
     public void setIconName(java.lang.String name) {
-        gtk_h.gtk_window_set_icon_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            gtk_window_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_mnemonics_visible = Interop.downcallHandle(
+        "gtk_window_set_mnemonics_visible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether mnemonics are supposed to be visible.
      */
     public void setMnemonicsVisible(boolean setting) {
-        gtk_h.gtk_window_set_mnemonics_visible(handle(), setting ? 1 : 0);
+        try {
+            gtk_window_set_mnemonics_visible.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_modal = Interop.downcallHandle(
+        "gtk_window_set_modal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets a window modal or non-modal.
@@ -637,8 +1055,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * dialog below the parent.
      */
     public void setModal(boolean modal) {
-        gtk_h.gtk_window_set_modal(handle(), modal ? 1 : 0);
+        try {
+            gtk_window_set_modal.invokeExact(handle(), modal ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_resizable = Interop.downcallHandle(
+        "gtk_window_set_resizable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the user can resize a window.
@@ -646,8 +1073,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Windows are user resizable by default.
      */
     public void setResizable(boolean resizable) {
-        gtk_h.gtk_window_set_resizable(handle(), resizable ? 1 : 0);
+        try {
+            gtk_window_set_resizable.invokeExact(handle(), resizable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_startup_id = Interop.downcallHandle(
+        "gtk_window_set_startup_id",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the startup notification ID.
@@ -666,8 +1102,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * This function is only useful on X11, not with other GTK targets.
      */
     public void setStartupId(java.lang.String startupId) {
-        gtk_h.gtk_window_set_startup_id(handle(), Interop.allocateNativeString(startupId).handle());
+        try {
+            gtk_window_set_startup_id.invokeExact(handle(), Interop.allocateNativeString(startupId).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_title = Interop.downcallHandle(
+        "gtk_window_set_title",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the title of the {@code GtkWindow}.
@@ -682,8 +1127,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Passing {@code null} does the same as setting the title to an empty string.
      */
     public void setTitle(java.lang.String title) {
-        gtk_h.gtk_window_set_title(handle(), Interop.allocateNativeString(title).handle());
+        try {
+            gtk_window_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_titlebar = Interop.downcallHandle(
+        "gtk_window_set_titlebar",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a custom titlebar for {@code window}.
@@ -699,8 +1153,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * {@link Widget#show}.
      */
     public void setTitlebar(Widget titlebar) {
-        gtk_h.gtk_window_set_titlebar(handle(), titlebar.handle());
+        try {
+            gtk_window_set_titlebar.invokeExact(handle(), titlebar.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_transient_for = Interop.downcallHandle(
+        "gtk_window_set_transient_for",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Dialog windows should be set transient for the main application
@@ -716,8 +1179,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * much as the window manager would have done on X.
      */
     public void setTransientFor(Window parent) {
-        gtk_h.gtk_window_set_transient_for(handle(), parent.handle());
+        try {
+            gtk_window_set_transient_for.invokeExact(handle(), parent.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_unfullscreen = Interop.downcallHandle(
+        "gtk_window_unfullscreen",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Asks to remove the fullscreen state for {@code window}, and return to
@@ -735,8 +1207,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * notifications of the {@code Gtk.Window:fullscreened} property.
      */
     public void unfullscreen() {
-        gtk_h.gtk_window_unfullscreen(handle());
+        try {
+            gtk_window_unfullscreen.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_unmaximize = Interop.downcallHandle(
+        "gtk_window_unmaximize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Asks to unmaximize {@code window}.
@@ -751,8 +1232,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * notifications on the {@code Gtk.Window:maximized} property.
      */
     public void unmaximize() {
-        gtk_h.gtk_window_unmaximize(handle());
+        try {
+            gtk_window_unmaximize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_unminimize = Interop.downcallHandle(
+        "gtk_window_unminimize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Asks to unminimize the specified {@code window}.
@@ -767,8 +1257,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * {@code Gdk.Toplevel:state} property.
      */
     public void unminimize() {
-        gtk_h.gtk_window_unminimize(handle());
+        try {
+            gtk_window_unminimize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_default_icon_name = Interop.downcallHandle(
+        "gtk_window_get_default_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the fallback icon name for windows.
@@ -778,9 +1277,18 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * {@link Gtk#Window}.
      */
     public static java.lang.String getDefaultIconName() {
-        var RESULT = gtk_h.gtk_window_get_default_icon_name();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_default_icon_name.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_get_toplevels = Interop.downcallHandle(
+        "gtk_window_get_toplevels",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a list of all existing toplevel windows.
@@ -790,9 +1298,18 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * the list of toplevels will change and emit the "items-changed" signal.
      */
     public static org.gtk.gio.ListModel getToplevels() {
-        var RESULT = gtk_h.gtk_window_get_toplevels();
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_get_toplevels.invokeExact();
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_list_toplevels = Interop.downcallHandle(
+        "gtk_window_list_toplevels",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a list of all existing toplevel windows.
@@ -804,9 +1321,18 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * and then unref all the widgets afterwards.
      */
     public static org.gtk.glib.List listToplevels() {
-        var RESULT = gtk_h.gtk_window_list_toplevels();
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_list_toplevels.invokeExact();
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_auto_startup_notification = Interop.downcallHandle(
+        "gtk_window_set_auto_startup_notification",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the window should request startup notification.
@@ -823,8 +1349,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * showing the main window would automatically result in notification.
      */
     public static void setAutoStartupNotification(boolean setting) {
-        gtk_h.gtk_window_set_auto_startup_notification(setting ? 1 : 0);
+        try {
+            gtk_window_set_auto_startup_notification.invokeExact(setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_default_icon_name = Interop.downcallHandle(
+        "gtk_window_set_default_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets an icon to be used as fallback.
@@ -834,8 +1369,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * called on them.
      */
     public static void setDefaultIconName(java.lang.String name) {
-        gtk_h.gtk_window_set_default_icon_name(Interop.allocateNativeString(name).handle());
+        try {
+            gtk_window_set_default_icon_name.invokeExact(Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_set_interactive_debugging = Interop.downcallHandle(
+        "gtk_window_set_interactive_debugging",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Opens or closes the <a href="running.html#interactive-debugging">interactive debugger</a>.
@@ -844,7 +1388,11 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * and to useful debugging tools.
      */
     public static void setInteractiveDebugging(boolean enable) {
-        gtk_h.gtk_window_set_interactive_debugging(enable ? 1 : 0);
+        try {
+            gtk_window_set_interactive_debugging.invokeExact(enable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -860,19 +1408,19 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onActivateDefault(ActivateDefaultHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate-default").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowActivateDefault",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -889,19 +1437,19 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onActivateFocus(ActivateFocusHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate-focus").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowActivateFocus",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -915,19 +1463,19 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onCloseRequest(CloseRequestHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("close-request").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowCloseRequest",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -950,19 +1498,19 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onEnableDebugging(EnableDebuggingHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("enable-debugging").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowEnableDebugging",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -977,19 +1525,19 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onKeysChanged(KeysChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("keys-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowKeysChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -25,9 +24,10 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public RecMutex() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GRecMutex.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_rec_mutex_clear = Interop.downcallHandle(
+        "g_rec_mutex_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the resources allocated to a recursive mutex with
@@ -42,8 +42,17 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * Sine: 2.32
      */
     public void clear() {
-        gtk_h.g_rec_mutex_clear(handle());
+        try {
+            g_rec_mutex_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rec_mutex_init = Interop.downcallHandle(
+        "g_rec_mutex_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link RecMutex} so that it can be used.
@@ -74,8 +83,17 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * is no longer needed, use g_rec_mutex_clear().
      */
     public void init() {
-        gtk_h.g_rec_mutex_init(handle());
+        try {
+            g_rec_mutex_init.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rec_mutex_lock = Interop.downcallHandle(
+        "g_rec_mutex_lock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Locks {@code rec_mutex}. If {@code rec_mutex} is already locked by another
@@ -86,8 +104,17 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * as many times as it has been locked.
      */
     public void lock() {
-        gtk_h.g_rec_mutex_lock(handle());
+        try {
+            g_rec_mutex_lock.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rec_mutex_trylock = Interop.downcallHandle(
+        "g_rec_mutex_trylock",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to lock {@code rec_mutex}. If {@code rec_mutex} is already locked
@@ -95,9 +122,18 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * it locks {@code rec_mutex} and returns {@code true}.
      */
     public boolean trylock() {
-        var RESULT = gtk_h.g_rec_mutex_trylock(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_rec_mutex_trylock.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rec_mutex_unlock = Interop.downcallHandle(
+        "g_rec_mutex_unlock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unlocks {@code rec_mutex}. If another thread is blocked in a
@@ -108,7 +144,11 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * locked by the current thread leads to undefined behaviour.
      */
     public void unlock() {
-        gtk_h.g_rec_mutex_unlock(handle());
+        try {
+            g_rec_mutex_unlock.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

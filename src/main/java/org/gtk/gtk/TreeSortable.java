@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,6 +13,11 @@ import java.lang.invoke.*;
  */
 public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_tree_sortable_get_sort_column_id = Interop.downcallHandle(
+        "gtk_tree_sortable_get_sort_column_id",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Fills in {@code sort_column_id} and {@code order} with the current sort column and the
      * order. It returns {@code true} unless the {@code sort_column_id} is
@@ -21,9 +25,18 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * {@code GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID}.
      */
     public default boolean getSortColumnId(PointerInteger sortColumnId, SortType order) {
-        var RESULT = gtk_h.gtk_tree_sortable_get_sort_column_id(handle(), sortColumnId.handle(), new PointerInteger(order.getValue()).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_sortable_get_sort_column_id.invokeExact(handle(), sortColumnId.handle(), new PointerInteger(order.getValue()).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_sortable_has_default_sort_func = Interop.downcallHandle(
+        "gtk_tree_sortable_has_default_sort_func",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the model has a default sort function. This is used
@@ -31,9 +44,18 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * go back to the default state, or not.
      */
     public default boolean hasDefaultSortFunc() {
-        var RESULT = gtk_h.gtk_tree_sortable_has_default_sort_func(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_sortable_has_default_sort_func.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_sortable_set_default_sort_func = Interop.downcallHandle(
+        "gtk_tree_sortable_set_default_sort_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the default comparison function used when sorting to be {@code sort_func}.
@@ -48,18 +70,23 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      */
     public default void setDefaultSortFunc(TreeIterCompareFunc sortFunc) {
         try {
-            gtk_h.gtk_tree_sortable_set_default_sort_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_tree_sortable_set_default_sort_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_sortable_set_sort_column_id = Interop.downcallHandle(
+        "gtk_tree_sortable_set_sort_column_id",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the current sort column to be {@code sort_column_id}. The {@code sortable} will
@@ -76,8 +103,17 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * <li>{@code GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID}: no sorting will occur
      */
     public default void setSortColumnId(int sortColumnId, SortType order) {
-        gtk_h.gtk_tree_sortable_set_sort_column_id(handle(), sortColumnId, order.getValue());
+        try {
+            gtk_tree_sortable_set_sort_column_id.invokeExact(handle(), sortColumnId, order.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_sortable_set_sort_func = Interop.downcallHandle(
+        "gtk_tree_sortable_set_sort_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the comparison function used when sorting to be {@code sort_func}. If the
@@ -86,24 +122,33 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      */
     public default void setSortFunc(int sortColumnId, TreeIterCompareFunc sortFunc) {
         try {
-            gtk_h.gtk_tree_sortable_set_sort_func(handle(), sortColumnId, 
-                    Linker.nativeLinker().upcallStub(
+            gtk_tree_sortable_set_sort_func.invokeExact(handle(), sortColumnId, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_sortable_sort_column_changed = Interop.downcallHandle(
+        "gtk_tree_sortable_sort_column_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Emits a {@code GtkTreeSortable::sort-column-changed} signal on {@code sortable}.
      */
     public default void sortColumnChanged() {
-        gtk_h.gtk_tree_sortable_sort_column_changed(handle());
+        try {
+            gtk_tree_sortable_sort_column_changed.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -118,19 +163,19 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onSortColumnChanged(SortColumnChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("sort-column-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeSortable.Callbacks.class, "signalTreeSortableSortColumnChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

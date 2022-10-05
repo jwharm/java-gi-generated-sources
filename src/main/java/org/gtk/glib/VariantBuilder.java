@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_variant_builder_new = Interop.downcallHandle(
+        "g_variant_builder_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(VariantType type) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_builder_new(type.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_builder_new.invokeExact(type.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -40,6 +48,11 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(type));
     }
     
+    static final MethodHandle g_variant_builder_add_value = Interop.downcallHandle(
+        "g_variant_builder_add_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds {@code value} to {@code builder}.
      * <p>
@@ -53,8 +66,17 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * the {@code builder} instance takes ownership of {@code value}.
      */
     public void addValue(Variant value) {
-        gtk_h.g_variant_builder_add_value(handle(), value.handle());
+        try {
+            g_variant_builder_add_value.invokeExact(handle(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_builder_clear = Interop.downcallHandle(
+        "g_variant_builder_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases all memory associated with a {@link VariantBuilder} without
@@ -73,8 +95,17 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * to call this function on uninitialised memory.
      */
     public void clear() {
-        gtk_h.g_variant_builder_clear(handle());
+        try {
+            g_variant_builder_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_builder_close = Interop.downcallHandle(
+        "g_variant_builder_close",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Closes the subcontainer inside the given {@code builder} that was opened by
@@ -85,8 +116,17 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * subcontainer).
      */
     public void close() {
-        gtk_h.g_variant_builder_close(handle());
+        try {
+            g_variant_builder_close.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_builder_end = Interop.downcallHandle(
+        "g_variant_builder_end",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Ends the builder process and returns the constructed value.
@@ -108,9 +148,18 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * the empty array.
      */
     public Variant end() {
-        var RESULT = gtk_h.g_variant_builder_end(handle());
-        return new Variant(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_builder_end.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_builder_init = Interop.downcallHandle(
+        "g_variant_builder_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initialises a {@link VariantBuilder} structure.
@@ -144,8 +193,17 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * this function.
      */
     public void init(VariantType type) {
-        gtk_h.g_variant_builder_init(handle(), type.handle());
+        try {
+            g_variant_builder_init.invokeExact(handle(), type.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_builder_open = Interop.downcallHandle(
+        "g_variant_builder_open",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Opens a subcontainer inside the given {@code builder}.  When done adding
@@ -186,8 +244,17 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public void open(VariantType type) {
-        gtk_h.g_variant_builder_open(handle(), type.handle());
+        try {
+            g_variant_builder_open.invokeExact(handle(), type.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_builder_ref = Interop.downcallHandle(
+        "g_variant_builder_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on {@code builder}.
@@ -196,9 +263,18 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * things will happen.
      */
     public VariantBuilder ref() {
-        var RESULT = gtk_h.g_variant_builder_ref(handle());
-        return new VariantBuilder(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_builder_ref.invokeExact(handle());
+            return new VariantBuilder(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_builder_unref = Interop.downcallHandle(
+        "g_variant_builder_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on {@code builder}.
@@ -210,7 +286,11 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * things will happen.
      */
     public void unref() {
-        gtk_h.g_variant_builder_unref(handle());
+        try {
+            g_variant_builder_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

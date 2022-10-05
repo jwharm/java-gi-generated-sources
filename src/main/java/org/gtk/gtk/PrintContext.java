@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -87,93 +86,188 @@ public class PrintContext extends org.gtk.gobject.Object {
         return new PrintContext(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_print_context_create_pango_context = Interop.downcallHandle(
+        "gtk_print_context_create_pango_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Creates a new {@code PangoContext} that can be used with the
      * {@code GtkPrintContext}.
      */
     public org.pango.Context createPangoContext() {
-        var RESULT = gtk_h.gtk_print_context_create_pango_context(handle());
-        return new org.pango.Context(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_context_create_pango_context.invokeExact(handle());
+            return new org.pango.Context(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_create_pango_layout = Interop.downcallHandle(
+        "gtk_print_context_create_pango_layout",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@code PangoLayout} that is suitable for use
      * with the {@code GtkPrintContext}.
      */
     public org.pango.Layout createPangoLayout() {
-        var RESULT = gtk_h.gtk_print_context_create_pango_layout(handle());
-        return new org.pango.Layout(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_context_create_pango_layout.invokeExact(handle());
+            return new org.pango.Layout(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_get_cairo_context = Interop.downcallHandle(
+        "gtk_print_context_get_cairo_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the cairo context that is associated with the
      * {@code GtkPrintContext}.
      */
     public org.cairographics.Context getCairoContext() {
-        var RESULT = gtk_h.gtk_print_context_get_cairo_context(handle());
-        return new org.cairographics.Context(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_context_get_cairo_context.invokeExact(handle());
+            return new org.cairographics.Context(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_get_dpi_x = Interop.downcallHandle(
+        "gtk_print_context_get_dpi_x",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the horizontal resolution of the {@code GtkPrintContext},
      * in dots per inch.
      */
     public double getDpiX() {
-        var RESULT = gtk_h.gtk_print_context_get_dpi_x(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_print_context_get_dpi_x.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_get_dpi_y = Interop.downcallHandle(
+        "gtk_print_context_get_dpi_y",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the vertical resolution of the {@code GtkPrintContext},
      * in dots per inch.
      */
     public double getDpiY() {
-        var RESULT = gtk_h.gtk_print_context_get_dpi_y(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_print_context_get_dpi_y.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_get_hard_margins = Interop.downcallHandle(
+        "gtk_print_context_get_hard_margins",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the hardware printer margins of the {@code GtkPrintContext},
      * in units.
      */
     public boolean getHardMargins(PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
-        var RESULT = gtk_h.gtk_print_context_get_hard_margins(handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_context_get_hard_margins.invokeExact(handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_get_height = Interop.downcallHandle(
+        "gtk_print_context_get_height",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the height of the {@code GtkPrintContext}, in pixels.
      */
     public double getHeight() {
-        var RESULT = gtk_h.gtk_print_context_get_height(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_print_context_get_height.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_get_page_setup = Interop.downcallHandle(
+        "gtk_print_context_get_page_setup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the {@code GtkPageSetup} that determines the page
      * dimensions of the {@code GtkPrintContext}.
      */
     public PageSetup getPageSetup() {
-        var RESULT = gtk_h.gtk_print_context_get_page_setup(handle());
-        return new PageSetup(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_context_get_page_setup.invokeExact(handle());
+            return new PageSetup(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_get_pango_fontmap = Interop.downcallHandle(
+        "gtk_print_context_get_pango_fontmap",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a {@code PangoFontMap} that is suitable for use
      * with the {@code GtkPrintContext}.
      */
     public org.pango.FontMap getPangoFontmap() {
-        var RESULT = gtk_h.gtk_print_context_get_pango_fontmap(handle());
-        return new org.pango.FontMap(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_context_get_pango_fontmap.invokeExact(handle());
+            return new org.pango.FontMap(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_get_width = Interop.downcallHandle(
+        "gtk_print_context_get_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the width of the {@code GtkPrintContext}, in pixels.
      */
     public double getWidth() {
-        var RESULT = gtk_h.gtk_print_context_get_width(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_print_context_get_width.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_context_set_cairo_context = Interop.downcallHandle(
+        "gtk_print_context_set_cairo_context",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets a new cairo context on a print context.
@@ -184,7 +278,11 @@ public class PrintContext extends org.gtk.gobject.Object {
      * case.
      */
     public void setCairoContext(org.cairographics.Context cr, double dpiX, double dpiY) {
-        gtk_h.gtk_print_context_set_cairo_context(handle(), cr.handle(), dpiX, dpiY);
+        try {
+            gtk_print_context_set_cairo_context.invokeExact(handle(), cr.handle(), dpiX, dpiY);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

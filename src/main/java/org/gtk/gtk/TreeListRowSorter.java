@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -31,9 +30,18 @@ public class TreeListRowSorter extends Sorter {
         return new TreeListRowSorter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_tree_list_row_sorter_new = Interop.downcallHandle(
+        "gtk_tree_list_row_sorter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Sorter sorter) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_list_row_sorter_new(sorter.refcounted().unowned().handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_list_row_sorter_new.invokeExact(sorter.refcounted().unowned().handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -47,13 +55,27 @@ public class TreeListRowSorter extends Sorter {
         super(constructNew(sorter));
     }
     
+    static final MethodHandle gtk_tree_list_row_sorter_get_sorter = Interop.downcallHandle(
+        "gtk_tree_list_row_sorter_get_sorter",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the sorter used by {@code self}.
      */
     public Sorter getSorter() {
-        var RESULT = gtk_h.gtk_tree_list_row_sorter_get_sorter(handle());
-        return new Sorter(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_list_row_sorter_get_sorter.invokeExact(handle());
+            return new Sorter(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_sorter_set_sorter = Interop.downcallHandle(
+        "gtk_tree_list_row_sorter_set_sorter",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the sorter to use for items with the same parent.
@@ -62,7 +84,11 @@ public class TreeListRowSorter extends Sorter {
      * the tree list rows passed to {@code self}.
      */
     public void setSorter(Sorter sorter) {
-        gtk_h.gtk_tree_list_row_sorter_set_sorter(handle(), sorter.handle());
+        try {
+            gtk_tree_list_row_sorter_set_sorter.invokeExact(handle(), sorter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

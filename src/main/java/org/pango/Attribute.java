@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,9 +20,10 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Attribute() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttribute.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_attribute_as_color = Interop.downcallHandle(
+        "pango_attribute_as_color",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrColor}.
@@ -31,9 +31,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrColor asColor() {
-        var RESULT = gtk_h.pango_attribute_as_color(handle());
-        return new AttrColor(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_color.invokeExact(handle());
+            return new AttrColor(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_as_float = Interop.downcallHandle(
+        "pango_attribute_as_float",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrFloat}.
@@ -41,9 +50,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrFloat asFloat() {
-        var RESULT = gtk_h.pango_attribute_as_float(handle());
-        return new AttrFloat(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_float.invokeExact(handle());
+            return new AttrFloat(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_as_font_desc = Interop.downcallHandle(
+        "pango_attribute_as_font_desc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrFontDesc}.
@@ -51,9 +69,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrFontDesc asFontDesc() {
-        var RESULT = gtk_h.pango_attribute_as_font_desc(handle());
-        return new AttrFontDesc(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_font_desc.invokeExact(handle());
+            return new AttrFontDesc(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_as_font_features = Interop.downcallHandle(
+        "pango_attribute_as_font_features",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrFontFeatures}.
@@ -61,9 +88,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrFontFeatures asFontFeatures() {
-        var RESULT = gtk_h.pango_attribute_as_font_features(handle());
-        return new AttrFontFeatures(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_font_features.invokeExact(handle());
+            return new AttrFontFeatures(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_as_int = Interop.downcallHandle(
+        "pango_attribute_as_int",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrInt}.
@@ -71,9 +107,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrInt asInt() {
-        var RESULT = gtk_h.pango_attribute_as_int(handle());
-        return new AttrInt(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_int.invokeExact(handle());
+            return new AttrInt(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_as_language = Interop.downcallHandle(
+        "pango_attribute_as_language",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrLanguage}.
@@ -81,9 +126,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrLanguage asLanguage() {
-        var RESULT = gtk_h.pango_attribute_as_language(handle());
-        return new AttrLanguage(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_language.invokeExact(handle());
+            return new AttrLanguage(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_as_shape = Interop.downcallHandle(
+        "pango_attribute_as_shape",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrShape}.
@@ -91,9 +145,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrShape asShape() {
-        var RESULT = gtk_h.pango_attribute_as_shape(handle());
-        return new AttrShape(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_shape.invokeExact(handle());
+            return new AttrShape(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_as_size = Interop.downcallHandle(
+        "pango_attribute_as_size",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrSize}.
@@ -101,9 +164,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrSize asSize() {
-        var RESULT = gtk_h.pango_attribute_as_size(handle());
-        return new AttrSize(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_size.invokeExact(handle());
+            return new AttrSize(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_as_string = Interop.downcallHandle(
+        "pango_attribute_as_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the attribute cast to {@code PangoAttrString}.
@@ -111,24 +183,51 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrString asString() {
-        var RESULT = gtk_h.pango_attribute_as_string(handle());
-        return new AttrString(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_as_string.invokeExact(handle());
+            return new AttrString(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_copy = Interop.downcallHandle(
+        "pango_attribute_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Make a copy of an attribute.
      */
     public Attribute copy() {
-        var RESULT = gtk_h.pango_attribute_copy(handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attribute_copy.invokeExact(handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_destroy = Interop.downcallHandle(
+        "pango_attribute_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Destroy a {@code PangoAttribute} and free all associated memory.
      */
     public void destroy() {
-        gtk_h.pango_attribute_destroy(handle());
+        try {
+            pango_attribute_destroy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_equal = Interop.downcallHandle(
+        "pango_attribute_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compare two attributes for equality.
@@ -138,9 +237,18 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * apply to.
      */
     public boolean equal(Attribute attr2) {
-        var RESULT = gtk_h.pango_attribute_equal(handle(), attr2.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_attribute_equal.invokeExact(handle(), attr2.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attribute_init = Interop.downcallHandle(
+        "pango_attribute_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes {@code attr}'s klass to {@code klass}, it's start_index to
@@ -149,7 +257,11 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
      * to the entire text by default.
      */
     public void init(AttrClass klass) {
-        gtk_h.pango_attribute_init(handle(), klass.handle());
+        try {
+            pango_attribute_init.invokeExact(handle(), klass.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

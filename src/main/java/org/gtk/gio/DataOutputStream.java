@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
         return new DataOutputStream(gobject.refcounted());
     }
     
+    static final MethodHandle g_data_output_stream_new = Interop.downcallHandle(
+        "g_data_output_stream_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(OutputStream baseStream) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_data_output_stream_new(baseStream.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_data_output_stream_new.invokeExact(baseStream.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,115 +40,205 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
         super(constructNew(baseStream));
     }
     
+    static final MethodHandle g_data_output_stream_get_byte_order = Interop.downcallHandle(
+        "g_data_output_stream_get_byte_order",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the byte order for the stream.
      */
     public DataStreamByteOrder getByteOrder() {
-        var RESULT = gtk_h.g_data_output_stream_get_byte_order(handle());
-        return new DataStreamByteOrder(RESULT);
+        try {
+            var RESULT = (int) g_data_output_stream_get_byte_order.invokeExact(handle());
+            return new DataStreamByteOrder(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_data_output_stream_put_byte = Interop.downcallHandle(
+        "g_data_output_stream_put_byte",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Puts a byte into the output stream.
      */
     public boolean putByte(byte data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_data_output_stream_put_byte(handle(), data, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_data_output_stream_put_byte.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_data_output_stream_put_int16 = Interop.downcallHandle(
+        "g_data_output_stream_put_int16",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Puts a signed 16-bit integer into the output stream.
      */
     public boolean putInt16(short data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_data_output_stream_put_int16(handle(), data, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_data_output_stream_put_int16.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_data_output_stream_put_int32 = Interop.downcallHandle(
+        "g_data_output_stream_put_int32",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Puts a signed 32-bit integer into the output stream.
      */
     public boolean putInt32(int data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_data_output_stream_put_int32(handle(), data, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_data_output_stream_put_int32.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_data_output_stream_put_int64 = Interop.downcallHandle(
+        "g_data_output_stream_put_int64",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Puts a signed 64-bit integer into the stream.
      */
     public boolean putInt64(long data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_data_output_stream_put_int64(handle(), data, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_data_output_stream_put_int64.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_data_output_stream_put_string = Interop.downcallHandle(
+        "g_data_output_stream_put_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Puts a string into the output stream.
      */
     public boolean putString(java.lang.String str, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_data_output_stream_put_string(handle(), Interop.allocateNativeString(str).handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_data_output_stream_put_string.invokeExact(handle(), Interop.allocateNativeString(str).handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_data_output_stream_put_uint16 = Interop.downcallHandle(
+        "g_data_output_stream_put_uint16",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Puts an unsigned 16-bit integer into the output stream.
      */
     public boolean putUint16(short data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_data_output_stream_put_uint16(handle(), data, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_data_output_stream_put_uint16.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_data_output_stream_put_uint32 = Interop.downcallHandle(
+        "g_data_output_stream_put_uint32",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Puts an unsigned 32-bit integer into the stream.
      */
     public boolean putUint32(int data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_data_output_stream_put_uint32(handle(), data, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_data_output_stream_put_uint32.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_data_output_stream_put_uint64 = Interop.downcallHandle(
+        "g_data_output_stream_put_uint64",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Puts an unsigned 64-bit integer into the stream.
      */
     public boolean putUint64(long data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_data_output_stream_put_uint64(handle(), data, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_data_output_stream_put_uint64.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_data_output_stream_set_byte_order = Interop.downcallHandle(
+        "g_data_output_stream_set_byte_order",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the byte order of the data output stream to {@code order}.
      */
     public void setByteOrder(DataStreamByteOrder order) {
-        gtk_h.g_data_output_stream_set_byte_order(handle(), order.getValue());
+        try {
+            g_data_output_stream_set_byte_order.invokeExact(handle(), order.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

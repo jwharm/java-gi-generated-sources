@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,9 +29,18 @@ public class ColorChooserDialog extends Dialog implements Accessible, Buildable,
         return new ColorChooserDialog(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_color_chooser_dialog_new = Interop.downcallHandle(
+        "gtk_color_chooser_dialog_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String title, Window parent) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_color_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_color_chooser_dialog_new.invokeExact(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**

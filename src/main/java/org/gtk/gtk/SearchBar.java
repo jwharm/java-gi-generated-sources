@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -62,9 +61,18 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
         return new SearchBar(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_search_bar_new = Interop.downcallHandle(
+        "gtk_search_bar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_search_bar_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_search_bar_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -77,6 +85,11 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
+    static final MethodHandle gtk_search_bar_connect_entry = Interop.downcallHandle(
+        "gtk_search_bar_connect_entry",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Connects the `GtkEditable widget passed as the one to be used in
      * this search bar.
@@ -86,47 +99,101 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * child of the search bar (as in our main example).
      */
     public void connectEntry(Editable entry) {
-        gtk_h.gtk_search_bar_connect_entry(handle(), entry.handle());
+        try {
+            gtk_search_bar_connect_entry.invokeExact(handle(), entry.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_search_bar_get_child = Interop.downcallHandle(
+        "gtk_search_bar_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the child widget of {@code bar}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_search_bar_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_search_bar_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_search_bar_get_key_capture_widget = Interop.downcallHandle(
+        "gtk_search_bar_get_key_capture_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the widget that {@code bar} is capturing key events from.
      */
     public Widget getKeyCaptureWidget() {
-        var RESULT = gtk_h.gtk_search_bar_get_key_capture_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_search_bar_get_key_capture_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_search_bar_get_search_mode = Interop.downcallHandle(
+        "gtk_search_bar_get_search_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the search mode is on or off.
      */
     public boolean getSearchMode() {
-        var RESULT = gtk_h.gtk_search_bar_get_search_mode(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_search_bar_get_search_mode.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_search_bar_get_show_close_button = Interop.downcallHandle(
+        "gtk_search_bar_get_show_close_button",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the close button is shown.
      */
     public boolean getShowCloseButton() {
-        var RESULT = gtk_h.gtk_search_bar_get_show_close_button(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_search_bar_get_show_close_button.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_search_bar_set_child = Interop.downcallHandle(
+        "gtk_search_bar_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code bar}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_search_bar_set_child(handle(), child.handle());
+        try {
+            gtk_search_bar_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_search_bar_set_key_capture_widget = Interop.downcallHandle(
+        "gtk_search_bar_set_key_capture_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code widget} as the widget that {@code bar} will capture key events
@@ -143,15 +210,33 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * {@link EventControllerKey#forward}.
      */
     public void setKeyCaptureWidget(Widget widget) {
-        gtk_h.gtk_search_bar_set_key_capture_widget(handle(), widget.handle());
+        try {
+            gtk_search_bar_set_key_capture_widget.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_search_bar_set_search_mode = Interop.downcallHandle(
+        "gtk_search_bar_set_search_mode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Switches the search mode on or off.
      */
     public void setSearchMode(boolean searchMode) {
-        gtk_h.gtk_search_bar_set_search_mode(handle(), searchMode ? 1 : 0);
+        try {
+            gtk_search_bar_set_search_mode.invokeExact(handle(), searchMode ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_search_bar_set_show_close_button = Interop.downcallHandle(
+        "gtk_search_bar_set_show_close_button",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Shows or hides the close button.
@@ -161,7 +246,11 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * of the toggle button.
      */
     public void setShowCloseButton(boolean visible) {
-        gtk_h.gtk_search_bar_set_show_close_button(handle(), visible ? 1 : 0);
+        try {
+            gtk_search_bar_set_show_close_button.invokeExact(handle(), visible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,9 +43,18 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
         return new LinkButton(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_link_button_new = Interop.downcallHandle(
+        "gtk_link_button_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String uri) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_link_button_new(Interop.allocateNativeString(uri).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_link_button_new.invokeExact(Interop.allocateNativeString(uri).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -56,9 +64,18 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
         super(constructNew(uri));
     }
     
+    static final MethodHandle gtk_link_button_new_with_label = Interop.downcallHandle(
+        "gtk_link_button_new_with_label",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithLabel(java.lang.String uri, java.lang.String label) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(label).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_link_button_new_with_label.invokeExact(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(label).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -68,13 +85,27 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
         return new LinkButton(constructNewWithLabel(uri, label));
     }
     
+    static final MethodHandle gtk_link_button_get_uri = Interop.downcallHandle(
+        "gtk_link_button_get_uri",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the URI of the {@code GtkLinkButton}.
      */
     public java.lang.String getUri() {
-        var RESULT = gtk_h.gtk_link_button_get_uri(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_link_button_get_uri.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_link_button_get_visited = Interop.downcallHandle(
+        "gtk_link_button_get_visited",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the “visited” state of the {@code GtkLinkButton}.
@@ -85,9 +116,18 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      * The state may also be changed using {@link LinkButton#setVisited}.
      */
     public boolean getVisited() {
-        var RESULT = gtk_h.gtk_link_button_get_visited(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_link_button_get_visited.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_link_button_set_uri = Interop.downcallHandle(
+        "gtk_link_button_set_uri",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code uri} as the URI where the {@code GtkLinkButton} points.
@@ -95,8 +135,17 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      * As a side-effect this unsets the “visited” state of the button.
      */
     public void setUri(java.lang.String uri) {
-        gtk_h.gtk_link_button_set_uri(handle(), Interop.allocateNativeString(uri).handle());
+        try {
+            gtk_link_button_set_uri.invokeExact(handle(), Interop.allocateNativeString(uri).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_link_button_set_visited = Interop.downcallHandle(
+        "gtk_link_button_set_visited",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the “visited” state of the {@code GtkLinkButton}.
@@ -104,7 +153,11 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      * See {@link LinkButton#getVisited} for more details.
      */
     public void setVisited(boolean visited) {
-        gtk_h.gtk_link_button_set_visited(handle(), visited ? 1 : 0);
+        try {
+            gtk_link_button_set_visited.invokeExact(handle(), visited ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -124,19 +177,19 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      */
     public SignalHandle onActivateLink(ActivateLinkHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate-link").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(LinkButton.Callbacks.class, "signalLinkButtonActivateLink",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

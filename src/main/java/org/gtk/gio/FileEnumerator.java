@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,6 +43,11 @@ public class FileEnumerator extends org.gtk.gobject.Object {
         return new FileEnumerator(gobject.refcounted());
     }
     
+    static final MethodHandle g_file_enumerator_close = Interop.downcallHandle(
+        "g_file_enumerator_close",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Releases all resources used by this enumerator, making the
      * enumerator return {@link IOErrorEnum#CLOSED} on all calls.
@@ -54,12 +58,21 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_enumerator_close(handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_file_enumerator_close.invokeExact(handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_file_enumerator_close_async = Interop.downcallHandle(
+        "g_file_enumerator_close_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Asynchronously closes the file enumerator.
@@ -71,17 +84,22 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public void closeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_enumerator_close_async(handle(), ioPriority, cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_file_enumerator_close_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_file_enumerator_close_finish = Interop.downcallHandle(
+        "g_file_enumerator_close_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finishes closing a file enumerator, started from g_file_enumerator_close_async().
@@ -97,12 +115,21 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_enumerator_close_finish(handle(), result.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_file_enumerator_close_finish.invokeExact(handle(), result.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_file_enumerator_get_child = Interop.downcallHandle(
+        "g_file_enumerator_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Return a new {@link File} which refers to the file named by {@code info} in the source
@@ -120,33 +147,69 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * }</pre>
      */
     public File getChild(FileInfo info) {
-        var RESULT = gtk_h.g_file_enumerator_get_child(handle(), info.handle());
-        return new File.FileImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_file_enumerator_get_child.invokeExact(handle(), info.handle());
+            return new File.FileImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_enumerator_get_container = Interop.downcallHandle(
+        "g_file_enumerator_get_container",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the {@link File} container which is being enumerated.
      */
     public File getContainer() {
-        var RESULT = gtk_h.g_file_enumerator_get_container(handle());
-        return new File.FileImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_file_enumerator_get_container.invokeExact(handle());
+            return new File.FileImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_enumerator_has_pending = Interop.downcallHandle(
+        "g_file_enumerator_has_pending",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the file enumerator has pending operations.
      */
     public boolean hasPending() {
-        var RESULT = gtk_h.g_file_enumerator_has_pending(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_file_enumerator_has_pending.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_enumerator_is_closed = Interop.downcallHandle(
+        "g_file_enumerator_is_closed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the file enumerator has been closed.
      */
     public boolean isClosed() {
-        var RESULT = gtk_h.g_file_enumerator_is_closed(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_file_enumerator_is_closed.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_enumerator_iterate = Interop.downcallHandle(
+        "g_file_enumerator_iterate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This is a version of g_file_enumerator_next_file() that's easier to
@@ -190,12 +253,21 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public boolean iterate(FileInfo[] outInfo, File[] outChild, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_enumerator_iterate(handle(), Interop.allocateNativeArray(outInfo).handle(), Interop.allocateNativeArray(outChild).handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_file_enumerator_iterate.invokeExact(handle(), Interop.allocateNativeArray(outInfo).handle(), Interop.allocateNativeArray(outChild).handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_file_enumerator_next_file = Interop.downcallHandle(
+        "g_file_enumerator_next_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns information for the next file in the enumerated object.
@@ -212,12 +284,21 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public FileInfo nextFile(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_enumerator_next_file(handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_file_enumerator_next_file.invokeExact(handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new FileInfo(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FileInfo(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_file_enumerator_next_files_async = Interop.downcallHandle(
+        "g_file_enumerator_next_files_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Request information for a number of files from the enumerator asynchronously.
@@ -242,35 +323,53 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public void nextFilesAsync(int numFiles, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_enumerator_next_files_async(handle(), numFiles, ioPriority, cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_file_enumerator_next_files_async.invokeExact(handle(), numFiles, ioPriority, cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_file_enumerator_next_files_finish = Interop.downcallHandle(
+        "g_file_enumerator_next_files_finish",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finishes the asynchronous operation started with g_file_enumerator_next_files_async().
      */
     public org.gtk.glib.List nextFilesFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_enumerator_next_files_finish(handle(), result.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_file_enumerator_next_files_finish.invokeExact(handle(), result.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_file_enumerator_set_pending = Interop.downcallHandle(
+        "g_file_enumerator_set_pending",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the file enumerator as having pending operations.
      */
     public void setPending(boolean pending) {
-        gtk_h.g_file_enumerator_set_pending(handle(), pending ? 1 : 0);
+        try {
+            g_file_enumerator_set_pending.invokeExact(handle(), pending ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

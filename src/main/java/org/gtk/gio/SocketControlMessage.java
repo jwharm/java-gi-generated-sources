@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -38,32 +37,64 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
         return new SocketControlMessage(gobject.refcounted());
     }
     
+    static final MethodHandle g_socket_control_message_get_level = Interop.downcallHandle(
+        "g_socket_control_message_get_level",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the "level" (i.e. the originating protocol) of the control message.
      * This is often SOL_SOCKET.
      */
     public int getLevel() {
-        var RESULT = gtk_h.g_socket_control_message_get_level(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_socket_control_message_get_level.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_control_message_get_msg_type = Interop.downcallHandle(
+        "g_socket_control_message_get_msg_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the protocol specific type of the control message.
      * For instance, for UNIX fd passing this would be SCM_RIGHTS.
      */
     public int getMsgType() {
-        var RESULT = gtk_h.g_socket_control_message_get_msg_type(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_socket_control_message_get_msg_type.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_control_message_get_size = Interop.downcallHandle(
+        "g_socket_control_message_get_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the space required for the control message, not including
      * headers or alignment.
      */
     public long getSize() {
-        var RESULT = gtk_h.g_socket_control_message_get_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_socket_control_message_get_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_control_message_serialize = Interop.downcallHandle(
+        "g_socket_control_message_serialize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts the data in the message to bytes placed in the
@@ -74,8 +105,17 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * object.
      */
     public void serialize(java.lang.foreign.MemoryAddress data) {
-        gtk_h.g_socket_control_message_serialize(handle(), data);
+        try {
+            g_socket_control_message_serialize.invokeExact(handle(), data);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_control_message_deserialize = Interop.downcallHandle(
+        "g_socket_control_message_deserialize",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to deserialize a socket control message of a given
@@ -87,8 +127,12 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * will be returned.
      */
     public static SocketControlMessage deserialize(int level, int type, long size, byte[] data) {
-        var RESULT = gtk_h.g_socket_control_message_deserialize(level, type, size, Interop.allocateNativeArray(data).handle());
-        return new SocketControlMessage(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_socket_control_message_deserialize.invokeExact(level, type, size, Interop.allocateNativeArray(data).handle());
+            return new SocketControlMessage(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

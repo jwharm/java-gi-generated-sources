@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -36,9 +35,18 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
         return new CarouselIndicatorDots(gobject.refcounted());
     }
     
+    static final MethodHandle adw_carousel_indicator_dots_new = Interop.downcallHandle(
+        "adw_carousel_indicator_dots_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_carousel_indicator_dots_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_carousel_indicator_dots_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -48,19 +56,37 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
         super(constructNew());
     }
     
+    static final MethodHandle adw_carousel_indicator_dots_get_carousel = Interop.downcallHandle(
+        "adw_carousel_indicator_dots_get_carousel",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the displayed carousel.
      */
     public Carousel getCarousel() {
-        var RESULT = gtk_h.adw_carousel_indicator_dots_get_carousel(handle());
-        return new Carousel(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_carousel_indicator_dots_get_carousel.invokeExact(handle());
+            return new Carousel(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_indicator_dots_set_carousel = Interop.downcallHandle(
+        "adw_carousel_indicator_dots_set_carousel",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the displayed carousel.
      */
     public void setCarousel(Carousel carousel) {
-        gtk_h.adw_carousel_indicator_dots_set_carousel(handle(), carousel.handle());
+        try {
+            adw_carousel_indicator_dots_set_carousel.invokeExact(handle(), carousel.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

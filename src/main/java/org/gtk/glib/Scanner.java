@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,9 +26,10 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Scanner() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GScanner.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_scanner_cur_line = Interop.downcallHandle(
+        "g_scanner_cur_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current line in the input stream (counting
@@ -37,9 +37,18 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * g_scanner_get_next_token().
      */
     public int curLine() {
-        var RESULT = gtk_h.g_scanner_cur_line(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_scanner_cur_line.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_cur_position = Interop.downcallHandle(
+        "g_scanner_cur_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current position in the current line (counting
@@ -47,34 +56,70 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * g_scanner_get_next_token().
      */
     public int curPosition() {
-        var RESULT = gtk_h.g_scanner_cur_position(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_scanner_cur_position.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_cur_token = Interop.downcallHandle(
+        "g_scanner_cur_token",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current token type. This is simply the {@code token}
      * field in the {@link Scanner} structure.
      */
     public TokenType curToken() {
-        var RESULT = gtk_h.g_scanner_cur_token(handle());
-        return new TokenType(RESULT);
+        try {
+            var RESULT = (int) g_scanner_cur_token.invokeExact(handle());
+            return new TokenType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_destroy = Interop.downcallHandle(
+        "g_scanner_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees all memory used by the {@link Scanner}.
      */
     public void destroy() {
-        gtk_h.g_scanner_destroy(handle());
+        try {
+            g_scanner_destroy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_eof = Interop.downcallHandle(
+        "g_scanner_eof",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the scanner has reached the end of
      * the file or text buffer.
      */
     public boolean eof() {
-        var RESULT = gtk_h.g_scanner_eof(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_scanner_eof.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_get_next_token = Interop.downcallHandle(
+        "g_scanner_get_next_token",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses the next token just like g_scanner_peek_next_token()
@@ -83,23 +128,50 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * the {@link Scanner} structure.
      */
     public TokenType getNextToken() {
-        var RESULT = gtk_h.g_scanner_get_next_token(handle());
-        return new TokenType(RESULT);
+        try {
+            var RESULT = (int) g_scanner_get_next_token.invokeExact(handle());
+            return new TokenType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_input_file = Interop.downcallHandle(
+        "g_scanner_input_file",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Prepares to scan a file.
      */
     public void inputFile(int inputFd) {
-        gtk_h.g_scanner_input_file(handle(), inputFd);
+        try {
+            g_scanner_input_file.invokeExact(handle(), inputFd);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_input_text = Interop.downcallHandle(
+        "g_scanner_input_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Prepares to scan a text buffer.
      */
     public void inputText(java.lang.String text, int textLen) {
-        gtk_h.g_scanner_input_text(handle(), Interop.allocateNativeString(text).handle(), textLen);
+        try {
+            g_scanner_input_text.invokeExact(handle(), Interop.allocateNativeString(text).handle(), textLen);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_lookup_symbol = Interop.downcallHandle(
+        "g_scanner_lookup_symbol",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a symbol in the current scope and return its value.
@@ -107,9 +179,18 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * returned.
      */
     public java.lang.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
-        var RESULT = gtk_h.g_scanner_lookup_symbol(handle(), Interop.allocateNativeString(symbol).handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_scanner_lookup_symbol.invokeExact(handle(), Interop.allocateNativeString(symbol).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_peek_next_token = Interop.downcallHandle(
+        "g_scanner_peek_next_token",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses the next token, without removing it from the input stream.
@@ -125,16 +206,34 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * any symbols that may have been added or removed in the new scope.
      */
     public TokenType peekNextToken() {
-        var RESULT = gtk_h.g_scanner_peek_next_token(handle());
-        return new TokenType(RESULT);
+        try {
+            var RESULT = (int) g_scanner_peek_next_token.invokeExact(handle());
+            return new TokenType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_scope_add_symbol = Interop.downcallHandle(
+        "g_scanner_scope_add_symbol",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a symbol to the given scope.
      */
     public void scopeAddSymbol(int scopeId, java.lang.String symbol, java.lang.foreign.MemoryAddress value) {
-        gtk_h.g_scanner_scope_add_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle(), value);
+        try {
+            g_scanner_scope_add_symbol.invokeExact(handle(), scopeId, Interop.allocateNativeString(symbol).handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_scope_foreach_symbol = Interop.downcallHandle(
+        "g_scanner_scope_foreach_symbol",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for each of the symbol/value pairs
@@ -144,41 +243,73 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      */
     public void scopeForeachSymbol(int scopeId, HFunc func) {
         try {
-            gtk_h.g_scanner_scope_foreach_symbol(handle(), scopeId, 
-                    Linker.nativeLinker().upcallStub(
+            g_scanner_scope_foreach_symbol.invokeExact(handle(), scopeId, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbHFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_scanner_scope_lookup_symbol = Interop.downcallHandle(
+        "g_scanner_scope_lookup_symbol",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a symbol in a scope and return its value. If the
      * symbol is not bound in the scope, {@code null} is returned.
      */
     public java.lang.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
-        var RESULT = gtk_h.g_scanner_scope_lookup_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_scanner_scope_lookup_symbol.invokeExact(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_scope_remove_symbol = Interop.downcallHandle(
+        "g_scanner_scope_remove_symbol",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a symbol from a scope.
      */
     public void scopeRemoveSymbol(int scopeId, java.lang.String symbol) {
-        gtk_h.g_scanner_scope_remove_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
+        try {
+            g_scanner_scope_remove_symbol.invokeExact(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_set_scope = Interop.downcallHandle(
+        "g_scanner_set_scope",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the current scope.
      */
     public int setScope(int scopeId) {
-        var RESULT = gtk_h.g_scanner_set_scope(handle(), scopeId);
-        return RESULT;
+        try {
+            var RESULT = (int) g_scanner_set_scope.invokeExact(handle(), scopeId);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_sync_file_offset = Interop.downcallHandle(
+        "g_scanner_sync_file_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Rewinds the filedescriptor to the current buffer position
@@ -187,8 +318,17 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * onto the current scanning position.
      */
     public void syncFileOffset() {
-        gtk_h.g_scanner_sync_file_offset(handle());
+        try {
+            g_scanner_sync_file_offset.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_unexp_token = Interop.downcallHandle(
+        "g_scanner_unexp_token",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Outputs a message through the scanner's msg_handler,
@@ -200,8 +340,17 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * to construct part of the message.
      */
     public void unexpToken(TokenType expectedToken, java.lang.String identifierSpec, java.lang.String symbolSpec, java.lang.String symbolName, java.lang.String message, int isError) {
-        gtk_h.g_scanner_unexp_token(handle(), expectedToken.getValue(), Interop.allocateNativeString(identifierSpec).handle(), Interop.allocateNativeString(symbolSpec).handle(), Interop.allocateNativeString(symbolName).handle(), Interop.allocateNativeString(message).handle(), isError);
+        try {
+            g_scanner_unexp_token.invokeExact(handle(), expectedToken.getValue(), Interop.allocateNativeString(identifierSpec).handle(), Interop.allocateNativeString(symbolSpec).handle(), Interop.allocateNativeString(symbolName).handle(), Interop.allocateNativeString(message).handle(), isError);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_scanner_new = Interop.downcallHandle(
+        "g_scanner_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link Scanner}.
@@ -212,8 +361,12 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * are used.
      */
     public static Scanner new_(ScannerConfig configTempl) {
-        var RESULT = gtk_h.g_scanner_new(configTempl.handle());
-        return new Scanner(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_scanner_new.invokeExact(configTempl.handle());
+            return new Scanner(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

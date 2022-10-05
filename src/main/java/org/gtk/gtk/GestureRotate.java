@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,18 @@ public class GestureRotate extends Gesture {
         return new GestureRotate(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_gesture_rotate_new = Interop.downcallHandle(
+        "gtk_gesture_rotate_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_rotate_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_rotate_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -35,6 +43,11 @@ public class GestureRotate extends Gesture {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_gesture_rotate_get_angle_delta = Interop.downcallHandle(
+        "gtk_gesture_rotate_get_angle_delta",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the angle delta in radians.
      * <p>
@@ -43,8 +56,12 @@ public class GestureRotate extends Gesture {
      * not active, 0 is returned.
      */
     public double getAngleDelta() {
-        var RESULT = gtk_h.gtk_gesture_rotate_get_angle_delta(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_gesture_rotate_get_angle_delta.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -57,19 +74,19 @@ public class GestureRotate extends Gesture {
      */
     public SignalHandle onAngleChanged(AngleChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("angle-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureRotate.Callbacks.class, "signalGestureRotateAngleChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

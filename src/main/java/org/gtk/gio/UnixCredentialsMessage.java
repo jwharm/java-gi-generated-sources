@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,9 +36,18 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         return new UnixCredentialsMessage(gobject.refcounted());
     }
     
+    static final MethodHandle g_unix_credentials_message_new = Interop.downcallHandle(
+        "g_unix_credentials_message_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_credentials_message_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_credentials_message_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -49,9 +57,18 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         super(constructNew());
     }
     
+    static final MethodHandle g_unix_credentials_message_new_with_credentials = Interop.downcallHandle(
+        "g_unix_credentials_message_new_with_credentials",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithCredentials(Credentials credentials) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_credentials_message_new_with_credentials(credentials.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_credentials_message_new_with_credentials.invokeExact(credentials.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -61,20 +78,38 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         return new UnixCredentialsMessage(constructNewWithCredentials(credentials));
     }
     
+    static final MethodHandle g_unix_credentials_message_get_credentials = Interop.downcallHandle(
+        "g_unix_credentials_message_get_credentials",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the credentials stored in {@code message}.
      */
     public Credentials getCredentials() {
-        var RESULT = gtk_h.g_unix_credentials_message_get_credentials(handle());
-        return new Credentials(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_unix_credentials_message_get_credentials.invokeExact(handle());
+            return new Credentials(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_credentials_message_is_supported = Interop.downcallHandle(
+        "g_unix_credentials_message_is_supported",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks if passing {@link Credentials} on a {@link Socket} is supported on this platform.
      */
     public static boolean isSupported() {
-        var RESULT = gtk_h.g_unix_credentials_message_is_supported();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unix_credentials_message_is_supported.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

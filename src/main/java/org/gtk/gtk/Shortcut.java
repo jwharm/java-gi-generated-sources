@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -33,9 +32,18 @@ public class Shortcut extends org.gtk.gobject.Object {
         return new Shortcut(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_shortcut_new = Interop.downcallHandle(
+        "gtk_shortcut_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(ShortcutTrigger trigger, ShortcutAction action) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_new(trigger.refcounted().unowned().handle(), action.refcounted().unowned().handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_shortcut_new.invokeExact(trigger.refcounted().unowned().handle(), action.refcounted().unowned().handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -46,49 +54,103 @@ public class Shortcut extends org.gtk.gobject.Object {
         super(constructNew(trigger, action));
     }
     
+    static final MethodHandle gtk_shortcut_get_action = Interop.downcallHandle(
+        "gtk_shortcut_get_action",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the action that is activated by this shortcut.
      */
     public ShortcutAction getAction() {
-        var RESULT = gtk_h.gtk_shortcut_get_action(handle());
-        return new ShortcutAction(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_shortcut_get_action.invokeExact(handle());
+            return new ShortcutAction(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_get_arguments = Interop.downcallHandle(
+        "gtk_shortcut_get_arguments",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the arguments that are passed when activating the shortcut.
      */
     public org.gtk.glib.Variant getArguments() {
-        var RESULT = gtk_h.gtk_shortcut_get_arguments(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_shortcut_get_arguments.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_get_trigger = Interop.downcallHandle(
+        "gtk_shortcut_get_trigger",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the trigger used to trigger {@code self}.
      */
     public ShortcutTrigger getTrigger() {
-        var RESULT = gtk_h.gtk_shortcut_get_trigger(handle());
-        return new ShortcutTrigger(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_shortcut_get_trigger.invokeExact(handle());
+            return new ShortcutTrigger(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_set_action = Interop.downcallHandle(
+        "gtk_shortcut_set_action",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the new action for {@code self} to be {@code action}.
      */
     public void setAction(ShortcutAction action) {
-        gtk_h.gtk_shortcut_set_action(handle(), action.refcounted().unowned().handle());
+        try {
+            gtk_shortcut_set_action.invokeExact(handle(), action.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_set_arguments = Interop.downcallHandle(
+        "gtk_shortcut_set_arguments",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the arguments to pass when activating the shortcut.
      */
     public void setArguments(org.gtk.glib.Variant args) {
-        gtk_h.gtk_shortcut_set_arguments(handle(), args.handle());
+        try {
+            gtk_shortcut_set_arguments.invokeExact(handle(), args.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_set_trigger = Interop.downcallHandle(
+        "gtk_shortcut_set_trigger",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the new trigger for {@code self} to be {@code trigger}.
      */
     public void setTrigger(ShortcutTrigger trigger) {
-        gtk_h.gtk_shortcut_set_trigger(handle(), trigger.refcounted().unowned().handle());
+        try {
+            gtk_shortcut_set_trigger.invokeExact(handle(), trigger.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

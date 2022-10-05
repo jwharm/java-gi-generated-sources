@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,18 +13,28 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public DBusAnnotationInfo() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusAnnotationInfo.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_dbus_annotation_info_ref = Interop.downcallHandle(
+        "g_dbus_annotation_info_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.
      */
     public DBusAnnotationInfo ref() {
-        var RESULT = gtk_h.g_dbus_annotation_info_ref(handle());
-        return new DBusAnnotationInfo(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_annotation_info_ref.invokeExact(handle());
+            return new DBusAnnotationInfo(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_annotation_info_unref = Interop.downcallHandle(
+        "g_dbus_annotation_info_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code info} is statically allocated, does nothing. Otherwise decreases
@@ -33,8 +42,17 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
      * the memory used is freed.
      */
     public void unref() {
-        gtk_h.g_dbus_annotation_info_unref(handle());
+        try {
+            g_dbus_annotation_info_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_annotation_info_lookup = Interop.downcallHandle(
+        "g_dbus_annotation_info_lookup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up the value of an annotation.
@@ -42,8 +60,12 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
      * The cost of this function is O(n) in number of annotations.
      */
     public static java.lang.String lookup(DBusAnnotationInfo[] annotations, java.lang.String name) {
-        var RESULT = gtk_h.g_dbus_annotation_info_lookup(Interop.allocateNativeArray(annotations).handle(), Interop.allocateNativeString(name).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dbus_annotation_info_lookup.invokeExact(Interop.allocateNativeArray(annotations).handle(), Interop.allocateNativeString(name).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

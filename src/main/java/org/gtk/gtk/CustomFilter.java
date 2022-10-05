@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,19 +18,24 @@ public class CustomFilter extends Filter {
         return new CustomFilter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_custom_filter_new = Interop.downcallHandle(
+        "gtk_custom_filter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(CustomFilterFunc matchFunc) {
         try {
-            Refcounted RESULT = Refcounted.get(gtk_h.gtk_custom_filter_new(
-                    Linker.nativeLinker().upcallStub(
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_custom_filter_new.invokeExact(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbCustomFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(matchFunc.hashCode(), matchFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(matchFunc.hashCode(), matchFunc)), 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -48,6 +52,11 @@ public class CustomFilter extends Filter {
         super(constructNew(matchFunc));
     }
     
+    static final MethodHandle gtk_custom_filter_set_filter_func = Interop.downcallHandle(
+        "gtk_custom_filter_set_filter_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Sets the function used for filtering items.
      * <p>
@@ -61,16 +70,16 @@ public class CustomFilter extends Filter {
      */
     public void setFilterFunc(CustomFilterFunc matchFunc) {
         try {
-            gtk_h.gtk_custom_filter_set_filter_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_custom_filter_set_filter_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbCustomFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(matchFunc.hashCode(), matchFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(matchFunc.hashCode(), matchFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

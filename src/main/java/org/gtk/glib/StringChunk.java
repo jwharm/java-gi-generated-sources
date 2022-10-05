@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,14 +14,28 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_string_chunk_clear = Interop.downcallHandle(
+        "g_string_chunk_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Frees all strings contained within the {@link StringChunk}.
      * After calling g_string_chunk_clear() it is not safe to
      * access any of the strings which were contained within it.
      */
     public void clear() {
-        gtk_h.g_string_chunk_clear(handle());
+        try {
+            g_string_chunk_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_string_chunk_free = Interop.downcallHandle(
+        "g_string_chunk_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees all memory allocated by the {@link StringChunk}.
@@ -30,8 +43,17 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
      * access any of the strings which were contained within it.
      */
     public void free() {
-        gtk_h.g_string_chunk_free(handle());
+        try {
+            g_string_chunk_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_string_chunk_insert = Interop.downcallHandle(
+        "g_string_chunk_insert",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a copy of {@code string} to the {@link StringChunk}.
@@ -47,9 +69,18 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
      * duplicates.
      */
     public java.lang.String insert(java.lang.String string) {
-        var RESULT = gtk_h.g_string_chunk_insert(handle(), Interop.allocateNativeString(string).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_string_chunk_insert.invokeExact(handle(), Interop.allocateNativeString(string).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_string_chunk_insert_const = Interop.downcallHandle(
+        "g_string_chunk_insert_const",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a copy of {@code string} to the {@link StringChunk}, unless the same
@@ -67,9 +98,18 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
      * if they do match.
      */
     public java.lang.String insertConst(java.lang.String string) {
-        var RESULT = gtk_h.g_string_chunk_insert_const(handle(), Interop.allocateNativeString(string).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_string_chunk_insert_const.invokeExact(handle(), Interop.allocateNativeString(string).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_string_chunk_insert_len = Interop.downcallHandle(
+        "g_string_chunk_insert_len",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Adds a copy of the first {@code len} bytes of {@code string} to the {@link StringChunk}.
@@ -83,16 +123,29 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
      * though you should not change anything after the end of the string.
      */
     public java.lang.String insertLen(java.lang.String string, long len) {
-        var RESULT = gtk_h.g_string_chunk_insert_len(handle(), Interop.allocateNativeString(string).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_string_chunk_insert_len.invokeExact(handle(), Interop.allocateNativeString(string).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_string_chunk_new = Interop.downcallHandle(
+        "g_string_chunk_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Creates a new {@link StringChunk}.
      */
     public static StringChunk new_(long size) {
-        var RESULT = gtk_h.g_string_chunk_new(size);
-        return new StringChunk(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_string_chunk_new.invokeExact(size);
+            return new StringChunk(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

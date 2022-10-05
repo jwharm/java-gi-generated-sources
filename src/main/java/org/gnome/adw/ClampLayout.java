@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -40,9 +39,18 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
         return new ClampLayout(gobject.refcounted());
     }
     
+    static final MethodHandle adw_clamp_layout_new = Interop.downcallHandle(
+        "adw_clamp_layout_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_clamp_layout_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_clamp_layout_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -52,34 +60,70 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
         super(constructNew());
     }
     
+    static final MethodHandle adw_clamp_layout_get_maximum_size = Interop.downcallHandle(
+        "adw_clamp_layout_get_maximum_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the maximum size allocated to the children.
      */
     public int getMaximumSize() {
-        var RESULT = gtk_h.adw_clamp_layout_get_maximum_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_clamp_layout_get_maximum_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_clamp_layout_get_tightening_threshold = Interop.downcallHandle(
+        "adw_clamp_layout_get_tightening_threshold",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the size above which the children are clamped.
      */
     public int getTighteningThreshold() {
-        var RESULT = gtk_h.adw_clamp_layout_get_tightening_threshold(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_clamp_layout_get_tightening_threshold.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_clamp_layout_set_maximum_size = Interop.downcallHandle(
+        "adw_clamp_layout_set_maximum_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the maximum size allocated to the children.
      */
     public void setMaximumSize(int maximumSize) {
-        gtk_h.adw_clamp_layout_set_maximum_size(handle(), maximumSize);
+        try {
+            adw_clamp_layout_set_maximum_size.invokeExact(handle(), maximumSize);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_clamp_layout_set_tightening_threshold = Interop.downcallHandle(
+        "adw_clamp_layout_set_tightening_threshold",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the size above which the children are clamped.
      */
     public void setTighteningThreshold(int tighteningThreshold) {
-        gtk_h.adw_clamp_layout_set_tightening_threshold(handle(), tighteningThreshold);
+        try {
+            adw_clamp_layout_set_tightening_threshold.invokeExact(handle(), tighteningThreshold);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -124,13 +123,22 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
         return new DebugControllerDBus(gobject.refcounted());
     }
     
+    static final MethodHandle g_debug_controller_dbus_new = Interop.downcallHandle(
+        "g_debug_controller_dbus_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(DBusConnection connection, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_debug_controller_dbus_new(connection.handle(), cancellable.handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_debug_controller_dbus_new.invokeExact(connection.handle(), cancellable.handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -145,6 +153,11 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
     public DebugControllerDBus(DBusConnection connection, Cancellable cancellable) throws GErrorException {
         super(constructNew(connection, cancellable));
     }
+    
+    static final MethodHandle g_debug_controller_dbus_stop = Interop.downcallHandle(
+        "g_debug_controller_dbus_stop",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stop the debug controller, unregistering its object from the bus.
@@ -165,7 +178,11 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * handler will cause a deadlock and must not be done.
      */
     public void stop() {
-        gtk_h.g_debug_controller_dbus_stop(handle());
+        try {
+            g_debug_controller_dbus_stop.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -194,19 +211,19 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      */
     public SignalHandle onAuthorize(AuthorizeHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("authorize").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DebugControllerDBus.Callbacks.class, "signalDebugControllerDBusAuthorize",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

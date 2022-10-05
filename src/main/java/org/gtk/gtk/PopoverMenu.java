@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -126,9 +125,18 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
         return new PopoverMenu(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_popover_menu_new_from_model = Interop.downcallHandle(
+        "gtk_popover_menu_new_from_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromModel(org.gtk.gio.MenuModel model) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_popover_menu_new_from_model(model.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_popover_menu_new_from_model.invokeExact(model.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -150,9 +158,18 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
         return new PopoverMenu(constructNewFromModel(model));
     }
     
+    static final MethodHandle gtk_popover_menu_new_from_model_full = Interop.downcallHandle(
+        "gtk_popover_menu_new_from_model_full",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewFromModelFull(org.gtk.gio.MenuModel model, PopoverMenuFlags flags) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_popover_menu_new_from_model_full(model.handle(), flags.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_popover_menu_new_from_model_full.invokeExact(model.handle(), flags.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -172,6 +189,11 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
         return new PopoverMenu(constructNewFromModelFull(model, flags));
     }
     
+    static final MethodHandle gtk_popover_menu_add_child = Interop.downcallHandle(
+        "gtk_popover_menu_add_child",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a custom widget to a generated menu.
      * <p>
@@ -179,26 +201,53 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * an item with a {@code custom} attribute that matches {@code id}.
      */
     public boolean addChild(Widget child, java.lang.String id) {
-        var RESULT = gtk_h.gtk_popover_menu_add_child(handle(), child.handle(), Interop.allocateNativeString(id).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_popover_menu_add_child.invokeExact(handle(), child.handle(), Interop.allocateNativeString(id).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_menu_get_menu_model = Interop.downcallHandle(
+        "gtk_popover_menu_get_menu_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the menu model used to populate the popover.
      */
     public org.gtk.gio.MenuModel getMenuModel() {
-        var RESULT = gtk_h.gtk_popover_menu_get_menu_model(handle());
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_popover_menu_get_menu_model.invokeExact(handle());
+            return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_menu_remove_child = Interop.downcallHandle(
+        "gtk_popover_menu_remove_child",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a widget that has previously been added with
      * gtk_popover_menu_add_child().
      */
     public boolean removeChild(Widget child) {
-        var RESULT = gtk_h.gtk_popover_menu_remove_child(handle(), child.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_popover_menu_remove_child.invokeExact(handle(), child.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_menu_set_menu_model = Interop.downcallHandle(
+        "gtk_popover_menu_set_menu_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a new menu model on {@code popover}.
@@ -208,7 +257,11 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * to {@code model}.
      */
     public void setMenuModel(org.gtk.gio.MenuModel model) {
-        gtk_h.gtk_popover_menu_set_menu_model(handle(), model.handle());
+        try {
+            gtk_popover_menu_set_menu_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,6 +16,11 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gtk_expression_watch_evaluate = Interop.downcallHandle(
+        "gtk_expression_watch_evaluate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Evaluates the watched expression and on success stores the result
      * in {@code value}.
@@ -25,17 +29,35 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
      * expression and this pointer originally used to create {@code watch}.
      */
     public boolean evaluate(org.gtk.gobject.Value value) {
-        var RESULT = gtk_h.gtk_expression_watch_evaluate(handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_expression_watch_evaluate.invokeExact(handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_watch_ref = Interop.downcallHandle(
+        "gtk_expression_watch_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Acquires a reference on the given {@code GtkExpressionWatch}.
      */
     public ExpressionWatch ref() {
-        var RESULT = gtk_h.gtk_expression_watch_ref(handle());
-        return new ExpressionWatch(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_expression_watch_ref.invokeExact(handle());
+            return new ExpressionWatch(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_watch_unref = Interop.downcallHandle(
+        "gtk_expression_watch_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases a reference on the given {@code GtkExpressionWatch}.
@@ -44,8 +66,17 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
      * freed.
      */
     public void unref() {
-        gtk_h.gtk_expression_watch_unref(handle());
+        try {
+            gtk_expression_watch_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_watch_unwatch = Interop.downcallHandle(
+        "gtk_expression_watch_unwatch",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stops watching an expression.
@@ -54,7 +85,11 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
      * was established.
      */
     public void unwatch() {
-        gtk_h.gtk_expression_watch_unwatch(handle());
+        try {
+            gtk_expression_watch_unwatch.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -102,9 +101,18 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_variant_dict_new = Interop.downcallHandle(
+        "g_variant_dict_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Variant fromAsv) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_dict_new(fromAsv.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_dict_new.invokeExact(fromAsv.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -123,6 +131,11 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(fromAsv));
     }
     
+    static final MethodHandle g_variant_dict_clear = Interop.downcallHandle(
+        "g_variant_dict_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Releases all memory associated with a {@link VariantDict} without freeing
      * the {@link VariantDict} structure itself.
@@ -140,16 +153,34 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * on uninitialised memory.
      */
     public void clear() {
-        gtk_h.g_variant_dict_clear(handle());
+        try {
+            g_variant_dict_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dict_contains = Interop.downcallHandle(
+        "g_variant_dict_contains",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code key} exists in {@code dict}.
      */
     public boolean contains(java.lang.String key) {
-        var RESULT = gtk_h.g_variant_dict_contains(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_dict_contains.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dict_end = Interop.downcallHandle(
+        "g_variant_dict_end",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current value of {@code dict} as a {@link Variant} of type
@@ -161,9 +192,18 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * the case of stack-allocated).
      */
     public Variant end() {
-        var RESULT = gtk_h.g_variant_dict_end(handle());
-        return new Variant(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_dict_end.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dict_init = Interop.downcallHandle(
+        "g_variant_dict_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initialises a {@link VariantDict} structure.
@@ -184,8 +224,17 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * g_variant_dict_new() instead of this function.
      */
     public void init(Variant fromAsv) {
-        gtk_h.g_variant_dict_init(handle(), fromAsv.handle());
+        try {
+            g_variant_dict_init.invokeExact(handle(), fromAsv.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dict_insert_value = Interop.downcallHandle(
+        "g_variant_dict_insert_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts (or replaces) a key in a {@link VariantDict}.
@@ -193,8 +242,17 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * {@code value} is consumed if it is floating.
      */
     public void insertValue(java.lang.String key, Variant value) {
-        gtk_h.g_variant_dict_insert_value(handle(), Interop.allocateNativeString(key).handle(), value.handle());
+        try {
+            g_variant_dict_insert_value.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dict_lookup_value = Interop.downcallHandle(
+        "g_variant_dict_lookup_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a value in a {@link VariantDict}.
@@ -210,9 +268,18 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * value will have this type.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
-        var RESULT = gtk_h.g_variant_dict_lookup_value(handle(), Interop.allocateNativeString(key).handle(), expectedType.handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_dict_lookup_value.invokeExact(handle(), Interop.allocateNativeString(key).handle(), expectedType.handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dict_ref = Interop.downcallHandle(
+        "g_variant_dict_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on {@code dict}.
@@ -221,17 +288,35 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * things will happen.
      */
     public VariantDict ref() {
-        var RESULT = gtk_h.g_variant_dict_ref(handle());
-        return new VariantDict(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_dict_ref.invokeExact(handle());
+            return new VariantDict(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dict_remove = Interop.downcallHandle(
+        "g_variant_dict_remove",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a key and its associated value from a {@link VariantDict}.
      */
     public boolean remove(java.lang.String key) {
-        var RESULT = gtk_h.g_variant_dict_remove(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_dict_remove.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dict_unref = Interop.downcallHandle(
+        "g_variant_dict_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on {@code dict}.
@@ -243,7 +328,11 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * things will happen.
      */
     public void unref() {
-        gtk_h.g_variant_dict_unref(handle());
+        try {
+            g_variant_dict_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,9 +22,18 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
         return new MultiSorter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_multi_sorter_new = Interop.downcallHandle(
+        "gtk_multi_sorter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_multi_sorter_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_multi_sorter_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -40,6 +48,11 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
         super(constructNew());
     }
     
+    static final MethodHandle gtk_multi_sorter_append = Interop.downcallHandle(
+        "gtk_multi_sorter_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Add {@code sorter} to {@code self} to use for sorting at the end.
      * <p>
@@ -47,8 +60,17 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * sort with the given {@code sorter}.
      */
     public void append(Sorter sorter) {
-        gtk_h.gtk_multi_sorter_append(handle(), sorter.refcounted().unowned().handle());
+        try {
+            gtk_multi_sorter_append.invokeExact(handle(), sorter.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_multi_sorter_remove = Interop.downcallHandle(
+        "gtk_multi_sorter_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the sorter at the given {@code position} from the list of sorter
@@ -57,7 +79,11 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * If {@code position} is larger than the number of sorters, nothing happens.
      */
     public void remove(int position) {
-        gtk_h.gtk_multi_sorter_remove(handle(), position);
+        try {
+            gtk_multi_sorter_remove.invokeExact(handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

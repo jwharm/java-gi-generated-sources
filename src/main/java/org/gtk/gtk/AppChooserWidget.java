@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -41,9 +40,18 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
         return new AppChooserWidget(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_app_chooser_widget_new = Interop.downcallHandle(
+        "gtk_app_chooser_widget_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String contentType) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_app_chooser_widget_new.invokeExact(Interop.allocateNativeString(contentType).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -54,106 +62,214 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
         super(constructNew(contentType));
     }
     
+    static final MethodHandle gtk_app_chooser_widget_get_default_text = Interop.downcallHandle(
+        "gtk_app_chooser_widget_get_default_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the text that is shown if there are not applications
      * that can handle the content type.
      */
     public java.lang.String getDefaultText() {
-        var RESULT = gtk_h.gtk_app_chooser_widget_get_default_text(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_app_chooser_widget_get_default_text.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_get_show_all = Interop.downcallHandle(
+        "gtk_app_chooser_widget_get_show_all",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the app chooser should show all applications
      * in a flat list.
      */
     public boolean getShowAll() {
-        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_all(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_app_chooser_widget_get_show_all.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_get_show_default = Interop.downcallHandle(
+        "gtk_app_chooser_widget_get_show_default",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the app chooser should show the default handler
      * for the content type in a separate section.
      */
     public boolean getShowDefault() {
-        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_default(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_app_chooser_widget_get_show_default.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_get_show_fallback = Interop.downcallHandle(
+        "gtk_app_chooser_widget_get_show_fallback",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the app chooser should show related applications
      * for the content type in a separate section.
      */
     public boolean getShowFallback() {
-        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_fallback(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_app_chooser_widget_get_show_fallback.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_get_show_other = Interop.downcallHandle(
+        "gtk_app_chooser_widget_get_show_other",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the app chooser should show applications
      * which are unrelated to the content type.
      */
     public boolean getShowOther() {
-        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_other(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_app_chooser_widget_get_show_other.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_get_show_recommended = Interop.downcallHandle(
+        "gtk_app_chooser_widget_get_show_recommended",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the app chooser should show recommended applications
      * for the content type in a separate section.
      */
     public boolean getShowRecommended() {
-        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_recommended(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_app_chooser_widget_get_show_recommended.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_set_default_text = Interop.downcallHandle(
+        "gtk_app_chooser_widget_set_default_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the text that is shown if there are not applications
      * that can handle the content type.
      */
     public void setDefaultText(java.lang.String text) {
-        gtk_h.gtk_app_chooser_widget_set_default_text(handle(), Interop.allocateNativeString(text).handle());
+        try {
+            gtk_app_chooser_widget_set_default_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_set_show_all = Interop.downcallHandle(
+        "gtk_app_chooser_widget_set_show_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the app chooser should show all applications
      * in a flat list.
      */
     public void setShowAll(boolean setting) {
-        gtk_h.gtk_app_chooser_widget_set_show_all(handle(), setting ? 1 : 0);
+        try {
+            gtk_app_chooser_widget_set_show_all.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_set_show_default = Interop.downcallHandle(
+        "gtk_app_chooser_widget_set_show_default",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the app chooser should show the default handler
      * for the content type in a separate section.
      */
     public void setShowDefault(boolean setting) {
-        gtk_h.gtk_app_chooser_widget_set_show_default(handle(), setting ? 1 : 0);
+        try {
+            gtk_app_chooser_widget_set_show_default.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_set_show_fallback = Interop.downcallHandle(
+        "gtk_app_chooser_widget_set_show_fallback",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the app chooser should show related applications
      * for the content type in a separate section.
      */
     public void setShowFallback(boolean setting) {
-        gtk_h.gtk_app_chooser_widget_set_show_fallback(handle(), setting ? 1 : 0);
+        try {
+            gtk_app_chooser_widget_set_show_fallback.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_set_show_other = Interop.downcallHandle(
+        "gtk_app_chooser_widget_set_show_other",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the app chooser should show applications
      * which are unrelated to the content type.
      */
     public void setShowOther(boolean setting) {
-        gtk_h.gtk_app_chooser_widget_set_show_other(handle(), setting ? 1 : 0);
+        try {
+            gtk_app_chooser_widget_set_show_other.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_widget_set_show_recommended = Interop.downcallHandle(
+        "gtk_app_chooser_widget_set_show_recommended",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the app chooser should show recommended applications
      * for the content type in a separate section.
      */
     public void setShowRecommended(boolean setting) {
-        gtk_h.gtk_app_chooser_widget_set_show_recommended(handle(), setting ? 1 : 0);
+        try {
+            gtk_app_chooser_widget_set_show_recommended.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -170,19 +286,19 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      */
     public SignalHandle onApplicationActivated(ApplicationActivatedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("application-activated").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppChooserWidget.Callbacks.class, "signalAppChooserWidgetApplicationActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -196,19 +312,19 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      */
     public SignalHandle onApplicationSelected(ApplicationSelectedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("application-selected").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppChooserWidget.Callbacks.class, "signalAppChooserWidgetApplicationSelected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

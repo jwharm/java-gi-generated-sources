@@ -1,6 +1,5 @@
 package org.harfbuzz;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -18,9 +17,10 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public FeatureT() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_feature_t.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
+        "hb_feature_to_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a {@link feature_t} into a {@code null}-terminated string in the format
@@ -28,7 +28,11 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
     public void String(java.lang.String[] buf, int size) {
-        gtk_h.hb_feature_to_string(handle(), Interop.allocateNativeArray(buf).handle(), size);
+        try {
+            hb_feature_to_string.invokeExact(handle(), Interop.allocateNativeArray(buf).handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,9 +26,18 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         return new FilterListModel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_filter_list_model_new = Interop.downcallHandle(
+        "gtk_filter_list_model_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.ListModel model, Filter filter) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_filter_list_model_new(model.refcounted().unowned().handle(), filter.refcounted().unowned().handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_filter_list_model_new.invokeExact(model.refcounted().unowned().handle(), filter.refcounted().unowned().handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -40,13 +48,27 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         super(constructNew(model, filter));
     }
     
+    static final MethodHandle gtk_filter_list_model_get_filter = Interop.downcallHandle(
+        "gtk_filter_list_model_get_filter",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the {@code GtkFilter} currently set on {@code self}.
      */
     public Filter getFilter() {
-        var RESULT = gtk_h.gtk_filter_list_model_get_filter(handle());
-        return new Filter(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_filter_list_model_get_filter.invokeExact(handle());
+            return new Filter(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_filter_list_model_get_incremental = Interop.downcallHandle(
+        "gtk_filter_list_model_get_incremental",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether incremental filtering is enabled.
@@ -54,17 +76,35 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * See {@link FilterListModel#setIncremental}.
      */
     public boolean getIncremental() {
-        var RESULT = gtk_h.gtk_filter_list_model_get_incremental(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_filter_list_model_get_incremental.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_filter_list_model_get_model = Interop.downcallHandle(
+        "gtk_filter_list_model_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the model currently filtered or {@code null} if none.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = gtk_h.gtk_filter_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_filter_list_model_get_model.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_filter_list_model_get_pending = Interop.downcallHandle(
+        "gtk_filter_list_model_get_pending",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of items that have not been filtered yet.
@@ -85,16 +125,34 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * function returns 0.
      */
     public int getPending() {
-        var RESULT = gtk_h.gtk_filter_list_model_get_pending(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_filter_list_model_get_pending.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_filter_list_model_set_filter = Interop.downcallHandle(
+        "gtk_filter_list_model_set_filter",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the filter used to filter items.
      */
     public void setFilter(Filter filter) {
-        gtk_h.gtk_filter_list_model_set_filter(handle(), filter.handle());
+        try {
+            gtk_filter_list_model_set_filter.invokeExact(handle(), filter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_filter_list_model_set_incremental = Interop.downcallHandle(
+        "gtk_filter_list_model_set_incremental",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the filter model to do an incremental sort.
@@ -115,8 +173,17 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * about an ongoing incremental filtering operation.
      */
     public void setIncremental(boolean incremental) {
-        gtk_h.gtk_filter_list_model_set_incremental(handle(), incremental ? 1 : 0);
+        try {
+            gtk_filter_list_model_set_incremental.invokeExact(handle(), incremental ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_filter_list_model_set_model = Interop.downcallHandle(
+        "gtk_filter_list_model_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the model to be filtered.
@@ -127,7 +194,11 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * types match.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        gtk_h.gtk_filter_list_model_set_model(handle(), model.handle());
+        try {
+            gtk_filter_list_model_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

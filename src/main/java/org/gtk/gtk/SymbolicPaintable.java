@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,6 +20,11 @@ import java.lang.invoke.*;
  */
 public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_symbolic_paintable_snapshot_symbolic = Interop.downcallHandle(
+        "gtk_symbolic_paintable_snapshot_symbolic",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     /**
      * Snapshots the paintable with the given colors.
      * <p>
@@ -28,7 +32,11 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
      * colors.
      */
     public default void snapshotSymbolic(org.gtk.gdk.Snapshot snapshot, double width, double height, org.gtk.gdk.RGBA[] colors, long nColors) {
-        gtk_h.gtk_symbolic_paintable_snapshot_symbolic(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors).handle(), nColors);
+        try {
+            gtk_symbolic_paintable_snapshot_symbolic.invokeExact(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors).handle(), nColors);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class SymbolicPaintableImpl extends org.gtk.gobject.Object implements SymbolicPaintable {

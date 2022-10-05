@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -55,115 +54,246 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         return new CellRenderer(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_cell_renderer_activate = Interop.downcallHandle(
+        "gtk_cell_renderer_activate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Passes an activate event to the cell renderer for possible processing.
      * Some cell renderers may use events; for example, {@code GtkCellRendererToggle}
      * toggles when it gets a mouse click.
      */
     public boolean activate(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
-        var RESULT = gtk_h.gtk_cell_renderer_activate(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_activate.invokeExact(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_aligned_area = Interop.downcallHandle(
+        "gtk_cell_renderer_get_aligned_area",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the aligned area used by {@code cell} inside {@code cell_area}. Used for finding
      * the appropriate edit and focus rectangle.
      */
     public void getAlignedArea(Widget widget, CellRendererState flags, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle alignedArea) {
-        gtk_h.gtk_cell_renderer_get_aligned_area(handle(), widget.handle(), flags.getValue(), cellArea.handle(), alignedArea.handle());
+        try {
+            gtk_cell_renderer_get_aligned_area.invokeExact(handle(), widget.handle(), flags.getValue(), cellArea.handle(), alignedArea.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_alignment = Interop.downcallHandle(
+        "gtk_cell_renderer_get_alignment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fills in {@code xalign} and {@code yalign} with the appropriate values of {@code cell}.
      */
     public void getAlignment(PointerFloat xalign, PointerFloat yalign) {
-        gtk_h.gtk_cell_renderer_get_alignment(handle(), xalign.handle(), yalign.handle());
+        try {
+            gtk_cell_renderer_get_alignment.invokeExact(handle(), xalign.handle(), yalign.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_fixed_size = Interop.downcallHandle(
+        "gtk_cell_renderer_get_fixed_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fills in {@code width} and {@code height} with the appropriate size of {@code cell}.
      */
     public void getFixedSize(PointerInteger width, PointerInteger height) {
-        gtk_h.gtk_cell_renderer_get_fixed_size(handle(), width.handle(), height.handle());
+        try {
+            gtk_cell_renderer_get_fixed_size.invokeExact(handle(), width.handle(), height.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_is_expanded = Interop.downcallHandle(
+        "gtk_cell_renderer_get_is_expanded",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the given {@code GtkCellRenderer} is expanded.
      */
     public boolean getIsExpanded() {
-        var RESULT = gtk_h.gtk_cell_renderer_get_is_expanded(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_get_is_expanded.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_is_expander = Interop.downcallHandle(
+        "gtk_cell_renderer_get_is_expander",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the given {@code GtkCellRenderer} is an expander.
      */
     public boolean getIsExpander() {
-        var RESULT = gtk_h.gtk_cell_renderer_get_is_expander(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_get_is_expander.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_padding = Interop.downcallHandle(
+        "gtk_cell_renderer_get_padding",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fills in {@code xpad} and {@code ypad} with the appropriate values of {@code cell}.
      */
     public void getPadding(PointerInteger xpad, PointerInteger ypad) {
-        gtk_h.gtk_cell_renderer_get_padding(handle(), xpad.handle(), ypad.handle());
+        try {
+            gtk_cell_renderer_get_padding.invokeExact(handle(), xpad.handle(), ypad.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_preferred_height = Interop.downcallHandle(
+        "gtk_cell_renderer_get_preferred_height",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a renderer’s natural size when rendered to {@code widget}.
      */
     public void getPreferredHeight(Widget widget, PointerInteger minimumSize, PointerInteger naturalSize) {
-        gtk_h.gtk_cell_renderer_get_preferred_height(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+        try {
+            gtk_cell_renderer_get_preferred_height.invokeExact(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_preferred_height_for_width = Interop.downcallHandle(
+        "gtk_cell_renderer_get_preferred_height_for_width",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a cell renderers’s minimum and natural height if it were rendered to
      * {@code widget} with the specified {@code width}.
      */
     public void getPreferredHeightForWidth(Widget widget, int width, PointerInteger minimumHeight, PointerInteger naturalHeight) {
-        gtk_h.gtk_cell_renderer_get_preferred_height_for_width(handle(), widget.handle(), width, minimumHeight.handle(), naturalHeight.handle());
+        try {
+            gtk_cell_renderer_get_preferred_height_for_width.invokeExact(handle(), widget.handle(), width, minimumHeight.handle(), naturalHeight.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_preferred_size = Interop.downcallHandle(
+        "gtk_cell_renderer_get_preferred_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the minimum and natural size of a cell taking
      * into account the widget’s preference for height-for-width management.
      */
     public void getPreferredSize(Widget widget, Requisition minimumSize, Requisition naturalSize) {
-        gtk_h.gtk_cell_renderer_get_preferred_size(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+        try {
+            gtk_cell_renderer_get_preferred_size.invokeExact(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_preferred_width = Interop.downcallHandle(
+        "gtk_cell_renderer_get_preferred_width",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a renderer’s natural size when rendered to {@code widget}.
      */
     public void getPreferredWidth(Widget widget, PointerInteger minimumSize, PointerInteger naturalSize) {
-        gtk_h.gtk_cell_renderer_get_preferred_width(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+        try {
+            gtk_cell_renderer_get_preferred_width.invokeExact(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_preferred_width_for_height = Interop.downcallHandle(
+        "gtk_cell_renderer_get_preferred_width_for_height",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a cell renderers’s minimum and natural width if it were rendered to
      * {@code widget} with the specified {@code height}.
      */
     public void getPreferredWidthForHeight(Widget widget, int height, PointerInteger minimumWidth, PointerInteger naturalWidth) {
-        gtk_h.gtk_cell_renderer_get_preferred_width_for_height(handle(), widget.handle(), height, minimumWidth.handle(), naturalWidth.handle());
+        try {
+            gtk_cell_renderer_get_preferred_width_for_height.invokeExact(handle(), widget.handle(), height, minimumWidth.handle(), naturalWidth.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_request_mode = Interop.downcallHandle(
+        "gtk_cell_renderer_get_request_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the cell renderer prefers a height-for-width layout
      * or a width-for-height layout.
      */
     public SizeRequestMode getRequestMode() {
-        var RESULT = gtk_h.gtk_cell_renderer_get_request_mode(handle());
-        return new SizeRequestMode(RESULT);
+        try {
+            var RESULT = (int) gtk_cell_renderer_get_request_mode.invokeExact(handle());
+            return new SizeRequestMode(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_sensitive = Interop.downcallHandle(
+        "gtk_cell_renderer_get_sensitive",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the cell renderer’s sensitivity.
      */
     public boolean getSensitive() {
-        var RESULT = gtk_h.gtk_cell_renderer_get_sensitive(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_get_sensitive.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_state = Interop.downcallHandle(
+        "gtk_cell_renderer_get_state",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Translates the cell renderer state to {@code GtkStateFlags},
@@ -171,74 +301,164 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * the given {@code GtkCellRenderer}State.
      */
     public StateFlags getState(Widget widget, CellRendererState cellState) {
-        var RESULT = gtk_h.gtk_cell_renderer_get_state(handle(), widget.handle(), cellState.getValue());
-        return new StateFlags(RESULT);
+        try {
+            var RESULT = (int) gtk_cell_renderer_get_state.invokeExact(handle(), widget.handle(), cellState.getValue());
+            return new StateFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_get_visible = Interop.downcallHandle(
+        "gtk_cell_renderer_get_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the cell renderer’s visibility.
      */
     public boolean getVisible() {
-        var RESULT = gtk_h.gtk_cell_renderer_get_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_get_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_is_activatable = Interop.downcallHandle(
+        "gtk_cell_renderer_is_activatable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the cell renderer can do something when activated.
      */
     public boolean isActivatable() {
-        var RESULT = gtk_h.gtk_cell_renderer_is_activatable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_renderer_is_activatable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_set_alignment = Interop.downcallHandle(
+        "gtk_cell_renderer_set_alignment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the renderer’s alignment within its available space.
      */
     public void setAlignment(float xalign, float yalign) {
-        gtk_h.gtk_cell_renderer_set_alignment(handle(), xalign, yalign);
+        try {
+            gtk_cell_renderer_set_alignment.invokeExact(handle(), xalign, yalign);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_set_fixed_size = Interop.downcallHandle(
+        "gtk_cell_renderer_set_fixed_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the renderer size to be explicit, independent of the properties set.
      */
     public void setFixedSize(int width, int height) {
-        gtk_h.gtk_cell_renderer_set_fixed_size(handle(), width, height);
+        try {
+            gtk_cell_renderer_set_fixed_size.invokeExact(handle(), width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_set_is_expanded = Interop.downcallHandle(
+        "gtk_cell_renderer_set_is_expanded",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the given {@code GtkCellRenderer} is expanded.
      */
     public void setIsExpanded(boolean isExpanded) {
-        gtk_h.gtk_cell_renderer_set_is_expanded(handle(), isExpanded ? 1 : 0);
+        try {
+            gtk_cell_renderer_set_is_expanded.invokeExact(handle(), isExpanded ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_set_is_expander = Interop.downcallHandle(
+        "gtk_cell_renderer_set_is_expander",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the given {@code GtkCellRenderer} is an expander.
      */
     public void setIsExpander(boolean isExpander) {
-        gtk_h.gtk_cell_renderer_set_is_expander(handle(), isExpander ? 1 : 0);
+        try {
+            gtk_cell_renderer_set_is_expander.invokeExact(handle(), isExpander ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_set_padding = Interop.downcallHandle(
+        "gtk_cell_renderer_set_padding",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the renderer’s padding.
      */
     public void setPadding(int xpad, int ypad) {
-        gtk_h.gtk_cell_renderer_set_padding(handle(), xpad, ypad);
+        try {
+            gtk_cell_renderer_set_padding.invokeExact(handle(), xpad, ypad);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_set_sensitive = Interop.downcallHandle(
+        "gtk_cell_renderer_set_sensitive",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the cell renderer’s sensitivity.
      */
     public void setSensitive(boolean sensitive) {
-        gtk_h.gtk_cell_renderer_set_sensitive(handle(), sensitive ? 1 : 0);
+        try {
+            gtk_cell_renderer_set_sensitive.invokeExact(handle(), sensitive ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_set_visible = Interop.downcallHandle(
+        "gtk_cell_renderer_set_visible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the cell renderer’s visibility.
      */
     public void setVisible(boolean visible) {
-        gtk_h.gtk_cell_renderer_set_visible(handle(), visible ? 1 : 0);
+        try {
+            gtk_cell_renderer_set_visible.invokeExact(handle(), visible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_snapshot = Interop.downcallHandle(
+        "gtk_cell_renderer_snapshot",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Invokes the virtual render function of the {@code GtkCellRenderer}. The three
@@ -250,17 +470,35 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * {@code window}.
      */
     public void snapshot(Snapshot snapshot, Widget widget, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
-        gtk_h.gtk_cell_renderer_snapshot(handle(), snapshot.handle(), widget.handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
+        try {
+            gtk_cell_renderer_snapshot.invokeExact(handle(), snapshot.handle(), widget.handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_start_editing = Interop.downcallHandle(
+        "gtk_cell_renderer_start_editing",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Starts editing the contents of this {@code cell}, through a new {@code GtkCellEditable}
      * widget created by the {@code GtkCellRenderer}Class.start_editing virtual function.
      */
     public CellEditable startEditing(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
-        var RESULT = gtk_h.gtk_cell_renderer_start_editing(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
-        return new CellEditable.CellEditableImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_cell_renderer_start_editing.invokeExact(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
+            return new CellEditable.CellEditableImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_renderer_stop_editing = Interop.downcallHandle(
+        "gtk_cell_renderer_stop_editing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Informs the cell renderer that the editing is stopped.
@@ -272,7 +510,11 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * {@code GtkCellEditable}.
      */
     public void stopEditing(boolean canceled) {
-        gtk_h.gtk_cell_renderer_stop_editing(handle(), canceled ? 1 : 0);
+        try {
+            gtk_cell_renderer_stop_editing.invokeExact(handle(), canceled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -289,19 +531,19 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public SignalHandle onEditingCanceled(EditingCanceledHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("editing-canceled").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRenderer.Callbacks.class, "signalCellRendererEditingCanceled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -343,19 +585,19 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public SignalHandle onEditingStarted(EditingStartedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("editing-started").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRenderer.Callbacks.class, "signalCellRendererEditingStarted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

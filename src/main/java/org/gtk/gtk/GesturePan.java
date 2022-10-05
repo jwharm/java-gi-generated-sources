@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -32,9 +31,18 @@ public class GesturePan extends GestureDrag {
         return new GesturePan(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_gesture_pan_new = Interop.downcallHandle(
+        "gtk_gesture_pan_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(Orientation orientation) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_pan_new(orientation.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_pan_new.invokeExact(orientation.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -44,19 +52,37 @@ public class GesturePan extends GestureDrag {
         super(constructNew(orientation));
     }
     
+    static final MethodHandle gtk_gesture_pan_get_orientation = Interop.downcallHandle(
+        "gtk_gesture_pan_get_orientation",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the orientation of the pan gestures that this {@code gesture} expects.
      */
     public Orientation getOrientation() {
-        var RESULT = gtk_h.gtk_gesture_pan_get_orientation(handle());
-        return new Orientation(RESULT);
+        try {
+            var RESULT = (int) gtk_gesture_pan_get_orientation.invokeExact(handle());
+            return new Orientation(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_pan_set_orientation = Interop.downcallHandle(
+        "gtk_gesture_pan_set_orientation",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the orientation to be expected on pan gestures.
      */
     public void setOrientation(Orientation orientation) {
-        gtk_h.gtk_gesture_pan_set_orientation(handle(), orientation.getValue());
+        try {
+            gtk_gesture_pan_set_orientation.invokeExact(handle(), orientation.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -69,19 +95,19 @@ public class GesturePan extends GestureDrag {
      */
     public SignalHandle onPan(PanHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("pan").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GesturePan.Callbacks.class, "signalGesturePanPan",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

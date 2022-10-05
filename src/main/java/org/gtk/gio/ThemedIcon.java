@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -25,9 +24,18 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
         return new ThemedIcon(gobject.refcounted());
     }
     
+    static final MethodHandle g_themed_icon_new = Interop.downcallHandle(
+        "g_themed_icon_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String iconname) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_themed_icon_new(Interop.allocateNativeString(iconname).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new.invokeExact(Interop.allocateNativeString(iconname).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -37,9 +45,18 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
         super(constructNew(iconname));
     }
     
+    static final MethodHandle g_themed_icon_new_from_names = Interop.downcallHandle(
+        "g_themed_icon_new_from_names",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewFromNames(java.lang.String[] iconnames, int len) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames).handle(), len), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new_from_names.invokeExact(Interop.allocateNativeArray(iconnames).handle(), len), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -49,9 +66,18 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
         return new ThemedIcon(constructNewFromNames(iconnames, len));
     }
     
+    static final MethodHandle g_themed_icon_new_with_default_fallbacks = Interop.downcallHandle(
+        "g_themed_icon_new_with_default_fallbacks",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithDefaultFallbacks(java.lang.String iconname) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.allocateNativeString(iconname).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new_with_default_fallbacks.invokeExact(Interop.allocateNativeString(iconname).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -75,6 +101,11 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
         return new ThemedIcon(constructNewWithDefaultFallbacks(iconname));
     }
     
+    static final MethodHandle g_themed_icon_append_name = Interop.downcallHandle(
+        "g_themed_icon_append_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Append a name to the list of icons from within {@code icon}.
      * <p>
@@ -82,16 +113,34 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * to g_icon_hash().
      */
     public void appendName(java.lang.String iconname) {
-        gtk_h.g_themed_icon_append_name(handle(), Interop.allocateNativeString(iconname).handle());
+        try {
+            g_themed_icon_append_name.invokeExact(handle(), Interop.allocateNativeString(iconname).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_themed_icon_get_names = Interop.downcallHandle(
+        "g_themed_icon_get_names",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the names of icons from within {@code icon}.
      */
     public PointerIterator<java.lang.String> getNames() {
-        var RESULT = gtk_h.g_themed_icon_get_names(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_themed_icon_get_names.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_themed_icon_prepend_name = Interop.downcallHandle(
+        "g_themed_icon_prepend_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prepend a name to the list of icons from within {@code icon}.
@@ -100,7 +149,11 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * to g_icon_hash().
      */
     public void prependName(java.lang.String iconname) {
-        gtk_h.g_themed_icon_prepend_name(handle(), Interop.allocateNativeString(iconname).handle());
+        try {
+            g_themed_icon_prepend_name.invokeExact(handle(), Interop.allocateNativeString(iconname).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

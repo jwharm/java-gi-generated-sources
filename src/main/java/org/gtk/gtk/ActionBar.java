@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -49,9 +48,18 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         return new ActionBar(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_action_bar_new = Interop.downcallHandle(
+        "gtk_action_bar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_action_bar_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_action_bar_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -61,51 +69,110 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
+    static final MethodHandle gtk_action_bar_get_center_widget = Interop.downcallHandle(
+        "gtk_action_bar_get_center_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the center bar widget of the bar.
      */
     public Widget getCenterWidget() {
-        var RESULT = gtk_h.gtk_action_bar_get_center_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_action_bar_get_center_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_action_bar_get_revealed = Interop.downcallHandle(
+        "gtk_action_bar_get_revealed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the contents of the action bar are revealed.
      */
     public boolean getRevealed() {
-        var RESULT = gtk_h.gtk_action_bar_get_revealed(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_action_bar_get_revealed.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_action_bar_pack_end = Interop.downcallHandle(
+        "gtk_action_bar_pack_end",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code child} to {@code action_bar}, packed with reference to the
      * end of the {@code action_bar}.
      */
     public void packEnd(Widget child) {
-        gtk_h.gtk_action_bar_pack_end(handle(), child.handle());
+        try {
+            gtk_action_bar_pack_end.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_action_bar_pack_start = Interop.downcallHandle(
+        "gtk_action_bar_pack_start",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code child} to {@code action_bar}, packed with reference to the
      * start of the {@code action_bar}.
      */
     public void packStart(Widget child) {
-        gtk_h.gtk_action_bar_pack_start(handle(), child.handle());
+        try {
+            gtk_action_bar_pack_start.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_action_bar_remove = Interop.downcallHandle(
+        "gtk_action_bar_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a child from {@code action_bar}.
      */
     public void remove(Widget child) {
-        gtk_h.gtk_action_bar_remove(handle(), child.handle());
+        try {
+            gtk_action_bar_remove.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_action_bar_set_center_widget = Interop.downcallHandle(
+        "gtk_action_bar_set_center_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the center widget for the {@code GtkActionBar}.
      */
     public void setCenterWidget(Widget centerWidget) {
-        gtk_h.gtk_action_bar_set_center_widget(handle(), centerWidget.handle());
+        try {
+            gtk_action_bar_set_center_widget.invokeExact(handle(), centerWidget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_action_bar_set_revealed = Interop.downcallHandle(
+        "gtk_action_bar_set_revealed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Reveals or conceals the content of the action bar.
@@ -115,7 +182,11 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * no effect if the action bar is hidden.
      */
     public void setRevealed(boolean revealed) {
-        gtk_h.gtk_action_bar_set_revealed(handle(), revealed ? 1 : 0);
+        try {
+            gtk_action_bar_set_revealed.invokeExact(handle(), revealed ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

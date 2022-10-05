@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -32,13 +31,27 @@ public class FileMonitor extends org.gtk.gobject.Object {
         return new FileMonitor(gobject.refcounted());
     }
     
+    static final MethodHandle g_file_monitor_cancel = Interop.downcallHandle(
+        "g_file_monitor_cancel",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Cancels a file monitor.
      */
     public boolean cancel() {
-        var RESULT = gtk_h.g_file_monitor_cancel(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_file_monitor_cancel.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_monitor_emit_event = Interop.downcallHandle(
+        "g_file_monitor_emit_event",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Emits the {@link FileMonitor}::changed signal if a change
@@ -50,23 +63,45 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * thread that the monitor was created in.
      */
     public void emitEvent(File child, File otherFile, FileMonitorEvent eventType) {
-        gtk_h.g_file_monitor_emit_event(handle(), child.handle(), otherFile.handle(), eventType.getValue());
+        try {
+            g_file_monitor_emit_event.invokeExact(handle(), child.handle(), otherFile.handle(), eventType.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_monitor_is_cancelled = Interop.downcallHandle(
+        "g_file_monitor_is_cancelled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the monitor is canceled.
      */
     public boolean isCancelled() {
-        var RESULT = gtk_h.g_file_monitor_is_cancelled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_file_monitor_is_cancelled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_monitor_set_rate_limit = Interop.downcallHandle(
+        "g_file_monitor_set_rate_limit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the rate limit to which the {@code monitor} will report
      * consecutive change events to the same file.
      */
     public void setRateLimit(int limitMsecs) {
-        gtk_h.g_file_monitor_set_rate_limit(handle(), limitMsecs);
+        try {
+            g_file_monitor_set_rate_limit.invokeExact(handle(), limitMsecs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -106,19 +141,19 @@ public class FileMonitor extends org.gtk.gobject.Object {
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileMonitor.Callbacks.class, "signalFileMonitorChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

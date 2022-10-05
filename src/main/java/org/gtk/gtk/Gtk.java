@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -129,6 +128,11 @@ public final class Gtk {
 
     public static final int TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID = -2;
 
+    static final MethodHandle gtk_accelerator_get_default_mod_mask = Interop.downcallHandle(
+        "gtk_accelerator_get_default_mod_mask",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Gets the modifier mask.
      * <p>
@@ -137,18 +141,36 @@ public final class Gtk {
      * for {@link org.gtk.gdk.ModifierType#LOCK_MASK}.
      */
     public static org.gtk.gdk.ModifierType acceleratorGetDefaultModMask() {
-        var RESULT = gtk_h.gtk_accelerator_get_default_mod_mask();
-        return new org.gtk.gdk.ModifierType(RESULT);
+        try {
+            var RESULT = (int) gtk_accelerator_get_default_mod_mask.invokeExact();
+            return new org.gtk.gdk.ModifierType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accelerator_get_label = Interop.downcallHandle(
+        "gtk_accelerator_get_label",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an accelerator keyval and modifier mask into a string
      * which can be used to represent the accelerator to the user.
      */
     public static java.lang.String acceleratorGetLabel(int acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_get_label(acceleratorKey, acceleratorMods.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_accelerator_get_label.invokeExact(acceleratorKey, acceleratorMods.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accelerator_get_label_with_keycode = Interop.downcallHandle(
+        "gtk_accelerator_get_label_with_keycode",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an accelerator keyval and modifier mask
@@ -162,9 +184,18 @@ public final class Gtk {
      * instead.
      */
     public static java.lang.String acceleratorGetLabelWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, org.gtk.gdk.ModifierType acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_get_label_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_accelerator_get_label_with_keycode.invokeExact(display.handle(), acceleratorKey, keycode, acceleratorMods.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accelerator_name = Interop.downcallHandle(
+        "gtk_accelerator_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an accelerator keyval and modifier mask into a string
@@ -177,9 +208,18 @@ public final class Gtk {
      * see {@link Gtk#acceleratorGetLabel}.
      */
     public static java.lang.String acceleratorName(int acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_name(acceleratorKey, acceleratorMods.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_accelerator_name.invokeExact(acceleratorKey, acceleratorMods.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accelerator_name_with_keycode = Interop.downcallHandle(
+        "gtk_accelerator_name_with_keycode",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an accelerator keyval and modifier mask
@@ -190,9 +230,18 @@ public final class Gtk {
      * should use {@link Gtk#acceleratorName} instead.
      */
     public static java.lang.String acceleratorNameWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, org.gtk.gdk.ModifierType acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_name_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_accelerator_name_with_keycode.invokeExact(display.handle(), acceleratorKey, keycode, acceleratorMods.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accelerator_parse = Interop.downcallHandle(
+        "gtk_accelerator_parse",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses a string representing an accelerator.
@@ -222,9 +271,18 @@ public final class Gtk {
      * be set to 0 (zero).
      */
     public static boolean acceleratorParse(java.lang.String accelerator, PointerInteger acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_parse(Interop.allocateNativeString(accelerator).handle(), acceleratorKey.handle(), new PointerInteger(acceleratorMods.getValue()).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_accelerator_parse.invokeExact(Interop.allocateNativeString(accelerator).handle(), acceleratorKey.handle(), new PointerInteger(acceleratorMods.getValue()).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accelerator_parse_with_keycode = Interop.downcallHandle(
+        "gtk_accelerator_parse_with_keycode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses a string representing an accelerator.
@@ -243,9 +301,18 @@ public final class Gtk {
      * {@code accelerator_codes} will be set to 0 (zero).
      */
     public static boolean acceleratorParseWithKeycode(java.lang.String accelerator, org.gtk.gdk.Display display, PointerInteger acceleratorKey, int[] acceleratorCodes, org.gtk.gdk.ModifierType acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_parse_with_keycode(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), Interop.allocateNativeArray(acceleratorCodes).handle(), new PointerInteger(acceleratorMods.getValue()).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_accelerator_parse_with_keycode.invokeExact(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), Interop.allocateNativeArray(acceleratorCodes).handle(), new PointerInteger(acceleratorMods.getValue()).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accelerator_valid = Interop.downcallHandle(
+        "gtk_accelerator_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a given keyval and modifier mask constitute
@@ -256,21 +323,57 @@ public final class Gtk {
      * the {@code GDK_KEY_Control_L} keyval as an accelerator.
      */
     public static boolean acceleratorValid(int keyval, org.gtk.gdk.ModifierType modifiers) {
-        var RESULT = gtk_h.gtk_accelerator_valid(keyval, modifiers.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_accelerator_valid.invokeExact(keyval, modifiers.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accessible_property_init_value = Interop.downcallHandle(
+        "gtk_accessible_property_init_value",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     public static void accessiblePropertyInitValue(AccessibleProperty property, org.gtk.gobject.Value value) {
-        gtk_h.gtk_accessible_property_init_value(property.getValue(), value.handle());
+        try {
+            gtk_accessible_property_init_value.invokeExact(property.getValue(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_accessible_relation_init_value = Interop.downcallHandle(
+        "gtk_accessible_relation_init_value",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     public static void accessibleRelationInitValue(AccessibleRelation relation, org.gtk.gobject.Value value) {
-        gtk_h.gtk_accessible_relation_init_value(relation.getValue(), value.handle());
+        try {
+            gtk_accessible_relation_init_value.invokeExact(relation.getValue(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle gtk_accessible_state_init_value = Interop.downcallHandle(
+        "gtk_accessible_state_init_value",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     public static void accessibleStateInitValue(AccessibleState state, org.gtk.gobject.Value value) {
-        gtk_h.gtk_accessible_state_init_value(state.getValue(), value.handle());
+        try {
+            gtk_accessible_state_init_value.invokeExact(state.getValue(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_init_at = Interop.downcallHandle(
+        "gtk_bitset_iter_init_at",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes {@code iter} to point to {@code target}.
@@ -279,9 +382,18 @@ public final class Gtk {
      * If no value >= {@code target} exists in {@code set}, this function returns {@code false}.
      */
     public static boolean bitsetIterInitAt(BitsetIter iter, Bitset set, int target, PointerInteger value) {
-        var RESULT = gtk_h.gtk_bitset_iter_init_at(iter.handle(), set.handle(), target, value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_init_at.invokeExact(iter.handle(), set.handle(), target, value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_init_first = Interop.downcallHandle(
+        "gtk_bitset_iter_init_first",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes an iterator for {@code set} and points it to the first
@@ -290,9 +402,18 @@ public final class Gtk {
      * If {@code set} is empty, {@code false} is returned and {@code value} is set to {@code G_MAXUINT}.
      */
     public static boolean bitsetIterInitFirst(BitsetIter iter, Bitset set, PointerInteger value) {
-        var RESULT = gtk_h.gtk_bitset_iter_init_first(iter.handle(), set.handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_init_first.invokeExact(iter.handle(), set.handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_init_last = Interop.downcallHandle(
+        "gtk_bitset_iter_init_last",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes an iterator for {@code set} and points it to the last
@@ -301,14 +422,32 @@ public final class Gtk {
      * If {@code set} is empty, {@code false} is returned.
      */
     public static boolean bitsetIterInitLast(BitsetIter iter, Bitset set, PointerInteger value) {
-        var RESULT = gtk_h.gtk_bitset_iter_init_last(iter.handle(), set.handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_init_last.invokeExact(iter.handle(), set.handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle gtk_builder_error_quark = Interop.downcallHandle(
+        "gtk_builder_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static org.gtk.glib.Quark builderErrorQuark() {
-        var RESULT = gtk_h.gtk_builder_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gtk_builder_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_check_version = Interop.downcallHandle(
+        "gtk_check_version",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks that the GTK library in use is compatible with the
@@ -336,24 +475,60 @@ public final class Gtk {
      * into an application using a newer version of GTK.
      */
     public static java.lang.String checkVersion(int requiredMajor, int requiredMinor, int requiredMicro) {
-        var RESULT = gtk_h.gtk_check_version(requiredMajor, requiredMinor, requiredMicro);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_check_version.invokeExact(requiredMajor, requiredMinor, requiredMicro);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_vfl_parser_error_quark = Interop.downcallHandle(
+        "gtk_constraint_vfl_parser_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     public static org.gtk.glib.Quark constraintVflParserErrorQuark() {
-        var RESULT = gtk_h.gtk_constraint_vfl_parser_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gtk_constraint_vfl_parser_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_css_parser_error_quark = Interop.downcallHandle(
+        "gtk_css_parser_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     public static org.gtk.glib.Quark cssParserErrorQuark() {
-        var RESULT = gtk_h.gtk_css_parser_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gtk_css_parser_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle gtk_css_parser_warning_quark = Interop.downcallHandle(
+        "gtk_css_parser_warning_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static org.gtk.glib.Quark cssParserWarningQuark() {
-        var RESULT = gtk_h.gtk_css_parser_warning_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gtk_css_parser_warning_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_disable_setlocale = Interop.downcallHandle(
+        "gtk_disable_setlocale",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Prevents {@code gtk_init_check} from automatically calling
@@ -366,8 +541,17 @@ public final class Gtk {
      * Most programs should not need to call this function.
      */
     public static void disableSetlocale() {
-        gtk_h.gtk_disable_setlocale();
+        try {
+            gtk_disable_setlocale.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_distribute_natural_allocation = Interop.downcallHandle(
+        "gtk_distribute_natural_allocation",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Distributes {@code extra_space} to child {@code sizes} by bringing smaller
@@ -378,9 +562,18 @@ public final class Gtk {
      * the remaining space is returned.
      */
     public static int distributeNaturalAllocation(int extraSpace, int nRequestedSizes, RequestedSize[] sizes) {
-        var RESULT = gtk_h.gtk_distribute_natural_allocation(extraSpace, nRequestedSizes, Interop.allocateNativeArray(sizes).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_distribute_natural_allocation.invokeExact(extraSpace, nRequestedSizes, Interop.allocateNativeArray(sizes).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_editable_delegate_get_property = Interop.downcallHandle(
+        "gtk_editable_delegate_get_property",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a property of the {@code GtkEditable} delegate for {@code object}.
@@ -390,9 +583,18 @@ public final class Gtk {
      * own properties.
      */
     public static boolean editableDelegateGetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
-        var RESULT = gtk_h.gtk_editable_delegate_get_property(object.handle(), propId, value.handle(), pspec.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_editable_delegate_get_property.invokeExact(object.handle(), propId, value.handle(), pspec.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_editable_delegate_set_property = Interop.downcallHandle(
+        "gtk_editable_delegate_set_property",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a property on the {@code GtkEditable} delegate for {@code object}.
@@ -402,9 +604,18 @@ public final class Gtk {
      * own properties.
      */
     public static boolean editableDelegateSetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
-        var RESULT = gtk_h.gtk_editable_delegate_set_property(object.handle(), propId, value.handle(), pspec.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_editable_delegate_set_property.invokeExact(object.handle(), propId, value.handle(), pspec.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_editable_install_properties = Interop.downcallHandle(
+        "gtk_editable_install_properties",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Overrides the {@code GtkEditable} properties for {@code class}.
@@ -424,9 +635,18 @@ public final class Gtk {
      * property IDs for these properties.
      */
     public static int editableInstallProperties(org.gtk.gobject.ObjectClass objectClass, int firstProp) {
-        var RESULT = gtk_h.gtk_editable_install_properties(objectClass.handle(), firstProp);
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_editable_install_properties.invokeExact(objectClass.handle(), firstProp);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_enumerate_printers = Interop.downcallHandle(
+        "gtk_enumerate_printers",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Calls a function for all {@code GtkPrinter}s.
@@ -435,26 +655,40 @@ public final class Gtk {
      */
     public static void enumeratePrinters(PrinterFunc func, boolean wait) {
         try {
-            gtk_h.gtk_enumerate_printers(
-                    Linker.nativeLinker().upcallStub(
+            gtk_enumerate_printers.invokeExact(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbPrinterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol(), wait ? 1 : 0);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_file_chooser_error_quark = Interop.downcallHandle(
+        "gtk_file_chooser_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Registers an error quark for {@code GtkFileChooser} errors.
      */
     public static org.gtk.glib.Quark fileChooserErrorQuark() {
-        var RESULT = gtk_h.gtk_file_chooser_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gtk_file_chooser_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_get_binary_age = Interop.downcallHandle(
+        "gtk_get_binary_age",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the binary age as passed to {@code libtool}.
@@ -462,9 +696,18 @@ public final class Gtk {
      * If {@code libtool} means nothing to you, don't worry about it.
      */
     public static int getBinaryAge() {
-        var RESULT = gtk_h.gtk_get_binary_age();
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_get_binary_age.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_get_debug_flags = Interop.downcallHandle(
+        "gtk_get_debug_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the GTK debug flags that are currently active.
@@ -473,9 +716,18 @@ public final class Gtk {
      * to adjust their debug output based on GTK debug flags.
      */
     public static DebugFlags getDebugFlags() {
-        var RESULT = gtk_h.gtk_get_debug_flags();
-        return new DebugFlags(RESULT);
+        try {
+            var RESULT = (int) gtk_get_debug_flags.invokeExact();
+            return new DebugFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_get_default_language = Interop.downcallHandle(
+        "gtk_get_default_language",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code PangoLanguage} for the default language
@@ -493,9 +745,18 @@ public final class Gtk {
      * See that function for details.
      */
     public static org.pango.Language getDefaultLanguage() {
-        var RESULT = gtk_h.gtk_get_default_language();
-        return new org.pango.Language(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_get_default_language.invokeExact();
+            return new org.pango.Language(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_get_interface_age = Interop.downcallHandle(
+        "gtk_get_interface_age",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the interface age as passed to {@code libtool}.
@@ -503,9 +764,18 @@ public final class Gtk {
      * If {@code libtool} means nothing to you, don't worry about it.
      */
     public static int getInterfaceAge() {
-        var RESULT = gtk_h.gtk_get_interface_age();
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_get_interface_age.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_get_locale_direction = Interop.downcallHandle(
+        "gtk_get_locale_direction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Get the direction of the current locale. This is the expected
@@ -537,9 +807,18 @@ public final class Gtk {
      * }</pre>
      */
     public static TextDirection getLocaleDirection() {
-        var RESULT = gtk_h.gtk_get_locale_direction();
-        return new TextDirection(RESULT);
+        try {
+            var RESULT = (int) gtk_get_locale_direction.invokeExact();
+            return new TextDirection(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_get_major_version = Interop.downcallHandle(
+        "gtk_get_major_version",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the major version number of the GTK library.
@@ -552,9 +831,18 @@ public final class Gtk {
      * have included when compiling your code.
      */
     public static int getMajorVersion() {
-        var RESULT = gtk_h.gtk_get_major_version();
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_get_major_version.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_get_micro_version = Interop.downcallHandle(
+        "gtk_get_micro_version",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the micro version number of the GTK library.
@@ -567,9 +855,18 @@ public final class Gtk {
      * GTK headers you have included when compiling your code.
      */
     public static int getMicroVersion() {
-        var RESULT = gtk_h.gtk_get_micro_version();
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_get_micro_version.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_get_minor_version = Interop.downcallHandle(
+        "gtk_get_minor_version",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the minor version number of the GTK library.
@@ -582,9 +879,18 @@ public final class Gtk {
      * GTK headers you have included when compiling your code.
      */
     public static int getMinorVersion() {
-        var RESULT = gtk_h.gtk_get_minor_version();
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_get_minor_version.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_hsv_to_rgb = Interop.downcallHandle(
+        "gtk_hsv_to_rgb",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a color from HSV space to RGB.
@@ -593,13 +899,31 @@ public final class Gtk {
      * output values will be in the same range.
      */
     public static void hsvToRgb(float h, float s, float v, PointerFloat r, PointerFloat g, PointerFloat b) {
-        gtk_h.gtk_hsv_to_rgb(h, s, v, r.handle(), g.handle(), b.handle());
+        try {
+            gtk_hsv_to_rgb.invokeExact(h, s, v, r.handle(), g.handle(), b.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle gtk_icon_theme_error_quark = Interop.downcallHandle(
+        "gtk_icon_theme_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static org.gtk.glib.Quark iconThemeErrorQuark() {
-        var RESULT = gtk_h.gtk_icon_theme_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gtk_icon_theme_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_init = Interop.downcallHandle(
+        "gtk_init",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Call this function before using any other GTK functions in your GUI
@@ -623,8 +947,17 @@ public final class Gtk {
      * similar things.
      */
     public static void init() {
-        gtk_h.gtk_init();
+        try {
+            gtk_init.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_init_check = Interop.downcallHandle(
+        "gtk_init_check",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function does the same work as gtk_init() with only a single
@@ -636,52 +969,106 @@ public final class Gtk {
      * interface.
      */
     public static boolean initCheck() {
-        var RESULT = gtk_h.gtk_init_check();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_init_check.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_is_initialized = Interop.downcallHandle(
+        "gtk_is_initialized",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Use this function to check if GTK has been initialized with gtk_init()
      * or gtk_init_check().
      */
     public static boolean isInitialized() {
-        var RESULT = gtk_h.gtk_is_initialized();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_is_initialized.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_get_for_surface = Interop.downcallHandle(
+        "gtk_native_get_for_surface",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the {@code GtkNative} associated with the surface.
      */
     public static Native nativeGetForSurface(org.gtk.gdk.Surface surface) {
-        var RESULT = gtk_h.gtk_native_get_for_surface(surface.handle());
-        return new Native.NativeImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_native_get_for_surface.invokeExact(surface.handle());
+            return new Native.NativeImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_ordering_from_cmpfunc = Interop.downcallHandle(
+        "gtk_ordering_from_cmpfunc",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts the result of a {@code GCompareFunc} like strcmp() to a
      * {@code GtkOrdering} value.
      */
     public static Ordering orderingFromCmpfunc(int cmpfuncResult) {
-        var RESULT = gtk_h.gtk_ordering_from_cmpfunc(cmpfuncResult);
-        return new Ordering(RESULT);
+        try {
+            var RESULT = (int) gtk_ordering_from_cmpfunc.invokeExact(cmpfuncResult);
+            return new Ordering(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_paper_size_get_default = Interop.downcallHandle(
+        "gtk_paper_size_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the name of the default paper size, which
      * depends on the current locale.
      */
     public static java.lang.String paperSizeGetDefault() {
-        var RESULT = gtk_h.gtk_paper_size_get_default();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_paper_size_get_default.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_paper_size_get_paper_sizes = Interop.downcallHandle(
+        "gtk_paper_size_get_paper_sizes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a list of known paper sizes.
      */
     public static org.gtk.glib.List paperSizeGetPaperSizes(boolean includeCustom) {
-        var RESULT = gtk_h.gtk_paper_size_get_paper_sizes(includeCustom ? 1 : 0);
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_paper_size_get_paper_sizes.invokeExact(includeCustom ? 1 : 0);
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_param_spec_expression = Interop.downcallHandle(
+        "gtk_param_spec_expression",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a new {@code GParamSpec} instance for a property holding a {@code GtkExpression}.
@@ -689,17 +1076,35 @@ public final class Gtk {
      * See {@code g_param_spec_internal()} for details on the property strings.
      */
     public static org.gtk.gobject.ParamSpec paramSpecExpression(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.ParamFlags flags) {
-        var RESULT = gtk_h.gtk_param_spec_expression(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_param_spec_expression.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
+            return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_error_quark = Interop.downcallHandle(
+        "gtk_print_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Registers an error quark for {@code GtkPrintOperation} if necessary.
      */
     public static org.gtk.glib.Quark printErrorQuark() {
-        var RESULT = gtk_h.gtk_print_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gtk_print_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_run_page_setup_dialog = Interop.downcallHandle(
+        "gtk_print_run_page_setup_dialog",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Runs a page setup dialog, letting the user modify the values from
@@ -712,9 +1117,18 @@ public final class Gtk {
      * a problem.
      */
     public static PageSetup printRunPageSetupDialog(Window parent, PageSetup pageSetup, PrintSettings settings) {
-        var RESULT = gtk_h.gtk_print_run_page_setup_dialog(parent.handle(), pageSetup.handle(), settings.handle());
-        return new PageSetup(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_run_page_setup_dialog.invokeExact(parent.handle(), pageSetup.handle(), settings.handle());
+            return new PageSetup(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_run_page_setup_dialog_async = Interop.downcallHandle(
+        "gtk_print_run_page_setup_dialog_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Runs a page setup dialog, letting the user modify the values from {@code page_setup}.
@@ -725,22 +1139,36 @@ public final class Gtk {
      */
     public static void printRunPageSetupDialogAsync(Window parent, PageSetup pageSetup, PrintSettings settings, PageSetupDoneFunc doneCb) {
         try {
-            gtk_h.gtk_print_run_page_setup_dialog_async(parent.handle(), pageSetup.handle(), settings.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_print_run_page_setup_dialog_async.invokeExact(parent.handle(), pageSetup.handle(), settings.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbPageSetupDoneFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(doneCb.hashCode(), doneCb)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(doneCb.hashCode(), doneCb)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    static final MethodHandle gtk_recent_manager_error_quark = Interop.downcallHandle(
+        "gtk_recent_manager_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static org.gtk.glib.Quark recentManagerErrorQuark() {
-        var RESULT = gtk_h.gtk_recent_manager_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gtk_recent_manager_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_activity = Interop.downcallHandle(
+        "gtk_render_activity",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders an activity indicator (such as in {@code GtkSpinner}).
@@ -748,8 +1176,17 @@ public final class Gtk {
      * activity going on.
      */
     public static void renderActivity(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        gtk_h.gtk_render_activity(context.handle(), cr.handle(), x, y, width, height);
+        try {
+            gtk_render_activity.invokeExact(context.handle(), cr.handle(), x, y, width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_arrow = Interop.downcallHandle(
+        "gtk_render_arrow",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders an arrow pointing to {@code angle}.
@@ -759,8 +1196,17 @@ public final class Gtk {
      * ![](arrows.png)
      */
     public static void renderArrow(StyleContext context, org.cairographics.Context cr, double angle, double x, double y, double size) {
-        gtk_h.gtk_render_arrow(context.handle(), cr.handle(), angle, x, y, size);
+        try {
+            gtk_render_arrow.invokeExact(context.handle(), cr.handle(), angle, x, y, size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_background = Interop.downcallHandle(
+        "gtk_render_background",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders the background of an element.
@@ -771,8 +1217,17 @@ public final class Gtk {
      * ![](background.png)
      */
     public static void renderBackground(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        gtk_h.gtk_render_background(context.handle(), cr.handle(), x, y, width, height);
+        try {
+            gtk_render_background.invokeExact(context.handle(), cr.handle(), x, y, width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_check = Interop.downcallHandle(
+        "gtk_render_check",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders a checkmark (as in a {@code GtkCheckButton}).
@@ -786,8 +1241,17 @@ public final class Gtk {
      * ![](checks.png)
      */
     public static void renderCheck(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        gtk_h.gtk_render_check(context.handle(), cr.handle(), x, y, width, height);
+        try {
+            gtk_render_check.invokeExact(context.handle(), cr.handle(), x, y, width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_expander = Interop.downcallHandle(
+        "gtk_render_expander",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders an expander (as used in {@code GtkTreeView} and {@code GtkExpander}) in the area
@@ -799,8 +1263,17 @@ public final class Gtk {
      * ![](expanders.png)
      */
     public static void renderExpander(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        gtk_h.gtk_render_expander(context.handle(), cr.handle(), x, y, width, height);
+        try {
+            gtk_render_expander.invokeExact(context.handle(), cr.handle(), x, y, width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_focus = Interop.downcallHandle(
+        "gtk_render_focus",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders a focus indicator on the rectangle determined by @x, @y, {@code width}, {@code height}.
@@ -810,8 +1283,17 @@ public final class Gtk {
      * ![](focus.png)
      */
     public static void renderFocus(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        gtk_h.gtk_render_focus(context.handle(), cr.handle(), x, y, width, height);
+        try {
+            gtk_render_focus.invokeExact(context.handle(), cr.handle(), x, y, width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_frame = Interop.downcallHandle(
+        "gtk_render_frame",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders a frame around the rectangle defined by @x, @y, {@code width}, {@code height}.
@@ -822,8 +1304,17 @@ public final class Gtk {
      * ![](frames.png)
      */
     public static void renderFrame(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        gtk_h.gtk_render_frame(context.handle(), cr.handle(), x, y, width, height);
+        try {
+            gtk_render_frame.invokeExact(context.handle(), cr.handle(), x, y, width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_handle = Interop.downcallHandle(
+        "gtk_render_handle",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders a handle (as in {@code GtkPaned} and {@code GtkWindow}’s resize grip),
@@ -834,8 +1325,17 @@ public final class Gtk {
      * ![](handles.png)
      */
     public static void renderHandle(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        gtk_h.gtk_render_handle(context.handle(), cr.handle(), x, y, width, height);
+        try {
+            gtk_render_handle.invokeExact(context.handle(), cr.handle(), x, y, width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_icon = Interop.downcallHandle(
+        "gtk_render_icon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders the icon in {@code texture} at the specified @x and @y coordinates.
@@ -845,22 +1345,49 @@ public final class Gtk {
      * drawing on displays with high pixel densities.
      */
     public static void renderIcon(StyleContext context, org.cairographics.Context cr, org.gtk.gdk.Texture texture, double x, double y) {
-        gtk_h.gtk_render_icon(context.handle(), cr.handle(), texture.handle(), x, y);
+        try {
+            gtk_render_icon.invokeExact(context.handle(), cr.handle(), texture.handle(), x, y);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_layout = Interop.downcallHandle(
+        "gtk_render_layout",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Renders {@code layout} on the coordinates @x, @y
      */
     public static void renderLayout(StyleContext context, org.cairographics.Context cr, double x, double y, org.pango.Layout layout) {
-        gtk_h.gtk_render_layout(context.handle(), cr.handle(), x, y, layout.handle());
+        try {
+            gtk_render_layout.invokeExact(context.handle(), cr.handle(), x, y, layout.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_line = Interop.downcallHandle(
+        "gtk_render_line",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders a line from (x0, y0) to (x1, y1).
      */
     public static void renderLine(StyleContext context, org.cairographics.Context cr, double x0, double y0, double x1, double y1) {
-        gtk_h.gtk_render_line(context.handle(), cr.handle(), x0, y0, x1, y1);
+        try {
+            gtk_render_line.invokeExact(context.handle(), cr.handle(), x0, y0, x1, y1);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_render_option = Interop.downcallHandle(
+        "gtk_render_option",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Renders an option mark (as in a radio button), the {@link StateFlags#CHECKED}
@@ -872,8 +1399,17 @@ public final class Gtk {
      * ![](options.png)
      */
     public static void renderOption(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        gtk_h.gtk_render_option(context.handle(), cr.handle(), x, y, width, height);
+        try {
+            gtk_render_option.invokeExact(context.handle(), cr.handle(), x, y, width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_rgb_to_hsv = Interop.downcallHandle(
+        "gtk_rgb_to_hsv",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a color from RGB space to HSV.
@@ -882,23 +1418,50 @@ public final class Gtk {
      * output values will be in the same range.
      */
     public static void rgbToHsv(float r, float g, float b, PointerFloat h, PointerFloat s, PointerFloat v) {
-        gtk_h.gtk_rgb_to_hsv(r, g, b, h.handle(), s.handle(), v.handle());
+        try {
+            gtk_rgb_to_hsv.invokeExact(r, g, b, h.handle(), s.handle(), v.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_set_debug_flags = Interop.downcallHandle(
+        "gtk_set_debug_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the GTK debug flags.
      */
     public static void setDebugFlags(DebugFlags flags) {
-        gtk_h.gtk_set_debug_flags(flags.getValue());
+        try {
+            gtk_set_debug_flags.invokeExact(flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_show_uri = Interop.downcallHandle(
+        "gtk_show_uri",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function launches the default application for showing
      * a given uri, or shows an error dialog if that fails.
      */
     public static void showUri(Window parent, java.lang.String uri, int timestamp) {
-        gtk_h.gtk_show_uri(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp);
+        try {
+            gtk_show_uri.invokeExact(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_show_uri_full = Interop.downcallHandle(
+        "gtk_show_uri_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function launches the default application for showing
@@ -912,17 +1475,22 @@ public final class Gtk {
      */
     public static void showUriFull(Window parent, java.lang.String uri, int timestamp, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            gtk_h.gtk_show_uri_full(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp, cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_show_uri_full.invokeExact(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp, cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_show_uri_full_finish = Interop.downcallHandle(
+        "gtk_show_uri_full_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finishes the gtk_show_uri() call and returns the result
@@ -930,58 +1498,121 @@ public final class Gtk {
      */
     public static boolean showUriFullFinish(Window parent, org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_show_uri_full_finish(parent.handle(), result.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) gtk_show_uri_full_finish.invokeExact(parent.handle(), result.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
+    static final MethodHandle gtk_test_accessible_assertion_message_role = Interop.downcallHandle(
+        "gtk_test_accessible_assertion_message_role",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     public static void testAccessibleAssertionMessageRole(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, Accessible accessible, AccessibleRole expectedRole, AccessibleRole actualRole) {
-        gtk_h.gtk_test_accessible_assertion_message_role(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), accessible.handle(), expectedRole.getValue(), actualRole.getValue());
+        try {
+            gtk_test_accessible_assertion_message_role.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), accessible.handle(), expectedRole.getValue(), actualRole.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_test_accessible_has_property = Interop.downcallHandle(
+        "gtk_test_accessible_has_property",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks whether the {@code GtkAccessible} has {@code property} set.
      */
     public static boolean testAccessibleHasProperty(Accessible accessible, AccessibleProperty property) {
-        var RESULT = gtk_h.gtk_test_accessible_has_property(accessible.handle(), property.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_test_accessible_has_property.invokeExact(accessible.handle(), property.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_test_accessible_has_relation = Interop.downcallHandle(
+        "gtk_test_accessible_has_relation",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks whether the {@code GtkAccessible} has {@code relation} set.
      */
     public static boolean testAccessibleHasRelation(Accessible accessible, AccessibleRelation relation) {
-        var RESULT = gtk_h.gtk_test_accessible_has_relation(accessible.handle(), relation.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_test_accessible_has_relation.invokeExact(accessible.handle(), relation.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_test_accessible_has_role = Interop.downcallHandle(
+        "gtk_test_accessible_has_role",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks whether the {@code GtkAccessible:accessible-role} of the accessible
      * is {@code role}.
      */
     public static boolean testAccessibleHasRole(Accessible accessible, AccessibleRole role) {
-        var RESULT = gtk_h.gtk_test_accessible_has_role(accessible.handle(), role.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_test_accessible_has_role.invokeExact(accessible.handle(), role.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_test_accessible_has_state = Interop.downcallHandle(
+        "gtk_test_accessible_has_state",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks whether the {@code GtkAccessible} has {@code state} set.
      */
     public static boolean testAccessibleHasState(Accessible accessible, AccessibleState state) {
-        var RESULT = gtk_h.gtk_test_accessible_has_state(accessible.handle(), state.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_test_accessible_has_state.invokeExact(accessible.handle(), state.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_test_list_all_types = Interop.downcallHandle(
+        "gtk_test_list_all_types",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Return the type ids that have been registered after
      * calling gtk_test_register_all_types().
      */
     public static PointerIterator<Long> testListAllTypes(PointerInteger nTypes) {
-        var RESULT = gtk_h.gtk_test_list_all_types(nTypes.handle());
-        return new PointerLong(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_test_list_all_types.invokeExact(nTypes.handle());
+            return new PointerLong(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_test_register_all_types = Interop.downcallHandle(
+        "gtk_test_register_all_types",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Force registration of all core GTK object types.
@@ -990,8 +1621,17 @@ public final class Gtk {
      * g_type_from_name() after calling this function.
      */
     public static void testRegisterAllTypes() {
-        gtk_h.gtk_test_register_all_types();
+        try {
+            gtk_test_register_all_types.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_test_widget_wait_for_draw = Interop.downcallHandle(
+        "gtk_test_widget_wait_for_draw",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Enters the main loop and waits for {@code widget} to be “drawn”.
@@ -1004,16 +1644,34 @@ public final class Gtk {
      * server.
      */
     public static void testWidgetWaitForDraw(Widget widget) {
-        gtk_h.gtk_test_widget_wait_for_draw(widget.handle());
+        try {
+            gtk_test_widget_wait_for_draw.invokeExact(widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_create_row_drag_content = Interop.downcallHandle(
+        "gtk_tree_create_row_drag_content",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a content provider for dragging {@code path} from {@code tree_model}.
      */
     public static org.gtk.gdk.ContentProvider treeCreateRowDragContent(TreeModel treeModel, TreePath path) {
-        var RESULT = gtk_h.gtk_tree_create_row_drag_content(treeModel.handle(), path.handle());
-        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_create_row_drag_content.invokeExact(treeModel.handle(), path.handle());
+            return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_get_row_drag_data = Interop.downcallHandle(
+        "gtk_tree_get_row_drag_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains a {@code tree_model} and {@code path} from value of target type
@@ -1022,9 +1680,18 @@ public final class Gtk {
      * The returned path must be freed with gtk_tree_path_free().
      */
     public static boolean treeGetRowDragData(org.gtk.gobject.Value value, TreeModel[] treeModel, TreePath[] path) {
-        var RESULT = gtk_h.gtk_tree_get_row_drag_data(value.handle(), Interop.allocateNativeArray(treeModel).handle(), Interop.allocateNativeArray(path).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_get_row_drag_data.invokeExact(value.handle(), Interop.allocateNativeArray(treeModel).handle(), Interop.allocateNativeArray(path).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_row_reference_deleted = Interop.downcallHandle(
+        "gtk_tree_row_reference_deleted",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Lets a set of row reference created by
@@ -1032,8 +1699,17 @@ public final class Gtk {
      * model emitted the ::row-deleted signal.
      */
     public static void treeRowReferenceDeleted(org.gtk.gobject.Object proxy, TreePath path) {
-        gtk_h.gtk_tree_row_reference_deleted(proxy.handle(), path.handle());
+        try {
+            gtk_tree_row_reference_deleted.invokeExact(proxy.handle(), path.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_row_reference_inserted = Interop.downcallHandle(
+        "gtk_tree_row_reference_inserted",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Lets a set of row reference created by
@@ -1041,8 +1717,17 @@ public final class Gtk {
      * model emitted the ::row-inserted signal.
      */
     public static void treeRowReferenceInserted(org.gtk.gobject.Object proxy, TreePath path) {
-        gtk_h.gtk_tree_row_reference_inserted(proxy.handle(), path.handle());
+        try {
+            gtk_tree_row_reference_inserted.invokeExact(proxy.handle(), path.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_row_reference_reordered = Interop.downcallHandle(
+        "gtk_tree_row_reference_reordered",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Lets a set of row reference created by
@@ -1050,25 +1735,52 @@ public final class Gtk {
      * model emitted the ::rows-reordered signal.
      */
     public static void treeRowReferenceReordered(org.gtk.gobject.Object proxy, TreePath path, TreeIter iter, int[] newOrder) {
-        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder).handle());
+        try {
+            gtk_tree_row_reference_reordered.invokeExact(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_value_dup_expression = Interop.downcallHandle(
+        "gtk_value_dup_expression",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code GtkExpression} stored inside the given {@code value}, and acquires
      * a reference to it.
      */
     public static Expression valueDupExpression(org.gtk.gobject.Value value) {
-        var RESULT = gtk_h.gtk_value_dup_expression(value.handle());
-        return new Expression(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_value_dup_expression.invokeExact(value.handle());
+            return new Expression(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_value_get_expression = Interop.downcallHandle(
+        "gtk_value_get_expression",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code GtkExpression} stored inside the given {@code value}.
      */
     public static Expression valueGetExpression(org.gtk.gobject.Value value) {
-        var RESULT = gtk_h.gtk_value_get_expression(value.handle());
-        return new Expression(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_value_get_expression.invokeExact(value.handle());
+            return new Expression(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_value_set_expression = Interop.downcallHandle(
+        "gtk_value_set_expression",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Stores the given {@code GtkExpression} inside {@code value}.
@@ -1076,8 +1788,17 @@ public final class Gtk {
      * The {@code GValue} will acquire a reference to the {@code expression}.
      */
     public static void valueSetExpression(org.gtk.gobject.Value value, Expression expression) {
-        gtk_h.gtk_value_set_expression(value.handle(), expression.handle());
+        try {
+            gtk_value_set_expression.invokeExact(value.handle(), expression.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_value_take_expression = Interop.downcallHandle(
+        "gtk_value_take_expression",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Stores the given {@code GtkExpression} inside {@code value}.
@@ -1085,7 +1806,11 @@ public final class Gtk {
      * This function transfers the ownership of the {@code expression} to the {@code GValue}.
      */
     public static void valueTakeExpression(org.gtk.gobject.Value value, Expression expression) {
-        gtk_h.gtk_value_take_expression(value.handle(), expression.refcounted().unowned().handle());
+        try {
+            gtk_value_take_expression.invokeExact(value.handle(), expression.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     public static int __cbAssistantPageFunc(int currentPage, MemoryAddress data) {

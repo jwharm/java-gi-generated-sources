@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -34,9 +33,18 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         return new Carousel(gobject.refcounted());
     }
     
+    static final MethodHandle adw_carousel_new = Interop.downcallHandle(
+        "adw_carousel_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_carousel_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_carousel_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -46,60 +54,128 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         super(constructNew());
     }
     
+    static final MethodHandle adw_carousel_append = Interop.downcallHandle(
+        "adw_carousel_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Appends {@code child} to {@code self}.
      */
     public void append(org.gtk.gtk.Widget child) {
-        gtk_h.adw_carousel_append(handle(), child.handle());
+        try {
+            adw_carousel_append.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_allow_long_swipes = Interop.downcallHandle(
+        "adw_carousel_get_allow_long_swipes",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether to allow swiping for more than one page at a time.
      */
     public boolean getAllowLongSwipes() {
-        var RESULT = gtk_h.adw_carousel_get_allow_long_swipes(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_carousel_get_allow_long_swipes.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_allow_mouse_drag = Interop.downcallHandle(
+        "adw_carousel_get_allow_mouse_drag",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets whether {@code self} can be dragged with mouse pointer.
      */
     public boolean getAllowMouseDrag() {
-        var RESULT = gtk_h.adw_carousel_get_allow_mouse_drag(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_carousel_get_allow_mouse_drag.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_allow_scroll_wheel = Interop.downcallHandle(
+        "adw_carousel_get_allow_scroll_wheel",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} will respond to scroll wheel events.
      */
     public boolean getAllowScrollWheel() {
-        var RESULT = gtk_h.adw_carousel_get_allow_scroll_wheel(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_carousel_get_allow_scroll_wheel.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_interactive = Interop.downcallHandle(
+        "adw_carousel_get_interactive",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} can be navigated.
      */
     public boolean getInteractive() {
-        var RESULT = gtk_h.adw_carousel_get_interactive(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_carousel_get_interactive.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_n_pages = Interop.downcallHandle(
+        "adw_carousel_get_n_pages",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of pages in {@code self}.
      */
     public int getNPages() {
-        var RESULT = gtk_h.adw_carousel_get_n_pages(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_carousel_get_n_pages.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_nth_page = Interop.downcallHandle(
+        "adw_carousel_get_nth_page",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the page at position @n.
      */
     public org.gtk.gtk.Widget getNthPage(int n) {
-        var RESULT = gtk_h.adw_carousel_get_nth_page(handle(), n);
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_carousel_get_nth_page.invokeExact(handle(), n);
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_position = Interop.downcallHandle(
+        "adw_carousel_get_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets current scroll position in {@code self}.
@@ -107,33 +183,69 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * It's unitless, 1 matches 1 page.
      */
     public double getPosition() {
-        var RESULT = gtk_h.adw_carousel_get_position(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_carousel_get_position.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_reveal_duration = Interop.downcallHandle(
+        "adw_carousel_get_reveal_duration",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets duration of the animation used when adding or removing pages.
      */
     public int getRevealDuration() {
-        var RESULT = gtk_h.adw_carousel_get_reveal_duration(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_carousel_get_reveal_duration.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_scroll_params = Interop.downcallHandle(
+        "adw_carousel_get_scroll_params",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the scroll animation spring parameters for {@code self}.
      */
     public SpringParams getScrollParams() {
-        var RESULT = gtk_h.adw_carousel_get_scroll_params(handle());
-        return new SpringParams(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) adw_carousel_get_scroll_params.invokeExact(handle());
+            return new SpringParams(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_get_spacing = Interop.downcallHandle(
+        "adw_carousel_get_spacing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets spacing between pages in pixels.
      */
     public int getSpacing() {
-        var RESULT = gtk_h.adw_carousel_get_spacing(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_carousel_get_spacing.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_insert = Interop.downcallHandle(
+        "adw_carousel_insert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Inserts {@code child} into {@code self} at position {@code position}.
@@ -142,22 +254,49 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * {@code child} will be appended to the end.
      */
     public void insert(org.gtk.gtk.Widget child, int position) {
-        gtk_h.adw_carousel_insert(handle(), child.handle(), position);
+        try {
+            adw_carousel_insert.invokeExact(handle(), child.handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_prepend = Interop.downcallHandle(
+        "adw_carousel_prepend",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prepends {@code child} to {@code self}.
      */
     public void prepend(org.gtk.gtk.Widget child) {
-        gtk_h.adw_carousel_prepend(handle(), child.handle());
+        try {
+            adw_carousel_prepend.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_remove = Interop.downcallHandle(
+        "adw_carousel_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes {@code child} from {@code self}.
      */
     public void remove(org.gtk.gtk.Widget child) {
-        gtk_h.adw_carousel_remove(handle(), child.handle());
+        try {
+            adw_carousel_remove.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_reorder = Interop.downcallHandle(
+        "adw_carousel_reorder",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves {@code child} into position {@code position}.
@@ -166,8 +305,17 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * at the end.
      */
     public void reorder(org.gtk.gtk.Widget child, int position) {
-        gtk_h.adw_carousel_reorder(handle(), child.handle(), position);
+        try {
+            adw_carousel_reorder.invokeExact(handle(), child.handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_scroll_to = Interop.downcallHandle(
+        "adw_carousel_scroll_to",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Scrolls to {@code widget}.
@@ -175,56 +323,123 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * If {@code animate} is {@code TRUE}, the transition will be animated.
      */
     public void scrollTo(org.gtk.gtk.Widget widget, boolean animate) {
-        gtk_h.adw_carousel_scroll_to(handle(), widget.handle(), animate ? 1 : 0);
+        try {
+            adw_carousel_scroll_to.invokeExact(handle(), widget.handle(), animate ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_set_allow_long_swipes = Interop.downcallHandle(
+        "adw_carousel_set_allow_long_swipes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to allow swiping for more than one page at a time.
      */
     public void setAllowLongSwipes(boolean allowLongSwipes) {
-        gtk_h.adw_carousel_set_allow_long_swipes(handle(), allowLongSwipes ? 1 : 0);
+        try {
+            adw_carousel_set_allow_long_swipes.invokeExact(handle(), allowLongSwipes ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_set_allow_mouse_drag = Interop.downcallHandle(
+        "adw_carousel_set_allow_mouse_drag",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} can be dragged with mouse pointer.
      */
     public void setAllowMouseDrag(boolean allowMouseDrag) {
-        gtk_h.adw_carousel_set_allow_mouse_drag(handle(), allowMouseDrag ? 1 : 0);
+        try {
+            adw_carousel_set_allow_mouse_drag.invokeExact(handle(), allowMouseDrag ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_set_allow_scroll_wheel = Interop.downcallHandle(
+        "adw_carousel_set_allow_scroll_wheel",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} will respond to scroll wheel events.
      */
     public void setAllowScrollWheel(boolean allowScrollWheel) {
-        gtk_h.adw_carousel_set_allow_scroll_wheel(handle(), allowScrollWheel ? 1 : 0);
+        try {
+            adw_carousel_set_allow_scroll_wheel.invokeExact(handle(), allowScrollWheel ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_set_interactive = Interop.downcallHandle(
+        "adw_carousel_set_interactive",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} can be navigated.
      */
     public void setInteractive(boolean interactive) {
-        gtk_h.adw_carousel_set_interactive(handle(), interactive ? 1 : 0);
+        try {
+            adw_carousel_set_interactive.invokeExact(handle(), interactive ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_set_reveal_duration = Interop.downcallHandle(
+        "adw_carousel_set_reveal_duration",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets duration of the animation used when adding or removing pages.
      */
     public void setRevealDuration(int revealDuration) {
-        gtk_h.adw_carousel_set_reveal_duration(handle(), revealDuration);
+        try {
+            adw_carousel_set_reveal_duration.invokeExact(handle(), revealDuration);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_set_scroll_params = Interop.downcallHandle(
+        "adw_carousel_set_scroll_params",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the scroll animation spring parameters for {@code self}.
      */
     public void setScrollParams(SpringParams params) {
-        gtk_h.adw_carousel_set_scroll_params(handle(), params.handle());
+        try {
+            adw_carousel_set_scroll_params.invokeExact(handle(), params.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_carousel_set_spacing = Interop.downcallHandle(
+        "adw_carousel_set_spacing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets spacing between pages in pixels.
      */
     public void setSpacing(int spacing) {
-        gtk_h.adw_carousel_set_spacing(handle(), spacing);
+        try {
+            adw_carousel_set_spacing.invokeExact(handle(), spacing);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -240,19 +455,19 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      */
     public SignalHandle onPageChanged(PageChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("page-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Carousel.Callbacks.class, "signalCarouselPageChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

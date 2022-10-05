@@ -1,5 +1,6 @@
 package io.github.jwharm.javagi;
 
+import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
@@ -10,7 +11,7 @@ import java.lang.foreign.ValueLayout;
  * For example, use {@code PointerInteger} for an {@code *int} 
  * out-parameter.
  */
-public abstract class Pointer<T> implements Iterable {
+public abstract class Pointer<T> implements Iterable<T> {
     
     protected final MemoryAddress address;
     private MemorySegmentReference reference;
@@ -31,7 +32,7 @@ public abstract class Pointer<T> implements Iterable {
         this.address = address;
     }
     
-    public MemoryAddress handle() {
+    public Addressable handle() {
         return address;
     }
     
@@ -41,6 +42,6 @@ public abstract class Pointer<T> implements Iterable {
 
     @Override
     public PointerIterator<T> iterator() {
-        return new PointerIterator(this);
+        return new PointerIterator<T>(this);
     }
 }

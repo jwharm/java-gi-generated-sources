@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -45,9 +44,18 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
         return new TreeStore(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_tree_store_newv = Interop.downcallHandle(
+        "gtk_tree_store_newv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewv(int nColumns, org.gtk.gobject.Type[] types) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_store_newv.invokeExact(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -57,6 +65,11 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
         return new TreeStore(constructNewv(nColumns, types));
     }
     
+    static final MethodHandle gtk_tree_store_append = Interop.downcallHandle(
+        "gtk_tree_store_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Appends a new row to {@code tree_store}.  If {@code parent} is non-{@code null}, then it will append the
      * new row after the last child of {@code parent}, otherwise it will append a row to
@@ -65,15 +78,33 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * gtk_tree_store_set() or gtk_tree_store_set_value().
      */
     public void append(TreeIter iter, TreeIter parent) {
-        gtk_h.gtk_tree_store_append(handle(), iter.handle(), parent.handle());
+        try {
+            gtk_tree_store_append.invokeExact(handle(), iter.handle(), parent.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_clear = Interop.downcallHandle(
+        "gtk_tree_store_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all rows from {@code tree_store}
      */
     public void clear() {
-        gtk_h.gtk_tree_store_clear(handle());
+        try {
+            gtk_tree_store_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_insert = Interop.downcallHandle(
+        "gtk_tree_store_insert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a new row at {@code position}.  If parent is non-{@code null}, then the row will be
@@ -85,8 +116,17 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * gtk_tree_store_set_value().
      */
     public void insert(TreeIter iter, TreeIter parent, int position) {
-        gtk_h.gtk_tree_store_insert(handle(), iter.handle(), parent.handle(), position);
+        try {
+            gtk_tree_store_insert.invokeExact(handle(), iter.handle(), parent.handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_insert_after = Interop.downcallHandle(
+        "gtk_tree_store_insert_after",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new row after {@code sibling}.  If {@code sibling} is {@code null}, then the row will be
@@ -100,8 +140,17 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * gtk_tree_store_set() or gtk_tree_store_set_value().
      */
     public void insertAfter(TreeIter iter, TreeIter parent, TreeIter sibling) {
-        gtk_h.gtk_tree_store_insert_after(handle(), iter.handle(), parent.handle(), sibling.handle());
+        try {
+            gtk_tree_store_insert_after.invokeExact(handle(), iter.handle(), parent.handle(), sibling.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_insert_before = Interop.downcallHandle(
+        "gtk_tree_store_insert_before",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new row before {@code sibling}.  If {@code sibling} is {@code null}, then the row will
@@ -115,8 +164,17 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * gtk_tree_store_set() or gtk_tree_store_set_value().
      */
     public void insertBefore(TreeIter iter, TreeIter parent, TreeIter sibling) {
-        gtk_h.gtk_tree_store_insert_before(handle(), iter.handle(), parent.handle(), sibling.handle());
+        try {
+            gtk_tree_store_insert_before.invokeExact(handle(), iter.handle(), parent.handle(), sibling.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_insert_with_valuesv = Interop.downcallHandle(
+        "gtk_tree_store_insert_with_valuesv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * A variant of gtk_tree_store_insert_with_values() which takes
@@ -124,26 +182,53 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * function is mainly intended for language bindings.
      */
     public void insertWithValuesv(TreeIter iter, TreeIter parent, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
-        gtk_h.gtk_tree_store_insert_with_valuesv(handle(), iter.handle(), parent.handle(), position, Interop.allocateNativeArray(columns).handle(), Interop.allocateNativeArray(values).handle(), nValues);
+        try {
+            gtk_tree_store_insert_with_valuesv.invokeExact(handle(), iter.handle(), parent.handle(), position, Interop.allocateNativeArray(columns).handle(), Interop.allocateNativeArray(values).handle(), nValues);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_is_ancestor = Interop.downcallHandle(
+        "gtk_tree_store_is_ancestor",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code iter} is an ancestor of {@code descendant}.  That is, {@code iter} is the
      * parent (or grandparent or great-grandparent) of {@code descendant}.
      */
     public boolean isAncestor(TreeIter iter, TreeIter descendant) {
-        var RESULT = gtk_h.gtk_tree_store_is_ancestor(handle(), iter.handle(), descendant.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_store_is_ancestor.invokeExact(handle(), iter.handle(), descendant.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_iter_depth = Interop.downcallHandle(
+        "gtk_tree_store_iter_depth",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the depth of {@code iter}.  This will be 0 for anything on the root level, 1
      * for anything down a level, etc.
      */
     public int iterDepth(TreeIter iter) {
-        var RESULT = gtk_h.gtk_tree_store_iter_depth(handle(), iter.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_store_iter_depth.invokeExact(handle(), iter.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_iter_is_valid = Interop.downcallHandle(
+        "gtk_tree_store_iter_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the given iter is a valid iter for this {@code GtkTreeStore}.
@@ -152,9 +237,18 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * purposes.
      */
     public boolean iterIsValid(TreeIter iter) {
-        var RESULT = gtk_h.gtk_tree_store_iter_is_valid(handle(), iter.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_store_iter_is_valid.invokeExact(handle(), iter.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_move_after = Interop.downcallHandle(
+        "gtk_tree_store_move_after",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} in {@code tree_store} to the position after {@code position}. {@code iter} and
@@ -163,8 +257,17 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * to the start of the level.
      */
     public void moveAfter(TreeIter iter, TreeIter position) {
-        gtk_h.gtk_tree_store_move_after(handle(), iter.handle(), position.handle());
+        try {
+            gtk_tree_store_move_after.invokeExact(handle(), iter.handle(), position.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_move_before = Interop.downcallHandle(
+        "gtk_tree_store_move_before",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} in {@code tree_store} to the position before {@code position}. {@code iter} and
@@ -173,8 +276,17 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * moved to the end of the level.
      */
     public void moveBefore(TreeIter iter, TreeIter position) {
-        gtk_h.gtk_tree_store_move_before(handle(), iter.handle(), position.handle());
+        try {
+            gtk_tree_store_move_before.invokeExact(handle(), iter.handle(), position.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_prepend = Interop.downcallHandle(
+        "gtk_tree_store_prepend",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prepends a new row to {@code tree_store}.  If {@code parent} is non-{@code null}, then it will prepend
@@ -184,8 +296,17 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * call gtk_tree_store_set() or gtk_tree_store_set_value().
      */
     public void prepend(TreeIter iter, TreeIter parent) {
-        gtk_h.gtk_tree_store_prepend(handle(), iter.handle(), parent.handle());
+        try {
+            gtk_tree_store_prepend.invokeExact(handle(), iter.handle(), parent.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_remove = Interop.downcallHandle(
+        "gtk_tree_store_remove",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes {@code iter} from {@code tree_store}.  After being removed, {@code iter} is set to the
@@ -193,9 +314,18 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * last one.
      */
     public boolean remove(TreeIter iter) {
-        var RESULT = gtk_h.gtk_tree_store_remove(handle(), iter.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_store_remove.invokeExact(handle(), iter.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_reorder = Interop.downcallHandle(
+        "gtk_tree_store_reorder",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Reorders the children of {@code parent} in {@code tree_store} to follow the order
@@ -203,8 +333,17 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * unsorted stores.
      */
     public void reorder(TreeIter parent, int[] newOrder) {
-        gtk_h.gtk_tree_store_reorder(handle(), parent.handle(), Interop.allocateNativeArray(newOrder).handle());
+        try {
+            gtk_tree_store_reorder.invokeExact(handle(), parent.handle(), Interop.allocateNativeArray(newOrder).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_set_column_types = Interop.downcallHandle(
+        "gtk_tree_store_set_column_types",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function is meant primarily for {@code GObjects} that inherit from
@@ -213,16 +352,34 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * or a method on the {@code GtkTreeModel} interface is called.
      */
     public void setColumnTypes(int nColumns, org.gtk.gobject.Type[] types) {
-        gtk_h.gtk_tree_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle());
+        try {
+            gtk_tree_store_set_column_types.invokeExact(handle(), nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_set_valist = Interop.downcallHandle(
+        "gtk_tree_store_set_valist",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * See gtk_tree_store_set(); this version takes a va_list for
      * use by language bindings.
      */
     public void setValist(TreeIter iter, VaList varArgs) {
-        gtk_h.gtk_tree_store_set_valist(handle(), iter.handle(), varArgs);
+        try {
+            gtk_tree_store_set_valist.invokeExact(handle(), iter.handle(), varArgs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_set_value = Interop.downcallHandle(
+        "gtk_tree_store_set_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the data in the cell specified by {@code iter} and {@code column}.
@@ -230,8 +387,17 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * column.
      */
     public void setValue(TreeIter iter, int column, org.gtk.gobject.Value value) {
-        gtk_h.gtk_tree_store_set_value(handle(), iter.handle(), column, value.handle());
+        try {
+            gtk_tree_store_set_value.invokeExact(handle(), iter.handle(), column, value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_set_valuesv = Interop.downcallHandle(
+        "gtk_tree_store_set_valuesv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * A variant of gtk_tree_store_set_valist() which takes
@@ -240,15 +406,28 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * the number of columns to change is not known until run-time.
      */
     public void setValuesv(TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
-        gtk_h.gtk_tree_store_set_valuesv(handle(), iter.handle(), Interop.allocateNativeArray(columns).handle(), Interop.allocateNativeArray(values).handle(), nValues);
+        try {
+            gtk_tree_store_set_valuesv.invokeExact(handle(), iter.handle(), Interop.allocateNativeArray(columns).handle(), Interop.allocateNativeArray(values).handle(), nValues);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_store_swap = Interop.downcallHandle(
+        "gtk_tree_store_swap",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Swaps @a and @b in the same level of {@code tree_store}. Note that this function
      * only works with unsorted stores.
      */
     public void swap(TreeIter a, TreeIter b) {
-        gtk_h.gtk_tree_store_swap(handle(), a.handle(), b.handle());
+        try {
+            gtk_tree_store_swap.invokeExact(handle(), a.handle(), b.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

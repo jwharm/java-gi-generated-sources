@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,9 +22,18 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
         return new SliceListModel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_slice_list_model_new = Interop.downcallHandle(
+        "gtk_slice_list_model_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.ListModel model, int offset, int size) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_slice_list_model_new(model.refcounted().unowned().handle(), offset, size), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_slice_list_model_new.invokeExact(model.refcounted().unowned().handle(), offset, size), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -38,29 +46,61 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
         super(constructNew(model, offset, size));
     }
     
+    static final MethodHandle gtk_slice_list_model_get_model = Interop.downcallHandle(
+        "gtk_slice_list_model_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the model that is currently being used or {@code null} if none.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = gtk_h.gtk_slice_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_slice_list_model_get_model.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_slice_list_model_get_offset = Interop.downcallHandle(
+        "gtk_slice_list_model_get_offset",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the offset set via gtk_slice_list_model_set_offset().
      */
     public int getOffset() {
-        var RESULT = gtk_h.gtk_slice_list_model_get_offset(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_slice_list_model_get_offset.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_slice_list_model_get_size = Interop.downcallHandle(
+        "gtk_slice_list_model_get_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the size set via gtk_slice_list_model_set_size().
      */
     public int getSize() {
-        var RESULT = gtk_h.gtk_slice_list_model_get_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_slice_list_model_get_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_slice_list_model_set_model = Interop.downcallHandle(
+        "gtk_slice_list_model_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the model to show a slice of.
@@ -68,8 +108,17 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * The model's item type must conform to {@code self}'s item type.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        gtk_h.gtk_slice_list_model_set_model(handle(), model.handle());
+        try {
+            gtk_slice_list_model_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_slice_list_model_set_offset = Interop.downcallHandle(
+        "gtk_slice_list_model_set_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the offset into the original model for this slice.
@@ -78,8 +127,17 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * {@code self} will end up empty.
      */
     public void setOffset(int offset) {
-        gtk_h.gtk_slice_list_model_set_offset(handle(), offset);
+        try {
+            gtk_slice_list_model_set_offset.invokeExact(handle(), offset);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_slice_list_model_set_size = Interop.downcallHandle(
+        "gtk_slice_list_model_set_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the maximum size. {@code self} will never have more items
@@ -89,7 +147,11 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * or the model sliced from doesn't have enough items.
      */
     public void setSize(int size) {
-        gtk_h.gtk_slice_list_model_set_size(handle(), size);
+        try {
+            gtk_slice_list_model_set_size.invokeExact(handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

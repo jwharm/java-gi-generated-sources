@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -18,10 +17,6 @@ public class OutputMessage extends io.github.jwharm.javagi.ResourceBase {
 
     public OutputMessage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public OutputMessage() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GOutputMessage.allocate(Interop.getAllocator()).address()));
     }
     
 }

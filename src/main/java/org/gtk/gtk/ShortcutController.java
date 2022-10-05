@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -58,9 +57,18 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
         return new ShortcutController(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_shortcut_controller_new = Interop.downcallHandle(
+        "gtk_shortcut_controller_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_controller_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_shortcut_controller_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -70,9 +78,18 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
         super(constructNew());
     }
     
+    static final MethodHandle gtk_shortcut_controller_new_for_model = Interop.downcallHandle(
+        "gtk_shortcut_controller_new_for_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForModel(org.gtk.gio.ListModel model) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_controller_new_for_model(model.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_shortcut_controller_new_for_model.invokeExact(model.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -87,6 +104,11 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
         return new ShortcutController(constructNewForModel(model));
     }
     
+    static final MethodHandle gtk_shortcut_controller_add_shortcut = Interop.downcallHandle(
+        "gtk_shortcut_controller_add_shortcut",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds {@code shortcut} to the list of shortcuts handled by {@code self}.
      * <p>
@@ -94,16 +116,34 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * function does nothing.
      */
     public void addShortcut(Shortcut shortcut) {
-        gtk_h.gtk_shortcut_controller_add_shortcut(handle(), shortcut.refcounted().unowned().handle());
+        try {
+            gtk_shortcut_controller_add_shortcut.invokeExact(handle(), shortcut.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_controller_get_mnemonics_modifiers = Interop.downcallHandle(
+        "gtk_shortcut_controller_get_mnemonics_modifiers",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the mnemonics modifiers for when this controller activates its shortcuts.
      */
     public org.gtk.gdk.ModifierType getMnemonicsModifiers() {
-        var RESULT = gtk_h.gtk_shortcut_controller_get_mnemonics_modifiers(handle());
-        return new org.gtk.gdk.ModifierType(RESULT);
+        try {
+            var RESULT = (int) gtk_shortcut_controller_get_mnemonics_modifiers.invokeExact(handle());
+            return new org.gtk.gdk.ModifierType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_controller_get_scope = Interop.downcallHandle(
+        "gtk_shortcut_controller_get_scope",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the scope for when this controller activates its shortcuts.
@@ -111,9 +151,18 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * See {@link ShortcutController#setScope} for details.
      */
     public ShortcutScope getScope() {
-        var RESULT = gtk_h.gtk_shortcut_controller_get_scope(handle());
-        return new ShortcutScope(RESULT);
+        try {
+            var RESULT = (int) gtk_shortcut_controller_get_scope.invokeExact(handle());
+            return new ShortcutScope(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_controller_remove_shortcut = Interop.downcallHandle(
+        "gtk_shortcut_controller_remove_shortcut",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes {@code shortcut} from the list of shortcuts handled by {@code self}.
@@ -122,8 +171,17 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * uses an external shortcut list, this function does nothing.
      */
     public void removeShortcut(Shortcut shortcut) {
-        gtk_h.gtk_shortcut_controller_remove_shortcut(handle(), shortcut.handle());
+        try {
+            gtk_shortcut_controller_remove_shortcut.invokeExact(handle(), shortcut.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_controller_set_mnemonics_modifiers = Interop.downcallHandle(
+        "gtk_shortcut_controller_set_mnemonics_modifiers",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the controller to use the given modifier for mnemonics.
@@ -141,8 +199,17 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * have their own modifiers for activating mnemonics.
      */
     public void setMnemonicsModifiers(org.gtk.gdk.ModifierType modifiers) {
-        gtk_h.gtk_shortcut_controller_set_mnemonics_modifiers(handle(), modifiers.getValue());
+        try {
+            gtk_shortcut_controller_set_mnemonics_modifiers.invokeExact(handle(), modifiers.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_controller_set_scope = Interop.downcallHandle(
+        "gtk_shortcut_controller_set_scope",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the controller to have the given {@code scope}.
@@ -156,7 +223,11 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * when the widget has focus.
      */
     public void setScope(ShortcutScope scope) {
-        gtk_h.gtk_shortcut_controller_set_scope(handle(), scope.getValue());
+        try {
+            gtk_shortcut_controller_set_scope.invokeExact(handle(), scope.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

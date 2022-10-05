@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -11,9 +10,10 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public WidgetClass() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkWidgetClass.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle gtk_widget_class_add_shortcut = Interop.downcallHandle(
+        "gtk_widget_class_add_shortcut",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Installs a shortcut in {@code widget_class}.
@@ -28,8 +28,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * otherwise it is not guaranteed that the shortcut will be installed.
      */
     public void addShortcut(Shortcut shortcut) {
-        gtk_h.gtk_widget_class_add_shortcut(handle(), shortcut.handle());
+        try {
+            gtk_widget_class_add_shortcut.invokeExact(handle(), shortcut.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_bind_template_child_full = Interop.downcallHandle(
+        "gtk_widget_class_bind_template_child_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Automatically assign an object declared in the class template XML to
@@ -62,8 +71,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * initializer after calling {@link WidgetClass#setTemplate}.
      */
     public void bindTemplateChildFull(java.lang.String name, boolean internalChild, long structOffset) {
-        gtk_h.gtk_widget_class_bind_template_child_full(handle(), Interop.allocateNativeString(name).handle(), internalChild ? 1 : 0, structOffset);
+        try {
+            gtk_widget_class_bind_template_child_full.invokeExact(handle(), Interop.allocateNativeString(name).handle(), internalChild ? 1 : 0, structOffset);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_get_accessible_role = Interop.downcallHandle(
+        "gtk_widget_class_get_accessible_role",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the accessible role used by the given {@code GtkWidget} class.
@@ -74,9 +92,18 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * See also: {@link Accessible#getAccessibleRole}.
      */
     public AccessibleRole getAccessibleRole() {
-        var RESULT = gtk_h.gtk_widget_class_get_accessible_role(handle());
-        return new AccessibleRole(RESULT);
+        try {
+            var RESULT = (int) gtk_widget_class_get_accessible_role.invokeExact(handle());
+            return new AccessibleRole(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_get_activate_signal = Interop.downcallHandle(
+        "gtk_widget_class_get_activate_signal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the signal id for the activation signal.
@@ -85,9 +112,18 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * {@link WidgetClass#setActivateSignal}.
      */
     public int getActivateSignal() {
-        var RESULT = gtk_h.gtk_widget_class_get_activate_signal(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_class_get_activate_signal.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_get_css_name = Interop.downcallHandle(
+        "gtk_widget_class_get_css_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name used by this class for matching in CSS code.
@@ -95,9 +131,18 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * See {@link WidgetClass#setCssName} for details.
      */
     public java.lang.String getCssName() {
-        var RESULT = gtk_h.gtk_widget_class_get_css_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_class_get_css_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_get_layout_manager_type = Interop.downcallHandle(
+        "gtk_widget_class_get_layout_manager_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the type of the {@link LayoutManager}
@@ -106,9 +151,18 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * See also: {@link WidgetClass#setLayoutManagerType}.
      */
     public org.gtk.gobject.Type getLayoutManagerType() {
-        var RESULT = gtk_h.gtk_widget_class_get_layout_manager_type(handle());
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) gtk_widget_class_get_layout_manager_type.invokeExact(handle());
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_install_property_action = Interop.downcallHandle(
+        "gtk_widget_class_install_property_action",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Installs an action called {@code action_name} on {@code widget_class} and
@@ -128,8 +182,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * of the same type as the property.
      */
     public void installPropertyAction(java.lang.String actionName, java.lang.String propertyName) {
-        gtk_h.gtk_widget_class_install_property_action(handle(), Interop.allocateNativeString(actionName).handle(), Interop.allocateNativeString(propertyName).handle());
+        try {
+            gtk_widget_class_install_property_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), Interop.allocateNativeString(propertyName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_query_action = Interop.downcallHandle(
+        "gtk_widget_class_query_action",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns details about the {@code index_}-th action that has been
@@ -144,10 +207,19 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean queryAction(int index, org.gtk.gobject.Type owner, java.lang.String[] actionName, org.gtk.glib.VariantType[] parameterType, java.lang.String[] propertyName) {
         PointerLong ownerPOINTER = new PointerLong(owner.getValue());
-        var RESULT = gtk_h.gtk_widget_class_query_action(handle(), index, new PointerLong(owner.getValue()).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(propertyName).handle());
-        owner.setValue(ownerPOINTER.get());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_class_query_action.invokeExact(handle(), index, new PointerLong(owner.getValue()).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(propertyName).handle());
+            owner.setValue(ownerPOINTER.get());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_set_accessible_role = Interop.downcallHandle(
+        "gtk_widget_class_set_accessible_role",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the accessible role used by the given {@code GtkWidget} class.
@@ -156,8 +228,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * rendered differently by assistive technologies.
      */
     public void setAccessibleRole(AccessibleRole accessibleRole) {
-        gtk_h.gtk_widget_class_set_accessible_role(handle(), accessibleRole.getValue());
+        try {
+            gtk_widget_class_set_accessible_role.invokeExact(handle(), accessibleRole.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_set_activate_signal = Interop.downcallHandle(
+        "gtk_widget_class_set_activate_signal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the {@code GtkWidgetClass.activate_signal} field with the
@@ -169,8 +250,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * or g_signal_newv() before calling this function.
      */
     public void setActivateSignal(int signalId) {
-        gtk_h.gtk_widget_class_set_activate_signal(handle(), signalId);
+        try {
+            gtk_widget_class_set_activate_signal.invokeExact(handle(), signalId);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_set_activate_signal_from_name = Interop.downcallHandle(
+        "gtk_widget_class_set_activate_signal_from_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkWidgetClass.activate_signal} field with the signal id for
@@ -182,8 +272,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * g_signal_new() or g_signal_newv() before calling this function.
      */
     public void setActivateSignalFromName(java.lang.String signalName) {
-        gtk_h.gtk_widget_class_set_activate_signal_from_name(handle(), Interop.allocateNativeString(signalName).handle());
+        try {
+            gtk_widget_class_set_activate_signal_from_name.invokeExact(handle(), Interop.allocateNativeString(signalName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_set_css_name = Interop.downcallHandle(
+        "gtk_widget_class_set_css_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name to be used for CSS matching of widgets.
@@ -193,8 +292,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * uses the name "widget".
      */
     public void setCssName(java.lang.String name) {
-        gtk_h.gtk_widget_class_set_css_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            gtk_widget_class_set_css_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_set_layout_manager_type = Interop.downcallHandle(
+        "gtk_widget_class_set_layout_manager_type",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Sets the type to be used for creating layout managers for
@@ -206,8 +314,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * of widgets.
      */
     public void setLayoutManagerType(org.gtk.gobject.Type type) {
-        gtk_h.gtk_widget_class_set_layout_manager_type(handle(), type.getValue());
+        try {
+            gtk_widget_class_set_layout_manager_type.invokeExact(handle(), type.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_set_template = Interop.downcallHandle(
+        "gtk_widget_class_set_template",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This should be called at class initialization time to specify
@@ -220,8 +337,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * {@link Widget#initTemplate} in the widget’s instance initializer.
      */
     public void setTemplate(org.gtk.glib.Bytes templateBytes) {
-        gtk_h.gtk_widget_class_set_template(handle(), templateBytes.handle());
+        try {
+            gtk_widget_class_set_template.invokeExact(handle(), templateBytes.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_set_template_from_resource = Interop.downcallHandle(
+        "gtk_widget_class_set_template_from_resource",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function that calls {@link WidgetClass#setTemplate}
@@ -232,8 +358,17 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * initializer.
      */
     public void setTemplateFromResource(java.lang.String resourceName) {
-        gtk_h.gtk_widget_class_set_template_from_resource(handle(), Interop.allocateNativeString(resourceName).handle());
+        try {
+            gtk_widget_class_set_template_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourceName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_class_set_template_scope = Interop.downcallHandle(
+        "gtk_widget_class_set_template_scope",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * For use in language bindings, this will override the default
@@ -244,7 +379,11 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * initializer after calling {@link GtkWidgetClass#setTemplate}.
      */
     public void setTemplateScope(BuilderScope scope) {
-        gtk_h.gtk_widget_class_set_template_scope(handle(), scope.handle());
+        try {
+            gtk_widget_class_set_template_scope.invokeExact(handle(), scope.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

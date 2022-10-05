@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,12 +18,21 @@ public class DNDEvent extends Event {
         return new DNDEvent(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_dnd_event_get_drop = Interop.downcallHandle(
+        "gdk_dnd_event_get_drop",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the {@code GdkDrop} object from a DND event.
      */
     public Drop getDrop() {
-        var RESULT = gtk_h.gdk_dnd_event_get_drop(handle());
-        return new Drop(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_dnd_event_get_drop.invokeExact(handle());
+            return new Drop(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

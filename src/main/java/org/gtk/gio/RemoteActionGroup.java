@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,6 +29,11 @@ import java.lang.invoke.*;
  */
 public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_remote_action_group_activate_action_full = Interop.downcallHandle(
+        "g_remote_action_group_activate_action_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Activates the remote action.
      * <p>
@@ -42,8 +46,17 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      * {@code G_VARIANT_TYPE_VARDICT}.  If it is floating, it will be consumed.
      */
     public default void activateActionFull(java.lang.String actionName, org.gtk.glib.Variant parameter, org.gtk.glib.Variant platformData) {
-        gtk_h.g_remote_action_group_activate_action_full(handle(), Interop.allocateNativeString(actionName).handle(), parameter.handle(), platformData.handle());
+        try {
+            g_remote_action_group_activate_action_full.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), parameter.handle(), platformData.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_remote_action_group_change_action_state_full = Interop.downcallHandle(
+        "g_remote_action_group_change_action_state_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Changes the state of a remote action.
@@ -57,7 +70,11 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      * {@code G_VARIANT_TYPE_VARDICT}.  If it is floating, it will be consumed.
      */
     public default void changeActionStateFull(java.lang.String actionName, org.gtk.glib.Variant value, org.gtk.glib.Variant platformData) {
-        gtk_h.g_remote_action_group_change_action_state_full(handle(), Interop.allocateNativeString(actionName).handle(), value.handle(), platformData.handle());
+        try {
+            g_remote_action_group_change_action_state_full.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), value.handle(), platformData.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class RemoteActionGroupImpl extends org.gtk.gobject.Object implements RemoteActionGroup {

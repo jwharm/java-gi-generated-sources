@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -120,9 +119,18 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
         return new GLArea(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_gl_area_new = Interop.downcallHandle(
+        "gtk_gl_area_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gl_area_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gl_area_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -131,6 +139,11 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
     public GLArea() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_gl_area_attach_buffers = Interop.downcallHandle(
+        "gtk_gl_area_attach_buffers",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Binds buffers to the framebuffer.
@@ -144,48 +157,102 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * called by application code.
      */
     public void attachBuffers() {
-        gtk_h.gtk_gl_area_attach_buffers(handle());
+        try {
+            gtk_gl_area_attach_buffers.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_get_auto_render = Interop.downcallHandle(
+        "gtk_gl_area_get_auto_render",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the area is in auto render mode or not.
      */
     public boolean getAutoRender() {
-        var RESULT = gtk_h.gtk_gl_area_get_auto_render(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gl_area_get_auto_render.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_get_context = Interop.downcallHandle(
+        "gtk_gl_area_get_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code GdkGLContext} used by {@code area}.
      */
     public org.gtk.gdk.GLContext getContext() {
-        var RESULT = gtk_h.gtk_gl_area_get_context(handle());
-        return new org.gtk.gdk.GLContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_gl_area_get_context.invokeExact(handle());
+            return new org.gtk.gdk.GLContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_get_error = Interop.downcallHandle(
+        "gtk_gl_area_get_error",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current error set on the {@code area}.
      */
     public org.gtk.glib.Error getError() {
-        var RESULT = gtk_h.gtk_gl_area_get_error(handle());
-        return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_gl_area_get_error.invokeExact(handle());
+            return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_get_has_depth_buffer = Interop.downcallHandle(
+        "gtk_gl_area_get_has_depth_buffer",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the area has a depth buffer.
      */
     public boolean getHasDepthBuffer() {
-        var RESULT = gtk_h.gtk_gl_area_get_has_depth_buffer(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gl_area_get_has_depth_buffer.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_get_has_stencil_buffer = Interop.downcallHandle(
+        "gtk_gl_area_get_has_stencil_buffer",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the area has a stencil buffer.
      */
     public boolean getHasStencilBuffer() {
-        var RESULT = gtk_h.gtk_gl_area_get_has_stencil_buffer(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gl_area_get_has_stencil_buffer.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_get_required_version = Interop.downcallHandle(
+        "gtk_gl_area_get_required_version",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the required version of OpenGL.
@@ -193,8 +260,17 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * See {@link GLArea#setRequiredVersion}.
      */
     public void getRequiredVersion(PointerInteger major, PointerInteger minor) {
-        gtk_h.gtk_gl_area_get_required_version(handle(), major.handle(), minor.handle());
+        try {
+            gtk_gl_area_get_required_version.invokeExact(handle(), major.handle(), minor.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_get_use_es = Interop.downcallHandle(
+        "gtk_gl_area_get_use_es",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the {@code GtkGLArea} should use OpenGL ES.
@@ -202,9 +278,18 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * See {@link GLArea#setUseEs}.
      */
     public boolean getUseEs() {
-        var RESULT = gtk_h.gtk_gl_area_get_use_es(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gl_area_get_use_es.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_make_current = Interop.downcallHandle(
+        "gtk_gl_area_make_current",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Ensures that the {@code GdkGLContext} used by {@code area} is associated with
@@ -215,8 +300,17 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * to be called by application code.
      */
     public void makeCurrent() {
-        gtk_h.gtk_gl_area_make_current(handle());
+        try {
+            gtk_gl_area_make_current.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_queue_render = Interop.downcallHandle(
+        "gtk_gl_area_queue_render",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Marks the currently rendered data (if any) as invalid, and queues
@@ -230,8 +324,17 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * emit {@code Gtk.GLArea::render} on each draw.
      */
     public void queueRender() {
-        gtk_h.gtk_gl_area_queue_render(handle());
+        try {
+            gtk_gl_area_queue_render.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_set_auto_render = Interop.downcallHandle(
+        "gtk_gl_area_set_auto_render",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GtkGLArea} is in auto render mode.
@@ -247,8 +350,17 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * useful when the scene changes seldom, but takes a long time to redraw.
      */
     public void setAutoRender(boolean autoRender) {
-        gtk_h.gtk_gl_area_set_auto_render(handle(), autoRender ? 1 : 0);
+        try {
+            gtk_gl_area_set_auto_render.invokeExact(handle(), autoRender ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_set_error = Interop.downcallHandle(
+        "gtk_gl_area_set_error",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets an error on the area which will be shown instead of the
@@ -258,8 +370,17 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * signal if GL context creation fails.
      */
     public void setError(org.gtk.glib.Error error) {
-        gtk_h.gtk_gl_area_set_error(handle(), error.handle());
+        try {
+            gtk_gl_area_set_error.invokeExact(handle(), error.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_set_has_depth_buffer = Interop.downcallHandle(
+        "gtk_gl_area_set_has_depth_buffer",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GtkGLArea} should use a depth buffer.
@@ -269,8 +390,17 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * there will be none.
      */
     public void setHasDepthBuffer(boolean hasDepthBuffer) {
-        gtk_h.gtk_gl_area_set_has_depth_buffer(handle(), hasDepthBuffer ? 1 : 0);
+        try {
+            gtk_gl_area_set_has_depth_buffer.invokeExact(handle(), hasDepthBuffer ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_set_has_stencil_buffer = Interop.downcallHandle(
+        "gtk_gl_area_set_has_stencil_buffer",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GtkGLArea} should use a stencil buffer.
@@ -280,8 +410,17 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * there will be none.
      */
     public void setHasStencilBuffer(boolean hasStencilBuffer) {
-        gtk_h.gtk_gl_area_set_has_stencil_buffer(handle(), hasStencilBuffer ? 1 : 0);
+        try {
+            gtk_gl_area_set_has_stencil_buffer.invokeExact(handle(), hasStencilBuffer ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_set_required_version = Interop.downcallHandle(
+        "gtk_gl_area_set_required_version",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the required version of OpenGL to be used when creating
@@ -290,8 +429,17 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * This function must be called before the area has been realized.
      */
     public void setRequiredVersion(int major, int minor) {
-        gtk_h.gtk_gl_area_set_required_version(handle(), major, minor);
+        try {
+            gtk_gl_area_set_required_version.invokeExact(handle(), major, minor);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gl_area_set_use_es = Interop.downcallHandle(
+        "gtk_gl_area_set_use_es",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code area} should create an OpenGL or an OpenGL ES context.
@@ -300,7 +448,11 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * with either API.
      */
     public void setUseEs(boolean useEs) {
-        gtk_h.gtk_gl_area_set_use_es(handle(), useEs ? 1 : 0);
+        try {
+            gtk_gl_area_set_use_es.invokeExact(handle(), useEs ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -321,19 +473,19 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onCreateContext(CreateContextHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("create-context").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaCreateContext",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -350,19 +502,19 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onRender(RenderHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("render").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaRender",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -386,19 +538,19 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onResize(ResizeHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("resize").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaResize",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

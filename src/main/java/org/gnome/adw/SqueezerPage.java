@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,27 +18,54 @@ public class SqueezerPage extends org.gtk.gobject.Object {
         return new SqueezerPage(gobject.refcounted());
     }
     
+    static final MethodHandle adw_squeezer_page_get_child = Interop.downcallHandle(
+        "adw_squeezer_page_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the squeezer child to which {@code self} belongs.
      */
     public org.gtk.gtk.Widget getChild() {
-        var RESULT = gtk_h.adw_squeezer_page_get_child(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_squeezer_page_get_child.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_page_get_enabled = Interop.downcallHandle(
+        "adw_squeezer_page_get_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} is enabled.
      */
     public boolean getEnabled() {
-        var RESULT = gtk_h.adw_squeezer_page_get_enabled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_squeezer_page_get_enabled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_page_set_enabled = Interop.downcallHandle(
+        "adw_squeezer_page_set_enabled",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} is enabled.
      */
     public void setEnabled(boolean enabled) {
-        gtk_h.adw_squeezer_page_set_enabled(handle(), enabled ? 1 : 0);
+        try {
+            adw_squeezer_page_set_enabled.invokeExact(handle(), enabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

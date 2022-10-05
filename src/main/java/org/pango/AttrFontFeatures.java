@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,10 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public AttrFontFeatures() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFontFeatures.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
+        "pango_attr_font_features_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new font features tag attribute.
@@ -26,8 +26,12 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
      * alternative glyphs, ligatures, etc. for fonts that support them.
      */
     public static Attribute new_(java.lang.String features) {
-        var RESULT = gtk_h.pango_attr_font_features_new(Interop.allocateNativeString(features).handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_font_features_new.invokeExact(Interop.allocateNativeString(features).handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

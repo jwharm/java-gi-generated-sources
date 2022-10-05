@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,12 +18,21 @@ public class ButtonEvent extends Event {
         return new ButtonEvent(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_button_event_get_button = Interop.downcallHandle(
+        "gdk_button_event_get_button",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Extract the button number from a button event.
      */
     public int getButton() {
-        var RESULT = gtk_h.gdk_button_event_get_button(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_button_event_get_button.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

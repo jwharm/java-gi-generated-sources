@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,9 +29,18 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
         return new WindowHandle(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_window_handle_new = Interop.downcallHandle(
+        "gtk_window_handle_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_window_handle_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_window_handle_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -42,19 +50,37 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
         super(constructNew());
     }
     
+    static final MethodHandle gtk_window_handle_get_child = Interop.downcallHandle(
+        "gtk_window_handle_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the child widget of {@code self}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_window_handle_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_handle_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_handle_set_child = Interop.downcallHandle(
+        "gtk_window_handle_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code self}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_window_handle_set_child(handle(), child.handle());
+        try {
+            gtk_window_handle_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

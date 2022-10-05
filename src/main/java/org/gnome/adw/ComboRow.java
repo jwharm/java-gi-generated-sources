@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -45,9 +44,18 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
         return new ComboRow(gobject.refcounted());
     }
     
+    static final MethodHandle adw_combo_row_new = Interop.downcallHandle(
+        "adw_combo_row_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_combo_row_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_combo_row_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -57,61 +65,129 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
         super(constructNew());
     }
     
+    static final MethodHandle adw_combo_row_get_expression = Interop.downcallHandle(
+        "adw_combo_row_get_expression",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the expression used to obtain strings from items.
      */
     public org.gtk.gtk.Expression getExpression() {
-        var RESULT = gtk_h.adw_combo_row_get_expression(handle());
-        return new org.gtk.gtk.Expression(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_combo_row_get_expression.invokeExact(handle());
+            return new org.gtk.gtk.Expression(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_get_factory = Interop.downcallHandle(
+        "adw_combo_row_get_factory",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the factory that's currently used to populate list items.
      */
     public org.gtk.gtk.ListItemFactory getFactory() {
-        var RESULT = gtk_h.adw_combo_row_get_factory(handle());
-        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_combo_row_get_factory.invokeExact(handle());
+            return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_get_list_factory = Interop.downcallHandle(
+        "adw_combo_row_get_list_factory",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the factory that's currently used to populate list items in the popup.
      */
     public org.gtk.gtk.ListItemFactory getListFactory() {
-        var RESULT = gtk_h.adw_combo_row_get_list_factory(handle());
-        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_combo_row_get_list_factory.invokeExact(handle());
+            return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_get_model = Interop.downcallHandle(
+        "adw_combo_row_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the model that provides the displayed items.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = gtk_h.adw_combo_row_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_combo_row_get_model.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_get_selected = Interop.downcallHandle(
+        "adw_combo_row_get_selected",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the position of the selected item.
      */
     public int getSelected() {
-        var RESULT = gtk_h.adw_combo_row_get_selected(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_combo_row_get_selected.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_get_selected_item = Interop.downcallHandle(
+        "adw_combo_row_get_selected_item",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the selected item.
      */
     public org.gtk.gobject.Object getSelectedItem() {
-        var RESULT = gtk_h.adw_combo_row_get_selected_item(handle());
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_combo_row_get_selected_item.invokeExact(handle());
+            return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_get_use_subtitle = Interop.downcallHandle(
+        "adw_combo_row_get_use_subtitle",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether to use the current value as the subtitle.
      */
     public boolean getUseSubtitle() {
-        var RESULT = gtk_h.adw_combo_row_get_use_subtitle(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_combo_row_get_use_subtitle.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_set_expression = Interop.downcallHandle(
+        "adw_combo_row_set_expression",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the expression used to obtain strings from items.
@@ -119,42 +195,91 @@ public class ComboRow extends ActionRow implements org.gtk.gtk.Accessible, org.g
      * The expression must have a value type of {@code G_TYPE_STRING}.
      */
     public void setExpression(org.gtk.gtk.Expression expression) {
-        gtk_h.adw_combo_row_set_expression(handle(), expression.handle());
+        try {
+            adw_combo_row_set_expression.invokeExact(handle(), expression.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_set_factory = Interop.downcallHandle(
+        "adw_combo_row_set_factory",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkListItemFactory} to use for populating list items.
      */
     public void setFactory(org.gtk.gtk.ListItemFactory factory) {
-        gtk_h.adw_combo_row_set_factory(handle(), factory.handle());
+        try {
+            adw_combo_row_set_factory.invokeExact(handle(), factory.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_set_list_factory = Interop.downcallHandle(
+        "adw_combo_row_set_list_factory",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkListItemFactory} to use for populating list items in the popup.
      */
     public void setListFactory(org.gtk.gtk.ListItemFactory factory) {
-        gtk_h.adw_combo_row_set_list_factory(handle(), factory.handle());
+        try {
+            adw_combo_row_set_list_factory.invokeExact(handle(), factory.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_set_model = Interop.downcallHandle(
+        "adw_combo_row_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code Gio.ListModel} to use.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        gtk_h.adw_combo_row_set_model(handle(), model.handle());
+        try {
+            adw_combo_row_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_set_selected = Interop.downcallHandle(
+        "adw_combo_row_set_selected",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Selects the item at the given position.
      */
     public void setSelected(int position) {
-        gtk_h.adw_combo_row_set_selected(handle(), position);
+        try {
+            adw_combo_row_set_selected.invokeExact(handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_combo_row_set_use_subtitle = Interop.downcallHandle(
+        "adw_combo_row_set_use_subtitle",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to use the current value as the subtitle.
      */
     public void setUseSubtitle(boolean useSubtitle) {
-        gtk_h.adw_combo_row_set_use_subtitle(handle(), useSubtitle ? 1 : 0);
+        try {
+            adw_combo_row_set_use_subtitle.invokeExact(handle(), useSubtitle ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

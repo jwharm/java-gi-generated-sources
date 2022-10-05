@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,9 +29,18 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         return new Bin(gobject.refcounted());
     }
     
+    static final MethodHandle adw_bin_new = Interop.downcallHandle(
+        "adw_bin_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_bin_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_bin_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -42,19 +50,37 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         super(constructNew());
     }
     
+    static final MethodHandle adw_bin_get_child = Interop.downcallHandle(
+        "adw_bin_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the child widget of {@code self}.
      */
     public org.gtk.gtk.Widget getChild() {
-        var RESULT = gtk_h.adw_bin_get_child(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_bin_get_child.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_bin_set_child = Interop.downcallHandle(
+        "adw_bin_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code self}.
      */
     public void setChild(org.gtk.gtk.Widget child) {
-        gtk_h.adw_bin_set_child(handle(), child.handle());
+        try {
+            adw_bin_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -51,9 +50,18 @@ public class Cursor extends org.gtk.gobject.Object {
         return new Cursor(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_cursor_new_from_name = Interop.downcallHandle(
+        "gdk_cursor_new_from_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromName(java.lang.String name, Cursor fallback) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).handle(), fallback.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_cursor_new_from_name.invokeExact(Interop.allocateNativeString(name).handle(), fallback.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -79,9 +87,18 @@ public class Cursor extends org.gtk.gobject.Object {
         return new Cursor(constructNewFromName(name, fallback));
     }
     
+    static final MethodHandle gdk_cursor_new_from_texture = Interop.downcallHandle(
+        "gdk_cursor_new_from_texture",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromTexture(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_cursor_new_from_texture(texture.handle(), hotspotX, hotspotY, fallback.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_cursor_new_from_texture.invokeExact(texture.handle(), hotspotX, hotspotY, fallback.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -90,6 +107,11 @@ public class Cursor extends org.gtk.gobject.Object {
     public static Cursor newFromTexture(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
         return new Cursor(constructNewFromTexture(texture, hotspotX, hotspotY, fallback));
     }
+    
+    static final MethodHandle gdk_cursor_get_fallback = Interop.downcallHandle(
+        "gdk_cursor_get_fallback",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the fallback for this {@code cursor}.
@@ -101,9 +123,18 @@ public class Cursor extends org.gtk.gobject.Object {
      * it is used on does not support textured cursors.
      */
     public Cursor getFallback() {
-        var RESULT = gtk_h.gdk_cursor_get_fallback(handle());
-        return new Cursor(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_cursor_get_fallback.invokeExact(handle());
+            return new Cursor(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_cursor_get_hotspot_x = Interop.downcallHandle(
+        "gdk_cursor_get_hotspot_x",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the horizontal offset of the hotspot.
@@ -115,9 +146,18 @@ public class Cursor extends org.gtk.gobject.Object {
      * {@link Cursor#newFromTexture}.
      */
     public int getHotspotX() {
-        var RESULT = gtk_h.gdk_cursor_get_hotspot_x(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_cursor_get_hotspot_x.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_cursor_get_hotspot_y = Interop.downcallHandle(
+        "gdk_cursor_get_hotspot_y",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the vertical offset of the hotspot.
@@ -129,9 +169,18 @@ public class Cursor extends org.gtk.gobject.Object {
      * {@link Cursor#newFromTexture}.
      */
     public int getHotspotY() {
-        var RESULT = gtk_h.gdk_cursor_get_hotspot_y(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_cursor_get_hotspot_y.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_cursor_get_name = Interop.downcallHandle(
+        "gdk_cursor_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the name of the cursor.
@@ -139,9 +188,18 @@ public class Cursor extends org.gtk.gobject.Object {
      * If the cursor is not a named cursor, {@code null} will be returned.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.gdk_cursor_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gdk_cursor_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_cursor_get_texture = Interop.downcallHandle(
+        "gdk_cursor_get_texture",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the texture for the cursor.
@@ -149,8 +207,12 @@ public class Cursor extends org.gtk.gobject.Object {
      * If the cursor is a named cursor, {@code null} will be returned.
      */
     public Texture getTexture() {
-        var RESULT = gtk_h.gdk_cursor_get_texture(handle());
-        return new Texture(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_cursor_get_texture.invokeExact(handle());
+            return new Texture(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

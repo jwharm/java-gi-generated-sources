@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,12 +18,21 @@ public class TouchEvent extends Event {
         return new TouchEvent(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_touch_event_get_emulating_pointer = Interop.downcallHandle(
+        "gdk_touch_event_get_emulating_pointer",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Extracts whether a touch event is emulating a pointer event.
      */
     public boolean getEmulatingPointer() {
-        var RESULT = gtk_h.gdk_touch_event_get_emulating_pointer(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_touch_event_get_emulating_pointer.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

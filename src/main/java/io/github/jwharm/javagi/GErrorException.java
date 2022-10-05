@@ -2,32 +2,29 @@ package io.github.jwharm.javagi;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
-import io.github.jwharm.javagi.interop.jextract.GError;
-
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_POINTER;
 
 public class GErrorException extends Exception {
 
     private final int code, domain;
 
     private static MemorySegment dereference(MemorySegment pointer) {
-        return GError.ofAddress(pointer.get(C_POINTER, 0), Interop.getScope());
+        return null; // GError.ofAddress(pointer.get(C_POINTER, 0), Interop.getScope());
     }
 
     private static String getMessage(MemorySegment pointer) {
-        return GError.message$get(dereference(pointer)).getUtf8String(0);
+        return ""; // GError.message$get(dereference(pointer)).getUtf8String(0);
     }
 
     private int getCode(MemorySegment pointer) {
-        return GError.code$get(dereference(pointer));
+        return 0; // GError.code$get(dereference(pointer));
     }
 
     private int getDomain(MemorySegment pointer) {
-        return GError.domain$get(dereference(pointer));
+        return 0; // GError.domain$get(dereference(pointer));
     }
 
     private void freeMemory(MemorySegment pointer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_free(dereference(pointer));
+        // io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_free(dereference(pointer));
     }
 
     /**
@@ -59,8 +56,8 @@ public class GErrorException extends Exception {
      * @return true when an error was set on this pointer
      */
     public static boolean isErrorSet(MemorySegment gerrorPtr) {
-        MemoryAddress gerror = gerrorPtr.get(C_POINTER, 0);
-        return (! gerror.equals(MemoryAddress.NULL));
+        return false; // MemoryAddress gerror = gerrorPtr.get(C_POINTER, 0);
+        // return (! gerror.equals(MemoryAddress.NULL));
     }
 
     /**

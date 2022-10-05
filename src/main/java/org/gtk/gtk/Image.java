@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -57,9 +56,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_image_new = Interop.downcallHandle(
+        "gtk_image_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_image_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -69,9 +77,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         super(constructNew());
     }
     
+    static final MethodHandle gtk_image_new_from_file = Interop.downcallHandle(
+        "gtk_image_new_from_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromFile(java.lang.String filename) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_file(Interop.allocateNativeString(filename).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_image_new_from_file.invokeExact(Interop.allocateNativeString(filename).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -93,9 +110,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromFile(filename));
     }
     
+    static final MethodHandle gtk_image_new_from_gicon = Interop.downcallHandle(
+        "gtk_image_new_from_gicon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromGicon(org.gtk.gio.Icon icon) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_gicon(icon.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_image_new_from_gicon.invokeExact(icon.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -109,9 +135,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromGicon(icon));
     }
     
+    static final MethodHandle gtk_image_new_from_icon_name = Interop.downcallHandle(
+        "gtk_image_new_from_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromIconName(java.lang.String iconName) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_image_new_from_icon_name.invokeExact(Interop.allocateNativeString(iconName).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -125,9 +160,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromIconName(iconName));
     }
     
+    static final MethodHandle gtk_image_new_from_paintable = Interop.downcallHandle(
+        "gtk_image_new_from_paintable",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromPaintable(org.gtk.gdk.Paintable paintable) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_paintable(paintable.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_image_new_from_paintable.invokeExact(paintable.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -144,9 +188,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromPaintable(paintable));
     }
     
+    static final MethodHandle gtk_image_new_from_pixbuf = Interop.downcallHandle(
+        "gtk_image_new_from_pixbuf",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_pixbuf(pixbuf.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_image_new_from_pixbuf.invokeExact(pixbuf.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -167,9 +220,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromPixbuf(pixbuf));
     }
     
+    static final MethodHandle gtk_image_new_from_resource = Interop.downcallHandle(
+        "gtk_image_new_from_resource",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromResource(java.lang.String resourcePath) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_image_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_image_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -191,12 +253,26 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(constructNewFromResource(resourcePath));
     }
     
+    static final MethodHandle gtk_image_clear = Interop.downcallHandle(
+        "gtk_image_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Resets the image to be empty.
      */
     public void clear() {
-        gtk_h.gtk_image_clear(handle());
+        try {
+            gtk_image_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_get_gicon = Interop.downcallHandle(
+        "gtk_image_get_gicon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GIcon} being displayed by the {@code GtkImage}.
@@ -207,9 +283,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * returned {@code GIcon}.
      */
     public org.gtk.gio.Icon getGicon() {
-        var RESULT = gtk_h.gtk_image_get_gicon(handle());
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_image_get_gicon.invokeExact(handle());
+            return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_get_icon_name = Interop.downcallHandle(
+        "gtk_image_get_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the icon name and size being displayed by the {@code GtkImage}.
@@ -220,17 +305,35 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * be freed.
      */
     public java.lang.String getIconName() {
-        var RESULT = gtk_h.gtk_image_get_icon_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_image_get_icon_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_get_icon_size = Interop.downcallHandle(
+        "gtk_image_get_icon_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the icon size used by the {@code image} when rendering icons.
      */
     public IconSize getIconSize() {
-        var RESULT = gtk_h.gtk_image_get_icon_size(handle());
-        return new IconSize(RESULT);
+        try {
+            var RESULT = (int) gtk_image_get_icon_size.invokeExact(handle());
+            return new IconSize(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_get_paintable = Interop.downcallHandle(
+        "gtk_image_get_paintable",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the image {@code GdkPaintable} being displayed by the {@code GtkImage}.
@@ -241,17 +344,35 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * returned paintable.
      */
     public org.gtk.gdk.Paintable getPaintable() {
-        var RESULT = gtk_h.gtk_image_get_paintable(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_image_get_paintable.invokeExact(handle());
+            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_get_pixel_size = Interop.downcallHandle(
+        "gtk_image_get_pixel_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the pixel size used for named icons.
      */
     public int getPixelSize() {
-        var RESULT = gtk_h.gtk_image_get_pixel_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_image_get_pixel_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_get_storage_type = Interop.downcallHandle(
+        "gtk_image_get_storage_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the type of representation being used by the {@code GtkImage}
@@ -261,9 +382,18 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * be {@link ImageType#EMPTY}.
      */
     public ImageType getStorageType() {
-        var RESULT = gtk_h.gtk_image_get_storage_type(handle());
-        return new ImageType(RESULT);
+        try {
+            var RESULT = (int) gtk_image_get_storage_type.invokeExact(handle());
+            return new ImageType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_set_from_file = Interop.downcallHandle(
+        "gtk_image_set_from_file",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@code GtkImage} to show a file.
@@ -271,8 +401,17 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Image#newFromFile} for details.
      */
     public void setFromFile(java.lang.String filename) {
-        gtk_h.gtk_image_set_from_file(handle(), Interop.allocateNativeString(filename).handle());
+        try {
+            gtk_image_set_from_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_set_from_gicon = Interop.downcallHandle(
+        "gtk_image_set_from_gicon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@code GtkImage} to show a {@code GIcon}.
@@ -280,8 +419,17 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Image#newFromGicon} for details.
      */
     public void setFromGicon(org.gtk.gio.Icon icon) {
-        gtk_h.gtk_image_set_from_gicon(handle(), icon.handle());
+        try {
+            gtk_image_set_from_gicon.invokeExact(handle(), icon.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_set_from_icon_name = Interop.downcallHandle(
+        "gtk_image_set_from_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@code GtkImage} to show a named icon.
@@ -289,8 +437,17 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Image#newFromIconName} for details.
      */
     public void setFromIconName(java.lang.String iconName) {
-        gtk_h.gtk_image_set_from_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
+        try {
+            gtk_image_set_from_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_set_from_paintable = Interop.downcallHandle(
+        "gtk_image_set_from_paintable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@code GtkImage} to show a {@code GdkPaintable}.
@@ -298,8 +455,17 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Image#newFromPaintable} for details.
      */
     public void setFromPaintable(org.gtk.gdk.Paintable paintable) {
-        gtk_h.gtk_image_set_from_paintable(handle(), paintable.handle());
+        try {
+            gtk_image_set_from_paintable.invokeExact(handle(), paintable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_set_from_pixbuf = Interop.downcallHandle(
+        "gtk_image_set_from_pixbuf",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@code GtkImage} to show a {@code GdkPixbuf}.
@@ -311,8 +477,17 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * only a paintable.
      */
     public void setFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        gtk_h.gtk_image_set_from_pixbuf(handle(), pixbuf.handle());
+        try {
+            gtk_image_set_from_pixbuf.invokeExact(handle(), pixbuf.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_set_from_resource = Interop.downcallHandle(
+        "gtk_image_set_from_resource",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@code GtkImage} to show a resource.
@@ -320,15 +495,33 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Image#newFromResource} for details.
      */
     public void setFromResource(java.lang.String resourcePath) {
-        gtk_h.gtk_image_set_from_resource(handle(), Interop.allocateNativeString(resourcePath).handle());
+        try {
+            gtk_image_set_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_set_icon_size = Interop.downcallHandle(
+        "gtk_image_set_icon_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Suggests an icon size to the theme for named icons.
      */
     public void setIconSize(IconSize iconSize) {
-        gtk_h.gtk_image_set_icon_size(handle(), iconSize.getValue());
+        try {
+            gtk_image_set_icon_size.invokeExact(handle(), iconSize.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_image_set_pixel_size = Interop.downcallHandle(
+        "gtk_image_set_pixel_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the pixel size to use for named icons.
@@ -337,7 +530,11 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * of the icon size set by {@link Image#setFromIconName}.
      */
     public void setPixelSize(int pixelSize) {
-        gtk_h.gtk_image_set_pixel_size(handle(), pixelSize);
+        try {
+            gtk_image_set_pixel_size.invokeExact(handle(), pixelSize);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

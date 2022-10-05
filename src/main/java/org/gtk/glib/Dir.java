@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,12 +13,26 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_dir_close = Interop.downcallHandle(
+        "g_dir_close",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Closes the directory and deallocates all related resources.
      */
     public void close() {
-        gtk_h.g_dir_close(handle());
+        try {
+            g_dir_close.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dir_read_name = Interop.downcallHandle(
+        "g_dir_read_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the name of another entry in the directory, or {@code null}.
@@ -37,17 +50,35 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      * filenames, the returned name is in UTF-8.
      */
     public java.lang.String readName() {
-        var RESULT = gtk_h.g_dir_read_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dir_read_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dir_rewind = Interop.downcallHandle(
+        "g_dir_rewind",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Resets the given directory. The next call to g_dir_read_name()
      * will return the first entry again.
      */
     public void rewind() {
-        gtk_h.g_dir_rewind(handle());
+        try {
+            g_dir_rewind.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
+        "g_dir_make_tmp",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a subdirectory in the preferred directory for temporary
@@ -64,12 +95,21 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      */
     public static java.lang.String makeTmp(java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dir_make_tmp(Interop.allocateNativeString(tmpl).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_dir_open = Interop.downcallHandle(
+        "g_dir_open",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Opens a directory for reading. The names of the files in the
@@ -78,11 +118,15 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Dir open(java.lang.String path, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dir_open(Interop.allocateNativeString(path).handle(), flags, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_dir_open.invokeExact(Interop.allocateNativeString(path).handle(), flags, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Dir(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Dir(Refcounted.get(RESULT, false));
     }
     
 }

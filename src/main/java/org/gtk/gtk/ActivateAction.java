@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,6 +18,11 @@ public class ActivateAction extends ShortcutAction {
         return new ActivateAction(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_activate_action_get = Interop.downcallHandle(
+        "gtk_activate_action_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the activate action.
      * <p>
@@ -26,8 +30,12 @@ public class ActivateAction extends ShortcutAction {
      * on the given widget upon activation.
      */
     public static ActivateAction get() {
-        var RESULT = gtk_h.gtk_activate_action_get();
-        return new ActivateAction(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_activate_action_get.invokeExact();
+            return new ActivateAction(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

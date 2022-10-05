@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -33,9 +32,18 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
         return new Spinner(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_spinner_new = Interop.downcallHandle(
+        "gtk_spinner_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_spinner_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_spinner_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -45,33 +53,69 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
         super(constructNew());
     }
     
+    static final MethodHandle gtk_spinner_get_spinning = Interop.downcallHandle(
+        "gtk_spinner_get_spinning",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether the spinner is spinning.
      */
     public boolean getSpinning() {
-        var RESULT = gtk_h.gtk_spinner_get_spinning(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_spinner_get_spinning.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spinner_set_spinning = Interop.downcallHandle(
+        "gtk_spinner_set_spinning",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the activity of the spinner.
      */
     public void setSpinning(boolean spinning) {
-        gtk_h.gtk_spinner_set_spinning(handle(), spinning ? 1 : 0);
+        try {
+            gtk_spinner_set_spinning.invokeExact(handle(), spinning ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spinner_start = Interop.downcallHandle(
+        "gtk_spinner_start",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Starts the animation of the spinner.
      */
     public void start() {
-        gtk_h.gtk_spinner_start(handle());
+        try {
+            gtk_spinner_start.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spinner_stop = Interop.downcallHandle(
+        "gtk_spinner_stop",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stops the animation of the spinner.
      */
     public void stop() {
-        gtk_h.gtk_spinner_stop(handle());
+        try {
+            gtk_spinner_stop.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

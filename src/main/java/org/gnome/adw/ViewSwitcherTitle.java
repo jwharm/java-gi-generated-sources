@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -78,9 +77,18 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
         return new ViewSwitcherTitle(gobject.refcounted());
     }
     
+    static final MethodHandle adw_view_switcher_title_new = Interop.downcallHandle(
+        "adw_view_switcher_title_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_view_switcher_title_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_view_switcher_title_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -90,72 +98,153 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
         super(constructNew());
     }
     
+    static final MethodHandle adw_view_switcher_title_get_stack = Interop.downcallHandle(
+        "adw_view_switcher_title_get_stack",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the stack controlled by {@code self}.
      */
     public ViewStack getStack() {
-        var RESULT = gtk_h.adw_view_switcher_title_get_stack(handle());
-        return new ViewStack(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_view_switcher_title_get_stack.invokeExact(handle());
+            return new ViewStack(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_title_get_subtitle = Interop.downcallHandle(
+        "adw_view_switcher_title_get_subtitle",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the subtitle of {@code self}.
      */
     public java.lang.String getSubtitle() {
-        var RESULT = gtk_h.adw_view_switcher_title_get_subtitle(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_view_switcher_title_get_subtitle.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_title_get_title = Interop.downcallHandle(
+        "adw_view_switcher_title_get_title",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the title of {@code self}.
      */
     public java.lang.String getTitle() {
-        var RESULT = gtk_h.adw_view_switcher_title_get_title(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_view_switcher_title_get_title.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_title_get_title_visible = Interop.downcallHandle(
+        "adw_view_switcher_title_get_title_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the title of {@code self} is currently visible.
      */
     public boolean getTitleVisible() {
-        var RESULT = gtk_h.adw_view_switcher_title_get_title_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_view_switcher_title_get_title_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_title_get_view_switcher_enabled = Interop.downcallHandle(
+        "adw_view_switcher_title_get_view_switcher_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self}'s view switcher is enabled.
      */
     public boolean getViewSwitcherEnabled() {
-        var RESULT = gtk_h.adw_view_switcher_title_get_view_switcher_enabled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_view_switcher_title_get_view_switcher_enabled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_title_set_stack = Interop.downcallHandle(
+        "adw_view_switcher_title_set_stack",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the stack controlled by {@code self}.
      */
     public void setStack(ViewStack stack) {
-        gtk_h.adw_view_switcher_title_set_stack(handle(), stack.handle());
+        try {
+            adw_view_switcher_title_set_stack.invokeExact(handle(), stack.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_title_set_subtitle = Interop.downcallHandle(
+        "adw_view_switcher_title_set_subtitle",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the subtitle of {@code self}.
      */
     public void setSubtitle(java.lang.String subtitle) {
-        gtk_h.adw_view_switcher_title_set_subtitle(handle(), Interop.allocateNativeString(subtitle).handle());
+        try {
+            adw_view_switcher_title_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_title_set_title = Interop.downcallHandle(
+        "adw_view_switcher_title_set_title",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the title of {@code self}.
      */
     public void setTitle(java.lang.String title) {
-        gtk_h.adw_view_switcher_title_set_title(handle(), Interop.allocateNativeString(title).handle());
+        try {
+            adw_view_switcher_title_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_title_set_view_switcher_enabled = Interop.downcallHandle(
+        "adw_view_switcher_title_set_view_switcher_enabled",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self}'s view switcher is enabled.
      */
     public void setViewSwitcherEnabled(boolean enabled) {
-        gtk_h.adw_view_switcher_title_set_view_switcher_enabled(handle(), enabled ? 1 : 0);
+        try {
+            adw_view_switcher_title_set_view_switcher_enabled.invokeExact(handle(), enabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

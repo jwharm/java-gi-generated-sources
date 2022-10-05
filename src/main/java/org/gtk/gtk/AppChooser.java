@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -28,28 +27,55 @@ import java.lang.invoke.*;
  */
 public interface AppChooser extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_app_chooser_get_app_info = Interop.downcallHandle(
+        "gtk_app_chooser_get_app_info",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the currently selected application.
      */
     public default org.gtk.gio.AppInfo getAppInfo() {
-        var RESULT = gtk_h.gtk_app_chooser_get_app_info(handle());
-        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_app_chooser_get_app_info.invokeExact(handle());
+            return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_get_content_type = Interop.downcallHandle(
+        "gtk_app_chooser_get_content_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the content type for which the {@code GtkAppChooser}
      * shows applications.
      */
     public default java.lang.String getContentType() {
-        var RESULT = gtk_h.gtk_app_chooser_get_content_type(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_app_chooser_get_content_type.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_refresh = Interop.downcallHandle(
+        "gtk_app_chooser_refresh",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Reloads the list of applications.
      */
     public default void refresh() {
-        gtk_h.gtk_app_chooser_refresh(handle());
+        try {
+            gtk_app_chooser_refresh.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class AppChooserImpl extends org.gtk.gobject.Object implements AppChooser {

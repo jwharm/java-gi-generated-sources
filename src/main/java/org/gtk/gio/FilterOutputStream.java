@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,28 +21,55 @@ public class FilterOutputStream extends OutputStream {
         return new FilterOutputStream(gobject.refcounted());
     }
     
+    static final MethodHandle g_filter_output_stream_get_base_stream = Interop.downcallHandle(
+        "g_filter_output_stream_get_base_stream",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the base stream for the filter stream.
      */
     public OutputStream getBaseStream() {
-        var RESULT = gtk_h.g_filter_output_stream_get_base_stream(handle());
-        return new OutputStream(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_filter_output_stream_get_base_stream.invokeExact(handle());
+            return new OutputStream(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_filter_output_stream_get_close_base_stream = Interop.downcallHandle(
+        "g_filter_output_stream_get_close_base_stream",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the base stream will be closed when {@code stream} is
      * closed.
      */
     public boolean getCloseBaseStream() {
-        var RESULT = gtk_h.g_filter_output_stream_get_close_base_stream(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_filter_output_stream_get_close_base_stream.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_filter_output_stream_set_close_base_stream = Interop.downcallHandle(
+        "g_filter_output_stream_set_close_base_stream",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the base stream will be closed when {@code stream} is closed.
      */
     public void setCloseBaseStream(boolean closeBase) {
-        gtk_h.g_filter_output_stream_set_close_base_stream(handle(), closeBase ? 1 : 0);
+        try {
+            g_filter_output_stream_set_close_base_stream.invokeExact(handle(), closeBase ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

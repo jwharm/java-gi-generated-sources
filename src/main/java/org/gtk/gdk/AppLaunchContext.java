@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,13 +36,27 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         return new AppLaunchContext(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_app_launch_context_get_display = Interop.downcallHandle(
+        "gdk_app_launch_context_get_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the {@code GdkDisplay} that {@code context} is for.
      */
     public Display getDisplay() {
-        var RESULT = gtk_h.gdk_app_launch_context_get_display(handle());
-        return new Display(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_app_launch_context_get_display.invokeExact(handle());
+            return new Display(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_app_launch_context_set_desktop = Interop.downcallHandle(
+        "gdk_app_launch_context_set_desktop",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the workspace on which applications will be launched.
@@ -61,8 +74,17 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * be the current workspace.
      */
     public void setDesktop(int desktop) {
-        gtk_h.gdk_app_launch_context_set_desktop(handle(), desktop);
+        try {
+            gdk_app_launch_context_set_desktop.invokeExact(handle(), desktop);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_app_launch_context_set_icon = Interop.downcallHandle(
+        "gdk_app_launch_context_set_icon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon for applications that are launched with this
@@ -74,8 +96,17 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * See also {@link AppLaunchContext#setIconName}.
      */
     public void setIcon(org.gtk.gio.Icon icon) {
-        gtk_h.gdk_app_launch_context_set_icon(handle(), icon.handle());
+        try {
+            gdk_app_launch_context_set_icon.invokeExact(handle(), icon.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_app_launch_context_set_icon_name = Interop.downcallHandle(
+        "gdk_app_launch_context_set_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon for applications that are launched with this context.
@@ -89,8 +120,17 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * for the launched application itself.
      */
     public void setIconName(java.lang.String iconName) {
-        gtk_h.gdk_app_launch_context_set_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
+        try {
+            gdk_app_launch_context_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_app_launch_context_set_timestamp = Interop.downcallHandle(
+        "gdk_app_launch_context_set_timestamp",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the timestamp of {@code context}.
@@ -104,7 +144,11 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * prevention'.
      */
     public void setTimestamp(int timestamp) {
-        gtk_h.gdk_app_launch_context_set_timestamp(handle(), timestamp);
+        try {
+            gdk_app_launch_context_set_timestamp.invokeExact(handle(), timestamp);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

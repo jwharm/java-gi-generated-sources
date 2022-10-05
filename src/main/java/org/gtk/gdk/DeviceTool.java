@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,13 +18,27 @@ public class DeviceTool extends org.gtk.gobject.Object {
         return new DeviceTool(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_device_tool_get_axes = Interop.downcallHandle(
+        "gdk_device_tool_get_axes",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the axes of the tool.
      */
     public AxisFlags getAxes() {
-        var RESULT = gtk_h.gdk_device_tool_get_axes(handle());
-        return new AxisFlags(RESULT);
+        try {
+            var RESULT = (int) gdk_device_tool_get_axes.invokeExact(handle());
+            return new AxisFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_device_tool_get_hardware_id = Interop.downcallHandle(
+        "gdk_device_tool_get_hardware_id",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the hardware ID of this tool, or 0 if it's not known.
@@ -41,9 +54,18 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * {@code GdkDeviceToolType}, but different hardware identificators.
      */
     public long getHardwareId() {
-        var RESULT = gtk_h.gdk_device_tool_get_hardware_id(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gdk_device_tool_get_hardware_id.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_device_tool_get_serial = Interop.downcallHandle(
+        "gdk_device_tool_get_serial",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the serial number of this tool.
@@ -52,16 +74,29 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * (eg. a tablet pen) across program executions.
      */
     public long getSerial() {
-        var RESULT = gtk_h.gdk_device_tool_get_serial(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gdk_device_tool_get_serial.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_device_tool_get_tool_type = Interop.downcallHandle(
+        "gdk_device_tool_get_tool_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GdkDeviceToolType} of the tool.
      */
     public DeviceToolType getToolType() {
-        var RESULT = gtk_h.gdk_device_tool_get_tool_type(handle());
-        return new DeviceToolType(RESULT);
+        try {
+            var RESULT = (int) gdk_device_tool_get_tool_type.invokeExact(handle());
+            return new DeviceToolType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

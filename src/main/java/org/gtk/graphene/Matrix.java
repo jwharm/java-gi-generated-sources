@@ -1,6 +1,5 @@
 package org.gtk.graphene;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,9 +16,18 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle graphene_matrix_alloc = Interop.downcallHandle(
+        "graphene_matrix_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructAlloc() {
-        Refcounted RESULT = Refcounted.get(gtk_h.graphene_matrix_alloc(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) graphene_matrix_alloc.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -28,6 +36,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     public static Matrix alloc() {
         return new Matrix(constructAlloc());
     }
+    
+    static final MethodHandle graphene_matrix_decompose = Interop.downcallHandle(
+        "graphene_matrix_decompose",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Decomposes a transformation matrix into its component transformations.
@@ -39,25 +52,52 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * <a href="http://tog.acm.org/resources/GraphicsGems/gemsii/unmatrix.c">available online</a>.
      */
     public boolean decompose(Vec3 translate, Vec3 scale, Quaternion rotate, Vec3 shear, Vec4 perspective) {
-        var RESULT = gtk_h.graphene_matrix_decompose(handle(), translate.handle(), scale.handle(), rotate.handle(), shear.handle(), perspective.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_decompose.invokeExact(handle(), translate.handle(), scale.handle(), rotate.handle(), shear.handle(), perspective.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_determinant = Interop.downcallHandle(
+        "graphene_matrix_determinant",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the determinant of the given matrix.
      */
     public float determinant() {
-        var RESULT = gtk_h.graphene_matrix_determinant(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_matrix_determinant.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_equal = Interop.downcallHandle(
+        "graphene_matrix_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the two given {@link Matrix} matrices are equal.
      */
     public boolean equal(Matrix b) {
-        var RESULT = gtk_h.graphene_matrix_equal(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_equal.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_equal_fast = Interop.downcallHandle(
+        "graphene_matrix_equal_fast",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the two given {@link Matrix} matrices are
@@ -85,79 +125,169 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public boolean equalFast(Matrix b) {
-        var RESULT = gtk_h.graphene_matrix_equal_fast(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_equal_fast.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_free = Interop.downcallHandle(
+        "graphene_matrix_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the resources allocated by graphene_matrix_alloc().
      */
     public void free() {
-        gtk_h.graphene_matrix_free(handle());
+        try {
+            graphene_matrix_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_get_row = Interop.downcallHandle(
+        "graphene_matrix_get_row",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the given row vector at {@code index_} inside a matrix.
      */
     public void getRow(int index, Vec4 res) {
-        gtk_h.graphene_matrix_get_row(handle(), index, res.handle());
+        try {
+            graphene_matrix_get_row.invokeExact(handle(), index, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_get_value = Interop.downcallHandle(
+        "graphene_matrix_get_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the value at the given {@code row} and {@code col} index.
      */
     public float getValue(int row, int col) {
-        var RESULT = gtk_h.graphene_matrix_get_value(handle(), row, col);
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_matrix_get_value.invokeExact(handle(), row, col);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_get_x_scale = Interop.downcallHandle(
+        "graphene_matrix_get_x_scale",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the scaling factor on the X axis in @m.
      */
     public float getXScale() {
-        var RESULT = gtk_h.graphene_matrix_get_x_scale(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_matrix_get_x_scale.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_get_x_translation = Interop.downcallHandle(
+        "graphene_matrix_get_x_translation",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the translation component on the X axis from @m.
      */
     public float getXTranslation() {
-        var RESULT = gtk_h.graphene_matrix_get_x_translation(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_matrix_get_x_translation.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_get_y_scale = Interop.downcallHandle(
+        "graphene_matrix_get_y_scale",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the scaling factor on the Y axis in @m.
      */
     public float getYScale() {
-        var RESULT = gtk_h.graphene_matrix_get_y_scale(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_matrix_get_y_scale.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_get_y_translation = Interop.downcallHandle(
+        "graphene_matrix_get_y_translation",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the translation component on the Y axis from @m.
      */
     public float getYTranslation() {
-        var RESULT = gtk_h.graphene_matrix_get_y_translation(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_matrix_get_y_translation.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_get_z_scale = Interop.downcallHandle(
+        "graphene_matrix_get_z_scale",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the scaling factor on the Z axis in @m.
      */
     public float getZScale() {
-        var RESULT = gtk_h.graphene_matrix_get_z_scale(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_matrix_get_z_scale.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_get_z_translation = Interop.downcallHandle(
+        "graphene_matrix_get_z_translation",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the translation component on the Z axis from @m.
      */
     public float getZTranslation() {
-        var RESULT = gtk_h.graphene_matrix_get_z_translation(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_matrix_get_z_translation.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_from_2d = Interop.downcallHandle(
+        "graphene_matrix_init_from_2d",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Initializes a {@link Matrix} from the values of an affine
@@ -175,36 +305,72 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * from other libraries and a {@link Matrix}.
      */
     public Matrix initFrom2d(double xx, double yx, double xy, double yy, double x0, double y0) {
-        var RESULT = gtk_h.graphene_matrix_init_from_2d(handle(), xx, yx, xy, yy, x0, y0);
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_from_2d.invokeExact(handle(), xx, yx, xy, yy, x0, y0);
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_from_float = Interop.downcallHandle(
+        "graphene_matrix_init_from_float",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link Matrix} with the given array of floating
      * point values.
      */
     public Matrix initFromFloat(float[] v) {
-        var RESULT = gtk_h.graphene_matrix_init_from_float(handle(), Interop.allocateNativeArray(v).handle());
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(v).handle());
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_from_matrix = Interop.downcallHandle(
+        "graphene_matrix_init_from_matrix",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link Matrix} using the values of the
      * given matrix.
      */
     public Matrix initFromMatrix(Matrix src) {
-        var RESULT = gtk_h.graphene_matrix_init_from_matrix(handle(), src.handle());
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_from_matrix.invokeExact(handle(), src.handle());
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_from_vec4 = Interop.downcallHandle(
+        "graphene_matrix_init_from_vec4",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link Matrix} with the given four row
      * vectors.
      */
     public Matrix initFromVec4(Vec4 v0, Vec4 v1, Vec4 v2, Vec4 v3) {
-        var RESULT = gtk_h.graphene_matrix_init_from_vec4(handle(), v0.handle(), v1.handle(), v2.handle(), v3.handle());
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_from_vec4.invokeExact(handle(), v0.handle(), v1.handle(), v2.handle(), v3.handle());
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_frustum = Interop.downcallHandle(
+        "graphene_matrix_init_frustum",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Initializes a {@link Matrix} compatible with {@link Frustum}.
@@ -212,17 +378,35 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_frustum_init_from_matrix()
      */
     public Matrix initFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-        var RESULT = gtk_h.graphene_matrix_init_frustum(handle(), left, right, bottom, top, zNear, zFar);
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_frustum.invokeExact(handle(), left, right, bottom, top, zNear, zFar);
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_identity = Interop.downcallHandle(
+        "graphene_matrix_init_identity",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link Matrix} with the identity matrix.
      */
     public Matrix initIdentity() {
-        var RESULT = gtk_h.graphene_matrix_init_identity(handle());
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_identity.invokeExact(handle());
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_look_at = Interop.downcallHandle(
+        "graphene_matrix_init_look_at",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link Matrix} so that it positions the "camera"
@@ -243,60 +427,123 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * coordinates.
      */
     public Matrix initLookAt(Vec3 eye, Vec3 center, Vec3 up) {
-        var RESULT = gtk_h.graphene_matrix_init_look_at(handle(), eye.handle(), center.handle(), up.handle());
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_look_at.invokeExact(handle(), eye.handle(), center.handle(), up.handle());
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_ortho = Interop.downcallHandle(
+        "graphene_matrix_init_ortho",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Initializes a {@link Matrix} with an orthographic projection.
      */
     public Matrix initOrtho(float left, float right, float top, float bottom, float zNear, float zFar) {
-        var RESULT = gtk_h.graphene_matrix_init_ortho(handle(), left, right, top, bottom, zNear, zFar);
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_ortho.invokeExact(handle(), left, right, top, bottom, zNear, zFar);
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_perspective = Interop.downcallHandle(
+        "graphene_matrix_init_perspective",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Initializes a {@link Matrix} with a perspective projection.
      */
     public Matrix initPerspective(float fovy, float aspect, float zNear, float zFar) {
-        var RESULT = gtk_h.graphene_matrix_init_perspective(handle(), fovy, aspect, zNear, zFar);
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_perspective.invokeExact(handle(), fovy, aspect, zNear, zFar);
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_rotate = Interop.downcallHandle(
+        "graphene_matrix_init_rotate",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes @m to represent a rotation of {@code angle} degrees on
      * the axis represented by the {@code axis} vector.
      */
     public Matrix initRotate(float angle, Vec3 axis) {
-        var RESULT = gtk_h.graphene_matrix_init_rotate(handle(), angle, axis.handle());
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_rotate.invokeExact(handle(), angle, axis.handle());
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_scale = Interop.downcallHandle(
+        "graphene_matrix_init_scale",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Initializes a {@link Matrix} with the given scaling factors.
      */
     public Matrix initScale(float x, float y, float z) {
-        var RESULT = gtk_h.graphene_matrix_init_scale(handle(), x, y, z);
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_scale.invokeExact(handle(), x, y, z);
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_skew = Interop.downcallHandle(
+        "graphene_matrix_init_skew",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Initializes a {@link Matrix} with a skew transformation
      * with the given factors.
      */
     public Matrix initSkew(float xSkew, float ySkew) {
-        var RESULT = gtk_h.graphene_matrix_init_skew(handle(), xSkew, ySkew);
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_skew.invokeExact(handle(), xSkew, ySkew);
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_init_translate = Interop.downcallHandle(
+        "graphene_matrix_init_translate",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link Matrix} with a translation to the
      * given coordinates.
      */
     public Matrix initTranslate(Point3D p) {
-        var RESULT = gtk_h.graphene_matrix_init_translate(handle(), p.handle());
-        return new Matrix(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_matrix_init_translate.invokeExact(handle(), p.handle());
+            return new Matrix(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_interpolate = Interop.downcallHandle(
+        "graphene_matrix_interpolate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Linearly interpolates the two given {@link Matrix} by
@@ -307,49 +554,103 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * will return an identity matrix.
      */
     public void interpolate(Matrix b, double factor, Matrix res) {
-        gtk_h.graphene_matrix_interpolate(handle(), b.handle(), factor, res.handle());
+        try {
+            graphene_matrix_interpolate.invokeExact(handle(), b.handle(), factor, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_inverse = Interop.downcallHandle(
+        "graphene_matrix_inverse",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inverts the given matrix.
      */
     public boolean inverse(Matrix res) {
-        var RESULT = gtk_h.graphene_matrix_inverse(handle(), res.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_inverse.invokeExact(handle(), res.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_is_2d = Interop.downcallHandle(
+        "graphene_matrix_is_2d",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the given {@link Matrix} is compatible with an
      * a 2D affine transformation matrix.
      */
     public boolean is2d() {
-        var RESULT = gtk_h.graphene_matrix_is_2d(handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_is_2d.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_is_backface_visible = Interop.downcallHandle(
+        "graphene_matrix_is_backface_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether a {@link Matrix} has a visible back face.
      */
     public boolean isBackfaceVisible() {
-        var RESULT = gtk_h.graphene_matrix_is_backface_visible(handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_is_backface_visible.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_is_identity = Interop.downcallHandle(
+        "graphene_matrix_is_identity",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the given {@link Matrix} is the identity matrix.
      */
     public boolean isIdentity() {
-        var RESULT = gtk_h.graphene_matrix_is_identity(handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_is_identity.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_is_singular = Interop.downcallHandle(
+        "graphene_matrix_is_singular",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether a matrix is singular.
      */
     public boolean isSingular() {
-        var RESULT = gtk_h.graphene_matrix_is_singular(handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_is_singular.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_multiply = Interop.downcallHandle(
+        "graphene_matrix_multiply",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Multiplies two {@link Matrix}.
@@ -358,8 +659,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * The product of this multiplication is (@a × @b)
      */
     public void multiply(Matrix b, Matrix res) {
-        gtk_h.graphene_matrix_multiply(handle(), b.handle(), res.handle());
+        try {
+            graphene_matrix_multiply.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_near = Interop.downcallHandle(
+        "graphene_matrix_near",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Compares the two given {@link Matrix} matrices and checks
@@ -367,23 +677,50 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * other.
      */
     public boolean near(Matrix b, float epsilon) {
-        var RESULT = gtk_h.graphene_matrix_near(handle(), b.handle(), epsilon);
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_near.invokeExact(handle(), b.handle(), epsilon);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_normalize = Interop.downcallHandle(
+        "graphene_matrix_normalize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Normalizes the given {@link Matrix}.
      */
     public void normalize(Matrix res) {
-        gtk_h.graphene_matrix_normalize(handle(), res.handle());
+        try {
+            graphene_matrix_normalize.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_perspective = Interop.downcallHandle(
+        "graphene_matrix_perspective",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Applies a perspective of {@code depth} to the matrix.
      */
     public void perspective(float depth, Matrix res) {
-        gtk_h.graphene_matrix_perspective(handle(), depth, res.handle());
+        try {
+            graphene_matrix_perspective.invokeExact(handle(), depth, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_print = Interop.downcallHandle(
+        "graphene_matrix_print",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Prints the contents of a matrix to the standard error stream.
@@ -392,15 +729,33 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * made on the format of the output.
      */
     public void print() {
-        gtk_h.graphene_matrix_print(handle());
+        try {
+            graphene_matrix_print.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_project_point = Interop.downcallHandle(
+        "graphene_matrix_project_point",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Projects a {@link Point} using the matrix @m.
      */
     public void projectPoint(Point p, Point res) {
-        gtk_h.graphene_matrix_project_point(handle(), p.handle(), res.handle());
+        try {
+            graphene_matrix_project_point.invokeExact(handle(), p.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_project_rect = Interop.downcallHandle(
+        "graphene_matrix_project_rect",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Projects all corners of a {@link Rect} using the given matrix.
@@ -408,8 +763,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_matrix_project_point()
      */
     public void projectRect(Rect r, Quad res) {
-        gtk_h.graphene_matrix_project_rect(handle(), r.handle(), res.handle());
+        try {
+            graphene_matrix_project_rect.invokeExact(handle(), r.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_project_rect_bounds = Interop.downcallHandle(
+        "graphene_matrix_project_rect_bounds",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Projects a {@link Rect} using the given matrix.
@@ -418,8 +782,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * of fully containing the projected rectangle.
      */
     public void projectRectBounds(Rect r, Rect res) {
-        gtk_h.graphene_matrix_project_rect_bounds(handle(), r.handle(), res.handle());
+        try {
+            graphene_matrix_project_rect_bounds.invokeExact(handle(), r.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_rotate = Interop.downcallHandle(
+        "graphene_matrix_rotate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a rotation transformation to @m, using the given {@code angle}
@@ -429,16 +802,34 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * then multiplying the matrix @m with the rotation matrix.
      */
     public void rotate(float angle, Vec3 axis) {
-        gtk_h.graphene_matrix_rotate(handle(), angle, axis.handle());
+        try {
+            graphene_matrix_rotate.invokeExact(handle(), angle, axis.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_rotate_euler = Interop.downcallHandle(
+        "graphene_matrix_rotate_euler",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a rotation transformation to @m, using the given
      * {@link Euler}.
      */
     public void rotateEuler(Euler e) {
-        gtk_h.graphene_matrix_rotate_euler(handle(), e.handle());
+        try {
+            graphene_matrix_rotate_euler.invokeExact(handle(), e.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_rotate_quaternion = Interop.downcallHandle(
+        "graphene_matrix_rotate_quaternion",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a rotation transformation to @m, using the given
@@ -448,8 +839,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * then multiplying @m with the rotation matrix.
      */
     public void rotateQuaternion(Quaternion q) {
-        gtk_h.graphene_matrix_rotate_quaternion(handle(), q.handle());
+        try {
+            graphene_matrix_rotate_quaternion.invokeExact(handle(), q.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_rotate_x = Interop.downcallHandle(
+        "graphene_matrix_rotate_x",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Adds a rotation transformation around the X axis to @m, using
@@ -458,8 +858,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_matrix_rotate()
      */
     public void rotateX(float angle) {
-        gtk_h.graphene_matrix_rotate_x(handle(), angle);
+        try {
+            graphene_matrix_rotate_x.invokeExact(handle(), angle);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_rotate_y = Interop.downcallHandle(
+        "graphene_matrix_rotate_y",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Adds a rotation transformation around the Y axis to @m, using
@@ -468,8 +877,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_matrix_rotate()
      */
     public void rotateY(float angle) {
-        gtk_h.graphene_matrix_rotate_y(handle(), angle);
+        try {
+            graphene_matrix_rotate_y.invokeExact(handle(), angle);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_rotate_z = Interop.downcallHandle(
+        "graphene_matrix_rotate_z",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Adds a rotation transformation around the Z axis to @m, using
@@ -478,8 +896,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_matrix_rotate()
      */
     public void rotateZ(float angle) {
-        gtk_h.graphene_matrix_rotate_z(handle(), angle);
+        try {
+            graphene_matrix_rotate_z.invokeExact(handle(), angle);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_scale = Interop.downcallHandle(
+        "graphene_matrix_scale",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Adds a scaling transformation to @m, using the three
@@ -489,29 +916,65 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * multiplying the matrix @m with the scale matrix.
      */
     public void scale(float factorX, float factorY, float factorZ) {
-        gtk_h.graphene_matrix_scale(handle(), factorX, factorY, factorZ);
+        try {
+            graphene_matrix_scale.invokeExact(handle(), factorX, factorY, factorZ);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_skew_xy = Interop.downcallHandle(
+        "graphene_matrix_skew_xy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Adds a skew of {@code factor} on the X and Y axis to the given matrix.
      */
     public void skewXy(float factor) {
-        gtk_h.graphene_matrix_skew_xy(handle(), factor);
+        try {
+            graphene_matrix_skew_xy.invokeExact(handle(), factor);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_skew_xz = Interop.downcallHandle(
+        "graphene_matrix_skew_xz",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Adds a skew of {@code factor} on the X and Z axis to the given matrix.
      */
     public void skewXz(float factor) {
-        gtk_h.graphene_matrix_skew_xz(handle(), factor);
+        try {
+            graphene_matrix_skew_xz.invokeExact(handle(), factor);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_skew_yz = Interop.downcallHandle(
+        "graphene_matrix_skew_yz",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Adds a skew of {@code factor} on the Y and Z axis to the given matrix.
      */
     public void skewYz(float factor) {
-        gtk_h.graphene_matrix_skew_yz(handle(), factor);
+        try {
+            graphene_matrix_skew_yz.invokeExact(handle(), factor);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_to_2d = Interop.downcallHandle(
+        "graphene_matrix_to_2d",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a {@link Matrix} to an affine transformation
@@ -529,17 +992,35 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * and an affine matrix type from other libraries.
      */
     public boolean to2d(PointerDouble xx, PointerDouble yx, PointerDouble xy, PointerDouble yy, PointerDouble x0, PointerDouble y0) {
-        var RESULT = gtk_h.graphene_matrix_to_2d(handle(), xx.handle(), yx.handle(), xy.handle(), yy.handle(), x0.handle(), y0.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_to_2d.invokeExact(handle(), xx.handle(), yx.handle(), xy.handle(), yy.handle(), x0.handle(), y0.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_to_float = Interop.downcallHandle(
+        "graphene_matrix_to_float",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a {@link Matrix} to an array of floating point
      * values.
      */
     public void toFloat(float[] v) {
-        gtk_h.graphene_matrix_to_float(handle(), Interop.allocateNativeArray(v).handle());
+        try {
+            graphene_matrix_to_float.invokeExact(handle(), Interop.allocateNativeArray(v).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_bounds = Interop.downcallHandle(
+        "graphene_matrix_transform_bounds",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms each corner of a {@link Rect} using the given matrix @m.
@@ -550,8 +1031,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_matrix_transform_point()
      */
     public void transformBounds(Rect r, Rect res) {
-        gtk_h.graphene_matrix_transform_bounds(handle(), r.handle(), res.handle());
+        try {
+            graphene_matrix_transform_bounds.invokeExact(handle(), r.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_box = Interop.downcallHandle(
+        "graphene_matrix_transform_box",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms the vertices of a {@link Box} using the given matrix @m.
@@ -560,8 +1050,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * vertices.
      */
     public void transformBox(Box b, Box res) {
-        gtk_h.graphene_matrix_transform_box(handle(), b.handle(), res.handle());
+        try {
+            graphene_matrix_transform_box.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_point = Interop.downcallHandle(
+        "graphene_matrix_transform_point",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms the given {@link Point} using the matrix @m.
@@ -573,8 +1072,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_simd4x4f_point3_mul()
      */
     public void transformPoint(Point p, Point res) {
-        gtk_h.graphene_matrix_transform_point(handle(), p.handle(), res.handle());
+        try {
+            graphene_matrix_transform_point.invokeExact(handle(), p.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_point3d = Interop.downcallHandle(
+        "graphene_matrix_transform_point3d",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms the given {@link Point3D} using the matrix @m.
@@ -586,15 +1094,33 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_simd4x4f_point3_mul()
      */
     public void transformPoint3d(Point3D p, Point3D res) {
-        gtk_h.graphene_matrix_transform_point3d(handle(), p.handle(), res.handle());
+        try {
+            graphene_matrix_transform_point3d.invokeExact(handle(), p.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_ray = Interop.downcallHandle(
+        "graphene_matrix_transform_ray",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transform a {@link Ray} using the given matrix @m.
      */
     public void transformRay(Ray r, Ray res) {
-        gtk_h.graphene_matrix_transform_ray(handle(), r.handle(), res.handle());
+        try {
+            graphene_matrix_transform_ray.invokeExact(handle(), r.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_rect = Interop.downcallHandle(
+        "graphene_matrix_transform_rect",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms each corner of a {@link Rect} using the given matrix @m.
@@ -604,16 +1130,34 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_matrix_transform_point()
      */
     public void transformRect(Rect r, Quad res) {
-        gtk_h.graphene_matrix_transform_rect(handle(), r.handle(), res.handle());
+        try {
+            graphene_matrix_transform_rect.invokeExact(handle(), r.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_sphere = Interop.downcallHandle(
+        "graphene_matrix_transform_sphere",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms a {@link Sphere} using the given matrix @m. The
      * result is the bounding sphere containing the transformed sphere.
      */
     public void transformSphere(Sphere s, Sphere res) {
-        gtk_h.graphene_matrix_transform_sphere(handle(), s.handle(), res.handle());
+        try {
+            graphene_matrix_transform_sphere.invokeExact(handle(), s.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_vec3 = Interop.downcallHandle(
+        "graphene_matrix_transform_vec3",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms the given {@link Vec3} using the matrix @m.
@@ -625,8 +1169,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_simd4x4f_vec3_mul()
      */
     public void transformVec3(Vec3 v, Vec3 res) {
-        gtk_h.graphene_matrix_transform_vec3(handle(), v.handle(), res.handle());
+        try {
+            graphene_matrix_transform_vec3.invokeExact(handle(), v.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transform_vec4 = Interop.downcallHandle(
+        "graphene_matrix_transform_vec4",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms the given {@link Vec4} using the matrix @m.
@@ -634,8 +1187,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_simd4x4f_vec4_mul()
      */
     public void transformVec4(Vec4 v, Vec4 res) {
-        gtk_h.graphene_matrix_transform_vec4(handle(), v.handle(), res.handle());
+        try {
+            graphene_matrix_transform_vec4.invokeExact(handle(), v.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_translate = Interop.downcallHandle(
+        "graphene_matrix_translate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a translation transformation to @m using the coordinates
@@ -645,39 +1207,79 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * then multiplying @m with the translation matrix.
      */
     public void translate(Point3D pos) {
-        gtk_h.graphene_matrix_translate(handle(), pos.handle());
+        try {
+            graphene_matrix_translate.invokeExact(handle(), pos.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_transpose = Interop.downcallHandle(
+        "graphene_matrix_transpose",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transposes the given matrix.
      */
     public void transpose(Matrix res) {
-        gtk_h.graphene_matrix_transpose(handle(), res.handle());
+        try {
+            graphene_matrix_transpose.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_unproject_point3d = Interop.downcallHandle(
+        "graphene_matrix_unproject_point3d",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unprojects the given {@code point} using the {@code projection} matrix and
      * a {@code modelview} matrix.
      */
     public void unprojectPoint3d(Matrix modelview, Point3D point, Point3D res) {
-        gtk_h.graphene_matrix_unproject_point3d(handle(), modelview.handle(), point.handle(), res.handle());
+        try {
+            graphene_matrix_unproject_point3d.invokeExact(handle(), modelview.handle(), point.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_untransform_bounds = Interop.downcallHandle(
+        "graphene_matrix_untransform_bounds",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Undoes the transformation on the corners of a {@link Rect} using the
      * given matrix, within the given axis aligned rectangular {@code bounds}.
      */
     public void untransformBounds(Rect r, Rect bounds, Rect res) {
-        gtk_h.graphene_matrix_untransform_bounds(handle(), r.handle(), bounds.handle(), res.handle());
+        try {
+            graphene_matrix_untransform_bounds.invokeExact(handle(), r.handle(), bounds.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_matrix_untransform_point = Interop.downcallHandle(
+        "graphene_matrix_untransform_point",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Undoes the transformation of a {@link Point} using the
      * given matrix, within the given axis aligned rectangular {@code bounds}.
      */
     public boolean untransformPoint(Point p, Rect bounds, Point res) {
-        var RESULT = gtk_h.graphene_matrix_untransform_point(handle(), p.handle(), bounds.handle(), res.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_matrix_untransform_point.invokeExact(handle(), p.handle(), bounds.handle(), res.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gobject;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -62,9 +61,18 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_closure_new_object = Interop.downcallHandle(
+        "g_closure_new_object",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewObject(int sizeofClosure, Object object) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_closure_new_object(sizeofClosure, object.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_closure_new_object.invokeExact(sizeofClosure, object.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -77,9 +85,18 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         return new Closure(constructNewObject(sizeofClosure, object));
     }
     
+    static final MethodHandle g_closure_new_simple = Interop.downcallHandle(
+        "g_closure_new_simple",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewSimple(int sizeofClosure, java.lang.foreign.MemoryAddress data) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_closure_new_simple.invokeExact(sizeofClosure, data), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -125,6 +142,11 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         return new Closure(constructNewSimple(sizeofClosure, data));
     }
     
+    static final MethodHandle g_closure_add_finalize_notifier = Interop.downcallHandle(
+        "g_closure_add_finalize_notifier",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Registers a finalization notifier which will be called when the
      * reference count of {@code closure} goes down to 0.
@@ -136,17 +158,22 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addFinalizeNotifier(ClosureNotify notifyFunc) {
         try {
-            gtk_h.g_closure_add_finalize_notifier(handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
-                    Linker.nativeLinker().upcallStub(
+            g_closure_add_finalize_notifier.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_closure_add_invalidate_notifier = Interop.downcallHandle(
+        "g_closure_add_invalidate_notifier",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Registers an invalidation notifier which will be called when the
@@ -157,17 +184,22 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addInvalidateNotifier(ClosureNotify notifyFunc) {
         try {
-            gtk_h.g_closure_add_invalidate_notifier(handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
-                    Linker.nativeLinker().upcallStub(
+            g_closure_add_invalidate_notifier.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_closure_add_marshal_guards = Interop.downcallHandle(
+        "g_closure_add_marshal_guards",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a pair of notifiers which get invoked before and after the
@@ -179,23 +211,28 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addMarshalGuards(ClosureNotify preMarshalNotify, ClosureNotify postMarshalNotify) {
         try {
-            gtk_h.g_closure_add_marshal_guards(handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
-                    Linker.nativeLinker().upcallStub(
+            g_closure_add_marshal_guards.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
-                    Linker.nativeLinker().upcallStub(
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_closure_invalidate = Interop.downcallHandle(
+        "g_closure_invalidate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a flag on the closure to indicate that its calling
@@ -215,24 +252,51 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * been invalidated before).
      */
     public void invalidate() {
-        gtk_h.g_closure_invalidate(handle());
+        try {
+            g_closure_invalidate.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_closure_invoke = Interop.downcallHandle(
+        "g_closure_invoke",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Invokes the closure, i.e. executes the callback represented by the {@code closure}.
      */
     public void invoke(Value returnValue, int nParamValues, Value[] paramValues, java.lang.foreign.MemoryAddress invocationHint) {
-        gtk_h.g_closure_invoke(handle(), returnValue.handle(), nParamValues, Interop.allocateNativeArray(paramValues).handle(), invocationHint);
+        try {
+            g_closure_invoke.invokeExact(handle(), returnValue.handle(), nParamValues, Interop.allocateNativeArray(paramValues).handle(), invocationHint);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_closure_ref = Interop.downcallHandle(
+        "g_closure_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increments the reference count on a closure to force it staying
      * alive while the caller holds a pointer to it.
      */
     public Closure ref() {
-        var RESULT = gtk_h.g_closure_ref(handle());
-        return new Closure(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_closure_ref.invokeExact(handle());
+            return new Closure(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_closure_remove_finalize_notifier = Interop.downcallHandle(
+        "g_closure_remove_finalize_notifier",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a finalization notifier.
@@ -241,17 +305,22 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void removeFinalizeNotifier(ClosureNotify notifyFunc) {
         try {
-            gtk_h.g_closure_remove_finalize_notifier(handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
-                    Linker.nativeLinker().upcallStub(
+            g_closure_remove_finalize_notifier.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_closure_remove_invalidate_notifier = Interop.downcallHandle(
+        "g_closure_remove_invalidate_notifier",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes an invalidation notifier.
@@ -260,17 +329,22 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void removeInvalidateNotifier(ClosureNotify notifyFunc) {
         try {
-            gtk_h.g_closure_remove_invalidate_notifier(handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
-                    Linker.nativeLinker().upcallStub(
+            g_closure_remove_invalidate_notifier.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_closure_set_meta_marshal = Interop.downcallHandle(
+        "g_closure_set_meta_marshal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the meta marshaller of {@code closure}.
@@ -293,17 +367,22 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setMetaMarshal(ClosureMarshal metaMarshal) {
         try {
-            gtk_h.g_closure_set_meta_marshal(handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(metaMarshal.hashCode(), metaMarshal)), 
-                    Linker.nativeLinker().upcallStub(
+            g_closure_set_meta_marshal.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(metaMarshal.hashCode(), metaMarshal)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_closure_sink = Interop.downcallHandle(
+        "g_closure_sink",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Takes over the initial ownership of a closure.
@@ -355,8 +434,17 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * g_closure_ref() should be called prior to this function.
      */
     public void sink() {
-        gtk_h.g_closure_sink(handle());
+        try {
+            g_closure_sink.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_closure_unref = Interop.downcallHandle(
+        "g_closure_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrements the reference count of a closure after it was previously
@@ -366,7 +454,11 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * destroyed and freed.
      */
     public void unref() {
-        gtk_h.g_closure_unref(handle());
+        try {
+            g_closure_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

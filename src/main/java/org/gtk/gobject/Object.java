@@ -1,6 +1,5 @@
 package org.gtk.gobject;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,9 +29,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         return new Object(gobject.refcounted());
     }
     
+    static final MethodHandle g_object_new_valist = Interop.downcallHandle(
+        "g_object_new_valist",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewValist(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_object_new_valist.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -45,9 +53,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         return new Object(constructNewValist(objectType, firstPropertyName, varArgs));
     }
     
+    static final MethodHandle g_object_new_with_properties = Interop.downcallHandle(
+        "g_object_new_with_properties",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithProperties(org.gtk.gobject.Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_object_new_with_properties.invokeExact(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -62,9 +79,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         return new Object(constructNewWithProperties(objectType, nProperties, names, values));
     }
     
+    static final MethodHandle g_object_newv = Interop.downcallHandle(
+        "g_object_newv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewv(org.gtk.gobject.Type objectType, int nParameters, Parameter[] parameters) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_object_newv(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_object_newv.invokeExact(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -76,6 +102,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public static Object newv(org.gtk.gobject.Type objectType, int nParameters, Parameter[] parameters) {
         return new Object(constructNewv(objectType, nParameters, parameters));
     }
+    
+    static final MethodHandle g_object_add_toggle_ref = Interop.downcallHandle(
+        "g_object_add_toggle_ref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of the object by one and sets a
@@ -109,17 +140,22 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public void addToggleRef(ToggleNotify notify) {
         try {
-            gtk_h.g_object_add_toggle_ref(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_object_add_toggle_ref.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_object_add_weak_pointer = Interop.downcallHandle(
+        "g_object_add_weak_pointer",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a weak reference from weak_pointer to {@code object} to indicate that
@@ -133,8 +169,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * thread. Use {@link WeakRef} if thread-safety is required.
      */
     public void addWeakPointer(java.lang.foreign.MemoryAddress weakPointerLocation) {
-        gtk_h.g_object_add_weak_pointer(handle(), weakPointerLocation);
+        try {
+            g_object_add_weak_pointer.invokeExact(handle(), weakPointerLocation);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_bind_property = Interop.downcallHandle(
+        "g_object_bind_property",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a binding between {@code source_property} on {@code source} and {@code target_property}
@@ -170,9 +215,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * A {@link Object} can have multiple bindings.
      */
     public Binding bindProperty(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags) {
-        var RESULT = gtk_h.g_object_bind_property(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue());
-        return new Binding(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_object_bind_property.invokeExact(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue());
+            return new Binding(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_bind_property_full = Interop.downcallHandle(
+        "g_object_bind_property_full",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Complete version of g_object_bind_property().
@@ -203,24 +257,29 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public Binding bindPropertyFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
         try {
-            var RESULT = gtk_h.g_object_bind_property_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_object_bind_property_full.invokeExact(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Linker.nativeLinker().upcallStub(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(transformTo.hashCode(), transformTo)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(transformTo.hashCode(), transformTo)), 
                     Interop.cbDestroyNotifySymbol());
             return new Binding(Refcounted.get(RESULT, false));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_object_bind_property_with_closures = Interop.downcallHandle(
+        "g_object_bind_property_with_closures",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a binding between {@code source_property} on {@code source} and {@code target_property}
@@ -232,9 +291,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * function pointers.
      */
     public Binding bindPropertyWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, Closure transformTo, Closure transformFrom) {
-        var RESULT = gtk_h.g_object_bind_property_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), transformTo.handle(), transformFrom.handle());
-        return new Binding(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_object_bind_property_with_closures.invokeExact(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), transformTo.handle(), transformFrom.handle());
+            return new Binding(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_dup_data = Interop.downcallHandle(
+        "g_object_dup_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This is a variant of g_object_get_data() which returns
@@ -254,18 +322,23 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public java.lang.foreign.MemoryAddress dupData(java.lang.String key, org.gtk.glib.DuplicateFunc dupFunc) {
         try {
-            var RESULT = gtk_h.g_object_dup_data(handle(), Interop.allocateNativeString(key).handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_object_dup_data.invokeExact(handle(), Interop.allocateNativeString(key).handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_object_dup_qdata = Interop.downcallHandle(
+        "g_object_dup_qdata",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This is a variant of g_object_get_qdata() which returns
@@ -285,18 +358,23 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public java.lang.foreign.MemoryAddress dupQdata(org.gtk.glib.Quark quark, org.gtk.glib.DuplicateFunc dupFunc) {
         try {
-            var RESULT = gtk_h.g_object_dup_qdata(handle(), quark.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_object_dup_qdata.invokeExact(handle(), quark.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_object_force_floating = Interop.downcallHandle(
+        "g_object_force_floating",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * This function is intended for {@link Object} implementations to re-enforce
@@ -305,8 +383,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * which usually just needs to be sunken by calling g_object_ref_sink().
      */
     public void forceFloating() {
-        gtk_h.g_object_force_floating(handle());
+        try {
+            g_object_force_floating.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_freeze_notify = Interop.downcallHandle(
+        "g_object_freeze_notify",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the freeze count on {@code object}. If the freeze count is
@@ -320,16 +407,34 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * premature notification while the object is still being modified.
      */
     public void freezeNotify() {
-        gtk_h.g_object_freeze_notify(handle());
+        try {
+            g_object_freeze_notify.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_get_data = Interop.downcallHandle(
+        "g_object_get_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a named field from the objects table of associations (see g_object_set_data()).
      */
     public java.lang.foreign.MemoryAddress getData(java.lang.String key) {
-        var RESULT = gtk_h.g_object_get_data(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_object_get_data.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_get_property = Interop.downcallHandle(
+        "g_object_get_property",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a property of an object.
@@ -352,17 +457,35 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * bindings, g_object_get() is much more convenient for C programming.
      */
     public void getProperty(java.lang.String propertyName, Value value) {
-        gtk_h.g_object_get_property(handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
+        try {
+            g_object_get_property.invokeExact(handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_get_qdata = Interop.downcallHandle(
+        "g_object_get_qdata",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function gets back user data pointers stored via
      * g_object_set_qdata().
      */
     public java.lang.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
-        var RESULT = gtk_h.g_object_get_qdata(handle(), quark.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_object_get_qdata.invokeExact(handle(), quark.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_get_valist = Interop.downcallHandle(
+        "g_object_get_valist",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets properties of an object.
@@ -374,8 +497,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * See g_object_get().
      */
     public void getValist(java.lang.String firstPropertyName, VaList varArgs) {
-        gtk_h.g_object_get_valist(handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
+        try {
+            g_object_get_valist.invokeExact(handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_getv = Interop.downcallHandle(
+        "g_object_getv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code n_properties} properties for an {@code object}.
@@ -384,16 +516,34 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * properties are passed in.
      */
     public void getv(int nProperties, java.lang.String[] names, Value[] values) {
-        gtk_h.g_object_getv(handle(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle());
+        try {
+            g_object_getv.invokeExact(handle(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_is_floating = Interop.downcallHandle(
+        "g_object_is_floating",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether {@code object} has a [floating][floating-ref] reference.
      */
     public boolean isFloating() {
-        var RESULT = gtk_h.g_object_is_floating(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_object_is_floating.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_notify = Interop.downcallHandle(
+        "g_object_notify",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Emits a "notify" signal for the property {@code property_name} on {@code object}.
@@ -408,8 +558,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * called.
      */
     public void notify(java.lang.String propertyName) {
-        gtk_h.g_object_notify(handle(), Interop.allocateNativeString(propertyName).handle());
+        try {
+            g_object_notify.invokeExact(handle(), Interop.allocateNativeString(propertyName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_notify_by_pspec = Interop.downcallHandle(
+        "g_object_notify_by_pspec",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Emits a "notify" signal for the property specified by {@code pspec} on {@code object}.
@@ -452,8 +611,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public void notifyByPspec(ParamSpec pspec) {
-        gtk_h.g_object_notify_by_pspec(handle(), pspec.handle());
+        try {
+            g_object_notify_by_pspec.invokeExact(handle(), pspec.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_ref = Interop.downcallHandle(
+        "g_object_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of {@code object}.
@@ -464,9 +632,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * explicit.
      */
     public Object ref() {
-        var RESULT = gtk_h.g_object_ref(handle());
-        return new Object(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_object_ref.invokeExact(handle());
+            return new Object(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_ref_sink = Interop.downcallHandle(
+        "g_object_ref_sink",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increase the reference count of {@code object}, and possibly remove the
@@ -482,9 +659,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * under the same conditions as for g_object_ref().
      */
     public Object refSink() {
-        var RESULT = gtk_h.g_object_ref_sink(handle());
-        return new Object(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_object_ref_sink.invokeExact(handle());
+            return new Object(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_remove_toggle_ref = Interop.downcallHandle(
+        "g_object_remove_toggle_ref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a reference added with g_object_add_toggle_ref(). The
@@ -492,17 +678,22 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public void removeToggleRef(ToggleNotify notify) {
         try {
-            gtk_h.g_object_remove_toggle_ref(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_object_remove_toggle_ref.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_object_remove_weak_pointer = Interop.downcallHandle(
+        "g_object_remove_weak_pointer",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a weak reference from {@code object} that was previously added
@@ -510,8 +701,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * to match the one used with g_object_add_weak_pointer().
      */
     public void removeWeakPointer(java.lang.foreign.MemoryAddress weakPointerLocation) {
-        gtk_h.g_object_remove_weak_pointer(handle(), weakPointerLocation);
+        try {
+            g_object_remove_weak_pointer.invokeExact(handle(), weakPointerLocation);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_run_dispose = Interop.downcallHandle(
+        "g_object_run_dispose",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases all references to other objects. This can be used to break
@@ -520,8 +720,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * This function should only be called from object system implementations.
      */
     public void runDispose() {
-        gtk_h.g_object_run_dispose(handle());
+        try {
+            g_object_run_dispose.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_set_data = Interop.downcallHandle(
+        "g_object_set_data",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Each object carries around a table of associations from
@@ -536,8 +745,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * for {@code key} in your program, to avoid the {@link org.gtk.glib.Quark} storage growing unbounded.
      */
     public void setData(java.lang.String key, java.lang.foreign.MemoryAddress data) {
-        gtk_h.g_object_set_data(handle(), Interop.allocateNativeString(key).handle(), data);
+        try {
+            g_object_set_data.invokeExact(handle(), Interop.allocateNativeString(key).handle(), data);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_set_data_full = Interop.downcallHandle(
+        "g_object_set_data_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Like g_object_set_data() except it adds notification
@@ -547,16 +765,34 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Note that the {@code destroy} callback is not called if {@code data} is {@code null}.
      */
     public void setDataFull(java.lang.String key, java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
-        gtk_h.g_object_set_data_full(handle(), Interop.allocateNativeString(key).handle(), data, 
+        try {
+            g_object_set_data_full.invokeExact(handle(), Interop.allocateNativeString(key).handle(), data, 
                     Interop.cbDestroyNotifySymbol());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_set_property = Interop.downcallHandle(
+        "g_object_set_property",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a property on an object.
      */
     public void setProperty(java.lang.String propertyName, Value value) {
-        gtk_h.g_object_set_property(handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
+        try {
+            g_object_set_property.invokeExact(handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_set_qdata = Interop.downcallHandle(
+        "g_object_set_qdata",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * This sets an opaque, named pointer on an object.
@@ -569,8 +805,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * removes the data stored.
      */
     public void setQdata(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
-        gtk_h.g_object_set_qdata(handle(), quark.getValue(), data);
+        try {
+            g_object_set_qdata.invokeExact(handle(), quark.getValue(), data);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_set_qdata_full = Interop.downcallHandle(
+        "g_object_set_qdata_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function works like g_object_set_qdata(), but in addition,
@@ -580,16 +825,34 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * with the same {@code quark}.
      */
     public void setQdataFull(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
-        gtk_h.g_object_set_qdata_full(handle(), quark.getValue(), data, 
+        try {
+            g_object_set_qdata_full.invokeExact(handle(), quark.getValue(), data, 
                     Interop.cbDestroyNotifySymbol());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_set_valist = Interop.downcallHandle(
+        "g_object_set_valist",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets properties on an object.
      */
     public void setValist(java.lang.String firstPropertyName, VaList varArgs) {
-        gtk_h.g_object_set_valist(handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
+        try {
+            g_object_set_valist.invokeExact(handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_setv = Interop.downcallHandle(
+        "g_object_setv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code n_properties} properties for an {@code object}.
@@ -598,17 +861,35 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * properties are passed in.
      */
     public void setv(int nProperties, java.lang.String[] names, Value[] values) {
-        gtk_h.g_object_setv(handle(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle());
+        try {
+            g_object_setv.invokeExact(handle(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_steal_data = Interop.downcallHandle(
+        "g_object_steal_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Remove a specified datum from the object's data associations,
      * without invoking the association's destroy handler.
      */
     public java.lang.foreign.MemoryAddress stealData(java.lang.String key) {
-        var RESULT = gtk_h.g_object_steal_data(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_object_steal_data.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_steal_qdata = Interop.downcallHandle(
+        "g_object_steal_qdata",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function gets back user data pointers stored via
@@ -648,9 +929,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * g_object_set_qdata_full().
      */
     public java.lang.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
-        var RESULT = gtk_h.g_object_steal_qdata(handle(), quark.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_object_steal_qdata.invokeExact(handle(), quark.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_take_ref = Interop.downcallHandle(
+        "g_object_take_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code object} is floating, sink it.  Otherwise, do nothing.
@@ -690,9 +980,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * this situation.
      */
     public Object takeRef() {
-        var RESULT = gtk_h.g_object_take_ref(handle());
-        return new Object(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_object_take_ref.invokeExact(handle());
+            return new Object(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_thaw_notify = Interop.downcallHandle(
+        "g_object_thaw_notify",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Reverts the effect of a previous call to
@@ -706,8 +1005,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * It is an error to call this function when the freeze count is zero.
      */
     public void thawNotify() {
-        gtk_h.g_object_thaw_notify(handle());
+        try {
+            g_object_thaw_notify.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_unref = Interop.downcallHandle(
+        "g_object_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of {@code object}. When its reference count
@@ -719,8 +1027,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * invalid {@link Object} instance. Use g_clear_object() for this.
      */
     public void unref() {
-        gtk_h.g_object_unref(handle());
+        try {
+            g_object_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_watch_closure = Interop.downcallHandle(
+        "g_object_watch_closure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function essentially limits the life time of the {@code closure} to
@@ -734,8 +1051,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * use this {@code object} as closure data.
      */
     public void watchClosure(Closure closure) {
-        gtk_h.g_object_watch_closure(handle(), closure.handle());
+        try {
+            g_object_watch_closure.invokeExact(handle(), closure.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_weak_ref = Interop.downcallHandle(
+        "g_object_weak_ref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a weak reference callback to an object. Weak references are
@@ -751,39 +1077,58 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public void weakRef(WeakNotify notify) {
         try {
-            gtk_h.g_object_weak_ref(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_object_weak_ref.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_object_weak_unref = Interop.downcallHandle(
+        "g_object_weak_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a weak reference callback to an object.
      */
     public void weakUnref(WeakNotify notify) {
         try {
-            gtk_h.g_object_weak_unref(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_object_weak_unref.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    static final MethodHandle g_object_compat_control = Interop.downcallHandle(
+        "g_object_compat_control",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
+    
     public static long compatControl(long what, java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_object_compat_control(what, data);
-        return RESULT;
+        try {
+            var RESULT = (long) g_object_compat_control.invokeExact(what, data);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_interface_find_property = Interop.downcallHandle(
+        "g_object_interface_find_property",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Find the {@link ParamSpec} with the given name for an
@@ -793,9 +1138,18 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * g_type_default_interface_peek().
      */
     public static ParamSpec interfaceFindProperty(TypeInterface gIface, java.lang.String propertyName) {
-        var RESULT = gtk_h.g_object_interface_find_property(gIface.handle(), Interop.allocateNativeString(propertyName).handle());
-        return new ParamSpec(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_object_interface_find_property.invokeExact(gIface.handle(), Interop.allocateNativeString(propertyName).handle());
+            return new ParamSpec(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_interface_install_property = Interop.downcallHandle(
+        "g_object_interface_install_property",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Add a property to an interface; this is only useful for interfaces
@@ -816,8 +1170,17 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * If {@code pspec} is a floating reference, it will be consumed.
      */
     public static void interfaceInstallProperty(TypeInterface gIface, ParamSpec pspec) {
-        gtk_h.g_object_interface_install_property(gIface.handle(), pspec.handle());
+        try {
+            g_object_interface_install_property.invokeExact(gIface.handle(), pspec.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_interface_list_properties = Interop.downcallHandle(
+        "g_object_interface_list_properties",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Lists the properties of an interface.Generally, the interface
@@ -826,8 +1189,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * already been loaded, g_type_default_interface_peek().
      */
     public static PointerIterator<ParamSpec> interfaceListProperties(TypeInterface gIface, PointerInteger nPropertiesP) {
-        var RESULT = gtk_h.g_object_interface_list_properties(gIface.handle(), nPropertiesP.handle());
-        return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_object_interface_list_properties.invokeExact(gIface.handle(), nPropertiesP.handle());
+            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -864,19 +1231,19 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public SignalHandle onNotify(NotifyHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("notify").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Object.Callbacks.class, "signalObjectNotify",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

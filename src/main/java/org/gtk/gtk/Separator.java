@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -34,9 +33,18 @@ public class Separator extends Widget implements Accessible, Buildable, Constrai
         return new Separator(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_separator_new = Interop.downcallHandle(
+        "gtk_separator_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(Orientation orientation) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_separator_new(orientation.getValue()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_separator_new.invokeExact(orientation.getValue()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**

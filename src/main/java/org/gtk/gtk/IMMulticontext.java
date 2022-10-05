@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,9 +23,18 @@ public class IMMulticontext extends IMContext {
         return new IMMulticontext(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_im_multicontext_new = Interop.downcallHandle(
+        "gtk_im_multicontext_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_im_multicontext_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_im_multicontext_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -36,13 +44,27 @@ public class IMMulticontext extends IMContext {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_im_multicontext_get_context_id = Interop.downcallHandle(
+        "gtk_im_multicontext_get_context_id",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the id of the currently active delegate of the {@code context}.
      */
     public java.lang.String getContextId() {
-        var RESULT = gtk_h.gtk_im_multicontext_get_context_id(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_im_multicontext_get_context_id.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_multicontext_set_context_id = Interop.downcallHandle(
+        "gtk_im_multicontext_set_context_id",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the context id for {@code context}.
@@ -55,7 +77,11 @@ public class IMMulticontext extends IMContext {
      * property.
      */
     public void setContextId(java.lang.String contextId) {
-        gtk_h.gtk_im_multicontext_set_context_id(handle(), Interop.allocateNativeString(contextId).handle());
+        try {
+            gtk_im_multicontext_set_context_id.invokeExact(handle(), Interop.allocateNativeString(contextId).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

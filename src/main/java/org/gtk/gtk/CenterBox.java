@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,9 +49,18 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
         return new CenterBox(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_center_box_new = Interop.downcallHandle(
+        "gtk_center_box_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_center_box_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_center_box_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -62,37 +70,78 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
+    static final MethodHandle gtk_center_box_get_baseline_position = Interop.downcallHandle(
+        "gtk_center_box_get_baseline_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the value set by gtk_center_box_set_baseline_position().
      */
     public BaselinePosition getBaselinePosition() {
-        var RESULT = gtk_h.gtk_center_box_get_baseline_position(handle());
-        return new BaselinePosition(RESULT);
+        try {
+            var RESULT = (int) gtk_center_box_get_baseline_position.invokeExact(handle());
+            return new BaselinePosition(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_center_box_get_center_widget = Interop.downcallHandle(
+        "gtk_center_box_get_center_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the center widget, or {@code null} if there is none.
      */
     public Widget getCenterWidget() {
-        var RESULT = gtk_h.gtk_center_box_get_center_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_center_box_get_center_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_center_box_get_end_widget = Interop.downcallHandle(
+        "gtk_center_box_get_end_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the end widget, or {@code null} if there is none.
      */
     public Widget getEndWidget() {
-        var RESULT = gtk_h.gtk_center_box_get_end_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_center_box_get_end_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_center_box_get_start_widget = Interop.downcallHandle(
+        "gtk_center_box_get_start_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the start widget, or {@code null} if there is none.
      */
     public Widget getStartWidget() {
-        var RESULT = gtk_h.gtk_center_box_get_start_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_center_box_get_start_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_center_box_set_baseline_position = Interop.downcallHandle(
+        "gtk_center_box_set_baseline_position",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the baseline position of a center box.
@@ -104,8 +153,17 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * available.
      */
     public void setBaselinePosition(BaselinePosition position) {
-        gtk_h.gtk_center_box_set_baseline_position(handle(), position.getValue());
+        try {
+            gtk_center_box_set_baseline_position.invokeExact(handle(), position.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_center_box_set_center_widget = Interop.downcallHandle(
+        "gtk_center_box_set_center_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the center widget.
@@ -113,8 +171,17 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * To remove the existing center widget, pas {@code null}.
      */
     public void setCenterWidget(Widget child) {
-        gtk_h.gtk_center_box_set_center_widget(handle(), child.handle());
+        try {
+            gtk_center_box_set_center_widget.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_center_box_set_end_widget = Interop.downcallHandle(
+        "gtk_center_box_set_end_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the end widget.
@@ -122,8 +189,17 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * To remove the existing end widget, pass {@code null}.
      */
     public void setEndWidget(Widget child) {
-        gtk_h.gtk_center_box_set_end_widget(handle(), child.handle());
+        try {
+            gtk_center_box_set_end_widget.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_center_box_set_start_widget = Interop.downcallHandle(
+        "gtk_center_box_set_start_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the start widget.
@@ -131,7 +207,11 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * To remove the existing start widget, pass {@code null}.
      */
     public void setStartWidget(Widget child) {
-        gtk_h.gtk_center_box_set_start_widget(handle(), child.handle());
+        try {
+            gtk_center_box_set_start_widget.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

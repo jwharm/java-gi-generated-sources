@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,6 +49,11 @@ public class Tooltip extends org.gtk.gobject.Object {
         return new Tooltip(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_tooltip_set_custom = Interop.downcallHandle(
+        "gtk_tooltip_set_custom",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Replaces the widget packed into the tooltip with
      * {@code custom_widget}. {@code custom_widget} does not get destroyed when the tooltip goes
@@ -59,16 +63,34 @@ public class Tooltip extends org.gtk.gobject.Object {
      * and gtk_tooltip_set_icon().
      */
     public void setCustom(Widget customWidget) {
-        gtk_h.gtk_tooltip_set_custom(handle(), customWidget.handle());
+        try {
+            gtk_tooltip_set_custom.invokeExact(handle(), customWidget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tooltip_set_icon = Interop.downcallHandle(
+        "gtk_tooltip_set_icon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon of the tooltip (which is in front of the text) to be
      * {@code paintable}.  If {@code paintable} is {@code null}, the image will be hidden.
      */
     public void setIcon(org.gtk.gdk.Paintable paintable) {
-        gtk_h.gtk_tooltip_set_icon(handle(), paintable.handle());
+        try {
+            gtk_tooltip_set_icon.invokeExact(handle(), paintable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tooltip_set_icon_from_gicon = Interop.downcallHandle(
+        "gtk_tooltip_set_icon_from_gicon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon of the tooltip (which is in front of the text)
@@ -76,8 +98,17 @@ public class Tooltip extends org.gtk.gobject.Object {
      * by {@code size}. If {@code gicon} is {@code null}, the image will be hidden.
      */
     public void setIconFromGicon(org.gtk.gio.Icon gicon) {
-        gtk_h.gtk_tooltip_set_icon_from_gicon(handle(), gicon.handle());
+        try {
+            gtk_tooltip_set_icon_from_gicon.invokeExact(handle(), gicon.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tooltip_set_icon_from_icon_name = Interop.downcallHandle(
+        "gtk_tooltip_set_icon_from_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon of the tooltip (which is in front of the text) to be
@@ -85,8 +116,17 @@ public class Tooltip extends org.gtk.gobject.Object {
      * by {@code size}.  If {@code icon_name} is {@code null}, the image will be hidden.
      */
     public void setIconFromIconName(java.lang.String iconName) {
-        gtk_h.gtk_tooltip_set_icon_from_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
+        try {
+            gtk_tooltip_set_icon_from_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tooltip_set_markup = Interop.downcallHandle(
+        "gtk_tooltip_set_markup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the text of the tooltip to be {@code markup}.
@@ -95,8 +135,17 @@ public class Tooltip extends org.gtk.gobject.Object {
      * If {@code markup} is {@code null}, the label will be hidden.
      */
     public void setMarkup(java.lang.String markup) {
-        gtk_h.gtk_tooltip_set_markup(handle(), Interop.allocateNativeString(markup).handle());
+        try {
+            gtk_tooltip_set_markup.invokeExact(handle(), Interop.allocateNativeString(markup).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tooltip_set_text = Interop.downcallHandle(
+        "gtk_tooltip_set_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the text of the tooltip to be {@code text}.
@@ -105,8 +154,17 @@ public class Tooltip extends org.gtk.gobject.Object {
      * See also {@link Tooltip#setMarkup}.
      */
     public void setText(java.lang.String text) {
-        gtk_h.gtk_tooltip_set_text(handle(), Interop.allocateNativeString(text).handle());
+        try {
+            gtk_tooltip_set_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tooltip_set_tip_area = Interop.downcallHandle(
+        "gtk_tooltip_set_tip_area",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the area of the widget, where the contents of this tooltip apply,
@@ -119,7 +177,11 @@ public class Tooltip extends org.gtk.gobject.Object {
      * gtk_tree_view_set_tooltip_cell().
      */
     public void setTipArea(org.gtk.gdk.Rectangle rect) {
-        gtk_h.gtk_tooltip_set_tip_area(handle(), rect.handle());
+        try {
+            gtk_tooltip_set_tip_area.invokeExact(handle(), rect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

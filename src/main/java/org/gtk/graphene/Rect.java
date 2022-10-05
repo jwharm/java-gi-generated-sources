@@ -1,6 +1,5 @@
 package org.gtk.graphene;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -25,132 +24,277 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Rect() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.graphene_rect_t.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle graphene_rect_contains_point = Interop.downcallHandle(
+        "graphene_rect_contains_point",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether a {@link Rect} contains the given coordinates.
      */
     public boolean containsPoint(Point p) {
-        var RESULT = gtk_h.graphene_rect_contains_point(handle(), p.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_rect_contains_point.invokeExact(handle(), p.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_contains_rect = Interop.downcallHandle(
+        "graphene_rect_contains_rect",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether a {@link Rect} fully contains the given
      * rectangle.
      */
     public boolean containsRect(Rect b) {
-        var RESULT = gtk_h.graphene_rect_contains_rect(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_rect_contains_rect.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_equal = Interop.downcallHandle(
+        "graphene_rect_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the two given rectangle are equal.
      */
     public boolean equal(Rect b) {
-        var RESULT = gtk_h.graphene_rect_equal(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_rect_equal.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_expand = Interop.downcallHandle(
+        "graphene_rect_expand",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Expands a {@link Rect} to contain the given {@link Point}.
      */
     public void expand(Point p, Rect res) {
-        gtk_h.graphene_rect_expand(handle(), p.handle(), res.handle());
+        try {
+            graphene_rect_expand.invokeExact(handle(), p.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_free = Interop.downcallHandle(
+        "graphene_rect_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the resources allocated by graphene_rect_alloc().
      */
     public void free() {
-        gtk_h.graphene_rect_free(handle());
+        try {
+            graphene_rect_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_area = Interop.downcallHandle(
+        "graphene_rect_get_area",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compute the area of given normalized rectangle.
      */
     public float getArea() {
-        var RESULT = gtk_h.graphene_rect_get_area(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_rect_get_area.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_bottom_left = Interop.downcallHandle(
+        "graphene_rect_get_bottom_left",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the coordinates of the bottom-left corner of the given rectangle.
      */
     public void getBottomLeft(Point p) {
-        gtk_h.graphene_rect_get_bottom_left(handle(), p.handle());
+        try {
+            graphene_rect_get_bottom_left.invokeExact(handle(), p.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_bottom_right = Interop.downcallHandle(
+        "graphene_rect_get_bottom_right",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the coordinates of the bottom-right corner of the given rectangle.
      */
     public void getBottomRight(Point p) {
-        gtk_h.graphene_rect_get_bottom_right(handle(), p.handle());
+        try {
+            graphene_rect_get_bottom_right.invokeExact(handle(), p.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_center = Interop.downcallHandle(
+        "graphene_rect_get_center",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the coordinates of the center of the given rectangle.
      */
     public void getCenter(Point p) {
-        gtk_h.graphene_rect_get_center(handle(), p.handle());
+        try {
+            graphene_rect_get_center.invokeExact(handle(), p.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_height = Interop.downcallHandle(
+        "graphene_rect_get_height",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the normalized height of the given rectangle.
      */
     public float getHeight() {
-        var RESULT = gtk_h.graphene_rect_get_height(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_rect_get_height.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_top_left = Interop.downcallHandle(
+        "graphene_rect_get_top_left",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the coordinates of the top-left corner of the given rectangle.
      */
     public void getTopLeft(Point p) {
-        gtk_h.graphene_rect_get_top_left(handle(), p.handle());
+        try {
+            graphene_rect_get_top_left.invokeExact(handle(), p.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_top_right = Interop.downcallHandle(
+        "graphene_rect_get_top_right",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the coordinates of the top-right corner of the given rectangle.
      */
     public void getTopRight(Point p) {
-        gtk_h.graphene_rect_get_top_right(handle(), p.handle());
+        try {
+            graphene_rect_get_top_right.invokeExact(handle(), p.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_vertices = Interop.downcallHandle(
+        "graphene_rect_get_vertices",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the four vertices of a {@link Rect}.
      */
     public void getVertices(Vec2[] vertices) {
-        gtk_h.graphene_rect_get_vertices(handle(), Interop.allocateNativeArray(vertices).handle());
+        try {
+            graphene_rect_get_vertices.invokeExact(handle(), Interop.allocateNativeArray(vertices).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_width = Interop.downcallHandle(
+        "graphene_rect_get_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the normalized width of the given rectangle.
      */
     public float getWidth() {
-        var RESULT = gtk_h.graphene_rect_get_width(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_rect_get_width.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_x = Interop.downcallHandle(
+        "graphene_rect_get_x",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the normalized X coordinate of the origin of the given
      * rectangle.
      */
     public float getX() {
-        var RESULT = gtk_h.graphene_rect_get_x(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_rect_get_x.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_get_y = Interop.downcallHandle(
+        "graphene_rect_get_y",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the normalized Y coordinate of the origin of the given
      * rectangle.
      */
     public float getY() {
-        var RESULT = gtk_h.graphene_rect_get_y(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_rect_get_y.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_init = Interop.downcallHandle(
+        "graphene_rect_init",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Initializes the given {@link Rect} with the given values.
@@ -159,9 +303,18 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * before returning.
      */
     public Rect init(float x, float y, float width, float height) {
-        var RESULT = gtk_h.graphene_rect_init(handle(), x, y, width, height);
-        return new Rect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_init.invokeExact(handle(), x, y, width, height);
+            return new Rect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_init_from_rect = Interop.downcallHandle(
+        "graphene_rect_init_from_rect",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes @r using the given {@code src} rectangle.
@@ -170,9 +323,18 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * before returning.
      */
     public Rect initFromRect(Rect src) {
-        var RESULT = gtk_h.graphene_rect_init_from_rect(handle(), src.handle());
-        return new Rect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_init_from_rect.invokeExact(handle(), src.handle());
+            return new Rect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_inset = Interop.downcallHandle(
+        "graphene_rect_inset",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Changes the given rectangle to be smaller, or larger depending on the
@@ -191,9 +353,18 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * height then the size will be set to zero.
      */
     public Rect inset(float dX, float dY) {
-        var RESULT = gtk_h.graphene_rect_inset(handle(), dX, dY);
-        return new Rect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_inset.invokeExact(handle(), dX, dY);
+            return new Rect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_inset_r = Interop.downcallHandle(
+        "graphene_rect_inset_r",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Changes the given rectangle to be smaller, or larger depending on the
@@ -212,16 +383,34 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * height then the size will be set to zero.
      */
     public void insetR(float dX, float dY, Rect res) {
-        gtk_h.graphene_rect_inset_r(handle(), dX, dY, res.handle());
+        try {
+            graphene_rect_inset_r.invokeExact(handle(), dX, dY, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_interpolate = Interop.downcallHandle(
+        "graphene_rect_interpolate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Linearly interpolates the origin and size of the two given
      * rectangles.
      */
     public void interpolate(Rect b, double factor, Rect res) {
-        gtk_h.graphene_rect_interpolate(handle(), b.handle(), factor, res.handle());
+        try {
+            graphene_rect_interpolate.invokeExact(handle(), b.handle(), factor, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_intersection = Interop.downcallHandle(
+        "graphene_rect_intersection",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the intersection of the two given rectangles.
@@ -234,9 +423,18 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * a degenerate rectangle with origin in (0, 0) and a size of 0.
      */
     public boolean intersection(Rect b, Rect res) {
-        var RESULT = gtk_h.graphene_rect_intersection(handle(), b.handle(), res.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_rect_intersection.invokeExact(handle(), b.handle(), res.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_normalize = Interop.downcallHandle(
+        "graphene_rect_normalize",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Normalizes the passed rectangle.
@@ -246,9 +444,18 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * the rectangle.
      */
     public Rect normalize() {
-        var RESULT = gtk_h.graphene_rect_normalize(handle());
-        return new Rect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_normalize.invokeExact(handle());
+            return new Rect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_normalize_r = Interop.downcallHandle(
+        "graphene_rect_normalize_r",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Normalizes the passed rectangle.
@@ -258,8 +465,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * of the rectangle.
      */
     public void normalizeR(Rect res) {
-        gtk_h.graphene_rect_normalize_r(handle(), res.handle());
+        try {
+            graphene_rect_normalize_r.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_offset = Interop.downcallHandle(
+        "graphene_rect_offset",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Offsets the origin by {@code d_x} and {@code d_y}.
@@ -267,9 +483,18 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * The size of the rectangle is unchanged.
      */
     public Rect offset(float dX, float dY) {
-        var RESULT = gtk_h.graphene_rect_offset(handle(), dX, dY);
-        return new Rect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_offset.invokeExact(handle(), dX, dY);
+            return new Rect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_offset_r = Interop.downcallHandle(
+        "graphene_rect_offset_r",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Offsets the origin of the given rectangle by {@code d_x} and {@code d_y}.
@@ -277,8 +502,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * The size of the rectangle is left unchanged.
      */
     public void offsetR(float dX, float dY, Rect res) {
-        gtk_h.graphene_rect_offset_r(handle(), dX, dY, res.handle());
+        try {
+            graphene_rect_offset_r.invokeExact(handle(), dX, dY, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_round_extents = Interop.downcallHandle(
+        "graphene_rect_round_extents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Rounds the origin of the given rectangle to its nearest
@@ -304,16 +538,34 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * original rectangle outside the rounded one.
      */
     public void roundExtents(Rect res) {
-        gtk_h.graphene_rect_round_extents(handle(), res.handle());
+        try {
+            graphene_rect_round_extents.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_scale = Interop.downcallHandle(
+        "graphene_rect_scale",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Scales the size and origin of a rectangle horizontaly by {@code s_h},
      * and vertically by {@code s_v}. The result {@code res} is normalized.
      */
     public void scale(float sH, float sV, Rect res) {
-        gtk_h.graphene_rect_scale(handle(), sH, sV, res.handle());
+        try {
+            graphene_rect_scale.invokeExact(handle(), sH, sV, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_union = Interop.downcallHandle(
+        "graphene_rect_union",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the union of the two given rectangles.
@@ -323,8 +575,17 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * The union in the image above is the blue outline.
      */
     public void union(Rect b, Rect res) {
-        gtk_h.graphene_rect_union(handle(), b.handle(), res.handle());
+        try {
+            graphene_rect_union.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_alloc = Interop.downcallHandle(
+        "graphene_rect_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Allocates a new {@link Rect}.
@@ -332,17 +593,30 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * The contents of the returned rectangle are undefined.
      */
     public static Rect alloc() {
-        var RESULT = gtk_h.graphene_rect_alloc();
-        return new Rect(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_alloc.invokeExact();
+            return new Rect(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_zero = Interop.downcallHandle(
+        "graphene_rect_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a degenerate rectangle with origin fixed at (0, 0) and
      * a size of 0, 0.
      */
     public static Rect zero() {
-        var RESULT = gtk_h.graphene_rect_zero();
-        return new Rect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_zero.invokeExact();
+            return new Rect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

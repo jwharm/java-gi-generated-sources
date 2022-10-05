@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,10 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public VariantIter() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GVariantIter.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_variant_iter_copy = Interop.downcallHandle(
+        "g_variant_iter_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new heap-allocated {@link VariantIter} to iterate over the
@@ -32,9 +32,18 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * and will be related only when g_variant_iter_free() is called.
      */
     public VariantIter copy() {
-        var RESULT = gtk_h.g_variant_iter_copy(handle());
-        return new VariantIter(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_iter_copy.invokeExact(handle());
+            return new VariantIter(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_iter_free = Interop.downcallHandle(
+        "g_variant_iter_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a heap-allocated {@link VariantIter}.  Only call this function on
@@ -42,8 +51,17 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * g_variant_iter_copy().
      */
     public void free() {
-        gtk_h.g_variant_iter_free(handle());
+        try {
+            g_variant_iter_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_iter_init = Interop.downcallHandle(
+        "g_variant_iter_init",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initialises (without allocating) a {@link VariantIter}.  {@code iter} may be
@@ -54,9 +72,18 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * be freed in any way.
      */
     public long init(Variant value) {
-        var RESULT = gtk_h.g_variant_iter_init(handle(), value.handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_iter_init.invokeExact(handle(), value.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_iter_n_children = Interop.downcallHandle(
+        "g_variant_iter_n_children",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the number of child items in the container that we are
@@ -66,9 +93,18 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * This function might be useful for preallocation of arrays.
      */
     public long nChildren() {
-        var RESULT = gtk_h.g_variant_iter_n_children(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_iter_n_children.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_iter_next_value = Interop.downcallHandle(
+        "g_variant_iter_next_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the next item in the container.  If no more items remain then
@@ -100,8 +136,12 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public Variant nextValue() {
-        var RESULT = gtk_h.g_variant_iter_next_value(handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_iter_next_value.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

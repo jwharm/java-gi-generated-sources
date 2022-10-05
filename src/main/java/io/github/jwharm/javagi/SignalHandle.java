@@ -1,31 +1,32 @@
 package io.github.jwharm.javagi;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Addressable;
+
+import org.gtk.gobject.GObject;
 
 public class SignalHandle {
 
-    private final MemoryAddress instance;
+    private final org.gtk.gobject.Object instance;
     private final long handlerId;
 
-    public SignalHandle(MemoryAddress instance, long handlerId) {
-        this.instance = instance;
+    public SignalHandle(Addressable instance, long handlerId) {
+        this.instance = new org.gtk.gobject.Object(Refcounted.get(instance));
         this.handlerId = handlerId;
     }
 
     public void block() {
-        gtk_h.g_signal_handler_block(instance, handlerId);
+        GObject.signalHandlerBlock(instance, handlerId);
     }
 
     public void unblock() {
-        gtk_h.g_signal_handler_unblock(instance, handlerId);
+        GObject.signalHandlerUnblock(instance, handlerId);
     }
 
     public void disconnect() {
-        gtk_h.g_signal_handler_disconnect(instance, handlerId);
+        GObject.signalHandlerDisconnect(instance, handlerId);
     }
 
     public boolean isConnected() {
-        return gtk_h.g_signal_handler_is_connected(instance, handlerId) != 0;
+        return GObject.signalHandlerIsConnected(instance, handlerId);
     }
 }

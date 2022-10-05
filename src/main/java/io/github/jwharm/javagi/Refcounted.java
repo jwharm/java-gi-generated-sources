@@ -1,5 +1,6 @@
 package io.github.jwharm.javagi;
 
+import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
 import java.lang.ref.Cleaner;
 import java.util.Collections;
@@ -13,27 +14,27 @@ public class Refcounted {
     private Cleaner.Cleanable cleanable;
 
     private static class State implements Runnable {
-        MemoryAddress address;
+        Addressable address;
         boolean owned;
 
-        State(MemoryAddress address, boolean owned) {
+        State(Addressable address, boolean owned) {
             this.address = address;
             this.owned = owned;
         }
 
         public void run() {
             if (owned) {
-                io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_unref(address);
+                // io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_unref(address);
             }
         }
     }
 
-    public Refcounted(MemoryAddress handle, boolean owned) {
+    public Refcounted(Addressable handle, boolean owned) {
         state = new Refcounted.State(handle, owned);
         cleanable = cleaner.register(this, state);
     }
 
-    public final MemoryAddress handle() {
+    public final Addressable handle() {
         return state.address;
     }
 
@@ -61,7 +62,7 @@ public class Refcounted {
      * of an existing Refcounted instance remains unchanged. For new instances,
      * ownership is set to false.
      */
-    public static Refcounted get(MemoryAddress address) {
+    public static Refcounted get(Addressable address) {
         for (Refcounted r : cache) {
             if (r.handle().equals(address)) {
                 return r;
@@ -77,7 +78,7 @@ public class Refcounted {
      * or add a new instance to the cache if it did not yet exist.
      * Ownership is updated to the given value.
      */
-    public static Refcounted get(MemoryAddress address, boolean owned) {
+    public static Refcounted get(Addressable address, boolean owned) {
         Refcounted ref = get(address);
         ref.setOwnership(owned);
         return ref;

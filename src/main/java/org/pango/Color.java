@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,10 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Color() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoColor.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_color_copy = Interop.downcallHandle(
+        "pango_color_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a copy of {@code src}.
@@ -28,16 +28,34 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * in C).
      */
     public Color copy() {
-        var RESULT = gtk_h.pango_color_copy(handle());
-        return new Color(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_color_copy.invokeExact(handle());
+            return new Color(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_color_free = Interop.downcallHandle(
+        "pango_color_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a color allocated by {@link Color#copy}.
      */
     public void free() {
-        gtk_h.pango_color_free(handle());
+        try {
+            pango_color_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_color_parse = Interop.downcallHandle(
+        "pango_color_parse",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fill in the fields of a color from a string specification.
@@ -51,9 +69,18 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * {@code #fff}, {@code #ffffff}, {@code #fffffffff} and {@code #ffffffffffff}.)
      */
     public boolean parse(java.lang.String spec) {
-        var RESULT = gtk_h.pango_color_parse(handle(), Interop.allocateNativeString(spec).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_color_parse.invokeExact(handle(), Interop.allocateNativeString(spec).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_color_parse_with_alpha = Interop.downcallHandle(
+        "pango_color_parse_with_alpha",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fill in the fields of a color from a string specification.
@@ -73,9 +100,18 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * solid color).
      */
     public boolean parseWithAlpha(PointerShort alpha, java.lang.String spec) {
-        var RESULT = gtk_h.pango_color_parse_with_alpha(handle(), alpha.handle(), Interop.allocateNativeString(spec).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_color_parse_with_alpha.invokeExact(handle(), alpha.handle(), Interop.allocateNativeString(spec).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_color_to_string = Interop.downcallHandle(
+        "pango_color_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a textual specification of {@code color}.
@@ -85,8 +121,12 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * red, green, and blue components respectively.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.pango_color_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_color_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

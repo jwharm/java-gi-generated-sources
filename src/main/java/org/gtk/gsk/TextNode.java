@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class TextNode extends RenderNode {
         return new TextNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_text_node_new = Interop.downcallHandle(
+        "gsk_text_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_text_node_new(font.handle(), glyphs.handle(), color.handle(), offset.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_text_node_new.invokeExact(font.handle(), glyphs.handle(), color.handle(), offset.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -34,52 +42,106 @@ public class TextNode extends RenderNode {
         super(constructNew(font, glyphs, color, offset));
     }
     
+    static final MethodHandle gsk_text_node_get_color = Interop.downcallHandle(
+        "gsk_text_node_get_color",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the color used by the text {@code node}.
      */
     public org.gtk.gdk.RGBA getColor() {
-        var RESULT = gtk_h.gsk_text_node_get_color(handle());
-        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_text_node_get_color.invokeExact(handle());
+            return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_text_node_get_font = Interop.downcallHandle(
+        "gsk_text_node_get_font",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the font used by the text {@code node}.
      */
     public org.pango.Font getFont() {
-        var RESULT = gtk_h.gsk_text_node_get_font(handle());
-        return new org.pango.Font(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_text_node_get_font.invokeExact(handle());
+            return new org.pango.Font(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_text_node_get_glyphs = Interop.downcallHandle(
+        "gsk_text_node_get_glyphs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the glyph information in the {@code node}.
      */
     public PointerIterator<org.pango.GlyphInfo> getGlyphs(PointerInteger nGlyphs) {
-        var RESULT = gtk_h.gsk_text_node_get_glyphs(handle(), nGlyphs.handle());
-        return new PointerProxy<org.pango.GlyphInfo>(RESULT, org.pango.GlyphInfo.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) gsk_text_node_get_glyphs.invokeExact(handle(), nGlyphs.handle());
+            return new PointerProxy<org.pango.GlyphInfo>(RESULT, org.pango.GlyphInfo.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_text_node_get_num_glyphs = Interop.downcallHandle(
+        "gsk_text_node_get_num_glyphs",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of glyphs in the text node.
      */
     public int getNumGlyphs() {
-        var RESULT = gtk_h.gsk_text_node_get_num_glyphs(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gsk_text_node_get_num_glyphs.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_text_node_get_offset = Interop.downcallHandle(
+        "gsk_text_node_get_offset",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the offset applied to the text.
      */
     public org.gtk.graphene.Point getOffset() {
-        var RESULT = gtk_h.gsk_text_node_get_offset(handle());
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_text_node_get_offset.invokeExact(handle());
+            return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_text_node_has_color_glyphs = Interop.downcallHandle(
+        "gsk_text_node_has_color_glyphs",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the text {@code node} has color glyphs.
      */
     public boolean hasColorGlyphs() {
-        var RESULT = gtk_h.gsk_text_node_has_color_glyphs(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gsk_text_node_has_color_glyphs.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

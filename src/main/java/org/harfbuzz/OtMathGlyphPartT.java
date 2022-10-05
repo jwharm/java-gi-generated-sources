@@ -1,6 +1,5 @@
 package org.harfbuzz;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,10 +13,6 @@ public class OtMathGlyphPartT extends io.github.jwharm.javagi.ResourceBase {
 
     public OtMathGlyphPartT(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public OtMathGlyphPartT() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_glyph_part_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

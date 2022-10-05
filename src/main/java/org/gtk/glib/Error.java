@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,18 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_error_new_literal = Interop.downcallHandle(
+        "g_error_new_literal",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewLiteral(Quark domain, int code, java.lang.String message) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_error_new_literal.invokeExact(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -30,9 +38,18 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
         return new Error(constructNewLiteral(domain, code, message));
     }
     
+    static final MethodHandle g_error_new_valist = Interop.downcallHandle(
+        "g_error_new_valist",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewValist(Quark domain, int code, java.lang.String format, VaList args) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_error_new_valist.invokeExact(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -43,20 +60,43 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
         return new Error(constructNewValist(domain, code, format, args));
     }
     
+    static final MethodHandle g_error_copy = Interop.downcallHandle(
+        "g_error_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Makes a copy of {@code error}.
      */
     public Error copy() {
-        var RESULT = gtk_h.g_error_copy(handle());
-        return new Error(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_error_copy.invokeExact(handle());
+            return new Error(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_error_free = Interop.downcallHandle(
+        "g_error_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a {@link Error} and associated resources.
      */
     public void free() {
-        gtk_h.g_error_free(handle());
+        try {
+            g_error_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_error_matches = Interop.downcallHandle(
+        "g_error_matches",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns {@code true} if {@code error} matches {@code domain} and {@code code}, {@code false}
@@ -71,8 +111,12 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
      * a certain case, your code will still work.
      */
     public boolean matches(Quark domain, int code) {
-        var RESULT = gtk_h.g_error_matches(handle(), domain.getValue(), code);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_error_matches.invokeExact(handle(), domain.getValue(), code);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

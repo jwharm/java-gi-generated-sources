@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -75,13 +74,22 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
         return new Subprocess(gobject.refcounted());
     }
     
+    static final MethodHandle g_subprocess_newv = Interop.downcallHandle(
+        "g_subprocess_newv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewv(java.lang.String[] argv, SubprocessFlags flags) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_subprocess_newv(Interop.allocateNativeArray(argv).handle(), flags.getValue(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_subprocess_newv.invokeExact(Interop.allocateNativeArray(argv).handle(), flags.getValue(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -92,6 +100,11 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public static Subprocess newv(java.lang.String[] argv, SubprocessFlags flags) throws GErrorException {
         return new Subprocess(constructNewv(argv, flags));
     }
+    
+    static final MethodHandle g_subprocess_communicate = Interop.downcallHandle(
+        "g_subprocess_communicate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Communicate with the subprocess until it terminates, and all input
@@ -138,12 +151,21 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicate(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_subprocess_communicate(handle(), stdinBuf.handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_subprocess_communicate.invokeExact(handle(), stdinBuf.handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_subprocess_communicate_async = Interop.downcallHandle(
+        "g_subprocess_communicate_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Asynchronous version of g_subprocess_communicate().  Complete
@@ -151,29 +173,43 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public void communicateAsync(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_subprocess_communicate_async(handle(), stdinBuf.handle(), cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_subprocess_communicate_async.invokeExact(handle(), stdinBuf.handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_subprocess_communicate_finish = Interop.downcallHandle(
+        "g_subprocess_communicate_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Complete an invocation of g_subprocess_communicate_async().
      */
     public boolean communicateFinish(AsyncResult result, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_subprocess_communicate_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_subprocess_communicate_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_subprocess_communicate_utf8 = Interop.downcallHandle(
+        "g_subprocess_communicate_utf8",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Like g_subprocess_communicate(), but validates the output of the
@@ -184,12 +220,21 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_subprocess_communicate_utf8(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_subprocess_communicate_utf8.invokeExact(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_subprocess_communicate_utf8_async = Interop.downcallHandle(
+        "g_subprocess_communicate_utf8_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Asynchronous version of g_subprocess_communicate_utf8().  Complete
@@ -197,29 +242,43 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public void communicateUtf8Async(java.lang.String stdinBuf, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_subprocess_communicate_utf8_async(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_subprocess_communicate_utf8_async.invokeExact(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_subprocess_communicate_utf8_finish = Interop.downcallHandle(
+        "g_subprocess_communicate_utf8_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Complete an invocation of g_subprocess_communicate_utf8_async().
      */
     public boolean communicateUtf8Finish(AsyncResult result, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_subprocess_communicate_utf8_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_subprocess_communicate_utf8_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_subprocess_force_exit = Interop.downcallHandle(
+        "g_subprocess_force_exit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Use an operating-system specific method to attempt an immediate,
@@ -231,8 +290,17 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * On Unix, this function sends {@code SIGKILL}.
      */
     public void forceExit() {
-        gtk_h.g_subprocess_force_exit(handle());
+        try {
+            g_subprocess_force_exit.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_exit_status = Interop.downcallHandle(
+        "g_subprocess_get_exit_status",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check the exit status of the subprocess, given that it exited
@@ -245,9 +313,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * unless g_subprocess_get_if_exited() returned {@code true}.
      */
     public int getExitStatus() {
-        var RESULT = gtk_h.g_subprocess_get_exit_status(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_subprocess_get_exit_status.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_identifier = Interop.downcallHandle(
+        "g_subprocess_get_identifier",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * On UNIX, returns the process ID as a decimal string.
@@ -255,9 +332,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * If the subprocess has terminated, this will return {@code null}.
      */
     public java.lang.String getIdentifier() {
-        var RESULT = gtk_h.g_subprocess_get_identifier(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_subprocess_get_identifier.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_if_exited = Interop.downcallHandle(
+        "g_subprocess_get_if_exited",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check if the given subprocess exited normally (ie: by way of exit()
@@ -269,9 +355,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * returned.
      */
     public boolean getIfExited() {
-        var RESULT = gtk_h.g_subprocess_get_if_exited(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_subprocess_get_if_exited.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_if_signaled = Interop.downcallHandle(
+        "g_subprocess_get_if_signaled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check if the given subprocess terminated in response to a signal.
@@ -282,9 +377,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * returned.
      */
     public boolean getIfSignaled() {
-        var RESULT = gtk_h.g_subprocess_get_if_signaled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_subprocess_get_if_signaled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_status = Interop.downcallHandle(
+        "g_subprocess_get_status",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the raw status code of the process, as from waitpid().
@@ -300,9 +404,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * returned.
      */
     public int getStatus() {
-        var RESULT = gtk_h.g_subprocess_get_status(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_subprocess_get_status.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_stderr_pipe = Interop.downcallHandle(
+        "g_subprocess_get_stderr_pipe",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link InputStream} from which to read the stderr output of
@@ -312,9 +425,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * otherwise {@code null} will be returned.
      */
     public InputStream getStderrPipe() {
-        var RESULT = gtk_h.g_subprocess_get_stderr_pipe(handle());
-        return new InputStream(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_subprocess_get_stderr_pipe.invokeExact(handle());
+            return new InputStream(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_stdin_pipe = Interop.downcallHandle(
+        "g_subprocess_get_stdin_pipe",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link OutputStream} that you can write to in order to give data
@@ -324,9 +446,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * not {@link SubprocessFlags#STDIN_INHERIT}, otherwise {@code null} will be returned.
      */
     public OutputStream getStdinPipe() {
-        var RESULT = gtk_h.g_subprocess_get_stdin_pipe(handle());
-        return new OutputStream(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_subprocess_get_stdin_pipe.invokeExact(handle());
+            return new OutputStream(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_stdout_pipe = Interop.downcallHandle(
+        "g_subprocess_get_stdout_pipe",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link InputStream} from which to read the stdout output of
@@ -336,9 +467,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * otherwise {@code null} will be returned.
      */
     public InputStream getStdoutPipe() {
-        var RESULT = gtk_h.g_subprocess_get_stdout_pipe(handle());
-        return new InputStream(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_subprocess_get_stdout_pipe.invokeExact(handle());
+            return new InputStream(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_successful = Interop.downcallHandle(
+        "g_subprocess_get_successful",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the process was "successful".  A process is considered
@@ -349,9 +489,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * returned.
      */
     public boolean getSuccessful() {
-        var RESULT = gtk_h.g_subprocess_get_successful(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_subprocess_get_successful.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_get_term_sig = Interop.downcallHandle(
+        "g_subprocess_get_term_sig",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the signal number that caused the subprocess to terminate, given
@@ -363,9 +512,18 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * unless g_subprocess_get_if_signaled() returned {@code true}.
      */
     public int getTermSig() {
-        var RESULT = gtk_h.g_subprocess_get_term_sig(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_subprocess_get_term_sig.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_send_signal = Interop.downcallHandle(
+        "g_subprocess_send_signal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sends the UNIX signal {@code signal_num} to the subprocess, if it is still
@@ -377,8 +535,17 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * This API is not available on Windows.
      */
     public void sendSignal(int signalNum) {
-        gtk_h.g_subprocess_send_signal(handle(), signalNum);
+        try {
+            g_subprocess_send_signal.invokeExact(handle(), signalNum);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_subprocess_wait = Interop.downcallHandle(
+        "g_subprocess_wait",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Synchronously wait for the subprocess to terminate.
@@ -395,12 +562,21 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean wait(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_subprocess_wait(handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_subprocess_wait.invokeExact(handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_subprocess_wait_async = Interop.downcallHandle(
+        "g_subprocess_wait_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Wait for the subprocess to terminate.
@@ -409,29 +585,43 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public void waitAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_subprocess_wait_async(handle(), cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_subprocess_wait_async.invokeExact(handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_subprocess_wait_check = Interop.downcallHandle(
+        "g_subprocess_wait_check",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Combines g_subprocess_wait() with g_spawn_check_wait_status().
      */
     public boolean waitCheck(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_subprocess_wait_check(handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_subprocess_wait_check.invokeExact(handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_subprocess_wait_check_async = Interop.downcallHandle(
+        "g_subprocess_wait_check_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Combines g_subprocess_wait_async() with g_spawn_check_wait_status().
@@ -440,17 +630,22 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public void waitCheckAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_subprocess_wait_check_async(handle(), cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_subprocess_wait_check_async.invokeExact(handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_subprocess_wait_check_finish = Interop.downcallHandle(
+        "g_subprocess_wait_check_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Collects the result of a previous call to
@@ -458,12 +653,21 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean waitCheckFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_subprocess_wait_check_finish(handle(), result.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_subprocess_wait_check_finish.invokeExact(handle(), result.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_subprocess_wait_finish = Interop.downcallHandle(
+        "g_subprocess_wait_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Collects the result of a previous call to
@@ -471,11 +675,15 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean waitFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_subprocess_wait_finish(handle(), result.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_subprocess_wait_finish.invokeExact(handle(), result.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
 }

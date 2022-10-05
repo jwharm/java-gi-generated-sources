@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -45,9 +44,18 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gdk_content_formats_new = Interop.downcallHandle(
+        "gdk_content_formats_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(java.lang.String[] mimeTypes, int nMimeTypes) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes).handle(), nMimeTypes), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_content_formats_new.invokeExact(Interop.allocateNativeArray(mimeTypes).handle(), nMimeTypes), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -61,9 +69,18 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(mimeTypes, nMimeTypes));
     }
     
+    static final MethodHandle gdk_content_formats_new_for_gtype = Interop.downcallHandle(
+        "gdk_content_formats_new_for_gtype",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewForGtype(org.gtk.gobject.Type type) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_content_formats_new_for_gtype.invokeExact(type.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -73,21 +90,44 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         return new ContentFormats(constructNewForGtype(type));
     }
     
+    static final MethodHandle gdk_content_formats_contain_gtype = Interop.downcallHandle(
+        "gdk_content_formats_contain_gtype",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     /**
      * Checks if a given {@code GType} is part of the given {@code formats}.
      */
     public boolean containGtype(org.gtk.gobject.Type type) {
-        var RESULT = gtk_h.gdk_content_formats_contain_gtype(handle(), type.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_content_formats_contain_gtype.invokeExact(handle(), type.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_contain_mime_type = Interop.downcallHandle(
+        "gdk_content_formats_contain_mime_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if a given mime type is part of the given {@code formats}.
      */
     public boolean containMimeType(java.lang.String mimeType) {
-        var RESULT = gtk_h.gdk_content_formats_contain_mime_type(handle(), Interop.allocateNativeString(mimeType).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_content_formats_contain_mime_type.invokeExact(handle(), Interop.allocateNativeString(mimeType).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_get_gtypes = Interop.downcallHandle(
+        "gdk_content_formats_get_gtypes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GType}s included in {@code formats}.
@@ -96,9 +136,18 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * they are empty. In that case {@code null} will be returned.
      */
     public PointerIterator<Long> getGtypes(PointerLong nGtypes) {
-        var RESULT = gtk_h.gdk_content_formats_get_gtypes(handle(), nGtypes.handle());
-        return new PointerLong(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_get_gtypes.invokeExact(handle(), nGtypes.handle());
+            return new PointerLong(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_get_mime_types = Interop.downcallHandle(
+        "gdk_content_formats_get_mime_types",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the mime types included in {@code formats}.
@@ -107,17 +156,35 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * when they are empty. In that case {@code null} will be returned.
      */
     public PointerIterator<java.lang.String> getMimeTypes(PointerLong nMimeTypes) {
-        var RESULT = gtk_h.gdk_content_formats_get_mime_types(handle(), nMimeTypes.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_get_mime_types.invokeExact(handle(), nMimeTypes.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_match = Interop.downcallHandle(
+        "gdk_content_formats_match",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code first} and {@code second} have any matching formats.
      */
     public boolean match(ContentFormats second) {
-        var RESULT = gtk_h.gdk_content_formats_match(handle(), second.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_content_formats_match.invokeExact(handle(), second.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_match_gtype = Interop.downcallHandle(
+        "gdk_content_formats_match_gtype",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the first {@code GType} from {@code first} that is also contained
@@ -126,9 +193,18 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * If no matching {@code GType} is found, {@code G_TYPE_INVALID} is returned.
      */
     public org.gtk.gobject.Type matchGtype(ContentFormats second) {
-        var RESULT = gtk_h.gdk_content_formats_match_gtype(handle(), second.handle());
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) gdk_content_formats_match_gtype.invokeExact(handle(), second.handle());
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_match_mime_type = Interop.downcallHandle(
+        "gdk_content_formats_match_mime_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the first mime type from {@code first} that is also contained
@@ -137,9 +213,18 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * If no matching mime type is found, {@code null} is returned.
      */
     public java.lang.String matchMimeType(ContentFormats second) {
-        var RESULT = gtk_h.gdk_content_formats_match_mime_type(handle(), second.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_match_mime_type.invokeExact(handle(), second.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_print = Interop.downcallHandle(
+        "gdk_content_formats_print",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prints the given {@code formats} into a string for human consumption.
@@ -148,16 +233,34 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * {@link Gdk#ContentFormats}.
      */
     public void print(org.gtk.glib.String string) {
-        gtk_h.gdk_content_formats_print(handle(), string.handle());
+        try {
+            gdk_content_formats_print.invokeExact(handle(), string.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_ref = Interop.downcallHandle(
+        "gdk_content_formats_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of a {@code GdkContentFormats} by one.
      */
     public ContentFormats ref() {
-        var RESULT = gtk_h.gdk_content_formats_ref(handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_ref.invokeExact(handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_to_string = Interop.downcallHandle(
+        "gdk_content_formats_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prints the given {@code formats} into a human-readable string.
@@ -168,54 +271,108 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * to help when debugging.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.gdk_content_formats_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_union = Interop.downcallHandle(
+        "gdk_content_formats_union",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Append all missing types from {@code second} to {@code first}, in the order
      * they had in {@code second}.
      */
     public ContentFormats union(ContentFormats second) {
-        var RESULT = gtk_h.gdk_content_formats_union(handle(), second.handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_union.invokeExact(handle(), second.handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_union_deserialize_gtypes = Interop.downcallHandle(
+        "gdk_content_formats_union_deserialize_gtypes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Add GTypes for mime types in {@code formats} for which deserializers are
      * registered.
      */
     public ContentFormats unionDeserializeGtypes() {
-        var RESULT = gtk_h.gdk_content_formats_union_deserialize_gtypes(handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_union_deserialize_gtypes.invokeExact(handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_union_deserialize_mime_types = Interop.downcallHandle(
+        "gdk_content_formats_union_deserialize_mime_types",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Add mime types for GTypes in {@code formats} for which deserializers are
      * registered.
      */
     public ContentFormats unionDeserializeMimeTypes() {
-        var RESULT = gtk_h.gdk_content_formats_union_deserialize_mime_types(handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_union_deserialize_mime_types.invokeExact(handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_union_serialize_gtypes = Interop.downcallHandle(
+        "gdk_content_formats_union_serialize_gtypes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Add GTypes for the mime types in {@code formats} for which serializers are
      * registered.
      */
     public ContentFormats unionSerializeGtypes() {
-        var RESULT = gtk_h.gdk_content_formats_union_serialize_gtypes(handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_union_serialize_gtypes.invokeExact(handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_union_serialize_mime_types = Interop.downcallHandle(
+        "gdk_content_formats_union_serialize_mime_types",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Add mime types for GTypes in {@code formats} for which serializers are
      * registered.
      */
     public ContentFormats unionSerializeMimeTypes() {
-        var RESULT = gtk_h.gdk_content_formats_union_serialize_mime_types(handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_union_serialize_mime_types.invokeExact(handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_unref = Interop.downcallHandle(
+        "gdk_content_formats_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of a {@code GdkContentFormats} by one.
@@ -223,8 +380,17 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * If the resulting reference count is zero, frees the formats.
      */
     public void unref() {
-        gtk_h.gdk_content_formats_unref(handle());
+        try {
+            gdk_content_formats_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_parse = Interop.downcallHandle(
+        "gdk_content_formats_parse",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses the given {@code string} into {@code GdkContentFormats} and
@@ -237,8 +403,12 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * is returned.
      */
     public static ContentFormats parse(java.lang.String string) {
-        var RESULT = gtk_h.gdk_content_formats_parse(Interop.allocateNativeString(string).handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_parse.invokeExact(Interop.allocateNativeString(string).handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

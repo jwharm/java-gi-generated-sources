@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         return new ListBoxRow(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_list_box_row_new = Interop.downcallHandle(
+        "gtk_list_box_row_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_list_box_row_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_list_box_row_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -30,6 +38,11 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     public ListBoxRow() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_list_box_row_changed = Interop.downcallHandle(
+        "gtk_list_box_row_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Marks {@code row} as changed, causing any state that depends on this
@@ -52,24 +65,51 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * but that is more expensive.
      */
     public void changed() {
-        gtk_h.gtk_list_box_row_changed(handle());
+        try {
+            gtk_list_box_row_changed.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_get_activatable = Interop.downcallHandle(
+        "gtk_list_box_row_get_activatable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the row is activatable.
      */
     public boolean getActivatable() {
-        var RESULT = gtk_h.gtk_list_box_row_get_activatable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_list_box_row_get_activatable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_get_child = Interop.downcallHandle(
+        "gtk_list_box_row_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the child widget of {@code row}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_list_box_row_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_list_box_row_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_get_header = Interop.downcallHandle(
+        "gtk_list_box_row_get_header",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current header of the {@code row}.
@@ -80,48 +120,102 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * the state of it.
      */
     public Widget getHeader() {
-        var RESULT = gtk_h.gtk_list_box_row_get_header(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_list_box_row_get_header.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_get_index = Interop.downcallHandle(
+        "gtk_list_box_row_get_index",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current index of the {@code row} in its {@code GtkListBox} container.
      */
     public int getIndex() {
-        var RESULT = gtk_h.gtk_list_box_row_get_index(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_list_box_row_get_index.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_get_selectable = Interop.downcallHandle(
+        "gtk_list_box_row_get_selectable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the row can be selected.
      */
     public boolean getSelectable() {
-        var RESULT = gtk_h.gtk_list_box_row_get_selectable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_list_box_row_get_selectable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_is_selected = Interop.downcallHandle(
+        "gtk_list_box_row_is_selected",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the child is currently selected in its
      * {@code GtkListBox} container.
      */
     public boolean isSelected() {
-        var RESULT = gtk_h.gtk_list_box_row_is_selected(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_list_box_row_is_selected.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_set_activatable = Interop.downcallHandle(
+        "gtk_list_box_row_set_activatable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set whether the row is activatable.
      */
     public void setActivatable(boolean activatable) {
-        gtk_h.gtk_list_box_row_set_activatable(handle(), activatable ? 1 : 0);
+        try {
+            gtk_list_box_row_set_activatable.invokeExact(handle(), activatable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_set_child = Interop.downcallHandle(
+        "gtk_list_box_row_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code self}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_list_box_row_set_child(handle(), child.handle());
+        try {
+            gtk_list_box_row_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_set_header = Interop.downcallHandle(
+        "gtk_list_box_row_set_header",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the current header of the {@code row}.
@@ -132,14 +226,27 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * and be shown in front of the row in the listbox.
      */
     public void setHeader(Widget header) {
-        gtk_h.gtk_list_box_row_set_header(handle(), header.handle());
+        try {
+            gtk_list_box_row_set_header.invokeExact(handle(), header.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_box_row_set_selectable = Interop.downcallHandle(
+        "gtk_list_box_row_set_selectable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set whether the row can be selected.
      */
     public void setSelectable(boolean selectable) {
-        gtk_h.gtk_list_box_row_set_selectable(handle(), selectable ? 1 : 0);
+        try {
+            gtk_list_box_row_set_selectable.invokeExact(handle(), selectable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -156,19 +263,19 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBoxRow.Callbacks.class, "signalListBoxRowActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

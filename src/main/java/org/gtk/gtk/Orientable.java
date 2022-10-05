@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,19 +13,37 @@ import java.lang.invoke.*;
  */
 public interface Orientable extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_orientable_get_orientation = Interop.downcallHandle(
+        "gtk_orientable_get_orientation",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the orientation of the {@code orientable}.
      */
     public default Orientation getOrientation() {
-        var RESULT = gtk_h.gtk_orientable_get_orientation(handle());
-        return new Orientation(RESULT);
+        try {
+            var RESULT = (int) gtk_orientable_get_orientation.invokeExact(handle());
+            return new Orientation(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_orientable_set_orientation = Interop.downcallHandle(
+        "gtk_orientable_set_orientation",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the orientation of the {@code orientable}.
      */
     public default void setOrientation(Orientation orientation) {
-        gtk_h.gtk_orientable_set_orientation(handle(), orientation.getValue());
+        try {
+            gtk_orientable_set_orientation.invokeExact(handle(), orientation.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class OrientableImpl extends org.gtk.gobject.Object implements Orientable {

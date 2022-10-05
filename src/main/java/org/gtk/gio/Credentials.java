@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -55,9 +54,18 @@ public class Credentials extends org.gtk.gobject.Object {
         return new Credentials(gobject.refcounted());
     }
     
+    static final MethodHandle g_credentials_new = Interop.downcallHandle(
+        "g_credentials_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_credentials_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_credentials_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -68,6 +76,11 @@ public class Credentials extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
+    static final MethodHandle g_credentials_get_native = Interop.downcallHandle(
+        "g_credentials_get_native",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Gets a pointer to native credentials of type {@code native_type} from
      * {@code credentials}.
@@ -77,9 +90,18 @@ public class Credentials extends org.gtk.gobject.Object {
      * the OS or if {@code native_type} isn't supported by the OS.
      */
     public java.lang.foreign.MemoryAddress getNative(CredentialsType nativeType) {
-        var RESULT = gtk_h.g_credentials_get_native(handle(), nativeType.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_credentials_get_native.invokeExact(handle(), nativeType.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_credentials_get_unix_pid = Interop.downcallHandle(
+        "g_credentials_get_unix_pid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to get the UNIX process identifier from {@code credentials}. This
@@ -91,12 +113,21 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public int getUnixPid() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_credentials_get_unix_pid(handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_credentials_get_unix_pid.invokeExact(handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
+    
+    static final MethodHandle g_credentials_get_unix_user = Interop.downcallHandle(
+        "g_credentials_get_unix_user",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to get the UNIX user identifier from {@code credentials}. This
@@ -108,12 +139,21 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public int getUnixUser() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_credentials_get_unix_user(handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_credentials_get_unix_user.invokeExact(handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
+    
+    static final MethodHandle g_credentials_is_same_user = Interop.downcallHandle(
+        "g_credentials_is_same_user",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code credentials} and {@code other_credentials} is the same user.
@@ -123,12 +163,21 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public boolean isSameUser(Credentials otherCredentials) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_credentials_is_same_user(handle(), otherCredentials.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_credentials_is_same_user.invokeExact(handle(), otherCredentials.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_credentials_set_native = Interop.downcallHandle(
+        "g_credentials_set_native",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Copies the native credentials of type {@code native_type} from {@code native}
@@ -139,8 +188,17 @@ public class Credentials extends org.gtk.gobject.Object {
      * the OS or if {@code native_type} isn't supported by the OS.
      */
     public void setNative(CredentialsType nativeType, java.lang.foreign.MemoryAddress native_) {
-        gtk_h.g_credentials_set_native(handle(), nativeType.getValue(), native_);
+        try {
+            g_credentials_set_native.invokeExact(handle(), nativeType.getValue(), native_);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_credentials_set_unix_user = Interop.downcallHandle(
+        "g_credentials_set_unix_user",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Tries to set the UNIX user identifier on {@code credentials}. This method
@@ -153,12 +211,21 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public boolean setUnixUser(int uid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_credentials_set_unix_user(handle(), uid, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_credentials_set_unix_user.invokeExact(handle(), uid, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_credentials_to_string = Interop.downcallHandle(
+        "g_credentials_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a human-readable textual representation of {@code credentials}
@@ -166,8 +233,12 @@ public class Credentials extends org.gtk.gobject.Object {
      * returned string may change in future GLib release.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.g_credentials_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_credentials_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

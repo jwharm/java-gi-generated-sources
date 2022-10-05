@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class BlurNode extends RenderNode {
         return new BlurNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_blur_node_new = Interop.downcallHandle(
+        "gsk_blur_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
+    
     private static Refcounted constructNew(RenderNode child, float radius) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_blur_node_new(child.handle(), radius), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_blur_node_new.invokeExact(child.handle(), radius), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -31,20 +39,38 @@ public class BlurNode extends RenderNode {
         super(constructNew(child, radius));
     }
     
+    static final MethodHandle gsk_blur_node_get_child = Interop.downcallHandle(
+        "gsk_blur_node_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the child {@code GskRenderNode} of the blur {@code node}.
      */
     public RenderNode getChild() {
-        var RESULT = gtk_h.gsk_blur_node_get_child(handle());
-        return new RenderNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_blur_node_get_child.invokeExact(handle());
+            return new RenderNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_blur_node_get_radius = Interop.downcallHandle(
+        "gsk_blur_node_get_radius",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the blur radius of the {@code node}.
      */
     public float getRadius() {
-        var RESULT = gtk_h.gsk_blur_node_get_radius(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_blur_node_get_radius.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

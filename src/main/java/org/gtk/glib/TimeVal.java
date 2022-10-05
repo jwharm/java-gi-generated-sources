@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,10 +20,6 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
 
     public TimeVal(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public TimeVal() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTimeVal.allocate(Interop.getAllocator()).address()));
     }
     
 }

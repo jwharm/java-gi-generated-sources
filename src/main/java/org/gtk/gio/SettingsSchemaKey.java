@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,6 +14,11 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_settings_schema_key_get_default_value = Interop.downcallHandle(
+        "g_settings_schema_key_get_default_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the default value for {@code key}.
      * <p>
@@ -22,9 +26,18 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * administrator defaults and lockdown are not visible via this API.
      */
     public org.gtk.glib.Variant getDefaultValue() {
-        var RESULT = gtk_h.g_settings_schema_key_get_default_value(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_key_get_default_value.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_key_get_description = Interop.downcallHandle(
+        "g_settings_schema_key_get_description",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the description for {@code key}.
@@ -43,17 +56,35 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * directory.
      */
     public java.lang.String getDescription() {
-        var RESULT = gtk_h.g_settings_schema_key_get_description(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_key_get_description.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_key_get_name = Interop.downcallHandle(
+        "g_settings_schema_key_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of {@code key}.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.g_settings_schema_key_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_key_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_key_get_range = Interop.downcallHandle(
+        "g_settings_schema_key_get_range",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the range of a key.
@@ -94,9 +125,18 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * no longer needed.
      */
     public org.gtk.glib.Variant getRange() {
-        var RESULT = gtk_h.g_settings_schema_key_get_range(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_key_get_range.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_key_get_summary = Interop.downcallHandle(
+        "g_settings_schema_key_get_summary",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the summary for {@code key}.
@@ -114,17 +154,35 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * directory.
      */
     public java.lang.String getSummary() {
-        var RESULT = gtk_h.g_settings_schema_key_get_summary(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_key_get_summary.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_key_get_value_type = Interop.downcallHandle(
+        "g_settings_schema_key_get_value_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link org.gtk.glib.VariantType} of {@code key}.
      */
     public org.gtk.glib.VariantType getValueType() {
-        var RESULT = gtk_h.g_settings_schema_key_get_value_type(handle());
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_key_get_value_type.invokeExact(handle());
+            return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_key_range_check = Interop.downcallHandle(
+        "g_settings_schema_key_range_check",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the given {@code value} is within the
@@ -134,23 +192,45 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * must check for this first.
      */
     public boolean rangeCheck(org.gtk.glib.Variant value) {
-        var RESULT = gtk_h.g_settings_schema_key_range_check(handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_schema_key_range_check.invokeExact(handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_key_ref = Interop.downcallHandle(
+        "g_settings_schema_key_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increase the reference count of {@code key}, returning a new reference.
      */
     public SettingsSchemaKey ref() {
-        var RESULT = gtk_h.g_settings_schema_key_ref(handle());
-        return new SettingsSchemaKey(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_key_ref.invokeExact(handle());
+            return new SettingsSchemaKey(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_key_unref = Interop.downcallHandle(
+        "g_settings_schema_key_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrease the reference count of {@code key}, possibly freeing it.
      */
     public void unref() {
-        gtk_h.g_settings_schema_key_unref(handle());
+        try {
+            g_settings_schema_key_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

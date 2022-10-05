@@ -1,6 +1,5 @@
 package org.harfbuzz;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,10 +16,6 @@ public class OtVarAxisInfoT extends io.github.jwharm.javagi.ResourceBase {
 
     public OtVarAxisInfoT(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public OtVarAxisInfoT() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_ot_var_axis_info_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

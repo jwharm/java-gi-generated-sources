@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,9 +13,18 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gsk_shader_args_builder_new = Interop.downcallHandle(
+        "gsk_shader_args_builder_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(GLShader shader, org.gtk.glib.Bytes initialValues) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_shader_args_builder_new(shader.handle(), initialValues.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_shader_args_builder_new.invokeExact(shader.handle(), initialValues.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -27,6 +35,11 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(shader, initialValues));
     }
     
+    static final MethodHandle gsk_shader_args_builder_free_to_args = Interop.downcallHandle(
+        "gsk_shader_args_builder_free_to_args",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Creates a new {@code GBytes} args from the current state of the
      * given {@code builder}, and frees the {@code builder} instance.
@@ -35,17 +48,35 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * on the {@code builder} are zero-initialized.
      */
     public org.gtk.glib.Bytes freeToArgs() {
-        var RESULT = gtk_h.gsk_shader_args_builder_free_to_args(handle());
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gsk_shader_args_builder_free_to_args.invokeExact(handle());
+            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_ref = Interop.downcallHandle(
+        "gsk_shader_args_builder_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of a {@code GskShaderArgsBuilder} by one.
      */
     public ShaderArgsBuilder ref() {
-        var RESULT = gtk_h.gsk_shader_args_builder_ref(handle());
-        return new ShaderArgsBuilder(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gsk_shader_args_builder_ref.invokeExact(handle());
+            return new ShaderArgsBuilder(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_set_bool = Interop.downcallHandle(
+        "gsk_shader_args_builder_set_bool",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the value of the uniform {@code idx}.
@@ -53,8 +84,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * The uniform must be of bool type.
      */
     public void setBool(int idx, boolean value) {
-        gtk_h.gsk_shader_args_builder_set_bool(handle(), idx, value ? 1 : 0);
+        try {
+            gsk_shader_args_builder_set_bool.invokeExact(handle(), idx, value ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_set_float = Interop.downcallHandle(
+        "gsk_shader_args_builder_set_float",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the value of the uniform {@code idx}.
@@ -62,8 +102,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * The uniform must be of float type.
      */
     public void setFloat(int idx, float value) {
-        gtk_h.gsk_shader_args_builder_set_float(handle(), idx, value);
+        try {
+            gsk_shader_args_builder_set_float.invokeExact(handle(), idx, value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_set_int = Interop.downcallHandle(
+        "gsk_shader_args_builder_set_int",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the value of the uniform {@code idx}.
@@ -71,8 +120,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * The uniform must be of int type.
      */
     public void setInt(int idx, int value) {
-        gtk_h.gsk_shader_args_builder_set_int(handle(), idx, value);
+        try {
+            gsk_shader_args_builder_set_int.invokeExact(handle(), idx, value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_set_uint = Interop.downcallHandle(
+        "gsk_shader_args_builder_set_uint",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the value of the uniform {@code idx}.
@@ -80,8 +138,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * The uniform must be of uint type.
      */
     public void setUint(int idx, int value) {
-        gtk_h.gsk_shader_args_builder_set_uint(handle(), idx, value);
+        try {
+            gsk_shader_args_builder_set_uint.invokeExact(handle(), idx, value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_set_vec2 = Interop.downcallHandle(
+        "gsk_shader_args_builder_set_vec2",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the value of the uniform {@code idx}.
@@ -89,8 +156,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * The uniform must be of vec2 type.
      */
     public void setVec2(int idx, org.gtk.graphene.Vec2 value) {
-        gtk_h.gsk_shader_args_builder_set_vec2(handle(), idx, value.handle());
+        try {
+            gsk_shader_args_builder_set_vec2.invokeExact(handle(), idx, value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_set_vec3 = Interop.downcallHandle(
+        "gsk_shader_args_builder_set_vec3",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the value of the uniform {@code idx}.
@@ -98,8 +174,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * The uniform must be of vec3 type.
      */
     public void setVec3(int idx, org.gtk.graphene.Vec3 value) {
-        gtk_h.gsk_shader_args_builder_set_vec3(handle(), idx, value.handle());
+        try {
+            gsk_shader_args_builder_set_vec3.invokeExact(handle(), idx, value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_set_vec4 = Interop.downcallHandle(
+        "gsk_shader_args_builder_set_vec4",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the value of the uniform {@code idx}.
@@ -107,8 +192,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * The uniform must be of vec4 type.
      */
     public void setVec4(int idx, org.gtk.graphene.Vec4 value) {
-        gtk_h.gsk_shader_args_builder_set_vec4(handle(), idx, value.handle());
+        try {
+            gsk_shader_args_builder_set_vec4.invokeExact(handle(), idx, value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_to_args = Interop.downcallHandle(
+        "gsk_shader_args_builder_to_args",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@code GBytes} args from the current state of the
@@ -124,9 +218,18 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * {@link ShaderArgsBuilder#freeToArgs}.
      */
     public org.gtk.glib.Bytes toArgs() {
-        var RESULT = gtk_h.gsk_shader_args_builder_to_args(handle());
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gsk_shader_args_builder_to_args.invokeExact(handle());
+            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shader_args_builder_unref = Interop.downcallHandle(
+        "gsk_shader_args_builder_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of a {@code GskShaderArgBuilder} by one.
@@ -134,7 +237,11 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * If the resulting reference count is zero, frees the builder.
      */
     public void unref() {
-        gtk_h.gsk_shader_args_builder_unref(handle());
+        try {
+            gsk_shader_args_builder_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

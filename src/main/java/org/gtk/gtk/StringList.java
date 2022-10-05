@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,9 +43,18 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
         return new StringList(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_string_list_new = Interop.downcallHandle(
+        "gtk_string_list_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String[] strings) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_string_list_new.invokeExact(Interop.allocateNativeArray(strings).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -56,6 +64,11 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
         super(constructNew(strings));
     }
     
+    static final MethodHandle gtk_string_list_append = Interop.downcallHandle(
+        "gtk_string_list_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Appends {@code string} to {@code self}.
      * <p>
@@ -63,8 +76,17 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * {@link StringList#take} for a way to avoid that.
      */
     public void append(java.lang.String string) {
-        gtk_h.gtk_string_list_append(handle(), Interop.allocateNativeString(string).handle());
+        try {
+            gtk_string_list_append.invokeExact(handle(), Interop.allocateNativeString(string).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_list_get_string = Interop.downcallHandle(
+        "gtk_string_list_get_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the string that is at {@code position} in {@code self}.
@@ -75,9 +97,18 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * object wrapping it, use g_list_model_get_item().
      */
     public java.lang.String getString(int position) {
-        var RESULT = gtk_h.gtk_string_list_get_string(handle(), position);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_string_list_get_string.invokeExact(handle(), position);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_list_remove = Interop.downcallHandle(
+        "gtk_string_list_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the string at {@code position} from {@code self}.
@@ -86,8 +117,17 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * length of the list.
      */
     public void remove(int position) {
-        gtk_h.gtk_string_list_remove(handle(), position);
+        try {
+            gtk_string_list_remove.invokeExact(handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_list_splice = Interop.downcallHandle(
+        "gtk_string_list_splice",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Changes {@code self} by removing {@code n_removals} strings and adding {@code additions}
@@ -104,8 +144,17 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * of the list at the time this function is called).
      */
     public void splice(int position, int nRemovals, java.lang.String[] additions) {
-        gtk_h.gtk_string_list_splice(handle(), position, nRemovals, Interop.allocateNativeArray(additions).handle());
+        try {
+            gtk_string_list_splice.invokeExact(handle(), position, nRemovals, Interop.allocateNativeArray(additions).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_list_take = Interop.downcallHandle(
+        "gtk_string_list_take",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code string} to self at the end, and takes
@@ -119,7 +168,11 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * }</pre>
      */
     public void take(java.lang.String string) {
-        gtk_h.gtk_string_list_take(handle(), Interop.allocateNativeString(string).handle());
+        try {
+            gtk_string_list_take.invokeExact(handle(), Interop.allocateNativeString(string).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

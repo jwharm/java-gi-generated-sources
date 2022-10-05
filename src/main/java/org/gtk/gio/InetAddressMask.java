@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,13 +21,22 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
         return new InetAddressMask(gobject.refcounted());
     }
     
+    static final MethodHandle g_inet_address_mask_new = Interop.downcallHandle(
+        "g_inet_address_mask_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(InetAddress addr, int length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_address_mask_new(addr.handle(), length, GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_address_mask_new.invokeExact(addr.handle(), length, GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -39,13 +47,22 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
         super(constructNew(addr, length));
     }
     
+    static final MethodHandle g_inet_address_mask_new_from_string = Interop.downcallHandle(
+        "g_inet_address_mask_new_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromString(java.lang.String maskString) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_inet_address_mask_new_from_string(Interop.allocateNativeString(maskString).handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_address_mask_new_from_string.invokeExact(Interop.allocateNativeString(maskString).handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -58,52 +75,106 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
         return new InetAddressMask(constructNewFromString(maskString));
     }
     
+    static final MethodHandle g_inet_address_mask_equal = Interop.downcallHandle(
+        "g_inet_address_mask_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Tests if {@code mask} and {@code mask2} are the same mask.
      */
     public boolean equal(InetAddressMask mask2) {
-        var RESULT = gtk_h.g_inet_address_mask_equal(handle(), mask2.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_inet_address_mask_equal.invokeExact(handle(), mask2.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_inet_address_mask_get_address = Interop.downcallHandle(
+        "g_inet_address_mask_get_address",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code mask}'s base address
      */
     public InetAddress getAddress() {
-        var RESULT = gtk_h.g_inet_address_mask_get_address(handle());
-        return new InetAddress(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_inet_address_mask_get_address.invokeExact(handle());
+            return new InetAddress(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_inet_address_mask_get_family = Interop.downcallHandle(
+        "g_inet_address_mask_get_family",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link SocketFamily} of {@code mask}'s address
      */
     public SocketFamily getFamily() {
-        var RESULT = gtk_h.g_inet_address_mask_get_family(handle());
-        return new SocketFamily(RESULT);
+        try {
+            var RESULT = (int) g_inet_address_mask_get_family.invokeExact(handle());
+            return new SocketFamily(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_inet_address_mask_get_length = Interop.downcallHandle(
+        "g_inet_address_mask_get_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code mask}'s length
      */
     public int getLength() {
-        var RESULT = gtk_h.g_inet_address_mask_get_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_inet_address_mask_get_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_inet_address_mask_matches = Interop.downcallHandle(
+        "g_inet_address_mask_matches",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests if {@code address} falls within the range described by {@code mask}.
      */
     public boolean matches(InetAddress address) {
-        var RESULT = gtk_h.g_inet_address_mask_matches(handle(), address.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_inet_address_mask_matches.invokeExact(handle(), address.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_inet_address_mask_to_string = Interop.downcallHandle(
+        "g_inet_address_mask_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts {@code mask} back to its corresponding string form.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.g_inet_address_mask_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_inet_address_mask_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,13 +13,27 @@ import java.lang.invoke.*;
  */
 public interface Swipeable extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle adw_swipeable_get_cancel_progress = Interop.downcallHandle(
+        "adw_swipeable_get_cancel_progress",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the progress {@code self} will snap back to after the gesture is canceled.
      */
     public default double getCancelProgress() {
-        var RESULT = gtk_h.adw_swipeable_get_cancel_progress(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_swipeable_get_cancel_progress.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_swipeable_get_distance = Interop.downcallHandle(
+        "adw_swipeable_get_distance",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the swipe distance of {@code self}.
@@ -28,17 +41,35 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * This corresponds to how many pixels 1 unit represents.
      */
     public default double getDistance() {
-        var RESULT = gtk_h.adw_swipeable_get_distance(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_swipeable_get_distance.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_swipeable_get_progress = Interop.downcallHandle(
+        "adw_swipeable_get_progress",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current progress of {@code self}.
      */
     public default double getProgress() {
-        var RESULT = gtk_h.adw_swipeable_get_progress(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_swipeable_get_progress.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_swipeable_get_snap_points = Interop.downcallHandle(
+        "adw_swipeable_get_snap_points",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the snap points of {@code self}.
@@ -47,9 +78,18 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * end the swipe on.
      */
     public default PointerIterator<Double> getSnapPoints(PointerInteger nSnapPoints) {
-        var RESULT = gtk_h.adw_swipeable_get_snap_points(handle(), nSnapPoints.handle());
-        return new PointerDouble(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) adw_swipeable_get_snap_points.invokeExact(handle(), nSnapPoints.handle());
+            return new PointerDouble(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_swipeable_get_swipe_area = Interop.downcallHandle(
+        "adw_swipeable_get_swipe_area",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the area {@code self} can start a swipe from for the given direction and
@@ -63,7 +103,11 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * {@code self}, allowing swipes from anywhere.
      */
     public default void getSwipeArea(NavigationDirection navigationDirection, boolean isDrag, org.gtk.gdk.Rectangle rect) {
-        gtk_h.adw_swipeable_get_swipe_area(handle(), navigationDirection.getValue(), isDrag ? 1 : 0, rect.handle());
+        try {
+            adw_swipeable_get_swipe_area.invokeExact(handle(), navigationDirection.getValue(), isDrag ? 1 : 0, rect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class SwipeableImpl extends org.gtk.gobject.Object implements Swipeable {

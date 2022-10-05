@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,18 +25,23 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_thread_new = Interop.downcallHandle(
+        "g_thread_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String name, ThreadFunc func) {
         try {
-            Refcounted RESULT = Refcounted.get(gtk_h.g_thread_new(Interop.allocateNativeString(name).handle(), 
-                    Linker.nativeLinker().upcallStub(
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_thread_new.invokeExact(Interop.allocateNativeString(name).handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func))), true);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func))), true);
             return RESULT;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -74,22 +78,27 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(name, func));
     }
     
+    static final MethodHandle g_thread_try_new = Interop.downcallHandle(
+        "g_thread_try_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructTryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get(gtk_h.g_thread_try_new(Interop.allocateNativeString(name).handle(), 
-                    Linker.nativeLinker().upcallStub(
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_thread_try_new.invokeExact(Interop.allocateNativeString(name).handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), GERROR), true);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
             return RESULT;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -103,6 +112,11 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     public static Thread tryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
         return new Thread(constructTryNew(name, func));
     }
+    
+    static final MethodHandle g_thread_join = Interop.downcallHandle(
+        "g_thread_join",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Waits until {@code thread} finishes, i.e. the function {@code func}, as
@@ -123,17 +137,35 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * want to keep the GThread alive beyond the g_thread_join() call.
      */
     public java.lang.foreign.MemoryAddress join() {
-        var RESULT = gtk_h.g_thread_join(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_thread_join.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_ref = Interop.downcallHandle(
+        "g_thread_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increase the reference count on {@code thread}.
      */
     public Thread ref() {
-        var RESULT = gtk_h.g_thread_ref(handle());
-        return new Thread(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_thread_ref.invokeExact(handle());
+            return new Thread(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_unref = Interop.downcallHandle(
+        "g_thread_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrease the reference count on {@code thread}, possibly freeing all
@@ -144,13 +176,31 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * if you don't need it anymore.
      */
     public void unref() {
-        gtk_h.g_thread_unref(handle());
+        try {
+            g_thread_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_thread_error_quark = Interop.downcallHandle(
+        "g_thread_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark errorQuark() {
-        var RESULT = gtk_h.g_thread_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_thread_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_exit = Interop.downcallHandle(
+        "g_thread_exit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Terminates the current thread.
@@ -168,8 +218,17 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * or or from within a {@link ThreadPool}.
      */
     public static void exit(java.lang.foreign.MemoryAddress retval) {
-        gtk_h.g_thread_exit(retval);
+        try {
+            g_thread_exit.invokeExact(retval);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_self = Interop.downcallHandle(
+        "g_thread_self",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * This function returns the {@link Thread} corresponding to the
@@ -183,9 +242,18 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * as g_thread_join()) on these threads.
      */
     public static Thread self() {
-        var RESULT = gtk_h.g_thread_self();
-        return new Thread(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_thread_self.invokeExact();
+            return new Thread(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_yield = Interop.downcallHandle(
+        "g_thread_yield",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Causes the calling thread to voluntarily relinquish the CPU, so
@@ -194,7 +262,11 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * This function is often used as a method to make busy wait less evil.
      */
     public static void yield() {
-        gtk_h.g_thread_yield();
+        try {
+            g_thread_yield.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,9 +13,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_date_time_new = Interop.downcallHandle(
+        "g_date_time_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNew(TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new(tz.handle(), year, month, day, hour, minute, seconds), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new.invokeExact(tz.handle(), year, month, day, hour, minute, seconds), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -53,9 +61,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(tz, year, month, day, hour, minute, seconds));
     }
     
+    static final MethodHandle g_date_time_new_from_iso8601 = Interop.downcallHandle(
+        "g_date_time_new_from_iso8601",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromIso8601(java.lang.String text, TimeZone defaultTz) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_from_iso8601.invokeExact(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -113,9 +130,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromIso8601(text, defaultTz));
     }
     
+    static final MethodHandle g_date_time_new_from_timeval_local = Interop.downcallHandle(
+        "g_date_time_new_from_timeval_local",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromTimevalLocal(TimeVal tv) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_timeval_local(tv.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_from_timeval_local.invokeExact(tv.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -136,9 +162,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromTimevalLocal(tv));
     }
     
+    static final MethodHandle g_date_time_new_from_timeval_utc = Interop.downcallHandle(
+        "g_date_time_new_from_timeval_utc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromTimevalUtc(TimeVal tv) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_timeval_utc(tv.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_from_timeval_utc.invokeExact(tv.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -157,9 +192,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromTimevalUtc(tv));
     }
     
+    static final MethodHandle g_date_time_new_from_unix_local = Interop.downcallHandle(
+        "g_date_time_new_from_unix_local",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewFromUnixLocal(long t) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_unix_local(t), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_from_unix_local.invokeExact(t), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -179,9 +223,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromUnixLocal(t));
     }
     
+    static final MethodHandle g_date_time_new_from_unix_utc = Interop.downcallHandle(
+        "g_date_time_new_from_unix_utc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewFromUnixUtc(long t) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_from_unix_utc(t), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_from_unix_utc.invokeExact(t), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -200,9 +253,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewFromUnixUtc(t));
     }
     
+    static final MethodHandle g_date_time_new_local = Interop.downcallHandle(
+        "g_date_time_new_local",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_local.invokeExact(year, month, day, hour, minute, seconds), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -216,9 +278,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewLocal(year, month, day, hour, minute, seconds));
     }
     
+    static final MethodHandle g_date_time_new_now = Interop.downcallHandle(
+        "g_date_time_new_now",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewNow(TimeZone tz) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_now(tz.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_now.invokeExact(tz.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -236,9 +307,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewNow(tz));
     }
     
+    static final MethodHandle g_date_time_new_now_local = Interop.downcallHandle(
+        "g_date_time_new_now_local",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewNowLocal() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_now_local(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_now_local.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -252,9 +332,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewNowLocal());
     }
     
+    static final MethodHandle g_date_time_new_now_utc = Interop.downcallHandle(
+        "g_date_time_new_now_utc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewNowUtc() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_now_utc(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_now_utc.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -267,9 +356,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewNowUtc());
     }
     
+    static final MethodHandle g_date_time_new_utc = Interop.downcallHandle(
+        "g_date_time_new_utc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_time_new_utc.invokeExact(year, month, day, hour, minute, seconds), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -283,49 +381,99 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
         return new DateTime(constructNewUtc(year, month, day, hour, minute, seconds));
     }
     
+    static final MethodHandle g_date_time_add = Interop.downcallHandle(
+        "g_date_time_add",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     /**
      * Creates a copy of {@code datetime} and adds the specified timespan to the copy.
      */
     public DateTime add(TimeSpan timespan) {
-        var RESULT = gtk_h.g_date_time_add(handle(), timespan.getValue());
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add.invokeExact(handle(), timespan.getValue());
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_add_days = Interop.downcallHandle(
+        "g_date_time_add_days",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a copy of {@code datetime} and adds the specified number of days to the
      * copy. Add negative values to subtract days.
      */
     public DateTime addDays(int days) {
-        var RESULT = gtk_h.g_date_time_add_days(handle(), days);
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add_days.invokeExact(handle(), days);
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_add_full = Interop.downcallHandle(
+        "g_date_time_add_full",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Creates a new {@link DateTime} adding the specified values to the current date and
      * time in {@code datetime}. Add negative values to subtract.
      */
     public DateTime addFull(int years, int months, int days, int hours, int minutes, double seconds) {
-        var RESULT = gtk_h.g_date_time_add_full(handle(), years, months, days, hours, minutes, seconds);
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add_full.invokeExact(handle(), years, months, days, hours, minutes, seconds);
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_add_hours = Interop.downcallHandle(
+        "g_date_time_add_hours",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a copy of {@code datetime} and adds the specified number of hours.
      * Add negative values to subtract hours.
      */
     public DateTime addHours(int hours) {
-        var RESULT = gtk_h.g_date_time_add_hours(handle(), hours);
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add_hours.invokeExact(handle(), hours);
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_add_minutes = Interop.downcallHandle(
+        "g_date_time_add_minutes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a copy of {@code datetime} adding the specified number of minutes.
      * Add negative values to subtract minutes.
      */
     public DateTime addMinutes(int minutes) {
-        var RESULT = gtk_h.g_date_time_add_minutes(handle(), minutes);
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add_minutes.invokeExact(handle(), minutes);
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_add_months = Interop.downcallHandle(
+        "g_date_time_add_months",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a copy of {@code datetime} and adds the specified number of months to the
@@ -337,27 +485,54 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * year), the result would be 29th February.
      */
     public DateTime addMonths(int months) {
-        var RESULT = gtk_h.g_date_time_add_months(handle(), months);
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add_months.invokeExact(handle(), months);
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_add_seconds = Interop.downcallHandle(
+        "g_date_time_add_seconds",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Creates a copy of {@code datetime} and adds the specified number of seconds.
      * Add negative values to subtract seconds.
      */
     public DateTime addSeconds(double seconds) {
-        var RESULT = gtk_h.g_date_time_add_seconds(handle(), seconds);
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add_seconds.invokeExact(handle(), seconds);
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_add_weeks = Interop.downcallHandle(
+        "g_date_time_add_weeks",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a copy of {@code datetime} and adds the specified number of weeks to the
      * copy. Add negative values to subtract weeks.
      */
     public DateTime addWeeks(int weeks) {
-        var RESULT = gtk_h.g_date_time_add_weeks(handle(), weeks);
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add_weeks.invokeExact(handle(), weeks);
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_add_years = Interop.downcallHandle(
+        "g_date_time_add_years",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a copy of {@code datetime} and adds the specified number of years to the
@@ -367,18 +542,36 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * February on a non-leap year, the day will be clamped to 28th February.
      */
     public DateTime addYears(int years) {
-        var RESULT = gtk_h.g_date_time_add_years(handle(), years);
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_add_years.invokeExact(handle(), years);
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_compare = Interop.downcallHandle(
+        "g_date_time_compare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A comparison function for {@code GDateTimes} that is suitable
      * as a {@link CompareFunc}. Both {@code GDateTimes} must be non-{@code null}.
      */
     public int compare(DateTime dt2) {
-        var RESULT = gtk_h.g_date_time_compare(handle(), dt2.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_compare.invokeExact(handle(), dt2.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_difference = Interop.downcallHandle(
+        "g_date_time_difference",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calculates the difference in time between {@code end} and {@code begin}.  The
@@ -386,9 +579,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * positive if the first parameter is larger).
      */
     public TimeSpan difference(DateTime begin) {
-        var RESULT = gtk_h.g_date_time_difference(handle(), begin.handle());
-        return new TimeSpan(RESULT);
+        try {
+            var RESULT = (long) g_date_time_difference.invokeExact(handle(), begin.handle());
+            return new TimeSpan(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_equal = Interop.downcallHandle(
+        "g_date_time_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks to see if {@code dt1} and {@code dt2} are equal.
@@ -397,9 +599,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * them to the same time zone.
      */
     public boolean equal(DateTime dt2) {
-        var RESULT = gtk_h.g_date_time_equal(handle(), dt2.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_time_equal.invokeExact(handle(), dt2.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_format = Interop.downcallHandle(
+        "g_date_time_format",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a newly allocated string representing the requested {@code format}.
@@ -507,9 +718,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * \\{@code Ob} and \\{@code Oh} are GNU strftime() extensions. Since: 2.56
      */
     public java.lang.String format(java.lang.String format) {
-        var RESULT = gtk_h.g_date_time_format(handle(), Interop.allocateNativeString(format).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_date_time_format.invokeExact(handle(), Interop.allocateNativeString(format).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_format_iso8601 = Interop.downcallHandle(
+        "g_date_time_format_iso8601",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Format {@code datetime} in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 format</a>,
@@ -519,94 +739,193 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Since GLib 2.66, this will output to sub-second precision if needed.
      */
     public java.lang.String formatIso8601() {
-        var RESULT = gtk_h.g_date_time_format_iso8601(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_date_time_format_iso8601.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_day_of_month = Interop.downcallHandle(
+        "g_date_time_get_day_of_month",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the day of the month represented by {@code datetime} in the gregorian
      * calendar.
      */
     public int getDayOfMonth() {
-        var RESULT = gtk_h.g_date_time_get_day_of_month(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_day_of_month.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_day_of_week = Interop.downcallHandle(
+        "g_date_time_get_day_of_week",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the ISO 8601 day of the week on which {@code datetime} falls (1 is
      * Monday, 2 is Tuesday... 7 is Sunday).
      */
     public int getDayOfWeek() {
-        var RESULT = gtk_h.g_date_time_get_day_of_week(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_day_of_week.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_day_of_year = Interop.downcallHandle(
+        "g_date_time_get_day_of_year",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the day of the year represented by {@code datetime} in the Gregorian
      * calendar.
      */
     public int getDayOfYear() {
-        var RESULT = gtk_h.g_date_time_get_day_of_year(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_day_of_year.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_hour = Interop.downcallHandle(
+        "g_date_time_get_hour",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the hour of the day represented by {@code datetime}
      */
     public int getHour() {
-        var RESULT = gtk_h.g_date_time_get_hour(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_hour.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_microsecond = Interop.downcallHandle(
+        "g_date_time_get_microsecond",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the microsecond of the date represented by {@code datetime}
      */
     public int getMicrosecond() {
-        var RESULT = gtk_h.g_date_time_get_microsecond(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_microsecond.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_minute = Interop.downcallHandle(
+        "g_date_time_get_minute",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the minute of the hour represented by {@code datetime}
      */
     public int getMinute() {
-        var RESULT = gtk_h.g_date_time_get_minute(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_minute.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_month = Interop.downcallHandle(
+        "g_date_time_get_month",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the month of the year represented by {@code datetime} in the Gregorian
      * calendar.
      */
     public int getMonth() {
-        var RESULT = gtk_h.g_date_time_get_month(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_month.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_second = Interop.downcallHandle(
+        "g_date_time_get_second",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the second of the minute represented by {@code datetime}
      */
     public int getSecond() {
-        var RESULT = gtk_h.g_date_time_get_second(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_second.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_seconds = Interop.downcallHandle(
+        "g_date_time_get_seconds",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of seconds since the start of the last minute,
      * including the fractional part.
      */
     public double getSeconds() {
-        var RESULT = gtk_h.g_date_time_get_seconds(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) g_date_time_get_seconds.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_timezone = Interop.downcallHandle(
+        "g_date_time_get_timezone",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the time zone for this {@code datetime}.
      */
     public TimeZone getTimezone() {
-        var RESULT = gtk_h.g_date_time_get_timezone(handle());
-        return new TimeZone(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_get_timezone.invokeExact(handle());
+            return new TimeZone(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_timezone_abbreviation = Interop.downcallHandle(
+        "g_date_time_get_timezone_abbreviation",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the time zone abbreviation to be used at the time and in
@@ -617,9 +936,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * time is in effect.
      */
     public java.lang.String getTimezoneAbbreviation() {
-        var RESULT = gtk_h.g_date_time_get_timezone_abbreviation(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_date_time_get_timezone_abbreviation.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_utc_offset = Interop.downcallHandle(
+        "g_date_time_get_utc_offset",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the offset to UTC in effect at the time and in the time
@@ -632,9 +960,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * If {@code datetime} represents UTC time, then the offset is always zero.
      */
     public TimeSpan getUtcOffset() {
-        var RESULT = gtk_h.g_date_time_get_utc_offset(handle());
-        return new TimeSpan(RESULT);
+        try {
+            var RESULT = (long) g_date_time_get_utc_offset.invokeExact(handle());
+            return new TimeSpan(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_week_numbering_year = Interop.downcallHandle(
+        "g_date_time_get_week_numbering_year",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the ISO 8601 week-numbering year in which the week containing
@@ -670,9 +1007,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Monday, so this function never returns 0.
      */
     public int getWeekNumberingYear() {
-        var RESULT = gtk_h.g_date_time_get_week_numbering_year(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_week_numbering_year.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_week_of_year = Interop.downcallHandle(
+        "g_date_time_get_week_of_year",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the ISO 8601 week number for the week containing {@code datetime}.
@@ -692,49 +1038,103 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * if 4 or more days of that week are contained within the new year.
      */
     public int getWeekOfYear() {
-        var RESULT = gtk_h.g_date_time_get_week_of_year(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_week_of_year.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_year = Interop.downcallHandle(
+        "g_date_time_get_year",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the year represented by {@code datetime} in the Gregorian calendar.
      */
     public int getYear() {
-        var RESULT = gtk_h.g_date_time_get_year(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_get_year.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_get_ymd = Interop.downcallHandle(
+        "g_date_time_get_ymd",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the Gregorian day, month, and year of a given {@link DateTime}.
      */
     public void getYmd(PointerInteger year, PointerInteger month, PointerInteger day) {
-        gtk_h.g_date_time_get_ymd(handle(), year.handle(), month.handle(), day.handle());
+        try {
+            g_date_time_get_ymd.invokeExact(handle(), year.handle(), month.handle(), day.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_hash = Interop.downcallHandle(
+        "g_date_time_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Hashes {@code datetime} into a {@code guint}, suitable for use within {@link HashTable}.
      */
     public int hash() {
-        var RESULT = gtk_h.g_date_time_hash(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_date_time_hash.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_is_daylight_savings = Interop.downcallHandle(
+        "g_date_time_is_daylight_savings",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if daylight savings time is in effect at the time and in
      * the time zone of {@code datetime}.
      */
     public boolean isDaylightSavings() {
-        var RESULT = gtk_h.g_date_time_is_daylight_savings(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_time_is_daylight_savings.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_ref = Interop.downcallHandle(
+        "g_date_time_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically increments the reference count of {@code datetime} by one.
      */
     public DateTime ref() {
-        var RESULT = gtk_h.g_date_time_ref(handle());
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_ref.invokeExact(handle());
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_to_local = Interop.downcallHandle(
+        "g_date_time_to_local",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link DateTime} corresponding to the same instant in time as
@@ -744,9 +1144,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * time zone returned by g_time_zone_new_local().
      */
     public DateTime toLocal() {
-        var RESULT = gtk_h.g_date_time_to_local(handle());
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_to_local.invokeExact(handle());
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_to_timezone = Interop.downcallHandle(
+        "g_date_time_to_timezone",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new {@link DateTime} corresponding to the same instant in time as
@@ -757,9 +1166,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Greenwich will fail (due to the year 0 being out of range).
      */
     public DateTime toTimezone(TimeZone tz) {
-        var RESULT = gtk_h.g_date_time_to_timezone(handle(), tz.handle());
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_to_timezone.invokeExact(handle(), tz.handle());
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_to_unix = Interop.downcallHandle(
+        "g_date_time_to_unix",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gives the Unix time corresponding to {@code datetime}, rounding down to the
@@ -769,9 +1187,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * 00:00:00 UTC, regardless of the time zone associated with {@code datetime}.
      */
     public long toUnix() {
-        var RESULT = gtk_h.g_date_time_to_unix(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_date_time_to_unix.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_to_utc = Interop.downcallHandle(
+        "g_date_time_to_utc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link DateTime} corresponding to the same instant in time as
@@ -781,9 +1208,18 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * time zone returned by g_time_zone_new_utc().
      */
     public DateTime toUtc() {
-        var RESULT = gtk_h.g_date_time_to_utc(handle());
-        return new DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_date_time_to_utc.invokeExact(handle());
+            return new DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_time_unref = Interop.downcallHandle(
+        "g_date_time_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code datetime} by one.
@@ -792,7 +1228,11 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * {@code datetime} are freed
      */
     public void unref() {
-        gtk_h.g_date_time_unref(handle());
+        try {
+            g_date_time_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

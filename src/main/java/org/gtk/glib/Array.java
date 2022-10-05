@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,26 +13,45 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Array() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GArray.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_array_append_vals = Interop.downcallHandle(
+        "g_array_append_vals",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds {@code len} elements onto the end of the array.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> appendVals(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data, int len) {
-        var RESULT = gtk_h.g_array_append_vals(Interop.allocateNativeArray(array).handle(), data, len);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_append_vals.invokeExact(Interop.allocateNativeArray(array).handle(), data, len);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_copy = Interop.downcallHandle(
+        "g_array_copy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a shallow copy of a {@link Array}. If the array elements consist of
      * pointers to data, the pointers are copied but the actual data is not.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> copy(java.lang.foreign.MemoryAddress[] array) {
-        var RESULT = gtk_h.g_array_copy(Interop.allocateNativeArray(array).handle());
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_copy.invokeExact(Interop.allocateNativeArray(array).handle());
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_free = Interop.downcallHandle(
+        "g_array_free",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Frees the memory allocated for the {@link Array}. If {@code free_segment} is
@@ -52,17 +70,35 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * functions.
      */
     public static java.lang.String free(java.lang.foreign.MemoryAddress[] array, boolean freeSegment) {
-        var RESULT = gtk_h.g_array_free(Interop.allocateNativeArray(array).handle(), freeSegment ? 1 : 0);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_array_free.invokeExact(Interop.allocateNativeArray(array).handle(), freeSegment ? 1 : 0);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_get_element_size = Interop.downcallHandle(
+        "g_array_get_element_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the size of the elements in {@code array}.
      */
     public static int getElementSize(java.lang.foreign.MemoryAddress[] array) {
-        var RESULT = gtk_h.g_array_get_element_size(Interop.allocateNativeArray(array).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_array_get_element_size.invokeExact(Interop.allocateNativeArray(array).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_insert_vals = Interop.downcallHandle(
+        "g_array_insert_vals",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Inserts {@code len} elements into a {@link Array} at the given index.
@@ -80,17 +116,35 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * function is a no-op.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> insertVals(java.lang.foreign.MemoryAddress[] array, int index, java.lang.foreign.MemoryAddress data, int len) {
-        var RESULT = gtk_h.g_array_insert_vals(Interop.allocateNativeArray(array).handle(), index, data, len);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_insert_vals.invokeExact(Interop.allocateNativeArray(array).handle(), index, data, len);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_new = Interop.downcallHandle(
+        "g_array_new",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a new {@link Array} with a reference count of 1.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> new_(boolean zeroTerminated, boolean clear, int elementSize) {
-        var RESULT = gtk_h.g_array_new(zeroTerminated ? 1 : 0, clear ? 1 : 0, elementSize);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_new.invokeExact(zeroTerminated ? 1 : 0, clear ? 1 : 0, elementSize);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_prepend_vals = Interop.downcallHandle(
+        "g_array_prepend_vals",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds {@code len} elements onto the start of the array.
@@ -103,27 +157,54 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * the new elements.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> prependVals(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data, int len) {
-        var RESULT = gtk_h.g_array_prepend_vals(Interop.allocateNativeArray(array).handle(), data, len);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_prepend_vals.invokeExact(Interop.allocateNativeArray(array).handle(), data, len);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_ref = Interop.downcallHandle(
+        "g_array_ref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically increments the reference count of {@code array} by one.
      * This function is thread-safe and may be called from any thread.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> ref(java.lang.foreign.MemoryAddress[] array) {
-        var RESULT = gtk_h.g_array_ref(Interop.allocateNativeArray(array).handle());
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_ref.invokeExact(Interop.allocateNativeArray(array).handle());
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_remove_index = Interop.downcallHandle(
+        "g_array_remove_index",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the element at the given index from a {@link Array}. The following
      * elements are moved down one place.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
-        var RESULT = gtk_h.g_array_remove_index(Interop.allocateNativeArray(array).handle(), index);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_remove_index.invokeExact(Interop.allocateNativeArray(array).handle(), index);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_remove_index_fast = Interop.downcallHandle(
+        "g_array_remove_index_fast",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the element at the given index from a {@link Array}. The last
@@ -132,27 +213,54 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * g_array_remove_index().
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
-        var RESULT = gtk_h.g_array_remove_index_fast(Interop.allocateNativeArray(array).handle(), index);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array).handle(), index);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_remove_range = Interop.downcallHandle(
+        "g_array_remove_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the given number of elements starting at the given index
      * from a {@link Array}.  The following elements are moved to close the gap.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
-        var RESULT = gtk_h.g_array_remove_range(Interop.allocateNativeArray(array).handle(), index, length);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_remove_range.invokeExact(Interop.allocateNativeArray(array).handle(), index, length);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_set_size = Interop.downcallHandle(
+        "g_array_set_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the size of the array, expanding it if necessary. If the array
      * was created with {@code clear_} set to {@code true}, the new elements are set to 0.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> setSize(java.lang.foreign.MemoryAddress[] array, int length) {
-        var RESULT = gtk_h.g_array_set_size(Interop.allocateNativeArray(array).handle(), length);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_set_size.invokeExact(Interop.allocateNativeArray(array).handle(), length);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_sized_new = Interop.downcallHandle(
+        "g_array_sized_new",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a new {@link Array} with {@code reserved_size} elements preallocated and
@@ -161,9 +269,18 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * size of the array is still 0.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> sizedNew(boolean zeroTerminated, boolean clear, int elementSize, int reservedSize) {
-        var RESULT = gtk_h.g_array_sized_new(zeroTerminated ? 1 : 0, clear ? 1 : 0, elementSize, reservedSize);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_array_sized_new.invokeExact(zeroTerminated ? 1 : 0, clear ? 1 : 0, elementSize, reservedSize);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_sort_with_data = Interop.downcallHandle(
+        "g_array_sort_with_data",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Like g_array_sort(), but the comparison function receives an extra
@@ -177,17 +294,22 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void sortWithData(java.lang.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
         try {
-            gtk_h.g_array_sort_with_data(Interop.allocateNativeArray(array).handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_array_sort_with_data.invokeExact(Interop.allocateNativeArray(array).handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_array_steal = Interop.downcallHandle(
+        "g_array_steal",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the data in the array and resets the size to zero, while
@@ -210,9 +332,18 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public static java.lang.foreign.MemoryAddress steal(java.lang.foreign.MemoryAddress[] array, PointerLong len) {
-        var RESULT = gtk_h.g_array_steal(Interop.allocateNativeArray(array).handle(), len.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_array_steal.invokeExact(Interop.allocateNativeArray(array).handle(), len.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_array_unref = Interop.downcallHandle(
+        "g_array_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code array} by one. If the
@@ -221,7 +352,11 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * thread.
      */
     public static void unref(java.lang.foreign.MemoryAddress[] array) {
-        gtk_h.g_array_unref(Interop.allocateNativeArray(array).handle());
+        try {
+            g_array_unref.invokeExact(Interop.allocateNativeArray(array).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

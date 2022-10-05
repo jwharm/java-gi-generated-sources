@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public TextIter() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkTextIter.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle gtk_text_iter_assign = Interop.downcallHandle(
+        "gtk_text_iter_assign",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Assigns the value of {@code other} to {@code iter}.
@@ -32,8 +32,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * The function is used by language bindings.
      */
     public void assign(TextIter other) {
-        gtk_h.gtk_text_iter_assign(handle(), other.handle());
+        try {
+            gtk_text_iter_assign.invokeExact(handle(), other.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_char = Interop.downcallHandle(
+        "gtk_text_iter_backward_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves backward by one character offset.
@@ -43,9 +52,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * for convenience when writing loops.
      */
     public boolean backwardChar() {
-        var RESULT = gtk_h.gtk_text_iter_backward_char(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_char.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_chars = Interop.downcallHandle(
+        "gtk_text_iter_backward_chars",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves {@code count} characters backward, if possible.
@@ -59,17 +77,35 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * the function does nothing and returns {@code false}.
      */
     public boolean backwardChars(int count) {
-        var RESULT = gtk_h.gtk_text_iter_backward_chars(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_chars.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_cursor_position = Interop.downcallHandle(
+        "gtk_text_iter_backward_cursor_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Like gtk_text_iter_forward_cursor_position(), but moves backward.
      */
     public boolean backwardCursorPosition() {
-        var RESULT = gtk_h.gtk_text_iter_backward_cursor_position(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_cursor_position.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_cursor_positions = Interop.downcallHandle(
+        "gtk_text_iter_backward_cursor_positions",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves up to {@code count} cursor positions.
@@ -77,9 +113,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@link TextIter#forwardCursorPosition} for details.
      */
     public boolean backwardCursorPositions(int count) {
-        var RESULT = gtk_h.gtk_text_iter_backward_cursor_positions(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_cursor_positions.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_find_char = Interop.downcallHandle(
+        "gtk_text_iter_backward_find_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Same as gtk_text_iter_forward_find_char(),
@@ -87,18 +132,23 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean backwardFindChar(TextCharPredicate pred, TextIter limit) {
         try {
-            var RESULT = gtk_h.gtk_text_iter_backward_find_char(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) gtk_text_iter_backward_find_char.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTextCharPredicate",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
             return RESULT != 0;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_line = Interop.downcallHandle(
+        "gtk_text_iter_backward_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} to the start of the previous line.
@@ -112,9 +162,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * every iteration, if your first iteration is on line 0.)
      */
     public boolean backwardLine() {
-        var RESULT = gtk_h.gtk_text_iter_backward_line(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_line.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_lines = Interop.downcallHandle(
+        "gtk_text_iter_backward_lines",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves {@code count} lines backward, if possible.
@@ -129,9 +188,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * moves forward by 0 - {@code count} lines.
      */
     public boolean backwardLines(int count) {
-        var RESULT = gtk_h.gtk_text_iter_backward_lines(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_lines.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_search = Interop.downcallHandle(
+        "gtk_text_iter_backward_search",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Same as gtk_text_iter_forward_search(), but moves backward.
@@ -140,9 +208,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * even if there is a possible {@code match_start} before or at {@code iter}.
      */
     public boolean backwardSearch(java.lang.String str, TextSearchFlags flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
-        var RESULT = gtk_h.gtk_text_iter_backward_search(handle(), Interop.allocateNativeString(str).handle(), flags.getValue(), matchStart.handle(), matchEnd.handle(), limit.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_search.invokeExact(handle(), Interop.allocateNativeString(str).handle(), flags.getValue(), matchStart.handle(), matchEnd.handle(), limit.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_sentence_start = Interop.downcallHandle(
+        "gtk_text_iter_backward_sentence_start",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves backward to the previous sentence start.
@@ -154,9 +231,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * be correct for nearly any language.
      */
     public boolean backwardSentenceStart() {
-        var RESULT = gtk_h.gtk_text_iter_backward_sentence_start(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_sentence_start.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_sentence_starts = Interop.downcallHandle(
+        "gtk_text_iter_backward_sentence_starts",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Calls gtk_text_iter_backward_sentence_start() up to {@code count} times.
@@ -164,9 +250,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * If {@code count} is negative, moves forward instead of backward.
      */
     public boolean backwardSentenceStarts(int count) {
-        var RESULT = gtk_h.gtk_text_iter_backward_sentence_starts(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_sentence_starts.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_to_tag_toggle = Interop.downcallHandle(
+        "gtk_text_iter_backward_to_tag_toggle",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves backward to the next toggle (on or off) of the
@@ -180,9 +275,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * if no toggle is found.
      */
     public boolean backwardToTagToggle(TextTag tag) {
-        var RESULT = gtk_h.gtk_text_iter_backward_to_tag_toggle(handle(), tag.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_to_tag_toggle.invokeExact(handle(), tag.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_visible_cursor_position = Interop.downcallHandle(
+        "gtk_text_iter_backward_visible_cursor_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward to the previous visible cursor position.
@@ -190,9 +294,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@link TextIter#backwardCursorPosition} for details.
      */
     public boolean backwardVisibleCursorPosition() {
-        var RESULT = gtk_h.gtk_text_iter_backward_visible_cursor_position(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_visible_cursor_position.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_visible_cursor_positions = Interop.downcallHandle(
+        "gtk_text_iter_backward_visible_cursor_positions",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves up to {@code count} visible cursor positions.
@@ -200,9 +313,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@link TextIter#backwardCursorPosition} for details.
      */
     public boolean backwardVisibleCursorPositions(int count) {
-        var RESULT = gtk_h.gtk_text_iter_backward_visible_cursor_positions(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_visible_cursor_positions.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_visible_line = Interop.downcallHandle(
+        "gtk_text_iter_backward_visible_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} to the start of the previous visible line.
@@ -216,9 +338,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * every iteration, if your first iteration is on line 0.)
      */
     public boolean backwardVisibleLine() {
-        var RESULT = gtk_h.gtk_text_iter_backward_visible_line(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_visible_line.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_visible_lines = Interop.downcallHandle(
+        "gtk_text_iter_backward_visible_lines",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves {@code count} visible lines backward, if possible.
@@ -233,9 +364,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * moves forward by 0 - {@code count} lines.
      */
     public boolean backwardVisibleLines(int count) {
-        var RESULT = gtk_h.gtk_text_iter_backward_visible_lines(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_visible_lines.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_visible_word_start = Interop.downcallHandle(
+        "gtk_text_iter_backward_visible_word_start",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves backward to the previous visible word start.
@@ -247,17 +387,35 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * for nearly any language.
      */
     public boolean backwardVisibleWordStart() {
-        var RESULT = gtk_h.gtk_text_iter_backward_visible_word_start(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_visible_word_start.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_visible_word_starts = Interop.downcallHandle(
+        "gtk_text_iter_backward_visible_word_starts",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Calls gtk_text_iter_backward_visible_word_start() up to {@code count} times.
      */
     public boolean backwardVisibleWordStarts(int count) {
-        var RESULT = gtk_h.gtk_text_iter_backward_visible_word_starts(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_visible_word_starts.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_word_start = Interop.downcallHandle(
+        "gtk_text_iter_backward_word_start",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves backward to the previous word start.
@@ -269,17 +427,35 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * for nearly any language
      */
     public boolean backwardWordStart() {
-        var RESULT = gtk_h.gtk_text_iter_backward_word_start(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_word_start.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_backward_word_starts = Interop.downcallHandle(
+        "gtk_text_iter_backward_word_starts",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Calls gtk_text_iter_backward_word_start() up to {@code count} times.
      */
     public boolean backwardWordStarts(int count) {
-        var RESULT = gtk_h.gtk_text_iter_backward_word_starts(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_backward_word_starts.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_can_insert = Interop.downcallHandle(
+        "gtk_text_iter_can_insert",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Considering the default editability of the buffer, and tags that
@@ -292,9 +468,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * to decide whether insertions are allowed at a given position.
      */
     public boolean canInsert(boolean defaultEditability) {
-        var RESULT = gtk_h.gtk_text_iter_can_insert(handle(), defaultEditability ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_can_insert.invokeExact(handle(), defaultEditability ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_compare = Interop.downcallHandle(
+        "gtk_text_iter_compare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A qsort()-style function that returns negative if {@code lhs} is less than
@@ -304,9 +489,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * in the buffer is less than the second character in the buffer.
      */
     public int compare(TextIter rhs) {
-        var RESULT = gtk_h.gtk_text_iter_compare(handle(), rhs.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_compare.invokeExact(handle(), rhs.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_copy = Interop.downcallHandle(
+        "gtk_text_iter_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a dynamically-allocated copy of an iterator.
@@ -318,9 +512,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * The function is used by language bindings.
      */
     public TextIter copy() {
-        var RESULT = gtk_h.gtk_text_iter_copy(handle());
-        return new TextIter(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_copy.invokeExact(handle());
+            return new TextIter(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_editable = Interop.downcallHandle(
+        "gtk_text_iter_editable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns whether the character at {@code iter} is within an editable region
@@ -338,9 +541,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * case.
      */
     public boolean editable(boolean defaultSetting) {
-        var RESULT = gtk_h.gtk_text_iter_editable(handle(), defaultSetting ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_editable.invokeExact(handle(), defaultSetting ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_ends_line = Interop.downcallHandle(
+        "gtk_text_iter_ends_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code iter} points to the start of the paragraph
@@ -356,9 +568,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * are no paragraph delimiter chars there.
      */
     public boolean endsLine() {
-        var RESULT = gtk_h.gtk_text_iter_ends_line(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_ends_line.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_ends_sentence = Interop.downcallHandle(
+        "gtk_text_iter_ends_sentence",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code iter} ends a sentence.
@@ -367,9 +588,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * be correct for nearly any language.
      */
     public boolean endsSentence() {
-        var RESULT = gtk_h.gtk_text_iter_ends_sentence(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_ends_sentence.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_ends_tag = Interop.downcallHandle(
+        "gtk_text_iter_ends_tag",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code tag} is toggled off at exactly this point.
@@ -384,9 +614,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * {@code false} for the same parameters.
      */
     public boolean endsTag(TextTag tag) {
-        var RESULT = gtk_h.gtk_text_iter_ends_tag(handle(), tag.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_ends_tag.invokeExact(handle(), tag.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_ends_word = Interop.downcallHandle(
+        "gtk_text_iter_ends_word",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code iter} ends a natural-language word.
@@ -395,9 +634,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * for nearly any language.
      */
     public boolean endsWord() {
-        var RESULT = gtk_h.gtk_text_iter_ends_word(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_ends_word.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_equal = Interop.downcallHandle(
+        "gtk_text_iter_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether two iterators are equal, using the fastest possible
@@ -409,9 +657,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * bit faster than {@link TextIter#compare}.
      */
     public boolean equal(TextIter rhs) {
-        var RESULT = gtk_h.gtk_text_iter_equal(handle(), rhs.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_equal.invokeExact(handle(), rhs.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_char = Interop.downcallHandle(
+        "gtk_text_iter_forward_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward by one character offset.
@@ -423,9 +680,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * and this function returns {@code false} for convenience when writing loops.
      */
     public boolean forwardChar() {
-        var RESULT = gtk_h.gtk_text_iter_forward_char(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_char.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_chars = Interop.downcallHandle(
+        "gtk_text_iter_forward_chars",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves {@code count} characters if possible.
@@ -439,9 +705,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * is 0, the function does nothing and returns {@code false}.
      */
     public boolean forwardChars(int count) {
-        var RESULT = gtk_h.gtk_text_iter_forward_chars(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_chars.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_cursor_position = Interop.downcallHandle(
+        "gtk_text_iter_forward_cursor_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward by a single cursor position.
@@ -461,9 +736,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * function.
      */
     public boolean forwardCursorPosition() {
-        var RESULT = gtk_h.gtk_text_iter_forward_cursor_position(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_cursor_position.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_cursor_positions = Interop.downcallHandle(
+        "gtk_text_iter_forward_cursor_positions",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves up to {@code count} cursor positions.
@@ -471,9 +755,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@link TextIter#forwardCursorPosition} for details.
      */
     public boolean forwardCursorPositions(int count) {
-        var RESULT = gtk_h.gtk_text_iter_forward_cursor_positions(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_cursor_positions.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_find_char = Interop.downcallHandle(
+        "gtk_text_iter_forward_find_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Advances {@code iter}, calling {@code pred} on each character.
@@ -484,18 +777,23 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean forwardFindChar(TextCharPredicate pred, TextIter limit) {
         try {
-            var RESULT = gtk_h.gtk_text_iter_forward_find_char(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) gtk_text_iter_forward_find_char.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTextCharPredicate",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
             return RESULT != 0;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_line = Interop.downcallHandle(
+        "gtk_text_iter_forward_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} to the start of the next line.
@@ -506,9 +804,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * dereferenceable, returns {@code false}. Otherwise, returns {@code true}.
      */
     public boolean forwardLine() {
-        var RESULT = gtk_h.gtk_text_iter_forward_line(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_line.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_lines = Interop.downcallHandle(
+        "gtk_text_iter_forward_lines",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves {@code count} lines forward, if possible.
@@ -523,9 +830,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * moves backward by 0 - {@code count} lines.
      */
     public boolean forwardLines(int count) {
-        var RESULT = gtk_h.gtk_text_iter_forward_lines(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_lines.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_search = Interop.downcallHandle(
+        "gtk_text_iter_forward_search",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Searches forward for {@code str}.
@@ -540,9 +856,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * even if there is a possible {@code match_end} after or at {@code iter}.
      */
     public boolean forwardSearch(java.lang.String str, TextSearchFlags flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
-        var RESULT = gtk_h.gtk_text_iter_forward_search(handle(), Interop.allocateNativeString(str).handle(), flags.getValue(), matchStart.handle(), matchEnd.handle(), limit.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_search.invokeExact(handle(), Interop.allocateNativeString(str).handle(), flags.getValue(), matchStart.handle(), matchEnd.handle(), limit.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_sentence_end = Interop.downcallHandle(
+        "gtk_text_iter_forward_sentence_end",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves forward to the next sentence end.
@@ -554,9 +879,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * be correct for nearly any language.
      */
     public boolean forwardSentenceEnd() {
-        var RESULT = gtk_h.gtk_text_iter_forward_sentence_end(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_sentence_end.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_sentence_ends = Interop.downcallHandle(
+        "gtk_text_iter_forward_sentence_ends",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Calls gtk_text_iter_forward_sentence_end() {@code count} times.
@@ -564,9 +898,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * If {@code count} is negative, moves backward instead of forward.
      */
     public boolean forwardSentenceEnds(int count) {
-        var RESULT = gtk_h.gtk_text_iter_forward_sentence_ends(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_sentence_ends.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_to_end = Interop.downcallHandle(
+        "gtk_text_iter_forward_to_end",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward to the “end iterator”, which points
@@ -576,8 +919,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * returns 0, which is convenient for writing loops.
      */
     public void forwardToEnd() {
-        gtk_h.gtk_text_iter_forward_to_end(handle());
+        try {
+            gtk_text_iter_forward_to_end.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_to_line_end = Interop.downcallHandle(
+        "gtk_text_iter_forward_to_line_end",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves the iterator to point to the paragraph delimiter characters.
@@ -593,9 +945,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * the last line), and returns {@code false}.
      */
     public boolean forwardToLineEnd() {
-        var RESULT = gtk_h.gtk_text_iter_forward_to_line_end(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_to_line_end.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_to_tag_toggle = Interop.downcallHandle(
+        "gtk_text_iter_forward_to_tag_toggle",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves forward to the next toggle (on or off) of the
@@ -609,9 +970,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * if no toggle is found.
      */
     public boolean forwardToTagToggle(TextTag tag) {
-        var RESULT = gtk_h.gtk_text_iter_forward_to_tag_toggle(handle(), tag.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_to_tag_toggle.invokeExact(handle(), tag.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_visible_cursor_position = Interop.downcallHandle(
+        "gtk_text_iter_forward_visible_cursor_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward to the next visible cursor position.
@@ -619,9 +989,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@link TextIter#forwardCursorPosition} for details.
      */
     public boolean forwardVisibleCursorPosition() {
-        var RESULT = gtk_h.gtk_text_iter_forward_visible_cursor_position(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_visible_cursor_position.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_visible_cursor_positions = Interop.downcallHandle(
+        "gtk_text_iter_forward_visible_cursor_positions",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves up to {@code count} visible cursor positions.
@@ -629,9 +1008,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@link TextIter#forwardCursorPosition} for details.
      */
     public boolean forwardVisibleCursorPositions(int count) {
-        var RESULT = gtk_h.gtk_text_iter_forward_visible_cursor_positions(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_visible_cursor_positions.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_visible_line = Interop.downcallHandle(
+        "gtk_text_iter_forward_visible_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} to the start of the next visible line.
@@ -642,9 +1030,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * already at the end of the buffer.
      */
     public boolean forwardVisibleLine() {
-        var RESULT = gtk_h.gtk_text_iter_forward_visible_line(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_visible_line.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_visible_lines = Interop.downcallHandle(
+        "gtk_text_iter_forward_visible_lines",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves {@code count} visible lines forward, if possible.
@@ -659,9 +1056,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * moves backward by 0 - {@code count} lines.
      */
     public boolean forwardVisibleLines(int count) {
-        var RESULT = gtk_h.gtk_text_iter_forward_visible_lines(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_visible_lines.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_visible_word_end = Interop.downcallHandle(
+        "gtk_text_iter_forward_visible_word_end",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves forward to the next visible word end.
@@ -673,17 +1079,35 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * for nearly any language
      */
     public boolean forwardVisibleWordEnd() {
-        var RESULT = gtk_h.gtk_text_iter_forward_visible_word_end(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_visible_word_end.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_visible_word_ends = Interop.downcallHandle(
+        "gtk_text_iter_forward_visible_word_ends",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Calls gtk_text_iter_forward_visible_word_end() up to {@code count} times.
      */
     public boolean forwardVisibleWordEnds(int count) {
-        var RESULT = gtk_h.gtk_text_iter_forward_visible_word_ends(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_visible_word_ends.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_word_end = Interop.downcallHandle(
+        "gtk_text_iter_forward_word_end",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves forward to the next word end.
@@ -695,17 +1119,35 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * for nearly any language.
      */
     public boolean forwardWordEnd() {
-        var RESULT = gtk_h.gtk_text_iter_forward_word_end(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_word_end.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_forward_word_ends = Interop.downcallHandle(
+        "gtk_text_iter_forward_word_ends",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Calls gtk_text_iter_forward_word_end() up to {@code count} times.
      */
     public boolean forwardWordEnds(int count) {
-        var RESULT = gtk_h.gtk_text_iter_forward_word_ends(handle(), count);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_forward_word_ends.invokeExact(handle(), count);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_free = Interop.downcallHandle(
+        "gtk_text_iter_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Free an iterator allocated on the heap.
@@ -715,25 +1157,52 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * iterators can simply be allocated on the stack.
      */
     public void free() {
-        gtk_h.gtk_text_iter_free(handle());
+        try {
+            gtk_text_iter_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_buffer = Interop.downcallHandle(
+        "gtk_text_iter_get_buffer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code GtkTextBuffer} this iterator is associated with.
      */
     public TextBuffer getBuffer() {
-        var RESULT = gtk_h.gtk_text_iter_get_buffer(handle());
-        return new TextBuffer(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_buffer.invokeExact(handle());
+            return new TextBuffer(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_bytes_in_line = Interop.downcallHandle(
+        "gtk_text_iter_get_bytes_in_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of bytes in the line containing {@code iter},
      * including the paragraph delimiters.
      */
     public int getBytesInLine() {
-        var RESULT = gtk_h.gtk_text_iter_get_bytes_in_line(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_bytes_in_line.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_char = Interop.downcallHandle(
+        "gtk_text_iter_get_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * The Unicode character at this iterator is returned.
@@ -747,18 +1216,36 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * So you can write a loop which ends when this function returns 0.
      */
     public int getChar() {
-        var RESULT = gtk_h.gtk_text_iter_get_char(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_char.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_chars_in_line = Interop.downcallHandle(
+        "gtk_text_iter_get_chars_in_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of characters in the line containing {@code iter},
      * including the paragraph delimiters.
      */
     public int getCharsInLine() {
-        var RESULT = gtk_h.gtk_text_iter_get_chars_in_line(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_chars_in_line.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_child_anchor = Interop.downcallHandle(
+        "gtk_text_iter_get_child_anchor",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If the location at {@code iter} contains a child anchor, the
@@ -767,9 +1254,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * Otherwise, {@code null} is returned.
      */
     public TextChildAnchor getChildAnchor() {
-        var RESULT = gtk_h.gtk_text_iter_get_child_anchor(handle());
-        return new TextChildAnchor(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_child_anchor.invokeExact(handle());
+            return new TextChildAnchor(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_language = Interop.downcallHandle(
+        "gtk_text_iter_get_language",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the language in effect at {@code iter}.
@@ -778,9 +1274,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * value is identical to that of {@link Gtk#getDefaultLanguage}.
      */
     public org.pango.Language getLanguage() {
-        var RESULT = gtk_h.gtk_text_iter_get_language(handle());
-        return new org.pango.Language(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_language.invokeExact(handle());
+            return new org.pango.Language(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_line = Interop.downcallHandle(
+        "gtk_text_iter_get_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the line number containing the iterator.
@@ -789,9 +1294,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * with 0 for the first line in the buffer.
      */
     public int getLine() {
-        var RESULT = gtk_h.gtk_text_iter_get_line(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_line.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_line_index = Interop.downcallHandle(
+        "gtk_text_iter_get_line_index",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the byte index of the iterator, counting
@@ -802,9 +1316,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * number of bytes to represent.
      */
     public int getLineIndex() {
-        var RESULT = gtk_h.gtk_text_iter_get_line_index(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_line_index.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_line_offset = Interop.downcallHandle(
+        "gtk_text_iter_get_line_offset",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the character offset of the iterator,
@@ -813,9 +1336,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * The first character on the line has offset 0.
      */
     public int getLineOffset() {
-        var RESULT = gtk_h.gtk_text_iter_get_line_offset(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_line_offset.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_marks = Interop.downcallHandle(
+        "gtk_text_iter_get_marks",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a list of all {@code GtkTextMark} at this location.
@@ -827,9 +1359,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * The returned list is not in any meaningful order.
      */
     public org.gtk.glib.SList getMarks() {
-        var RESULT = gtk_h.gtk_text_iter_get_marks(handle());
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_marks.invokeExact(handle());
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_offset = Interop.downcallHandle(
+        "gtk_text_iter_get_offset",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the character offset of an iterator.
@@ -840,9 +1381,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * an offset back into an iterator.
      */
     public int getOffset() {
-        var RESULT = gtk_h.gtk_text_iter_get_offset(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_offset.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_paintable = Interop.downcallHandle(
+        "gtk_text_iter_get_paintable",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If the element at {@code iter} is a paintable, the paintable is returned.
@@ -850,9 +1400,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * Otherwise, {@code null} is returned.
      */
     public org.gtk.gdk.Paintable getPaintable() {
-        var RESULT = gtk_h.gtk_text_iter_get_paintable(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_paintable.invokeExact(handle());
+            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_slice = Interop.downcallHandle(
+        "gtk_text_iter_get_slice",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the text in the given range.
@@ -867,9 +1426,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * widget is in the buffer.
      */
     public java.lang.String getSlice(TextIter end) {
-        var RESULT = gtk_h.gtk_text_iter_get_slice(handle(), end.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_slice.invokeExact(handle(), end.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_tags = Interop.downcallHandle(
+        "gtk_text_iter_get_tags",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a list of tags that apply to {@code iter}, in ascending order of
@@ -881,9 +1449,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * but you have to free the list itself.
      */
     public org.gtk.glib.SList getTags() {
-        var RESULT = gtk_h.gtk_text_iter_get_tags(handle());
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_tags.invokeExact(handle());
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_text = Interop.downcallHandle(
+        "gtk_text_iter_get_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns text in the given range.
@@ -895,9 +1472,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * {@link TextIter#getSlice}.
      */
     public java.lang.String getText(TextIter end) {
-        var RESULT = gtk_h.gtk_text_iter_get_text(handle(), end.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_text.invokeExact(handle(), end.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_toggled_tags = Interop.downcallHandle(
+        "gtk_text_iter_get_toggled_tags",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns a list of {@code GtkTextTag} that are toggled on or off at this
@@ -910,9 +1496,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * does not have the tag applied to it.
      */
     public org.gtk.glib.SList getToggledTags(boolean toggledOn) {
-        var RESULT = gtk_h.gtk_text_iter_get_toggled_tags(handle(), toggledOn ? 1 : 0);
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_toggled_tags.invokeExact(handle(), toggledOn ? 1 : 0);
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_visible_line_index = Interop.downcallHandle(
+        "gtk_text_iter_get_visible_line_index",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of bytes from the start of the
@@ -921,9 +1516,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * toggled on.
      */
     public int getVisibleLineIndex() {
-        var RESULT = gtk_h.gtk_text_iter_get_visible_line_index(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_visible_line_index.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_visible_line_offset = Interop.downcallHandle(
+        "gtk_text_iter_get_visible_line_offset",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the offset in characters from the start of the
@@ -932,9 +1536,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * toggled on.
      */
     public int getVisibleLineOffset() {
-        var RESULT = gtk_h.gtk_text_iter_get_visible_line_offset(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_iter_get_visible_line_offset.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_visible_slice = Interop.downcallHandle(
+        "gtk_text_iter_get_visible_slice",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns visible text in the given range.
@@ -945,9 +1558,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * been applied to it.
      */
     public java.lang.String getVisibleSlice(TextIter end) {
-        var RESULT = gtk_h.gtk_text_iter_get_visible_slice(handle(), end.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_visible_slice.invokeExact(handle(), end.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_get_visible_text = Interop.downcallHandle(
+        "gtk_text_iter_get_visible_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns visible text in the given range.
@@ -958,9 +1580,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * been applied to it.
      */
     public java.lang.String getVisibleText(TextIter end) {
-        var RESULT = gtk_h.gtk_text_iter_get_visible_text(handle(), end.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_text_iter_get_visible_text.invokeExact(handle(), end.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_has_tag = Interop.downcallHandle(
+        "gtk_text_iter_has_tag",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code iter} points to a character that is part
@@ -970,9 +1601,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * {@link TextIter#endsTag}.
      */
     public boolean hasTag(TextTag tag) {
-        var RESULT = gtk_h.gtk_text_iter_has_tag(handle(), tag.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_has_tag.invokeExact(handle(), tag.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_in_range = Interop.downcallHandle(
+        "gtk_text_iter_in_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether {@code iter} falls in the range [{@code start}, {@code end}).
@@ -980,9 +1620,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * {@code start} and {@code end} must be in ascending order.
      */
     public boolean inRange(TextIter start, TextIter end) {
-        var RESULT = gtk_h.gtk_text_iter_in_range(handle(), start.handle(), end.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_in_range.invokeExact(handle(), start.handle(), end.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_inside_sentence = Interop.downcallHandle(
+        "gtk_text_iter_inside_sentence",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code iter} is inside a sentence (as opposed to in
@@ -993,9 +1642,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * for nearly any language.
      */
     public boolean insideSentence() {
-        var RESULT = gtk_h.gtk_text_iter_inside_sentence(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_inside_sentence.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_inside_word = Interop.downcallHandle(
+        "gtk_text_iter_inside_word",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether the character pointed by {@code iter} is part of a
@@ -1009,9 +1667,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * the first character of the word.
      */
     public boolean insideWord() {
-        var RESULT = gtk_h.gtk_text_iter_inside_word(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_inside_word.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_is_cursor_position = Interop.downcallHandle(
+        "gtk_text_iter_is_cursor_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determine if {@code iter} is at a cursor position.
@@ -1021,9 +1688,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * on what a cursor position is.
      */
     public boolean isCursorPosition() {
-        var RESULT = gtk_h.gtk_text_iter_is_cursor_position(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_is_cursor_position.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_is_end = Interop.downcallHandle(
+        "gtk_text_iter_is_end",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code iter} is the end iterator.
@@ -1033,17 +1709,35 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * way to check whether an iterator is the end iterator.
      */
     public boolean isEnd() {
-        var RESULT = gtk_h.gtk_text_iter_is_end(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_is_end.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_is_start = Interop.downcallHandle(
+        "gtk_text_iter_is_start",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code iter} is the first iterator in the buffer.
      */
     public boolean isStart() {
-        var RESULT = gtk_h.gtk_text_iter_is_start(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_is_start.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_order = Interop.downcallHandle(
+        "gtk_text_iter_order",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Swaps the value of {@code first} and {@code second} if {@code second} comes before
@@ -1057,8 +1751,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * pre-sorted range.
      */
     public void order(TextIter second) {
-        gtk_h.gtk_text_iter_order(handle(), second.handle());
+        try {
+            gtk_text_iter_order.invokeExact(handle(), second.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_set_line = Interop.downcallHandle(
+        "gtk_text_iter_set_line",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves iterator {@code iter} to the start of the line {@code line_number}.
@@ -1067,8 +1770,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * in the buffer, moves {@code iter} to the start of the last line in the buffer.
      */
     public void setLine(int lineNumber) {
-        gtk_h.gtk_text_iter_set_line(handle(), lineNumber);
+        try {
+            gtk_text_iter_set_line.invokeExact(handle(), lineNumber);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_set_line_index = Interop.downcallHandle(
+        "gtk_text_iter_set_line_index",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Same as gtk_text_iter_set_line_offset(), but works with a
@@ -1077,8 +1789,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * encoded character.
      */
     public void setLineIndex(int byteOnLine) {
-        gtk_h.gtk_text_iter_set_line_index(handle(), byteOnLine);
+        try {
+            gtk_text_iter_set_line_index.invokeExact(handle(), byteOnLine);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_set_line_offset = Interop.downcallHandle(
+        "gtk_text_iter_set_line_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Moves {@code iter} within a line, to a new character (not byte) offset.
@@ -1089,8 +1810,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * index rather than a character offset.
      */
     public void setLineOffset(int charOnLine) {
-        gtk_h.gtk_text_iter_set_line_offset(handle(), charOnLine);
+        try {
+            gtk_text_iter_set_line_offset.invokeExact(handle(), charOnLine);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_set_offset = Interop.downcallHandle(
+        "gtk_text_iter_set_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets {@code iter} to point to {@code char_offset}.
@@ -1099,8 +1829,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * of the entire text buffer, starting with 0.
      */
     public void setOffset(int charOffset) {
-        gtk_h.gtk_text_iter_set_offset(handle(), charOffset);
+        try {
+            gtk_text_iter_set_offset.invokeExact(handle(), charOffset);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_set_visible_line_index = Interop.downcallHandle(
+        "gtk_text_iter_set_visible_line_index",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Like gtk_text_iter_set_line_index(), but the index is in visible
@@ -1108,8 +1847,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * in the index.
      */
     public void setVisibleLineIndex(int byteOnLine) {
-        gtk_h.gtk_text_iter_set_visible_line_index(handle(), byteOnLine);
+        try {
+            gtk_text_iter_set_visible_line_index.invokeExact(handle(), byteOnLine);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_set_visible_line_offset = Interop.downcallHandle(
+        "gtk_text_iter_set_visible_line_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Like gtk_text_iter_set_line_offset(), but the offset is in visible
@@ -1117,8 +1865,17 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * counted in the offset.
      */
     public void setVisibleLineOffset(int charOnLine) {
-        gtk_h.gtk_text_iter_set_visible_line_offset(handle(), charOnLine);
+        try {
+            gtk_text_iter_set_visible_line_offset.invokeExact(handle(), charOnLine);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_starts_line = Interop.downcallHandle(
+        "gtk_text_iter_starts_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code iter} begins a paragraph.
@@ -1130,9 +1887,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * whether it’s 0.
      */
     public boolean startsLine() {
-        var RESULT = gtk_h.gtk_text_iter_starts_line(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_starts_line.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_starts_sentence = Interop.downcallHandle(
+        "gtk_text_iter_starts_sentence",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code iter} begins a sentence.
@@ -1141,9 +1907,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * should be correct for nearly any language.
      */
     public boolean startsSentence() {
-        var RESULT = gtk_h.gtk_text_iter_starts_sentence(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_starts_sentence.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_starts_tag = Interop.downcallHandle(
+        "gtk_text_iter_starts_tag",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code tag} is toggled on at exactly this point.
@@ -1158,9 +1933,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * will also return {@code true} for the same parameters.
      */
     public boolean startsTag(TextTag tag) {
-        var RESULT = gtk_h.gtk_text_iter_starts_tag(handle(), tag.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_starts_tag.invokeExact(handle(), tag.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_starts_word = Interop.downcallHandle(
+        "gtk_text_iter_starts_word",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code iter} begins a natural-language word.
@@ -1169,9 +1953,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * for nearly any language.
      */
     public boolean startsWord() {
-        var RESULT = gtk_h.gtk_text_iter_starts_word(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_starts_word.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_iter_toggles_tag = Interop.downcallHandle(
+        "gtk_text_iter_toggles_tag",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether a range with {@code tag} applied to it begins
@@ -1181,8 +1974,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * gtk_text_iter_ends_tag())
      */
     public boolean togglesTag(TextTag tag) {
-        var RESULT = gtk_h.gtk_text_iter_toggles_tag(handle(), tag.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_iter_toggles_tag.invokeExact(handle(), tag.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

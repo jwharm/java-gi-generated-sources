@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -255,9 +254,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_variant_new_array = Interop.downcallHandle(
+        "g_variant_new_array",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewArray(VariantType childType, Variant[] children, long nChildren) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_array(childType.handle(), Interop.allocateNativeArray(children).handle(), nChildren), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_array.invokeExact(childType.handle(), Interop.allocateNativeArray(children).handle(), nChildren), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -281,9 +289,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewArray(childType, children, nChildren));
     }
     
+    static final MethodHandle g_variant_new_boolean = Interop.downcallHandle(
+        "g_variant_new_boolean",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewBoolean(boolean value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_boolean(value ? 1 : 0), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_boolean.invokeExact(value ? 1 : 0), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -293,9 +310,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewBoolean(value));
     }
     
+    static final MethodHandle g_variant_new_byte = Interop.downcallHandle(
+        "g_variant_new_byte",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
+    );
+    
     private static Refcounted constructNewByte(byte value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_byte(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_byte.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -305,9 +331,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewByte(value));
     }
     
+    static final MethodHandle g_variant_new_bytestring = Interop.downcallHandle(
+        "g_variant_new_bytestring",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewBytestring(byte[] string) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_bytestring(Interop.allocateNativeArray(string).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_bytestring.invokeExact(Interop.allocateNativeArray(string).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -322,9 +357,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewBytestring(string));
     }
     
+    static final MethodHandle g_variant_new_bytestring_array = Interop.downcallHandle(
+        "g_variant_new_bytestring_array",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewBytestringArray(java.lang.String[] strv, long length) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_bytestring_array(Interop.allocateNativeArray(strv).handle(), length), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_bytestring_array.invokeExact(Interop.allocateNativeArray(strv).handle(), length), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -337,9 +381,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewBytestringArray(strv, length));
     }
     
+    static final MethodHandle g_variant_new_dict_entry = Interop.downcallHandle(
+        "g_variant_new_dict_entry",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewDictEntry(Variant key, Variant value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_dict_entry(key.handle(), value.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_dict_entry.invokeExact(key.handle(), value.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -353,9 +406,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewDictEntry(key, value));
     }
     
+    static final MethodHandle g_variant_new_double = Interop.downcallHandle(
+        "g_variant_new_double",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNewDouble(double value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_double(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_double.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -365,9 +427,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewDouble(value));
     }
     
+    static final MethodHandle g_variant_new_fixed_array = Interop.downcallHandle(
+        "g_variant_new_fixed_array",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewFixedArray(VariantType elementType, java.lang.foreign.MemoryAddress elements, long nElements, long elementSize) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_fixed_array(elementType.handle(), elements, nElements, elementSize), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_fixed_array.invokeExact(elementType.handle(), elements, nElements, elementSize), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -389,9 +460,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewFixedArray(elementType, elements, nElements, elementSize));
     }
     
+    static final MethodHandle g_variant_new_from_bytes = Interop.downcallHandle(
+        "g_variant_new_from_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewFromBytes(VariantType type, Bytes bytes, boolean trusted) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_from_bytes(type.handle(), bytes.handle(), trusted ? 1 : 0), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_from_bytes.invokeExact(type.handle(), bytes.handle(), trusted ? 1 : 0), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -409,10 +489,19 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewFromBytes(type, bytes, trusted));
     }
     
+    static final MethodHandle g_variant_new_from_data = Interop.downcallHandle(
+        "g_variant_new_from_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, java.lang.foreign.MemoryAddress userData) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_from_data(type.handle(), Interop.allocateNativeArray(data).handle(), size, trusted ? 1 : 0, 
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_from_data.invokeExact(type.handle(), Interop.allocateNativeArray(data).handle(), size, trusted ? 1 : 0, 
                     Interop.cbDestroyNotifySymbol(), userData), false);
-        return RESULT;
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -450,9 +539,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewFromData(type, data, size, trusted, notify, userData));
     }
     
+    static final MethodHandle g_variant_new_handle = Interop.downcallHandle(
+        "g_variant_new_handle",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewHandle(int value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_handle(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_handle.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -466,9 +564,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewHandle(value));
     }
     
+    static final MethodHandle g_variant_new_int16 = Interop.downcallHandle(
+        "g_variant_new_int16",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+    );
+    
     private static Refcounted constructNewInt16(short value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_int16(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_int16.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -478,9 +585,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewInt16(value));
     }
     
+    static final MethodHandle g_variant_new_int32 = Interop.downcallHandle(
+        "g_variant_new_int32",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewInt32(int value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_int32(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_int32.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -490,9 +606,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewInt32(value));
     }
     
+    static final MethodHandle g_variant_new_int64 = Interop.downcallHandle(
+        "g_variant_new_int64",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewInt64(long value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_int64(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_int64.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -502,9 +627,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewInt64(value));
     }
     
+    static final MethodHandle g_variant_new_maybe = Interop.downcallHandle(
+        "g_variant_new_maybe",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewMaybe(VariantType childType, Variant child) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_maybe(childType.handle(), child.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_maybe.invokeExact(childType.handle(), child.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -523,9 +657,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewMaybe(childType, child));
     }
     
+    static final MethodHandle g_variant_new_object_path = Interop.downcallHandle(
+        "g_variant_new_object_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewObjectPath(java.lang.String objectPath) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_object_path(Interop.allocateNativeString(objectPath).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_object_path.invokeExact(Interop.allocateNativeString(objectPath).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -537,9 +680,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewObjectPath(objectPath));
     }
     
+    static final MethodHandle g_variant_new_objv = Interop.downcallHandle(
+        "g_variant_new_objv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewObjv(java.lang.String[] strv, long length) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_objv(Interop.allocateNativeArray(strv).handle(), length), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_objv.invokeExact(Interop.allocateNativeArray(strv).handle(), length), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -555,9 +707,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewObjv(strv, length));
     }
     
+    static final MethodHandle g_variant_new_parsed_va = Interop.downcallHandle(
+        "g_variant_new_parsed_va",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewParsedVa(java.lang.String format, VaList app) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_parsed_va(Interop.allocateNativeString(format).handle(), app), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_parsed_va.invokeExact(Interop.allocateNativeString(format).handle(), app), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -587,9 +748,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewParsedVa(format, app));
     }
     
+    static final MethodHandle g_variant_new_signature = Interop.downcallHandle(
+        "g_variant_new_signature",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewSignature(java.lang.String signature) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_signature(Interop.allocateNativeString(signature).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_signature.invokeExact(Interop.allocateNativeString(signature).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -601,9 +771,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewSignature(signature));
     }
     
+    static final MethodHandle g_variant_new_string = Interop.downcallHandle(
+        "g_variant_new_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewString(java.lang.String string) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_string(Interop.allocateNativeString(string).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_string.invokeExact(Interop.allocateNativeString(string).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -617,9 +796,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewString(string));
     }
     
+    static final MethodHandle g_variant_new_strv = Interop.downcallHandle(
+        "g_variant_new_strv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewStrv(java.lang.String[] strv, long length) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_strv(Interop.allocateNativeArray(strv).handle(), length), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_strv.invokeExact(Interop.allocateNativeArray(strv).handle(), length), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -632,9 +820,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewStrv(strv, length));
     }
     
+    static final MethodHandle g_variant_new_take_string = Interop.downcallHandle(
+        "g_variant_new_take_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewTakeString(java.lang.String string) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_take_string(Interop.allocateNativeString(string).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_take_string.invokeExact(Interop.allocateNativeString(string).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -654,9 +851,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewTakeString(string));
     }
     
+    static final MethodHandle g_variant_new_tuple = Interop.downcallHandle(
+        "g_variant_new_tuple",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewTuple(Variant[] children, long nChildren) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_tuple(Interop.allocateNativeArray(children).handle(), nChildren), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_tuple.invokeExact(Interop.allocateNativeArray(children).handle(), nChildren), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -673,9 +879,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewTuple(children, nChildren));
     }
     
+    static final MethodHandle g_variant_new_uint16 = Interop.downcallHandle(
+        "g_variant_new_uint16",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+    );
+    
     private static Refcounted constructNewUint16(short value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_uint16(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_uint16.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -685,9 +900,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewUint16(value));
     }
     
+    static final MethodHandle g_variant_new_uint32 = Interop.downcallHandle(
+        "g_variant_new_uint32",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewUint32(int value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_uint32(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_uint32.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -697,9 +921,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewUint32(value));
     }
     
+    static final MethodHandle g_variant_new_uint64 = Interop.downcallHandle(
+        "g_variant_new_uint64",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewUint64(long value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_uint64(value), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_uint64.invokeExact(value), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -709,9 +942,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewUint64(value));
     }
     
+    static final MethodHandle g_variant_new_va = Interop.downcallHandle(
+        "g_variant_new_va",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_va.invokeExact(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -756,9 +998,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewVa(formatString, endptr, app));
     }
     
+    static final MethodHandle g_variant_new_variant = Interop.downcallHandle(
+        "g_variant_new_variant",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewVariant(Variant value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_new_variant(value.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_new_variant.invokeExact(value.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -771,6 +1022,11 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public static Variant newVariant(Variant value) {
         return new Variant(constructNewVariant(value));
     }
+    
+    static final MethodHandle g_variant_byteswap = Interop.downcallHandle(
+        "g_variant_byteswap",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Performs a byteswapping operation on the contents of {@code value}.  The
@@ -786,9 +1042,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * The returned value is always in normal form and is marked as trusted.
      */
     public Variant byteswap() {
-        var RESULT = gtk_h.g_variant_byteswap(handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_byteswap.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_check_format_string = Interop.downcallHandle(
+        "g_variant_check_format_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks if calling g_variant_get() with {@code format_string} on {@code value} would
@@ -807,17 +1072,35 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * g_variant_lookup() or g_menu_model_get_item_attribute()).
      */
     public boolean checkFormatString(java.lang.String formatString, boolean copyOnly) {
-        var RESULT = gtk_h.g_variant_check_format_string(handle(), Interop.allocateNativeString(formatString).handle(), copyOnly ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_check_format_string.invokeExact(handle(), Interop.allocateNativeString(formatString).handle(), copyOnly ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_classify = Interop.downcallHandle(
+        "g_variant_classify",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Classifies {@code value} according to its top-level type.
      */
     public VariantClass classify() {
-        var RESULT = gtk_h.g_variant_classify(handle());
-        return new VariantClass(RESULT);
+        try {
+            var RESULT = (int) g_variant_classify.invokeExact(handle());
+            return new VariantClass(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_compare = Interop.downcallHandle(
+        "g_variant_compare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares {@code one} and {@code two}.
@@ -841,9 +1124,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * general.
      */
     public int compare(Variant two) {
-        var RESULT = gtk_h.g_variant_compare(handle(), two.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_variant_compare.invokeExact(handle(), two.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dup_bytestring = Interop.downcallHandle(
+        "g_variant_dup_bytestring",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Similar to g_variant_get_bytestring() except that instead of
@@ -852,9 +1144,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * The return value must be freed using g_free().
      */
     public PointerIterator<Byte> dupBytestring(PointerLong length) {
-        var RESULT = gtk_h.g_variant_dup_bytestring(handle(), length.handle());
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_dup_bytestring.invokeExact(handle(), length.handle());
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dup_bytestring_array = Interop.downcallHandle(
+        "g_variant_dup_bytestring_array",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of an array of array of bytes {@link Variant}.  This call
@@ -869,9 +1170,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * {@code null} pointer will be returned.
      */
     public PointerIterator<java.lang.String> dupBytestringArray(PointerLong length) {
-        var RESULT = gtk_h.g_variant_dup_bytestring_array(handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_dup_bytestring_array.invokeExact(handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dup_objv = Interop.downcallHandle(
+        "g_variant_dup_objv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of an array of object paths {@link Variant}.  This call
@@ -886,9 +1196,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * {@code null} pointer will be returned.
      */
     public PointerIterator<java.lang.String> dupObjv(PointerLong length) {
-        var RESULT = gtk_h.g_variant_dup_objv(handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_dup_objv.invokeExact(handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dup_string = Interop.downcallHandle(
+        "g_variant_dup_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Similar to g_variant_get_string() except that instead of returning
@@ -899,9 +1218,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * The return value must be freed using g_free().
      */
     public java.lang.String dupString(PointerLong length) {
-        var RESULT = gtk_h.g_variant_dup_string(handle(), length.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_variant_dup_string.invokeExact(handle(), length.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_dup_strv = Interop.downcallHandle(
+        "g_variant_dup_strv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of an array of strings {@link Variant}.  This call
@@ -916,9 +1244,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * {@code null} pointer will be returned.
      */
     public PointerIterator<java.lang.String> dupStrv(PointerLong length) {
-        var RESULT = gtk_h.g_variant_dup_strv(handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_dup_strv.invokeExact(handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_equal = Interop.downcallHandle(
+        "g_variant_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code one} and {@code two} have the same type and value.
@@ -927,9 +1264,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * this function with {@link HashTable}.  They must each be a {@link Variant}.
      */
     public boolean equal(Variant two) {
-        var RESULT = gtk_h.g_variant_equal(handle(), two.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_equal.invokeExact(handle(), two.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_boolean = Interop.downcallHandle(
+        "g_variant_get_boolean",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the boolean value of {@code value}.
@@ -938,9 +1284,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_BOOLEAN}.
      */
     public boolean getBoolean() {
-        var RESULT = gtk_h.g_variant_get_boolean(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_get_boolean.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_byte = Interop.downcallHandle(
+        "g_variant_get_byte",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the byte value of {@code value}.
@@ -949,9 +1304,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_BYTE}.
      */
     public byte getByte() {
-        var RESULT = gtk_h.g_variant_get_byte(handle());
-        return RESULT;
+        try {
+            var RESULT = (byte) g_variant_get_byte.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_bytestring = Interop.downcallHandle(
+        "g_variant_get_bytestring",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the string value of a {@link Variant} instance with an
@@ -974,9 +1338,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * The return value remains valid as long as {@code value} exists.
      */
     public PointerIterator<Byte> getBytestring() {
-        var RESULT = gtk_h.g_variant_get_bytestring(handle());
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_bytestring.invokeExact(handle());
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_bytestring_array = Interop.downcallHandle(
+        "g_variant_get_bytestring_array",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of an array of array of bytes {@link Variant}.  This call
@@ -991,9 +1364,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * {@code null} pointer will be returned.
      */
     public PointerIterator<java.lang.String> getBytestringArray(PointerLong length) {
-        var RESULT = gtk_h.g_variant_get_bytestring_array(handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_bytestring_array.invokeExact(handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_child_value = Interop.downcallHandle(
+        "g_variant_get_child_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Reads a child item out of a container {@link Variant} instance.  This
@@ -1021,9 +1403,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * This function is O(1).
      */
     public Variant getChildValue(long index) {
-        var RESULT = gtk_h.g_variant_get_child_value(handle(), index);
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_child_value.invokeExact(handle(), index);
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_data = Interop.downcallHandle(
+        "g_variant_get_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a pointer to the serialized form of a {@link Variant} instance.
@@ -1053,9 +1444,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * serialized data).
      */
     public java.lang.foreign.MemoryAddress getData() {
-        var RESULT = gtk_h.g_variant_get_data(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_data.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_data_as_bytes = Interop.downcallHandle(
+        "g_variant_get_data_as_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a pointer to the serialized form of a {@link Variant} instance.
@@ -1064,9 +1464,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * a reference to the variant data.
      */
     public Bytes getDataAsBytes() {
-        var RESULT = gtk_h.g_variant_get_data_as_bytes(handle());
-        return new Bytes(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_data_as_bytes.invokeExact(handle());
+            return new Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_double = Interop.downcallHandle(
+        "g_variant_get_double",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the double precision floating point value of {@code value}.
@@ -1075,9 +1484,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_DOUBLE}.
      */
     public double getDouble() {
-        var RESULT = gtk_h.g_variant_get_double(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) g_variant_get_double.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_fixed_array = Interop.downcallHandle(
+        "g_variant_get_fixed_array",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Provides access to the serialized data for an array of fixed-sized
@@ -1110,9 +1528,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * items in the array.
      */
     public PointerIterator<java.lang.foreign.MemoryAddress> getFixedArray(PointerLong nElements, long elementSize) {
-        var RESULT = gtk_h.g_variant_get_fixed_array(handle(), nElements.handle(), elementSize);
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_fixed_array.invokeExact(handle(), nElements.handle(), elementSize);
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_handle = Interop.downcallHandle(
+        "g_variant_get_handle",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the 32-bit signed integer value of {@code value}.
@@ -1125,9 +1552,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * with D-Bus, you probably don't need them.
      */
     public int getHandle() {
-        var RESULT = gtk_h.g_variant_get_handle(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_variant_get_handle.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_int16 = Interop.downcallHandle(
+        "g_variant_get_int16",
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the 16-bit signed integer value of {@code value}.
@@ -1136,9 +1572,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_INT16}.
      */
     public short getInt16() {
-        var RESULT = gtk_h.g_variant_get_int16(handle());
-        return RESULT;
+        try {
+            var RESULT = (short) g_variant_get_int16.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_int32 = Interop.downcallHandle(
+        "g_variant_get_int32",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the 32-bit signed integer value of {@code value}.
@@ -1147,9 +1592,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_INT32}.
      */
     public int getInt32() {
-        var RESULT = gtk_h.g_variant_get_int32(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_variant_get_int32.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_int64 = Interop.downcallHandle(
+        "g_variant_get_int64",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the 64-bit signed integer value of {@code value}.
@@ -1158,18 +1612,36 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_INT64}.
      */
     public long getInt64() {
-        var RESULT = gtk_h.g_variant_get_int64(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_get_int64.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_maybe = Interop.downcallHandle(
+        "g_variant_get_maybe",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Given a maybe-typed {@link Variant} instance, extract its value.  If the
      * value is Nothing, then this function returns {@code null}.
      */
     public Variant getMaybe() {
-        var RESULT = gtk_h.g_variant_get_maybe(handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_maybe.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_normal_form = Interop.downcallHandle(
+        "g_variant_get_normal_form",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a {@link Variant} instance that has the same value as {@code value} and is
@@ -1197,9 +1669,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * reference to it.
      */
     public Variant getNormalForm() {
-        var RESULT = gtk_h.g_variant_get_normal_form(handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_normal_form.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_objv = Interop.downcallHandle(
+        "g_variant_get_objv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of an array of object paths {@link Variant}.  This call
@@ -1214,9 +1695,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * {@code null} pointer will be returned.
      */
     public PointerIterator<java.lang.String> getObjv(PointerLong length) {
-        var RESULT = gtk_h.g_variant_get_objv(handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_objv.invokeExact(handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_size = Interop.downcallHandle(
+        "g_variant_get_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the number of bytes that would be required to store {@code value}
@@ -1232,9 +1722,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * involved.
      */
     public long getSize() {
-        var RESULT = gtk_h.g_variant_get_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_get_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_string = Interop.downcallHandle(
+        "g_variant_get_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the string value of a {@link Variant} instance with a string
@@ -1257,9 +1756,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * The return value remains valid as long as {@code value} exists.
      */
     public java.lang.String getString(PointerLong length) {
-        var RESULT = gtk_h.g_variant_get_string(handle(), length.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_string.invokeExact(handle(), length.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_strv = Interop.downcallHandle(
+        "g_variant_get_strv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of an array of strings {@link Variant}.  This call
@@ -1274,9 +1782,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * {@code null} pointer will be returned.
      */
     public PointerIterator<java.lang.String> getStrv(PointerLong length) {
-        var RESULT = gtk_h.g_variant_get_strv(handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_strv.invokeExact(handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_type = Interop.downcallHandle(
+        "g_variant_get_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the type of {@code value}.
@@ -1285,9 +1802,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * be freed.
      */
     public VariantType getType() {
-        var RESULT = gtk_h.g_variant_get_type(handle());
-        return new VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_type.invokeExact(handle());
+            return new VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_type_string = Interop.downcallHandle(
+        "g_variant_get_type_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the type string of {@code value}.  Unlike the result of calling
@@ -1295,9 +1821,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * string belongs to {@link Variant} and must not be freed.
      */
     public java.lang.String getTypeString() {
-        var RESULT = gtk_h.g_variant_get_type_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_type_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_uint16 = Interop.downcallHandle(
+        "g_variant_get_uint16",
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the 16-bit unsigned integer value of {@code value}.
@@ -1306,9 +1841,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_UINT16}.
      */
     public short getUint16() {
-        var RESULT = gtk_h.g_variant_get_uint16(handle());
-        return RESULT;
+        try {
+            var RESULT = (short) g_variant_get_uint16.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_uint32 = Interop.downcallHandle(
+        "g_variant_get_uint32",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the 32-bit unsigned integer value of {@code value}.
@@ -1317,9 +1861,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_UINT32}.
      */
     public int getUint32() {
-        var RESULT = gtk_h.g_variant_get_uint32(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_variant_get_uint32.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_uint64 = Interop.downcallHandle(
+        "g_variant_get_uint64",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the 64-bit unsigned integer value of {@code value}.
@@ -1328,9 +1881,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * other than {@code G_VARIANT_TYPE_UINT64}.
      */
     public long getUint64() {
-        var RESULT = gtk_h.g_variant_get_uint64(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_get_uint64.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_va = Interop.downcallHandle(
+        "g_variant_get_va",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function is intended to be used by libraries based on {@link Variant}
@@ -1359,17 +1921,35 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * [GVariant format strings][gvariant-format-strings-pointers].
      */
     public void getVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        gtk_h.g_variant_get_va(handle(), Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app);
+        try {
+            g_variant_get_va.invokeExact(handle(), Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_get_variant = Interop.downcallHandle(
+        "g_variant_get_variant",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unboxes {@code value}.  The result is the {@link Variant} instance that was
      * contained in {@code value}.
      */
     public Variant getVariant() {
-        var RESULT = gtk_h.g_variant_get_variant(handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_get_variant.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_hash = Interop.downcallHandle(
+        "g_variant_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Generates a hash value for a {@link Variant} instance.
@@ -1383,17 +1963,35 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * function with {@link HashTable}.  {@code value} must be a {@link Variant}.
      */
     public int hash() {
-        var RESULT = gtk_h.g_variant_hash(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_variant_hash.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_is_container = Interop.downcallHandle(
+        "g_variant_is_container",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code value} is a container.
      */
     public boolean isContainer() {
-        var RESULT = gtk_h.g_variant_is_container(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_is_container.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_is_floating = Interop.downcallHandle(
+        "g_variant_is_floating",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether {@code value} has a floating reference count.
@@ -1407,9 +2005,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * counts.
      */
     public boolean isFloating() {
-        var RESULT = gtk_h.g_variant_is_floating(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_is_floating.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_is_normal_form = Interop.downcallHandle(
+        "g_variant_is_normal_form",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code value} is in normal form.
@@ -1427,17 +2034,35 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * GVariant is guaranteed to handle nesting up to at least 64 levels.
      */
     public boolean isNormalForm() {
-        var RESULT = gtk_h.g_variant_is_normal_form(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_is_normal_form.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_is_of_type = Interop.downcallHandle(
+        "g_variant_is_of_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if a value has a type matching the provided type.
      */
     public boolean isOfType(VariantType type) {
-        var RESULT = gtk_h.g_variant_is_of_type(handle(), type.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_is_of_type.invokeExact(handle(), type.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_iter_new = Interop.downcallHandle(
+        "g_variant_iter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a heap-allocated {@link VariantIter} for iterating over the items
@@ -1450,9 +2075,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * g_variant_iter_free() is called.
      */
     public VariantIter iterNew() {
-        var RESULT = gtk_h.g_variant_iter_new(handle());
-        return new VariantIter(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_iter_new.invokeExact(handle());
+            return new VariantIter(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_lookup_value = Interop.downcallHandle(
+        "g_variant_lookup_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a value in a dictionary {@link Variant}.
@@ -1478,9 +2112,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * plan to do many lookups then {@link VariantDict} may be more efficient.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
-        var RESULT = gtk_h.g_variant_lookup_value(handle(), Interop.allocateNativeString(key).handle(), expectedType.handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_lookup_value.invokeExact(handle(), Interop.allocateNativeString(key).handle(), expectedType.handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_n_children = Interop.downcallHandle(
+        "g_variant_n_children",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the number of children in a container {@link Variant} instance.
@@ -1496,9 +2139,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * This function is O(1).
      */
     public long nChildren() {
-        var RESULT = gtk_h.g_variant_n_children(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_n_children.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_print = Interop.downcallHandle(
+        "g_variant_print",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Pretty-prints {@code value} in the format understood by g_variant_parse().
@@ -1509,9 +2161,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * the output.
      */
     public java.lang.String print(boolean typeAnnotate) {
-        var RESULT = gtk_h.g_variant_print(handle(), typeAnnotate ? 1 : 0);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_variant_print.invokeExact(handle(), typeAnnotate ? 1 : 0);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_print_string = Interop.downcallHandle(
+        "g_variant_print_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Behaves as g_variant_print(), but operates on a {@link String}.
@@ -1520,17 +2181,35 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * a new empty {@link String} is allocated and it is returned.
      */
     public String printString(String string, boolean typeAnnotate) {
-        var RESULT = gtk_h.g_variant_print_string(handle(), string.handle(), typeAnnotate ? 1 : 0);
-        return new String(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_print_string.invokeExact(handle(), string.handle(), typeAnnotate ? 1 : 0);
+            return new String(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_ref = Interop.downcallHandle(
+        "g_variant_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of {@code value}.
      */
     public Variant ref() {
-        var RESULT = gtk_h.g_variant_ref(handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_ref.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_ref_sink = Interop.downcallHandle(
+        "g_variant_ref_sink",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * {@link Variant} uses a floating reference count system.  All functions with
@@ -1557,9 +2236,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * are not floating.
      */
     public Variant refSink() {
-        var RESULT = gtk_h.g_variant_ref_sink(handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_ref_sink.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_store = Interop.downcallHandle(
+        "g_variant_store",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Stores the serialized form of {@code value} at {@code data}.  {@code data} should be
@@ -1576,8 +2264,17 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * This function is approximately O(n) in the size of {@code data}.
      */
     public void store(java.lang.foreign.MemoryAddress data) {
-        gtk_h.g_variant_store(handle(), data);
+        try {
+            g_variant_store.invokeExact(handle(), data);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_take_ref = Interop.downcallHandle(
+        "g_variant_take_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code value} is floating, sink it.  Otherwise, do nothing.
@@ -1614,17 +2311,35 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * avoid this situation.
      */
     public Variant takeRef() {
-        var RESULT = gtk_h.g_variant_take_ref(handle());
-        return new Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_take_ref.invokeExact(handle());
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_unref = Interop.downcallHandle(
+        "g_variant_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of {@code value}.  When its reference count
      * drops to 0, the memory used by the variant is freed.
      */
     public void unref() {
-        gtk_h.g_variant_unref(handle());
+        try {
+            g_variant_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_is_object_path = Interop.downcallHandle(
+        "g_variant_is_object_path",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if a given string is a valid D-Bus object path.  You
@@ -1637,9 +2352,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * (including the one following the final {@code /} character) may be empty.
      */
     public static boolean isObjectPath(java.lang.String string) {
-        var RESULT = gtk_h.g_variant_is_object_path(Interop.allocateNativeString(string).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_is_object_path.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_is_signature = Interop.downcallHandle(
+        "g_variant_is_signature",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if a given string is a valid D-Bus type signature.  You
@@ -1650,9 +2374,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * strings in sequence.
      */
     public static boolean isSignature(java.lang.String string) {
-        var RESULT = gtk_h.g_variant_is_signature(Interop.allocateNativeString(string).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_is_signature.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_parse = Interop.downcallHandle(
+        "g_variant_parse",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses a {@link Variant} from a text representation.
@@ -1693,12 +2426,21 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Variant parse(VariantType type, java.lang.String text, java.lang.String limit, java.lang.String[] endptr) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_variant_parse(type.handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_variant_parse.invokeExact(type.handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Variant(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_variant_parse_error_print_context = Interop.downcallHandle(
+        "g_variant_parse_error_print_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Pretty-prints a message showing the context of a {@link Variant} parse
@@ -1732,13 +2474,26 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * function.
      */
     public static java.lang.String parseErrorPrintContext(Error error, java.lang.String sourceStr) {
-        var RESULT = gtk_h.g_variant_parse_error_print_context(error.handle(), Interop.allocateNativeString(sourceStr).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_variant_parse_error_print_context.invokeExact(error.handle(), Interop.allocateNativeString(sourceStr).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_variant_parse_error_quark = Interop.downcallHandle(
+        "g_variant_parse_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark parseErrorQuark() {
-        var RESULT = gtk_h.g_variant_parse_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_variant_parse_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -53,24 +52,43 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public GlyphItemIter() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphItemIter.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_glyph_item_iter_copy = Interop.downcallHandle(
+        "pango_glyph_item_iter_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Make a shallow copy of an existing {@code PangoGlyphItemIter} structure.
      */
     public GlyphItemIter copy() {
-        var RESULT = gtk_h.pango_glyph_item_iter_copy(handle());
-        return new GlyphItemIter(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_glyph_item_iter_copy.invokeExact(handle());
+            return new GlyphItemIter(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_glyph_item_iter_free = Interop.downcallHandle(
+        "pango_glyph_item_iter_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a {@code PangoGlyphItem}Iter.
      */
     public void free() {
-        gtk_h.pango_glyph_item_iter_free(handle());
+        try {
+            pango_glyph_item_iter_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_glyph_item_iter_init_end = Interop.downcallHandle(
+        "pango_glyph_item_iter_init_end",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@code PangoGlyphItemIter} structure to point to the
@@ -79,9 +97,18 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@code PangoGlyphItemIter} for details of cluster orders.
      */
     public boolean initEnd(GlyphItem glyphItem, java.lang.String text) {
-        var RESULT = gtk_h.pango_glyph_item_iter_init_end(handle(), glyphItem.handle(), Interop.allocateNativeString(text).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_glyph_item_iter_init_end.invokeExact(handle(), glyphItem.handle(), Interop.allocateNativeString(text).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_glyph_item_iter_init_start = Interop.downcallHandle(
+        "pango_glyph_item_iter_init_start",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@code PangoGlyphItemIter} structure to point to the
@@ -90,9 +117,18 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@code PangoGlyphItemIter} for details of cluster orders.
      */
     public boolean initStart(GlyphItem glyphItem, java.lang.String text) {
-        var RESULT = gtk_h.pango_glyph_item_iter_init_start(handle(), glyphItem.handle(), Interop.allocateNativeString(text).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_glyph_item_iter_init_start.invokeExact(handle(), glyphItem.handle(), Interop.allocateNativeString(text).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_glyph_item_iter_next_cluster = Interop.downcallHandle(
+        "pango_glyph_item_iter_next_cluster",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Advances the iterator to the next cluster in the glyph item.
@@ -100,17 +136,30 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
      * See {@code PangoGlyphItemIter} for details of cluster orders.
      */
     public boolean nextCluster() {
-        var RESULT = gtk_h.pango_glyph_item_iter_next_cluster(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_glyph_item_iter_next_cluster.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_glyph_item_iter_prev_cluster = Interop.downcallHandle(
+        "pango_glyph_item_iter_prev_cluster",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves the iterator to the preceding cluster in the glyph item.
      * See {@code PangoGlyphItemIter} for details of cluster orders.
      */
     public boolean prevCluster() {
-        var RESULT = gtk_h.pango_glyph_item_iter_prev_cluster(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_glyph_item_iter_prev_cluster.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

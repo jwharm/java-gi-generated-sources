@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -28,9 +27,18 @@ public class UnixFDList extends org.gtk.gobject.Object {
         return new UnixFDList(gobject.refcounted());
     }
     
+    static final MethodHandle g_unix_fd_list_new = Interop.downcallHandle(
+        "g_unix_fd_list_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_fd_list_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_fd_list_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -40,9 +48,18 @@ public class UnixFDList extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
+    static final MethodHandle g_unix_fd_list_new_from_array = Interop.downcallHandle(
+        "g_unix_fd_list_new_from_array",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewFromArray(int[] fds, int nFds) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_fd_list_new_from_array(Interop.allocateNativeArray(fds).handle(), nFds), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_fd_list_new_from_array.invokeExact(Interop.allocateNativeArray(fds).handle(), nFds), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -58,6 +75,11 @@ public class UnixFDList extends org.gtk.gobject.Object {
     public static UnixFDList newFromArray(int[] fds, int nFds) {
         return new UnixFDList(constructNewFromArray(fds, nFds));
     }
+    
+    static final MethodHandle g_unix_fd_list_append = Interop.downcallHandle(
+        "g_unix_fd_list_append",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds a file descriptor to {@code list}.
@@ -75,12 +97,21 @@ public class UnixFDList extends org.gtk.gobject.Object {
      */
     public int append(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_unix_fd_list_append(handle(), fd, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_unix_fd_list_append.invokeExact(handle(), fd, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
+    
+    static final MethodHandle g_unix_fd_list_get = Interop.downcallHandle(
+        "g_unix_fd_list_get",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets a file descriptor out of {@code list}.
@@ -98,21 +129,39 @@ public class UnixFDList extends org.gtk.gobject.Object {
      */
     public int get(int index) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_unix_fd_list_get(handle(), index, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_unix_fd_list_get.invokeExact(handle(), index, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
+    
+    static final MethodHandle g_unix_fd_list_get_length = Interop.downcallHandle(
+        "g_unix_fd_list_get_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the length of {@code list} (ie: the number of file descriptors
      * contained within).
      */
     public int getLength() {
-        var RESULT = gtk_h.g_unix_fd_list_get_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_unix_fd_list_get_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_fd_list_peek_fds = Interop.downcallHandle(
+        "g_unix_fd_list_peek_fds",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the array of file descriptors that is contained in this
@@ -130,9 +179,18 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * descriptors contained in {@code list}, an empty array is returned.
      */
     public PointerIterator<Integer> peekFds(PointerInteger length) {
-        var RESULT = gtk_h.g_unix_fd_list_peek_fds(handle(), length.handle());
-        return new PointerInteger(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_unix_fd_list_peek_fds.invokeExact(handle(), length.handle());
+            return new PointerInteger(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_fd_list_steal_fds = Interop.downcallHandle(
+        "g_unix_fd_list_steal_fds",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the array of file descriptors that is contained in this
@@ -155,8 +213,12 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * descriptors contained in {@code list}, an empty array is returned.
      */
     public PointerIterator<Integer> stealFds(PointerInteger length) {
-        var RESULT = gtk_h.g_unix_fd_list_steal_fds(handle(), length.handle());
-        return new PointerInteger(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_unix_fd_list_steal_fds.invokeExact(handle(), length.handle());
+            return new PointerInteger(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

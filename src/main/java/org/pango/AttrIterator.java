@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,20 +19,43 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle pango_attr_iterator_copy = Interop.downcallHandle(
+        "pango_attr_iterator_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Copy a {@code PangoAttrIterator}.
      */
     public AttrIterator copy() {
-        var RESULT = gtk_h.pango_attr_iterator_copy(handle());
-        return new AttrIterator(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_iterator_copy.invokeExact(handle());
+            return new AttrIterator(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_iterator_destroy = Interop.downcallHandle(
+        "pango_attr_iterator_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Destroy a {@code PangoAttrIterator} and free all associated memory.
      */
     public void destroy() {
-        gtk_h.pango_attr_iterator_destroy(handle());
+        try {
+            pango_attr_iterator_destroy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_iterator_get = Interop.downcallHandle(
+        "pango_attr_iterator_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Find the current attribute of a particular type
@@ -44,34 +66,70 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * current location is used.
      */
     public Attribute get(AttrType type) {
-        var RESULT = gtk_h.pango_attr_iterator_get(handle(), type.getValue());
-        return new Attribute(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_iterator_get.invokeExact(handle(), type.getValue());
+            return new Attribute(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_iterator_get_attrs = Interop.downcallHandle(
+        "pango_attr_iterator_get_attrs",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a list of all attributes at the current position of the
      * iterator.
      */
     public org.gtk.glib.SList getAttrs() {
-        var RESULT = gtk_h.pango_attr_iterator_get_attrs(handle());
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_iterator_get_attrs.invokeExact(handle());
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_iterator_get_font = Interop.downcallHandle(
+        "pango_attr_iterator_get_font",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the font and other attributes at the current
      * iterator position.
      */
     public void getFont(FontDescription desc, Language[] language, org.gtk.glib.SList[] extraAttrs) {
-        gtk_h.pango_attr_iterator_get_font(handle(), desc.handle(), Interop.allocateNativeArray(language).handle(), Interop.allocateNativeArray(extraAttrs).handle());
+        try {
+            pango_attr_iterator_get_font.invokeExact(handle(), desc.handle(), Interop.allocateNativeArray(language).handle(), Interop.allocateNativeArray(extraAttrs).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_iterator_next = Interop.downcallHandle(
+        "pango_attr_iterator_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Advance the iterator until the next change of style.
      */
     public boolean next() {
-        var RESULT = gtk_h.pango_attr_iterator_next(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_attr_iterator_next.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_iterator_range = Interop.downcallHandle(
+        "pango_attr_iterator_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the range of the current segment.
@@ -82,7 +140,11 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * a signed integer are clamped to {@code G_MAXINT}.
      */
     public void range(PointerInteger start, PointerInteger end) {
-        gtk_h.pango_attr_iterator_range(handle(), start.handle(), end.handle());
+        try {
+            pango_attr_iterator_range.invokeExact(handle(), start.handle(), end.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

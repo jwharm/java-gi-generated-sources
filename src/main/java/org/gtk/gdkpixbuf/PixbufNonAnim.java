@@ -1,6 +1,5 @@
 package org.gtk.gdkpixbuf;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,9 +15,18 @@ public class PixbufNonAnim extends PixbufAnimation {
         return new PixbufNonAnim(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_pixbuf_non_anim_new = Interop.downcallHandle(
+        "gdk_pixbuf_non_anim_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Pixbuf pixbuf) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_pixbuf_non_anim_new(pixbuf.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_non_anim_new.invokeExact(pixbuf.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     public PixbufNonAnim(Pixbuf pixbuf) {

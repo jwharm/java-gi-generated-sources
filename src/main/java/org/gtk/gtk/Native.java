@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,21 +23,44 @@ import java.lang.invoke.*;
  */
 public interface Native extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_native_get_renderer = Interop.downcallHandle(
+        "gtk_native_get_renderer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the renderer that is used for this {@code GtkNative}.
      */
     public default org.gtk.gsk.Renderer getRenderer() {
-        var RESULT = gtk_h.gtk_native_get_renderer(handle());
-        return new org.gtk.gsk.Renderer(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_native_get_renderer.invokeExact(handle());
+            return new org.gtk.gsk.Renderer(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_get_surface = Interop.downcallHandle(
+        "gtk_native_get_surface",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the surface of this {@code GtkNative}.
      */
     public default org.gtk.gdk.Surface getSurface() {
-        var RESULT = gtk_h.gtk_native_get_surface(handle());
-        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_native_get_surface.invokeExact(handle());
+            return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_get_surface_transform = Interop.downcallHandle(
+        "gtk_native_get_surface_transform",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the surface transform of {@code self}.
@@ -47,8 +69,17 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      * {@code self}'s widget coordinates.
      */
     public default void getSurfaceTransform(PointerDouble x, PointerDouble y) {
-        gtk_h.gtk_native_get_surface_transform(handle(), x.handle(), y.handle());
+        try {
+            gtk_native_get_surface_transform.invokeExact(handle(), x.handle(), y.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_realize = Interop.downcallHandle(
+        "gtk_native_realize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Realizes a {@code GtkNative}.
@@ -56,8 +87,17 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      * This should only be used by subclasses.
      */
     public default void realize() {
-        gtk_h.gtk_native_realize(handle());
+        try {
+            gtk_native_realize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_unrealize = Interop.downcallHandle(
+        "gtk_native_unrealize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unrealizes a {@code GtkNative}.
@@ -65,15 +105,28 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      * This should only be used by subclasses.
      */
     public default void unrealize() {
-        gtk_h.gtk_native_unrealize(handle());
+        try {
+            gtk_native_unrealize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_get_for_surface = Interop.downcallHandle(
+        "gtk_native_get_for_surface",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the {@code GtkNative} associated with the surface.
      */
     public static Native getForSurface(org.gtk.gdk.Surface surface) {
-        var RESULT = gtk_h.gtk_native_get_for_surface(surface.handle());
-        return new Native.NativeImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_native_get_for_surface.invokeExact(surface.handle());
+            return new Native.NativeImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class NativeImpl extends org.gtk.gobject.Object implements Native {

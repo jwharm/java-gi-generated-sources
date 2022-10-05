@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -64,9 +63,18 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         return new FlowBox(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_flow_box_new = Interop.downcallHandle(
+        "gtk_flow_box_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_flow_box_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_flow_box_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -75,6 +83,11 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public FlowBox() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_flow_box_append = Interop.downcallHandle(
+        "gtk_flow_box_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code child} to the end of {@code self}.
@@ -85,8 +98,17 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * See also: {@link FlowBox#insert}.
      */
     public void append(Widget child) {
-        gtk_h.gtk_flow_box_append(handle(), child.handle());
+        try {
+            gtk_flow_box_append.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_bind_model = Interop.downcallHandle(
+        "gtk_flow_box_bind_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Binds {@code model} to {@code box}.
@@ -107,34 +129,57 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public void bindModel(org.gtk.gio.ListModel model, FlowBoxCreateWidgetFunc createWidgetFunc) {
         try {
-            gtk_h.gtk_flow_box_bind_model(handle(), model.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_flow_box_bind_model.invokeExact(handle(), model.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbFlowBoxCreateWidgetFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(createWidgetFunc.hashCode(), createWidgetFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(createWidgetFunc.hashCode(), createWidgetFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_flow_box_get_activate_on_single_click = Interop.downcallHandle(
+        "gtk_flow_box_get_activate_on_single_click",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether children activate on single clicks.
      */
     public boolean getActivateOnSingleClick() {
-        var RESULT = gtk_h.gtk_flow_box_get_activate_on_single_click(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_flow_box_get_activate_on_single_click.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_child_at_index = Interop.downcallHandle(
+        "gtk_flow_box_get_child_at_index",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the nth child in the {@code box}.
      */
     public FlowBoxChild getChildAtIndex(int idx) {
-        var RESULT = gtk_h.gtk_flow_box_get_child_at_index(handle(), idx);
-        return new FlowBoxChild(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_flow_box_get_child_at_index.invokeExact(handle(), idx);
+            return new FlowBoxChild(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_child_at_pos = Interop.downcallHandle(
+        "gtk_flow_box_get_child_at_pos",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the child in the (@x, @y) position.
@@ -142,65 +187,137 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * Both @x and @y are assumed to be relative to the origin of {@code box}.
      */
     public FlowBoxChild getChildAtPos(int x, int y) {
-        var RESULT = gtk_h.gtk_flow_box_get_child_at_pos(handle(), x, y);
-        return new FlowBoxChild(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_flow_box_get_child_at_pos.invokeExact(handle(), x, y);
+            return new FlowBoxChild(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_column_spacing = Interop.downcallHandle(
+        "gtk_flow_box_get_column_spacing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the horizontal spacing.
      */
     public int getColumnSpacing() {
-        var RESULT = gtk_h.gtk_flow_box_get_column_spacing(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_flow_box_get_column_spacing.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_homogeneous = Interop.downcallHandle(
+        "gtk_flow_box_get_homogeneous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the box is homogeneous.
      */
     public boolean getHomogeneous() {
-        var RESULT = gtk_h.gtk_flow_box_get_homogeneous(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_flow_box_get_homogeneous.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_max_children_per_line = Interop.downcallHandle(
+        "gtk_flow_box_get_max_children_per_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the maximum number of children per line.
      */
     public int getMaxChildrenPerLine() {
-        var RESULT = gtk_h.gtk_flow_box_get_max_children_per_line(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_flow_box_get_max_children_per_line.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_min_children_per_line = Interop.downcallHandle(
+        "gtk_flow_box_get_min_children_per_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the minimum number of children per line.
      */
     public int getMinChildrenPerLine() {
-        var RESULT = gtk_h.gtk_flow_box_get_min_children_per_line(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_flow_box_get_min_children_per_line.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_row_spacing = Interop.downcallHandle(
+        "gtk_flow_box_get_row_spacing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the vertical spacing.
      */
     public int getRowSpacing() {
-        var RESULT = gtk_h.gtk_flow_box_get_row_spacing(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_flow_box_get_row_spacing.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_selected_children = Interop.downcallHandle(
+        "gtk_flow_box_get_selected_children",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a list of all selected children.
      */
     public org.gtk.glib.List getSelectedChildren() {
-        var RESULT = gtk_h.gtk_flow_box_get_selected_children(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_flow_box_get_selected_children.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_get_selection_mode = Interop.downcallHandle(
+        "gtk_flow_box_get_selection_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the selection mode of {@code box}.
      */
     public SelectionMode getSelectionMode() {
-        var RESULT = gtk_h.gtk_flow_box_get_selection_mode(handle());
-        return new SelectionMode(RESULT);
+        try {
+            var RESULT = (int) gtk_flow_box_get_selection_mode.invokeExact(handle());
+            return new SelectionMode(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_insert = Interop.downcallHandle(
+        "gtk_flow_box_insert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Inserts the {@code widget} into {@code box} at {@code position}.
@@ -212,8 +329,17 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * in the {@code box}, then the {@code widget} will be appended to the end.
      */
     public void insert(Widget widget, int position) {
-        gtk_h.gtk_flow_box_insert(handle(), widget.handle(), position);
+        try {
+            gtk_flow_box_insert.invokeExact(handle(), widget.handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_invalidate_filter = Interop.downcallHandle(
+        "gtk_flow_box_invalidate_filter",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Updates the filtering for all children.
@@ -225,8 +351,17 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * term, and the entry with the string has changed.
      */
     public void invalidateFilter() {
-        gtk_h.gtk_flow_box_invalidate_filter(handle());
+        try {
+            gtk_flow_box_invalidate_filter.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_invalidate_sort = Interop.downcallHandle(
+        "gtk_flow_box_invalidate_sort",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Updates the sorting for all children.
@@ -235,8 +370,17 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * {@code box} is changed due to an external factor.
      */
     public void invalidateSort() {
-        gtk_h.gtk_flow_box_invalidate_sort(handle());
+        try {
+            gtk_flow_box_invalidate_sort.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_prepend = Interop.downcallHandle(
+        "gtk_flow_box_prepend",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code child} to the start of {@code self}.
@@ -247,31 +391,67 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * See also: {@link FlowBox#insert}.
      */
     public void prepend(Widget child) {
-        gtk_h.gtk_flow_box_prepend(handle(), child.handle());
+        try {
+            gtk_flow_box_prepend.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_remove = Interop.downcallHandle(
+        "gtk_flow_box_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a child from {@code box}.
      */
     public void remove(Widget widget) {
-        gtk_h.gtk_flow_box_remove(handle(), widget.handle());
+        try {
+            gtk_flow_box_remove.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_select_all = Interop.downcallHandle(
+        "gtk_flow_box_select_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Select all children of {@code box}, if the selection
      * mode allows it.
      */
     public void selectAll() {
-        gtk_h.gtk_flow_box_select_all(handle());
+        try {
+            gtk_flow_box_select_all.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_select_child = Interop.downcallHandle(
+        "gtk_flow_box_select_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Selects a single child of {@code box}, if the selection
      * mode allows it.
      */
     public void selectChild(FlowBoxChild child) {
-        gtk_h.gtk_flow_box_select_child(handle(), child.handle());
+        try {
+            gtk_flow_box_select_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_selected_foreach = Interop.downcallHandle(
+        "gtk_flow_box_selected_foreach",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls a function for each selected child.
@@ -281,32 +461,55 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public void selectedForeach(FlowBoxForeachFunc func) {
         try {
-            gtk_h.gtk_flow_box_selected_foreach(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_flow_box_selected_foreach.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbFlowBoxForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_flow_box_set_activate_on_single_click = Interop.downcallHandle(
+        "gtk_flow_box_set_activate_on_single_click",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code single} is {@code true}, children will be activated when you click
      * on them, otherwise you need to double-click.
      */
     public void setActivateOnSingleClick(boolean single) {
-        gtk_h.gtk_flow_box_set_activate_on_single_click(handle(), single ? 1 : 0);
+        try {
+            gtk_flow_box_set_activate_on_single_click.invokeExact(handle(), single ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_set_column_spacing = Interop.downcallHandle(
+        "gtk_flow_box_set_column_spacing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the horizontal space to add between children.
      */
     public void setColumnSpacing(int spacing) {
-        gtk_h.gtk_flow_box_set_column_spacing(handle(), spacing);
+        try {
+            gtk_flow_box_set_column_spacing.invokeExact(handle(), spacing);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_set_filter_func = Interop.downcallHandle(
+        "gtk_flow_box_set_filter_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * By setting a filter function on the {@code box} one can decide dynamically
@@ -325,18 +528,23 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public void setFilterFunc(FlowBoxFilterFunc filterFunc) {
         try {
-            gtk_h.gtk_flow_box_set_filter_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_flow_box_set_filter_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbFlowBoxFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(filterFunc.hashCode(), filterFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(filterFunc.hashCode(), filterFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_flow_box_set_hadjustment = Interop.downcallHandle(
+        "gtk_flow_box_set_hadjustment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Hooks up an adjustment to focus handling in {@code box}.
@@ -352,16 +560,34 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * of the box.
      */
     public void setHadjustment(Adjustment adjustment) {
-        gtk_h.gtk_flow_box_set_hadjustment(handle(), adjustment.handle());
+        try {
+            gtk_flow_box_set_hadjustment.invokeExact(handle(), adjustment.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_set_homogeneous = Interop.downcallHandle(
+        "gtk_flow_box_set_homogeneous",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether or not all children of {@code box} are given
      * equal space in the box.
      */
     public void setHomogeneous(boolean homogeneous) {
-        gtk_h.gtk_flow_box_set_homogeneous(handle(), homogeneous ? 1 : 0);
+        try {
+            gtk_flow_box_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_set_max_children_per_line = Interop.downcallHandle(
+        "gtk_flow_box_set_max_children_per_line",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the maximum number of children to request and
@@ -372,30 +598,66 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * than {@code n_children} children long in the given orientation.
      */
     public void setMaxChildrenPerLine(int nChildren) {
-        gtk_h.gtk_flow_box_set_max_children_per_line(handle(), nChildren);
+        try {
+            gtk_flow_box_set_max_children_per_line.invokeExact(handle(), nChildren);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_set_min_children_per_line = Interop.downcallHandle(
+        "gtk_flow_box_set_min_children_per_line",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the minimum number of children to line up
      * in {@code box}’s orientation before flowing.
      */
     public void setMinChildrenPerLine(int nChildren) {
-        gtk_h.gtk_flow_box_set_min_children_per_line(handle(), nChildren);
+        try {
+            gtk_flow_box_set_min_children_per_line.invokeExact(handle(), nChildren);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_set_row_spacing = Interop.downcallHandle(
+        "gtk_flow_box_set_row_spacing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the vertical space to add between children.
      */
     public void setRowSpacing(int spacing) {
-        gtk_h.gtk_flow_box_set_row_spacing(handle(), spacing);
+        try {
+            gtk_flow_box_set_row_spacing.invokeExact(handle(), spacing);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_set_selection_mode = Interop.downcallHandle(
+        "gtk_flow_box_set_selection_mode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets how selection works in {@code box}.
      */
     public void setSelectionMode(SelectionMode mode) {
-        gtk_h.gtk_flow_box_set_selection_mode(handle(), mode.getValue());
+        try {
+            gtk_flow_box_set_selection_mode.invokeExact(handle(), mode.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_set_sort_func = Interop.downcallHandle(
+        "gtk_flow_box_set_sort_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * By setting a sort function on the {@code box}, one can dynamically
@@ -412,18 +674,23 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public void setSortFunc(FlowBoxSortFunc sortFunc) {
         try {
-            gtk_h.gtk_flow_box_set_sort_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_flow_box_set_sort_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbFlowBoxSortFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc.hashCode(), sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_flow_box_set_vadjustment = Interop.downcallHandle(
+        "gtk_flow_box_set_vadjustment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Hooks up an adjustment to focus handling in {@code box}.
@@ -439,23 +706,45 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * of the box.
      */
     public void setVadjustment(Adjustment adjustment) {
-        gtk_h.gtk_flow_box_set_vadjustment(handle(), adjustment.handle());
+        try {
+            gtk_flow_box_set_vadjustment.invokeExact(handle(), adjustment.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_unselect_all = Interop.downcallHandle(
+        "gtk_flow_box_unselect_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unselect all children of {@code box}, if the selection
      * mode allows it.
      */
     public void unselectAll() {
-        gtk_h.gtk_flow_box_unselect_all(handle());
+        try {
+            gtk_flow_box_unselect_all.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_unselect_child = Interop.downcallHandle(
+        "gtk_flow_box_unselect_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unselects a single child of {@code box}, if the selection
      * mode allows it.
      */
     public void unselectChild(FlowBoxChild child) {
-        gtk_h.gtk_flow_box_unselect_child(handle(), child.handle());
+        try {
+            gtk_flow_box_unselect_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -470,19 +759,19 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onActivateCursorChild(ActivateCursorChildHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate-cursor-child").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxActivateCursorChild",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -496,19 +785,19 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onChildActivated(ChildActivatedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("child-activated").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxChildActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -538,19 +827,19 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onMoveCursor(MoveCursorHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxMoveCursor",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -569,19 +858,19 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onSelectAll(SelectAllHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("select-all").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxSelectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -599,19 +888,19 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onSelectedChildrenChanged(SelectedChildrenChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("selected-children-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxSelectedChildrenChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -629,19 +918,19 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onToggleCursorChild(ToggleCursorChildHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("toggle-cursor-child").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxToggleCursorChild",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -660,19 +949,19 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onUnselectAll(UnselectAllHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("unselect-all").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxUnselectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

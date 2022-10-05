@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -35,9 +34,18 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         return new StatusPage(gobject.refcounted());
     }
     
+    static final MethodHandle adw_status_page_new = Interop.downcallHandle(
+        "adw_status_page_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_status_page_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_status_page_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -47,79 +55,169 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         super(constructNew());
     }
     
+    static final MethodHandle adw_status_page_get_child = Interop.downcallHandle(
+        "adw_status_page_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the child widget of {@code self}.
      */
     public org.gtk.gtk.Widget getChild() {
-        var RESULT = gtk_h.adw_status_page_get_child(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_status_page_get_child.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_get_description = Interop.downcallHandle(
+        "adw_status_page_get_description",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the description for {@code self}.
      */
     public java.lang.String getDescription() {
-        var RESULT = gtk_h.adw_status_page_get_description(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_status_page_get_description.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_get_icon_name = Interop.downcallHandle(
+        "adw_status_page_get_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the icon name for {@code self}.
      */
     public java.lang.String getIconName() {
-        var RESULT = gtk_h.adw_status_page_get_icon_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_status_page_get_icon_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_get_paintable = Interop.downcallHandle(
+        "adw_status_page_get_paintable",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the paintable for {@code self}.
      */
     public org.gtk.gdk.Paintable getPaintable() {
-        var RESULT = gtk_h.adw_status_page_get_paintable(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_status_page_get_paintable.invokeExact(handle());
+            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_get_title = Interop.downcallHandle(
+        "adw_status_page_get_title",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the title for {@code self}.
      */
     public java.lang.String getTitle() {
-        var RESULT = gtk_h.adw_status_page_get_title(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_status_page_get_title.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_set_child = Interop.downcallHandle(
+        "adw_status_page_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code self}.
      */
     public void setChild(org.gtk.gtk.Widget child) {
-        gtk_h.adw_status_page_set_child(handle(), child.handle());
+        try {
+            adw_status_page_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_set_description = Interop.downcallHandle(
+        "adw_status_page_set_description",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the description for {@code self}.
      */
     public void setDescription(java.lang.String description) {
-        gtk_h.adw_status_page_set_description(handle(), Interop.allocateNativeString(description).handle());
+        try {
+            adw_status_page_set_description.invokeExact(handle(), Interop.allocateNativeString(description).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_set_icon_name = Interop.downcallHandle(
+        "adw_status_page_set_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon name for {@code self}.
      */
     public void setIconName(java.lang.String iconName) {
-        gtk_h.adw_status_page_set_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
+        try {
+            adw_status_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_set_paintable = Interop.downcallHandle(
+        "adw_status_page_set_paintable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the paintable for {@code self}.
      */
     public void setPaintable(org.gtk.gdk.Paintable paintable) {
-        gtk_h.adw_status_page_set_paintable(handle(), paintable.handle());
+        try {
+            adw_status_page_set_paintable.invokeExact(handle(), paintable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_status_page_set_title = Interop.downcallHandle(
+        "adw_status_page_set_title",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the title for {@code self}.
      */
     public void setTitle(java.lang.String title) {
-        gtk_h.adw_status_page_set_title(handle(), Interop.allocateNativeString(title).handle());
+        try {
+            adw_status_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

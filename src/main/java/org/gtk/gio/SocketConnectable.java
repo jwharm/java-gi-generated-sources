@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -66,13 +65,27 @@ import java.lang.invoke.*;
  */
 public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_socket_connectable_enumerate = Interop.downcallHandle(
+        "g_socket_connectable_enumerate",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Creates a {@link SocketAddressEnumerator} for {@code connectable}.
      */
     public default SocketAddressEnumerator enumerate() {
-        var RESULT = gtk_h.g_socket_connectable_enumerate(handle());
-        return new SocketAddressEnumerator(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_socket_connectable_enumerate.invokeExact(handle());
+            return new SocketAddressEnumerator(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_connectable_proxy_enumerate = Interop.downcallHandle(
+        "g_socket_connectable_proxy_enumerate",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a {@link SocketAddressEnumerator} for {@code connectable} that will
@@ -84,9 +97,18 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
      * calling g_socket_connectable_enumerate().
      */
     public default SocketAddressEnumerator proxyEnumerate() {
-        var RESULT = gtk_h.g_socket_connectable_proxy_enumerate(handle());
-        return new SocketAddressEnumerator(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_socket_connectable_proxy_enumerate.invokeExact(handle());
+            return new SocketAddressEnumerator(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_connectable_to_string = Interop.downcallHandle(
+        "g_socket_connectable_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Format a {@link SocketConnectable} as a string. This is a human-readable format for
@@ -98,8 +120,12 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
      * the implementation’s type name will be returned as a fallback.
      */
     public default java.lang.String toString_() {
-        var RESULT = gtk_h.g_socket_connectable_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_socket_connectable_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class SocketConnectableImpl extends org.gtk.gobject.Object implements SocketConnectable {

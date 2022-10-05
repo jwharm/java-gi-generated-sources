@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
         return new ZlibDecompressor(gobject.refcounted());
     }
     
+    static final MethodHandle g_zlib_decompressor_new = Interop.downcallHandle(
+        "g_zlib_decompressor_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(ZlibCompressorFormat format) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_zlib_decompressor_new(format.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_zlib_decompressor_new.invokeExact(format.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,6 +40,11 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
         super(constructNew(format));
     }
     
+    static final MethodHandle g_zlib_decompressor_get_file_info = Interop.downcallHandle(
+        "g_zlib_decompressor_get_file_info",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the {@link FileInfo} constructed from the GZIP header data
      * of compressed data processed by {@code compressor}, or {@code null} if {@code decompressor}'s
@@ -40,8 +53,12 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
      * data stream at all.
      */
     public FileInfo getFileInfo() {
-        var RESULT = gtk_h.g_zlib_decompressor_get_file_info(handle());
-        return new FileInfo(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_zlib_decompressor_get_file_info.invokeExact(handle());
+            return new FileInfo(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

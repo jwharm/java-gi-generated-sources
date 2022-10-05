@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,34 +18,70 @@ public class OverlayLayoutChild extends LayoutChild {
         return new OverlayLayoutChild(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_overlay_layout_child_get_clip_overlay = Interop.downcallHandle(
+        "gtk_overlay_layout_child_get_clip_overlay",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves whether the child is clipped.
      */
     public boolean getClipOverlay() {
-        var RESULT = gtk_h.gtk_overlay_layout_child_get_clip_overlay(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_overlay_layout_child_get_clip_overlay.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_layout_child_get_measure = Interop.downcallHandle(
+        "gtk_overlay_layout_child_get_measure",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves whether the child is measured.
      */
     public boolean getMeasure() {
-        var RESULT = gtk_h.gtk_overlay_layout_child_get_measure(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_overlay_layout_child_get_measure.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_layout_child_set_clip_overlay = Interop.downcallHandle(
+        "gtk_overlay_layout_child_set_clip_overlay",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to clip this child.
      */
     public void setClipOverlay(boolean clipOverlay) {
-        gtk_h.gtk_overlay_layout_child_set_clip_overlay(handle(), clipOverlay ? 1 : 0);
+        try {
+            gtk_overlay_layout_child_set_clip_overlay.invokeExact(handle(), clipOverlay ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_layout_child_set_measure = Interop.downcallHandle(
+        "gtk_overlay_layout_child_set_measure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to measure this child.
      */
     public void setMeasure(boolean measure) {
-        gtk_h.gtk_overlay_layout_child_set_measure(handle(), measure ? 1 : 0);
+        try {
+            gtk_overlay_layout_child_set_measure.invokeExact(handle(), measure ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

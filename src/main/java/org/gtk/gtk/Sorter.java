@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -38,6 +37,11 @@ public class Sorter extends org.gtk.gobject.Object {
         return new Sorter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_sorter_changed = Interop.downcallHandle(
+        "gtk_sorter_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Notifies all users of the sorter that it has changed.
      * <p>
@@ -53,8 +57,17 @@ public class Sorter extends org.gtk.gobject.Object {
      * subclasses and should not be called from other functions.
      */
     public void changed(SorterChange change) {
-        gtk_h.gtk_sorter_changed(handle(), change.getValue());
+        try {
+            gtk_sorter_changed.invokeExact(handle(), change.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_sorter_compare = Interop.downcallHandle(
+        "gtk_sorter_compare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two given items according to the sort order implemented
@@ -71,9 +84,18 @@ public class Sorter extends org.gtk.gobject.Object {
      * via the return value of {@link Sorter#getOrder}.
      */
     public Ordering compare(org.gtk.gobject.Object item1, org.gtk.gobject.Object item2) {
-        var RESULT = gtk_h.gtk_sorter_compare(handle(), item1.handle(), item2.handle());
-        return new Ordering(RESULT);
+        try {
+            var RESULT = (int) gtk_sorter_compare.invokeExact(handle(), item1.handle(), item2.handle());
+            return new Ordering(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_sorter_get_order = Interop.downcallHandle(
+        "gtk_sorter_get_order",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the order that {@code self} conforms to.
@@ -84,8 +106,12 @@ public class Sorter extends org.gtk.gobject.Object {
      * This function is intended to allow optimizations.
      */
     public SorterOrder getOrder() {
-        var RESULT = gtk_h.gtk_sorter_get_order(handle());
-        return new SorterOrder(RESULT);
+        try {
+            var RESULT = (int) gtk_sorter_get_order.invokeExact(handle());
+            return new SorterOrder(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -107,19 +133,19 @@ public class Sorter extends org.gtk.gobject.Object {
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Sorter.Callbacks.class, "signalSorterChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

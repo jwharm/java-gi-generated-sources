@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -25,21 +24,44 @@ public class Monitor extends org.gtk.gobject.Object {
         return new Monitor(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_monitor_get_connector = Interop.downcallHandle(
+        "gdk_monitor_get_connector",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the name of the monitor's connector, if available.
      */
     public java.lang.String getConnector() {
-        var RESULT = gtk_h.gdk_monitor_get_connector(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gdk_monitor_get_connector.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_display = Interop.downcallHandle(
+        "gdk_monitor_get_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the display that this monitor belongs to.
      */
     public Display getDisplay() {
-        var RESULT = gtk_h.gdk_monitor_get_display(handle());
-        return new Display(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_monitor_get_display.invokeExact(handle());
+            return new Display(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_geometry = Interop.downcallHandle(
+        "gdk_monitor_get_geometry",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the size and position of the monitor within the
@@ -49,16 +71,34 @@ public class Monitor extends org.gtk.gobject.Object {
      * ”device pixels” (see {@link Monitor#getScaleFactor}).
      */
     public void getGeometry(Rectangle geometry) {
-        gtk_h.gdk_monitor_get_geometry(handle(), geometry.handle());
+        try {
+            gdk_monitor_get_geometry.invokeExact(handle(), geometry.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_height_mm = Interop.downcallHandle(
+        "gdk_monitor_get_height_mm",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the height in millimeters of the monitor.
      */
     public int getHeightMm() {
-        var RESULT = gtk_h.gdk_monitor_get_height_mm(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_monitor_get_height_mm.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_manufacturer = Interop.downcallHandle(
+        "gdk_monitor_get_manufacturer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name or PNP ID of the monitor's manufacturer.
@@ -70,17 +110,35 @@ public class Monitor extends org.gtk.gobject.Object {
      * <a href="https://uefi.org/pnp_id_list">https://uefi.org/pnp_id_list</a>.
      */
     public java.lang.String getManufacturer() {
-        var RESULT = gtk_h.gdk_monitor_get_manufacturer(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gdk_monitor_get_manufacturer.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_model = Interop.downcallHandle(
+        "gdk_monitor_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the string identifying the monitor model, if available.
      */
     public java.lang.String getModel() {
-        var RESULT = gtk_h.gdk_monitor_get_model(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gdk_monitor_get_model.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_refresh_rate = Interop.downcallHandle(
+        "gdk_monitor_get_refresh_rate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the refresh rate of the monitor, if available.
@@ -89,9 +147,18 @@ public class Monitor extends org.gtk.gobject.Object {
      * is returned as 60000.
      */
     public int getRefreshRate() {
-        var RESULT = gtk_h.gdk_monitor_get_refresh_rate(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_monitor_get_refresh_rate.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_scale_factor = Interop.downcallHandle(
+        "gdk_monitor_get_scale_factor",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the internal scale factor that maps from monitor coordinates
@@ -105,26 +172,53 @@ public class Monitor extends org.gtk.gobject.Object {
      * where it is better to use {@link Surface#getScaleFactor} instead.
      */
     public int getScaleFactor() {
-        var RESULT = gtk_h.gdk_monitor_get_scale_factor(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_monitor_get_scale_factor.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_subpixel_layout = Interop.downcallHandle(
+        "gdk_monitor_get_subpixel_layout",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets information about the layout of red, green and blue
      * primaries for pixels.
      */
     public SubpixelLayout getSubpixelLayout() {
-        var RESULT = gtk_h.gdk_monitor_get_subpixel_layout(handle());
-        return new SubpixelLayout(RESULT);
+        try {
+            var RESULT = (int) gdk_monitor_get_subpixel_layout.invokeExact(handle());
+            return new SubpixelLayout(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_get_width_mm = Interop.downcallHandle(
+        "gdk_monitor_get_width_mm",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the width in millimeters of the monitor.
      */
     public int getWidthMm() {
-        var RESULT = gtk_h.gdk_monitor_get_width_mm(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_monitor_get_width_mm.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_monitor_is_valid = Interop.downcallHandle(
+        "gdk_monitor_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the {@code monitor} object corresponds to a
@@ -134,8 +228,12 @@ public class Monitor extends org.gtk.gobject.Object {
      * is unplugged or removed.
      */
     public boolean isValid() {
-        var RESULT = gtk_h.gdk_monitor_is_valid(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_monitor_is_valid.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -148,19 +246,19 @@ public class Monitor extends org.gtk.gobject.Object {
      */
     public SignalHandle onInvalidate(InvalidateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("invalidate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Monitor.Callbacks.class, "signalMonitorInvalidate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -36,6 +35,11 @@ public class Filter extends org.gtk.gobject.Object {
         return new Filter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_filter_changed = Interop.downcallHandle(
+        "gtk_filter_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Notifies all users of the filter that it has changed.
      * <p>
@@ -51,8 +55,17 @@ public class Filter extends org.gtk.gobject.Object {
      * subclasses and should not be called from other functions.
      */
     public void changed(FilterChange change) {
-        gtk_h.gtk_filter_changed(handle(), change.getValue());
+        try {
+            gtk_filter_changed.invokeExact(handle(), change.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_filter_get_strictness = Interop.downcallHandle(
+        "gtk_filter_get_strictness",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the known strictness of {@code filters}.
@@ -66,16 +79,29 @@ public class Filter extends org.gtk.gobject.Object {
      * choose to omit implementing it, but {@code GtkFilterListModel} uses it.
      */
     public FilterMatch getStrictness() {
-        var RESULT = gtk_h.gtk_filter_get_strictness(handle());
-        return new FilterMatch(RESULT);
+        try {
+            var RESULT = (int) gtk_filter_get_strictness.invokeExact(handle());
+            return new FilterMatch(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_filter_match = Interop.downcallHandle(
+        "gtk_filter_match",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the given {@code item} is matched by the filter or not.
      */
     public boolean match(org.gtk.gobject.Object item) {
-        var RESULT = gtk_h.gtk_filter_match(handle(), item.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_filter_match.invokeExact(handle(), item.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -97,19 +123,19 @@ public class Filter extends org.gtk.gobject.Object {
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Filter.Callbacks.class, "signalFilterChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

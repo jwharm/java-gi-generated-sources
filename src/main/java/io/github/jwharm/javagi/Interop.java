@@ -7,16 +7,39 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.util.HashMap;
 
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-
 public class Interop {
 
     private static boolean initialized = false;
     private static MemorySession session;
     private static SegmentAllocator allocator;
-    public static final HashMap<Integer, Object> signalRegistry = new HashMap<>();
     private static MemorySegment cbDestroyNotify_nativeSymbol;
+    private final static SymbolLookup symbolLookup;
+    private final static Linker linker = Linker.nativeLinker();
 
+    public final static HashMap<Integer, Object> signalRegistry = new HashMap<>();
+    
+    static {
+		System.loadLibrary("adwaita-1");
+		System.loadLibrary("gtk-4");
+		System.loadLibrary("pangocairo-1.0");
+		System.loadLibrary("pango-1.0");
+		System.loadLibrary("harfbuzz");
+		System.loadLibrary("gdk_pixbuf-2.0");
+		System.loadLibrary("cairo-gobject");
+		System.loadLibrary("cairo");
+		System.loadLibrary("graphene-1.0");
+		System.loadLibrary("gio-2.0");
+		System.loadLibrary("gobject-2.0");
+		System.loadLibrary("glib-2.0");
+        SymbolLookup loaderLookup = SymbolLookup.loaderLookup();
+        symbolLookup = name -> loaderLookup.lookup(name).or(() -> linker.defaultLookup().lookup(name));
+    }
+    
+    public static final MethodHandle g_signal_connect_data = Interop.downcallHandle(
+        "g_signal_connect_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static void initialize() {
         session = MemorySession.openConfined();
         allocator = SegmentAllocator.newNativeArena(session);
@@ -47,13 +70,19 @@ public class Interop {
         return allocator;
     }
 
+    public static MethodHandle downcallHandle(String name, FunctionDescriptor fdesc) {
+        return symbolLookup.lookup(name).
+                map(addr -> linker.downcallHandle(addr, fdesc)).
+                orElse(null);
+    }
+
     public static int registerCallback(int hash, Object callback) {
         signalRegistry.put(hash, callback);
         return hash;
     }
 
     public static void cbDestroyNotify(MemoryAddress data) {
-        int hash = data.get(C_INT, 0);
+        int hash = data.get(ValueLayout.JAVA_INT, 0);
         signalRegistry.remove(hash);
     }
 
@@ -177,23 +206,6 @@ public class Interop {
         return new MemorySegmentReference(
                 allocator.allocateArray(ValueLayout.JAVA_SHORT, array)
         );
-    }
-
-    public static MemorySegmentReference allocateNativeArray(org.gtk.gobject.Value[] array) {
-        if (!initialized) {
-            initialize();
-        }
-        if (array == null || array.length == 0) {
-            return null;
-        }
-        MemorySegment mem = io.github.jwharm.javagi.interop.jextract.GValue.allocateArray(array.length, allocator);
-        long size = io.github.jwharm.javagi.interop.jextract.GValue.sizeof();
-        for (int i = 0; i < array.length; i++) {
-            MemorySegment source = MemorySegment.ofAddress(array[i].handle(), size, session);
-            MemorySegment target = mem.asSlice(i * size, size);
-            target.copyFrom(source);
-        }
-        return new MemorySegmentReference(mem);
     }
 
     /**

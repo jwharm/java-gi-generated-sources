@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -74,9 +73,18 @@ public class RecentManager extends org.gtk.gobject.Object {
         return new RecentManager(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_recent_manager_new = Interop.downcallHandle(
+        "gtk_recent_manager_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_recent_manager_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_recent_manager_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -94,6 +102,11 @@ public class RecentManager extends org.gtk.gobject.Object {
     public RecentManager() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_recent_manager_add_full = Interop.downcallHandle(
+        "gtk_recent_manager_add_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a new resource, pointed by {@code uri}, into the recently used
@@ -117,9 +130,18 @@ public class RecentManager extends org.gtk.gobject.Object {
      * applications that have registered it.
      */
     public boolean addFull(java.lang.String uri, RecentData recentData) {
-        var RESULT = gtk_h.gtk_recent_manager_add_full(handle(), Interop.allocateNativeString(uri).handle(), recentData.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_manager_add_full.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), recentData.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_manager_add_item = Interop.downcallHandle(
+        "gtk_recent_manager_add_item",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a new resource, pointed by {@code uri}, into the recently used
@@ -133,26 +155,53 @@ public class RecentManager extends org.gtk.gobject.Object {
      * define the metadata for the resource pointed by {@code uri}.
      */
     public boolean addItem(java.lang.String uri) {
-        var RESULT = gtk_h.gtk_recent_manager_add_item(handle(), Interop.allocateNativeString(uri).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_manager_add_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_manager_get_items = Interop.downcallHandle(
+        "gtk_recent_manager_get_items",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the list of recently used resources.
      */
     public org.gtk.glib.List getItems() {
-        var RESULT = gtk_h.gtk_recent_manager_get_items(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_manager_get_items.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_manager_has_item = Interop.downcallHandle(
+        "gtk_recent_manager_has_item",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether there is a recently used resource registered
      * with {@code uri} inside the recent manager.
      */
     public boolean hasItem(java.lang.String uri) {
-        var RESULT = gtk_h.gtk_recent_manager_has_item(handle(), Interop.allocateNativeString(uri).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_manager_has_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_manager_lookup_item = Interop.downcallHandle(
+        "gtk_recent_manager_lookup_item",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Searches for a URI inside the recently used resources list, and
@@ -161,12 +210,21 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public RecentInfo lookupItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_recent_manager_lookup_item(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_manager_lookup_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new RecentInfo(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new RecentInfo(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle gtk_recent_manager_move_item = Interop.downcallHandle(
+        "gtk_recent_manager_move_item",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Changes the location of a recently used resource from {@code uri} to {@code new_uri}.
@@ -176,24 +234,42 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean moveItem(java.lang.String uri, java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_recent_manager_move_item(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(newUri).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) gtk_recent_manager_move_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(newUri).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle gtk_recent_manager_purge_items = Interop.downcallHandle(
+        "gtk_recent_manager_purge_items",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Purges every item from the recently used resources list.
      */
     public int purgeItems() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_recent_manager_purge_items(handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) gtk_recent_manager_purge_items.invokeExact(handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
+    
+    static final MethodHandle gtk_recent_manager_remove_item = Interop.downcallHandle(
+        "gtk_recent_manager_remove_item",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a resource pointed by {@code uri} from the recently used resources
@@ -201,20 +277,33 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_recent_manager_remove_item(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) gtk_recent_manager_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle gtk_recent_manager_get_default = Interop.downcallHandle(
+        "gtk_recent_manager_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a unique instance of {@code GtkRecentManager} that you can share
      * in your application without caring about memory management.
      */
     public static RecentManager getDefault() {
-        var RESULT = gtk_h.gtk_recent_manager_get_default();
-        return new RecentManager(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_manager_get_default.invokeExact();
+            return new RecentManager(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -231,19 +320,19 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(RecentManager.Callbacks.class, "signalRecentManagerChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

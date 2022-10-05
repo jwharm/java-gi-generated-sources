@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,6 +14,11 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     public HashTable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
+    
+    static final MethodHandle g_hash_table_add = Interop.downcallHandle(
+        "g_hash_table_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This is a convenience function for using a {@link HashTable} as a set.  It
@@ -34,17 +38,35 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * or not.
      */
     public static boolean add(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_add(hashTable.handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_add.invokeExact(hashTable.handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_contains = Interop.downcallHandle(
+        "g_hash_table_contains",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code key} is in {@code hash_table}.
      */
     public static boolean contains(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_contains(hashTable.handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_contains.invokeExact(hashTable.handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_destroy = Interop.downcallHandle(
+        "g_hash_table_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Destroys all keys and values in the {@link HashTable} and decrements its
@@ -55,8 +77,17 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * destruction phase.
      */
     public static void destroy(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_destroy(hashTable.handle());
+        try {
+            g_hash_table_destroy.invokeExact(hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_find = Interop.downcallHandle(
+        "g_hash_table_find",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for key/value pairs in the {@link HashTable}
@@ -75,18 +106,23 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static java.lang.foreign.MemoryAddress find(org.gtk.glib.HashTable hashTable, HRFunc predicate) {
         try {
-            var RESULT = gtk_h.g_hash_table_find(hashTable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_hash_table_find.invokeExact(hashTable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(predicate.hashCode(), predicate)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(predicate.hashCode(), predicate)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_hash_table_foreach = Interop.downcallHandle(
+        "g_hash_table_foreach",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for each of the key/value pairs in the
@@ -104,17 +140,22 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void foreach(org.gtk.glib.HashTable hashTable, HFunc func) {
         try {
-            gtk_h.g_hash_table_foreach(hashTable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_hash_table_foreach.invokeExact(hashTable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbHFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_hash_table_foreach_remove = Interop.downcallHandle(
+        "g_hash_table_foreach_remove",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for each key/value pair in the
@@ -128,18 +169,23 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static int foreachRemove(org.gtk.glib.HashTable hashTable, HRFunc func) {
         try {
-            var RESULT = gtk_h.g_hash_table_foreach_remove(hashTable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_hash_table_foreach_remove.invokeExact(hashTable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_hash_table_foreach_steal = Interop.downcallHandle(
+        "g_hash_table_foreach_steal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for each key/value pair in the
@@ -152,18 +198,23 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      */
     public static int foreachSteal(org.gtk.glib.HashTable hashTable, HRFunc func) {
         try {
-            var RESULT = gtk_h.g_hash_table_foreach_steal(hashTable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_hash_table_foreach_steal.invokeExact(hashTable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_hash_table_get_keys = Interop.downcallHandle(
+        "g_hash_table_get_keys",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves every key inside {@code hash_table}. The returned data is valid
@@ -174,9 +225,18 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * {@link HashTableIter}.
      */
     public static org.gtk.glib.List getKeys(org.gtk.glib.HashTable hashTable) {
-        var RESULT = gtk_h.g_hash_table_get_keys(hashTable.handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_get_keys.invokeExact(hashTable.handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_get_keys_as_array = Interop.downcallHandle(
+        "g_hash_table_get_keys_as_array",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves every key inside {@code hash_table}, as an array.
@@ -198,9 +258,18 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * first to transfer ownership of the keys.
      */
     public static PointerIterator<java.lang.foreign.MemoryAddress> getKeysAsArray(org.gtk.glib.HashTable hashTable, PointerInteger length) {
-        var RESULT = gtk_h.g_hash_table_get_keys_as_array(hashTable.handle(), length.handle());
-        return new PointerAddress(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_get_keys_as_array.invokeExact(hashTable.handle(), length.handle());
+            return new PointerAddress(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_get_values = Interop.downcallHandle(
+        "g_hash_table_get_values",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves every value inside {@code hash_table}. The returned data
@@ -211,9 +280,18 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * {@link HashTableIter}.
      */
     public static org.gtk.glib.List getValues(org.gtk.glib.HashTable hashTable) {
-        var RESULT = gtk_h.g_hash_table_get_values(hashTable.handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_get_values.invokeExact(hashTable.handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_insert = Interop.downcallHandle(
+        "g_hash_table_insert",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new key and value into a {@link HashTable}.
@@ -230,9 +308,18 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * or not.
      */
     public static boolean insert(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_hash_table_insert(hashTable.handle(), key, value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_insert.invokeExact(hashTable.handle(), key, value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_lookup = Interop.downcallHandle(
+        "g_hash_table_lookup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a key in a {@link HashTable}. Note that this function cannot
@@ -241,9 +328,18 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * g_hash_table_lookup_extended().
      */
     public static java.lang.foreign.MemoryAddress lookup(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_lookup(hashTable.handle(), key);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_lookup.invokeExact(hashTable.handle(), key);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_lookup_extended = Interop.downcallHandle(
+        "g_hash_table_lookup_extended",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a key in the {@link HashTable}, returning the original key and the
@@ -256,9 +352,18 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * of {@code hash_table} are {@code null}-safe.
      */
     public static boolean lookupExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress origKey, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_hash_table_lookup_extended(hashTable.handle(), lookupKey, origKey, value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_lookup_extended.invokeExact(hashTable.handle(), lookupKey, origKey, value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_new_similar = Interop.downcallHandle(
+        "g_hash_table_new_similar",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link HashTable} like g_hash_table_new_full() with a reference
@@ -271,18 +376,36 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * or values from {@code other_hash_table}.
      */
     public static org.gtk.glib.HashTable newSimilar(org.gtk.glib.HashTable otherHashTable) {
-        var RESULT = gtk_h.g_hash_table_new_similar(otherHashTable.handle());
-        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_new_similar.invokeExact(otherHashTable.handle());
+            return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_ref = Interop.downcallHandle(
+        "g_hash_table_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically increments the reference count of {@code hash_table} by one.
      * This function is MT-safe and may be called from any thread.
      */
     public static org.gtk.glib.HashTable ref(org.gtk.glib.HashTable hashTable) {
-        var RESULT = gtk_h.g_hash_table_ref(hashTable.handle());
-        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_ref.invokeExact(hashTable.handle());
+            return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_remove = Interop.downcallHandle(
+        "g_hash_table_remove",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a key and its associated value from a {@link HashTable}.
@@ -293,9 +416,18 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * yourself.
      */
     public static boolean remove(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_remove(hashTable.handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_remove.invokeExact(hashTable.handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_remove_all = Interop.downcallHandle(
+        "g_hash_table_remove_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all keys and their associated values from a {@link HashTable}.
@@ -306,8 +438,17 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * values are freed yourself.
      */
     public static void removeAll(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_remove_all(hashTable.handle());
+        try {
+            g_hash_table_remove_all.invokeExact(hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_replace = Interop.downcallHandle(
+        "g_hash_table_replace",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new key and value into a {@link HashTable} similar to
@@ -323,34 +464,70 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * or not.
      */
     public static boolean replace(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_hash_table_replace(hashTable.handle(), key, value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_replace.invokeExact(hashTable.handle(), key, value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_size = Interop.downcallHandle(
+        "g_hash_table_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of elements contained in the {@link HashTable}.
      */
     public static int size(org.gtk.glib.HashTable hashTable) {
-        var RESULT = gtk_h.g_hash_table_size(hashTable.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_hash_table_size.invokeExact(hashTable.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_steal = Interop.downcallHandle(
+        "g_hash_table_steal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a key and its associated value from a {@link HashTable} without
      * calling the key and value destroy functions.
      */
     public static boolean steal(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_steal(hashTable.handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_steal.invokeExact(hashTable.handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_steal_all = Interop.downcallHandle(
+        "g_hash_table_steal_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all keys and their associated values from a {@link HashTable}
      * without calling the key and value destroy functions.
      */
     public static void stealAll(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_steal_all(hashTable.handle());
+        try {
+            g_hash_table_steal_all.invokeExact(hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_steal_extended = Interop.downcallHandle(
+        "g_hash_table_steal_extended",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a key in the {@link HashTable}, stealing the original key and the
@@ -365,9 +542,18 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * of {@code hash_table} are {@code null}-safe.
      */
     public static boolean stealExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress stolenKey, java.lang.foreign.MemoryAddress stolenValue) {
-        var RESULT = gtk_h.g_hash_table_steal_extended(hashTable.handle(), lookupKey, stolenKey, stolenValue);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_steal_extended.invokeExact(hashTable.handle(), lookupKey, stolenKey, stolenValue);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_unref = Interop.downcallHandle(
+        "g_hash_table_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code hash_table} by one.
@@ -376,7 +562,11 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * This function is MT-safe and may be called from any thread.
      */
     public static void unref(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_unref(hashTable.handle());
+        try {
+            g_hash_table_unref.invokeExact(hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

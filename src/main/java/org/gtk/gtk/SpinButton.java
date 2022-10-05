@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -130,9 +129,18 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         return new SpinButton(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_spin_button_new = Interop.downcallHandle(
+        "gtk_spin_button_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(Adjustment adjustment, double climbRate, int digits) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_spin_button_new(adjustment.handle(), climbRate, digits), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_spin_button_new.invokeExact(adjustment.handle(), climbRate, digits), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -142,9 +150,18 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         super(constructNew(adjustment, climbRate, digits));
     }
     
+    static final MethodHandle gtk_spin_button_new_with_range = Interop.downcallHandle(
+        "gtk_spin_button_new_with_range",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNewWithRange(double min, double max, double step) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_spin_button_new_with_range(min, max, step), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_spin_button_new_with_range.invokeExact(min, max, step), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -166,6 +183,11 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         return new SpinButton(constructNewWithRange(min, max, step));
     }
     
+    static final MethodHandle gtk_spin_button_configure = Interop.downcallHandle(
+        "gtk_spin_button_configure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Changes the properties of an existing spin button.
      * <p>
@@ -173,32 +195,68 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * are updated accordingly.
      */
     public void configure(Adjustment adjustment, double climbRate, int digits) {
-        gtk_h.gtk_spin_button_configure(handle(), adjustment.handle(), climbRate, digits);
+        try {
+            gtk_spin_button_configure.invokeExact(handle(), adjustment.handle(), climbRate, digits);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_adjustment = Interop.downcallHandle(
+        "gtk_spin_button_get_adjustment",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the adjustment associated with a {@code GtkSpinButton}.
      */
     public Adjustment getAdjustment() {
-        var RESULT = gtk_h.gtk_spin_button_get_adjustment(handle());
-        return new Adjustment(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_spin_button_get_adjustment.invokeExact(handle());
+            return new Adjustment(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_climb_rate = Interop.downcallHandle(
+        "gtk_spin_button_get_climb_rate",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the acceleration rate for repeated changes.
      */
     public double getClimbRate() {
-        var RESULT = gtk_h.gtk_spin_button_get_climb_rate(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_spin_button_get_climb_rate.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_digits = Interop.downcallHandle(
+        "gtk_spin_button_get_digits",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the precision of {@code spin_button}.
      */
     public int getDigits() {
-        var RESULT = gtk_h.gtk_spin_button_get_digits(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_spin_button_get_digits.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_increments = Interop.downcallHandle(
+        "gtk_spin_button_get_increments",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current step and page the increments
@@ -207,16 +265,34 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * See {@link SpinButton#setIncrements}.
      */
     public void getIncrements(PointerDouble step, PointerDouble page) {
-        gtk_h.gtk_spin_button_get_increments(handle(), step.handle(), page.handle());
+        try {
+            gtk_spin_button_get_increments.invokeExact(handle(), step.handle(), page.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_numeric = Interop.downcallHandle(
+        "gtk_spin_button_get_numeric",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether non-numeric text can be typed into the spin button.
      */
     public boolean getNumeric() {
-        var RESULT = gtk_h.gtk_spin_button_get_numeric(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_spin_button_get_numeric.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_range = Interop.downcallHandle(
+        "gtk_spin_button_get_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the range allowed for {@code spin_button}.
@@ -224,16 +300,34 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * See {@link SpinButton#setRange}.
      */
     public void getRange(PointerDouble min, PointerDouble max) {
-        gtk_h.gtk_spin_button_get_range(handle(), min.handle(), max.handle());
+        try {
+            gtk_spin_button_get_range.invokeExact(handle(), min.handle(), max.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_snap_to_ticks = Interop.downcallHandle(
+        "gtk_spin_button_get_snap_to_ticks",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the values are corrected to the nearest step.
      */
     public boolean getSnapToTicks() {
-        var RESULT = gtk_h.gtk_spin_button_get_snap_to_ticks(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_spin_button_get_snap_to_ticks.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_update_policy = Interop.downcallHandle(
+        "gtk_spin_button_get_update_policy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the update behavior of a spin button.
@@ -241,25 +335,52 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * See {@link SpinButton#setUpdatePolicy}.
      */
     public SpinButtonUpdatePolicy getUpdatePolicy() {
-        var RESULT = gtk_h.gtk_spin_button_get_update_policy(handle());
-        return new SpinButtonUpdatePolicy(RESULT);
+        try {
+            var RESULT = (int) gtk_spin_button_get_update_policy.invokeExact(handle());
+            return new SpinButtonUpdatePolicy(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_value = Interop.downcallHandle(
+        "gtk_spin_button_get_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the value in the {@code spin_button}.
      */
     public double getValue() {
-        var RESULT = gtk_h.gtk_spin_button_get_value(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_spin_button_get_value.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_value_as_int = Interop.downcallHandle(
+        "gtk_spin_button_get_value_as_int",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the value {@code spin_button} represented as an integer.
      */
     public int getValueAsInt() {
-        var RESULT = gtk_h.gtk_spin_button_get_value_as_int(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_spin_button_get_value_as_int.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_get_wrap = Interop.downcallHandle(
+        "gtk_spin_button_get_wrap",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the spin button’s value wraps around to the
@@ -267,24 +388,51 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * exceeded.
      */
     public boolean getWrap() {
-        var RESULT = gtk_h.gtk_spin_button_get_wrap(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_spin_button_get_wrap.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_adjustment = Interop.downcallHandle(
+        "gtk_spin_button_set_adjustment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Replaces the {@code GtkAdjustment} associated with {@code spin_button}.
      */
     public void setAdjustment(Adjustment adjustment) {
-        gtk_h.gtk_spin_button_set_adjustment(handle(), adjustment.handle());
+        try {
+            gtk_spin_button_set_adjustment.invokeExact(handle(), adjustment.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_climb_rate = Interop.downcallHandle(
+        "gtk_spin_button_set_climb_rate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the acceleration rate for repeated changes when you
      * hold down a button or key.
      */
     public void setClimbRate(double climbRate) {
-        gtk_h.gtk_spin_button_set_climb_rate(handle(), climbRate);
+        try {
+            gtk_spin_button_set_climb_rate.invokeExact(handle(), climbRate);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_digits = Interop.downcallHandle(
+        "gtk_spin_button_set_digits",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the precision to be displayed by {@code spin_button}.
@@ -292,8 +440,17 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Up to 20 digit precision is allowed.
      */
     public void setDigits(int digits) {
-        gtk_h.gtk_spin_button_set_digits(handle(), digits);
+        try {
+            gtk_spin_button_set_digits.invokeExact(handle(), digits);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_increments = Interop.downcallHandle(
+        "gtk_spin_button_set_increments",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the step and page increments for spin_button.
@@ -302,16 +459,34 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * the spin button’s arrows are activated.
      */
     public void setIncrements(double step, double page) {
-        gtk_h.gtk_spin_button_set_increments(handle(), step, page);
+        try {
+            gtk_spin_button_set_increments.invokeExact(handle(), step, page);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_numeric = Interop.downcallHandle(
+        "gtk_spin_button_set_numeric",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the flag that determines if non-numeric text can be typed
      * into the spin button.
      */
     public void setNumeric(boolean numeric) {
-        gtk_h.gtk_spin_button_set_numeric(handle(), numeric ? 1 : 0);
+        try {
+            gtk_spin_button_set_numeric.invokeExact(handle(), numeric ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_range = Interop.downcallHandle(
+        "gtk_spin_button_set_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the minimum and maximum allowable values for {@code spin_button}.
@@ -320,8 +495,17 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * to fit within the range, otherwise it will remain unchanged.
      */
     public void setRange(double min, double max) {
-        gtk_h.gtk_spin_button_set_range(handle(), min, max);
+        try {
+            gtk_spin_button_set_range.invokeExact(handle(), min, max);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_snap_to_ticks = Interop.downcallHandle(
+        "gtk_spin_button_set_snap_to_ticks",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the policy as to whether values are corrected to the
@@ -329,8 +513,17 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * providing an invalid value.
      */
     public void setSnapToTicks(boolean snapToTicks) {
-        gtk_h.gtk_spin_button_set_snap_to_ticks(handle(), snapToTicks ? 1 : 0);
+        try {
+            gtk_spin_button_set_snap_to_ticks.invokeExact(handle(), snapToTicks ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_update_policy = Interop.downcallHandle(
+        "gtk_spin_button_set_update_policy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the update behavior of a spin button.
@@ -339,15 +532,33 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * updated or only when a valid value is set.
      */
     public void setUpdatePolicy(SpinButtonUpdatePolicy policy) {
-        gtk_h.gtk_spin_button_set_update_policy(handle(), policy.getValue());
+        try {
+            gtk_spin_button_set_update_policy.invokeExact(handle(), policy.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_value = Interop.downcallHandle(
+        "gtk_spin_button_set_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the value of {@code spin_button}.
      */
     public void setValue(double value) {
-        gtk_h.gtk_spin_button_set_value(handle(), value);
+        try {
+            gtk_spin_button_set_value.invokeExact(handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_set_wrap = Interop.downcallHandle(
+        "gtk_spin_button_set_wrap",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the flag that determines if a spin button value wraps
@@ -355,22 +566,44 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * of the range is exceeded.
      */
     public void setWrap(boolean wrap) {
-        gtk_h.gtk_spin_button_set_wrap(handle(), wrap ? 1 : 0);
+        try {
+            gtk_spin_button_set_wrap.invokeExact(handle(), wrap ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_spin = Interop.downcallHandle(
+        "gtk_spin_button_spin",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Increment or decrement a spin button’s value in a specified
      * direction by a specified amount.
      */
     public void spin(SpinType direction, double increment) {
-        gtk_h.gtk_spin_button_spin(handle(), direction.getValue(), increment);
+        try {
+            gtk_spin_button_spin.invokeExact(handle(), direction.getValue(), increment);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_spin_button_update = Interop.downcallHandle(
+        "gtk_spin_button_update",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Manually force an update of the spin button.
      */
     public void update() {
-        gtk_h.gtk_spin_button_update(handle());
+        try {
+            gtk_spin_button_update.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -391,19 +624,19 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public SignalHandle onChangeValue(ChangeValueHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("change-value").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonChangeValue",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -423,19 +656,19 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public SignalHandle onInput(InputHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("input").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonInput",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -469,19 +702,19 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public SignalHandle onOutput(OutputHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("output").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonOutput",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -497,19 +730,19 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public SignalHandle onValueChanged(ValueChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("value-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonValueChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -524,19 +757,19 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public SignalHandle onWrapped(WrappedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("wrapped").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonWrapped",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

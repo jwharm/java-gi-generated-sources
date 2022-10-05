@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,6 +19,11 @@ public class Font extends org.gtk.gobject.Object {
         return new Font(gobject.refcounted());
     }
     
+    static final MethodHandle pango_font_describe = Interop.downcallHandle(
+        "pango_font_describe",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns a description of the font, with font size set in points.
      * <p>
@@ -27,9 +31,18 @@ public class Font extends org.gtk.gobject.Object {
      * the font size in device units.
      */
     public FontDescription describe() {
-        var RESULT = gtk_h.pango_font_describe(handle());
-        return new FontDescription(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_describe.invokeExact(handle());
+            return new FontDescription(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_describe_with_absolute_size = Interop.downcallHandle(
+        "pango_font_describe_with_absolute_size",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a description of the font, with absolute font size set
@@ -38,25 +51,52 @@ public class Font extends org.gtk.gobject.Object {
      * Use {@link Font#describe} if you want the font size in points.
      */
     public FontDescription describeWithAbsoluteSize() {
-        var RESULT = gtk_h.pango_font_describe_with_absolute_size(handle());
-        return new FontDescription(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_describe_with_absolute_size.invokeExact(handle());
+            return new FontDescription(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_get_coverage = Interop.downcallHandle(
+        "pango_font_get_coverage",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the coverage map for a given font and language tag.
      */
     public Coverage getCoverage(Language language) {
-        var RESULT = gtk_h.pango_font_get_coverage(handle(), language.handle());
-        return new Coverage(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_get_coverage.invokeExact(handle(), language.handle());
+            return new Coverage(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_get_face = Interop.downcallHandle(
+        "pango_font_get_face",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code PangoFontFace} to which {@code font} belongs.
      */
     public FontFace getFace() {
-        var RESULT = gtk_h.pango_font_get_face(handle());
-        return new FontFace(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_font_get_face.invokeExact(handle());
+            return new FontFace(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_get_features = Interop.downcallHandle(
+        "pango_font_get_features",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtain the OpenType features that are provided by the font.
@@ -68,8 +108,17 @@ public class Font extends org.gtk.gobject.Object {
      * rendering system enables by default.
      */
     public void getFeatures(org.harfbuzz.FeatureT[] features, int len, PointerInteger numFeatures) {
-        gtk_h.pango_font_get_features(handle(), Interop.allocateNativeArray(features).handle(), len, numFeatures.handle());
+        try {
+            pango_font_get_features.invokeExact(handle(), Interop.allocateNativeArray(features).handle(), len, numFeatures.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_get_font_map = Interop.downcallHandle(
+        "pango_font_get_font_map",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the font map for which the font was created.
@@ -85,9 +134,18 @@ public class Font extends org.gtk.gobject.Object {
      * as a {@code PangoContext} holds a reference to the font map.
      */
     public FontMap getFontMap() {
-        var RESULT = gtk_h.pango_font_get_font_map(handle());
-        return new FontMap(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_font_get_font_map.invokeExact(handle());
+            return new FontMap(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_get_glyph_extents = Interop.downcallHandle(
+        "pango_font_get_glyph_extents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the logical and ink extents of a glyph within a font.
@@ -103,8 +161,17 @@ public class Font extends org.gtk.gobject.Object {
      * output variables and returns.
      */
     public void getGlyphExtents(Glyph glyph, Rectangle inkRect, Rectangle logicalRect) {
-        gtk_h.pango_font_get_glyph_extents(handle(), glyph.getValue(), inkRect.handle(), logicalRect.handle());
+        try {
+            pango_font_get_glyph_extents.invokeExact(handle(), glyph.getValue(), inkRect.handle(), logicalRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_get_hb_font = Interop.downcallHandle(
+        "pango_font_get_hb_font",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get a {@code hb_font_t} object backing this font.
@@ -114,9 +181,18 @@ public class Font extends org.gtk.gobject.Object {
      * use <a href="https://harfbuzz.github.io/harfbuzz-hb-font.html#hb-font-create-sub-font">hb_font_create_sub_font()</a>.
      */
     public org.harfbuzz.FontT getHbFont() {
-        var RESULT = gtk_h.pango_font_get_hb_font(handle());
-        return new org.harfbuzz.FontT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_font_get_hb_font.invokeExact(handle());
+            return new org.harfbuzz.FontT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_get_languages = Interop.downcallHandle(
+        "pango_font_get_languages",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the languages that are supported by {@code font}.
@@ -129,9 +205,18 @@ public class Font extends org.gtk.gobject.Object {
      * and its fontmap are valid.
      */
     public PointerIterator<Language> getLanguages() {
-        var RESULT = gtk_h.pango_font_get_languages(handle());
-        return new PointerProxy<Language>(RESULT, Language.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) pango_font_get_languages.invokeExact(handle());
+            return new PointerProxy<Language>(RESULT, Language.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_get_metrics = Interop.downcallHandle(
+        "pango_font_get_metrics",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets overall metric information for a font.
@@ -144,17 +229,35 @@ public class Font extends org.gtk.gobject.Object {
      * output variables and returns.
      */
     public FontMetrics getMetrics(Language language) {
-        var RESULT = gtk_h.pango_font_get_metrics(handle(), language.handle());
-        return new FontMetrics(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_get_metrics.invokeExact(handle(), language.handle());
+            return new FontMetrics(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_has_char = Interop.downcallHandle(
+        "pango_font_has_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns whether the font provides a glyph for this character.
      */
     public boolean hasChar(int wc) {
-        var RESULT = gtk_h.pango_font_has_char(handle(), wc);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_font_has_char.invokeExact(handle(), wc);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_serialize = Interop.downcallHandle(
+        "pango_font_serialize",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Serializes the {@code font} in a way that can be uniquely identified.
@@ -168,16 +271,34 @@ public class Font extends org.gtk.gobject.Object {
      * To recreate a font from its serialized form, use {@link Pango#Font}.
      */
     public org.gtk.glib.Bytes serialize() {
-        var RESULT = gtk_h.pango_font_serialize(handle());
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_serialize.invokeExact(handle());
+            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_descriptions_free = Interop.downcallHandle(
+        "pango_font_descriptions_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Frees an array of font descriptions.
      */
     public static void descriptionsFree(FontDescription[] descs, int nDescs) {
-        gtk_h.pango_font_descriptions_free(Interop.allocateNativeArray(descs).handle(), nDescs);
+        try {
+            pango_font_descriptions_free.invokeExact(Interop.allocateNativeArray(descs).handle(), nDescs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_deserialize = Interop.downcallHandle(
+        "pango_font_deserialize",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Loads data previously created via {@link Font#serialize}.
@@ -190,11 +311,15 @@ public class Font extends org.gtk.gobject.Object {
      */
     public static Font deserialize(Context context, org.gtk.glib.Bytes bytes) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.pango_font_deserialize(context.handle(), bytes.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) pango_font_deserialize.invokeExact(context.handle(), bytes.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Font(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Font(Refcounted.get(RESULT, true));
     }
     
 }

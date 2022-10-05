@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -90,9 +89,18 @@ public class TestDBus extends org.gtk.gobject.Object {
         return new TestDBus(gobject.refcounted());
     }
     
+    static final MethodHandle g_test_dbus_new = Interop.downcallHandle(
+        "g_test_dbus_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(TestDBusFlags flags) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_test_dbus_new(flags.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_test_dbus_new.invokeExact(flags.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -102,13 +110,27 @@ public class TestDBus extends org.gtk.gobject.Object {
         super(constructNew(flags));
     }
     
+    static final MethodHandle g_test_dbus_add_service_dir = Interop.downcallHandle(
+        "g_test_dbus_add_service_dir",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Add a path where dbus-daemon will look up .service files. This can't be
      * called after g_test_dbus_up().
      */
     public void addServiceDir(java.lang.String path) {
-        gtk_h.g_test_dbus_add_service_dir(handle(), Interop.allocateNativeString(path).handle());
+        try {
+            g_test_dbus_add_service_dir.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_dbus_down = Interop.downcallHandle(
+        "g_test_dbus_down",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stop the session bus started by g_test_dbus_up().
@@ -118,8 +140,17 @@ public class TestDBus extends org.gtk.gobject.Object {
      * leaked singleton from this test.
      */
     public void down() {
-        gtk_h.g_test_dbus_down(handle());
+        try {
+            g_test_dbus_down.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_dbus_get_bus_address = Interop.downcallHandle(
+        "g_test_dbus_get_bus_address",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the address on which dbus-daemon is running. If g_test_dbus_up() has not
@@ -127,17 +158,35 @@ public class TestDBus extends org.gtk.gobject.Object {
      * g_dbus_connection_new_for_address().
      */
     public java.lang.String getBusAddress() {
-        var RESULT = gtk_h.g_test_dbus_get_bus_address(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_test_dbus_get_bus_address.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_dbus_get_flags = Interop.downcallHandle(
+        "g_test_dbus_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the flags of the {@link TestDBus} object.
      */
     public TestDBusFlags getFlags() {
-        var RESULT = gtk_h.g_test_dbus_get_flags(handle());
-        return new TestDBusFlags(RESULT);
+        try {
+            var RESULT = (int) g_test_dbus_get_flags.invokeExact(handle());
+            return new TestDBusFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_dbus_stop = Interop.downcallHandle(
+        "g_test_dbus_stop",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stop the session bus started by g_test_dbus_up().
@@ -148,8 +197,17 @@ public class TestDBus extends org.gtk.gobject.Object {
      * can use this function but should still call g_test_dbus_down() when done.
      */
     public void stop() {
-        gtk_h.g_test_dbus_stop(handle());
+        try {
+            g_test_dbus_stop.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_dbus_up = Interop.downcallHandle(
+        "g_test_dbus_up",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Start a dbus-daemon instance and set DBUS_SESSION_BUS_ADDRESS. After this
@@ -162,8 +220,17 @@ public class TestDBus extends org.gtk.gobject.Object {
      * must be called after g_test_run().
      */
     public void up() {
-        gtk_h.g_test_dbus_up(handle());
+        try {
+            g_test_dbus_up.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_dbus_unset = Interop.downcallHandle(
+        "g_test_dbus_unset",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Unset DISPLAY and DBUS_SESSION_BUS_ADDRESS env variables to ensure the test
@@ -174,7 +241,11 @@ public class TestDBus extends org.gtk.gobject.Object {
      * g_test_dbus_up() before acquiring the session bus.
      */
     public static void unset() {
-        gtk_h.g_test_dbus_unset();
+        try {
+            g_test_dbus_unset.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

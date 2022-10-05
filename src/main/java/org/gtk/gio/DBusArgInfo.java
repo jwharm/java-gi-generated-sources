@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,18 +13,28 @@ public class DBusArgInfo extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public DBusArgInfo() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusArgInfo.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_dbus_arg_info_ref = Interop.downcallHandle(
+        "g_dbus_arg_info_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.
      */
     public DBusArgInfo ref() {
-        var RESULT = gtk_h.g_dbus_arg_info_ref(handle());
-        return new DBusArgInfo(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_arg_info_ref.invokeExact(handle());
+            return new DBusArgInfo(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_arg_info_unref = Interop.downcallHandle(
+        "g_dbus_arg_info_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code info} is statically allocated, does nothing. Otherwise decreases
@@ -33,7 +42,11 @@ public class DBusArgInfo extends io.github.jwharm.javagi.ResourceBase {
      * the memory used is freed.
      */
     public void unref() {
-        gtk_h.g_dbus_arg_info_unref(handle());
+        try {
+            g_dbus_arg_info_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

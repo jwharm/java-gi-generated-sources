@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,9 +26,10 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public FontMetrics() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoFontMetrics.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_font_metrics_get_approximate_char_width = Interop.downcallHandle(
+        "pango_font_metrics_get_approximate_char_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the approximate character width for a font metrics structure.
@@ -39,9 +39,18 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * text will be wider and narrower than this.
      */
     public int getApproximateCharWidth() {
-        var RESULT = gtk_h.pango_font_metrics_get_approximate_char_width(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_approximate_char_width.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_get_approximate_digit_width = Interop.downcallHandle(
+        "pango_font_metrics_get_approximate_digit_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the approximate digit width for a font metrics structure.
@@ -53,9 +62,18 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * pango_font_metrics_get_approximate_char_width() for digits.
      */
     public int getApproximateDigitWidth() {
-        var RESULT = gtk_h.pango_font_metrics_get_approximate_digit_width(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_approximate_digit_width.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_get_ascent = Interop.downcallHandle(
+        "pango_font_metrics_get_ascent",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the ascent from a font metrics structure.
@@ -66,9 +84,18 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * figure where the ink will be.)
      */
     public int getAscent() {
-        var RESULT = gtk_h.pango_font_metrics_get_ascent(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_ascent.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_get_descent = Interop.downcallHandle(
+        "pango_font_metrics_get_descent",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the descent from a font metrics structure.
@@ -79,9 +106,18 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * to figure where the ink will be.)
      */
     public int getDescent() {
-        var RESULT = gtk_h.pango_font_metrics_get_descent(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_descent.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_get_height = Interop.downcallHandle(
+        "pango_font_metrics_get_height",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the line height from a font metrics structure.
@@ -92,9 +128,18 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * If the line height is not available, 0 is returned.
      */
     public int getHeight() {
-        var RESULT = gtk_h.pango_font_metrics_get_height(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_height.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_get_strikethrough_position = Interop.downcallHandle(
+        "pango_font_metrics_get_strikethrough_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the suggested position to draw the strikethrough.
@@ -103,17 +148,35 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * baseline of the top of the strikethrough.
      */
     public int getStrikethroughPosition() {
-        var RESULT = gtk_h.pango_font_metrics_get_strikethrough_position(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_strikethrough_position.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_get_strikethrough_thickness = Interop.downcallHandle(
+        "pango_font_metrics_get_strikethrough_thickness",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the suggested thickness to draw for the strikethrough.
      */
     public int getStrikethroughThickness() {
-        var RESULT = gtk_h.pango_font_metrics_get_strikethrough_thickness(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_strikethrough_thickness.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_get_underline_position = Interop.downcallHandle(
+        "pango_font_metrics_get_underline_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the suggested position to draw the underline.
@@ -123,25 +186,52 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * the baseline, this value is typically negative.
      */
     public int getUnderlinePosition() {
-        var RESULT = gtk_h.pango_font_metrics_get_underline_position(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_underline_position.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_get_underline_thickness = Interop.downcallHandle(
+        "pango_font_metrics_get_underline_thickness",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the suggested thickness to draw for the underline.
      */
     public int getUnderlineThickness() {
-        var RESULT = gtk_h.pango_font_metrics_get_underline_thickness(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_metrics_get_underline_thickness.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_ref = Interop.downcallHandle(
+        "pango_font_metrics_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increase the reference count of a font metrics structure by one.
      */
     public FontMetrics ref() {
-        var RESULT = gtk_h.pango_font_metrics_ref(handle());
-        return new FontMetrics(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_metrics_ref.invokeExact(handle());
+            return new FontMetrics(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_metrics_unref = Interop.downcallHandle(
+        "pango_font_metrics_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrease the reference count of a font metrics structure by one.
@@ -149,7 +239,11 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * If the result is zero, frees the structure and any associated memory.
      */
     public void unref() {
-        gtk_h.pango_font_metrics_unref(handle());
+        try {
+            pango_font_metrics_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

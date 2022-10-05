@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class ConstantExpression extends Expression {
         return new ConstantExpression(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_constant_expression_new_for_value = Interop.downcallHandle(
+        "gtk_constant_expression_new_for_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForValue(org.gtk.gobject.Value value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constant_expression_new_for_value(value.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_constant_expression_new_for_value.invokeExact(value.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -31,12 +39,21 @@ public class ConstantExpression extends Expression {
         return new ConstantExpression(constructNewForValue(value));
     }
     
+    static final MethodHandle gtk_constant_expression_get_value = Interop.downcallHandle(
+        "gtk_constant_expression_get_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the value that a constant expression evaluates to.
      */
     public org.gtk.gobject.Value getValue() {
-        var RESULT = gtk_h.gtk_constant_expression_get_value(handle());
-        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_constant_expression_get_value.invokeExact(handle());
+            return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

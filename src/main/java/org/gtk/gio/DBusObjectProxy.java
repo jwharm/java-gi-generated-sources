@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,18 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
         return new DBusObjectProxy(gobject.refcounted());
     }
     
+    static final MethodHandle g_dbus_object_proxy_new = Interop.downcallHandle(
+        "g_dbus_object_proxy_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(DBusConnection connection, java.lang.String objectPath) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_object_proxy_new(connection.handle(), Interop.allocateNativeString(objectPath).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_proxy_new.invokeExact(connection.handle(), Interop.allocateNativeString(objectPath).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -35,12 +43,21 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
         super(constructNew(connection, objectPath));
     }
     
+    static final MethodHandle g_dbus_object_proxy_get_connection = Interop.downcallHandle(
+        "g_dbus_object_proxy_get_connection",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the connection that {@code proxy} is for.
      */
     public DBusConnection getConnection() {
-        var RESULT = gtk_h.g_dbus_object_proxy_get_connection(handle());
-        return new DBusConnection(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_object_proxy_get_connection.invokeExact(handle());
+            return new DBusConnection(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

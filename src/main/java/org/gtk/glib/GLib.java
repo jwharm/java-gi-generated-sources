@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -257,6 +256,11 @@ public final class GLib {
 
     public static final int macro__has_attribute___noreturn__ = 0;
 
+    static final MethodHandle g_access = Interop.downcallHandle(
+        "g_access",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * A wrapper for the POSIX access() function. This function is used to
      * test a pathname for one or several of read, write or execute
@@ -272,9 +276,18 @@ public final class GLib {
      * See your C library manual for more details about access().
      */
     public static int access(java.lang.String filename, int mode) {
-        var RESULT = gtk_h.g_access(Interop.allocateNativeString(filename).handle(), mode);
-        return RESULT;
+        try {
+            var RESULT = (int) g_access.invokeExact(Interop.allocateNativeString(filename).handle(), mode);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_aligned_alloc = Interop.downcallHandle(
+        "g_aligned_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is similar to g_malloc(), allocating ({@code n_blocks} * {@code n_block_bytes})
@@ -286,25 +299,52 @@ public final class GLib {
      * freed using g_aligned_free().
      */
     public static java.lang.foreign.MemoryAddress alignedAlloc(long nBlocks, long nBlockBytes, long alignment) {
-        var RESULT = gtk_h.g_aligned_alloc(nBlocks, nBlockBytes, alignment);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_aligned_alloc.invokeExact(nBlocks, nBlockBytes, alignment);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_aligned_alloc0 = Interop.downcallHandle(
+        "g_aligned_alloc0",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is similar to g_aligned_alloc(), but it will
      * also clear the allocated memory before returning it.
      */
     public static java.lang.foreign.MemoryAddress alignedAlloc0(long nBlocks, long nBlockBytes, long alignment) {
-        var RESULT = gtk_h.g_aligned_alloc0(nBlocks, nBlockBytes, alignment);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_aligned_alloc0.invokeExact(nBlocks, nBlockBytes, alignment);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_aligned_free = Interop.downcallHandle(
+        "g_aligned_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the memory allocated by g_aligned_alloc().
      */
     public static void alignedFree(java.lang.foreign.MemoryAddress mem) {
-        gtk_h.g_aligned_free(mem);
+        try {
+            g_aligned_free.invokeExact(mem);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_digit_value = Interop.downcallHandle(
+        "g_ascii_digit_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Determines the numeric value of a character as a decimal digit.
@@ -312,9 +352,18 @@ public final class GLib {
      * there's no worry about sign extension if characters are signed.
      */
     public static int asciiDigitValue(byte c) {
-        var RESULT = gtk_h.g_ascii_digit_value(c);
-        return RESULT;
+        try {
+            var RESULT = (int) g_ascii_digit_value.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_dtostr = Interop.downcallHandle(
+        "g_ascii_dtostr",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Converts a {@code gdouble} to a string, using the '.' as
@@ -328,9 +377,18 @@ public final class GLib {
      * nul character, which is always added.
      */
     public static java.lang.String asciiDtostr(java.lang.String buffer, int bufLen, double d) {
-        var RESULT = gtk_h.g_ascii_dtostr(Interop.allocateNativeString(buffer).handle(), bufLen, d);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_ascii_dtostr.invokeExact(Interop.allocateNativeString(buffer).handle(), bufLen, d);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_formatd = Interop.downcallHandle(
+        "g_ascii_formatd",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Converts a {@code gdouble} to a string, using the '.' as
@@ -347,9 +405,18 @@ public final class GLib {
      * string, use g_ascii_dtostr().
      */
     public static java.lang.String asciiFormatd(java.lang.String buffer, int bufLen, java.lang.String format, double d) {
-        var RESULT = gtk_h.g_ascii_formatd(Interop.allocateNativeString(buffer).handle(), bufLen, Interop.allocateNativeString(format).handle(), d);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_ascii_formatd.invokeExact(Interop.allocateNativeString(buffer).handle(), bufLen, Interop.allocateNativeString(format).handle(), d);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_strcasecmp = Interop.downcallHandle(
+        "g_ascii_strcasecmp",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compare two strings, ignoring the case of ASCII characters.
@@ -369,17 +436,35 @@ public final class GLib {
      * Both {@code s1} and {@code s2} must be non-{@code null}.
      */
     public static int asciiStrcasecmp(java.lang.String s1, java.lang.String s2) {
-        var RESULT = gtk_h.g_ascii_strcasecmp(Interop.allocateNativeString(s1).handle(), Interop.allocateNativeString(s2).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_ascii_strcasecmp.invokeExact(Interop.allocateNativeString(s1).handle(), Interop.allocateNativeString(s2).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_strdown = Interop.downcallHandle(
+        "g_ascii_strdown",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts all upper case ASCII letters to lower case ASCII letters.
      */
     public static java.lang.String asciiStrdown(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_ascii_strdown(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_ascii_strdown.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_string_to_signed = Interop.downcallHandle(
+        "g_ascii_string_to_signed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function for converting a string to a signed number.
@@ -406,12 +491,21 @@ public final class GLib {
      */
     public static boolean asciiStringToSigned(java.lang.String str, int base, long min, long max, PointerLong outNum) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_ascii_string_to_signed(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_ascii_string_to_signed.invokeExact(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_ascii_string_to_unsigned = Interop.downcallHandle(
+        "g_ascii_string_to_unsigned",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function for converting a string to an unsigned number.
@@ -439,12 +533,21 @@ public final class GLib {
      */
     public static boolean asciiStringToUnsigned(java.lang.String str, int base, long min, long max, PointerLong outNum) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_ascii_string_to_unsigned(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_ascii_string_to_unsigned.invokeExact(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_ascii_strncasecmp = Interop.downcallHandle(
+        "g_ascii_strncasecmp",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Compare {@code s1} and {@code s2}, ignoring the case of ASCII characters and any
@@ -461,9 +564,18 @@ public final class GLib {
      * corresponding to ASCII letters always represent themselves.
      */
     public static int asciiStrncasecmp(java.lang.String s1, java.lang.String s2, long n) {
-        var RESULT = gtk_h.g_ascii_strncasecmp(Interop.allocateNativeString(s1).handle(), Interop.allocateNativeString(s2).handle(), n);
-        return RESULT;
+        try {
+            var RESULT = (int) g_ascii_strncasecmp.invokeExact(Interop.allocateNativeString(s1).handle(), Interop.allocateNativeString(s2).handle(), n);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_strtod = Interop.downcallHandle(
+        "g_ascii_strtod",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string to a {@code gdouble} value.
@@ -491,9 +603,18 @@ public final class GLib {
      * you can reliably detect overflow and underflow.
      */
     public static double asciiStrtod(java.lang.String nptr, java.lang.String[] endptr) {
-        var RESULT = gtk_h.g_ascii_strtod(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle());
-        return RESULT;
+        try {
+            var RESULT = (double) g_ascii_strtod.invokeExact(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_strtoll = Interop.downcallHandle(
+        "g_ascii_strtoll",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a string to a {@code gint64} value.
@@ -515,9 +636,18 @@ public final class GLib {
      * (if {@code endptr} is non-{@code null}).
      */
     public static long asciiStrtoll(java.lang.String nptr, java.lang.String[] endptr, int base) {
-        var RESULT = gtk_h.g_ascii_strtoll(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle(), base);
-        return RESULT;
+        try {
+            var RESULT = (long) g_ascii_strtoll.invokeExact(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle(), base);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_strtoull = Interop.downcallHandle(
+        "g_ascii_strtoull",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a string to a {@code guint64} value.
@@ -544,17 +674,35 @@ public final class GLib {
      * {@code nptr} (if {@code endptr} is non-{@code null}).
      */
     public static long asciiStrtoull(java.lang.String nptr, java.lang.String[] endptr, int base) {
-        var RESULT = gtk_h.g_ascii_strtoull(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle(), base);
-        return RESULT;
+        try {
+            var RESULT = (long) g_ascii_strtoull.invokeExact(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle(), base);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_strup = Interop.downcallHandle(
+        "g_ascii_strup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts all lower case ASCII letters to upper case ASCII letters.
      */
     public static java.lang.String asciiStrup(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_ascii_strup(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_ascii_strup.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_tolower = Interop.downcallHandle(
+        "g_ascii_tolower",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Convert a character to ASCII lower case.
@@ -568,9 +716,18 @@ public final class GLib {
      * before passing a possibly non-ASCII character in.
      */
     public static byte asciiTolower(byte c) {
-        var RESULT = gtk_h.g_ascii_tolower(c);
-        return RESULT;
+        try {
+            var RESULT = (byte) g_ascii_tolower.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_toupper = Interop.downcallHandle(
+        "g_ascii_toupper",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Convert a character to ASCII upper case.
@@ -584,9 +741,18 @@ public final class GLib {
      * before passing a possibly non-ASCII character in.
      */
     public static byte asciiToupper(byte c) {
-        var RESULT = gtk_h.g_ascii_toupper(c);
-        return RESULT;
+        try {
+            var RESULT = (byte) g_ascii_toupper.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ascii_xdigit_value = Interop.downcallHandle(
+        "g_ascii_xdigit_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Determines the numeric value of a character as a hexadecimal
@@ -595,37 +761,100 @@ public final class GLib {
      * are signed.
      */
     public static int asciiXdigitValue(byte c) {
-        var RESULT = gtk_h.g_ascii_xdigit_value(c);
-        return RESULT;
+        try {
+            var RESULT = (int) g_ascii_xdigit_value.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_assert_warning = Interop.downcallHandle(
+        "g_assert_warning",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     public static void assertWarning(java.lang.String logDomain, java.lang.String file, int line, java.lang.String prettyFunction, java.lang.String expression) {
-        gtk_h.g_assert_warning(Interop.allocateNativeString(logDomain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(prettyFunction).handle(), Interop.allocateNativeString(expression).handle());
+        try {
+            g_assert_warning.invokeExact(Interop.allocateNativeString(logDomain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(prettyFunction).handle(), Interop.allocateNativeString(expression).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_assertion_message = Interop.downcallHandle(
+        "g_assertion_message",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     public static void assertionMessage(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String message) {
-        gtk_h.g_assertion_message(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(message).handle());
+        try {
+            g_assertion_message.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(message).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_assertion_message_cmpstr = Interop.downcallHandle(
+        "g_assertion_message_cmpstr",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     public static void assertionMessageCmpstr(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, java.lang.String arg1, java.lang.String cmp, java.lang.String arg2) {
-        gtk_h.g_assertion_message_cmpstr(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), Interop.allocateNativeString(arg1).handle(), Interop.allocateNativeString(cmp).handle(), Interop.allocateNativeString(arg2).handle());
+        try {
+            g_assertion_message_cmpstr.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), Interop.allocateNativeString(arg1).handle(), Interop.allocateNativeString(cmp).handle(), Interop.allocateNativeString(arg2).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_assertion_message_cmpstrv = Interop.downcallHandle(
+        "g_assertion_message_cmpstrv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     public static void assertionMessageCmpstrv(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, java.lang.String arg1, java.lang.String arg2, long firstWrongIdx) {
-        gtk_h.g_assertion_message_cmpstrv(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), Interop.allocateNativeString(arg1).handle(), Interop.allocateNativeString(arg2).handle(), firstWrongIdx);
+        try {
+            g_assertion_message_cmpstrv.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), Interop.allocateNativeString(arg1).handle(), Interop.allocateNativeString(arg2).handle(), firstWrongIdx);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_assertion_message_error = Interop.downcallHandle(
+        "g_assertion_message_error",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     public static void assertionMessageError(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, Error error, Quark errorDomain, int errorCode) {
-        gtk_h.g_assertion_message_error(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), error.handle(), errorDomain.getValue(), errorCode);
+        try {
+            g_assertion_message_error.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), error.handle(), errorDomain.getValue(), errorCode);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_assertion_message_expr = Interop.downcallHandle(
+        "g_assertion_message_expr",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Internal function used to print messages from the public g_assert() and
      * g_assert_not_reached() macros.
      */
     public static void assertionMessageExpr(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr) {
-        gtk_h.g_assertion_message_expr(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle());
+        try {
+            g_assertion_message_expr.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_add = Interop.downcallHandle(
+        "g_atomic_int_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Atomically adds {@code val} to the value of {@code atomic}.
@@ -642,9 +871,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static int atomicIntAdd(PointerInteger atomic, int val) {
-        var RESULT = gtk_h.g_atomic_int_add(atomic.handle(), val);
-        return RESULT;
+        try {
+            var RESULT = (int) g_atomic_int_add.invokeExact(atomic.handle(), val);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_and = Interop.downcallHandle(
+        "g_atomic_int_and",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Performs an atomic bitwise 'and' of the value of {@code atomic} and {@code val},
@@ -659,9 +897,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static int atomicIntAnd(PointerInteger atomic, int val) {
-        var RESULT = gtk_h.g_atomic_int_and(atomic.handle(), val);
-        return RESULT;
+        try {
+            var RESULT = (int) g_atomic_int_and.invokeExact(atomic.handle(), val);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_compare_and_exchange = Interop.downcallHandle(
+        "g_atomic_int_compare_and_exchange",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Compares {@code atomic} to {@code oldval} and, if equal, sets it to {@code newval}.
@@ -678,9 +925,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static boolean atomicIntCompareAndExchange(PointerInteger atomic, int oldval, int newval) {
-        var RESULT = gtk_h.g_atomic_int_compare_and_exchange(atomic.handle(), oldval, newval);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_atomic_int_compare_and_exchange.invokeExact(atomic.handle(), oldval, newval);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_dec_and_test = Interop.downcallHandle(
+        "g_atomic_int_dec_and_test",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrements the value of {@code atomic} by 1.
@@ -694,9 +950,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static boolean atomicIntDecAndTest(PointerInteger atomic) {
-        var RESULT = gtk_h.g_atomic_int_dec_and_test(atomic.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_atomic_int_dec_and_test.invokeExact(atomic.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_get = Interop.downcallHandle(
+        "g_atomic_int_get",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current value of {@code atomic}.
@@ -708,9 +973,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static int atomicIntGet(PointerInteger atomic) {
-        var RESULT = gtk_h.g_atomic_int_get(atomic.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_atomic_int_get.invokeExact(atomic.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_inc = Interop.downcallHandle(
+        "g_atomic_int_inc",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Increments the value of {@code atomic} by 1.
@@ -723,8 +997,17 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static void atomicIntInc(PointerInteger atomic) {
-        gtk_h.g_atomic_int_inc(atomic.handle());
+        try {
+            g_atomic_int_inc.invokeExact(atomic.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_or = Interop.downcallHandle(
+        "g_atomic_int_or",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Performs an atomic bitwise 'or' of the value of {@code atomic} and {@code val},
@@ -739,9 +1022,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static int atomicIntOr(PointerInteger atomic, int val) {
-        var RESULT = gtk_h.g_atomic_int_or(atomic.handle(), val);
-        return RESULT;
+        try {
+            var RESULT = (int) g_atomic_int_or.invokeExact(atomic.handle(), val);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_set = Interop.downcallHandle(
+        "g_atomic_int_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the value of {@code atomic} to {@code newval}.
@@ -753,8 +1045,17 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static void atomicIntSet(PointerInteger atomic, int newval) {
-        gtk_h.g_atomic_int_set(atomic.handle(), newval);
+        try {
+            g_atomic_int_set.invokeExact(atomic.handle(), newval);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_int_xor = Interop.downcallHandle(
+        "g_atomic_int_xor",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Performs an atomic bitwise 'xor' of the value of {@code atomic} and {@code val},
@@ -769,9 +1070,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static int atomicIntXor(PointerInteger atomic, int val) {
-        var RESULT = gtk_h.g_atomic_int_xor(atomic.handle(), val);
-        return RESULT;
+        try {
+            var RESULT = (int) g_atomic_int_xor.invokeExact(atomic.handle(), val);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_pointer_add = Interop.downcallHandle(
+        "g_atomic_pointer_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Atomically adds {@code val} to the value of {@code atomic}.
@@ -785,9 +1095,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static long atomicPointerAdd(java.lang.foreign.MemoryAddress atomic, long val) {
-        var RESULT = gtk_h.g_atomic_pointer_add(atomic, val);
-        return RESULT;
+        try {
+            var RESULT = (long) g_atomic_pointer_add.invokeExact(atomic, val);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_pointer_and = Interop.downcallHandle(
+        "g_atomic_pointer_and",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Performs an atomic bitwise 'and' of the value of {@code atomic} and {@code val},
@@ -802,9 +1121,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static long atomicPointerAnd(java.lang.foreign.MemoryAddress atomic, long val) {
-        var RESULT = gtk_h.g_atomic_pointer_and(atomic, val);
-        return RESULT;
+        try {
+            var RESULT = (long) g_atomic_pointer_and.invokeExact(atomic, val);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_pointer_compare_and_exchange = Interop.downcallHandle(
+        "g_atomic_pointer_compare_and_exchange",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares {@code atomic} to {@code oldval} and, if equal, sets it to {@code newval}.
@@ -821,9 +1149,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static boolean atomicPointerCompareAndExchange(java.lang.foreign.MemoryAddress atomic, java.lang.foreign.MemoryAddress oldval, java.lang.foreign.MemoryAddress newval) {
-        var RESULT = gtk_h.g_atomic_pointer_compare_and_exchange(atomic, oldval, newval);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_atomic_pointer_compare_and_exchange.invokeExact(atomic, oldval, newval);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_pointer_get = Interop.downcallHandle(
+        "g_atomic_pointer_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current value of {@code atomic}.
@@ -835,9 +1172,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static java.lang.foreign.MemoryAddress atomicPointerGet(java.lang.foreign.MemoryAddress atomic) {
-        var RESULT = gtk_h.g_atomic_pointer_get(atomic);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_atomic_pointer_get.invokeExact(atomic);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_pointer_or = Interop.downcallHandle(
+        "g_atomic_pointer_or",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Performs an atomic bitwise 'or' of the value of {@code atomic} and {@code val},
@@ -852,9 +1198,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static long atomicPointerOr(java.lang.foreign.MemoryAddress atomic, long val) {
-        var RESULT = gtk_h.g_atomic_pointer_or(atomic, val);
-        return RESULT;
+        try {
+            var RESULT = (long) g_atomic_pointer_or.invokeExact(atomic, val);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_pointer_set = Interop.downcallHandle(
+        "g_atomic_pointer_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the value of {@code atomic} to {@code newval}.
@@ -866,8 +1221,17 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static void atomicPointerSet(java.lang.foreign.MemoryAddress atomic, java.lang.foreign.MemoryAddress newval) {
-        gtk_h.g_atomic_pointer_set(atomic, newval);
+        try {
+            g_atomic_pointer_set.invokeExact(atomic, newval);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_pointer_xor = Interop.downcallHandle(
+        "g_atomic_pointer_xor",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Performs an atomic bitwise 'xor' of the value of {@code atomic} and {@code val},
@@ -882,17 +1246,35 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static long atomicPointerXor(java.lang.foreign.MemoryAddress atomic, long val) {
-        var RESULT = gtk_h.g_atomic_pointer_xor(atomic, val);
-        return RESULT;
+        try {
+            var RESULT = (long) g_atomic_pointer_xor.invokeExact(atomic, val);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_rc_box_acquire = Interop.downcallHandle(
+        "g_atomic_rc_box_acquire",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically acquires a reference on the data pointed by {@code mem_block}.
      */
     public static java.lang.foreign.MemoryAddress atomicRcBoxAcquire(java.lang.foreign.MemoryAddress memBlock) {
-        var RESULT = gtk_h.g_atomic_rc_box_acquire(memBlock);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_atomic_rc_box_acquire.invokeExact(memBlock);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_rc_box_alloc = Interop.downcallHandle(
+        "g_atomic_rc_box_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates {@code block_size} bytes of memory, and adds atomic
@@ -905,9 +1287,18 @@ public final class GLib {
      * built-in type.
      */
     public static java.lang.foreign.MemoryAddress atomicRcBoxAlloc(long blockSize) {
-        var RESULT = gtk_h.g_atomic_rc_box_alloc(blockSize);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_atomic_rc_box_alloc.invokeExact(blockSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_rc_box_alloc0 = Interop.downcallHandle(
+        "g_atomic_rc_box_alloc0",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates {@code block_size} bytes of memory, and adds atomic
@@ -922,9 +1313,18 @@ public final class GLib {
      * built-in type.
      */
     public static java.lang.foreign.MemoryAddress atomicRcBoxAlloc0(long blockSize) {
-        var RESULT = gtk_h.g_atomic_rc_box_alloc0(blockSize);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_atomic_rc_box_alloc0.invokeExact(blockSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_rc_box_dup = Interop.downcallHandle(
+        "g_atomic_rc_box_dup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Allocates a new block of data with atomic reference counting
@@ -932,17 +1332,35 @@ public final class GLib {
      * into it.
      */
     public static java.lang.foreign.MemoryAddress atomicRcBoxDup(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
-        var RESULT = gtk_h.g_atomic_rc_box_dup(blockSize, memBlock);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_atomic_rc_box_dup.invokeExact(blockSize, memBlock);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_rc_box_get_size = Interop.downcallHandle(
+        "g_atomic_rc_box_get_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the size of the reference counted data pointed by {@code mem_block}.
      */
     public static long atomicRcBoxGetSize(java.lang.foreign.MemoryAddress memBlock) {
-        var RESULT = gtk_h.g_atomic_rc_box_get_size(memBlock);
-        return RESULT;
+        try {
+            var RESULT = (long) g_atomic_rc_box_get_size.invokeExact(memBlock);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_rc_box_release = Interop.downcallHandle(
+        "g_atomic_rc_box_release",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically releases a reference on the data pointed by {@code mem_block}.
@@ -951,16 +1369,34 @@ public final class GLib {
      * resources allocated for {@code mem_block}.
      */
     public static void atomicRcBoxRelease(java.lang.foreign.MemoryAddress memBlock) {
-        gtk_h.g_atomic_rc_box_release(memBlock);
+        try {
+            g_atomic_rc_box_release.invokeExact(memBlock);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_ref_count_compare = Interop.downcallHandle(
+        "g_atomic_ref_count_compare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Atomically compares the current value of {@code arc} with {@code val}.
      */
     public static boolean atomicRefCountCompare(PointerInteger arc, int val) {
-        var RESULT = gtk_h.g_atomic_ref_count_compare(arc.handle(), val);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_atomic_ref_count_compare.invokeExact(arc.handle(), val);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_ref_count_dec = Interop.downcallHandle(
+        "g_atomic_ref_count_dec",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decreases the reference count.
@@ -970,23 +1406,50 @@ public final class GLib {
      * g_atomic_ref_count_init() to be used again.
      */
     public static boolean atomicRefCountDec(PointerInteger arc) {
-        var RESULT = gtk_h.g_atomic_ref_count_dec(arc.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_atomic_ref_count_dec.invokeExact(arc.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_ref_count_inc = Interop.downcallHandle(
+        "g_atomic_ref_count_inc",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically increases the reference count.
      */
     public static void atomicRefCountInc(PointerInteger arc) {
-        gtk_h.g_atomic_ref_count_inc(arc.handle());
+        try {
+            g_atomic_ref_count_inc.invokeExact(arc.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_atomic_ref_count_init = Interop.downcallHandle(
+        "g_atomic_ref_count_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a reference count variable to 1.
      */
     public static void atomicRefCountInit(PointerInteger arc) {
-        gtk_h.g_atomic_ref_count_init(arc.handle());
+        try {
+            g_atomic_ref_count_init.invokeExact(arc.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_base64_decode = Interop.downcallHandle(
+        "g_base64_decode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Decode a sequence of Base-64 encoded text into binary data.  Note
@@ -994,18 +1457,36 @@ public final class GLib {
      * so it should not be used as a character string.
      */
     public static PointerIterator<Byte> base64Decode(java.lang.String text, PointerLong outLen) {
-        var RESULT = gtk_h.g_base64_decode(Interop.allocateNativeString(text).handle(), outLen.handle());
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_base64_decode.invokeExact(Interop.allocateNativeString(text).handle(), outLen.handle());
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_base64_decode_inplace = Interop.downcallHandle(
+        "g_base64_decode_inplace",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Decode a sequence of Base-64 encoded text into binary data
      * by overwriting the input data.
      */
     public static PointerByte base64DecodeInplace(byte[] text, PointerLong outLen) {
-        var RESULT = gtk_h.g_base64_decode_inplace(Interop.allocateNativeArray(text).handle(), outLen.handle());
-        return new PointerByte(RESULT);
+        try {
+            var RESULT = (MemoryAddress) g_base64_decode_inplace.invokeExact(Interop.allocateNativeArray(text).handle(), outLen.handle());
+            return new PointerByte(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_base64_decode_step = Interop.downcallHandle(
+        "g_base64_decode_step",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Incrementally decode a sequence of binary data from its Base-64 stringified
@@ -1018,18 +1499,36 @@ public final class GLib {
      * state).
      */
     public static long base64DecodeStep(byte[] in, long len, byte[] out, PointerInteger state, PointerInteger save) {
-        var RESULT = gtk_h.g_base64_decode_step(Interop.allocateNativeArray(in).handle(), len, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_base64_decode_step.invokeExact(Interop.allocateNativeArray(in).handle(), len, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_base64_encode = Interop.downcallHandle(
+        "g_base64_encode",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Encode a sequence of binary data into its Base-64 stringified
      * representation.
      */
     public static java.lang.String base64Encode(byte[] data, long len) {
-        var RESULT = gtk_h.g_base64_encode(Interop.allocateNativeArray(data).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_base64_encode.invokeExact(Interop.allocateNativeArray(data).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_base64_encode_close = Interop.downcallHandle(
+        "g_base64_encode_close",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Flush the status from a sequence of calls to g_base64_encode_step().
@@ -1041,9 +1540,18 @@ public final class GLib {
      * The {@code out} array will not be automatically nul-terminated.
      */
     public static long base64EncodeClose(boolean breakLines, byte[] out, PointerInteger state, PointerInteger save) {
-        var RESULT = gtk_h.g_base64_encode_close(breakLines ? 1 : 0, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_base64_encode_close.invokeExact(breakLines ? 1 : 0, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_base64_encode_step = Interop.downcallHandle(
+        "g_base64_encode_step",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Incrementally encode a sequence of binary data into its Base-64 stringified
@@ -1067,9 +1575,18 @@ public final class GLib {
      * or certain other protocols.
      */
     public static long base64EncodeStep(byte[] in, long len, boolean breakLines, byte[] out, PointerInteger state, PointerInteger save) {
-        var RESULT = gtk_h.g_base64_encode_step(Interop.allocateNativeArray(in).handle(), len, breakLines ? 1 : 0, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_base64_encode_step.invokeExact(Interop.allocateNativeArray(in).handle(), len, breakLines ? 1 : 0, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_bit_lock = Interop.downcallHandle(
+        "g_bit_lock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the indicated {@code lock_bit} in {@code address}.  If the bit is already
@@ -1088,8 +1605,17 @@ public final class GLib {
      * artifact and the argument passed to it should not be {@code volatile}.
      */
     public static void bitLock(PointerInteger address, int lockBit) {
-        gtk_h.g_bit_lock(address.handle(), lockBit);
+        try {
+            g_bit_lock.invokeExact(address.handle(), lockBit);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_bit_nth_lsf = Interop.downcallHandle(
+        "g_bit_nth_lsf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Find the position of the first bit set in {@code mask}, searching
@@ -1098,9 +1624,18 @@ public final class GLib {
      * usually). To start searching from the 0th bit, set {@code nth_bit} to -1.
      */
     public static int bitNthLsf(long mask, int nthBit) {
-        var RESULT = gtk_h.g_bit_nth_lsf(mask, nthBit);
-        return RESULT;
+        try {
+            var RESULT = (int) g_bit_nth_lsf.invokeExact(mask, nthBit);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_bit_nth_msf = Interop.downcallHandle(
+        "g_bit_nth_msf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Find the position of the first bit set in {@code mask}, searching
@@ -1110,18 +1645,36 @@ public final class GLib {
      * -1 or GLIB_SIZEOF_LONG * 8.
      */
     public static int bitNthMsf(long mask, int nthBit) {
-        var RESULT = gtk_h.g_bit_nth_msf(mask, nthBit);
-        return RESULT;
+        try {
+            var RESULT = (int) g_bit_nth_msf.invokeExact(mask, nthBit);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_bit_storage = Interop.downcallHandle(
+        "g_bit_storage",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Gets the number of bits used to hold {@code number},
      * e.g. if {@code number} is 4, 3 bits are needed.
      */
     public static int bitStorage(long number) {
-        var RESULT = gtk_h.g_bit_storage(number);
-        return RESULT;
+        try {
+            var RESULT = (int) g_bit_storage.invokeExact(number);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_bit_trylock = Interop.downcallHandle(
+        "g_bit_trylock",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the indicated {@code lock_bit} in {@code address}, returning {@code true} if
@@ -1139,9 +1692,18 @@ public final class GLib {
      * artifact and the argument passed to it should not be {@code volatile}.
      */
     public static boolean bitTrylock(PointerInteger address, int lockBit) {
-        var RESULT = gtk_h.g_bit_trylock(address.handle(), lockBit);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_bit_trylock.invokeExact(address.handle(), lockBit);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_bit_unlock = Interop.downcallHandle(
+        "g_bit_unlock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Clears the indicated {@code lock_bit} in {@code address}.  If another thread is
@@ -1154,22 +1716,49 @@ public final class GLib {
      * artifact and the argument passed to it should not be {@code volatile}.
      */
     public static void bitUnlock(PointerInteger address, int lockBit) {
-        gtk_h.g_bit_unlock(address.handle(), lockBit);
+        try {
+            g_bit_unlock.invokeExact(address.handle(), lockBit);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_bookmark_file_error_quark = Interop.downcallHandle(
+        "g_bookmark_file_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark bookmarkFileErrorQuark() {
-        var RESULT = gtk_h.g_bookmark_file_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_bookmark_file_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_build_filename_valist = Interop.downcallHandle(
+        "g_build_filename_valist",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Behaves exactly like g_build_filename(), but takes the path elements
      * as a va_list. This function is mainly meant for language bindings.
      */
     public static java.lang.String buildFilenameValist(java.lang.String firstElement, VaList args) {
-        var RESULT = gtk_h.g_build_filename_valist(Interop.allocateNativeString(firstElement).handle(), args);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_build_filename_valist.invokeExact(Interop.allocateNativeString(firstElement).handle(), args);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_build_filenamev = Interop.downcallHandle(
+        "g_build_filenamev",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Behaves exactly like g_build_filename(), but takes the path elements
@@ -1177,9 +1766,18 @@ public final class GLib {
      * meant for language bindings.
      */
     public static java.lang.String buildFilenamev(java.lang.String[] args) {
-        var RESULT = gtk_h.g_build_filenamev(Interop.allocateNativeArray(args).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_build_filenamev.invokeExact(Interop.allocateNativeArray(args).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_build_pathv = Interop.downcallHandle(
+        "g_build_pathv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Behaves exactly like g_build_path(), but takes the path elements
@@ -1187,9 +1785,18 @@ public final class GLib {
      * meant for language bindings.
      */
     public static java.lang.String buildPathv(java.lang.String separator, java.lang.String[] args) {
-        var RESULT = gtk_h.g_build_pathv(Interop.allocateNativeString(separator).handle(), Interop.allocateNativeArray(args).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_build_pathv.invokeExact(Interop.allocateNativeString(separator).handle(), Interop.allocateNativeArray(args).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_free = Interop.downcallHandle(
+        "g_byte_array_free",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Frees the memory allocated by the {@link ByteArray}. If {@code free_segment} is
@@ -1198,9 +1805,18 @@ public final class GLib {
      * the size of {@code array} will be set to zero.
      */
     public static PointerByte byteArrayFree(byte[] array, boolean freeSegment) {
-        var RESULT = gtk_h.g_byte_array_free(Interop.allocateNativeArray(array).handle(), freeSegment ? 1 : 0);
-        return new PointerByte(RESULT);
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_free.invokeExact(Interop.allocateNativeArray(array).handle(), freeSegment ? 1 : 0);
+            return new PointerByte(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_free_to_bytes = Interop.downcallHandle(
+        "g_byte_array_free_to_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transfers the data from the {@link ByteArray} into a new immutable {@link Bytes}.
@@ -1213,17 +1829,35 @@ public final class GLib {
      * together.
      */
     public static Bytes byteArrayFreeToBytes(byte[] array) {
-        var RESULT = gtk_h.g_byte_array_free_to_bytes(Interop.allocateNativeArray(array).handle());
-        return new Bytes(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_free_to_bytes.invokeExact(Interop.allocateNativeArray(array).handle());
+            return new Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_new = Interop.downcallHandle(
+        "g_byte_array_new",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Creates a new {@link ByteArray} with a reference count of 1.
      */
     public static PointerIterator<Byte> byteArrayNew() {
-        var RESULT = gtk_h.g_byte_array_new();
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_new.invokeExact();
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_new_take = Interop.downcallHandle(
+        "g_byte_array_new_take",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Create byte array containing the data. The data will be owned by the array
@@ -1234,9 +1868,18 @@ public final class GLib {
      * {@code gsize}.
      */
     public static PointerIterator<Byte> byteArrayNewTake(byte[] data, long len) {
-        var RESULT = gtk_h.g_byte_array_new_take(Interop.allocateNativeArray(data).handle(), len);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_new_take.invokeExact(Interop.allocateNativeArray(data).handle(), len);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_steal = Interop.downcallHandle(
+        "g_byte_array_steal",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the data in the array and resets the size to zero, while
@@ -1244,9 +1887,18 @@ public final class GLib {
      * to the caller.
      */
     public static PointerByte byteArraySteal(byte[] array, PointerLong len) {
-        var RESULT = gtk_h.g_byte_array_steal(Interop.allocateNativeArray(array).handle(), len.handle());
-        return new PointerByte(RESULT);
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_steal.invokeExact(Interop.allocateNativeArray(array).handle(), len.handle());
+            return new PointerByte(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_unref = Interop.downcallHandle(
+        "g_byte_array_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code array} by one. If the
@@ -1255,8 +1907,17 @@ public final class GLib {
      * thread.
      */
     public static void byteArrayUnref(byte[] array) {
-        gtk_h.g_byte_array_unref(Interop.allocateNativeArray(array).handle());
+        try {
+            g_byte_array_unref.invokeExact(Interop.allocateNativeArray(array).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_canonicalize_filename = Interop.downcallHandle(
+        "g_canonicalize_filename",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the canonical file name from {@code filename}. All triple slashes are turned into
@@ -1275,9 +1936,18 @@ public final class GLib {
      * No file system I/O is done.
      */
     public static java.lang.String canonicalizeFilename(java.lang.String filename, java.lang.String relativeTo) {
-        var RESULT = gtk_h.g_canonicalize_filename(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(relativeTo).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_canonicalize_filename.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(relativeTo).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_chdir = Interop.downcallHandle(
+        "g_chdir",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A wrapper for the POSIX chdir() function. The function changes the
@@ -1286,9 +1956,18 @@ public final class GLib {
      * See your C library manual for more details about chdir().
      */
     public static int chdir(java.lang.String path) {
-        var RESULT = gtk_h.g_chdir(Interop.allocateNativeString(path).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_chdir.invokeExact(Interop.allocateNativeString(path).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle glib_check_version = Interop.downcallHandle(
+        "glib_check_version",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks that the GLib library in use is compatible with the
@@ -1308,17 +1987,35 @@ public final class GLib {
      * (same major version.)
      */
     public static java.lang.String checkVersion(int requiredMajor, int requiredMinor, int requiredMicro) {
-        var RESULT = gtk_h.glib_check_version(requiredMajor, requiredMinor, requiredMicro);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) glib_check_version.invokeExact(requiredMajor, requiredMinor, requiredMicro);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_checksum_type_get_length = Interop.downcallHandle(
+        "g_checksum_type_get_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the length in bytes of digests of type {@code checksum_type}
      */
     public static long checksumTypeGetLength(ChecksumType checksumType) {
-        var RESULT = gtk_h.g_checksum_type_get_length(checksumType.getValue());
-        return RESULT;
+        try {
+            var RESULT = (long) g_checksum_type_get_length.invokeExact(checksumType.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_child_watch_add = Interop.downcallHandle(
+        "g_child_watch_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a function to be called when the child indicated by {@code pid}
@@ -1344,18 +2041,23 @@ public final class GLib {
      */
     public static int childWatchAdd(Pid pid, ChildWatchFunc function) {
         try {
-            var RESULT = gtk_h.g_child_watch_add(pid.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_child_watch_add.invokeExact(pid.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_child_watch_add_full = Interop.downcallHandle(
+        "g_child_watch_add_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a function to be called when the child indicated by {@code pid}
@@ -1385,19 +2087,24 @@ public final class GLib {
      */
     public static int childWatchAddFull(int priority, Pid pid, ChildWatchFunc function) {
         try {
-            var RESULT = gtk_h.g_child_watch_add_full(priority, pid.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_child_watch_add_full.invokeExact(priority, pid.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_child_watch_source_new = Interop.downcallHandle(
+        "g_child_watch_source_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a new child_watch source.
@@ -1434,9 +2141,18 @@ public final class GLib {
      * valid thing to do.
      */
     public static Source childWatchSourceNew(Pid pid) {
-        var RESULT = gtk_h.g_child_watch_source_new(pid.getValue());
-        return new Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_child_watch_source_new.invokeExact(pid.getValue());
+            return new Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_close = Interop.downcallHandle(
+        "g_close",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This wraps the close() call; in case of error, {@code errno} will be
@@ -1449,12 +2165,21 @@ public final class GLib {
      */
     public static boolean close(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_close(fd, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_close.invokeExact(fd, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_compute_checksum_for_bytes = Interop.downcallHandle(
+        "g_compute_checksum_for_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the checksum for a binary {@code data}. This is a
@@ -1464,9 +2189,18 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeChecksumForBytes(ChecksumType checksumType, Bytes data) {
-        var RESULT = gtk_h.g_compute_checksum_for_bytes(checksumType.getValue(), data.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_compute_checksum_for_bytes.invokeExact(checksumType.getValue(), data.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_compute_checksum_for_data = Interop.downcallHandle(
+        "g_compute_checksum_for_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Computes the checksum for a binary {@code data} of {@code length}. This is a
@@ -1476,9 +2210,18 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeChecksumForData(ChecksumType checksumType, byte[] data, long length) {
-        var RESULT = gtk_h.g_compute_checksum_for_data(checksumType.getValue(), Interop.allocateNativeArray(data).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_compute_checksum_for_data.invokeExact(checksumType.getValue(), Interop.allocateNativeArray(data).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_compute_checksum_for_string = Interop.downcallHandle(
+        "g_compute_checksum_for_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Computes the checksum of a string.
@@ -1486,9 +2229,18 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeChecksumForString(ChecksumType checksumType, java.lang.String str, long length) {
-        var RESULT = gtk_h.g_compute_checksum_for_string(checksumType.getValue(), Interop.allocateNativeString(str).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_compute_checksum_for_string.invokeExact(checksumType.getValue(), Interop.allocateNativeString(str).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_compute_hmac_for_bytes = Interop.downcallHandle(
+        "g_compute_hmac_for_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the HMAC for a binary {@code data}. This is a
@@ -1498,9 +2250,18 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeHmacForBytes(ChecksumType digestType, Bytes key, Bytes data) {
-        var RESULT = gtk_h.g_compute_hmac_for_bytes(digestType.getValue(), key.handle(), data.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_compute_hmac_for_bytes.invokeExact(digestType.getValue(), key.handle(), data.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_compute_hmac_for_data = Interop.downcallHandle(
+        "g_compute_hmac_for_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Computes the HMAC for a binary {@code data} of {@code length}. This is a
@@ -1510,9 +2271,18 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeHmacForData(ChecksumType digestType, byte[] key, long keyLen, byte[] data, long length) {
-        var RESULT = gtk_h.g_compute_hmac_for_data(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen, Interop.allocateNativeArray(data).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_compute_hmac_for_data.invokeExact(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen, Interop.allocateNativeArray(data).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_compute_hmac_for_string = Interop.downcallHandle(
+        "g_compute_hmac_for_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Computes the HMAC for a string.
@@ -1520,9 +2290,18 @@ public final class GLib {
      * The hexadecimal string returned will be in lower case.
      */
     public static java.lang.String computeHmacForString(ChecksumType digestType, byte[] key, long keyLen, java.lang.String str, long length) {
-        var RESULT = gtk_h.g_compute_hmac_for_string(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen, Interop.allocateNativeString(str).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_compute_hmac_for_string.invokeExact(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen, Interop.allocateNativeString(str).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_convert = Interop.downcallHandle(
+        "g_convert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string from one character set to another.
@@ -1542,17 +2321,35 @@ public final class GLib {
      */
     public static PointerIterator<Byte> convert(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_convert(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_convert.invokeExact(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerByte(RESULT).iterator();
     }
     
+    static final MethodHandle g_convert_error_quark = Interop.downcallHandle(
+        "g_convert_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark convertErrorQuark() {
-        var RESULT = gtk_h.g_convert_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_convert_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_convert_with_fallback = Interop.downcallHandle(
+        "g_convert_with_fallback",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string from one character set to another, possibly
@@ -1575,12 +2372,21 @@ public final class GLib {
      */
     public static PointerIterator<Byte> convertWithFallback(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, java.lang.String fallback, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_convert_with_fallback(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), Interop.allocateNativeString(fallback).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_convert_with_fallback.invokeExact(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), Interop.allocateNativeString(fallback).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerByte(RESULT).iterator();
     }
+    
+    static final MethodHandle g_convert_with_iconv = Interop.downcallHandle(
+        "g_convert_with_iconv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string from one character set to another.
@@ -1605,12 +2411,21 @@ public final class GLib {
      */
     public static PointerIterator<Byte> convertWithIconv(byte[] str, long len, IConv converter, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_convert_with_iconv(Interop.allocateNativeArray(str).handle(), len, converter.handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_convert_with_iconv.invokeExact(Interop.allocateNativeArray(str).handle(), len, converter.handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerByte(RESULT).iterator();
     }
+    
+    static final MethodHandle g_datalist_clear = Interop.downcallHandle(
+        "g_datalist_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees all the data elements of the datalist.
@@ -1618,8 +2433,17 @@ public final class GLib {
      * if they have been set.
      */
     public static void datalistClear(Data[] datalist) {
-        gtk_h.g_datalist_clear(Interop.allocateNativeArray(datalist).handle());
+        try {
+            g_datalist_clear.invokeExact(Interop.allocateNativeArray(datalist).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datalist_foreach = Interop.downcallHandle(
+        "g_datalist_foreach",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for each data element of the datalist. The
@@ -1635,35 +2459,58 @@ public final class GLib {
      */
     public static void datalistForeach(Data[] datalist, DataForeachFunc func) {
         try {
-            gtk_h.g_datalist_foreach(Interop.allocateNativeArray(datalist).handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_datalist_foreach.invokeExact(Interop.allocateNativeArray(datalist).handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_datalist_get_data = Interop.downcallHandle(
+        "g_datalist_get_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a data element, using its string identifier. This is slower than
      * g_datalist_id_get_data() because it compares strings.
      */
     public static java.lang.foreign.MemoryAddress datalistGetData(Data[] datalist, java.lang.String key) {
-        var RESULT = gtk_h.g_datalist_get_data(Interop.allocateNativeArray(datalist).handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_datalist_get_data.invokeExact(Interop.allocateNativeArray(datalist).handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datalist_get_flags = Interop.downcallHandle(
+        "g_datalist_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets flags values packed in together with the datalist.
      * See g_datalist_set_flags().
      */
     public static int datalistGetFlags(Data[] datalist) {
-        var RESULT = gtk_h.g_datalist_get_flags(Interop.allocateNativeArray(datalist).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_datalist_get_flags.invokeExact(Interop.allocateNativeArray(datalist).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datalist_id_dup_data = Interop.downcallHandle(
+        "g_datalist_id_dup_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This is a variant of g_datalist_id_get_data() which
@@ -1682,35 +2529,58 @@ public final class GLib {
      */
     public static java.lang.foreign.MemoryAddress datalistIdDupData(Data[] datalist, Quark keyId, DuplicateFunc dupFunc) {
         try {
-            var RESULT = gtk_h.g_datalist_id_dup_data(Interop.allocateNativeArray(datalist).handle(), keyId.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_datalist_id_dup_data.invokeExact(Interop.allocateNativeArray(datalist).handle(), keyId.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_datalist_id_get_data = Interop.downcallHandle(
+        "g_datalist_id_get_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the data element corresponding to {@code key_id}.
      */
     public static java.lang.foreign.MemoryAddress datalistIdGetData(Data[] datalist, Quark keyId) {
-        var RESULT = gtk_h.g_datalist_id_get_data(Interop.allocateNativeArray(datalist).handle(), keyId.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_datalist_id_get_data.invokeExact(Interop.allocateNativeArray(datalist).handle(), keyId.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datalist_id_remove_no_notify = Interop.downcallHandle(
+        "g_datalist_id_remove_no_notify",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes an element, without calling its destroy notification
      * function.
      */
     public static java.lang.foreign.MemoryAddress datalistIdRemoveNoNotify(Data[] datalist, Quark keyId) {
-        var RESULT = gtk_h.g_datalist_id_remove_no_notify(Interop.allocateNativeArray(datalist).handle(), keyId.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_datalist_id_remove_no_notify.invokeExact(Interop.allocateNativeArray(datalist).handle(), keyId.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datalist_id_set_data_full = Interop.downcallHandle(
+        "g_datalist_id_set_data_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the data corresponding to the given {@link Quark} id, and the
@@ -1719,17 +2589,35 @@ public final class GLib {
      * function is called.
      */
     public static void datalistIdSetDataFull(Data[] datalist, Quark keyId, java.lang.foreign.MemoryAddress data, DestroyNotify destroyFunc) {
-        gtk_h.g_datalist_id_set_data_full(Interop.allocateNativeArray(datalist).handle(), keyId.getValue(), data, 
+        try {
+            g_datalist_id_set_data_full.invokeExact(Interop.allocateNativeArray(datalist).handle(), keyId.getValue(), data, 
                     Interop.cbDestroyNotifySymbol());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datalist_init = Interop.downcallHandle(
+        "g_datalist_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Resets the datalist to {@code null}. It does not free any memory or call
      * any destroy functions.
      */
     public static void datalistInit(Data[] datalist) {
-        gtk_h.g_datalist_init(Interop.allocateNativeArray(datalist).handle());
+        try {
+            g_datalist_init.invokeExact(Interop.allocateNativeArray(datalist).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datalist_set_flags = Interop.downcallHandle(
+        "g_datalist_set_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Turns on flag values for a data list. This function is used
@@ -1740,23 +2628,50 @@ public final class GLib {
      * example.)
      */
     public static void datalistSetFlags(Data[] datalist, int flags) {
-        gtk_h.g_datalist_set_flags(Interop.allocateNativeArray(datalist).handle(), flags);
+        try {
+            g_datalist_set_flags.invokeExact(Interop.allocateNativeArray(datalist).handle(), flags);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datalist_unset_flags = Interop.downcallHandle(
+        "g_datalist_unset_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Turns off flag values for a data list. See g_datalist_unset_flags()
      */
     public static void datalistUnsetFlags(Data[] datalist, int flags) {
-        gtk_h.g_datalist_unset_flags(Interop.allocateNativeArray(datalist).handle(), flags);
+        try {
+            g_datalist_unset_flags.invokeExact(Interop.allocateNativeArray(datalist).handle(), flags);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dataset_destroy = Interop.downcallHandle(
+        "g_dataset_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Destroys the dataset, freeing all memory allocated, and calling any
      * destroy functions set for data elements.
      */
     public static void datasetDestroy(java.lang.foreign.MemoryAddress datasetLocation) {
-        gtk_h.g_dataset_destroy(datasetLocation);
+        try {
+            g_dataset_destroy.invokeExact(datasetLocation);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dataset_foreach = Interop.downcallHandle(
+        "g_dataset_foreach",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for each data element which is associated
@@ -1770,34 +2685,57 @@ public final class GLib {
      */
     public static void datasetForeach(java.lang.foreign.MemoryAddress datasetLocation, DataForeachFunc func) {
         try {
-            gtk_h.g_dataset_foreach(datasetLocation, 
-                    Linker.nativeLinker().upcallStub(
+            g_dataset_foreach.invokeExact(datasetLocation, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_dataset_id_get_data = Interop.downcallHandle(
+        "g_dataset_id_get_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the data element corresponding to a {@link Quark}.
      */
     public static java.lang.foreign.MemoryAddress datasetIdGetData(java.lang.foreign.MemoryAddress datasetLocation, Quark keyId) {
-        var RESULT = gtk_h.g_dataset_id_get_data(datasetLocation, keyId.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_dataset_id_get_data.invokeExact(datasetLocation, keyId.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dataset_id_remove_no_notify = Interop.downcallHandle(
+        "g_dataset_id_remove_no_notify",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes an element, without calling its destroy notification
      * function.
      */
     public static java.lang.foreign.MemoryAddress datasetIdRemoveNoNotify(java.lang.foreign.MemoryAddress datasetLocation, Quark keyId) {
-        var RESULT = gtk_h.g_dataset_id_remove_no_notify(datasetLocation, keyId.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_dataset_id_remove_no_notify.invokeExact(datasetLocation, keyId.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dataset_id_set_data_full = Interop.downcallHandle(
+        "g_dataset_id_set_data_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the data element associated with the given {@link Quark} id, and also
@@ -1806,18 +2744,36 @@ public final class GLib {
      * is called.
      */
     public static void datasetIdSetDataFull(java.lang.foreign.MemoryAddress datasetLocation, Quark keyId, java.lang.foreign.MemoryAddress data, DestroyNotify destroyFunc) {
-        gtk_h.g_dataset_id_set_data_full(datasetLocation, keyId.getValue(), data, 
+        try {
+            g_dataset_id_set_data_full.invokeExact(datasetLocation, keyId.getValue(), data, 
                     Interop.cbDestroyNotifySymbol());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_get_days_in_month = Interop.downcallHandle(
+        "g_date_get_days_in_month",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Returns the number of days in a month, taking leap
      * years into account.
      */
     public static byte dateGetDaysInMonth(DateMonth month, DateYear year) {
-        var RESULT = gtk_h.g_date_get_days_in_month(month.getValue(), year.getValue());
-        return RESULT;
+        try {
+            var RESULT = (byte) g_date_get_days_in_month.invokeExact(month.getValue(), year.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_get_monday_weeks_in_year = Interop.downcallHandle(
+        "g_date_get_monday_weeks_in_year",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Returns the number of weeks in the year, where weeks
@@ -1829,9 +2785,18 @@ public final class GLib {
      * one of the extra days happens to be a Monday.)
      */
     public static byte dateGetMondayWeeksInYear(DateYear year) {
-        var RESULT = gtk_h.g_date_get_monday_weeks_in_year(year.getValue());
-        return RESULT;
+        try {
+            var RESULT = (byte) g_date_get_monday_weeks_in_year.invokeExact(year.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_get_sunday_weeks_in_year = Interop.downcallHandle(
+        "g_date_get_sunday_weeks_in_year",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Returns the number of weeks in the year, where weeks
@@ -1843,9 +2808,18 @@ public final class GLib {
      * one of the extra days happens to be a Sunday.)
      */
     public static byte dateGetSundayWeeksInYear(DateYear year) {
-        var RESULT = gtk_h.g_date_get_sunday_weeks_in_year(year.getValue());
-        return RESULT;
+        try {
+            var RESULT = (byte) g_date_get_sunday_weeks_in_year.invokeExact(year.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_is_leap_year = Interop.downcallHandle(
+        "g_date_is_leap_year",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Returns {@code true} if the year is a leap year.
@@ -1856,9 +2830,18 @@ public final class GLib {
      * is also divisible by 400.
      */
     public static boolean dateIsLeapYear(DateYear year) {
-        var RESULT = gtk_h.g_date_is_leap_year(year.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_is_leap_year.invokeExact(year.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_strftime = Interop.downcallHandle(
+        "g_date_strftime",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Generates a printed representation of the date, in a
@@ -1876,18 +2859,36 @@ public final class GLib {
      * where the C library only complies to C89.
      */
     public static long dateStrftime(java.lang.String s, long slen, java.lang.String format, Date date) {
-        var RESULT = gtk_h.g_date_strftime(Interop.allocateNativeString(s).handle(), slen, Interop.allocateNativeString(format).handle(), date.handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_date_strftime.invokeExact(Interop.allocateNativeString(s).handle(), slen, Interop.allocateNativeString(format).handle(), date.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_valid_day = Interop.downcallHandle(
+        "g_date_valid_day",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Returns {@code true} if the day of the month is valid (a day is valid if it's
      * between 1 and 31 inclusive).
      */
     public static boolean dateValidDay(DateDay day) {
-        var RESULT = gtk_h.g_date_valid_day(day.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_valid_day.invokeExact(day.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_valid_dmy = Interop.downcallHandle(
+        "g_date_valid_dmy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Returns {@code true} if the day-month-year triplet forms a valid, existing day
@@ -1895,45 +2896,90 @@ public final class GLib {
      * a few thousand years in the future).
      */
     public static boolean dateValidDmy(DateDay day, DateMonth month, DateYear year) {
-        var RESULT = gtk_h.g_date_valid_dmy(day.getValue(), month.getValue(), year.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_valid_dmy.invokeExact(day.getValue(), month.getValue(), year.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_valid_julian = Interop.downcallHandle(
+        "g_date_valid_julian",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns {@code true} if the Julian day is valid. Anything greater than zero
      * is basically a valid Julian, though there is a 32-bit limit.
      */
     public static boolean dateValidJulian(int julianDate) {
-        var RESULT = gtk_h.g_date_valid_julian(julianDate);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_valid_julian.invokeExact(julianDate);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_valid_month = Interop.downcallHandle(
+        "g_date_valid_month",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns {@code true} if the month value is valid. The 12 {@link DateMonth}
      * enumeration values are the only valid months.
      */
     public static boolean dateValidMonth(DateMonth month) {
-        var RESULT = gtk_h.g_date_valid_month(month.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_valid_month.invokeExact(month.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_valid_weekday = Interop.downcallHandle(
+        "g_date_valid_weekday",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns {@code true} if the weekday is valid. The seven {@link DateWeekday} enumeration
      * values are the only valid weekdays.
      */
     public static boolean dateValidWeekday(DateWeekday weekday) {
-        var RESULT = gtk_h.g_date_valid_weekday(weekday.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_valid_weekday.invokeExact(weekday.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_date_valid_year = Interop.downcallHandle(
+        "g_date_valid_year",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Returns {@code true} if the year is valid. Any year greater than 0 is valid,
      * though there is a 16-bit limit to what {@link Date} will understand.
      */
     public static boolean dateValidYear(DateYear year) {
-        var RESULT = gtk_h.g_date_valid_year(year.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_date_valid_year.invokeExact(year.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dcgettext = Interop.downcallHandle(
+        "g_dcgettext",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This is a variant of g_dgettext() that allows specifying a locale
@@ -1942,9 +2988,18 @@ public final class GLib {
      * dcgettext() directly.
      */
     public static java.lang.String dcgettext(java.lang.String domain, java.lang.String msgid, int category) {
-        var RESULT = gtk_h.g_dcgettext(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(msgid).handle(), category);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dcgettext.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(msgid).handle(), category);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dgettext = Interop.downcallHandle(
+        "g_dgettext",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function is a wrapper of dgettext() which does not translate
@@ -1989,9 +3044,18 @@ public final class GLib {
      * but use the _() macro for translations.
      */
     public static java.lang.String dgettext(java.lang.String domain, java.lang.String msgid) {
-        var RESULT = gtk_h.g_dgettext(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(msgid).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dgettext.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(msgid).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
+        "g_dir_make_tmp",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a subdirectory in the preferred directory for temporary
@@ -2008,12 +3072,21 @@ public final class GLib {
      */
     public static java.lang.String dirMakeTmp(java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dir_make_tmp(Interop.allocateNativeString(tmpl).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_direct_equal = Interop.downcallHandle(
+        "g_direct_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two {@code gpointer} arguments and returns {@code true} if they are equal.
@@ -2025,9 +3098,18 @@ public final class GLib {
      * stored in pointers, such as {@code GINT_TO_POINTER (n)}.
      */
     public static boolean directEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
-        var RESULT = gtk_h.g_direct_equal(v1, v2);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_direct_equal.invokeExact(v1, v2);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_direct_hash = Interop.downcallHandle(
+        "g_direct_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a gpointer to a hash value.
@@ -2039,9 +3121,18 @@ public final class GLib {
      * stored in pointers, such as {@code GINT_TO_POINTER (n)}.
      */
     public static int directHash(java.lang.foreign.MemoryAddress v) {
-        var RESULT = gtk_h.g_direct_hash(v);
-        return RESULT;
+        try {
+            var RESULT = (int) g_direct_hash.invokeExact(v);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dngettext = Interop.downcallHandle(
+        "g_dngettext",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is a wrapper of dngettext() which does not translate
@@ -2052,9 +3143,18 @@ public final class GLib {
      * proper.
      */
     public static java.lang.String dngettext(java.lang.String domain, java.lang.String msgid, java.lang.String msgidPlural, long n) {
-        var RESULT = gtk_h.g_dngettext(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(msgid).handle(), Interop.allocateNativeString(msgidPlural).handle(), n);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dngettext.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(msgid).handle(), Interop.allocateNativeString(msgidPlural).handle(), n);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_double_equal = Interop.downcallHandle(
+        "g_double_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares the two {@code gdouble} values being pointed to and returns
@@ -2064,9 +3164,18 @@ public final class GLib {
      * {@link HashTable}.
      */
     public static boolean doubleEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
-        var RESULT = gtk_h.g_double_equal(v1, v2);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_double_equal.invokeExact(v1, v2);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_double_hash = Interop.downcallHandle(
+        "g_double_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a pointer to a {@code gdouble} to a hash value.
@@ -2075,9 +3184,18 @@ public final class GLib {
      * when using non-{@code null} pointers to doubles as keys in a {@link HashTable}.
      */
     public static int doubleHash(java.lang.foreign.MemoryAddress v) {
-        var RESULT = gtk_h.g_double_hash(v);
-        return RESULT;
+        try {
+            var RESULT = (int) g_double_hash.invokeExact(v);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dpgettext = Interop.downcallHandle(
+        "g_dpgettext",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is a variant of g_dgettext() which supports
@@ -2095,9 +3213,18 @@ public final class GLib {
      * but use the C_() macro for translations with context.
      */
     public static java.lang.String dpgettext(java.lang.String domain, java.lang.String msgctxtid, long msgidoffset) {
-        var RESULT = gtk_h.g_dpgettext(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(msgctxtid).handle(), msgidoffset);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dpgettext.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(msgctxtid).handle(), msgidoffset);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dpgettext2 = Interop.downcallHandle(
+        "g_dpgettext2",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function is a variant of g_dgettext() which supports
@@ -2112,36 +3239,72 @@ public final class GLib {
      * thus you may use non-string-literals as context and msgid arguments.
      */
     public static java.lang.String dpgettext2(java.lang.String domain, java.lang.String context, java.lang.String msgid) {
-        var RESULT = gtk_h.g_dpgettext2(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(context).handle(), Interop.allocateNativeString(msgid).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dpgettext2.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(context).handle(), Interop.allocateNativeString(msgid).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_environ_getenv = Interop.downcallHandle(
+        "g_environ_getenv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the value of the environment variable {@code variable} in the
      * provided list {@code envp}.
      */
     public static java.lang.String environGetenv(java.lang.String[] envp, java.lang.String variable) {
-        var RESULT = gtk_h.g_environ_getenv(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_environ_getenv.invokeExact(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_environ_setenv = Interop.downcallHandle(
+        "g_environ_setenv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the environment variable {@code variable} in the provided list
      * {@code envp} to {@code value}.
      */
     public static PointerIterator<java.lang.String> environSetenv(java.lang.String[] envp, java.lang.String variable, java.lang.String value, boolean overwrite) {
-        var RESULT = gtk_h.g_environ_setenv(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_environ_setenv.invokeExact(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_environ_unsetenv = Interop.downcallHandle(
+        "g_environ_unsetenv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes the environment variable {@code variable} from the provided
      * environment {@code envp}.
      */
     public static PointerIterator<java.lang.String> environUnsetenv(java.lang.String[] envp, java.lang.String variable) {
-        var RESULT = gtk_h.g_environ_unsetenv(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_environ_unsetenv.invokeExact(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_error_from_errno = Interop.downcallHandle(
+        "g_file_error_from_errno",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets a {@link FileError} constant based on the passed-in {@code err_no}.
@@ -2155,14 +3318,32 @@ public final class GLib {
      * g_file_error_from_errno() when constructing a {@link Error}.
      */
     public static FileError fileErrorFromErrno(int errNo) {
-        var RESULT = gtk_h.g_file_error_from_errno(errNo);
-        return new FileError(RESULT);
+        try {
+            var RESULT = (int) g_file_error_from_errno.invokeExact(errNo);
+            return new FileError(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_file_error_quark = Interop.downcallHandle(
+        "g_file_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark fileErrorQuark() {
-        var RESULT = gtk_h.g_file_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_file_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_get_contents = Interop.downcallHandle(
+        "g_file_get_contents",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Reads an entire file into allocated memory, with good error
@@ -2178,12 +3359,21 @@ public final class GLib {
      */
     public static boolean fileGetContents(java.lang.String filename, byte[] contents, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_get_contents(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_file_get_contents.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_file_open_tmp = Interop.downcallHandle(
+        "g_file_open_tmp",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Opens a file for writing in the preferred directory for temporary
@@ -2205,12 +3395,21 @@ public final class GLib {
      */
     public static int fileOpenTmp(java.lang.String tmpl, java.lang.String[] nameUsed) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_open_tmp(Interop.allocateNativeString(tmpl).handle(), Interop.allocateNativeArray(nameUsed).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_file_open_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), Interop.allocateNativeArray(nameUsed).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
+    
+    static final MethodHandle g_file_read_link = Interop.downcallHandle(
+        "g_file_read_link",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Reads the contents of the symbolic link {@code filename} like the POSIX
@@ -2219,12 +3418,21 @@ public final class GLib {
      */
     public static java.lang.String fileReadLink(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_read_link(Interop.allocateNativeString(filename).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_file_read_link.invokeExact(Interop.allocateNativeString(filename).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_file_set_contents = Interop.downcallHandle(
+        "g_file_set_contents",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Writes all of {@code contents} to a file named {@code filename}. This is a convenience
@@ -2234,12 +3442,21 @@ public final class GLib {
      */
     public static boolean fileSetContents(java.lang.String filename, byte[] contents, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_contents(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_file_set_contents.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_file_set_contents_full = Interop.downcallHandle(
+        "g_file_set_contents_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Writes all of {@code contents} to a file named {@code filename}, with good error checking.
@@ -2309,12 +3526,21 @@ public final class GLib {
      */
     public static boolean fileSetContentsFull(java.lang.String filename, byte[] contents, long length, FileSetContentsFlags flags, int mode) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_contents_full(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, flags.getValue(), mode, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_file_set_contents_full.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, flags.getValue(), mode, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_file_test = Interop.downcallHandle(
+        "g_file_test",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns {@code true} if any of the tests in the bitfield {@code test} are
@@ -2360,9 +3586,18 @@ public final class GLib {
      * extensions and those listed in the {@code PATHEXT} environment variable.
      */
     public static boolean fileTest(java.lang.String filename, FileTest test) {
-        var RESULT = gtk_h.g_file_test(Interop.allocateNativeString(filename).handle(), test.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_file_test.invokeExact(Interop.allocateNativeString(filename).handle(), test.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_filename_display_basename = Interop.downcallHandle(
+        "g_filename_display_basename",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the display basename for the particular filename, guaranteed
@@ -2383,9 +3618,18 @@ public final class GLib {
      * whole path, as it allows translation.
      */
     public static java.lang.String filenameDisplayBasename(java.lang.String filename) {
-        var RESULT = gtk_h.g_filename_display_basename(Interop.allocateNativeString(filename).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_filename_display_basename.invokeExact(Interop.allocateNativeString(filename).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_filename_display_name = Interop.downcallHandle(
+        "g_filename_display_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a filename into a valid UTF-8 string. The conversion is
@@ -2405,9 +3649,18 @@ public final class GLib {
      * translation of filenames.
      */
     public static java.lang.String filenameDisplayName(java.lang.String filename) {
-        var RESULT = gtk_h.g_filename_display_name(Interop.allocateNativeString(filename).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_filename_display_name.invokeExact(Interop.allocateNativeString(filename).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_filename_from_uri = Interop.downcallHandle(
+        "g_filename_from_uri",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts an escaped ASCII-encoded URI to a local filename in the
@@ -2415,12 +3668,21 @@ public final class GLib {
      */
     public static java.lang.String filenameFromUri(java.lang.String uri, java.lang.String[] hostname) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_filename_from_uri(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(hostname).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_filename_from_uri.invokeExact(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(hostname).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_filename_from_utf8 = Interop.downcallHandle(
+        "g_filename_from_utf8",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string from UTF-8 to the encoding GLib uses for
@@ -2436,12 +3698,21 @@ public final class GLib {
      */
     public static java.lang.String filenameFromUtf8(java.lang.String utf8string, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_filename_from_utf8(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_filename_from_utf8.invokeExact(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_filename_to_uri = Interop.downcallHandle(
+        "g_filename_to_uri",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts an absolute filename to an escaped ASCII-encoded URI, with the path
@@ -2449,12 +3720,21 @@ public final class GLib {
      */
     public static java.lang.String filenameToUri(java.lang.String filename, java.lang.String hostname) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_filename_to_uri(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(hostname).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_filename_to_uri.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(hostname).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_filename_to_utf8 = Interop.downcallHandle(
+        "g_filename_to_utf8",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string which is in the encoding used by GLib for
@@ -2472,12 +3752,21 @@ public final class GLib {
      */
     public static java.lang.String filenameToUtf8(java.lang.String opsysstring, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_filename_to_utf8(Interop.allocateNativeString(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_filename_to_utf8.invokeExact(Interop.allocateNativeString(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_find_program_in_path = Interop.downcallHandle(
+        "g_find_program_in_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Locates the first executable named {@code program} in the user's path, in the
@@ -2499,9 +3788,18 @@ public final class GLib {
      * including the type suffix.
      */
     public static java.lang.String findProgramInPath(java.lang.String program) {
-        var RESULT = gtk_h.g_find_program_in_path(Interop.allocateNativeString(program).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_find_program_in_path.invokeExact(Interop.allocateNativeString(program).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_format_size = Interop.downcallHandle(
+        "g_format_size",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Formats a size (for example the size of a file) into a human readable
@@ -2519,9 +3817,18 @@ public final class GLib {
      * formatted.
      */
     public static java.lang.String formatSize(long size) {
-        var RESULT = gtk_h.g_format_size(size);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_format_size.invokeExact(size);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_format_size_full = Interop.downcallHandle(
+        "g_format_size_full",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Formats a size.
@@ -2530,9 +3837,18 @@ public final class GLib {
      * that modify the output. See {@link FormatSizeFlags}.
      */
     public static java.lang.String formatSizeFull(long size, FormatSizeFlags flags) {
-        var RESULT = gtk_h.g_format_size_full(size, flags.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_format_size_full.invokeExact(size, flags.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_free = Interop.downcallHandle(
+        "g_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the memory pointed to by {@code mem}.
@@ -2541,8 +3857,17 @@ public final class GLib {
      * against {@code null} before calling this function.
      */
     public static void free(java.lang.foreign.MemoryAddress mem) {
-        gtk_h.g_free(mem);
+        try {
+            g_free.invokeExact(mem);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_application_name = Interop.downcallHandle(
+        "g_get_application_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a human-readable name for the application, as set by
@@ -2554,9 +3879,18 @@ public final class GLib {
      * been called).
      */
     public static java.lang.String getApplicationName() {
-        var RESULT = gtk_h.g_get_application_name();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_application_name.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_charset = Interop.downcallHandle(
+        "g_get_charset",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the character set for the [current locale][setlocale]; you
@@ -2581,17 +3915,35 @@ public final class GLib {
      * freed.
      */
     public static boolean getCharset(java.lang.String[] charset) {
-        var RESULT = gtk_h.g_get_charset(Interop.allocateNativeArray(charset).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_get_charset.invokeExact(Interop.allocateNativeArray(charset).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_codeset = Interop.downcallHandle(
+        "g_get_codeset",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the character set for the current locale.
      */
     public static java.lang.String getCodeset() {
-        var RESULT = gtk_h.g_get_codeset();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_codeset.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_console_charset = Interop.downcallHandle(
+        "g_get_console_charset",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the character set used by the console attached to the process,
@@ -2613,9 +3965,18 @@ public final class GLib {
      * freed.
      */
     public static boolean getConsoleCharset(java.lang.String[] charset) {
-        var RESULT = gtk_h.g_get_console_charset(Interop.allocateNativeArray(charset).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_get_console_charset.invokeExact(Interop.allocateNativeArray(charset).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_current_dir = Interop.downcallHandle(
+        "g_get_current_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current directory.
@@ -2630,9 +3991,18 @@ public final class GLib {
      * the current directory is the target of a symbolic link.
      */
     public static java.lang.String getCurrentDir() {
-        var RESULT = gtk_h.g_get_current_dir();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_current_dir.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_environ = Interop.downcallHandle(
+        "g_get_environ",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Gets the list of environment variables for the current process.
@@ -2647,9 +4017,18 @@ public final class GLib {
      * g_strfreev() when it is no longer needed.
      */
     public static PointerIterator<java.lang.String> getEnviron() {
-        var RESULT = gtk_h.g_get_environ();
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_get_environ.invokeExact();
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_filename_charsets = Interop.downcallHandle(
+        "g_get_filename_charsets",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the preferred character sets used for filenames.
@@ -2678,9 +4057,18 @@ public final class GLib {
      * on a system might be in any random encoding or just gibberish.
      */
     public static boolean getFilenameCharsets(java.lang.String[] filenameCharsets) {
-        var RESULT = gtk_h.g_get_filename_charsets(Interop.allocateNativeArray(filenameCharsets).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_get_filename_charsets.invokeExact(Interop.allocateNativeArray(filenameCharsets).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_home_dir = Interop.downcallHandle(
+        "g_get_home_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current user's home directory.
@@ -2705,9 +4093,18 @@ public final class GLib {
      * or unset it before calling any functions in GLib.
      */
     public static java.lang.String getHomeDir() {
-        var RESULT = gtk_h.g_get_home_dir();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_home_dir.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_host_name = Interop.downcallHandle(
+        "g_get_host_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Return a name for the machine.
@@ -2726,9 +4123,18 @@ public final class GLib {
      * The encoding of the returned string is UTF-8.
      */
     public static java.lang.String getHostName() {
-        var RESULT = gtk_h.g_get_host_name();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_host_name.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_language_names = Interop.downcallHandle(
+        "g_get_language_names",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Computes a list of applicable locale names, which can be used to
@@ -2744,9 +4150,18 @@ public final class GLib {
      * user.
      */
     public static PointerIterator<java.lang.String> getLanguageNames() {
-        var RESULT = gtk_h.g_get_language_names();
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_get_language_names.invokeExact();
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_language_names_with_category = Interop.downcallHandle(
+        "g_get_language_names_with_category",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes a list of applicable locale names with a locale category name,
@@ -2761,9 +4176,18 @@ public final class GLib {
      * g_get_language_names() returns g_get_language_names_with_category("LC_MESSAGES").
      */
     public static PointerIterator<java.lang.String> getLanguageNamesWithCategory(java.lang.String categoryName) {
-        var RESULT = gtk_h.g_get_language_names_with_category(Interop.allocateNativeString(categoryName).handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_get_language_names_with_category.invokeExact(Interop.allocateNativeString(categoryName).handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_locale_variants = Interop.downcallHandle(
+        "g_get_locale_variants",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a list of derived variants of {@code locale}, which can be used to
@@ -2783,9 +4207,18 @@ public final class GLib {
      * use g_get_language_names().
      */
     public static PointerIterator<java.lang.String> getLocaleVariants(java.lang.String locale) {
-        var RESULT = gtk_h.g_get_locale_variants(Interop.allocateNativeString(locale).handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_get_locale_variants.invokeExact(Interop.allocateNativeString(locale).handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_monotonic_time = Interop.downcallHandle(
+        "g_get_monotonic_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Queries the system monotonic time.
@@ -2800,9 +4233,18 @@ public final class GLib {
      * may not always be possible to do this.
      */
     public static long getMonotonicTime() {
-        var RESULT = gtk_h.g_get_monotonic_time();
-        return RESULT;
+        try {
+            var RESULT = (long) g_get_monotonic_time.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_num_processors = Interop.downcallHandle(
+        "g_get_num_processors",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determine the approximate number of threads that the system will
@@ -2811,9 +4253,18 @@ public final class GLib {
      * similar cases.
      */
     public static int getNumProcessors() {
-        var RESULT = gtk_h.g_get_num_processors();
-        return RESULT;
+        try {
+            var RESULT = (int) g_get_num_processors.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_os_info = Interop.downcallHandle(
+        "g_get_os_info",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get information about the operating system.
@@ -2826,9 +4277,18 @@ public final class GLib {
      * check if the result is {@code null}.
      */
     public static java.lang.String getOsInfo(java.lang.String keyName) {
-        var RESULT = gtk_h.g_get_os_info(Interop.allocateNativeString(keyName).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_os_info.invokeExact(Interop.allocateNativeString(keyName).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_prgname = Interop.downcallHandle(
+        "g_get_prgname",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of the program. This name should not be localized,
@@ -2841,9 +4301,18 @@ public final class GLib {
      * taking the last component of {@code argv}[0].
      */
     public static java.lang.String getPrgname() {
-        var RESULT = gtk_h.g_get_prgname();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_prgname.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_real_name = Interop.downcallHandle(
+        "g_get_real_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the real name of the user. This usually comes from the user's
@@ -2853,9 +4322,18 @@ public final class GLib {
      * returned.
      */
     public static java.lang.String getRealName() {
-        var RESULT = gtk_h.g_get_real_name();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_real_name.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_real_time = Interop.downcallHandle(
+        "g_get_real_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Queries the system wall-clock time.
@@ -2869,9 +4347,18 @@ public final class GLib {
      * measuring intervals.
      */
     public static long getRealTime() {
-        var RESULT = gtk_h.g_get_real_time();
-        return RESULT;
+        try {
+            var RESULT = (long) g_get_real_time.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_system_config_dirs = Interop.downcallHandle(
+        "g_get_system_config_dirs",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Returns an ordered list of base directories in which to access
@@ -2896,9 +4383,18 @@ public final class GLib {
      * it’s not thread-safe to modify environment variables at runtime.
      */
     public static PointerIterator<java.lang.String> getSystemConfigDirs() {
-        var RESULT = gtk_h.g_get_system_config_dirs();
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_get_system_config_dirs.invokeExact();
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_system_data_dirs = Interop.downcallHandle(
+        "g_get_system_data_dirs",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Returns an ordered list of base directories in which to access
@@ -2937,9 +4433,18 @@ public final class GLib {
      * it’s not thread-safe to modify environment variables at runtime.
      */
     public static PointerIterator<java.lang.String> getSystemDataDirs() {
-        var RESULT = gtk_h.g_get_system_data_dirs();
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_get_system_data_dirs.invokeExact();
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_tmp_dir = Interop.downcallHandle(
+        "g_get_tmp_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the directory to use for temporary files.
@@ -2958,9 +4463,18 @@ public final class GLib {
      * string.
      */
     public static java.lang.String getTmpDir() {
-        var RESULT = gtk_h.g_get_tmp_dir();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_tmp_dir.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_user_cache_dir = Interop.downcallHandle(
+        "g_get_user_cache_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a base directory in which to store non-essential, cached
@@ -2981,9 +4495,18 @@ public final class GLib {
      * it’s not thread-safe to modify environment variables at runtime.
      */
     public static java.lang.String getUserCacheDir() {
-        var RESULT = gtk_h.g_get_user_cache_dir();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_user_cache_dir.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_user_config_dir = Interop.downcallHandle(
+        "g_get_user_config_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a base directory in which to store user-specific application
@@ -3005,9 +4528,18 @@ public final class GLib {
      * it’s not thread-safe to modify environment variables at runtime.
      */
     public static java.lang.String getUserConfigDir() {
-        var RESULT = gtk_h.g_get_user_config_dir();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_user_config_dir.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_user_data_dir = Interop.downcallHandle(
+        "g_get_user_data_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a base directory in which to access application data such
@@ -3029,9 +4561,18 @@ public final class GLib {
      * it’s not thread-safe to modify environment variables at runtime.
      */
     public static java.lang.String getUserDataDir() {
-        var RESULT = gtk_h.g_get_user_data_dir();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_user_data_dir.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_user_name = Interop.downcallHandle(
+        "g_get_user_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the user name of the current user. The encoding of the returned
@@ -3040,9 +4581,18 @@ public final class GLib {
      * consistent on a machine. On Windows, it is always UTF-8.
      */
     public static java.lang.String getUserName() {
-        var RESULT = gtk_h.g_get_user_name();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_user_name.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_user_runtime_dir = Interop.downcallHandle(
+        "g_get_user_runtime_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a directory that is unique to the current user on the local
@@ -3060,9 +4610,18 @@ public final class GLib {
      * it’s not thread-safe to modify environment variables at runtime.
      */
     public static java.lang.String getUserRuntimeDir() {
-        var RESULT = gtk_h.g_get_user_runtime_dir();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_user_runtime_dir.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_user_special_dir = Interop.downcallHandle(
+        "g_get_user_special_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the full path of a special directory using its logical id.
@@ -3077,9 +4636,18 @@ public final class GLib {
      * will not reflect any change once the special directories are loaded.
      */
     public static java.lang.String getUserSpecialDir(UserDirectory directory) {
-        var RESULT = gtk_h.g_get_user_special_dir(directory.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_user_special_dir.invokeExact(directory.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_get_user_state_dir = Interop.downcallHandle(
+        "g_get_user_state_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a base directory in which to store state files specific to
@@ -3101,9 +4669,18 @@ public final class GLib {
      * it’s not thread-safe to modify environment variables at runtime.
      */
     public static java.lang.String getUserStateDir() {
-        var RESULT = gtk_h.g_get_user_state_dir();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_get_user_state_dir.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_getenv = Interop.downcallHandle(
+        "g_getenv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the value of an environment variable.
@@ -3115,9 +4692,18 @@ public final class GLib {
      * references to other environment variables, they are expanded.
      */
     public static java.lang.String getenv(java.lang.String variable) {
-        var RESULT = gtk_h.g_getenv(Interop.allocateNativeString(variable).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_getenv.invokeExact(Interop.allocateNativeString(variable).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_add = Interop.downcallHandle(
+        "g_hash_table_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This is a convenience function for using a {@link HashTable} as a set.  It
@@ -3137,17 +4723,35 @@ public final class GLib {
      * or not.
      */
     public static boolean hashTableAdd(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_add(hashTable.handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_add.invokeExact(hashTable.handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_contains = Interop.downcallHandle(
+        "g_hash_table_contains",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code key} is in {@code hash_table}.
      */
     public static boolean hashTableContains(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_contains(hashTable.handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_contains.invokeExact(hashTable.handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_destroy = Interop.downcallHandle(
+        "g_hash_table_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Destroys all keys and values in the {@link HashTable} and decrements its
@@ -3158,8 +4762,17 @@ public final class GLib {
      * destruction phase.
      */
     public static void hashTableDestroy(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_destroy(hashTable.handle());
+        try {
+            g_hash_table_destroy.invokeExact(hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_insert = Interop.downcallHandle(
+        "g_hash_table_insert",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new key and value into a {@link HashTable}.
@@ -3176,9 +4789,18 @@ public final class GLib {
      * or not.
      */
     public static boolean hashTableInsert(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_hash_table_insert(hashTable.handle(), key, value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_insert.invokeExact(hashTable.handle(), key, value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_lookup = Interop.downcallHandle(
+        "g_hash_table_lookup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a key in a {@link HashTable}. Note that this function cannot
@@ -3187,9 +4809,18 @@ public final class GLib {
      * g_hash_table_lookup_extended().
      */
     public static java.lang.foreign.MemoryAddress hashTableLookup(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_lookup(hashTable.handle(), key);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_lookup.invokeExact(hashTable.handle(), key);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_lookup_extended = Interop.downcallHandle(
+        "g_hash_table_lookup_extended",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a key in the {@link HashTable}, returning the original key and the
@@ -3202,9 +4833,18 @@ public final class GLib {
      * of {@code hash_table} are {@code null}-safe.
      */
     public static boolean hashTableLookupExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress origKey, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_hash_table_lookup_extended(hashTable.handle(), lookupKey, origKey, value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_lookup_extended.invokeExact(hashTable.handle(), lookupKey, origKey, value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_new_similar = Interop.downcallHandle(
+        "g_hash_table_new_similar",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link HashTable} like g_hash_table_new_full() with a reference
@@ -3217,9 +4857,18 @@ public final class GLib {
      * or values from {@code other_hash_table}.
      */
     public static org.gtk.glib.HashTable hashTableNewSimilar(org.gtk.glib.HashTable otherHashTable) {
-        var RESULT = gtk_h.g_hash_table_new_similar(otherHashTable.handle());
-        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_new_similar.invokeExact(otherHashTable.handle());
+            return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_remove = Interop.downcallHandle(
+        "g_hash_table_remove",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a key and its associated value from a {@link HashTable}.
@@ -3230,9 +4879,18 @@ public final class GLib {
      * yourself.
      */
     public static boolean hashTableRemove(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_remove(hashTable.handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_remove.invokeExact(hashTable.handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_remove_all = Interop.downcallHandle(
+        "g_hash_table_remove_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all keys and their associated values from a {@link HashTable}.
@@ -3243,8 +4901,17 @@ public final class GLib {
      * values are freed yourself.
      */
     public static void hashTableRemoveAll(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_remove_all(hashTable.handle());
+        try {
+            g_hash_table_remove_all.invokeExact(hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_replace = Interop.downcallHandle(
+        "g_hash_table_replace",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new key and value into a {@link HashTable} similar to
@@ -3260,34 +4927,70 @@ public final class GLib {
      * or not.
      */
     public static boolean hashTableReplace(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_hash_table_replace(hashTable.handle(), key, value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_replace.invokeExact(hashTable.handle(), key, value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_size = Interop.downcallHandle(
+        "g_hash_table_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of elements contained in the {@link HashTable}.
      */
     public static int hashTableSize(org.gtk.glib.HashTable hashTable) {
-        var RESULT = gtk_h.g_hash_table_size(hashTable.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_hash_table_size.invokeExact(hashTable.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_steal = Interop.downcallHandle(
+        "g_hash_table_steal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a key and its associated value from a {@link HashTable} without
      * calling the key and value destroy functions.
      */
     public static boolean hashTableSteal(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_hash_table_steal(hashTable.handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_steal.invokeExact(hashTable.handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_steal_all = Interop.downcallHandle(
+        "g_hash_table_steal_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all keys and their associated values from a {@link HashTable}
      * without calling the key and value destroy functions.
      */
     public static void hashTableStealAll(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_steal_all(hashTable.handle());
+        try {
+            g_hash_table_steal_all.invokeExact(hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_steal_extended = Interop.downcallHandle(
+        "g_hash_table_steal_extended",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a key in the {@link HashTable}, stealing the original key and the
@@ -3302,9 +5005,18 @@ public final class GLib {
      * of {@code hash_table} are {@code null}-safe.
      */
     public static boolean hashTableStealExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress stolenKey, java.lang.foreign.MemoryAddress stolenValue) {
-        var RESULT = gtk_h.g_hash_table_steal_extended(hashTable.handle(), lookupKey, stolenKey, stolenValue);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_steal_extended.invokeExact(hashTable.handle(), lookupKey, stolenKey, stolenValue);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_unref = Interop.downcallHandle(
+        "g_hash_table_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code hash_table} by one.
@@ -3313,46 +5025,100 @@ public final class GLib {
      * This function is MT-safe and may be called from any thread.
      */
     public static void hashTableUnref(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_unref(hashTable.handle());
+        try {
+            g_hash_table_unref.invokeExact(hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hook_destroy = Interop.downcallHandle(
+        "g_hook_destroy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Destroys a {@link Hook}, given its ID.
      */
     public static boolean hookDestroy(HookList hookList, long hookId) {
-        var RESULT = gtk_h.g_hook_destroy(hookList.handle(), hookId);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hook_destroy.invokeExact(hookList.handle(), hookId);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hook_destroy_link = Interop.downcallHandle(
+        "g_hook_destroy_link",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes one {@link Hook} from a {@link HookList}, marking it
      * inactive and calling g_hook_unref() on it.
      */
     public static void hookDestroyLink(HookList hookList, Hook hook) {
-        gtk_h.g_hook_destroy_link(hookList.handle(), hook.handle());
+        try {
+            g_hook_destroy_link.invokeExact(hookList.handle(), hook.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hook_free = Interop.downcallHandle(
+        "g_hook_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the {@link HookList} {@code finalize_hook} function if it exists,
      * and frees the memory allocated for the {@link Hook}.
      */
     public static void hookFree(HookList hookList, Hook hook) {
-        gtk_h.g_hook_free(hookList.handle(), hook.handle());
+        try {
+            g_hook_free.invokeExact(hookList.handle(), hook.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hook_insert_before = Interop.downcallHandle(
+        "g_hook_insert_before",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a {@link Hook} into a {@link HookList}, before a given {@link Hook}.
      */
     public static void hookInsertBefore(HookList hookList, Hook sibling, Hook hook) {
-        gtk_h.g_hook_insert_before(hookList.handle(), sibling.handle(), hook.handle());
+        try {
+            g_hook_insert_before.invokeExact(hookList.handle(), sibling.handle(), hook.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hook_prepend = Interop.downcallHandle(
+        "g_hook_prepend",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prepends a {@link Hook} on the start of a {@link HookList}.
      */
     public static void hookPrepend(HookList hookList, Hook hook) {
-        gtk_h.g_hook_prepend(hookList.handle(), hook.handle());
+        try {
+            g_hook_prepend.invokeExact(hookList.handle(), hook.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hook_unref = Interop.downcallHandle(
+        "g_hook_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrements the reference count of a {@link Hook}.
@@ -3360,8 +5126,17 @@ public final class GLib {
      * from the {@link HookList} and g_hook_free() is called to free it.
      */
     public static void hookUnref(HookList hookList, Hook hook) {
-        gtk_h.g_hook_unref(hookList.handle(), hook.handle());
+        try {
+            g_hook_unref.invokeExact(hookList.handle(), hook.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hostname_is_ascii_encoded = Interop.downcallHandle(
+        "g_hostname_is_ascii_encoded",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests if {@code hostname} contains segments with an ASCII-compatible
@@ -3374,9 +5149,18 @@ public final class GLib {
      * g_hostname_is_ascii_encoded() to both return {@code true} for a name.
      */
     public static boolean hostnameIsAsciiEncoded(java.lang.String hostname) {
-        var RESULT = gtk_h.g_hostname_is_ascii_encoded(Interop.allocateNativeString(hostname).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hostname_is_ascii_encoded.invokeExact(Interop.allocateNativeString(hostname).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hostname_is_ip_address = Interop.downcallHandle(
+        "g_hostname_is_ip_address",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests if {@code hostname} is the string form of an IPv4 or IPv6 address.
@@ -3385,9 +5169,18 @@ public final class GLib {
      * Since 2.66, IPv6 addresses with a zone-id are accepted (RFC6874).
      */
     public static boolean hostnameIsIpAddress(java.lang.String hostname) {
-        var RESULT = gtk_h.g_hostname_is_ip_address(Interop.allocateNativeString(hostname).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hostname_is_ip_address.invokeExact(Interop.allocateNativeString(hostname).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hostname_is_non_ascii = Interop.downcallHandle(
+        "g_hostname_is_non_ascii",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests if {@code hostname} contains Unicode characters. If this returns
@@ -3399,9 +5192,18 @@ public final class GLib {
      * g_hostname_is_ascii_encoded() to both return {@code true} for a name.
      */
     public static boolean hostnameIsNonAscii(java.lang.String hostname) {
-        var RESULT = gtk_h.g_hostname_is_non_ascii(Interop.allocateNativeString(hostname).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hostname_is_non_ascii.invokeExact(Interop.allocateNativeString(hostname).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hostname_to_ascii = Interop.downcallHandle(
+        "g_hostname_to_ascii",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts {@code hostname} to its canonical ASCII form; an ASCII-only
@@ -3409,9 +5211,18 @@ public final class GLib {
      * trailing dot.
      */
     public static java.lang.String hostnameToAscii(java.lang.String hostname) {
-        var RESULT = gtk_h.g_hostname_to_ascii(Interop.allocateNativeString(hostname).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_hostname_to_ascii.invokeExact(Interop.allocateNativeString(hostname).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hostname_to_unicode = Interop.downcallHandle(
+        "g_hostname_to_unicode",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts {@code hostname} to its canonical presentation form; a UTF-8
@@ -3423,9 +5234,18 @@ public final class GLib {
      * the canonical presentation form will be entirely ASCII.
      */
     public static java.lang.String hostnameToUnicode(java.lang.String hostname) {
-        var RESULT = gtk_h.g_hostname_to_unicode(Interop.allocateNativeString(hostname).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_hostname_to_unicode.invokeExact(Interop.allocateNativeString(hostname).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_iconv = Interop.downcallHandle(
+        "g_iconv",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Same as the standard UNIX routine iconv(), but
@@ -3443,9 +5263,18 @@ public final class GLib {
      * situation.
      */
     public static long iconv(IConv converter, java.lang.String[] inbuf, PointerLong inbytesLeft, java.lang.String[] outbuf, PointerLong outbytesLeft) {
-        var RESULT = gtk_h.g_iconv(converter.handle(), Interop.allocateNativeArray(inbuf).handle(), inbytesLeft.handle(), Interop.allocateNativeArray(outbuf).handle(), outbytesLeft.handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_iconv.invokeExact(converter.handle(), Interop.allocateNativeArray(inbuf).handle(), inbytesLeft.handle(), Interop.allocateNativeArray(outbuf).handle(), outbytesLeft.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_iconv_open = Interop.downcallHandle(
+        "g_iconv_open",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Same as the standard UNIX routine iconv_open(), but
@@ -3456,9 +5285,18 @@ public final class GLib {
      * more convenient than the raw iconv wrappers.
      */
     public static IConv iconvOpen(java.lang.String toCodeset, java.lang.String fromCodeset) {
-        var RESULT = gtk_h.g_iconv_open(Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle());
-        return new IConv(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_iconv_open.invokeExact(Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle());
+            return new IConv(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_idle_add = Interop.downcallHandle(
+        "g_idle_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a function to be called whenever there are no higher priority
@@ -3478,18 +5316,23 @@ public final class GLib {
      */
     public static int idleAdd(SourceFunc function) {
         try {
-            var RESULT = gtk_h.g_idle_add(
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_idle_add.invokeExact(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_idle_add_full = Interop.downcallHandle(
+        "g_idle_add_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a function to be called whenever there are no higher priority
@@ -3509,27 +5352,41 @@ public final class GLib {
      */
     public static int idleAddFull(int priority, SourceFunc function) {
         try {
-            var RESULT = gtk_h.g_idle_add_full(priority, 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_idle_add_full.invokeExact(priority, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_idle_remove_by_data = Interop.downcallHandle(
+        "g_idle_remove_by_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes the idle function with the given data.
      */
     public static boolean idleRemoveByData(java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_idle_remove_by_data(data);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_idle_remove_by_data.invokeExact(data);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_idle_source_new = Interop.downcallHandle(
+        "g_idle_source_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new idle source.
@@ -3541,9 +5398,18 @@ public final class GLib {
      * have a default priority of {@code G_PRIORITY_DEFAULT}.
      */
     public static Source idleSourceNew() {
-        var RESULT = gtk_h.g_idle_source_new();
-        return new Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_idle_source_new.invokeExact();
+            return new Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_int64_equal = Interop.downcallHandle(
+        "g_int64_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares the two {@code gint64} values being pointed to and returns
@@ -3553,9 +5419,18 @@ public final class GLib {
      * {@link HashTable}.
      */
     public static boolean int64Equal(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
-        var RESULT = gtk_h.g_int64_equal(v1, v2);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_int64_equal.invokeExact(v1, v2);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_int64_hash = Interop.downcallHandle(
+        "g_int64_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a pointer to a {@code gint64} to a hash value.
@@ -3565,9 +5440,18 @@ public final class GLib {
      * {@link HashTable}.
      */
     public static int int64Hash(java.lang.foreign.MemoryAddress v) {
-        var RESULT = gtk_h.g_int64_hash(v);
-        return RESULT;
+        try {
+            var RESULT = (int) g_int64_hash.invokeExact(v);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_int_equal = Interop.downcallHandle(
+        "g_int_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares the two {@code gint} values being pointed to and returns
@@ -3581,9 +5465,18 @@ public final class GLib {
      * {@code GINT_TO_POINTER (n)}, use g_direct_equal() instead.
      */
     public static boolean intEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
-        var RESULT = gtk_h.g_int_equal(v1, v2);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_int_equal.invokeExact(v1, v2);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_int_hash = Interop.downcallHandle(
+        "g_int_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a pointer to a {@code gint} to a hash value.
@@ -3595,9 +5488,18 @@ public final class GLib {
      * {@code GINT_TO_POINTER (n)}, use g_direct_hash() instead.
      */
     public static int intHash(java.lang.foreign.MemoryAddress v) {
-        var RESULT = gtk_h.g_int_hash(v);
-        return RESULT;
+        try {
+            var RESULT = (int) g_int_hash.invokeExact(v);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_intern_static_string = Interop.downcallHandle(
+        "g_intern_static_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a canonical representation for {@code string}. Interned strings
@@ -3610,9 +5512,18 @@ public final class GLib {
      * variables in C++.
      */
     public static java.lang.String internStaticString(java.lang.String string) {
-        var RESULT = gtk_h.g_intern_static_string(Interop.allocateNativeString(string).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_intern_static_string.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_intern_string = Interop.downcallHandle(
+        "g_intern_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a canonical representation for {@code string}. Interned strings
@@ -3624,9 +5535,18 @@ public final class GLib {
      * variables in C++.
      */
     public static java.lang.String internString(java.lang.String string) {
-        var RESULT = gtk_h.g_intern_string(Interop.allocateNativeString(string).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_intern_string.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_io_add_watch = Interop.downcallHandle(
+        "g_io_add_watch",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds the {@link IOChannel} into the default main loop context
@@ -3634,18 +5554,23 @@ public final class GLib {
      */
     public static int ioAddWatch(IOChannel channel, IOCondition condition, IOFunc func) {
         try {
-            var RESULT = gtk_h.g_io_add_watch(channel.handle(), condition.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_io_add_watch.invokeExact(channel.handle(), condition.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbIOFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_io_add_watch_full = Interop.downcallHandle(
+        "g_io_add_watch_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds the {@link IOChannel} into the default main loop context
@@ -3657,32 +5582,55 @@ public final class GLib {
      */
     public static int ioAddWatchFull(IOChannel channel, int priority, IOCondition condition, IOFunc func) {
         try {
-            var RESULT = gtk_h.g_io_add_watch_full(channel.handle(), priority, condition.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_io_add_watch_full.invokeExact(channel.handle(), priority, condition.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbIOFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_io_channel_error_from_errno = Interop.downcallHandle(
+        "g_io_channel_error_from_errno",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an {@code errno} error number to a {@link IOChannelError}.
      */
     public static IOChannelError ioChannelErrorFromErrno(int en) {
-        var RESULT = gtk_h.g_io_channel_error_from_errno(en);
-        return new IOChannelError(RESULT);
+        try {
+            var RESULT = (int) g_io_channel_error_from_errno.invokeExact(en);
+            return new IOChannelError(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_io_channel_error_quark = Interop.downcallHandle(
+        "g_io_channel_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark ioChannelErrorQuark() {
-        var RESULT = gtk_h.g_io_channel_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_io_channel_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_io_create_watch = Interop.downcallHandle(
+        "g_io_create_watch",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a {@link Source} that's dispatched when {@code condition} is met for the
@@ -3701,14 +5649,32 @@ public final class GLib {
      * implementation and unavoidable.
      */
     public static Source ioCreateWatch(IOChannel channel, IOCondition condition) {
-        var RESULT = gtk_h.g_io_create_watch(channel.handle(), condition.getValue());
-        return new Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_io_create_watch.invokeExact(channel.handle(), condition.getValue());
+            return new Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_key_file_error_quark = Interop.downcallHandle(
+        "g_key_file_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark keyFileErrorQuark() {
-        var RESULT = gtk_h.g_key_file_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_key_file_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_listenv = Interop.downcallHandle(
+        "g_listenv",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Gets the names of all variables set in the environment.
@@ -3721,9 +5687,18 @@ public final class GLib {
      * the UTF-8 encoding that this function and g_getenv() provide.
      */
     public static PointerIterator<java.lang.String> listenv() {
-        var RESULT = gtk_h.g_listenv();
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_listenv.invokeExact();
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_locale_from_utf8 = Interop.downcallHandle(
+        "g_locale_from_utf8",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string from UTF-8 to the encoding used for strings by
@@ -3738,12 +5713,21 @@ public final class GLib {
      */
     public static PointerIterator<Byte> localeFromUtf8(java.lang.String utf8string, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_locale_from_utf8(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_locale_from_utf8.invokeExact(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerByte(RESULT).iterator();
     }
+    
+    static final MethodHandle g_locale_to_utf8 = Interop.downcallHandle(
+        "g_locale_to_utf8",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string which is in the encoding used for strings by
@@ -3760,12 +5744,21 @@ public final class GLib {
      */
     public static java.lang.String localeToUtf8(byte[] opsysstring, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_locale_to_utf8(Interop.allocateNativeArray(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_locale_to_utf8.invokeExact(Interop.allocateNativeArray(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_log_default_handler = Interop.downcallHandle(
+        "g_log_default_handler",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * The default log handler set up by GLib; g_log_set_default_handler()
@@ -3800,8 +5793,17 @@ public final class GLib {
      * [Using Structured Logging][using-structured-logging].
      */
     public static void logDefaultHandler(java.lang.String logDomain, LogLevelFlags logLevel, java.lang.String message, java.lang.foreign.MemoryAddress unusedData) {
-        gtk_h.g_log_default_handler(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(message).handle(), unusedData);
+        try {
+            g_log_default_handler.invokeExact(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(message).handle(), unusedData);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_get_debug_enabled = Interop.downcallHandle(
+        "g_log_get_debug_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Return whether debug output from the GLib logging system is enabled.
@@ -3814,9 +5816,18 @@ public final class GLib {
      * the docs for g_log_set_debug_enabled().
      */
     public static boolean logGetDebugEnabled() {
-        var RESULT = gtk_h.g_log_get_debug_enabled();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_log_get_debug_enabled.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_remove_handler = Interop.downcallHandle(
+        "g_log_remove_handler",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the log handler.
@@ -3825,8 +5836,17 @@ public final class GLib {
      * [Using Structured Logging][using-structured-logging].
      */
     public static void logRemoveHandler(java.lang.String logDomain, int handlerId) {
-        gtk_h.g_log_remove_handler(Interop.allocateNativeString(logDomain).handle(), handlerId);
+        try {
+            g_log_remove_handler.invokeExact(Interop.allocateNativeString(logDomain).handle(), handlerId);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_set_always_fatal = Interop.downcallHandle(
+        "g_log_set_always_fatal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the message levels which are always fatal, in any log domain.
@@ -3847,9 +5867,18 @@ public final class GLib {
      * are fatal. See [Using Structured Logging][using-structured-logging].
      */
     public static LogLevelFlags logSetAlwaysFatal(LogLevelFlags fatalMask) {
-        var RESULT = gtk_h.g_log_set_always_fatal(fatalMask.getValue());
-        return new LogLevelFlags(RESULT);
+        try {
+            var RESULT = (int) g_log_set_always_fatal.invokeExact(fatalMask.getValue());
+            return new LogLevelFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_set_debug_enabled = Interop.downcallHandle(
+        "g_log_set_debug_enabled",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Enable or disable debug output from the GLib logging system for all domains.
@@ -3860,8 +5889,17 @@ public final class GLib {
      * output — it is intended for external use.
      */
     public static void logSetDebugEnabled(boolean enabled) {
-        gtk_h.g_log_set_debug_enabled(enabled ? 1 : 0);
+        try {
+            g_log_set_debug_enabled.invokeExact(enabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_set_fatal_mask = Interop.downcallHandle(
+        "g_log_set_fatal_mask",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the log levels which are fatal in the given domain.
@@ -3879,9 +5917,18 @@ public final class GLib {
      * {@link LogLevelFlags#LEVEL_DEBUG} as fatal except inside of test programs.
      */
     public static LogLevelFlags logSetFatalMask(java.lang.String logDomain, LogLevelFlags fatalMask) {
-        var RESULT = gtk_h.g_log_set_fatal_mask(Interop.allocateNativeString(logDomain).handle(), fatalMask.getValue());
-        return new LogLevelFlags(RESULT);
+        try {
+            var RESULT = (int) g_log_set_fatal_mask.invokeExact(Interop.allocateNativeString(logDomain).handle(), fatalMask.getValue());
+            return new LogLevelFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_set_handler = Interop.downcallHandle(
+        "g_log_set_handler",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the log handler for a domain and a set of log levels.
@@ -3921,18 +5968,23 @@ public final class GLib {
      */
     public static int logSetHandler(java.lang.String logDomain, LogLevelFlags logLevels, LogFunc logFunc) {
         try {
-            var RESULT = gtk_h.g_log_set_handler(Interop.allocateNativeString(logDomain).handle(), logLevels.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_log_set_handler.invokeExact(Interop.allocateNativeString(logDomain).handle(), logLevels.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_log_set_handler_full = Interop.downcallHandle(
+        "g_log_set_handler_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Like g_log_set_handler(), but takes a destroy notify for the {@code user_data}.
@@ -3942,19 +5994,24 @@ public final class GLib {
      */
     public static int logSetHandlerFull(java.lang.String logDomain, LogLevelFlags logLevels, LogFunc logFunc) {
         try {
-            var RESULT = gtk_h.g_log_set_handler_full(Interop.allocateNativeString(logDomain).handle(), logLevels.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_log_set_handler_full.invokeExact(Interop.allocateNativeString(logDomain).handle(), logLevels.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_log_set_writer_func = Interop.downcallHandle(
+        "g_log_set_writer_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set a writer function which will be called to format and write out each log
@@ -3969,18 +6026,23 @@ public final class GLib {
      */
     public static void logSetWriterFunc(LogWriterFunc func) {
         try {
-            gtk_h.g_log_set_writer_func(
-                    Linker.nativeLinker().upcallStub(
+            g_log_set_writer_func.invokeExact(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbLogWriterFunc",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_log_structured_array = Interop.downcallHandle(
+        "g_log_structured_array",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Log a message with structured data. The message will be passed through to the
@@ -3994,8 +6056,17 @@ public final class GLib {
      * {@code PRIORITY} field).
      */
     public static void logStructuredArray(LogLevelFlags logLevel, LogField[] fields, long nFields) {
-        gtk_h.g_log_structured_array(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields);
+        try {
+            g_log_structured_array.invokeExact(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_variant = Interop.downcallHandle(
+        "g_log_variant",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Log a message with structured data, accepting the data within a {@link Variant}. This
@@ -4014,8 +6085,17 @@ public final class GLib {
      * For more details on its usage and about the parameters, see g_log_structured().
      */
     public static void logVariant(java.lang.String logDomain, LogLevelFlags logLevel, Variant fields) {
-        gtk_h.g_log_variant(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), fields.handle());
+        try {
+            g_log_variant.invokeExact(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), fields.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_writer_default = Interop.downcallHandle(
+        "g_log_writer_default",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Format a structured log message and output it to the default log destination
@@ -4039,9 +6119,18 @@ public final class GLib {
      * up to the writer function to determine which log messages are fatal.
      */
     public static LogWriterOutput logWriterDefault(LogLevelFlags logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_log_writer_default(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
-        return new LogWriterOutput(RESULT);
+        try {
+            var RESULT = (int) g_log_writer_default.invokeExact(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
+            return new LogWriterOutput(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_writer_default_set_use_stderr = Interop.downcallHandle(
+        "g_log_writer_default_set_use_stderr",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Configure whether the built-in log functions
@@ -4059,8 +6148,17 @@ public final class GLib {
      * or creating objects that could create worker threads of their own.
      */
     public static void logWriterDefaultSetUseStderr(boolean useStderr) {
-        gtk_h.g_log_writer_default_set_use_stderr(useStderr ? 1 : 0);
+        try {
+            g_log_writer_default_set_use_stderr.invokeExact(useStderr ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_writer_default_would_drop = Interop.downcallHandle(
+        "g_log_writer_default_would_drop",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check whether g_log_writer_default() and g_log_default_handler() would
@@ -4092,9 +6190,18 @@ public final class GLib {
      * }</pre>
      */
     public static boolean logWriterDefaultWouldDrop(LogLevelFlags logLevel, java.lang.String logDomain) {
-        var RESULT = gtk_h.g_log_writer_default_would_drop(logLevel.getValue(), Interop.allocateNativeString(logDomain).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_log_writer_default_would_drop.invokeExact(logLevel.getValue(), Interop.allocateNativeString(logDomain).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_writer_format_fields = Interop.downcallHandle(
+        "g_log_writer_format_fields",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Format a structured log message as a string suitable for outputting to the
@@ -4108,9 +6215,18 @@ public final class GLib {
      * UTF-8.
      */
     public static java.lang.String logWriterFormatFields(LogLevelFlags logLevel, LogField[] fields, long nFields, boolean useColor) {
-        var RESULT = gtk_h.g_log_writer_format_fields(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, useColor ? 1 : 0);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_log_writer_format_fields.invokeExact(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, useColor ? 1 : 0);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_writer_is_journald = Interop.downcallHandle(
+        "g_log_writer_is_journald",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Check whether the given {@code output_fd} file descriptor is a connection to the
@@ -4124,9 +6240,18 @@ public final class GLib {
      * }</pre>
      */
     public static boolean logWriterIsJournald(int outputFd) {
-        var RESULT = gtk_h.g_log_writer_is_journald(outputFd);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_log_writer_is_journald.invokeExact(outputFd);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_writer_journald = Interop.downcallHandle(
+        "g_log_writer_journald",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Format a structured log message and send it to the systemd journal as a set
@@ -4140,9 +6265,18 @@ public final class GLib {
      * defined, but will always return {@link LogWriterOutput#UNHANDLED}.
      */
     public static LogWriterOutput logWriterJournald(LogLevelFlags logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_log_writer_journald(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
-        return new LogWriterOutput(RESULT);
+        try {
+            var RESULT = (int) g_log_writer_journald.invokeExact(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
+            return new LogWriterOutput(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_writer_standard_streams = Interop.downcallHandle(
+        "g_log_writer_standard_streams",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Format a structured log message and print it to either {@code stdout} or {@code stderr},
@@ -4161,9 +6295,18 @@ public final class GLib {
      * This is suitable for use as a {@link LogWriterFunc}.
      */
     public static LogWriterOutput logWriterStandardStreams(LogLevelFlags logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_log_writer_standard_streams(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
-        return new LogWriterOutput(RESULT);
+        try {
+            var RESULT = (int) g_log_writer_standard_streams.invokeExact(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
+            return new LogWriterOutput(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_log_writer_supports_color = Interop.downcallHandle(
+        "g_log_writer_supports_color",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Check whether the given {@code output_fd} file descriptor supports ANSI color
@@ -4171,9 +6314,18 @@ public final class GLib {
      * messages.
      */
     public static boolean logWriterSupportsColor(int outputFd) {
-        var RESULT = gtk_h.g_log_writer_supports_color(outputFd);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_log_writer_supports_color.invokeExact(outputFd);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_logv = Interop.downcallHandle(
+        "g_logv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Logs an error or debugging message.
@@ -4190,8 +6342,17 @@ public final class GLib {
      * output via the structured log writer function (see g_log_set_writer_func()).
      */
     public static void logv(java.lang.String logDomain, LogLevelFlags logLevel, java.lang.String format, VaList args) {
-        gtk_h.g_logv(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(format).handle(), args);
+        try {
+            g_logv.invokeExact(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(format).handle(), args);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_default = Interop.downcallHandle(
+        "g_main_context_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the global default main context. This is the main context
@@ -4200,9 +6361,18 @@ public final class GLib {
      * g_main_context_get_thread_default().
      */
     public static MainContext mainContextDefault() {
-        var RESULT = gtk_h.g_main_context_default();
-        return new MainContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_default.invokeExact();
+            return new MainContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_get_thread_default = Interop.downcallHandle(
+        "g_main_context_get_thread_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the thread-default {@link MainContext} for this thread. Asynchronous
@@ -4218,9 +6388,18 @@ public final class GLib {
      * g_main_context_ref_thread_default() instead.
      */
     public static MainContext mainContextGetThreadDefault() {
-        var RESULT = gtk_h.g_main_context_get_thread_default();
-        return new MainContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_get_thread_default.invokeExact();
+            return new MainContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_context_ref_thread_default = Interop.downcallHandle(
+        "g_main_context_ref_thread_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the thread-default {@link MainContext} for this thread, as with
@@ -4231,17 +6410,35 @@ public final class GLib {
      * (with a ref added to it) rather than returning {@code null}.
      */
     public static MainContext mainContextRefThreadDefault() {
-        var RESULT = gtk_h.g_main_context_ref_thread_default();
-        return new MainContext(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_main_context_ref_thread_default.invokeExact();
+            return new MainContext(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_current_source = Interop.downcallHandle(
+        "g_main_current_source",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the currently firing source for this thread.
      */
     public static Source mainCurrentSource() {
-        var RESULT = gtk_h.g_main_current_source();
-        return new Source(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_current_source.invokeExact();
+            return new Source(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_depth = Interop.downcallHandle(
+        "g_main_depth",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the depth of the stack of calls to
@@ -4347,50 +6544,104 @@ public final class GLib {
      *    there is more work to do.
      */
     public static int mainDepth() {
-        var RESULT = gtk_h.g_main_depth();
-        return RESULT;
+        try {
+            var RESULT = (int) g_main_depth.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_malloc = Interop.downcallHandle(
+        "g_malloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates {@code n_bytes} bytes of memory.
      * If {@code n_bytes} is 0 it returns {@code null}.
      */
     public static java.lang.foreign.MemoryAddress malloc(long nBytes) {
-        var RESULT = gtk_h.g_malloc(nBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_malloc.invokeExact(nBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_malloc0 = Interop.downcallHandle(
+        "g_malloc0",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates {@code n_bytes} bytes of memory, initialized to 0's.
      * If {@code n_bytes} is 0 it returns {@code null}.
      */
     public static java.lang.foreign.MemoryAddress malloc0(long nBytes) {
-        var RESULT = gtk_h.g_malloc0(nBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_malloc0.invokeExact(nBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_malloc0_n = Interop.downcallHandle(
+        "g_malloc0_n",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is similar to g_malloc0(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
     public static java.lang.foreign.MemoryAddress malloc0N(long nBlocks, long nBlockBytes) {
-        var RESULT = gtk_h.g_malloc0_n(nBlocks, nBlockBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_malloc0_n.invokeExact(nBlocks, nBlockBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_malloc_n = Interop.downcallHandle(
+        "g_malloc_n",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is similar to g_malloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
     public static java.lang.foreign.MemoryAddress mallocN(long nBlocks, long nBlockBytes) {
-        var RESULT = gtk_h.g_malloc_n(nBlocks, nBlockBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_malloc_n.invokeExact(nBlocks, nBlockBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_markup_error_quark = Interop.downcallHandle(
+        "g_markup_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark markupErrorQuark() {
-        var RESULT = gtk_h.g_markup_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_markup_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_markup_escape_text = Interop.downcallHandle(
+        "g_markup_escape_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Escapes text so that the markup parser will parse it verbatim.
@@ -4409,9 +6660,18 @@ public final class GLib {
      * valid XML 1.1 and will be accepted by the GMarkup parser.
      */
     public static java.lang.String markupEscapeText(java.lang.String text, long length) {
-        var RESULT = gtk_h.g_markup_escape_text(Interop.allocateNativeString(text).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_markup_escape_text.invokeExact(Interop.allocateNativeString(text).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_markup_vprintf_escaped = Interop.downcallHandle(
+        "g_markup_vprintf_escaped",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Formats the data in {@code args} according to {@code format}, escaping
@@ -4419,9 +6679,18 @@ public final class GLib {
      * of g_markup_escape_text(). See g_markup_printf_escaped().
      */
     public static java.lang.String markupVprintfEscaped(java.lang.String format, VaList args) {
-        var RESULT = gtk_h.g_markup_vprintf_escaped(Interop.allocateNativeString(format).handle(), args);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_markup_vprintf_escaped.invokeExact(Interop.allocateNativeString(format).handle(), args);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_memdup2 = Interop.downcallHandle(
+        "g_memdup2",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates {@code byte_size} bytes of memory, and copies {@code byte_size} bytes into it
@@ -4431,18 +6700,36 @@ public final class GLib {
      * converting the argument from a {@code gsize} to a {@code guint}.
      */
     public static java.lang.foreign.MemoryAddress memdup2(java.lang.foreign.MemoryAddress mem, long byteSize) {
-        var RESULT = gtk_h.g_memdup2(mem, byteSize);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_memdup2.invokeExact(mem, byteSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mkdir_with_parents = Interop.downcallHandle(
+        "g_mkdir_with_parents",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a directory if it doesn't already exist. Create intermediate
      * parent directories as needed, too.
      */
     public static int mkdirWithParents(java.lang.String pathname, int mode) {
-        var RESULT = gtk_h.g_mkdir_with_parents(Interop.allocateNativeString(pathname).handle(), mode);
-        return RESULT;
+        try {
+            var RESULT = (int) g_mkdir_with_parents.invokeExact(Interop.allocateNativeString(pathname).handle(), mode);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mkdtemp = Interop.downcallHandle(
+        "g_mkdtemp",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a temporary directory. See the mkdtemp() documentation
@@ -4462,9 +6749,18 @@ public final class GLib {
      * g_dir_make_tmp() instead.
      */
     public static java.lang.String mkdtemp(java.lang.String tmpl) {
-        var RESULT = gtk_h.g_mkdtemp(Interop.allocateNativeString(tmpl).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_mkdtemp.invokeExact(Interop.allocateNativeString(tmpl).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mkdtemp_full = Interop.downcallHandle(
+        "g_mkdtemp_full",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a temporary directory. See the mkdtemp() documentation
@@ -4484,9 +6780,18 @@ public final class GLib {
      * g_dir_make_tmp() instead.
      */
     public static java.lang.String mkdtempFull(java.lang.String tmpl, int mode) {
-        var RESULT = gtk_h.g_mkdtemp_full(Interop.allocateNativeString(tmpl).handle(), mode);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_mkdtemp_full.invokeExact(Interop.allocateNativeString(tmpl).handle(), mode);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mkstemp = Interop.downcallHandle(
+        "g_mkstemp",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Opens a temporary file. See the mkstemp() documentation
@@ -4501,9 +6806,18 @@ public final class GLib {
      * Most importantly, on Windows it should be in UTF-8.
      */
     public static int mkstemp(java.lang.String tmpl) {
-        var RESULT = gtk_h.g_mkstemp(Interop.allocateNativeString(tmpl).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_mkstemp.invokeExact(Interop.allocateNativeString(tmpl).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mkstemp_full = Interop.downcallHandle(
+        "g_mkstemp_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Opens a temporary file. See the mkstemp() documentation
@@ -4519,21 +6833,48 @@ public final class GLib {
      * on Windows it should be in UTF-8.
      */
     public static int mkstempFull(java.lang.String tmpl, int flags, int mode) {
-        var RESULT = gtk_h.g_mkstemp_full(Interop.allocateNativeString(tmpl).handle(), flags, mode);
-        return RESULT;
+        try {
+            var RESULT = (int) g_mkstemp_full.invokeExact(Interop.allocateNativeString(tmpl).handle(), flags, mode);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_nullify_pointer = Interop.downcallHandle(
+        "g_nullify_pointer",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the pointer at the specified location to {@code null}.
      */
     public static void nullifyPointer(java.lang.foreign.MemoryAddress nullifyLocation) {
-        gtk_h.g_nullify_pointer(nullifyLocation);
+        try {
+            g_nullify_pointer.invokeExact(nullifyLocation);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_number_parser_error_quark = Interop.downcallHandle(
+        "g_number_parser_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark numberParserErrorQuark() {
-        var RESULT = gtk_h.g_number_parser_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_number_parser_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_on_error_query = Interop.downcallHandle(
+        "g_on_error_query",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Prompts the user with
@@ -4584,8 +6925,17 @@ public final class GLib {
      * calling g_on_error_stack_trace() instead.
      */
     public static void onErrorQuery(java.lang.String prgName) {
-        gtk_h.g_on_error_query(Interop.allocateNativeString(prgName).handle());
+        try {
+            g_on_error_query.invokeExact(Interop.allocateNativeString(prgName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_on_error_stack_trace = Interop.downcallHandle(
+        "g_on_error_stack_trace",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Invokes gdb, which attaches to the current process and shows a
@@ -4603,8 +6953,17 @@ public final class GLib {
      * handle that exception (see <a href="glib-running.html)">Running GLib Applications</a>.
      */
     public static void onErrorStackTrace(java.lang.String prgName) {
-        gtk_h.g_on_error_stack_trace(Interop.allocateNativeString(prgName).handle());
+        try {
+            g_on_error_stack_trace.invokeExact(Interop.allocateNativeString(prgName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_once_init_enter = Interop.downcallHandle(
+        "g_once_init_enter",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Function to be called when starting a critical initialization
@@ -4634,9 +6993,18 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static boolean onceInitEnter(java.lang.foreign.MemoryAddress location) {
-        var RESULT = gtk_h.g_once_init_enter(location);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_once_init_enter.invokeExact(location);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_once_init_leave = Interop.downcallHandle(
+        "g_once_init_leave",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Counterpart to g_once_init_enter(). Expects a location of a static
@@ -4649,13 +7017,31 @@ public final class GLib {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static void onceInitLeave(java.lang.foreign.MemoryAddress location, long result) {
-        gtk_h.g_once_init_leave(location, result);
+        try {
+            g_once_init_leave.invokeExact(location, result);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_option_error_quark = Interop.downcallHandle(
+        "g_option_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark optionErrorQuark() {
-        var RESULT = gtk_h.g_option_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_option_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_parse_debug_string = Interop.downcallHandle(
+        "g_parse_debug_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses a string containing debugging options
@@ -4672,9 +7058,18 @@ public final class GLib {
      * are printed out to standard error.
      */
     public static int parseDebugString(java.lang.String string, DebugKey[] keys, int nkeys) {
-        var RESULT = gtk_h.g_parse_debug_string(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(keys).handle(), nkeys);
-        return RESULT;
+        try {
+            var RESULT = (int) g_parse_debug_string.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(keys).handle(), nkeys);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_path_get_basename = Interop.downcallHandle(
+        "g_path_get_basename",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the last component of the filename.
@@ -4685,9 +7080,18 @@ public final class GLib {
      * separator is returned. If {@code file_name} is empty, it gets ".".
      */
     public static java.lang.String pathGetBasename(java.lang.String fileName) {
-        var RESULT = gtk_h.g_path_get_basename(Interop.allocateNativeString(fileName).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_path_get_basename.invokeExact(Interop.allocateNativeString(fileName).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_path_get_dirname = Interop.downcallHandle(
+        "g_path_get_dirname",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the directory components of a file name. For example, the directory
@@ -4698,9 +7102,18 @@ public final class GLib {
      * The returned string should be freed when no longer needed.
      */
     public static java.lang.String pathGetDirname(java.lang.String fileName) {
-        var RESULT = gtk_h.g_path_get_dirname(Interop.allocateNativeString(fileName).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_path_get_dirname.invokeExact(Interop.allocateNativeString(fileName).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_path_is_absolute = Interop.downcallHandle(
+        "g_path_is_absolute",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the given {@code file_name} is an absolute file name.
@@ -4729,9 +7142,18 @@ public final class GLib {
      * Windows-specific code.
      */
     public static boolean pathIsAbsolute(java.lang.String fileName) {
-        var RESULT = gtk_h.g_path_is_absolute(Interop.allocateNativeString(fileName).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_path_is_absolute.invokeExact(Interop.allocateNativeString(fileName).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_path_skip_root = Interop.downcallHandle(
+        "g_path_skip_root",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a pointer into {@code file_name} after the root component,
@@ -4739,9 +7161,18 @@ public final class GLib {
      * is not an absolute path it returns {@code null}.
      */
     public static java.lang.String pathSkipRoot(java.lang.String fileName) {
-        var RESULT = gtk_h.g_path_skip_root(Interop.allocateNativeString(fileName).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_path_skip_root.invokeExact(Interop.allocateNativeString(fileName).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_pattern_match_simple = Interop.downcallHandle(
+        "g_pattern_match_simple",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Matches a string against a pattern given as a string. If this
@@ -4750,9 +7181,18 @@ public final class GLib {
      * g_pattern_match_string() repeatedly.
      */
     public static boolean patternMatchSimple(java.lang.String pattern, java.lang.String string) {
-        var RESULT = gtk_h.g_pattern_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_pattern_match_simple.invokeExact(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_pointer_bit_lock = Interop.downcallHandle(
+        "g_pointer_bit_lock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This is equivalent to g_bit_lock, but working on pointers (or other
@@ -4765,8 +7205,17 @@ public final class GLib {
      * artifact and the argument passed to it should not be {@code volatile}.
      */
     public static void pointerBitLock(java.lang.foreign.MemoryAddress address, int lockBit) {
-        gtk_h.g_pointer_bit_lock(address, lockBit);
+        try {
+            g_pointer_bit_lock.invokeExact(address, lockBit);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_pointer_bit_trylock = Interop.downcallHandle(
+        "g_pointer_bit_trylock",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This is equivalent to g_bit_trylock(), but working on pointers (or
@@ -4779,9 +7228,18 @@ public final class GLib {
      * artifact and the argument passed to it should not be {@code volatile}.
      */
     public static boolean pointerBitTrylock(java.lang.foreign.MemoryAddress address, int lockBit) {
-        var RESULT = gtk_h.g_pointer_bit_trylock(address, lockBit);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_pointer_bit_trylock.invokeExact(address, lockBit);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_pointer_bit_unlock = Interop.downcallHandle(
+        "g_pointer_bit_unlock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This is equivalent to g_bit_unlock, but working on pointers (or other
@@ -4794,8 +7252,17 @@ public final class GLib {
      * artifact and the argument passed to it should not be {@code volatile}.
      */
     public static void pointerBitUnlock(java.lang.foreign.MemoryAddress address, int lockBit) {
-        gtk_h.g_pointer_bit_unlock(address, lockBit);
+        try {
+            g_pointer_bit_unlock.invokeExact(address, lockBit);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_poll = Interop.downcallHandle(
+        "g_poll",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Polls {@code fds}, as with the poll() system call, but portably. (On
@@ -4817,26 +7284,53 @@ public final class GLib {
      * {@code GPollFDs} with g_io_channel_win32_make_pollfd().
      */
     public static int poll(PollFD fds, int nfds, int timeout) {
-        var RESULT = gtk_h.g_poll(fds.handle(), nfds, timeout);
-        return RESULT;
+        try {
+            var RESULT = (int) g_poll.invokeExact(fds.handle(), nfds, timeout);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_prefix_error_literal = Interop.downcallHandle(
+        "g_prefix_error_literal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prefixes {@code prefix} to an existing error message. If {@code err} or *{@code err} is
      * {@code null} (i.e.: no error variable) then do nothing.
      */
     public static void prefixErrorLiteral(Error[] err, java.lang.String prefix) {
-        gtk_h.g_prefix_error_literal(Interop.allocateNativeArray(err).handle(), Interop.allocateNativeString(prefix).handle());
+        try {
+            g_prefix_error_literal.invokeExact(Interop.allocateNativeArray(err).handle(), Interop.allocateNativeString(prefix).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_printf_string_upper_bound = Interop.downcallHandle(
+        "g_printf_string_upper_bound",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calculates the maximum space needed to store the output
      * of the sprintf() function.
      */
     public static long printfStringUpperBound(java.lang.String format, VaList args) {
-        var RESULT = gtk_h.g_printf_string_upper_bound(Interop.allocateNativeString(format).handle(), args);
-        return RESULT;
+        try {
+            var RESULT = (long) g_printf_string_upper_bound.invokeExact(Interop.allocateNativeString(format).handle(), args);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_propagate_error = Interop.downcallHandle(
+        "g_propagate_error",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code dest} is {@code null}, free {@code src}; otherwise, moves {@code src} into *{@code dest}.
@@ -4849,8 +7343,17 @@ public final class GLib {
      * after calling this function on it.
      */
     public static void propagateError(Error[] dest, Error src) {
-        gtk_h.g_propagate_error(Interop.allocateNativeArray(dest).handle(), src.refcounted().unowned().handle());
+        try {
+            g_propagate_error.invokeExact(Interop.allocateNativeArray(dest).handle(), src.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ptr_array_find = Interop.downcallHandle(
+        "g_ptr_array_find",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether {@code needle} exists in {@code haystack}. If the element is found, {@code true} is
@@ -4862,9 +7365,18 @@ public final class GLib {
      * checks, such as string comparisons, use g_ptr_array_find_with_equal_func().
      */
     public static boolean ptrArrayFind(java.lang.foreign.MemoryAddress[] haystack, java.lang.foreign.MemoryAddress needle, PointerInteger index) {
-        var RESULT = gtk_h.g_ptr_array_find(Interop.allocateNativeArray(haystack).handle(), needle, index.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_ptr_array_find.invokeExact(Interop.allocateNativeArray(haystack).handle(), needle, index.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_qsort_with_data = Interop.downcallHandle(
+        "g_qsort_with_data",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This is just like the standard C qsort() function, but
@@ -4874,17 +7386,22 @@ public final class GLib {
      */
     public static void qsortWithData(java.lang.foreign.MemoryAddress pbase, int totalElems, long size, CompareDataFunc compareFunc) {
         try {
-            gtk_h.g_qsort_with_data(pbase, totalElems, size, 
-                    Linker.nativeLinker().upcallStub(
+            g_qsort_with_data.invokeExact(pbase, totalElems, size, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_quark_from_static_string = Interop.downcallHandle(
+        "g_quark_from_static_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link Quark} identifying the given (static) string. If the
@@ -4905,9 +7422,18 @@ public final class GLib {
      * variables in C++.
      */
     public static Quark quarkFromStaticString(java.lang.String string) {
-        var RESULT = gtk_h.g_quark_from_static_string(Interop.allocateNativeString(string).handle());
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_quark_from_static_string.invokeExact(Interop.allocateNativeString(string).handle());
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_quark_from_string = Interop.downcallHandle(
+        "g_quark_from_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link Quark} identifying the given string. If the string does
@@ -4919,17 +7445,35 @@ public final class GLib {
      * variables in C++.
      */
     public static Quark quarkFromString(java.lang.String string) {
-        var RESULT = gtk_h.g_quark_from_string(Interop.allocateNativeString(string).handle());
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_quark_from_string.invokeExact(Interop.allocateNativeString(string).handle());
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_quark_to_string = Interop.downcallHandle(
+        "g_quark_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the string associated with the given {@link Quark}.
      */
     public static java.lang.String quarkToString(Quark quark) {
-        var RESULT = gtk_h.g_quark_to_string(quark.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_quark_to_string.invokeExact(quark.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_quark_try_string = Interop.downcallHandle(
+        "g_quark_try_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link Quark} associated with the given string, or 0 if string is
@@ -4942,60 +7486,123 @@ public final class GLib {
      * running.
      */
     public static Quark quarkTryString(java.lang.String string) {
-        var RESULT = gtk_h.g_quark_try_string(Interop.allocateNativeString(string).handle());
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_quark_try_string.invokeExact(Interop.allocateNativeString(string).handle());
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_random_double = Interop.downcallHandle(
+        "g_random_double",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Returns a random {@code gdouble} equally distributed over the range [0..1).
      */
     public static double randomDouble() {
-        var RESULT = gtk_h.g_random_double();
-        return RESULT;
+        try {
+            var RESULT = (double) g_random_double.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_random_double_range = Interop.downcallHandle(
+        "g_random_double_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Returns a random {@code gdouble} equally distributed over the range
      * [{@code begin}..{@code end}).
      */
     public static double randomDoubleRange(double begin, double end) {
-        var RESULT = gtk_h.g_random_double_range(begin, end);
-        return RESULT;
+        try {
+            var RESULT = (double) g_random_double_range.invokeExact(begin, end);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_random_int = Interop.downcallHandle(
+        "g_random_int",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Return a random {@code guint32} equally distributed over the range
      * [0..2^32-1].
      */
     public static int randomInt() {
-        var RESULT = gtk_h.g_random_int();
-        return RESULT;
+        try {
+            var RESULT = (int) g_random_int.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_random_int_range = Interop.downcallHandle(
+        "g_random_int_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns a random {@code gint32} equally distributed over the range
      * {@code end-1}.
      */
     public static int randomIntRange(int begin, int end) {
-        var RESULT = gtk_h.g_random_int_range(begin, end);
-        return RESULT;
+        try {
+            var RESULT = (int) g_random_int_range.invokeExact(begin, end);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_random_set_seed = Interop.downcallHandle(
+        "g_random_set_seed",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the seed for the global random number generator, which is used
      * by the g_random_* functions, to {@code seed}.
      */
     public static void randomSetSeed(int seed) {
-        gtk_h.g_random_set_seed(seed);
+        try {
+            g_random_set_seed.invokeExact(seed);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rc_box_acquire = Interop.downcallHandle(
+        "g_rc_box_acquire",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Acquires a reference on the data pointed by {@code mem_block}.
      */
     public static java.lang.foreign.MemoryAddress rcBoxAcquire(java.lang.foreign.MemoryAddress memBlock) {
-        var RESULT = gtk_h.g_rc_box_acquire(memBlock);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_rc_box_acquire.invokeExact(memBlock);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rc_box_alloc = Interop.downcallHandle(
+        "g_rc_box_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates {@code block_size} bytes of memory, and adds reference
@@ -5008,9 +7615,18 @@ public final class GLib {
      * built-in type.
      */
     public static java.lang.foreign.MemoryAddress rcBoxAlloc(long blockSize) {
-        var RESULT = gtk_h.g_rc_box_alloc(blockSize);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_rc_box_alloc.invokeExact(blockSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rc_box_alloc0 = Interop.downcallHandle(
+        "g_rc_box_alloc0",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates {@code block_size} bytes of memory, and adds reference
@@ -5025,9 +7641,18 @@ public final class GLib {
      * built-in type.
      */
     public static java.lang.foreign.MemoryAddress rcBoxAlloc0(long blockSize) {
-        var RESULT = gtk_h.g_rc_box_alloc0(blockSize);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_rc_box_alloc0.invokeExact(blockSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rc_box_dup = Interop.downcallHandle(
+        "g_rc_box_dup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Allocates a new block of data with reference counting
@@ -5035,17 +7660,35 @@ public final class GLib {
      * into it.
      */
     public static java.lang.foreign.MemoryAddress rcBoxDup(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
-        var RESULT = gtk_h.g_rc_box_dup(blockSize, memBlock);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_rc_box_dup.invokeExact(blockSize, memBlock);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rc_box_get_size = Interop.downcallHandle(
+        "g_rc_box_get_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the size of the reference counted data pointed by {@code mem_block}.
      */
     public static long rcBoxGetSize(java.lang.foreign.MemoryAddress memBlock) {
-        var RESULT = gtk_h.g_rc_box_get_size(memBlock);
-        return RESULT;
+        try {
+            var RESULT = (long) g_rc_box_get_size.invokeExact(memBlock);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rc_box_release = Interop.downcallHandle(
+        "g_rc_box_release",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases a reference on the data pointed by {@code mem_block}.
@@ -5054,8 +7697,17 @@ public final class GLib {
      * resources allocated for {@code mem_block}.
      */
     public static void rcBoxRelease(java.lang.foreign.MemoryAddress memBlock) {
-        gtk_h.g_rc_box_release(memBlock);
+        try {
+            g_rc_box_release.invokeExact(memBlock);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_realloc = Interop.downcallHandle(
+        "g_realloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Reallocates the memory pointed to by {@code mem}, so that it now has space for
@@ -5065,26 +7717,53 @@ public final class GLib {
      * and {@code mem} will be freed unless it is {@code null}.
      */
     public static java.lang.foreign.MemoryAddress realloc(java.lang.foreign.MemoryAddress mem, long nBytes) {
-        var RESULT = gtk_h.g_realloc(mem, nBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_realloc.invokeExact(mem, nBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_realloc_n = Interop.downcallHandle(
+        "g_realloc_n",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is similar to g_realloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
     public static java.lang.foreign.MemoryAddress reallocN(java.lang.foreign.MemoryAddress mem, long nBlocks, long nBlockBytes) {
-        var RESULT = gtk_h.g_realloc_n(mem, nBlocks, nBlockBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_realloc_n.invokeExact(mem, nBlocks, nBlockBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_count_compare = Interop.downcallHandle(
+        "g_ref_count_compare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Compares the current value of {@code rc} with {@code val}.
      */
     public static boolean refCountCompare(PointerInteger rc, int val) {
-        var RESULT = gtk_h.g_ref_count_compare(rc.handle(), val);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_ref_count_compare.invokeExact(rc.handle(), val);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_count_dec = Interop.downcallHandle(
+        "g_ref_count_dec",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count.
@@ -5094,48 +7773,102 @@ public final class GLib {
      * g_ref_count_init() to be used again.
      */
     public static boolean refCountDec(PointerInteger rc) {
-        var RESULT = gtk_h.g_ref_count_dec(rc.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_ref_count_dec.invokeExact(rc.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_count_inc = Interop.downcallHandle(
+        "g_ref_count_inc",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count.
      */
     public static void refCountInc(PointerInteger rc) {
-        gtk_h.g_ref_count_inc(rc.handle());
+        try {
+            g_ref_count_inc.invokeExact(rc.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_count_init = Interop.downcallHandle(
+        "g_ref_count_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a reference count variable to 1.
      */
     public static void refCountInit(PointerInteger rc) {
-        gtk_h.g_ref_count_init(rc.handle());
+        try {
+            g_ref_count_init.invokeExact(rc.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_string_acquire = Interop.downcallHandle(
+        "g_ref_string_acquire",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Acquires a reference on a string.
      */
     public static java.lang.String refStringAcquire(java.lang.String str) {
-        var RESULT = gtk_h.g_ref_string_acquire(Interop.allocateNativeString(str).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_ref_string_acquire.invokeExact(Interop.allocateNativeString(str).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_string_length = Interop.downcallHandle(
+        "g_ref_string_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the length of {@code str}.
      */
     public static long refStringLength(java.lang.String str) {
-        var RESULT = gtk_h.g_ref_string_length(Interop.allocateNativeString(str).handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_ref_string_length.invokeExact(Interop.allocateNativeString(str).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_string_new = Interop.downcallHandle(
+        "g_ref_string_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new reference counted string and copies the contents of {@code str}
      * into it.
      */
     public static java.lang.String refStringNew(java.lang.String str) {
-        var RESULT = gtk_h.g_ref_string_new(Interop.allocateNativeString(str).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_ref_string_new.invokeExact(Interop.allocateNativeString(str).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_string_new_intern = Interop.downcallHandle(
+        "g_ref_string_new_intern",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new reference counted string and copies the content of {@code str}
@@ -5146,9 +7879,18 @@ public final class GLib {
      * creating a new string.
      */
     public static java.lang.String refStringNewIntern(java.lang.String str) {
-        var RESULT = gtk_h.g_ref_string_new_intern(Interop.allocateNativeString(str).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_ref_string_new_intern.invokeExact(Interop.allocateNativeString(str).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_string_new_len = Interop.downcallHandle(
+        "g_ref_string_new_len",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Creates a new reference counted string and copies the contents of {@code str}
@@ -5158,17 +7900,35 @@ public final class GLib {
      * responsibility to ensure that {@code str} has at least {@code len} addressable bytes.
      */
     public static java.lang.String refStringNewLen(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_ref_string_new_len(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_ref_string_new_len.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ref_string_release = Interop.downcallHandle(
+        "g_ref_string_release",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases a reference on a string; if it was the last reference, the
      * resources allocated by the string are freed as well.
      */
     public static void refStringRelease(java.lang.String str) {
-        gtk_h.g_ref_string_release(Interop.allocateNativeString(str).handle());
+        try {
+            g_ref_string_release.invokeExact(Interop.allocateNativeString(str).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_check_replacement = Interop.downcallHandle(
+        "g_regex_check_replacement",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks whether {@code replacement} is a valid replacement string
@@ -5183,17 +7943,35 @@ public final class GLib {
      */
     public static boolean regexCheckReplacement(java.lang.String replacement, PointerBoolean hasReferences) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_check_replacement(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_regex_check_replacement.invokeExact(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
+    static final MethodHandle g_regex_error_quark = Interop.downcallHandle(
+        "g_regex_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark regexErrorQuark() {
-        var RESULT = gtk_h.g_regex_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_regex_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_escape_nul = Interop.downcallHandle(
+        "g_regex_escape_nul",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Escapes the nul characters in {@code string} to "\\x00".  It can be used
@@ -5203,9 +7981,18 @@ public final class GLib {
      * In this case the output string will be of course equal to {@code string}.
      */
     public static java.lang.String regexEscapeNul(java.lang.String string, int length) {
-        var RESULT = gtk_h.g_regex_escape_nul(Interop.allocateNativeString(string).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_regex_escape_nul.invokeExact(Interop.allocateNativeString(string).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_escape_string = Interop.downcallHandle(
+        "g_regex_escape_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Escapes the special characters used for regular expressions
@@ -5217,9 +8004,18 @@ public final class GLib {
      * in {@code length}.
      */
     public static java.lang.String regexEscapeString(java.lang.String[] string, int length) {
-        var RESULT = gtk_h.g_regex_escape_string(Interop.allocateNativeArray(string).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_regex_escape_string.invokeExact(Interop.allocateNativeArray(string).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_match_simple = Interop.downcallHandle(
+        "g_regex_match_simple",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Scans for a match in {@code string} for {@code pattern}.
@@ -5234,9 +8030,18 @@ public final class GLib {
      * g_regex_new() and then use g_regex_match().
      */
     public static boolean regexMatchSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
-        var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_regex_match_simple.invokeExact(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_split_simple = Interop.downcallHandle(
+        "g_regex_split_simple",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Breaks the string on the pattern, and returns an array of
@@ -5268,9 +8073,18 @@ public final class GLib {
      * "\\s*", you will get "a", "b" and "c".
      */
     public static PointerIterator<java.lang.String> regexSplitSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
-        var RESULT = gtk_h.g_regex_split_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_regex_split_simple.invokeExact(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_reload_user_special_dirs_cache = Interop.downcallHandle(
+        "g_reload_user_special_dirs_cache",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Resets the cache used for g_get_user_special_dir(), so
@@ -5283,16 +8097,34 @@ public final class GLib {
      * the directories that actually changed value though.
      */
     public static void reloadUserSpecialDirsCache() {
-        gtk_h.g_reload_user_special_dirs_cache();
+        try {
+            g_reload_user_special_dirs_cache.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_return_if_fail_warning = Interop.downcallHandle(
+        "g_return_if_fail_warning",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Internal function used to print messages from the public g_return_if_fail()
      * and g_return_val_if_fail() macros.
      */
     public static void returnIfFailWarning(java.lang.String logDomain, java.lang.String prettyFunction, java.lang.String expression) {
-        gtk_h.g_return_if_fail_warning(Interop.allocateNativeString(logDomain).handle(), Interop.allocateNativeString(prettyFunction).handle(), Interop.allocateNativeString(expression).handle());
+        try {
+            g_return_if_fail_warning.invokeExact(Interop.allocateNativeString(logDomain).handle(), Interop.allocateNativeString(prettyFunction).handle(), Interop.allocateNativeString(expression).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rmdir = Interop.downcallHandle(
+        "g_rmdir",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A wrapper for the POSIX rmdir() function. The rmdir() function
@@ -5302,25 +8134,52 @@ public final class GLib {
      * on your system.
      */
     public static int rmdir(java.lang.String filename) {
-        var RESULT = gtk_h.g_rmdir(Interop.allocateNativeString(filename).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_rmdir.invokeExact(Interop.allocateNativeString(filename).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_get = Interop.downcallHandle(
+        "g_sequence_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the data that {@code iter} points to.
      */
     public static java.lang.foreign.MemoryAddress sequenceGet(SequenceIter iter) {
-        var RESULT = gtk_h.g_sequence_get(iter.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_sequence_get.invokeExact(iter.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_insert_before = Interop.downcallHandle(
+        "g_sequence_insert_before",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new item just before the item pointed to by {@code iter}.
      */
     public static SequenceIter sequenceInsertBefore(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_sequence_insert_before(iter.handle(), data);
-        return new SequenceIter(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_sequence_insert_before.invokeExact(iter.handle(), data);
+            return new SequenceIter(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_move = Interop.downcallHandle(
+        "g_sequence_move",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves the item pointed to by {@code src} to the position indicated by {@code dest}.
@@ -5329,8 +8188,17 @@ public final class GLib {
      * sequences.
      */
     public static void sequenceMove(SequenceIter src, SequenceIter dest) {
-        gtk_h.g_sequence_move(src.handle(), dest.handle());
+        try {
+            g_sequence_move.invokeExact(src.handle(), dest.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_move_range = Interop.downcallHandle(
+        "g_sequence_move_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts the ({@code begin}, {@code end}) range at the destination pointed to by {@code dest}.
@@ -5343,8 +8211,17 @@ public final class GLib {
      * the ({@code begin}, {@code end}) range, the range does not move.
      */
     public static void sequenceMoveRange(SequenceIter dest, SequenceIter begin, SequenceIter end) {
-        gtk_h.g_sequence_move_range(dest.handle(), begin.handle(), end.handle());
+        try {
+            g_sequence_move_range.invokeExact(dest.handle(), begin.handle(), end.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_range_get_midpoint = Interop.downcallHandle(
+        "g_sequence_range_get_midpoint",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds an iterator somewhere in the range ({@code begin}, {@code end}). This
@@ -5355,9 +8232,18 @@ public final class GLib {
      * and {@code begin} must come before or be equal to {@code end} in the sequence.
      */
     public static SequenceIter sequenceRangeGetMidpoint(SequenceIter begin, SequenceIter end) {
-        var RESULT = gtk_h.g_sequence_range_get_midpoint(begin.handle(), end.handle());
-        return new SequenceIter(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_sequence_range_get_midpoint.invokeExact(begin.handle(), end.handle());
+            return new SequenceIter(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_remove = Interop.downcallHandle(
+        "g_sequence_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes the item pointed to by {@code iter}. It is an error to pass the
@@ -5367,8 +8253,17 @@ public final class GLib {
      * function is called on the data for the removed item.
      */
     public static void sequenceRemove(SequenceIter iter) {
-        gtk_h.g_sequence_remove(iter.handle());
+        try {
+            g_sequence_remove.invokeExact(iter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_remove_range = Interop.downcallHandle(
+        "g_sequence_remove_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all items in the ({@code begin}, {@code end}) range.
@@ -5377,8 +8272,17 @@ public final class GLib {
      * function is called on the data for the removed items.
      */
     public static void sequenceRemoveRange(SequenceIter begin, SequenceIter end) {
-        gtk_h.g_sequence_remove_range(begin.handle(), end.handle());
+        try {
+            g_sequence_remove_range.invokeExact(begin.handle(), end.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_set = Interop.downcallHandle(
+        "g_sequence_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Changes the data for the item pointed to by {@code iter} to be {@code data}. If
@@ -5386,16 +8290,34 @@ public final class GLib {
      * function is called on the existing data that {@code iter} pointed to.
      */
     public static void sequenceSet(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
-        gtk_h.g_sequence_set(iter.handle(), data);
+        try {
+            g_sequence_set.invokeExact(iter.handle(), data);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_sequence_swap = Interop.downcallHandle(
+        "g_sequence_swap",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Swaps the items pointed to by @a and @b. It is allowed for @a and @b
      * to point into difference sequences.
      */
     public static void sequenceSwap(SequenceIter a, SequenceIter b) {
-        gtk_h.g_sequence_swap(a.handle(), b.handle());
+        try {
+            g_sequence_swap.invokeExact(a.handle(), b.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_set_application_name = Interop.downcallHandle(
+        "g_set_application_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a human-readable name for the application. This name should be
@@ -5411,8 +8333,17 @@ public final class GLib {
      * or when displaying an application's name in the task list.
      */
     public static void setApplicationName(java.lang.String applicationName) {
-        gtk_h.g_set_application_name(Interop.allocateNativeString(applicationName).handle());
+        try {
+            g_set_application_name.invokeExact(Interop.allocateNativeString(applicationName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_set_error_literal = Interop.downcallHandle(
+        "g_set_error_literal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Does nothing if {@code err} is {@code null}; if {@code err} is non-{@code null}, then *{@code err}
@@ -5422,8 +8353,17 @@ public final class GLib {
      * that could include printf() escape sequences.
      */
     public static void setErrorLiteral(Error[] err, Quark domain, int code, java.lang.String message) {
-        gtk_h.g_set_error_literal(Interop.allocateNativeArray(err).handle(), domain.getValue(), code, Interop.allocateNativeString(message).handle());
+        try {
+            g_set_error_literal.invokeExact(Interop.allocateNativeArray(err).handle(), domain.getValue(), code, Interop.allocateNativeString(message).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_set_prgname = Interop.downcallHandle(
+        "g_set_prgname",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name of the program. This name should not be localized,
@@ -5440,8 +8380,17 @@ public final class GLib {
      * could only be called once per process.
      */
     public static void setPrgname(java.lang.String prgname) {
-        gtk_h.g_set_prgname(Interop.allocateNativeString(prgname).handle());
+        try {
+            g_set_prgname.invokeExact(Interop.allocateNativeString(prgname).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_setenv = Interop.downcallHandle(
+        "g_setenv",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets an environment variable. On UNIX, both the variable's name and
@@ -5465,14 +8414,32 @@ public final class GLib {
      * array directly to execvpe(), g_spawn_async(), or the like.
      */
     public static boolean setenv(java.lang.String variable, java.lang.String value, boolean overwrite) {
-        var RESULT = gtk_h.g_setenv(Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_setenv.invokeExact(Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_shell_error_quark = Interop.downcallHandle(
+        "g_shell_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark shellErrorQuark() {
-        var RESULT = gtk_h.g_shell_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_shell_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_shell_parse_argv = Interop.downcallHandle(
+        "g_shell_parse_argv",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses a command line into an argument vector, in much the same way
@@ -5496,12 +8463,21 @@ public final class GLib {
      */
     public static boolean shellParseArgv(java.lang.String commandLine, PointerInteger argcp, java.lang.String[] argvp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_shell_parse_argv(Interop.allocateNativeString(commandLine).handle(), argcp.handle(), Interop.allocateNativeArray(argvp).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_shell_parse_argv.invokeExact(Interop.allocateNativeString(commandLine).handle(), argcp.handle(), Interop.allocateNativeArray(argvp).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_shell_quote = Interop.downcallHandle(
+        "g_shell_quote",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Quotes a string so that the shell (/bin/sh) will interpret the
@@ -5516,9 +8492,18 @@ public final class GLib {
      * used).
      */
     public static java.lang.String shellQuote(java.lang.String unquotedString) {
-        var RESULT = gtk_h.g_shell_quote(Interop.allocateNativeString(unquotedString).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_shell_quote.invokeExact(Interop.allocateNativeString(unquotedString).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_shell_unquote = Interop.downcallHandle(
+        "g_shell_unquote",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unquotes a string as the shell (/bin/sh) would.
@@ -5551,12 +8536,21 @@ public final class GLib {
      */
     public static java.lang.String shellUnquote(java.lang.String quotedString) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_shell_unquote(Interop.allocateNativeString(quotedString).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_shell_unquote.invokeExact(Interop.allocateNativeString(quotedString).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_slice_alloc = Interop.downcallHandle(
+        "g_slice_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates a block of memory from the slice allocator.
@@ -5572,9 +8566,18 @@ public final class GLib {
      * environment variable.
      */
     public static java.lang.foreign.MemoryAddress sliceAlloc(long blockSize) {
-        var RESULT = gtk_h.g_slice_alloc(blockSize);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_slice_alloc.invokeExact(blockSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_slice_alloc0 = Interop.downcallHandle(
+        "g_slice_alloc0",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Allocates a block of memory via g_slice_alloc() and initializes
@@ -5583,9 +8586,18 @@ public final class GLib {
      * environment variable.
      */
     public static java.lang.foreign.MemoryAddress sliceAlloc0(long blockSize) {
-        var RESULT = gtk_h.g_slice_alloc0(blockSize);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_slice_alloc0.invokeExact(blockSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_slice_copy = Interop.downcallHandle(
+        "g_slice_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Allocates a block of memory from the slice allocator
@@ -5594,9 +8606,18 @@ public final class GLib {
      * {@code mem_block} must be non-{@code null} if {@code block_size} is non-zero.
      */
     public static java.lang.foreign.MemoryAddress sliceCopy(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
-        var RESULT = gtk_h.g_slice_copy(blockSize, memBlock);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_slice_copy.invokeExact(blockSize, memBlock);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_slice_free1 = Interop.downcallHandle(
+        "g_slice_free1",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a block of memory.
@@ -5610,8 +8631,17 @@ public final class GLib {
      * If {@code mem_block} is {@code null}, this function does nothing.
      */
     public static void sliceFree1(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
-        gtk_h.g_slice_free1(blockSize, memBlock);
+        try {
+            g_slice_free1.invokeExact(blockSize, memBlock);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_slice_free_chain_with_offset = Interop.downcallHandle(
+        "g_slice_free_chain_with_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Frees a linked list of memory blocks of structure type {@code type}.
@@ -5627,22 +8657,58 @@ public final class GLib {
      * If {@code mem_chain} is {@code null}, this function does nothing.
      */
     public static void sliceFreeChainWithOffset(long blockSize, java.lang.foreign.MemoryAddress memChain, long nextOffset) {
-        gtk_h.g_slice_free_chain_with_offset(blockSize, memChain, nextOffset);
+        try {
+            g_slice_free_chain_with_offset.invokeExact(blockSize, memChain, nextOffset);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_slice_get_config = Interop.downcallHandle(
+        "g_slice_get_config",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     public static long sliceGetConfig(SliceConfig ckey) {
-        var RESULT = gtk_h.g_slice_get_config(ckey.getValue());
-        return RESULT;
+        try {
+            var RESULT = (long) g_slice_get_config.invokeExact(ckey.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_slice_get_config_state = Interop.downcallHandle(
+        "g_slice_get_config_state",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     public static PointerLong sliceGetConfigState(SliceConfig ckey, long address, PointerInteger nValues) {
-        var RESULT = gtk_h.g_slice_get_config_state(ckey.getValue(), address, nValues.handle());
-        return new PointerLong(RESULT);
+        try {
+            var RESULT = (MemoryAddress) g_slice_get_config_state.invokeExact(ckey.getValue(), address, nValues.handle());
+            return new PointerLong(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_slice_set_config = Interop.downcallHandle(
+        "g_slice_set_config",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
+    );
+    
     public static void sliceSetConfig(SliceConfig ckey, long value) {
-        gtk_h.g_slice_set_config(ckey.getValue(), value);
+        try {
+            g_slice_set_config.invokeExact(ckey.getValue(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove = Interop.downcallHandle(
+        "g_source_remove",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the source with the given ID from the default main context. You must
@@ -5666,9 +8732,18 @@ public final class GLib {
      * wrong source.
      */
     public static boolean sourceRemove(int tag) {
-        var RESULT = gtk_h.g_source_remove(tag);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_source_remove.invokeExact(tag);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove_by_funcs_user_data = Interop.downcallHandle(
+        "g_source_remove_by_funcs_user_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a source from the default main loop context given the
@@ -5676,9 +8751,18 @@ public final class GLib {
      * same source functions and user data, only one will be destroyed.
      */
     public static boolean sourceRemoveByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_source_remove_by_funcs_user_data(funcs.handle(), userData);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_source_remove_by_funcs_user_data.invokeExact(funcs.handle(), userData);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove_by_user_data = Interop.downcallHandle(
+        "g_source_remove_by_user_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a source from the default main loop context given the user
@@ -5686,9 +8770,18 @@ public final class GLib {
      * data, only one will be destroyed.
      */
     public static boolean sourceRemoveByUserData(java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_source_remove_by_user_data(userData);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_source_remove_by_user_data.invokeExact(userData);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_name_by_id = Interop.downcallHandle(
+        "g_source_set_name_by_id",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name of a source using its ID.
@@ -5709,8 +8802,17 @@ public final class GLib {
      * wrong source.
      */
     public static void sourceSetNameById(int tag, java.lang.String name) {
-        gtk_h.g_source_set_name_by_id(tag, Interop.allocateNativeString(name).handle());
+        try {
+            g_source_set_name_by_id.invokeExact(tag, Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_spaced_primes_closest = Interop.downcallHandle(
+        "g_spaced_primes_closest",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the smallest prime number from a built-in array of primes which
@@ -5721,9 +8823,18 @@ public final class GLib {
      * each prime is approximately 1.5-2 times the previous prime.
      */
     public static int spacedPrimesClosest(int num) {
-        var RESULT = gtk_h.g_spaced_primes_closest(num);
-        return RESULT;
+        try {
+            var RESULT = (int) g_spaced_primes_closest.invokeExact(num);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_spawn_async = Interop.downcallHandle(
+        "g_spawn_async",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Executes a child program asynchronously.
@@ -5747,22 +8858,27 @@ public final class GLib {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
         try {
-            var RESULT = gtk_h.g_spawn_async(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_spawn_async.invokeExact(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), GERROR);
+            childPid.setValue(childPidPOINTER.get());
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            childPid.setValue(childPidPOINTER.get());
             return RESULT != 0;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_spawn_async_with_fds = Interop.downcallHandle(
+        "g_spawn_async_with_fds",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Executes a child program asynchronously.
@@ -5774,22 +8890,27 @@ public final class GLib {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
         try {
-            var RESULT = gtk_h.g_spawn_async_with_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_spawn_async_with_fds.invokeExact(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), stdinFd, stdoutFd, stderrFd, GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), stdinFd, stdoutFd, stderrFd, GERROR);
+            childPid.setValue(childPidPOINTER.get());
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            childPid.setValue(childPidPOINTER.get());
             return RESULT != 0;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_spawn_async_with_pipes = Interop.downcallHandle(
+        "g_spawn_async_with_pipes",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Identical to g_spawn_async_with_pipes_and_fds() but with {@code n_fds} set to zero,
@@ -5799,22 +8920,27 @@ public final class GLib {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
         try {
-            var RESULT = gtk_h.g_spawn_async_with_pipes(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_spawn_async_with_pipes.invokeExact(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), GERROR);
+            childPid.setValue(childPidPOINTER.get());
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            childPid.setValue(childPidPOINTER.get());
             return RESULT != 0;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_spawn_async_with_pipes_and_fds = Interop.downcallHandle(
+        "g_spawn_async_with_pipes_and_fds",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Executes a child program asynchronously (your program will not
@@ -6010,22 +9136,27 @@ public final class GLib {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         PointerInteger childPidOutPOINTER = new PointerInteger(childPidOut.getValue());
         try {
-            var RESULT = gtk_h.g_spawn_async_with_pipes_and_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_spawn_async_with_pipes_and_fds.invokeExact(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, Interop.allocateNativeArray(sourceFds).handle(), Interop.allocateNativeArray(targetFds).handle(), nFds, new PointerInteger(childPidOut.getValue()).handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, Interop.allocateNativeArray(sourceFds).handle(), Interop.allocateNativeArray(targetFds).handle(), nFds, new PointerInteger(childPidOut.getValue()).handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), GERROR);
+            childPidOut.setValue(childPidOutPOINTER.get());
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            childPidOut.setValue(childPidOutPOINTER.get());
             return RESULT != 0;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_spawn_check_wait_status = Interop.downcallHandle(
+        "g_spawn_check_wait_status",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set {@code error} if {@code wait_status} indicates the child exited abnormally
@@ -6070,12 +9201,21 @@ public final class GLib {
      */
     public static boolean spawnCheckWaitStatus(int waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_spawn_check_wait_status(waitStatus, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_spawn_check_wait_status.invokeExact(waitStatus, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_spawn_close_pid = Interop.downcallHandle(
+        "g_spawn_close_pid",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * On some platforms, notably Windows, the {@link Pid} type represents a resource
@@ -6084,8 +9224,17 @@ public final class GLib {
      * though it doesn't do anything under UNIX.
      */
     public static void spawnClosePid(Pid pid) {
-        gtk_h.g_spawn_close_pid(pid.getValue());
+        try {
+            g_spawn_close_pid.invokeExact(pid.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_spawn_command_line_async = Interop.downcallHandle(
+        "g_spawn_command_line_async",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A simple version of g_spawn_async() that parses a command line with
@@ -6101,12 +9250,21 @@ public final class GLib {
      */
     public static boolean spawnCommandLineAsync(java.lang.String commandLine) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_spawn_command_line_async(Interop.allocateNativeString(commandLine).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_spawn_command_line_async.invokeExact(Interop.allocateNativeString(commandLine).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_spawn_command_line_sync = Interop.downcallHandle(
+        "g_spawn_command_line_sync",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A simple version of g_spawn_sync() with little-used parameters
@@ -6141,22 +9299,49 @@ public final class GLib {
      */
     public static boolean spawnCommandLineSync(java.lang.String commandLine, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_spawn_command_line_sync(Interop.allocateNativeString(commandLine).handle(), Interop.allocateNativeArray(standardOutput).handle(), Interop.allocateNativeArray(standardError).handle(), waitStatus.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_spawn_command_line_sync.invokeExact(Interop.allocateNativeString(commandLine).handle(), Interop.allocateNativeArray(standardOutput).handle(), Interop.allocateNativeArray(standardError).handle(), waitStatus.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_spawn_error_quark = Interop.downcallHandle(
+        "g_spawn_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     public static Quark spawnErrorQuark() {
-        var RESULT = gtk_h.g_spawn_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_spawn_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_spawn_exit_error_quark = Interop.downcallHandle(
+        "g_spawn_exit_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark spawnExitErrorQuark() {
-        var RESULT = gtk_h.g_spawn_exit_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_spawn_exit_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_spawn_sync = Interop.downcallHandle(
+        "g_spawn_sync",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Executes a child synchronously (waits for the child to exit before returning).
@@ -6186,21 +9371,26 @@ public final class GLib {
     public static boolean spawnSync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, SpawnFlags flags, SpawnChildSetupFunc childSetup, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = gtk_h.g_spawn_sync(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_spawn_sync.invokeExact(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), Interop.allocateNativeArray(standardOutput).handle(), Interop.allocateNativeArray(standardError).handle(), waitStatus.handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), Interop.allocateNativeArray(standardOutput).handle(), Interop.allocateNativeArray(standardError).handle(), waitStatus.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
             return RESULT != 0;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_stpcpy = Interop.downcallHandle(
+        "g_stpcpy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Copies a nul-terminated string into the dest buffer, include the
@@ -6209,9 +9399,18 @@ public final class GLib {
      * without having to repeatedly scan for the end.
      */
     public static java.lang.String stpcpy(java.lang.String dest, java.lang.String src) {
-        var RESULT = gtk_h.g_stpcpy(Interop.allocateNativeString(dest).handle(), Interop.allocateNativeString(src).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_stpcpy.invokeExact(Interop.allocateNativeString(dest).handle(), Interop.allocateNativeString(src).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_str_equal = Interop.downcallHandle(
+        "g_str_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two strings for byte-by-byte equality and returns {@code true}
@@ -6224,25 +9423,52 @@ public final class GLib {
      * comparison function, see g_strcmp0().
      */
     public static boolean strEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
-        var RESULT = gtk_h.g_str_equal(v1, v2);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_str_equal.invokeExact(v1, v2);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_str_has_prefix = Interop.downcallHandle(
+        "g_str_has_prefix",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks whether the string {@code str} begins with {@code prefix}.
      */
     public static boolean strHasPrefix(java.lang.String str, java.lang.String prefix) {
-        var RESULT = gtk_h.g_str_has_prefix(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(prefix).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_str_has_prefix.invokeExact(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(prefix).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_str_has_suffix = Interop.downcallHandle(
+        "g_str_has_suffix",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks whether the string {@code str} ends with {@code suffix}.
      */
     public static boolean strHasSuffix(java.lang.String str, java.lang.String suffix) {
-        var RESULT = gtk_h.g_str_has_suffix(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(suffix).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_str_has_suffix.invokeExact(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(suffix).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_str_hash = Interop.downcallHandle(
+        "g_str_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string to a hash value.
@@ -6261,18 +9487,36 @@ public final class GLib {
      * as 2.
      */
     public static int strHash(java.lang.foreign.MemoryAddress v) {
-        var RESULT = gtk_h.g_str_hash(v);
-        return RESULT;
+        try {
+            var RESULT = (int) g_str_hash.invokeExact(v);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_str_is_ascii = Interop.downcallHandle(
+        "g_str_is_ascii",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if a string is pure ASCII. A string is pure ASCII if it
      * contains no bytes with the high bit set.
      */
     public static boolean strIsAscii(java.lang.String str) {
-        var RESULT = gtk_h.g_str_is_ascii(Interop.allocateNativeString(str).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_str_is_ascii.invokeExact(Interop.allocateNativeString(str).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_str_match_string = Interop.downcallHandle(
+        "g_str_match_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks if a search conducted for {@code search_term} should match
@@ -6299,9 +9543,18 @@ public final class GLib {
      * Baz’, but not ‘SFO’ (because no word has ‘fo’ as a prefix).
      */
     public static boolean strMatchString(java.lang.String searchTerm, java.lang.String potentialHit, boolean acceptAlternates) {
-        var RESULT = gtk_h.g_str_match_string(Interop.allocateNativeString(searchTerm).handle(), Interop.allocateNativeString(potentialHit).handle(), acceptAlternates ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_str_match_string.invokeExact(Interop.allocateNativeString(searchTerm).handle(), Interop.allocateNativeString(potentialHit).handle(), acceptAlternates ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_str_to_ascii = Interop.downcallHandle(
+        "g_str_to_ascii",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transliterate {@code str} to plain ASCII.
@@ -6324,9 +9577,18 @@ public final class GLib {
      * {@code from_locale}.
      */
     public static java.lang.String strToAscii(java.lang.String str, java.lang.String fromLocale) {
-        var RESULT = gtk_h.g_str_to_ascii(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(fromLocale).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_str_to_ascii.invokeExact(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(fromLocale).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_str_tokenize_and_fold = Interop.downcallHandle(
+        "g_str_tokenize_and_fold",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tokenises {@code string} and performs folding on each token.
@@ -6346,9 +9608,18 @@ public final class GLib {
      * known.
      */
     public static PointerIterator<java.lang.String> strTokenizeAndFold(java.lang.String string, java.lang.String translitLocale, java.lang.String[] asciiAlternates) {
-        var RESULT = gtk_h.g_str_tokenize_and_fold(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(translitLocale).handle(), Interop.allocateNativeArray(asciiAlternates).handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_str_tokenize_and_fold.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(translitLocale).handle(), Interop.allocateNativeArray(asciiAlternates).handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strcanon = Interop.downcallHandle(
+        "g_strcanon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * For each character in {@code string}, if the character is not in {@code valid_chars},
@@ -6370,9 +9641,18 @@ public final class GLib {
      * }</pre>
      */
     public static java.lang.String strcanon(java.lang.String string, java.lang.String validChars, byte substitutor) {
-        var RESULT = gtk_h.g_strcanon(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(validChars).handle(), substitutor);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strcanon.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(validChars).handle(), substitutor);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strchomp = Interop.downcallHandle(
+        "g_strchomp",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes trailing whitespace from a string.
@@ -6386,9 +9666,18 @@ public final class GLib {
      * Also see g_strchug() and g_strstrip().
      */
     public static java.lang.String strchomp(java.lang.String string) {
-        var RESULT = gtk_h.g_strchomp(Interop.allocateNativeString(string).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strchomp.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strchug = Interop.downcallHandle(
+        "g_strchug",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes leading whitespace from a string, by moving the rest
@@ -6403,9 +9692,18 @@ public final class GLib {
      * Also see g_strchomp() and g_strstrip().
      */
     public static java.lang.String strchug(java.lang.String string) {
-        var RESULT = gtk_h.g_strchug(Interop.allocateNativeString(string).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strchug.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strcmp0 = Interop.downcallHandle(
+        "g_strcmp0",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares {@code str1} and {@code str2} like strcmp(). Handles {@code null}
@@ -6413,9 +9711,18 @@ public final class GLib {
      * Comparing two {@code null} pointers returns 0.
      */
     public static int strcmp0(java.lang.String str1, java.lang.String str2) {
-        var RESULT = gtk_h.g_strcmp0(Interop.allocateNativeString(str1).handle(), Interop.allocateNativeString(str2).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_strcmp0.invokeExact(Interop.allocateNativeString(str1).handle(), Interop.allocateNativeString(str2).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strcompress = Interop.downcallHandle(
+        "g_strcompress",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Replaces all escaped characters with their one byte equivalent.
@@ -6423,9 +9730,18 @@ public final class GLib {
      * This function does the reverse conversion of g_strescape().
      */
     public static java.lang.String strcompress(java.lang.String source) {
-        var RESULT = gtk_h.g_strcompress(Interop.allocateNativeString(source).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strcompress.invokeExact(Interop.allocateNativeString(source).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strdelimit = Interop.downcallHandle(
+        "g_strdelimit",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Converts any delimiter characters in {@code string} to {@code new_delimiter}.
@@ -6449,9 +9765,18 @@ public final class GLib {
      * }</pre>
      */
     public static java.lang.String strdelimit(java.lang.String string, java.lang.String delimiters, byte newDelimiter) {
-        var RESULT = gtk_h.g_strdelimit(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiters).handle(), newDelimiter);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strdelimit.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiters).handle(), newDelimiter);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strdup = Interop.downcallHandle(
+        "g_strdup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Duplicates a string. If {@code str} is {@code null} it returns {@code null}.
@@ -6459,9 +9784,18 @@ public final class GLib {
      * when no longer needed.
      */
     public static java.lang.String strdup(java.lang.String str) {
-        var RESULT = gtk_h.g_strdup(Interop.allocateNativeString(str).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strdup.invokeExact(Interop.allocateNativeString(str).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strdup_vprintf = Interop.downcallHandle(
+        "g_strdup_vprintf",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Similar to the standard C vsprintf() function but safer, since it
@@ -6477,9 +9811,18 @@ public final class GLib {
      * additionally returns the length of the allocated string.
      */
     public static java.lang.String strdupVprintf(java.lang.String format, VaList args) {
-        var RESULT = gtk_h.g_strdup_vprintf(Interop.allocateNativeString(format).handle(), args);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strdup_vprintf.invokeExact(Interop.allocateNativeString(format).handle(), args);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strdupv = Interop.downcallHandle(
+        "g_strdupv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Copies {@code null}-terminated array of strings. The copy is a deep copy;
@@ -6488,9 +9831,18 @@ public final class GLib {
      * on a {@code null} value, g_strdupv() simply returns {@code null}.
      */
     public static PointerIterator<java.lang.String> strdupv(java.lang.String[] strArray) {
-        var RESULT = gtk_h.g_strdupv(Interop.allocateNativeArray(strArray).handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_strdupv.invokeExact(Interop.allocateNativeArray(strArray).handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strerror = Interop.downcallHandle(
+        "g_strerror",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns a string corresponding to the given error code, e.g. "no
@@ -6513,9 +9865,18 @@ public final class GLib {
      * }</pre>
      */
     public static java.lang.String strerror(int errnum) {
-        var RESULT = gtk_h.g_strerror(errnum);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strerror.invokeExact(errnum);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strescape = Interop.downcallHandle(
+        "g_strescape",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Escapes the special characters '\\b', '\\f', '\\n', '\\r', '\\t', '\\v', '\\'
@@ -6528,9 +9889,18 @@ public final class GLib {
      * g_strcompress() does the reverse conversion.
      */
     public static java.lang.String strescape(java.lang.String source, java.lang.String exceptions) {
-        var RESULT = gtk_h.g_strescape(Interop.allocateNativeString(source).handle(), Interop.allocateNativeString(exceptions).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strescape.invokeExact(Interop.allocateNativeString(source).handle(), Interop.allocateNativeString(exceptions).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strfreev = Interop.downcallHandle(
+        "g_strfreev",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a {@code null}-terminated array of strings, as well as each
@@ -6539,16 +9909,34 @@ public final class GLib {
      * If {@code str_array} is {@code null}, this function simply returns.
      */
     public static void strfreev(java.lang.String[] strArray) {
-        gtk_h.g_strfreev(Interop.allocateNativeArray(strArray).handle());
+        try {
+            g_strfreev.invokeExact(Interop.allocateNativeArray(strArray).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strip_context = Interop.downcallHandle(
+        "g_strip_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * An auxiliary function for gettext() support (see Q_()).
      */
     public static java.lang.String stripContext(java.lang.String msgid, java.lang.String msgval) {
-        var RESULT = gtk_h.g_strip_context(Interop.allocateNativeString(msgid).handle(), Interop.allocateNativeString(msgval).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strip_context.invokeExact(Interop.allocateNativeString(msgid).handle(), Interop.allocateNativeString(msgval).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strjoinv = Interop.downcallHandle(
+        "g_strjoinv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Joins a number of strings together to form one long string, with the
@@ -6560,9 +9948,18 @@ public final class GLib {
      * appear in the resulting string.
      */
     public static java.lang.String strjoinv(java.lang.String separator, java.lang.String[] strArray) {
-        var RESULT = gtk_h.g_strjoinv(Interop.allocateNativeString(separator).handle(), Interop.allocateNativeArray(strArray).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strjoinv.invokeExact(Interop.allocateNativeString(separator).handle(), Interop.allocateNativeArray(strArray).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strlcat = Interop.downcallHandle(
+        "g_strlcat",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Portability wrapper that calls strlcat() on systems which have it,
@@ -6580,9 +9977,18 @@ public final class GLib {
      * strncat(), but for real security g_strconcat() is harder to mess up.
      */
     public static long strlcat(java.lang.String dest, java.lang.String src, long destSize) {
-        var RESULT = gtk_h.g_strlcat(Interop.allocateNativeString(dest).handle(), Interop.allocateNativeString(src).handle(), destSize);
-        return RESULT;
+        try {
+            var RESULT = (long) g_strlcat.invokeExact(Interop.allocateNativeString(dest).handle(), Interop.allocateNativeString(src).handle(), destSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strlcpy = Interop.downcallHandle(
+        "g_strlcpy",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Portability wrapper that calls strlcpy() on systems which have it,
@@ -6601,9 +10007,18 @@ public final class GLib {
      * idea.
      */
     public static long strlcpy(java.lang.String dest, java.lang.String src, long destSize) {
-        var RESULT = gtk_h.g_strlcpy(Interop.allocateNativeString(dest).handle(), Interop.allocateNativeString(src).handle(), destSize);
-        return RESULT;
+        try {
+            var RESULT = (long) g_strlcpy.invokeExact(Interop.allocateNativeString(dest).handle(), Interop.allocateNativeString(src).handle(), destSize);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strndup = Interop.downcallHandle(
+        "g_strndup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Duplicates the first @n bytes of a string, returning a newly-allocated
@@ -6616,18 +10031,36 @@ public final class GLib {
      * use g_utf8_strncpy() instead.
      */
     public static java.lang.String strndup(java.lang.String str, long n) {
-        var RESULT = gtk_h.g_strndup(Interop.allocateNativeString(str).handle(), n);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strndup.invokeExact(Interop.allocateNativeString(str).handle(), n);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strnfill = Interop.downcallHandle(
+        "g_strnfill",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Creates a new string {@code length} bytes long filled with {@code fill_char}.
      * The returned string should be freed when no longer needed.
      */
     public static java.lang.String strnfill(long length, byte fillChar) {
-        var RESULT = gtk_h.g_strnfill(length, fillChar);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strnfill.invokeExact(length, fillChar);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strreverse = Interop.downcallHandle(
+        "g_strreverse",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Reverses all of the bytes in a string. For example,
@@ -6638,18 +10071,36 @@ public final class GLib {
      * g_utf8_strreverse().
      */
     public static java.lang.String strreverse(java.lang.String string) {
-        var RESULT = gtk_h.g_strreverse(Interop.allocateNativeString(string).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strreverse.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strrstr = Interop.downcallHandle(
+        "g_strrstr",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Searches the string {@code haystack} for the last occurrence
      * of the string {@code needle}.
      */
     public static java.lang.String strrstr(java.lang.String haystack, java.lang.String needle) {
-        var RESULT = gtk_h.g_strrstr(Interop.allocateNativeString(haystack).handle(), Interop.allocateNativeString(needle).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strrstr.invokeExact(Interop.allocateNativeString(haystack).handle(), Interop.allocateNativeString(needle).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strrstr_len = Interop.downcallHandle(
+        "g_strrstr_len",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Searches the string {@code haystack} for the last occurrence
@@ -6657,9 +10108,18 @@ public final class GLib {
      * to {@code haystack_len}.
      */
     public static java.lang.String strrstrLen(java.lang.String haystack, long haystackLen, java.lang.String needle) {
-        var RESULT = gtk_h.g_strrstr_len(Interop.allocateNativeString(haystack).handle(), haystackLen, Interop.allocateNativeString(needle).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strrstr_len.invokeExact(Interop.allocateNativeString(haystack).handle(), haystackLen, Interop.allocateNativeString(needle).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strsignal = Interop.downcallHandle(
+        "g_strsignal",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns a string describing the given signal, e.g. "Segmentation fault".
@@ -6668,9 +10128,18 @@ public final class GLib {
      * the strsignal() function.
      */
     public static java.lang.String strsignal(int signum) {
-        var RESULT = gtk_h.g_strsignal(signum);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strsignal.invokeExact(signum);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strsplit = Interop.downcallHandle(
+        "g_strsplit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Splits a string into a maximum of {@code max_tokens} pieces, using the given
@@ -6689,9 +10158,18 @@ public final class GLib {
      * before calling g_strsplit().
      */
     public static PointerIterator<java.lang.String> strsplit(java.lang.String string, java.lang.String delimiter, int maxTokens) {
-        var RESULT = gtk_h.g_strsplit(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiter).handle(), maxTokens);
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_strsplit.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiter).handle(), maxTokens);
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strsplit_set = Interop.downcallHandle(
+        "g_strsplit_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Splits {@code string} into a number of tokens not containing any of the characters
@@ -6717,9 +10195,18 @@ public final class GLib {
      * to delimit UTF-8 strings for anything but ASCII characters.
      */
     public static PointerIterator<java.lang.String> strsplitSet(java.lang.String string, java.lang.String delimiters, int maxTokens) {
-        var RESULT = gtk_h.g_strsplit_set(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiters).handle(), maxTokens);
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_strsplit_set.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiters).handle(), maxTokens);
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strstr_len = Interop.downcallHandle(
+        "g_strstr_len",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Searches the string {@code haystack} for the first occurrence
@@ -6727,9 +10214,18 @@ public final class GLib {
      * to {@code haystack_len}.
      */
     public static java.lang.String strstrLen(java.lang.String haystack, long haystackLen, java.lang.String needle) {
-        var RESULT = gtk_h.g_strstr_len(Interop.allocateNativeString(haystack).handle(), haystackLen, Interop.allocateNativeString(needle).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_strstr_len.invokeExact(Interop.allocateNativeString(haystack).handle(), haystackLen, Interop.allocateNativeString(needle).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strtod = Interop.downcallHandle(
+        "g_strtod",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a string to a {@code gdouble} value.
@@ -6745,17 +10241,35 @@ public final class GLib {
      * point in some locales, causing unexpected results.
      */
     public static double strtod(java.lang.String nptr, java.lang.String[] endptr) {
-        var RESULT = gtk_h.g_strtod(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle());
-        return RESULT;
+        try {
+            var RESULT = (double) g_strtod.invokeExact(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strv_contains = Interop.downcallHandle(
+        "g_strv_contains",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code strv} contains {@code str}. {@code strv} must not be {@code null}.
      */
     public static boolean strvContains(java.lang.String strv, java.lang.String str) {
-        var RESULT = gtk_h.g_strv_contains(Interop.allocateNativeString(strv).handle(), Interop.allocateNativeString(str).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_strv_contains.invokeExact(Interop.allocateNativeString(strv).handle(), Interop.allocateNativeString(str).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strv_equal = Interop.downcallHandle(
+        "g_strv_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code strv1} and {@code strv2} contain exactly the same elements in exactly the
@@ -6766,23 +10280,50 @@ public final class GLib {
      * {@code null}.
      */
     public static boolean strvEqual(java.lang.String strv1, java.lang.String strv2) {
-        var RESULT = gtk_h.g_strv_equal(Interop.allocateNativeString(strv1).handle(), Interop.allocateNativeString(strv2).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_strv_equal.invokeExact(Interop.allocateNativeString(strv1).handle(), Interop.allocateNativeString(strv2).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_strv_get_type = Interop.downcallHandle(
+        "g_strv_get_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG)
+    );
+    
     public static org.gtk.gobject.Type strvGetType() {
-        var RESULT = gtk_h.g_strv_get_type();
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) g_strv_get_type.invokeExact();
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strv_length = Interop.downcallHandle(
+        "g_strv_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the length of the given {@code null}-terminated
      * string array {@code str_array}. {@code str_array} must not be {@code null}.
      */
     public static int strvLength(java.lang.String[] strArray) {
-        var RESULT = gtk_h.g_strv_length(Interop.allocateNativeArray(strArray).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_strv_length.invokeExact(Interop.allocateNativeArray(strArray).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_add_data_func = Interop.downcallHandle(
+        "g_test_add_data_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new test case, similar to g_test_create_case(). However
@@ -6801,17 +10342,22 @@ public final class GLib {
      */
     public static void testAddDataFunc(java.lang.String testpath, TestDataFunc testFunc) {
         try {
-            gtk_h.g_test_add_data_func(Interop.allocateNativeString(testpath).handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
-                    Linker.nativeLinker().upcallStub(
+            g_test_add_data_func.invokeExact(Interop.allocateNativeString(testpath).handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_test_add_data_func_full = Interop.downcallHandle(
+        "g_test_add_data_func_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new test case, as with g_test_add_data_func(), but freeing
@@ -6819,46 +10365,65 @@ public final class GLib {
      */
     public static void testAddDataFuncFull(java.lang.String testpath, TestDataFunc testFunc) {
         try {
-            gtk_h.g_test_add_data_func_full(Interop.allocateNativeString(testpath).handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
-                    Linker.nativeLinker().upcallStub(
+            g_test_add_data_func_full.invokeExact(Interop.allocateNativeString(testpath).handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    static final MethodHandle g_test_add_vtable = Interop.downcallHandle(
+        "g_test_add_vtable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     public static void testAddVtable(java.lang.String testpath, long dataSize, TestFixtureFunc dataSetup, TestFixtureFunc dataTest, TestFixtureFunc dataTeardown) {
         try {
-            gtk_h.g_test_add_vtable(Interop.allocateNativeString(testpath).handle(), dataSize, 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
-                    Linker.nativeLinker().upcallStub(
+            g_test_add_vtable.invokeExact(Interop.allocateNativeString(testpath).handle(), dataSize, 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Linker.nativeLinker().upcallStub(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Linker.nativeLinker().upcallStub(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    static final MethodHandle g_test_assert_expected_messages_internal = Interop.downcallHandle(
+        "g_test_assert_expected_messages_internal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     public static void testAssertExpectedMessagesInternal(java.lang.String domain, java.lang.String file, int line, java.lang.String func) {
-        gtk_h.g_test_assert_expected_messages_internal(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle());
+        try {
+            g_test_assert_expected_messages_internal.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_bug = Interop.downcallHandle(
+        "g_test_bug",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * This function adds a message to test reports that
@@ -6873,8 +10438,17 @@ public final class GLib {
      * is already a valid URI.
      */
     public static void testBug(java.lang.String bugUriSnippet) {
-        gtk_h.g_test_bug(Interop.allocateNativeString(bugUriSnippet).handle());
+        try {
+            g_test_bug.invokeExact(Interop.allocateNativeString(bugUriSnippet).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_bug_base = Interop.downcallHandle(
+        "g_test_bug_base",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Specify the base URI for bug reports.
@@ -6893,8 +10467,17 @@ public final class GLib {
      * from the value provided by g_test_bug().
      */
     public static void testBugBase(java.lang.String uriPattern) {
-        gtk_h.g_test_bug_base(Interop.allocateNativeString(uriPattern).handle());
+        try {
+            g_test_bug_base.invokeExact(Interop.allocateNativeString(uriPattern).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_create_case = Interop.downcallHandle(
+        "g_test_create_case",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new {@link TestCase}, named {@code test_name}.
@@ -6917,36 +10500,50 @@ public final class GLib {
      */
     public static TestCase testCreateCase(java.lang.String testName, long dataSize, TestFixtureFunc dataSetup, TestFixtureFunc dataTest, TestFixtureFunc dataTeardown) {
         try {
-            var RESULT = gtk_h.g_test_create_case(Interop.allocateNativeString(testName).handle(), dataSize, 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_test_create_case.invokeExact(Interop.allocateNativeString(testName).handle(), dataSize, 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Linker.nativeLinker().upcallStub(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Linker.nativeLinker().upcallStub(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
             return new TestCase(Refcounted.get(RESULT, false));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_test_create_suite = Interop.downcallHandle(
+        "g_test_create_suite",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new test suite with the name {@code suite_name}.
      */
     public static TestSuite testCreateSuite(java.lang.String suiteName) {
-        var RESULT = gtk_h.g_test_create_suite(Interop.allocateNativeString(suiteName).handle());
-        return new TestSuite(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_test_create_suite.invokeExact(Interop.allocateNativeString(suiteName).handle());
+            return new TestSuite(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_expect_message = Interop.downcallHandle(
+        "g_test_expect_message",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Indicates that a message with the given {@code log_domain} and {@code log_level},
@@ -6985,8 +10582,17 @@ public final class GLib {
      * expected via g_test_expect_message() then they will be ignored.
      */
     public static void testExpectMessage(java.lang.String logDomain, LogLevelFlags logLevel, java.lang.String pattern) {
-        gtk_h.g_test_expect_message(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(pattern).handle());
+        try {
+            g_test_expect_message.invokeExact(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(pattern).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_fail = Interop.downcallHandle(
+        "g_test_fail",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Indicates that a test failed. This function can be called
@@ -7010,8 +10616,17 @@ public final class GLib {
      * instead.
      */
     public static void testFail() {
-        gtk_h.g_test_fail();
+        try {
+            g_test_fail.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_failed = Interop.downcallHandle(
+        "g_test_failed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns whether a test has already failed. This will
@@ -7026,9 +10641,18 @@ public final class GLib {
      * if it is called from inside a test function.
      */
     public static boolean testFailed() {
-        var RESULT = gtk_h.g_test_failed();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_test_failed.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_get_dir = Interop.downcallHandle(
+        "g_test_get_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the pathname of the directory containing test files of the type
@@ -7038,9 +10662,18 @@ public final class GLib {
      * but you don't need to free the return value.
      */
     public static java.lang.String testGetDir(TestFileType fileType) {
-        var RESULT = gtk_h.g_test_get_dir(fileType.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_test_get_dir.invokeExact(fileType.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_get_path = Interop.downcallHandle(
+        "g_test_get_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the test path for the test currently being run.
@@ -7051,17 +10684,35 @@ public final class GLib {
      * This function returns a valid string only within a test function.
      */
     public static java.lang.String testGetPath() {
-        var RESULT = gtk_h.g_test_get_path();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_test_get_path.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_get_root = Interop.downcallHandle(
+        "g_test_get_root",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the toplevel test suite for the test path API.
      */
     public static TestSuite testGetRoot() {
-        var RESULT = gtk_h.g_test_get_root();
-        return new TestSuite(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_test_get_root.invokeExact();
+            return new TestSuite(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_incomplete = Interop.downcallHandle(
+        "g_test_incomplete",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Indicates that a test failed because of some incomplete
@@ -7076,8 +10727,17 @@ public final class GLib {
      * If not called from inside a test, this function does nothing.
      */
     public static void testIncomplete(java.lang.String msg) {
-        gtk_h.g_test_incomplete(Interop.allocateNativeString(msg).handle());
+        try {
+            g_test_incomplete.invokeExact(Interop.allocateNativeString(msg).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_log_set_fatal_handler = Interop.downcallHandle(
+        "g_test_log_set_fatal_handler",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Installs a non-error fatal log handler which can be
@@ -7104,22 +10764,36 @@ public final class GLib {
      */
     public static void testLogSetFatalHandler(TestLogFatalFunc logFunc) {
         try {
-            gtk_h.g_test_log_set_fatal_handler(
-                    Linker.nativeLinker().upcallStub(
+            g_test_log_set_fatal_handler.invokeExact(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTestLogFatalFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    static final MethodHandle g_test_log_type_name = Interop.downcallHandle(
+        "g_test_log_type_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     public static java.lang.String testLogTypeName(TestLogType logType) {
-        var RESULT = gtk_h.g_test_log_type_name(logType.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_test_log_type_name.invokeExact(logType.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_queue_destroy = Interop.downcallHandle(
+        "g_test_queue_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function enqueus a callback {@code destroy_func} to be executed
@@ -7130,9 +10804,18 @@ public final class GLib {
      * A() during teardown.
      */
     public static void testQueueDestroy(DestroyNotify destroyFunc, java.lang.foreign.MemoryAddress destroyData) {
-        gtk_h.g_test_queue_destroy(
+        try {
+            g_test_queue_destroy.invokeExact(
                     Interop.cbDestroyNotifySymbol(), destroyData);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_queue_free = Interop.downcallHandle(
+        "g_test_queue_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Enqueue a pointer to be released with g_free() during the next
@@ -7140,26 +10823,53 @@ public final class GLib {
      * with a destroy callback of g_free().
      */
     public static void testQueueFree(java.lang.foreign.MemoryAddress gfreePointer) {
-        gtk_h.g_test_queue_free(gfreePointer);
+        try {
+            g_test_queue_free.invokeExact(gfreePointer);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_rand_double = Interop.downcallHandle(
+        "g_test_rand_double",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Get a reproducible random floating point number,
      * see g_test_rand_int() for details on test case random numbers.
      */
     public static double testRandDouble() {
-        var RESULT = gtk_h.g_test_rand_double();
-        return RESULT;
+        try {
+            var RESULT = (double) g_test_rand_double.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_rand_double_range = Interop.downcallHandle(
+        "g_test_rand_double_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Get a reproducible random floating pointer number out of a specified range,
      * see g_test_rand_int() for details on test case random numbers.
      */
     public static double testRandDoubleRange(double rangeStart, double rangeEnd) {
-        var RESULT = gtk_h.g_test_rand_double_range(rangeStart, rangeEnd);
-        return RESULT;
+        try {
+            var RESULT = (double) g_test_rand_double_range.invokeExact(rangeStart, rangeEnd);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_rand_int = Interop.downcallHandle(
+        "g_test_rand_int",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Get a reproducible random integer number.
@@ -7173,18 +10883,36 @@ public final class GLib {
      * effective for all test cases.
      */
     public static int testRandInt() {
-        var RESULT = gtk_h.g_test_rand_int();
-        return RESULT;
+        try {
+            var RESULT = (int) g_test_rand_int.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_rand_int_range = Interop.downcallHandle(
+        "g_test_rand_int_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Get a reproducible random integer number out of a specified range,
      * see g_test_rand_int() for details on test case random numbers.
      */
     public static int testRandIntRange(int begin, int end) {
-        var RESULT = gtk_h.g_test_rand_int_range(begin, end);
-        return RESULT;
+        try {
+            var RESULT = (int) g_test_rand_int_range.invokeExact(begin, end);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_run = Interop.downcallHandle(
+        "g_test_run",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Runs all tests under the toplevel suite which can be retrieved
@@ -7221,9 +10949,18 @@ public final class GLib {
      * as "skip test" by Automake) otherwise.
      */
     public static int testRun() {
-        var RESULT = gtk_h.g_test_run();
-        return RESULT;
+        try {
+            var RESULT = (int) g_test_run.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_run_suite = Interop.downcallHandle(
+        "g_test_run_suite",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Execute the tests within {@code suite} and all nested {@code GTestSuites}.
@@ -7236,9 +10973,18 @@ public final class GLib {
      * in a program.
      */
     public static int testRunSuite(TestSuite suite) {
-        var RESULT = gtk_h.g_test_run_suite(suite.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_test_run_suite.invokeExact(suite.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_set_nonfatal_assertions = Interop.downcallHandle(
+        "g_test_set_nonfatal_assertions",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Changes the behaviour of the various {@code g_assert_*()} macros,
@@ -7254,8 +11000,17 @@ public final class GLib {
      * This function can only be called after g_test_init().
      */
     public static void testSetNonfatalAssertions() {
-        gtk_h.g_test_set_nonfatal_assertions();
+        try {
+            g_test_set_nonfatal_assertions.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_skip = Interop.downcallHandle(
+        "g_test_skip",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Indicates that a test was skipped.
@@ -7268,17 +11023,35 @@ public final class GLib {
      * If not called from inside a test, this function does nothing.
      */
     public static void testSkip(java.lang.String msg) {
-        gtk_h.g_test_skip(Interop.allocateNativeString(msg).handle());
+        try {
+            g_test_skip.invokeExact(Interop.allocateNativeString(msg).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_subprocess = Interop.downcallHandle(
+        "g_test_subprocess",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns {@code true} (after g_test_init() has been called) if the test
      * program is running under g_test_trap_subprocess().
      */
     public static boolean testSubprocess() {
-        var RESULT = gtk_h.g_test_subprocess();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_test_subprocess.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_summary = Interop.downcallHandle(
+        "g_test_summary",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the summary for a test, which describes what the test checks, and how it
@@ -7301,53 +11074,116 @@ public final class GLib {
      * }</pre>
      */
     public static void testSummary(java.lang.String summary) {
-        gtk_h.g_test_summary(Interop.allocateNativeString(summary).handle());
+        try {
+            g_test_summary.invokeExact(Interop.allocateNativeString(summary).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_timer_elapsed = Interop.downcallHandle(
+        "g_test_timer_elapsed",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Get the number of seconds since the last start of the timer with
      * g_test_timer_start().
      */
     public static double testTimerElapsed() {
-        var RESULT = gtk_h.g_test_timer_elapsed();
-        return RESULT;
+        try {
+            var RESULT = (double) g_test_timer_elapsed.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_timer_last = Interop.downcallHandle(
+        "g_test_timer_last",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Report the last result of g_test_timer_elapsed().
      */
     public static double testTimerLast() {
-        var RESULT = gtk_h.g_test_timer_last();
-        return RESULT;
+        try {
+            var RESULT = (double) g_test_timer_last.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_timer_start = Interop.downcallHandle(
+        "g_test_timer_start",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Start a timing test. Call g_test_timer_elapsed() when the task is supposed
      * to be done. Call this function again to restart the timer.
      */
     public static void testTimerStart() {
-        gtk_h.g_test_timer_start();
+        try {
+            g_test_timer_start.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_test_trap_assertions = Interop.downcallHandle(
+        "g_test_trap_assertions",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
+    
     public static void testTrapAssertions(java.lang.String domain, java.lang.String file, int line, java.lang.String func, long assertionFlags, java.lang.String pattern) {
-        gtk_h.g_test_trap_assertions(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), assertionFlags, Interop.allocateNativeString(pattern).handle());
+        try {
+            g_test_trap_assertions.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), assertionFlags, Interop.allocateNativeString(pattern).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_trap_has_passed = Interop.downcallHandle(
+        "g_test_trap_has_passed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Check the result of the last g_test_trap_subprocess() call.
      */
     public static boolean testTrapHasPassed() {
-        var RESULT = gtk_h.g_test_trap_has_passed();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_test_trap_has_passed.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_trap_reached_timeout = Interop.downcallHandle(
+        "g_test_trap_reached_timeout",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Check the result of the last g_test_trap_subprocess() call.
      */
     public static boolean testTrapReachedTimeout() {
-        var RESULT = gtk_h.g_test_trap_reached_timeout();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_test_trap_reached_timeout.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_trap_subprocess = Interop.downcallHandle(
+        "g_test_trap_subprocess",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Respawns the test program to run only {@code test_path} in a subprocess.
@@ -7413,13 +11249,31 @@ public final class GLib {
      * }</pre>
      */
     public static void testTrapSubprocess(java.lang.String testPath, long usecTimeout, TestSubprocessFlags testFlags) {
-        gtk_h.g_test_trap_subprocess(Interop.allocateNativeString(testPath).handle(), usecTimeout, testFlags.getValue());
+        try {
+            g_test_trap_subprocess.invokeExact(Interop.allocateNativeString(testPath).handle(), usecTimeout, testFlags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_thread_error_quark = Interop.downcallHandle(
+        "g_thread_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark threadErrorQuark() {
-        var RESULT = gtk_h.g_thread_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_thread_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_exit = Interop.downcallHandle(
+        "g_thread_exit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Terminates the current thread.
@@ -7437,8 +11291,17 @@ public final class GLib {
      * or or from within a {@link ThreadPool}.
      */
     public static void threadExit(java.lang.foreign.MemoryAddress retval) {
-        gtk_h.g_thread_exit(retval);
+        try {
+            g_thread_exit.invokeExact(retval);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_pool_get_max_idle_time = Interop.downcallHandle(
+        "g_thread_pool_get_max_idle_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function will return the maximum {@code interval} that a
@@ -7449,25 +11312,52 @@ public final class GLib {
      * pool for new work are not stopped.
      */
     public static int threadPoolGetMaxIdleTime() {
-        var RESULT = gtk_h.g_thread_pool_get_max_idle_time();
-        return RESULT;
+        try {
+            var RESULT = (int) g_thread_pool_get_max_idle_time.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_pool_get_max_unused_threads = Interop.downcallHandle(
+        "g_thread_pool_get_max_unused_threads",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the maximal allowed number of unused threads.
      */
     public static int threadPoolGetMaxUnusedThreads() {
-        var RESULT = gtk_h.g_thread_pool_get_max_unused_threads();
-        return RESULT;
+        try {
+            var RESULT = (int) g_thread_pool_get_max_unused_threads.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_pool_get_num_unused_threads = Interop.downcallHandle(
+        "g_thread_pool_get_num_unused_threads",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the number of currently unused threads.
      */
     public static int threadPoolGetNumUnusedThreads() {
-        var RESULT = gtk_h.g_thread_pool_get_num_unused_threads();
-        return RESULT;
+        try {
+            var RESULT = (int) g_thread_pool_get_num_unused_threads.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_pool_set_max_idle_time = Interop.downcallHandle(
+        "g_thread_pool_set_max_idle_time",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function will set the maximum {@code interval} that a thread
@@ -7481,8 +11371,17 @@ public final class GLib {
      * The default value is 15000 (15 seconds).
      */
     public static void threadPoolSetMaxIdleTime(int interval) {
-        gtk_h.g_thread_pool_set_max_idle_time(interval);
+        try {
+            g_thread_pool_set_max_idle_time.invokeExact(interval);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_pool_set_max_unused_threads = Interop.downcallHandle(
+        "g_thread_pool_set_max_unused_threads",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the maximal number of unused threads to {@code max_threads}.
@@ -7492,8 +11391,17 @@ public final class GLib {
      * The default value is 2.
      */
     public static void threadPoolSetMaxUnusedThreads(int maxThreads) {
-        gtk_h.g_thread_pool_set_max_unused_threads(maxThreads);
+        try {
+            g_thread_pool_set_max_unused_threads.invokeExact(maxThreads);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_pool_stop_unused_threads = Interop.downcallHandle(
+        "g_thread_pool_stop_unused_threads",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Stops all currently unused threads. This does not change the
@@ -7501,8 +11409,17 @@ public final class GLib {
      * regularly stop all unused threads e.g. from g_timeout_add().
      */
     public static void threadPoolStopUnusedThreads() {
-        gtk_h.g_thread_pool_stop_unused_threads();
+        try {
+            g_thread_pool_stop_unused_threads.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_self = Interop.downcallHandle(
+        "g_thread_self",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * This function returns the {@link Thread} corresponding to the
@@ -7516,9 +11433,18 @@ public final class GLib {
      * as g_thread_join()) on these threads.
      */
     public static Thread threadSelf() {
-        var RESULT = gtk_h.g_thread_self();
-        return new Thread(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_thread_self.invokeExact();
+            return new Thread(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_thread_yield = Interop.downcallHandle(
+        "g_thread_yield",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Causes the calling thread to voluntarily relinquish the CPU, so
@@ -7527,8 +11453,17 @@ public final class GLib {
      * This function is often used as a method to make busy wait less evil.
      */
     public static void threadYield() {
-        gtk_h.g_thread_yield();
+        try {
+            g_thread_yield.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_timeout_add = Interop.downcallHandle(
+        "g_timeout_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a function to be called at regular intervals, with the default
@@ -7566,18 +11501,23 @@ public final class GLib {
      */
     public static int timeoutAdd(int interval, SourceFunc function) {
         try {
-            var RESULT = gtk_h.g_timeout_add(interval, 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_timeout_add.invokeExact(interval, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_timeout_add_full = Interop.downcallHandle(
+        "g_timeout_add_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a function to be called at regular intervals, with the given
@@ -7607,19 +11547,24 @@ public final class GLib {
      */
     public static int timeoutAddFull(int priority, int interval, SourceFunc function) {
         try {
-            var RESULT = gtk_h.g_timeout_add_full(priority, interval, 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_timeout_add_full.invokeExact(priority, interval, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_timeout_add_seconds = Interop.downcallHandle(
+        "g_timeout_add_seconds",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a function to be called at regular intervals with the default
@@ -7648,18 +11593,23 @@ public final class GLib {
      */
     public static int timeoutAddSeconds(int interval, SourceFunc function) {
         try {
-            var RESULT = gtk_h.g_timeout_add_seconds(interval, 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_timeout_add_seconds.invokeExact(interval, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_timeout_add_seconds_full = Interop.downcallHandle(
+        "g_timeout_add_seconds_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a function to be called at regular intervals, with {@code priority}.
@@ -7704,19 +11654,24 @@ public final class GLib {
      */
     public static int timeoutAddSecondsFull(int priority, int interval, SourceFunc function) {
         try {
-            var RESULT = gtk_h.g_timeout_add_seconds_full(priority, interval, 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_timeout_add_seconds_full.invokeExact(priority, interval, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_timeout_source_new = Interop.downcallHandle(
+        "g_timeout_source_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a new timeout source.
@@ -7729,9 +11684,18 @@ public final class GLib {
      * time.  See g_get_monotonic_time().
      */
     public static Source timeoutSourceNew(int interval) {
-        var RESULT = gtk_h.g_timeout_source_new(interval);
-        return new Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_timeout_source_new.invokeExact(interval);
+            return new Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_timeout_source_new_seconds = Interop.downcallHandle(
+        "g_timeout_source_new_seconds",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a new timeout source.
@@ -7747,45 +11711,90 @@ public final class GLib {
      * See g_get_monotonic_time().
      */
     public static Source timeoutSourceNewSeconds(int interval) {
-        var RESULT = gtk_h.g_timeout_source_new_seconds(interval);
-        return new Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_timeout_source_new_seconds.invokeExact(interval);
+            return new Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_try_malloc = Interop.downcallHandle(
+        "g_try_malloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Attempts to allocate {@code n_bytes}, and returns {@code null} on failure.
      * Contrast with g_malloc(), which aborts the program on failure.
      */
     public static java.lang.foreign.MemoryAddress tryMalloc(long nBytes) {
-        var RESULT = gtk_h.g_try_malloc(nBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_try_malloc.invokeExact(nBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_try_malloc0 = Interop.downcallHandle(
+        "g_try_malloc0",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Attempts to allocate {@code n_bytes}, initialized to 0's, and returns {@code null} on
      * failure. Contrast with g_malloc0(), which aborts the program on failure.
      */
     public static java.lang.foreign.MemoryAddress tryMalloc0(long nBytes) {
-        var RESULT = gtk_h.g_try_malloc0(nBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_try_malloc0.invokeExact(nBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_try_malloc0_n = Interop.downcallHandle(
+        "g_try_malloc0_n",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is similar to g_try_malloc0(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
     public static java.lang.foreign.MemoryAddress tryMalloc0N(long nBlocks, long nBlockBytes) {
-        var RESULT = gtk_h.g_try_malloc0_n(nBlocks, nBlockBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_try_malloc0_n.invokeExact(nBlocks, nBlockBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_try_malloc_n = Interop.downcallHandle(
+        "g_try_malloc_n",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is similar to g_try_malloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
     public static java.lang.foreign.MemoryAddress tryMallocN(long nBlocks, long nBlockBytes) {
-        var RESULT = gtk_h.g_try_malloc_n(nBlocks, nBlockBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_try_malloc_n.invokeExact(nBlocks, nBlockBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_try_realloc = Interop.downcallHandle(
+        "g_try_realloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Attempts to realloc {@code mem} to a new size, {@code n_bytes}, and returns {@code null}
@@ -7795,18 +11804,36 @@ public final class GLib {
      * If {@code mem} is {@code null}, behaves the same as g_try_malloc().
      */
     public static java.lang.foreign.MemoryAddress tryRealloc(java.lang.foreign.MemoryAddress mem, long nBytes) {
-        var RESULT = gtk_h.g_try_realloc(mem, nBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_try_realloc.invokeExact(mem, nBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_try_realloc_n = Interop.downcallHandle(
+        "g_try_realloc_n",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * This function is similar to g_try_realloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
     public static java.lang.foreign.MemoryAddress tryReallocN(java.lang.foreign.MemoryAddress mem, long nBlocks, long nBlockBytes) {
-        var RESULT = gtk_h.g_try_realloc_n(mem, nBlocks, nBlockBytes);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_try_realloc_n.invokeExact(mem, nBlocks, nBlockBytes);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_ucs4_to_utf16 = Interop.downcallHandle(
+        "g_ucs4_to_utf16",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a string from UCS-4 to UTF-16. A 0 character will be
@@ -7814,12 +11841,21 @@ public final class GLib {
      */
     public static PointerShort ucs4ToUtf16(PointerInteger str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_ucs4_to_utf16(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_ucs4_to_utf16.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerShort(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerShort(RESULT);
     }
+    
+    static final MethodHandle g_ucs4_to_utf8 = Interop.downcallHandle(
+        "g_ucs4_to_utf8",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a string from a 32-bit fixed width representation as UCS-4.
@@ -7827,12 +11863,21 @@ public final class GLib {
      */
     public static java.lang.String ucs4ToUtf8(PointerInteger str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_ucs4_to_utf8(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_ucs4_to_utf8.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_unichar_break_type = Interop.downcallHandle(
+        "g_unichar_break_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines the break type of @c. @c should be a Unicode character
@@ -7843,17 +11888,35 @@ public final class GLib {
      * as pango_break() instead of caring about break types yourself.
      */
     public static UnicodeBreakType unicharBreakType(int c) {
-        var RESULT = gtk_h.g_unichar_break_type(c);
-        return new UnicodeBreakType(RESULT);
+        try {
+            var RESULT = (int) g_unichar_break_type.invokeExact(c);
+            return new UnicodeBreakType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_combining_class = Interop.downcallHandle(
+        "g_unichar_combining_class",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines the canonical combining class of a Unicode character.
      */
     public static int unicharCombiningClass(int uc) {
-        var RESULT = gtk_h.g_unichar_combining_class(uc);
-        return RESULT;
+        try {
+            var RESULT = (int) g_unichar_combining_class.invokeExact(uc);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_compose = Interop.downcallHandle(
+        "g_unichar_compose",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Performs a single composition step of the
@@ -7874,9 +11937,18 @@ public final class GLib {
      * for details.
      */
     public static boolean unicharCompose(int a, int b, PointerInteger ch) {
-        var RESULT = gtk_h.g_unichar_compose(a, b, ch.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_compose.invokeExact(a, b, ch.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_decompose = Interop.downcallHandle(
+        "g_unichar_decompose",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Performs a single decomposition step of the
@@ -7904,18 +11976,36 @@ public final class GLib {
      * for details.
      */
     public static boolean unicharDecompose(int ch, PointerInteger a, PointerInteger b) {
-        var RESULT = gtk_h.g_unichar_decompose(ch, a.handle(), b.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_decompose.invokeExact(ch, a.handle(), b.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_digit_value = Interop.downcallHandle(
+        "g_unichar_digit_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines the numeric value of a character as a decimal
      * digit.
      */
     public static int unicharDigitValue(int c) {
-        var RESULT = gtk_h.g_unichar_digit_value(c);
-        return RESULT;
+        try {
+            var RESULT = (int) g_unichar_digit_value.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_fully_decompose = Interop.downcallHandle(
+        "g_unichar_fully_decompose",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Computes the canonical or compatibility decomposition of a
@@ -7939,9 +12029,18 @@ public final class GLib {
      * for details.
      */
     public static long unicharFullyDecompose(int ch, boolean compat, PointerInteger result, long resultLen) {
-        var RESULT = gtk_h.g_unichar_fully_decompose(ch, compat ? 1 : 0, result.handle(), resultLen);
-        return RESULT;
+        try {
+            var RESULT = (long) g_unichar_fully_decompose.invokeExact(ch, compat ? 1 : 0, result.handle(), resultLen);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_get_mirror_char = Interop.downcallHandle(
+        "g_unichar_get_mirror_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * In Unicode, some characters are "mirrored". This means that their
@@ -7955,9 +12054,18 @@ public final class GLib {
      * pointed to by {@code mirrored_ch}.  Otherwise the original character is put.
      */
     public static boolean unicharGetMirrorChar(int ch, PointerInteger mirroredCh) {
-        var RESULT = gtk_h.g_unichar_get_mirror_char(ch, mirroredCh.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_get_mirror_char.invokeExact(ch, mirroredCh.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_get_script = Interop.downcallHandle(
+        "g_unichar_get_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks up the {@link UnicodeScript} for a particular character (as defined
@@ -7969,9 +12077,18 @@ public final class GLib {
      * two are interchangeable.
      */
     public static UnicodeScript unicharGetScript(int ch) {
-        var RESULT = gtk_h.g_unichar_get_script(ch);
-        return new UnicodeScript(RESULT);
+        try {
+            var RESULT = (int) g_unichar_get_script.invokeExact(ch);
+            return new UnicodeScript(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isalnum = Interop.downcallHandle(
+        "g_unichar_isalnum",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is alphanumeric.
@@ -7979,9 +12096,18 @@ public final class GLib {
      * with g_utf8_get_char().
      */
     public static boolean unicharIsalnum(int c) {
-        var RESULT = gtk_h.g_unichar_isalnum(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isalnum.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isalpha = Interop.downcallHandle(
+        "g_unichar_isalpha",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is alphabetic (i.e. a letter).
@@ -7989,9 +12115,18 @@ public final class GLib {
      * g_utf8_get_char().
      */
     public static boolean unicharIsalpha(int c) {
-        var RESULT = gtk_h.g_unichar_isalpha(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isalpha.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_iscntrl = Interop.downcallHandle(
+        "g_unichar_iscntrl",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is a control character.
@@ -7999,18 +12134,36 @@ public final class GLib {
      * g_utf8_get_char().
      */
     public static boolean unicharIscntrl(int c) {
-        var RESULT = gtk_h.g_unichar_iscntrl(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_iscntrl.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isdefined = Interop.downcallHandle(
+        "g_unichar_isdefined",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines if a given character is assigned in the Unicode
      * standard.
      */
     public static boolean unicharIsdefined(int c) {
-        var RESULT = gtk_h.g_unichar_isdefined(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isdefined.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isdigit = Interop.downcallHandle(
+        "g_unichar_isdigit",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is numeric (i.e. a digit).  This
@@ -8018,9 +12171,18 @@ public final class GLib {
      * some UTF-8 text, obtain a character value with g_utf8_get_char().
      */
     public static boolean unicharIsdigit(int c) {
-        var RESULT = gtk_h.g_unichar_isdigit(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isdigit.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isgraph = Interop.downcallHandle(
+        "g_unichar_isgraph",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is printable and not a space
@@ -8030,9 +12192,18 @@ public final class GLib {
      * g_utf8_get_char().
      */
     public static boolean unicharIsgraph(int c) {
-        var RESULT = gtk_h.g_unichar_isgraph(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isgraph.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_islower = Interop.downcallHandle(
+        "g_unichar_islower",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is a lowercase letter.
@@ -8040,9 +12211,18 @@ public final class GLib {
      * g_utf8_get_char().
      */
     public static boolean unicharIslower(int c) {
-        var RESULT = gtk_h.g_unichar_islower(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_islower.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_ismark = Interop.downcallHandle(
+        "g_unichar_ismark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is a mark (non-spacing mark,
@@ -8056,9 +12236,18 @@ public final class GLib {
      * scripts.
      */
     public static boolean unicharIsmark(int c) {
-        var RESULT = gtk_h.g_unichar_ismark(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_ismark.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isprint = Interop.downcallHandle(
+        "g_unichar_isprint",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is printable.
@@ -8067,9 +12256,18 @@ public final class GLib {
      * g_utf8_get_char().
      */
     public static boolean unicharIsprint(int c) {
-        var RESULT = gtk_h.g_unichar_isprint(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isprint.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_ispunct = Interop.downcallHandle(
+        "g_unichar_ispunct",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is punctuation or a symbol.
@@ -8077,9 +12275,18 @@ public final class GLib {
      * g_utf8_get_char().
      */
     public static boolean unicharIspunct(int c) {
-        var RESULT = gtk_h.g_unichar_ispunct(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_ispunct.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isspace = Interop.downcallHandle(
+        "g_unichar_isspace",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines whether a character is a space, tab, or line separator
@@ -8091,9 +12298,18 @@ public final class GLib {
      * is fairly complex.)
      */
     public static boolean unicharIsspace(int c) {
-        var RESULT = gtk_h.g_unichar_isspace(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isspace.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_istitle = Interop.downcallHandle(
+        "g_unichar_istitle",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines if a character is titlecase. Some characters in
@@ -8104,26 +12320,53 @@ public final class GLib {
      * digraph is U+01F2 LATIN CAPITAL LETTTER D WITH SMALL LETTER Z.
      */
     public static boolean unicharIstitle(int c) {
-        var RESULT = gtk_h.g_unichar_istitle(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_istitle.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isupper = Interop.downcallHandle(
+        "g_unichar_isupper",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines if a character is uppercase.
      */
     public static boolean unicharIsupper(int c) {
-        var RESULT = gtk_h.g_unichar_isupper(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isupper.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_iswide = Interop.downcallHandle(
+        "g_unichar_iswide",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines if a character is typically rendered in a double-width
      * cell.
      */
     public static boolean unicharIswide(int c) {
-        var RESULT = gtk_h.g_unichar_iswide(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_iswide.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_iswide_cjk = Interop.downcallHandle(
+        "g_unichar_iswide_cjk",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines if a character is typically rendered in a double-width
@@ -8138,17 +12381,35 @@ public final class GLib {
      * pass both this test and g_unichar_iszerowidth().
      */
     public static boolean unicharIswideCjk(int c) {
-        var RESULT = gtk_h.g_unichar_iswide_cjk(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_iswide_cjk.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_isxdigit = Interop.downcallHandle(
+        "g_unichar_isxdigit",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines if a character is a hexadecimal digit.
      */
     public static boolean unicharIsxdigit(int c) {
-        var RESULT = gtk_h.g_unichar_isxdigit(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_isxdigit.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_iszerowidth = Interop.downcallHandle(
+        "g_unichar_iszerowidth",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines if a given character typically takes zero width when rendered.
@@ -8162,49 +12423,103 @@ public final class GLib {
      * terminals support zero-width rendering of zero-width marks.
      */
     public static boolean unicharIszerowidth(int c) {
-        var RESULT = gtk_h.g_unichar_iszerowidth(c);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_iszerowidth.invokeExact(c);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_to_utf8 = Interop.downcallHandle(
+        "g_unichar_to_utf8",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a single character to UTF-8.
      */
     public static int unicharToUtf8(int c, java.lang.String outbuf) {
-        var RESULT = gtk_h.g_unichar_to_utf8(c, Interop.allocateNativeString(outbuf).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_unichar_to_utf8.invokeExact(c, Interop.allocateNativeString(outbuf).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_tolower = Interop.downcallHandle(
+        "g_unichar_tolower",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a character to lower case.
      */
     public static int unicharTolower(int c) {
-        var RESULT = gtk_h.g_unichar_tolower(c);
-        return RESULT;
+        try {
+            var RESULT = (int) g_unichar_tolower.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_totitle = Interop.downcallHandle(
+        "g_unichar_totitle",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a character to the titlecase.
      */
     public static int unicharTotitle(int c) {
-        var RESULT = gtk_h.g_unichar_totitle(c);
-        return RESULT;
+        try {
+            var RESULT = (int) g_unichar_totitle.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_toupper = Interop.downcallHandle(
+        "g_unichar_toupper",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a character to uppercase.
      */
     public static int unicharToupper(int c) {
-        var RESULT = gtk_h.g_unichar_toupper(c);
-        return RESULT;
+        try {
+            var RESULT = (int) g_unichar_toupper.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_type = Interop.downcallHandle(
+        "g_unichar_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Classifies a Unicode character by type.
      */
     public static UnicodeType unicharType(int c) {
-        var RESULT = gtk_h.g_unichar_type(c);
-        return new UnicodeType(RESULT);
+        try {
+            var RESULT = (int) g_unichar_type.invokeExact(c);
+            return new UnicodeType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_validate = Interop.downcallHandle(
+        "g_unichar_validate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks whether {@code ch} is a valid Unicode character. Some possible
@@ -8212,18 +12527,36 @@ public final class GLib {
      * character, though it's normally a string terminator.
      */
     public static boolean unicharValidate(int ch) {
-        var RESULT = gtk_h.g_unichar_validate(ch);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unichar_validate.invokeExact(ch);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unichar_xdigit_value = Interop.downcallHandle(
+        "g_unichar_xdigit_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines the numeric value of a character as a hexadecimal
      * digit.
      */
     public static int unicharXdigitValue(int c) {
-        var RESULT = gtk_h.g_unichar_xdigit_value(c);
-        return RESULT;
+        try {
+            var RESULT = (int) g_unichar_xdigit_value.invokeExact(c);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unicode_canonical_ordering = Interop.downcallHandle(
+        "g_unicode_canonical_ordering",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Computes the canonical ordering of a string in-place.
@@ -8232,8 +12565,17 @@ public final class GLib {
      * manual for more information.
      */
     public static void unicodeCanonicalOrdering(PointerInteger string, long len) {
-        gtk_h.g_unicode_canonical_ordering(string.handle(), len);
+        try {
+            g_unicode_canonical_ordering.invokeExact(string.handle(), len);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unicode_script_from_iso15924 = Interop.downcallHandle(
+        "g_unicode_script_from_iso15924",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks up the Unicode script for {@code iso15924}.  ISO 15924 assigns four-letter
@@ -8247,9 +12589,18 @@ public final class GLib {
      * for details.
      */
     public static UnicodeScript unicodeScriptFromIso15924(int iso15924) {
-        var RESULT = gtk_h.g_unicode_script_from_iso15924(iso15924);
-        return new UnicodeScript(RESULT);
+        try {
+            var RESULT = (int) g_unicode_script_from_iso15924.invokeExact(iso15924);
+            return new UnicodeScript(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unicode_script_to_iso15924 = Interop.downcallHandle(
+        "g_unicode_script_to_iso15924",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks up the ISO 15924 code for {@code script}.  ISO 15924 assigns four-letter
@@ -8263,14 +12614,32 @@ public final class GLib {
      * for details.
      */
     public static int unicodeScriptToIso15924(UnicodeScript script) {
-        var RESULT = gtk_h.g_unicode_script_to_iso15924(script.getValue());
-        return RESULT;
+        try {
+            var RESULT = (int) g_unicode_script_to_iso15924.invokeExact(script.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_unix_error_quark = Interop.downcallHandle(
+        "g_unix_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark unixErrorQuark() {
-        var RESULT = gtk_h.g_unix_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_unix_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_fd_add = Interop.downcallHandle(
+        "g_unix_fd_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a function to be called when the IO condition, as specified by
@@ -8289,18 +12658,23 @@ public final class GLib {
      */
     public static int unixFdAdd(int fd, IOCondition condition, UnixFDSourceFunc function) {
         try {
-            var RESULT = gtk_h.g_unix_fd_add(fd, condition.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_unix_fd_add.invokeExact(fd, condition.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbUnixFDSourceFunc",
                             MethodType.methodType(int.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_unix_fd_add_full = Interop.downcallHandle(
+        "g_unix_fd_add_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a function to be called when the IO condition, as specified by
@@ -8312,19 +12686,24 @@ public final class GLib {
      */
     public static int unixFdAddFull(int priority, int fd, IOCondition condition, UnixFDSourceFunc function) {
         try {
-            var RESULT = gtk_h.g_unix_fd_add_full(priority, fd, condition.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_unix_fd_add_full.invokeExact(priority, fd, condition.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbUnixFDSourceFunc",
                             MethodType.methodType(int.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_unix_fd_source_new = Interop.downcallHandle(
+        "g_unix_fd_source_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a {@link Source} to watch for a particular IO condition on a file
@@ -8333,9 +12712,18 @@ public final class GLib {
      * The source will never close the fd -- you must do it yourself.
      */
     public static Source unixFdSourceNew(int fd, IOCondition condition) {
-        var RESULT = gtk_h.g_unix_fd_source_new(fd, condition.getValue());
-        return new Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_unix_fd_source_new.invokeExact(fd, condition.getValue());
+            return new Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_get_passwd_entry = Interop.downcallHandle(
+        "g_unix_get_passwd_entry",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the {@code passwd} file entry for the given {@code user_name} using {@code getpwnam_r()}.
@@ -8352,12 +12740,21 @@ public final class GLib {
      */
     public static java.lang.foreign.MemoryAddress unixGetPasswdEntry(java.lang.String userName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_unix_get_passwd_entry(Interop.allocateNativeString(userName).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_unix_get_passwd_entry.invokeExact(Interop.allocateNativeString(userName).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
+    
+    static final MethodHandle g_unix_open_pipe = Interop.downcallHandle(
+        "g_unix_open_pipe",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Similar to the UNIX pipe() call, but on modern systems like Linux
@@ -8371,12 +12768,21 @@ public final class GLib {
      */
     public static boolean unixOpenPipe(PointerInteger fds, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_unix_open_pipe(fds.handle(), flags, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_unix_open_pipe.invokeExact(fds.handle(), flags, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_unix_set_fd_nonblocking = Interop.downcallHandle(
+        "g_unix_set_fd_nonblocking",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Control the non-blocking state of the given file descriptor,
@@ -8385,12 +12791,21 @@ public final class GLib {
      */
     public static boolean unixSetFdNonblocking(int fd, boolean nonblock) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_unix_set_fd_nonblocking(fd, nonblock ? 1 : 0, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_unix_set_fd_nonblocking.invokeExact(fd, nonblock ? 1 : 0, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_unix_signal_add = Interop.downcallHandle(
+        "g_unix_signal_add",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function for g_unix_signal_source_new(), which
@@ -8399,18 +12814,23 @@ public final class GLib {
      */
     public static int unixSignalAdd(int signum, SourceFunc handler) {
         try {
-            var RESULT = gtk_h.g_unix_signal_add(signum, 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_unix_signal_add.invokeExact(signum, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_unix_signal_add_full = Interop.downcallHandle(
+        "g_unix_signal_add_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function for g_unix_signal_source_new(), which
@@ -8419,19 +12839,24 @@ public final class GLib {
      */
     public static int unixSignalAddFull(int priority, int signum, SourceFunc handler) {
         try {
-            var RESULT = gtk_h.g_unix_signal_add_full(priority, signum, 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_unix_signal_add_full.invokeExact(priority, signum, 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_unix_signal_source_new = Interop.downcallHandle(
+        "g_unix_signal_source_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a {@link Source} that will be dispatched upon delivery of the UNIX
@@ -8459,9 +12884,18 @@ public final class GLib {
      * executed.
      */
     public static Source unixSignalSourceNew(int signum) {
-        var RESULT = gtk_h.g_unix_signal_source_new(signum);
-        return new Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_unix_signal_source_new.invokeExact(signum);
+            return new Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unlink = Interop.downcallHandle(
+        "g_unlink",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A wrapper for the POSIX unlink() function. The unlink() function
@@ -8474,9 +12908,18 @@ public final class GLib {
      * are open to some process, or mapped into memory.
      */
     public static int unlink(java.lang.String filename) {
-        var RESULT = gtk_h.g_unlink(Interop.allocateNativeString(filename).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_unlink.invokeExact(Interop.allocateNativeString(filename).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unsetenv = Interop.downcallHandle(
+        "g_unsetenv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes an environment variable from the environment.
@@ -8498,8 +12941,17 @@ public final class GLib {
      * array directly to execvpe(), g_spawn_async(), or the like.
      */
     public static void unsetenv(java.lang.String variable) {
-        gtk_h.g_unsetenv(Interop.allocateNativeString(variable).handle());
+        try {
+            g_unsetenv.invokeExact(Interop.allocateNativeString(variable).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_build = Interop.downcallHandle(
+        "g_uri_build",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link Uri} from the given components according to {@code flags}.
@@ -8508,9 +12960,18 @@ public final class GLib {
      * components of the "userinfo" separately.
      */
     public static Uri uriBuild(UriFlags flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_build(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return new Uri(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_uri_build.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+            return new Uri(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_build_with_user = Interop.downcallHandle(
+        "g_uri_build_with_user",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link Uri} from the given components according to {@code flags}
@@ -8523,14 +12984,32 @@ public final class GLib {
      * if either {@code password} or {@code auth_params} is non-{@code null}.
      */
     public static Uri uriBuildWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_build_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return new Uri(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_uri_build_with_user.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+            return new Uri(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_uri_error_quark = Interop.downcallHandle(
+        "g_uri_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark uriErrorQuark() {
-        var RESULT = gtk_h.g_uri_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_uri_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_escape_bytes = Interop.downcallHandle(
+        "g_uri_escape_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Escapes arbitrary data for use in a URI.
@@ -8546,9 +13025,18 @@ public final class GLib {
      * bytes as {@code %}{@code 00}.
      */
     public static java.lang.String uriEscapeBytes(byte[] unescaped, long length, java.lang.String reservedCharsAllowed) {
-        var RESULT = gtk_h.g_uri_escape_bytes(Interop.allocateNativeArray(unescaped).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_escape_bytes.invokeExact(Interop.allocateNativeArray(unescaped).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_escape_string = Interop.downcallHandle(
+        "g_uri_escape_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Escapes a string for use in a URI.
@@ -8561,9 +13049,18 @@ public final class GLib {
      * portions of a URI.
      */
     public static java.lang.String uriEscapeString(java.lang.String unescaped, java.lang.String reservedCharsAllowed, boolean allowUtf8) {
-        var RESULT = gtk_h.g_uri_escape_string(Interop.allocateNativeString(unescaped).handle(), Interop.allocateNativeString(reservedCharsAllowed).handle(), allowUtf8 ? 1 : 0);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_escape_string.invokeExact(Interop.allocateNativeString(unescaped).handle(), Interop.allocateNativeString(reservedCharsAllowed).handle(), allowUtf8 ? 1 : 0);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_is_valid = Interop.downcallHandle(
+        "g_uri_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses {@code uri_string} according to {@code flags}, to determine whether it is a valid
@@ -8577,12 +13074,21 @@ public final class GLib {
      */
     public static boolean uriIsValid(java.lang.String uriString, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_is_valid(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_is_valid.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_uri_join = Interop.downcallHandle(
+        "g_uri_join",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Joins the given components together according to {@code flags} to create
@@ -8601,9 +13107,18 @@ public final class GLib {
      * in {@code flags}.
      */
     public static java.lang.String uriJoin(UriFlags flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_join(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_join.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_join_with_user = Interop.downcallHandle(
+        "g_uri_join_with_user",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Joins the given components together according to {@code flags} to create
@@ -8617,9 +13132,18 @@ public final class GLib {
      * in {@code flags}.
      */
     public static java.lang.String uriJoinWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_join_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_join_with_user.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_list_extract_uris = Interop.downcallHandle(
+        "g_uri_list_extract_uris",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Splits an URI list conforming to the text/uri-list
@@ -8627,9 +13151,18 @@ public final class GLib {
      * discarding any comments. The URIs are not validated.
      */
     public static PointerIterator<java.lang.String> uriListExtractUris(java.lang.String uriList) {
-        var RESULT = gtk_h.g_uri_list_extract_uris(Interop.allocateNativeString(uriList).handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_uri_list_extract_uris.invokeExact(Interop.allocateNativeString(uriList).handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_parse = Interop.downcallHandle(
+        "g_uri_parse",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses {@code uri_string} according to {@code flags}. If the result is not a
@@ -8638,12 +13171,21 @@ public final class GLib {
      */
     public static Uri uriParse(java.lang.String uriString, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_parse(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_parse.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Uri(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Uri(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_uri_parse_params = Interop.downcallHandle(
+        "g_uri_parse_params",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Many URI schemes include one or more attribute/value pairs as part of the URI
@@ -8673,12 +13215,21 @@ public final class GLib {
      */
     public static org.gtk.glib.HashTable uriParseParams(java.lang.String params, long length, java.lang.String separators, UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_parse_params(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_parse_params.invokeExact(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_uri_parse_scheme = Interop.downcallHandle(
+        "g_uri_parse_scheme",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the scheme portion of a URI string.
@@ -8690,9 +13241,18 @@ public final class GLib {
      * Common schemes include {@code file}, {@code https}, {@code svn+ssh}, etc.
      */
     public static java.lang.String uriParseScheme(java.lang.String uri) {
-        var RESULT = gtk_h.g_uri_parse_scheme(Interop.allocateNativeString(uri).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_parse_scheme.invokeExact(Interop.allocateNativeString(uri).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_peek_scheme = Interop.downcallHandle(
+        "g_uri_peek_scheme",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the scheme portion of a URI string.
@@ -8707,9 +13267,18 @@ public final class GLib {
      * all-lowercase and does not need to be freed.
      */
     public static java.lang.String uriPeekScheme(java.lang.String uri) {
-        var RESULT = gtk_h.g_uri_peek_scheme(Interop.allocateNativeString(uri).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_peek_scheme.invokeExact(Interop.allocateNativeString(uri).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_resolve_relative = Interop.downcallHandle(
+        "g_uri_resolve_relative",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses {@code uri_ref} according to {@code flags} and, if it is a
@@ -8722,12 +13291,21 @@ public final class GLib {
      */
     public static java.lang.String uriResolveRelative(java.lang.String baseUriString, java.lang.String uriRef, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_resolve_relative(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_resolve_relative.invokeExact(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_uri_split = Interop.downcallHandle(
+        "g_uri_split",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses {@code uri_ref} (which can be an
@@ -8749,12 +13327,21 @@ public final class GLib {
      */
     public static boolean uriSplit(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] userinfo, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_uri_split_network = Interop.downcallHandle(
+        "g_uri_split_network",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses {@code uri_string} (which must be an [absolute URI][relative-absolute-uris])
@@ -8766,12 +13353,21 @@ public final class GLib {
      */
     public static boolean uriSplitNetwork(java.lang.String uriString, UriFlags flags, java.lang.String[] scheme, java.lang.String[] host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split_network(Interop.allocateNativeString(uriString).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_uri_split_with_user = Interop.downcallHandle(
+        "g_uri_split_with_user",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses {@code uri_ref} (which can be an
@@ -8788,12 +13384,21 @@ public final class GLib {
      */
     public static boolean uriSplitWithUser(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] user, java.lang.String[] password, java.lang.String[] authParams, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split_with_user(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_uri_unescape_bytes = Interop.downcallHandle(
+        "g_uri_unescape_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unescapes a segment of an escaped string as binary data.
@@ -8809,12 +13414,21 @@ public final class GLib {
      */
     public static Bytes uriUnescapeBytes(java.lang.String escapedString, long length, java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_unescape_bytes(Interop.allocateNativeString(escapedString).handle(), length, Interop.allocateNativeString(illegalCharacters).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_unescape_bytes.invokeExact(Interop.allocateNativeString(escapedString).handle(), length, Interop.allocateNativeString(illegalCharacters).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Bytes(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_uri_unescape_segment = Interop.downcallHandle(
+        "g_uri_unescape_segment",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unescapes a segment of an escaped string.
@@ -8829,9 +13443,18 @@ public final class GLib {
      * g_uri_unescape_bytes().
      */
     public static java.lang.String uriUnescapeSegment(java.lang.String escapedString, java.lang.String escapedStringEnd, java.lang.String illegalCharacters) {
-        var RESULT = gtk_h.g_uri_unescape_segment(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(escapedStringEnd).handle(), Interop.allocateNativeString(illegalCharacters).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_unescape_segment.invokeExact(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(escapedStringEnd).handle(), Interop.allocateNativeString(illegalCharacters).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_unescape_string = Interop.downcallHandle(
+        "g_uri_unescape_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unescapes a whole escaped string.
@@ -8843,9 +13466,18 @@ public final class GLib {
      * escaped path element, which might confuse pathname handling.
      */
     public static java.lang.String uriUnescapeString(java.lang.String escapedString, java.lang.String illegalCharacters) {
-        var RESULT = gtk_h.g_uri_unescape_string(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(illegalCharacters).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_unescape_string.invokeExact(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(illegalCharacters).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_usleep = Interop.downcallHandle(
+        "g_usleep",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Pauses the current thread for the given number of microseconds.
@@ -8856,8 +13488,17 @@ public final class GLib {
      * length of the sleep.
      */
     public static void usleep(long microseconds) {
-        gtk_h.g_usleep(microseconds);
+        try {
+            g_usleep.invokeExact(microseconds);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf16_to_ucs4 = Interop.downcallHandle(
+        "g_utf16_to_ucs4",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a string from UTF-16 to UCS-4. The result will be
@@ -8865,12 +13506,21 @@ public final class GLib {
      */
     public static PointerInteger utf16ToUcs4(PointerShort str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_utf16_to_ucs4(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_utf16_to_ucs4.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerInteger(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerInteger(RESULT);
     }
+    
+    static final MethodHandle g_utf16_to_utf8 = Interop.downcallHandle(
+        "g_utf16_to_utf8",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a string from UTF-16 to UTF-8. The result will be
@@ -8889,12 +13539,21 @@ public final class GLib {
      */
     public static java.lang.String utf16ToUtf8(PointerShort str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_utf16_to_utf8(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_utf16_to_utf8.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_utf8_casefold = Interop.downcallHandle(
+        "g_utf8_casefold",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts a string into a form that is independent of case. The
@@ -8910,9 +13569,18 @@ public final class GLib {
      * provide such a function.
      */
     public static java.lang.String utf8Casefold(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_utf8_casefold(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_casefold.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_collate = Interop.downcallHandle(
+        "g_utf8_collate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two strings for ordering using the linguistically
@@ -8927,9 +13595,18 @@ public final class GLib {
      * different language scripts, for example.
      */
     public static int utf8Collate(java.lang.String str1, java.lang.String str2) {
-        var RESULT = gtk_h.g_utf8_collate(Interop.allocateNativeString(str1).handle(), Interop.allocateNativeString(str2).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_utf8_collate.invokeExact(Interop.allocateNativeString(str1).handle(), Interop.allocateNativeString(str2).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_collate_key = Interop.downcallHandle(
+        "g_utf8_collate_key",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts a string into a collation key that can be compared
@@ -8943,9 +13620,18 @@ public final class GLib {
      * Note that this function depends on the [current locale][setlocale].
      */
     public static java.lang.String utf8CollateKey(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_utf8_collate_key(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_collate_key.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_collate_key_for_filename = Interop.downcallHandle(
+        "g_utf8_collate_key_for_filename",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts a string into a collation key that can be compared
@@ -8961,9 +13647,18 @@ public final class GLib {
      * Note that this function depends on the [current locale][setlocale].
      */
     public static java.lang.String utf8CollateKeyForFilename(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_utf8_collate_key_for_filename(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_collate_key_for_filename.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_find_next_char = Interop.downcallHandle(
+        "g_utf8_find_next_char",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the start of the next UTF-8 character in the string after @p.
@@ -8978,9 +13673,18 @@ public final class GLib {
      * is reached.
      */
     public static java.lang.String utf8FindNextChar(java.lang.String p, java.lang.String end) {
-        var RESULT = gtk_h.g_utf8_find_next_char(Interop.allocateNativeString(p).handle(), Interop.allocateNativeString(end).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_find_next_char.invokeExact(Interop.allocateNativeString(p).handle(), Interop.allocateNativeString(end).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_find_prev_char = Interop.downcallHandle(
+        "g_utf8_find_prev_char",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Given a position @p with a UTF-8 encoded string {@code str}, find the start
@@ -8992,9 +13696,18 @@ public final class GLib {
      * it starts with an appropriate byte.
      */
     public static java.lang.String utf8FindPrevChar(java.lang.String str, java.lang.String p) {
-        var RESULT = gtk_h.g_utf8_find_prev_char(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(p).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_find_prev_char.invokeExact(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(p).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_get_char = Interop.downcallHandle(
+        "g_utf8_get_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a sequence of bytes encoded as UTF-8 to a Unicode character.
@@ -9005,9 +13718,18 @@ public final class GLib {
      * instead.
      */
     public static int utf8GetChar(java.lang.String p) {
-        var RESULT = gtk_h.g_utf8_get_char(Interop.allocateNativeString(p).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_utf8_get_char.invokeExact(Interop.allocateNativeString(p).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_get_char_validated = Interop.downcallHandle(
+        "g_utf8_get_char_validated",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Convert a sequence of bytes encoded as UTF-8 to a Unicode character.
@@ -9020,9 +13742,18 @@ public final class GLib {
      * sequence are nul.
      */
     public static int utf8GetCharValidated(java.lang.String p, long maxLen) {
-        var RESULT = gtk_h.g_utf8_get_char_validated(Interop.allocateNativeString(p).handle(), maxLen);
-        return RESULT;
+        try {
+            var RESULT = (int) g_utf8_get_char_validated.invokeExact(Interop.allocateNativeString(p).handle(), maxLen);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_make_valid = Interop.downcallHandle(
+        "g_utf8_make_valid",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * If the provided string is valid UTF-8, return a copy of it. If not,
@@ -9036,9 +13767,18 @@ public final class GLib {
      * readable as-is.
      */
     public static java.lang.String utf8MakeValid(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_utf8_make_valid(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_make_valid.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_normalize = Interop.downcallHandle(
+        "g_utf8_normalize",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a string into canonical form, standardizing
@@ -9068,9 +13808,18 @@ public final class GLib {
      * less capable Unicode handling.
      */
     public static java.lang.String utf8Normalize(java.lang.String str, long len, NormalizeMode mode) {
-        var RESULT = gtk_h.g_utf8_normalize(Interop.allocateNativeString(str).handle(), len, mode.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_normalize.invokeExact(Interop.allocateNativeString(str).handle(), len, mode.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_offset_to_pointer = Interop.downcallHandle(
+        "g_utf8_offset_to_pointer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts from an integer character offset to a pointer to a position
@@ -9088,9 +13837,18 @@ public final class GLib {
      * text rendering and therefore has to be as fast as possible.
      */
     public static java.lang.String utf8OffsetToPointer(java.lang.String str, long offset) {
-        var RESULT = gtk_h.g_utf8_offset_to_pointer(Interop.allocateNativeString(str).handle(), offset);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_offset_to_pointer.invokeExact(Interop.allocateNativeString(str).handle(), offset);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_pointer_to_offset = Interop.downcallHandle(
+        "g_utf8_pointer_to_offset",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts from a pointer to position within a string to an integer
@@ -9100,9 +13858,18 @@ public final class GLib {
      * a negative offset in this case.
      */
     public static long utf8PointerToOffset(java.lang.String str, java.lang.String pos) {
-        var RESULT = gtk_h.g_utf8_pointer_to_offset(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(pos).handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_utf8_pointer_to_offset.invokeExact(Interop.allocateNativeString(str).handle(), Interop.allocateNativeString(pos).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_prev_char = Interop.downcallHandle(
+        "g_utf8_prev_char",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the previous UTF-8 character in the string before @p.
@@ -9113,9 +13880,18 @@ public final class GLib {
      * character of the string, you must use g_utf8_find_prev_char() instead.
      */
     public static java.lang.String utf8PrevChar(java.lang.String p) {
-        var RESULT = gtk_h.g_utf8_prev_char(Interop.allocateNativeString(p).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_prev_char.invokeExact(Interop.allocateNativeString(p).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_strchr = Interop.downcallHandle(
+        "g_utf8_strchr",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Finds the leftmost occurrence of the given Unicode character
@@ -9123,9 +13899,18 @@ public final class GLib {
      * If {@code len} is -1, allow unbounded search.
      */
     public static java.lang.String utf8Strchr(java.lang.String p, long len, int c) {
-        var RESULT = gtk_h.g_utf8_strchr(Interop.allocateNativeString(p).handle(), len, c);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_strchr.invokeExact(Interop.allocateNativeString(p).handle(), len, c);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_strdown = Interop.downcallHandle(
+        "g_utf8_strdown",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts all Unicode characters in the string that have a case
@@ -9134,9 +13919,18 @@ public final class GLib {
      * characters in the string changing.
      */
     public static java.lang.String utf8Strdown(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_utf8_strdown(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_strdown.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_strlen = Interop.downcallHandle(
+        "g_utf8_strlen",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Computes the length of the string in characters, not including
@@ -9144,9 +13938,18 @@ public final class GLib {
      * middle of a character, the last (partial) character is not counted.
      */
     public static long utf8Strlen(java.lang.String p, long max) {
-        var RESULT = gtk_h.g_utf8_strlen(Interop.allocateNativeString(p).handle(), max);
-        return RESULT;
+        try {
+            var RESULT = (long) g_utf8_strlen.invokeExact(Interop.allocateNativeString(p).handle(), max);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_strncpy = Interop.downcallHandle(
+        "g_utf8_strncpy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Like the standard C strncpy() function, but copies a given number
@@ -9158,9 +13961,18 @@ public final class GLib {
      * largest possible UTF-8 characters
      */
     public static java.lang.String utf8Strncpy(java.lang.String dest, java.lang.String src, long n) {
-        var RESULT = gtk_h.g_utf8_strncpy(Interop.allocateNativeString(dest).handle(), Interop.allocateNativeString(src).handle(), n);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_strncpy.invokeExact(Interop.allocateNativeString(dest).handle(), Interop.allocateNativeString(src).handle(), n);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_strrchr = Interop.downcallHandle(
+        "g_utf8_strrchr",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Find the rightmost occurrence of the given Unicode character
@@ -9168,9 +13980,18 @@ public final class GLib {
      * If {@code len} is -1, allow unbounded search.
      */
     public static java.lang.String utf8Strrchr(java.lang.String p, long len, int c) {
-        var RESULT = gtk_h.g_utf8_strrchr(Interop.allocateNativeString(p).handle(), len, c);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_strrchr.invokeExact(Interop.allocateNativeString(p).handle(), len, c);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_strreverse = Interop.downcallHandle(
+        "g_utf8_strreverse",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Reverses a UTF-8 string. {@code str} must be valid UTF-8 encoded text.
@@ -9188,9 +14009,18 @@ public final class GLib {
      * no longer needed.
      */
     public static java.lang.String utf8Strreverse(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_utf8_strreverse(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_strreverse.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_strup = Interop.downcallHandle(
+        "g_utf8_strup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts all Unicode characters in the string that have a case
@@ -9200,9 +14030,18 @@ public final class GLib {
      * German ess-zet will be changed to SS.)
      */
     public static java.lang.String utf8Strup(java.lang.String str, long len) {
-        var RESULT = gtk_h.g_utf8_strup(Interop.allocateNativeString(str).handle(), len);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_strup.invokeExact(Interop.allocateNativeString(str).handle(), len);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_substring = Interop.downcallHandle(
+        "g_utf8_substring",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Copies a substring out of a UTF-8 encoded string.
@@ -9212,9 +14051,18 @@ public final class GLib {
      * end of the string.
      */
     public static java.lang.String utf8Substring(java.lang.String str, long startPos, long endPos) {
-        var RESULT = gtk_h.g_utf8_substring(Interop.allocateNativeString(str).handle(), startPos, endPos);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_substring.invokeExact(Interop.allocateNativeString(str).handle(), startPos, endPos);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_to_ucs4 = Interop.downcallHandle(
+        "g_utf8_to_ucs4",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a string from UTF-8 to a 32-bit fixed width
@@ -9223,12 +14071,21 @@ public final class GLib {
      */
     public static PointerInteger utf8ToUcs4(java.lang.String str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_utf8_to_ucs4(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_to_ucs4.invokeExact(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerInteger(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerInteger(RESULT);
     }
+    
+    static final MethodHandle g_utf8_to_ucs4_fast = Interop.downcallHandle(
+        "g_utf8_to_ucs4_fast",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a string from UTF-8 to a 32-bit fixed width
@@ -9238,9 +14095,18 @@ public final class GLib {
      * will be added to the string after the converted text.
      */
     public static PointerInteger utf8ToUcs4Fast(java.lang.String str, long len, PointerLong itemsWritten) {
-        var RESULT = gtk_h.g_utf8_to_ucs4_fast(Interop.allocateNativeString(str).handle(), len, itemsWritten.handle());
-        return new PointerInteger(RESULT);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_to_ucs4_fast.invokeExact(Interop.allocateNativeString(str).handle(), len, itemsWritten.handle());
+            return new PointerInteger(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_to_utf16 = Interop.downcallHandle(
+        "g_utf8_to_utf16",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a string from UTF-8 to UTF-16. A 0 character will be
@@ -9248,12 +14114,21 @@ public final class GLib {
      */
     public static PointerShort utf8ToUtf16(java.lang.String str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_utf8_to_utf16(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_utf8_to_utf16.invokeExact(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerShort(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerShort(RESULT);
     }
+    
+    static final MethodHandle g_utf8_validate = Interop.downcallHandle(
+        "g_utf8_validate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Validates UTF-8 encoded text. {@code str} is the text to validate;
@@ -9273,9 +14148,18 @@ public final class GLib {
      * doing anything else with it.
      */
     public static boolean utf8Validate(byte[] str, long maxLen, java.lang.String[] end) {
-        var RESULT = gtk_h.g_utf8_validate(Interop.allocateNativeArray(str).handle(), maxLen, Interop.allocateNativeArray(end).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_utf8_validate.invokeExact(Interop.allocateNativeArray(str).handle(), maxLen, Interop.allocateNativeArray(end).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_utf8_validate_len = Interop.downcallHandle(
+        "g_utf8_validate_len",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Validates UTF-8 encoded text.
@@ -9284,9 +14168,18 @@ public final class GLib {
      * will always return {@code false} if any of the bytes of {@code str} are nul.
      */
     public static boolean utf8ValidateLen(byte[] str, long maxLen, java.lang.String[] end) {
-        var RESULT = gtk_h.g_utf8_validate_len(Interop.allocateNativeArray(str).handle(), maxLen, Interop.allocateNativeArray(end).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_utf8_validate_len.invokeExact(Interop.allocateNativeArray(str).handle(), maxLen, Interop.allocateNativeArray(end).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uuid_string_is_valid = Interop.downcallHandle(
+        "g_uuid_string_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses the string {@code str} and verify if it is a UUID.
@@ -9301,9 +14194,18 @@ public final class GLib {
      * as per the aforementioned RFC.
      */
     public static boolean uuidStringIsValid(java.lang.String str) {
-        var RESULT = gtk_h.g_uuid_string_is_valid(Interop.allocateNativeString(str).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_uuid_string_is_valid.invokeExact(Interop.allocateNativeString(str).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uuid_string_random = Interop.downcallHandle(
+        "g_uuid_string_random",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Generates a random UUID (RFC 4122 version 4) as a string. It has the same
@@ -9311,14 +14213,32 @@ public final class GLib {
      * purposes such as key generation, nonces, salts or one-time pads.
      */
     public static java.lang.String uuidStringRandom() {
-        var RESULT = gtk_h.g_uuid_string_random();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uuid_string_random.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_variant_get_gtype = Interop.downcallHandle(
+        "g_variant_get_gtype",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG)
+    );
+    
     public static org.gtk.gobject.Type variantGetGtype() {
-        var RESULT = gtk_h.g_variant_get_gtype();
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) g_variant_get_gtype.invokeExact();
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_is_object_path = Interop.downcallHandle(
+        "g_variant_is_object_path",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if a given string is a valid D-Bus object path.  You
@@ -9331,9 +14251,18 @@ public final class GLib {
      * (including the one following the final {@code /} character) may be empty.
      */
     public static boolean variantIsObjectPath(java.lang.String string) {
-        var RESULT = gtk_h.g_variant_is_object_path(Interop.allocateNativeString(string).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_is_object_path.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_is_signature = Interop.downcallHandle(
+        "g_variant_is_signature",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if a given string is a valid D-Bus type signature.  You
@@ -9344,9 +14273,18 @@ public final class GLib {
      * strings in sequence.
      */
     public static boolean variantIsSignature(java.lang.String string) {
-        var RESULT = gtk_h.g_variant_is_signature(Interop.allocateNativeString(string).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_is_signature.invokeExact(Interop.allocateNativeString(string).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_parse = Interop.downcallHandle(
+        "g_variant_parse",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses a {@link Variant} from a text representation.
@@ -9387,12 +14325,21 @@ public final class GLib {
      */
     public static Variant variantParse(VariantType type, java.lang.String text, java.lang.String limit, java.lang.String[] endptr) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_variant_parse(type.handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_variant_parse.invokeExact(type.handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Variant(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_variant_parse_error_print_context = Interop.downcallHandle(
+        "g_variant_parse_error_print_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Pretty-prints a message showing the context of a {@link Variant} parse
@@ -9426,24 +14373,60 @@ public final class GLib {
      * function.
      */
     public static java.lang.String variantParseErrorPrintContext(Error error, java.lang.String sourceStr) {
-        var RESULT = gtk_h.g_variant_parse_error_print_context(error.handle(), Interop.allocateNativeString(sourceStr).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_variant_parse_error_print_context.invokeExact(error.handle(), Interop.allocateNativeString(sourceStr).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_parse_error_quark = Interop.downcallHandle(
+        "g_variant_parse_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     public static Quark variantParseErrorQuark() {
-        var RESULT = gtk_h.g_variant_parse_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_variant_parse_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_checked_ = Interop.downcallHandle(
+        "g_variant_type_checked_",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     public static VariantType variantTypeChecked(java.lang.String arg0) {
-        var RESULT = gtk_h.g_variant_type_checked_(Interop.allocateNativeString(arg0).handle());
-        return new VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_checked_.invokeExact(Interop.allocateNativeString(arg0).handle());
+            return new VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_variant_type_string_get_depth_ = Interop.downcallHandle(
+        "g_variant_type_string_get_depth_",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
+    
     public static long variantTypeStringGetDepth(java.lang.String typeString) {
-        var RESULT = gtk_h.g_variant_type_string_get_depth_(Interop.allocateNativeString(typeString).handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_type_string_get_depth_.invokeExact(Interop.allocateNativeString(typeString).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_string_is_valid = Interop.downcallHandle(
+        "g_variant_type_string_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code type_string} is a valid GVariant type string.  This call is
@@ -9451,9 +14434,18 @@ public final class GLib {
      * that the following character is a nul terminator.
      */
     public static boolean variantTypeStringIsValid(java.lang.String typeString) {
-        var RESULT = gtk_h.g_variant_type_string_is_valid(Interop.allocateNativeString(typeString).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_string_is_valid.invokeExact(Interop.allocateNativeString(typeString).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_string_scan = Interop.downcallHandle(
+        "g_variant_type_string_scan",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Scan for a single complete and valid GVariant type string in {@code string}.
@@ -9471,9 +14463,18 @@ public final class GLib {
      * see g_variant_type_string_is_valid().
      */
     public static boolean variantTypeStringScan(java.lang.String string, java.lang.String limit, java.lang.String[] endptr) {
-        var RESULT = gtk_h.g_variant_type_string_scan(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_string_scan.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vasprintf = Interop.downcallHandle(
+        "g_vasprintf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * An implementation of the GNU vasprintf() function which supports
@@ -9489,9 +14490,18 @@ public final class GLib {
      * {@code glib/gprintf.h} must be explicitly included in order to use this function.
      */
     public static int vasprintf(java.lang.String[] string, java.lang.String format, VaList args) {
-        var RESULT = gtk_h.g_vasprintf(Interop.allocateNativeArray(string).handle(), Interop.allocateNativeString(format).handle(), args);
-        return RESULT;
+        try {
+            var RESULT = (int) g_vasprintf.invokeExact(Interop.allocateNativeArray(string).handle(), Interop.allocateNativeString(format).handle(), args);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vfprintf = Interop.downcallHandle(
+        "g_vfprintf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * An implementation of the standard fprintf() function which supports
@@ -9500,9 +14510,18 @@ public final class GLib {
      * {@code glib/gprintf.h} must be explicitly included in order to use this function.
      */
     public static int vfprintf(java.lang.foreign.MemoryAddress file, java.lang.String format, VaList args) {
-        var RESULT = gtk_h.g_vfprintf(file, Interop.allocateNativeString(format).handle(), args);
-        return RESULT;
+        try {
+            var RESULT = (int) g_vfprintf.invokeExact(file, Interop.allocateNativeString(format).handle(), args);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vprintf = Interop.downcallHandle(
+        "g_vprintf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * An implementation of the standard vprintf() function which supports
@@ -9511,9 +14530,18 @@ public final class GLib {
      * {@code glib/gprintf.h} must be explicitly included in order to use this function.
      */
     public static int vprintf(java.lang.String format, VaList args) {
-        var RESULT = gtk_h.g_vprintf(Interop.allocateNativeString(format).handle(), args);
-        return RESULT;
+        try {
+            var RESULT = (int) g_vprintf.invokeExact(Interop.allocateNativeString(format).handle(), args);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vsnprintf = Interop.downcallHandle(
+        "g_vsnprintf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A safer form of the standard vsprintf() function. The output is guaranteed
@@ -9535,9 +14563,18 @@ public final class GLib {
      * the Single Unix Specification.
      */
     public static int vsnprintf(java.lang.String string, long n, java.lang.String format, VaList args) {
-        var RESULT = gtk_h.g_vsnprintf(Interop.allocateNativeString(string).handle(), n, Interop.allocateNativeString(format).handle(), args);
-        return RESULT;
+        try {
+            var RESULT = (int) g_vsnprintf.invokeExact(Interop.allocateNativeString(string).handle(), n, Interop.allocateNativeString(format).handle(), args);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vsprintf = Interop.downcallHandle(
+        "g_vsprintf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * An implementation of the standard vsprintf() function which supports
@@ -9546,16 +14583,29 @@ public final class GLib {
      * {@code glib/gprintf.h} must be explicitly included in order to use this function.
      */
     public static int vsprintf(java.lang.String string, java.lang.String format, VaList args) {
-        var RESULT = gtk_h.g_vsprintf(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(format).handle(), args);
-        return RESULT;
+        try {
+            var RESULT = (int) g_vsprintf.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(format).handle(), args);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_warn_message = Interop.downcallHandle(
+        "g_warn_message",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Internal function used to print messages from the public g_warn_if_reached()
      * and g_warn_if_fail() macros.
      */
     public static void warnMessage(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String warnexpr) {
-        gtk_h.g_warn_message(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(warnexpr).handle());
+        try {
+            g_warn_message.invokeExact(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(warnexpr).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     public static boolean __cbHookCheckFunc(MemoryAddress data) {

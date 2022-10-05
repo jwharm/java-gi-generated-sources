@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,22 +22,45 @@ import java.lang.invoke.*;
  */
 public interface Seekable extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_seekable_can_seek = Interop.downcallHandle(
+        "g_seekable_can_seek",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Tests if the stream supports the {@link SeekableIface}.
      */
     public default boolean canSeek() {
-        var RESULT = gtk_h.g_seekable_can_seek(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_seekable_can_seek.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_seekable_can_truncate = Interop.downcallHandle(
+        "g_seekable_can_truncate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests if the length of the stream can be adjusted with
      * g_seekable_truncate().
      */
     public default boolean canTruncate() {
-        var RESULT = gtk_h.g_seekable_can_truncate(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_seekable_can_truncate.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_seekable_seek = Interop.downcallHandle(
+        "g_seekable_seek",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Seeks in the stream by the given {@code offset}, modified by {@code type}.
@@ -58,20 +80,38 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
      */
     public default boolean seek(long offset, org.gtk.glib.SeekType type, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_seekable_seek(handle(), offset, type.getValue(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_seekable_seek.invokeExact(handle(), offset, type.getValue(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_seekable_tell = Interop.downcallHandle(
+        "g_seekable_tell",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tells the current position within the stream.
      */
     public default long tell() {
-        var RESULT = gtk_h.g_seekable_tell(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_seekable_tell.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_seekable_truncate = Interop.downcallHandle(
+        "g_seekable_truncate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the length of the stream to {@code offset}. If the stream was previously
@@ -86,11 +126,15 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
      */
     public default boolean truncate(long offset, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_seekable_truncate(handle(), offset, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_seekable_truncate.invokeExact(handle(), offset, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
     class SeekableImpl extends org.gtk.gobject.Object implements Seekable {

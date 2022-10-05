@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,18 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
         super(ref);
     }
     
+    static final MethodHandle gdk_content_formats_builder_new = Interop.downcallHandle(
+        "gdk_content_formats_builder_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_content_formats_builder_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_content_formats_builder_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -30,36 +38,77 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
         super(constructNew());
     }
     
+    static final MethodHandle gdk_content_formats_builder_add_formats = Interop.downcallHandle(
+        "gdk_content_formats_builder_add_formats",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Appends all formats from {@code formats} to {@code builder}, skipping those that
      * already exist.
      */
     public void addFormats(ContentFormats formats) {
-        gtk_h.gdk_content_formats_builder_add_formats(handle(), formats.handle());
+        try {
+            gdk_content_formats_builder_add_formats.invokeExact(handle(), formats.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_builder_add_gtype = Interop.downcallHandle(
+        "gdk_content_formats_builder_add_gtype",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Appends {@code type} to {@code builder} if it has not already been added.
      */
     public void addGtype(org.gtk.gobject.Type type) {
-        gtk_h.gdk_content_formats_builder_add_gtype(handle(), type.getValue());
+        try {
+            gdk_content_formats_builder_add_gtype.invokeExact(handle(), type.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_builder_add_mime_type = Interop.downcallHandle(
+        "gdk_content_formats_builder_add_mime_type",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Appends {@code mime_type} to {@code builder} if it has not already been added.
      */
     public void addMimeType(java.lang.String mimeType) {
-        gtk_h.gdk_content_formats_builder_add_mime_type(handle(), Interop.allocateNativeString(mimeType).handle());
+        try {
+            gdk_content_formats_builder_add_mime_type.invokeExact(handle(), Interop.allocateNativeString(mimeType).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_builder_free_to_formats = Interop.downcallHandle(
+        "gdk_content_formats_builder_free_to_formats",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@code GdkContentFormats} from the current state of the
      * given {@code builder}, and frees the {@code builder} instance.
      */
     public ContentFormats freeToFormats() {
-        var RESULT = gtk_h.gdk_content_formats_builder_free_to_formats(handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_builder_free_to_formats.invokeExact(handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_builder_ref = Interop.downcallHandle(
+        "gdk_content_formats_builder_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Acquires a reference on the given {@code builder}.
@@ -68,9 +117,18 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
      * {@code GdkContentFormatsBuilder} objects should not be kept around.
      */
     public ContentFormatsBuilder ref() {
-        var RESULT = gtk_h.gdk_content_formats_builder_ref(handle());
-        return new ContentFormatsBuilder(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_builder_ref.invokeExact(handle());
+            return new ContentFormatsBuilder(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_builder_to_formats = Interop.downcallHandle(
+        "gdk_content_formats_builder_to_formats",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@code GdkContentFormats} from the given {@code builder}.
@@ -82,15 +140,28 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
      * {@link ContentFormatsBuilder#freeToFormats}.
      */
     public ContentFormats toFormats() {
-        var RESULT = gtk_h.gdk_content_formats_builder_to_formats(handle());
-        return new ContentFormats(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_content_formats_builder_to_formats.invokeExact(handle());
+            return new ContentFormats(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_content_formats_builder_unref = Interop.downcallHandle(
+        "gdk_content_formats_builder_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases a reference on the given {@code builder}.
      */
     public void unref() {
-        gtk_h.gdk_content_formats_builder_unref(handle());
+        try {
+            gdk_content_formats_builder_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

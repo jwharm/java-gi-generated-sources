@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -46,9 +45,18 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
         return new EditableLabel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_editable_label_new = Interop.downcallHandle(
+        "gtk_editable_label_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String str) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_editable_label_new(Interop.allocateNativeString(str).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_editable_label_new.invokeExact(Interop.allocateNativeString(str).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -58,20 +66,43 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
         super(constructNew(str));
     }
     
+    static final MethodHandle gtk_editable_label_get_editing = Interop.downcallHandle(
+        "gtk_editable_label_get_editing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether the label is currently in “editing mode”.
      */
     public boolean getEditing() {
-        var RESULT = gtk_h.gtk_editable_label_get_editing(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_editable_label_get_editing.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_editable_label_start_editing = Interop.downcallHandle(
+        "gtk_editable_label_start_editing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Switches the label into “editing mode”.
      */
     public void startEditing() {
-        gtk_h.gtk_editable_label_start_editing(handle());
+        try {
+            gtk_editable_label_start_editing.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_editable_label_stop_editing = Interop.downcallHandle(
+        "gtk_editable_label_stop_editing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Switches the label out of “editing mode”.
@@ -82,7 +113,11 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
      * previous {@code Gtk.Editable:text} property value.
      */
     public void stopEditing(boolean commit) {
-        gtk_h.gtk_editable_label_stop_editing(handle(), commit ? 1 : 0);
+        try {
+            gtk_editable_label_stop_editing.invokeExact(handle(), commit ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

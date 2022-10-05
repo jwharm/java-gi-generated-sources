@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -93,30 +92,62 @@ import java.lang.invoke.*;
  */
 public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_async_result_get_source_object = Interop.downcallHandle(
+        "g_async_result_get_source_object",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the source object from a {@link AsyncResult}.
      */
     public default org.gtk.gobject.Object getSourceObject() {
-        var RESULT = gtk_h.g_async_result_get_source_object(handle());
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_async_result_get_source_object.invokeExact(handle());
+            return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_async_result_get_user_data = Interop.downcallHandle(
+        "g_async_result_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the user data from a {@link AsyncResult}.
      */
     public default java.lang.foreign.MemoryAddress getUserData() {
-        var RESULT = gtk_h.g_async_result_get_user_data(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_async_result_get_user_data.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_async_result_is_tagged = Interop.downcallHandle(
+        "g_async_result_is_tagged",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code res} has the given {@code source_tag} (generally a function
      * pointer indicating the function {@code res} was created by).
      */
     public default boolean isTagged(java.lang.foreign.MemoryAddress sourceTag) {
-        var RESULT = gtk_h.g_async_result_is_tagged(handle(), sourceTag);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_async_result_is_tagged.invokeExact(handle(), sourceTag);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_async_result_legacy_propagate_error = Interop.downcallHandle(
+        "g_async_result_legacy_propagate_error",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code res} is a {@link SimpleAsyncResult}, this is equivalent to
@@ -132,11 +163,15 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
      */
     public default boolean legacyPropagateError() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_async_result_legacy_propagate_error(handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_async_result_legacy_propagate_error.invokeExact(handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
     class AsyncResultImpl extends org.gtk.gobject.Object implements AsyncResult {

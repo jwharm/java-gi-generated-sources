@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -38,9 +37,18 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         return new TabBar(gobject.refcounted());
     }
     
+    static final MethodHandle adw_tab_bar_new = Interop.downcallHandle(
+        "adw_tab_bar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_tab_bar_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_tab_bar_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -50,111 +58,242 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         super(constructNew());
     }
     
+    static final MethodHandle adw_tab_bar_get_autohide = Interop.downcallHandle(
+        "adw_tab_bar_get_autohide",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets whether the tabs automatically hide.
      */
     public boolean getAutohide() {
-        var RESULT = gtk_h.adw_tab_bar_get_autohide(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_tab_bar_get_autohide.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_get_end_action_widget = Interop.downcallHandle(
+        "adw_tab_bar_get_end_action_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the widget shown after the tabs.
      */
     public org.gtk.gtk.Widget getEndActionWidget() {
-        var RESULT = gtk_h.adw_tab_bar_get_end_action_widget(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_tab_bar_get_end_action_widget.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_get_expand_tabs = Interop.downcallHandle(
+        "adw_tab_bar_get_expand_tabs",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether tabs expand to full width.
      */
     public boolean getExpandTabs() {
-        var RESULT = gtk_h.adw_tab_bar_get_expand_tabs(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_tab_bar_get_expand_tabs.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_get_inverted = Interop.downcallHandle(
+        "adw_tab_bar_get_inverted",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether tabs use inverted layout.
      */
     public boolean getInverted() {
-        var RESULT = gtk_h.adw_tab_bar_get_inverted(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_tab_bar_get_inverted.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_get_is_overflowing = Interop.downcallHandle(
+        "adw_tab_bar_get_is_overflowing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} is overflowing.
      */
     public boolean getIsOverflowing() {
-        var RESULT = gtk_h.adw_tab_bar_get_is_overflowing(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_tab_bar_get_is_overflowing.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_get_start_action_widget = Interop.downcallHandle(
+        "adw_tab_bar_get_start_action_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the widget shown before the tabs.
      */
     public org.gtk.gtk.Widget getStartActionWidget() {
-        var RESULT = gtk_h.adw_tab_bar_get_start_action_widget(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_tab_bar_get_start_action_widget.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_get_tabs_revealed = Interop.downcallHandle(
+        "adw_tab_bar_get_tabs_revealed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the tabs are currently revealed.
      */
     public boolean getTabsRevealed() {
-        var RESULT = gtk_h.adw_tab_bar_get_tabs_revealed(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_tab_bar_get_tabs_revealed.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_get_view = Interop.downcallHandle(
+        "adw_tab_bar_get_view",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the tab view {@code self} controls.
      */
     public TabView getView() {
-        var RESULT = gtk_h.adw_tab_bar_get_view(handle());
-        return new TabView(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_tab_bar_get_view.invokeExact(handle());
+            return new TabView(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_set_autohide = Interop.downcallHandle(
+        "adw_tab_bar_set_autohide",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the tabs automatically hide.
      */
     public void setAutohide(boolean autohide) {
-        gtk_h.adw_tab_bar_set_autohide(handle(), autohide ? 1 : 0);
+        try {
+            adw_tab_bar_set_autohide.invokeExact(handle(), autohide ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_set_end_action_widget = Interop.downcallHandle(
+        "adw_tab_bar_set_end_action_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the widget to show after the tabs.
      */
     public void setEndActionWidget(org.gtk.gtk.Widget widget) {
-        gtk_h.adw_tab_bar_set_end_action_widget(handle(), widget.handle());
+        try {
+            adw_tab_bar_set_end_action_widget.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_set_expand_tabs = Interop.downcallHandle(
+        "adw_tab_bar_set_expand_tabs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether tabs expand to full width.
      */
     public void setExpandTabs(boolean expandTabs) {
-        gtk_h.adw_tab_bar_set_expand_tabs(handle(), expandTabs ? 1 : 0);
+        try {
+            adw_tab_bar_set_expand_tabs.invokeExact(handle(), expandTabs ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_set_inverted = Interop.downcallHandle(
+        "adw_tab_bar_set_inverted",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether tabs tabs use inverted layout.
      */
     public void setInverted(boolean inverted) {
-        gtk_h.adw_tab_bar_set_inverted(handle(), inverted ? 1 : 0);
+        try {
+            adw_tab_bar_set_inverted.invokeExact(handle(), inverted ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_set_start_action_widget = Interop.downcallHandle(
+        "adw_tab_bar_set_start_action_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the widget to show before the tabs.
      */
     public void setStartActionWidget(org.gtk.gtk.Widget widget) {
-        gtk_h.adw_tab_bar_set_start_action_widget(handle(), widget.handle());
+        try {
+            adw_tab_bar_set_start_action_widget.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_set_view = Interop.downcallHandle(
+        "adw_tab_bar_set_view",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the tab view {@code self} controls.
      */
     public void setView(TabView view) {
-        gtk_h.adw_tab_bar_set_view(handle(), view.handle());
+        try {
+            adw_tab_bar_set_view.invokeExact(handle(), view.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_tab_bar_setup_extra_drop_target = Interop.downcallHandle(
+        "adw_tab_bar_setup_extra_drop_target",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Sets the supported types for this drop target.
@@ -170,7 +309,11 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * The {@code TabBar::extra-drag-drop} signal can be used to handle the drop.
      */
     public void setupExtraDropTarget(org.gtk.gdk.DragAction actions, org.gtk.gobject.Type[] types, long nTypes) {
-        gtk_h.adw_tab_bar_setup_extra_drop_target(handle(), actions.getValue(), Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle(), nTypes);
+        try {
+            adw_tab_bar_setup_extra_drop_target.invokeExact(handle(), actions.getValue(), Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)).handle(), nTypes);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -188,19 +331,19 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public SignalHandle onExtraDragDrop(ExtraDragDropHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("extra-drag-drop").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabBar.Callbacks.class, "signalTabBarExtraDragDrop",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

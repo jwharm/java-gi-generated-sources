@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -121,6 +120,11 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_uri_get_auth_params = Interop.downcallHandle(
+        "g_uri_get_auth_params",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets {@code uri}'s authentication parameters, which may contain
      * {@code %}-encoding, depending on the flags with which {@code uri} was created.
@@ -131,26 +135,53 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * further parsing this information.
      */
     public java.lang.String getAuthParams() {
-        var RESULT = gtk_h.g_uri_get_auth_params(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_auth_params.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_flags = Interop.downcallHandle(
+        "g_uri_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s flags set upon construction.
      */
     public UriFlags getFlags() {
-        var RESULT = gtk_h.g_uri_get_flags(handle());
-        return new UriFlags(RESULT);
+        try {
+            var RESULT = (int) g_uri_get_flags.invokeExact(handle());
+            return new UriFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_fragment = Interop.downcallHandle(
+        "g_uri_get_fragment",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s fragment, which may contain {@code %}-encoding, depending on
      * the flags with which {@code uri} was created.
      */
     public java.lang.String getFragment() {
-        var RESULT = gtk_h.g_uri_get_fragment(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_fragment.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_host = Interop.downcallHandle(
+        "g_uri_get_host",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s host. This will never have {@code %}-encoded characters,
@@ -164,9 +195,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * {@code fe80::1234%}{@code 25em1} if the string is still encoded).
      */
     public java.lang.String getHost() {
-        var RESULT = gtk_h.g_uri_get_host(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_host.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_password = Interop.downcallHandle(
+        "g_uri_get_password",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s password, which may contain {@code %}-encoding, depending on
@@ -174,26 +214,53 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * with {@link UriFlags#HAS_PASSWORD} then this will be {@code null}.)
      */
     public java.lang.String getPassword() {
-        var RESULT = gtk_h.g_uri_get_password(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_password.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_path = Interop.downcallHandle(
+        "g_uri_get_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s path, which may contain {@code %}-encoding, depending on the
      * flags with which {@code uri} was created.
      */
     public java.lang.String getPath() {
-        var RESULT = gtk_h.g_uri_get_path(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_path.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_port = Interop.downcallHandle(
+        "g_uri_get_port",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s port.
      */
     public int getPort() {
-        var RESULT = gtk_h.g_uri_get_port(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_uri_get_port.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_query = Interop.downcallHandle(
+        "g_uri_get_query",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s query, which may contain {@code %}-encoding, depending on the
@@ -203,18 +270,36 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * {@link UriParamsIter} or g_uri_parse_params() may be useful.
      */
     public java.lang.String getQuery() {
-        var RESULT = gtk_h.g_uri_get_query(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_query.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_scheme = Interop.downcallHandle(
+        "g_uri_get_scheme",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s scheme. Note that this will always be all-lowercase,
      * regardless of the string or strings that {@code uri} was created from.
      */
     public java.lang.String getScheme() {
-        var RESULT = gtk_h.g_uri_get_scheme(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_scheme.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_user = Interop.downcallHandle(
+        "g_uri_get_user",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the ‘username’ component of {@code uri}'s userinfo, which may contain
@@ -223,18 +308,36 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * {@link UriFlags#HAS_AUTH_PARAMS}, this is the same as g_uri_get_userinfo().
      */
     public java.lang.String getUser() {
-        var RESULT = gtk_h.g_uri_get_user(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_user.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_get_userinfo = Interop.downcallHandle(
+        "g_uri_get_userinfo",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code uri}'s userinfo, which may contain {@code %}-encoding, depending on
      * the flags with which {@code uri} was created.
      */
     public java.lang.String getUserinfo() {
-        var RESULT = gtk_h.g_uri_get_userinfo(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_get_userinfo.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_parse_relative = Interop.downcallHandle(
+        "g_uri_parse_relative",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses {@code uri_ref} according to {@code flags} and, if it is a
@@ -244,20 +347,38 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public Uri parseRelative(java.lang.String uriRef, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_parse_relative(handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_parse_relative.invokeExact(handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Uri(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Uri(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_uri_ref = Interop.downcallHandle(
+        "g_uri_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increments the reference count of {@code uri} by one.
      */
     public Uri ref() {
-        var RESULT = gtk_h.g_uri_ref(handle());
-        return new Uri(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_uri_ref.invokeExact(handle());
+            return new Uri(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_to_string = Interop.downcallHandle(
+        "g_uri_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a string representing {@code uri}.
@@ -274,18 +395,36 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * logged, then consider using g_uri_to_string_partial() to redact parts.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.g_uri_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_to_string_partial = Interop.downcallHandle(
+        "g_uri_to_string_partial",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns a string representing {@code uri}, subject to the options in
      * {@code flags}. See g_uri_to_string() and {@link UriHideFlags} for more details.
      */
     public java.lang.String toStringPartial(UriHideFlags flags) {
-        var RESULT = gtk_h.g_uri_to_string_partial(handle(), flags.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_to_string_partial.invokeExact(handle(), flags.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_unref = Interop.downcallHandle(
+        "g_uri_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code uri} by one.
@@ -294,8 +433,17 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * {@code uri} are freed
      */
     public void unref() {
-        gtk_h.g_uri_unref(handle());
+        try {
+            g_uri_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_build = Interop.downcallHandle(
+        "g_uri_build",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link Uri} from the given components according to {@code flags}.
@@ -304,9 +452,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * components of the "userinfo" separately.
      */
     public static Uri build(UriFlags flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_build(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return new Uri(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_uri_build.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+            return new Uri(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_build_with_user = Interop.downcallHandle(
+        "g_uri_build_with_user",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link Uri} from the given components according to {@code flags}
@@ -319,14 +476,32 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * if either {@code password} or {@code auth_params} is non-{@code null}.
      */
     public static Uri buildWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_build_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return new Uri(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_uri_build_with_user.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+            return new Uri(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_uri_error_quark = Interop.downcallHandle(
+        "g_uri_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark errorQuark() {
-        var RESULT = gtk_h.g_uri_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_uri_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_escape_bytes = Interop.downcallHandle(
+        "g_uri_escape_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Escapes arbitrary data for use in a URI.
@@ -342,9 +517,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * bytes as {@code %}{@code 00}.
      */
     public static java.lang.String escapeBytes(byte[] unescaped, long length, java.lang.String reservedCharsAllowed) {
-        var RESULT = gtk_h.g_uri_escape_bytes(Interop.allocateNativeArray(unescaped).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_escape_bytes.invokeExact(Interop.allocateNativeArray(unescaped).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_escape_string = Interop.downcallHandle(
+        "g_uri_escape_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Escapes a string for use in a URI.
@@ -357,9 +541,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * portions of a URI.
      */
     public static java.lang.String escapeString(java.lang.String unescaped, java.lang.String reservedCharsAllowed, boolean allowUtf8) {
-        var RESULT = gtk_h.g_uri_escape_string(Interop.allocateNativeString(unescaped).handle(), Interop.allocateNativeString(reservedCharsAllowed).handle(), allowUtf8 ? 1 : 0);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_escape_string.invokeExact(Interop.allocateNativeString(unescaped).handle(), Interop.allocateNativeString(reservedCharsAllowed).handle(), allowUtf8 ? 1 : 0);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_is_valid = Interop.downcallHandle(
+        "g_uri_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses {@code uri_string} according to {@code flags}, to determine whether it is a valid
@@ -373,12 +566,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean isValid(java.lang.String uriString, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_is_valid(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_is_valid.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_uri_join = Interop.downcallHandle(
+        "g_uri_join",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Joins the given components together according to {@code flags} to create
@@ -397,9 +599,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * in {@code flags}.
      */
     public static java.lang.String join(UriFlags flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_join(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_join.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_join_with_user = Interop.downcallHandle(
+        "g_uri_join_with_user",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Joins the given components together according to {@code flags} to create
@@ -413,9 +624,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * in {@code flags}.
      */
     public static java.lang.String joinWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_join_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_join_with_user.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_list_extract_uris = Interop.downcallHandle(
+        "g_uri_list_extract_uris",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Splits an URI list conforming to the text/uri-list
@@ -423,9 +643,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * discarding any comments. The URIs are not validated.
      */
     public static PointerIterator<java.lang.String> listExtractUris(java.lang.String uriList) {
-        var RESULT = gtk_h.g_uri_list_extract_uris(Interop.allocateNativeString(uriList).handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_uri_list_extract_uris.invokeExact(Interop.allocateNativeString(uriList).handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_parse = Interop.downcallHandle(
+        "g_uri_parse",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses {@code uri_string} according to {@code flags}. If the result is not a
@@ -434,12 +663,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Uri parse(java.lang.String uriString, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_parse(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_parse.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Uri(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Uri(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_uri_parse_params = Interop.downcallHandle(
+        "g_uri_parse_params",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Many URI schemes include one or more attribute/value pairs as part of the URI
@@ -469,12 +707,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static org.gtk.glib.HashTable parseParams(java.lang.String params, long length, java.lang.String separators, UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_parse_params(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_parse_params.invokeExact(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_uri_parse_scheme = Interop.downcallHandle(
+        "g_uri_parse_scheme",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the scheme portion of a URI string.
@@ -486,9 +733,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * Common schemes include {@code file}, {@code https}, {@code svn+ssh}, etc.
      */
     public static java.lang.String parseScheme(java.lang.String uri) {
-        var RESULT = gtk_h.g_uri_parse_scheme(Interop.allocateNativeString(uri).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_parse_scheme.invokeExact(Interop.allocateNativeString(uri).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_peek_scheme = Interop.downcallHandle(
+        "g_uri_peek_scheme",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the scheme portion of a URI string.
@@ -503,9 +759,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * all-lowercase and does not need to be freed.
      */
     public static java.lang.String peekScheme(java.lang.String uri) {
-        var RESULT = gtk_h.g_uri_peek_scheme(Interop.allocateNativeString(uri).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_peek_scheme.invokeExact(Interop.allocateNativeString(uri).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_resolve_relative = Interop.downcallHandle(
+        "g_uri_resolve_relative",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses {@code uri_ref} according to {@code flags} and, if it is a
@@ -518,12 +783,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static java.lang.String resolveRelative(java.lang.String baseUriString, java.lang.String uriRef, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_resolve_relative(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_resolve_relative.invokeExact(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_uri_split = Interop.downcallHandle(
+        "g_uri_split",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses {@code uri_ref} (which can be an
@@ -545,12 +819,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean split(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] userinfo, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_uri_split_network = Interop.downcallHandle(
+        "g_uri_split_network",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses {@code uri_string} (which must be an [absolute URI][relative-absolute-uris])
@@ -562,12 +845,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean splitNetwork(java.lang.String uriString, UriFlags flags, java.lang.String[] scheme, java.lang.String[] host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split_network(Interop.allocateNativeString(uriString).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_uri_split_with_user = Interop.downcallHandle(
+        "g_uri_split_with_user",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses {@code uri_ref} (which can be an
@@ -584,12 +876,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean splitWithUser(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] user, java.lang.String[] password, java.lang.String[] authParams, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split_with_user(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_uri_unescape_bytes = Interop.downcallHandle(
+        "g_uri_unescape_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unescapes a segment of an escaped string as binary data.
@@ -605,12 +906,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Bytes unescapeBytes(java.lang.String escapedString, long length, java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_unescape_bytes(Interop.allocateNativeString(escapedString).handle(), length, Interop.allocateNativeString(illegalCharacters).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_uri_unescape_bytes.invokeExact(Interop.allocateNativeString(escapedString).handle(), length, Interop.allocateNativeString(illegalCharacters).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Bytes(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_uri_unescape_segment = Interop.downcallHandle(
+        "g_uri_unescape_segment",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unescapes a segment of an escaped string.
@@ -625,9 +935,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * g_uri_unescape_bytes().
      */
     public static java.lang.String unescapeSegment(java.lang.String escapedString, java.lang.String escapedStringEnd, java.lang.String illegalCharacters) {
-        var RESULT = gtk_h.g_uri_unescape_segment(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(escapedStringEnd).handle(), Interop.allocateNativeString(illegalCharacters).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_unescape_segment.invokeExact(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(escapedStringEnd).handle(), Interop.allocateNativeString(illegalCharacters).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_unescape_string = Interop.downcallHandle(
+        "g_uri_unescape_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unescapes a whole escaped string.
@@ -639,8 +958,12 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * escaped path element, which might confuse pathname handling.
      */
     public static java.lang.String unescapeString(java.lang.String escapedString, java.lang.String illegalCharacters) {
-        var RESULT = gtk_h.g_uri_unescape_string(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(illegalCharacters).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_uri_unescape_string.invokeExact(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(illegalCharacters).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,9 +22,18 @@ public class SimplePermission extends Permission {
         return new SimplePermission(gobject.refcounted());
     }
     
+    static final MethodHandle g_simple_permission_new = Interop.downcallHandle(
+        "g_simple_permission_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(boolean allowed) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_simple_permission_new(allowed ? 1 : 0), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_permission_new.invokeExact(allowed ? 1 : 0), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**

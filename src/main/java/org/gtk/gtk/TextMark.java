@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -51,9 +50,18 @@ public class TextMark extends org.gtk.gobject.Object {
         return new TextMark(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_text_mark_new = Interop.downcallHandle(
+        "gtk_text_mark_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(java.lang.String name, boolean leftGravity) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).handle(), leftGravity ? 1 : 0), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_mark_new.invokeExact(Interop.allocateNativeString(name).handle(), leftGravity ? 1 : 0), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -73,15 +81,29 @@ public class TextMark extends org.gtk.gobject.Object {
         super(constructNew(name, leftGravity));
     }
     
+    static final MethodHandle gtk_text_mark_get_buffer = Interop.downcallHandle(
+        "gtk_text_mark_get_buffer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the buffer this mark is located inside.
      * <p>
      * Returns {@code null} if the mark is deleted.
      */
     public TextBuffer getBuffer() {
-        var RESULT = gtk_h.gtk_text_mark_get_buffer(handle());
-        return new TextBuffer(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_mark_get_buffer.invokeExact(handle());
+            return new TextBuffer(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_mark_get_deleted = Interop.downcallHandle(
+        "gtk_text_mark_get_deleted",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the mark has been removed from its buffer.
@@ -90,17 +112,35 @@ public class TextMark extends org.gtk.gobject.Object {
      * to a buffer again.
      */
     public boolean getDeleted() {
-        var RESULT = gtk_h.gtk_text_mark_get_deleted(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_mark_get_deleted.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_mark_get_left_gravity = Interop.downcallHandle(
+        "gtk_text_mark_get_left_gravity",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether the mark has left gravity.
      */
     public boolean getLeftGravity() {
-        var RESULT = gtk_h.gtk_text_mark_get_left_gravity(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_mark_get_left_gravity.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_mark_get_name = Interop.downcallHandle(
+        "gtk_text_mark_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the mark name.
@@ -108,9 +148,18 @@ public class TextMark extends org.gtk.gobject.Object {
      * Returns {@code null} for anonymous marks.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.gtk_text_mark_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_text_mark_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_mark_get_visible = Interop.downcallHandle(
+        "gtk_text_mark_get_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the mark is visible.
@@ -118,12 +167,25 @@ public class TextMark extends org.gtk.gobject.Object {
      * A cursor is displayed for visible marks.
      */
     public boolean getVisible() {
-        var RESULT = gtk_h.gtk_text_mark_get_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_mark_get_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle gtk_text_mark_set_visible = Interop.downcallHandle(
+        "gtk_text_mark_set_visible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     public void setVisible(boolean setting) {
-        gtk_h.gtk_text_mark_set_visible(handle(), setting ? 1 : 0);
+        try {
+            gtk_text_mark_set_visible.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

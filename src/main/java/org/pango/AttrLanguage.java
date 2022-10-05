@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,16 +14,21 @@ public class AttrLanguage extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public AttrLanguage() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrLanguage.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_attr_language_new = Interop.downcallHandle(
+        "pango_attr_language_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new language tag attribute.
      */
     public static Attribute new_(Language language) {
-        var RESULT = gtk_h.pango_attr_language_new(language.handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_language_new.invokeExact(language.handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

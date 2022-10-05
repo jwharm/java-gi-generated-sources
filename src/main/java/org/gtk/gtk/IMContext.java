@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -47,6 +46,11 @@ public class IMContext extends org.gtk.gobject.Object {
         return new IMContext(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_im_context_delete_surrounding = Interop.downcallHandle(
+        "gtk_im_context_delete_surrounding",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Asks the widget that the input context is attached to delete
      * characters around the cursor position by emitting the
@@ -67,9 +71,18 @@ public class IMContext extends org.gtk.gobject.Object {
      * It is not useful for applications.
      */
     public boolean deleteSurrounding(int offset, int nChars) {
-        var RESULT = gtk_h.gtk_im_context_delete_surrounding(handle(), offset, nChars);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_im_context_delete_surrounding.invokeExact(handle(), offset, nChars);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_filter_key = Interop.downcallHandle(
+        "gtk_im_context_filter_key",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Allow an input method to forward key press and release events
@@ -77,9 +90,18 @@ public class IMContext extends org.gtk.gobject.Object {
      * available.
      */
     public boolean filterKey(boolean press, org.gtk.gdk.Surface surface, org.gtk.gdk.Device device, int time, int keycode, org.gtk.gdk.ModifierType state, int group) {
-        var RESULT = gtk_h.gtk_im_context_filter_key(handle(), press ? 1 : 0, surface.handle(), device.handle(), time, keycode, state.getValue(), group);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_im_context_filter_key.invokeExact(handle(), press ? 1 : 0, surface.handle(), device.handle(), time, keycode, state.getValue(), group);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_filter_keypress = Interop.downcallHandle(
+        "gtk_im_context_filter_keypress",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Allow an input method to internally handle key press and release
@@ -89,9 +111,18 @@ public class IMContext extends org.gtk.gobject.Object {
      * should be done for this key event.
      */
     public boolean filterKeypress(org.gtk.gdk.Event event) {
-        var RESULT = gtk_h.gtk_im_context_filter_keypress(handle(), event.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_im_context_filter_keypress.invokeExact(handle(), event.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_focus_in = Interop.downcallHandle(
+        "gtk_im_context_focus_in",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Notify the input method that the widget to which this
@@ -101,8 +132,17 @@ public class IMContext extends org.gtk.gobject.Object {
      * feedback to reflect this change.
      */
     public void focusIn() {
-        gtk_h.gtk_im_context_focus_in(handle());
+        try {
+            gtk_im_context_focus_in.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_focus_out = Interop.downcallHandle(
+        "gtk_im_context_focus_out",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Notify the input method that the widget to which this
@@ -112,8 +152,17 @@ public class IMContext extends org.gtk.gobject.Object {
      * feedback or reset the contexts state to reflect this change.
      */
     public void focusOut() {
-        gtk_h.gtk_im_context_focus_out(handle());
+        try {
+            gtk_im_context_focus_out.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_get_preedit_string = Interop.downcallHandle(
+        "gtk_im_context_get_preedit_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieve the current preedit string for the input context,
@@ -122,8 +171,17 @@ public class IMContext extends org.gtk.gobject.Object {
      * This string should be displayed inserted at the insertion point.
      */
     public void getPreeditString(java.lang.String[] str, org.pango.AttrList[] attrs, PointerInteger cursorPos) {
-        gtk_h.gtk_im_context_get_preedit_string(handle(), Interop.allocateNativeArray(str).handle(), Interop.allocateNativeArray(attrs).handle(), cursorPos.handle());
+        try {
+            gtk_im_context_get_preedit_string.invokeExact(handle(), Interop.allocateNativeArray(str).handle(), Interop.allocateNativeArray(attrs).handle(), cursorPos.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_get_surrounding_with_selection = Interop.downcallHandle(
+        "gtk_im_context_get_surrounding_with_selection",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves context around the insertion point.
@@ -143,9 +201,18 @@ public class IMContext extends org.gtk.gobject.Object {
      * function without context.
      */
     public boolean getSurroundingWithSelection(java.lang.String[] text, PointerInteger cursorIndex, PointerInteger anchorIndex) {
-        var RESULT = gtk_h.gtk_im_context_get_surrounding_with_selection(handle(), Interop.allocateNativeArray(text).handle(), cursorIndex.handle(), anchorIndex.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_im_context_get_surrounding_with_selection.invokeExact(handle(), Interop.allocateNativeArray(text).handle(), cursorIndex.handle(), anchorIndex.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_reset = Interop.downcallHandle(
+        "gtk_im_context_reset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Notify the input method that a change such as a change in cursor
@@ -154,8 +221,17 @@ public class IMContext extends org.gtk.gobject.Object {
      * This will typically cause the input method to clear the preedit state.
      */
     public void reset() {
-        gtk_h.gtk_im_context_reset(handle());
+        try {
+            gtk_im_context_reset.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_set_client_widget = Interop.downcallHandle(
+        "gtk_im_context_set_client_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the client widget for the input context.
@@ -165,8 +241,17 @@ public class IMContext extends org.gtk.gobject.Object {
      * also be used for purposes internal to the input method.
      */
     public void setClientWidget(Widget widget) {
-        gtk_h.gtk_im_context_set_client_widget(handle(), widget.handle());
+        try {
+            gtk_im_context_set_client_widget.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_set_cursor_location = Interop.downcallHandle(
+        "gtk_im_context_set_cursor_location",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Notify the input method that a change in cursor
@@ -175,8 +260,17 @@ public class IMContext extends org.gtk.gobject.Object {
      * The location is relative to the client widget.
      */
     public void setCursorLocation(org.gtk.gdk.Rectangle area) {
-        gtk_h.gtk_im_context_set_cursor_location(handle(), area.handle());
+        try {
+            gtk_im_context_set_cursor_location.invokeExact(handle(), area.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_set_surrounding_with_selection = Interop.downcallHandle(
+        "gtk_im_context_set_surrounding_with_selection",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets surrounding context around the insertion point and preedit
@@ -185,8 +279,17 @@ public class IMContext extends org.gtk.gobject.Object {
      * have no effect if called at other times.
      */
     public void setSurroundingWithSelection(java.lang.String text, int len, int cursorIndex, int anchorIndex) {
-        gtk_h.gtk_im_context_set_surrounding_with_selection(handle(), Interop.allocateNativeString(text).handle(), len, cursorIndex, anchorIndex);
+        try {
+            gtk_im_context_set_surrounding_with_selection.invokeExact(handle(), Interop.allocateNativeString(text).handle(), len, cursorIndex, anchorIndex);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_im_context_set_use_preedit = Interop.downcallHandle(
+        "gtk_im_context_set_use_preedit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the IM context should use the preedit string
@@ -197,7 +300,11 @@ public class IMContext extends org.gtk.gobject.Object {
      * it in a child of the root window.
      */
     public void setUsePreedit(boolean usePreedit) {
-        gtk_h.gtk_im_context_set_use_preedit(handle(), usePreedit ? 1 : 0);
+        try {
+            gtk_im_context_set_use_preedit.invokeExact(handle(), usePreedit ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -217,19 +324,19 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onCommit(CommitHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("commit").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextCommit",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -244,19 +351,19 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onDeleteSurrounding(DeleteSurroundingHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("delete-surrounding").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextDeleteSurrounding",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -274,19 +381,19 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onPreeditChanged(PreeditChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("preedit-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -301,19 +408,19 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onPreeditEnd(PreeditEndHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("preedit-end").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -328,19 +435,19 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onPreeditStart(PreeditStartHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("preedit-start").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditStart",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -358,19 +465,19 @@ public class IMContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onRetrieveSurrounding(RetrieveSurroundingHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("retrieve-surrounding").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextRetrieveSurrounding",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

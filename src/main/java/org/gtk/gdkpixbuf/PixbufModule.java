@@ -1,6 +1,5 @@
 package org.gtk.gdkpixbuf;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -57,10 +56,6 @@ public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
 
     public PixbufModule(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public PixbufModule() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufModule.allocate(Interop.getAllocator()).address()));
     }
     
 }

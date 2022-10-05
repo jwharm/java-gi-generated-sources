@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,9 +43,18 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         return new Switch(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_switch_new = Interop.downcallHandle(
+        "gtk_switch_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_switch_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_switch_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -56,28 +64,60 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         super(constructNew());
     }
     
+    static final MethodHandle gtk_switch_get_active = Interop.downcallHandle(
+        "gtk_switch_get_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets whether the {@code GtkSwitch} is in its “on” or “off” state.
      */
     public boolean getActive() {
-        var RESULT = gtk_h.gtk_switch_get_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_switch_get_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_switch_get_state = Interop.downcallHandle(
+        "gtk_switch_get_state",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the underlying state of the {@code GtkSwitch}.
      */
     public boolean getState() {
-        var RESULT = gtk_h.gtk_switch_get_state(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_switch_get_state.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_switch_set_active = Interop.downcallHandle(
+        "gtk_switch_set_active",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Changes the state of {@code self} to the desired one.
      */
     public void setActive(boolean isActive) {
-        gtk_h.gtk_switch_set_active(handle(), isActive ? 1 : 0);
+        try {
+            gtk_switch_set_active.invokeExact(handle(), isActive ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_switch_set_state = Interop.downcallHandle(
+        "gtk_switch_set_state",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the underlying state of the {@code GtkSwitch}.
@@ -89,7 +129,11 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * See {@code Gtk.Switch::state-set} for details.
      */
     public void setState(boolean state) {
-        gtk_h.gtk_switch_set_state(handle(), state ? 1 : 0);
+        try {
+            gtk_switch_set_state.invokeExact(handle(), state ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -105,19 +149,19 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Switch.Callbacks.class, "signalSwitchActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -145,19 +189,19 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      */
     public SignalHandle onStateSet(StateSetHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("state-set").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Switch.Callbacks.class, "signalSwitchStateSet",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

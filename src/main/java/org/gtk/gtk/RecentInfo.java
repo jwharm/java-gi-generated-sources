@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,6 +14,11 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gtk_recent_info_create_app_info = Interop.downcallHandle(
+        "gtk_recent_info_create_app_info",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Creates a {@code GAppInfo} for the specified {@code GtkRecentInfo}
      * <p>
@@ -23,12 +27,21 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_recent_info_create_app_info(handle(), Interop.allocateNativeString(appName).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_create_app_info.invokeExact(handle(), Interop.allocateNativeString(appName).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle gtk_recent_info_exists = Interop.downcallHandle(
+        "gtk_recent_info_exists",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the resource pointed by {@code info} still exists.
@@ -36,27 +49,54 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * to local files.
      */
     public boolean exists() {
-        var RESULT = gtk_h.gtk_recent_info_exists(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_info_exists.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_added = Interop.downcallHandle(
+        "gtk_recent_info_get_added",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the time when the resource
      * was added to the recently used resources list.
      */
     public org.gtk.glib.DateTime getAdded() {
-        var RESULT = gtk_h.gtk_recent_info_get_added(handle());
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_added.invokeExact(handle());
+            return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_age = Interop.downcallHandle(
+        "gtk_recent_info_get_age",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of days elapsed since the last update
      * of the resource pointed by {@code info}.
      */
     public int getAge() {
-        var RESULT = gtk_h.gtk_recent_info_get_age(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_recent_info_get_age.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_application_info = Interop.downcallHandle(
+        "gtk_recent_info_get_application_info",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the data regarding the application that has registered the resource
@@ -66,25 +106,52 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * storage specification, they will be expanded.
      */
     public boolean getApplicationInfo(java.lang.String appName, java.lang.String[] appExec, PointerInteger count, org.gtk.glib.DateTime[] stamp) {
-        var RESULT = gtk_h.gtk_recent_info_get_application_info(handle(), Interop.allocateNativeString(appName).handle(), Interop.allocateNativeArray(appExec).handle(), count.handle(), Interop.allocateNativeArray(stamp).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_info_get_application_info.invokeExact(handle(), Interop.allocateNativeString(appName).handle(), Interop.allocateNativeArray(appExec).handle(), count.handle(), Interop.allocateNativeArray(stamp).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_applications = Interop.downcallHandle(
+        "gtk_recent_info_get_applications",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the list of applications that have registered this resource.
      */
     public PointerIterator<java.lang.String> getApplications(PointerLong length) {
-        var RESULT = gtk_h.gtk_recent_info_get_applications(handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_applications.invokeExact(handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_description = Interop.downcallHandle(
+        "gtk_recent_info_get_description",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the (short) description of the resource.
      */
     public java.lang.String getDescription() {
-        var RESULT = gtk_h.gtk_recent_info_get_description(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_description.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_display_name = Interop.downcallHandle(
+        "gtk_recent_info_get_display_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of the resource.
@@ -93,17 +160,35 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * of the resource is obtained.
      */
     public java.lang.String getDisplayName() {
-        var RESULT = gtk_h.gtk_recent_info_get_display_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_display_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_gicon = Interop.downcallHandle(
+        "gtk_recent_info_get_gicon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the icon associated to the resource MIME type.
      */
     public org.gtk.gio.Icon getGicon() {
-        var RESULT = gtk_h.gtk_recent_info_get_gicon(handle());
-        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_gicon.invokeExact(handle());
+            return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_groups = Interop.downcallHandle(
+        "gtk_recent_info_get_groups",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns all groups registered for the recently used item {@code info}.
@@ -112,26 +197,53 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * length might optionally be {@code null}.
      */
     public PointerIterator<java.lang.String> getGroups(PointerLong length) {
-        var RESULT = gtk_h.gtk_recent_info_get_groups(handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_groups.invokeExact(handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_mime_type = Interop.downcallHandle(
+        "gtk_recent_info_get_mime_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the MIME type of the resource.
      */
     public java.lang.String getMimeType() {
-        var RESULT = gtk_h.gtk_recent_info_get_mime_type(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_mime_type.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_modified = Interop.downcallHandle(
+        "gtk_recent_info_get_modified",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the time when the meta-data
      * for the resource was last modified.
      */
     public org.gtk.glib.DateTime getModified() {
-        var RESULT = gtk_h.gtk_recent_info_get_modified(handle());
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_modified.invokeExact(handle());
+            return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_private_hint = Interop.downcallHandle(
+        "gtk_recent_info_get_private_hint",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value of the “private” flag.
@@ -141,9 +253,18 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * that have registered them.
      */
     public boolean getPrivateHint() {
-        var RESULT = gtk_h.gtk_recent_info_get_private_hint(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_info_get_private_hint.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_short_name = Interop.downcallHandle(
+        "gtk_recent_info_get_short_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes a valid UTF-8 string that can be used as the
@@ -153,17 +274,35 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * to “file:///foo/bar.txt” will yield “bar.txt”.
      */
     public java.lang.String getShortName() {
-        var RESULT = gtk_h.gtk_recent_info_get_short_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_short_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_uri = Interop.downcallHandle(
+        "gtk_recent_info_get_uri",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the URI of the resource.
      */
     public java.lang.String getUri() {
-        var RESULT = gtk_h.gtk_recent_info_get_uri(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_uri.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_uri_display = Interop.downcallHandle(
+        "gtk_recent_info_get_uri_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a displayable version of the resource’s URI.
@@ -173,69 +312,141 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * of {@link RecentInfo#getUri}.
      */
     public java.lang.String getUriDisplay() {
-        var RESULT = gtk_h.gtk_recent_info_get_uri_display(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_uri_display.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_get_visited = Interop.downcallHandle(
+        "gtk_recent_info_get_visited",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the time when the meta-data
      * for the resource was last visited.
      */
     public org.gtk.glib.DateTime getVisited() {
-        var RESULT = gtk_h.gtk_recent_info_get_visited(handle());
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_get_visited.invokeExact(handle());
+            return new org.gtk.glib.DateTime(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_has_application = Interop.downcallHandle(
+        "gtk_recent_info_has_application",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether an application registered this resource using {@code app_name}.
      */
     public boolean hasApplication(java.lang.String appName) {
-        var RESULT = gtk_h.gtk_recent_info_has_application(handle(), Interop.allocateNativeString(appName).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_info_has_application.invokeExact(handle(), Interop.allocateNativeString(appName).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_has_group = Interop.downcallHandle(
+        "gtk_recent_info_has_group",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether {@code group_name} appears inside the groups
      * registered for the recently used item {@code info}.
      */
     public boolean hasGroup(java.lang.String groupName) {
-        var RESULT = gtk_h.gtk_recent_info_has_group(handle(), Interop.allocateNativeString(groupName).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_info_has_group.invokeExact(handle(), Interop.allocateNativeString(groupName).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_is_local = Interop.downcallHandle(
+        "gtk_recent_info_is_local",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the resource is local or not by looking at the
      * scheme of its URI.
      */
     public boolean isLocal() {
-        var RESULT = gtk_h.gtk_recent_info_is_local(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_info_is_local.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_last_application = Interop.downcallHandle(
+        "gtk_recent_info_last_application",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of the last application that have registered the
      * recently used resource represented by {@code info}.
      */
     public java.lang.String lastApplication() {
-        var RESULT = gtk_h.gtk_recent_info_last_application(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_last_application.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_match = Interop.downcallHandle(
+        "gtk_recent_info_match",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether two {@code GtkRecentInfo} point to the same resource.
      */
     public boolean match(RecentInfo infoB) {
-        var RESULT = gtk_h.gtk_recent_info_match(handle(), infoB.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_recent_info_match.invokeExact(handle(), infoB.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_ref = Interop.downcallHandle(
+        "gtk_recent_info_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of {@code recent_info} by one.
      */
     public RecentInfo ref() {
-        var RESULT = gtk_h.gtk_recent_info_ref(handle());
-        return new RecentInfo(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_recent_info_ref.invokeExact(handle());
+            return new RecentInfo(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_recent_info_unref = Interop.downcallHandle(
+        "gtk_recent_info_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of {@code info} by one.
@@ -244,7 +455,11 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * deallocated, and the memory freed.
      */
     public void unref() {
-        gtk_h.gtk_recent_info_unref(handle());
+        try {
+            gtk_recent_info_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

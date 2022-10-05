@@ -1,6 +1,5 @@
 package org.gtk.gobject;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,9 +36,10 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public WeakRef() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GWeakRef.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_weak_ref_clear = Interop.downcallHandle(
+        "g_weak_ref_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees resources associated with a non-statically-allocated {@link WeakRef}.
@@ -49,8 +49,17 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * g_weak_ref_init() called on it.
      */
     public void clear() {
-        gtk_h.g_weak_ref_clear(handle());
+        try {
+            g_weak_ref_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_weak_ref_get = Interop.downcallHandle(
+        "g_weak_ref_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code weak_ref} is not empty, atomically acquire a strong
@@ -64,9 +73,18 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * by using g_object_unref().
      */
     public Object get() {
-        var RESULT = gtk_h.g_weak_ref_get(handle());
-        return new Object(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_weak_ref_get.invokeExact(handle());
+            return new Object(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_weak_ref_init = Interop.downcallHandle(
+        "g_weak_ref_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initialise a non-statically-allocated {@link WeakRef}.
@@ -80,8 +98,17 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * properly initialised.  Just use g_weak_ref_set() directly.
      */
     public void init(Object object) {
-        gtk_h.g_weak_ref_init(handle(), object.handle());
+        try {
+            g_weak_ref_init.invokeExact(handle(), object.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_weak_ref_set = Interop.downcallHandle(
+        "g_weak_ref_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Change the object to which {@code weak_ref} points, or set it to
@@ -91,7 +118,11 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * function.
      */
     public void set(Object object) {
-        gtk_h.g_weak_ref_set(handle(), object.handle());
+        try {
+            g_weak_ref_set.invokeExact(handle(), object.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

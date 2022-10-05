@@ -1,6 +1,5 @@
 package org.harfbuzz;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -35,13 +34,27 @@ public final class HarfBuzz {
 
     public static final java.lang.String VERSION_STRING = "4.0.0";
 
+    static final MethodHandle hb_aat_layout_feature_type_get_name_id = Interop.downcallHandle(
+        "hb_aat_layout_feature_type_get_name_id",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Fetches the name identifier of the specified feature type in the face's {@code name} table.
      */
     public static OtNameIdT aatLayoutFeatureTypeGetNameId(FaceT face, AatLayoutFeatureTypeT featureType) {
-        var RESULT = gtk_h.hb_aat_layout_feature_type_get_name_id(face.handle(), featureType.getValue());
-        return new OtNameIdT(RESULT);
+        try {
+            var RESULT = (int) hb_aat_layout_feature_type_get_name_id.invokeExact(face.handle(), featureType.getValue());
+            return new OtNameIdT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_aat_layout_feature_type_get_selector_infos = Interop.downcallHandle(
+        "hb_aat_layout_feature_type_get_selector_infos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of the selectors available for the specified feature in the given face.
@@ -51,17 +64,35 @@ public final class HarfBuzz {
      * the selector that is selected by default.
      */
     public static int aatLayoutFeatureTypeGetSelectorInfos(FaceT face, AatLayoutFeatureTypeT featureType, int startOffset, PointerInteger selectorCount, AatLayoutFeatureSelectorInfoT[] selectors, PointerInteger defaultIndex) {
-        var RESULT = gtk_h.hb_aat_layout_feature_type_get_selector_infos(face.handle(), featureType.getValue(), startOffset, selectorCount.handle(), Interop.allocateNativeArray(selectors).handle(), defaultIndex.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_aat_layout_feature_type_get_selector_infos.invokeExact(face.handle(), featureType.getValue(), startOffset, selectorCount.handle(), Interop.allocateNativeArray(selectors).handle(), defaultIndex.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_aat_layout_get_feature_types = Interop.downcallHandle(
+        "hb_aat_layout_get_feature_types",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of the AAT feature types included in the specified face.
      */
     public static int aatLayoutGetFeatureTypes(FaceT face, int startOffset, PointerInteger featureCount, AatLayoutFeatureTypeT[] features) {
-        var RESULT = gtk_h.hb_aat_layout_get_feature_types(face.handle(), startOffset, featureCount.handle(), Interop.allocateNativeArray(AatLayoutFeatureTypeT.getValues(features)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_aat_layout_get_feature_types.invokeExact(face.handle(), startOffset, featureCount.handle(), Interop.allocateNativeArray(AatLayoutFeatureTypeT.getValues(features)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_aat_layout_has_positioning = Interop.downcallHandle(
+        "hb_aat_layout_has_positioning",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether the specified face includes any positioning information
@@ -70,9 +101,18 @@ public final class HarfBuzz {
      * &lt;note>Note: does not examine the `GPOS` table.</note&gt;
      */
     public static BoolT aatLayoutHasPositioning(FaceT face) {
-        var RESULT = gtk_h.hb_aat_layout_has_positioning(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_aat_layout_has_positioning.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_aat_layout_has_substitution = Interop.downcallHandle(
+        "hb_aat_layout_has_substitution",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether the specified face includes any substitutions in the
@@ -81,44 +121,89 @@ public final class HarfBuzz {
      * &lt;note>Note: does not examine the `GSUB` table.</note&gt;
      */
     public static BoolT aatLayoutHasSubstitution(FaceT face) {
-        var RESULT = gtk_h.hb_aat_layout_has_substitution(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_aat_layout_has_substitution.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_aat_layout_has_tracking = Interop.downcallHandle(
+        "hb_aat_layout_has_tracking",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether the specified face includes any tracking information
      * in the {@code trak} table.
      */
     public static BoolT aatLayoutHasTracking(FaceT face) {
-        var RESULT = gtk_h.hb_aat_layout_has_tracking(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_aat_layout_has_tracking.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_copy_writable_or_fail = Interop.downcallHandle(
+        "hb_blob_copy_writable_or_fail",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes a writable copy of {@code blob}.
      */
     public static BlobT blobCopyWritableOrFail(BlobT blob) {
-        var RESULT = gtk_h.hb_blob_copy_writable_or_fail(blob.handle());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_blob_copy_writable_or_fail.invokeExact(blob.handle());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_create_from_file = Interop.downcallHandle(
+        "hb_blob_create_from_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new blob containing the data from the
      * specified binary font file.
      */
     public static BlobT blobCreateFromFile(java.lang.String fileName) {
-        var RESULT = gtk_h.hb_blob_create_from_file(Interop.allocateNativeString(fileName).handle());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_blob_create_from_file.invokeExact(Interop.allocateNativeString(fileName).handle());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_create_from_file_or_fail = Interop.downcallHandle(
+        "hb_blob_create_from_file_or_fail",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new blob containing the data from the
      * specified binary font file.
      */
     public static BlobT blobCreateFromFileOrFail(java.lang.String fileName) {
-        var RESULT = gtk_h.hb_blob_create_from_file_or_fail(Interop.allocateNativeString(fileName).handle());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_blob_create_from_file_or_fail.invokeExact(Interop.allocateNativeString(fileName).handle());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_create_sub_blob = Interop.downcallHandle(
+        "hb_blob_create_sub_blob",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns a blob that represents a range of bytes in {@code parent}.  The new
@@ -130,9 +215,18 @@ public final class HarfBuzz {
      * Makes {@code parent} immutable.
      */
     public static BlobT blobCreateSubBlob(BlobT parent, int offset, int length) {
-        var RESULT = gtk_h.hb_blob_create_sub_blob(parent.handle(), offset, length);
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_blob_create_sub_blob.invokeExact(parent.handle(), offset, length);
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_destroy = Interop.downcallHandle(
+        "hb_blob_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on {@code blob}, and if it reaches zero, destroys
@@ -142,16 +236,34 @@ public final class HarfBuzz {
      * See TODO:link object types for more information.
      */
     public static void blobDestroy(BlobT blob) {
-        gtk_h.hb_blob_destroy(blob.handle());
+        try {
+            hb_blob_destroy.invokeExact(blob.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_get_data = Interop.downcallHandle(
+        "hb_blob_get_data",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the data from a blob.
      */
     public static PointerIterator<java.lang.String> blobGetData(BlobT blob, PointerInteger length) {
-        var RESULT = gtk_h.hb_blob_get_data(blob.handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) hb_blob_get_data.invokeExact(blob.handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_get_data_writable = Interop.downcallHandle(
+        "hb_blob_get_data_writable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to make blob data writable (possibly copying it) and
@@ -161,9 +273,18 @@ public final class HarfBuzz {
      * fails.
      */
     public static PointerIterator<java.lang.String> blobGetDataWritable(BlobT blob, PointerInteger length) {
-        var RESULT = gtk_h.hb_blob_get_data_writable(blob.handle(), length.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) hb_blob_get_data_writable.invokeExact(blob.handle(), length.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_get_empty = Interop.downcallHandle(
+        "hb_blob_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the singleton empty blob.
@@ -171,41 +292,86 @@ public final class HarfBuzz {
      * See TODO:link object types for more information.
      */
     public static BlobT blobGetEmpty() {
-        var RESULT = gtk_h.hb_blob_get_empty();
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_blob_get_empty.invokeExact();
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_get_length = Interop.downcallHandle(
+        "hb_blob_get_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the length of a blob's data.
      */
     public static int blobGetLength(BlobT blob) {
-        var RESULT = gtk_h.hb_blob_get_length(blob.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_blob_get_length.invokeExact(blob.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_get_user_data = Interop.downcallHandle(
+        "hb_blob_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified font-functions structure.
      */
     public static java.lang.foreign.MemoryAddress blobGetUserData(BlobT blob, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_blob_get_user_data(blob.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_blob_get_user_data.invokeExact(blob.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_is_immutable = Interop.downcallHandle(
+        "hb_blob_is_immutable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a blob is immutable.
      */
     public static BoolT blobIsImmutable(BlobT blob) {
-        var RESULT = gtk_h.hb_blob_is_immutable(blob.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_blob_is_immutable.invokeExact(blob.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_make_immutable = Interop.downcallHandle(
+        "hb_blob_make_immutable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes a blob immutable.
      */
     public static void blobMakeImmutable(BlobT blob) {
-        gtk_h.hb_blob_make_immutable(blob.handle());
+        try {
+            hb_blob_make_immutable.invokeExact(blob.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_blob_reference = Interop.downcallHandle(
+        "hb_blob_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on {@code blob}.
@@ -213,9 +379,18 @@ public final class HarfBuzz {
      * See TODO:link object types for more information.
      */
     public static BlobT blobReference(BlobT blob) {
-        var RESULT = gtk_h.hb_blob_reference(blob.handle());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_blob_reference.invokeExact(blob.handle());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_add = Interop.downcallHandle(
+        "hb_buffer_add",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Appends a character with the Unicode value of {@code codepoint} to {@code buffer}, and
@@ -228,8 +403,17 @@ public final class HarfBuzz {
      * caller to ensure it is a valid Unicode code point.
      */
     public static void bufferAdd(BufferT buffer, CodepointT codepoint, int cluster) {
-        gtk_h.hb_buffer_add(buffer.handle(), codepoint.getValue(), cluster);
+        try {
+            hb_buffer_add.invokeExact(buffer.handle(), codepoint.getValue(), cluster);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_add_codepoints = Interop.downcallHandle(
+        "hb_buffer_add_codepoints",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Appends characters from {@code text} array to {@code buffer}. The {@code item_offset} is the
@@ -246,8 +430,17 @@ public final class HarfBuzz {
      * to ensure it contains a valid Unicode code points.
      */
     public static void bufferAddCodepoints(BufferT buffer, CodepointT[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_codepoints(buffer.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(text)).handle(), textLength, itemOffset, itemLength);
+        try {
+            hb_buffer_add_codepoints.invokeExact(buffer.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(text)).handle(), textLength, itemOffset, itemLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_add_latin1 = Interop.downcallHandle(
+        "hb_buffer_add_latin1",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Similar to hb_buffer_add_codepoints(), but allows only access to first 256
@@ -256,8 +449,17 @@ public final class HarfBuzz {
      * &lt;note>Has nothing to do with non-Unicode Latin-1 encoding.</note&gt;
      */
     public static void bufferAddLatin1(BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_latin1(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        try {
+            hb_buffer_add_latin1.invokeExact(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_add_utf16 = Interop.downcallHandle(
+        "hb_buffer_add_utf16",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * See hb_buffer_add_codepoints().
@@ -266,8 +468,17 @@ public final class HarfBuzz {
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf16(BufferT buffer, short[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_utf16(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        try {
+            hb_buffer_add_utf16.invokeExact(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_add_utf32 = Interop.downcallHandle(
+        "hb_buffer_add_utf32",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * See hb_buffer_add_codepoints().
@@ -276,8 +487,17 @@ public final class HarfBuzz {
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf32(BufferT buffer, int[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_utf32(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        try {
+            hb_buffer_add_utf32.invokeExact(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_add_utf8 = Interop.downcallHandle(
+        "hb_buffer_add_utf8",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * See hb_buffer_add_codepoints().
@@ -286,66 +506,138 @@ public final class HarfBuzz {
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf8(BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_utf8(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        try {
+            hb_buffer_add_utf8.invokeExact(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_allocation_successful = Interop.downcallHandle(
+        "hb_buffer_allocation_successful",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check if allocating memory for the buffer succeeded.
      */
     public static BoolT bufferAllocationSuccessful(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_allocation_successful(buffer.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_allocation_successful.invokeExact(buffer.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_append = Interop.downcallHandle(
+        "hb_buffer_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Append (part of) contents of another buffer to this buffer.
      */
     public static void bufferAppend(BufferT buffer, BufferT source, int start, int end) {
-        gtk_h.hb_buffer_append(buffer.handle(), source.handle(), start, end);
+        try {
+            hb_buffer_append.invokeExact(buffer.handle(), source.handle(), start, end);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_clear_contents = Interop.downcallHandle(
+        "hb_buffer_clear_contents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Similar to hb_buffer_reset(), but does not clear the Unicode functions and
      * the replacement code point.
      */
     public static void bufferClearContents(BufferT buffer) {
-        gtk_h.hb_buffer_clear_contents(buffer.handle());
+        try {
+            hb_buffer_clear_contents.invokeExact(buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_create = Interop.downcallHandle(
+        "hb_buffer_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link buffer_t} with all properties to defaults.
      */
     public static BufferT bufferCreate() {
-        var RESULT = gtk_h.hb_buffer_create();
-        return new BufferT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_create.invokeExact();
+            return new BufferT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_create_similar = Interop.downcallHandle(
+        "hb_buffer_create_similar",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link buffer_t}, similar to hb_buffer_create(). The only
      * difference is that the buffer is configured similarly to {@code src}.
      */
     public static BufferT bufferCreateSimilar(BufferT src) {
-        var RESULT = gtk_h.hb_buffer_create_similar(src.handle());
-        return new BufferT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_create_similar.invokeExact(src.handle());
+            return new BufferT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_deserialize_glyphs = Interop.downcallHandle(
+        "hb_buffer_deserialize_glyphs",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Deserializes glyphs {@code buffer} from textual representation in the format
      * produced by hb_buffer_serialize_glyphs().
      */
     public static BoolT bufferDeserializeGlyphs(BufferT buffer, java.lang.String[] buf, int bufLen, java.lang.String[] endPtr, FontT font, BufferSerializeFormatT format) {
-        var RESULT = gtk_h.hb_buffer_deserialize_glyphs(buffer.handle(), Interop.allocateNativeArray(buf).handle(), bufLen, Interop.allocateNativeArray(endPtr).handle(), font.handle(), format.getValue());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_deserialize_glyphs.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf).handle(), bufLen, Interop.allocateNativeArray(endPtr).handle(), font.handle(), format.getValue());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_deserialize_unicode = Interop.downcallHandle(
+        "hb_buffer_deserialize_unicode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Deserializes Unicode {@code buffer} from textual representation in the format
      * produced by hb_buffer_serialize_unicode().
      */
     public static BoolT bufferDeserializeUnicode(BufferT buffer, java.lang.String[] buf, int bufLen, java.lang.String[] endPtr, BufferSerializeFormatT format) {
-        var RESULT = gtk_h.hb_buffer_deserialize_unicode(buffer.handle(), Interop.allocateNativeArray(buf).handle(), bufLen, Interop.allocateNativeArray(endPtr).handle(), format.getValue());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_deserialize_unicode.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf).handle(), bufLen, Interop.allocateNativeArray(endPtr).handle(), format.getValue());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_destroy = Interop.downcallHandle(
+        "hb_buffer_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Deallocate the {@code buffer}.
@@ -353,8 +645,17 @@ public final class HarfBuzz {
      * {@code buffer} and all associated resources are freed. See hb_buffer_reference().
      */
     public static void bufferDestroy(BufferT buffer) {
-        gtk_h.hb_buffer_destroy(buffer.handle());
+        try {
+            hb_buffer_destroy.invokeExact(buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_diff = Interop.downcallHandle(
+        "hb_buffer_diff",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If dottedcircle_glyph is (hb_codepoint_t) -1 then {@code HB_BUFFER_DIFF_FLAG_DOTTED_CIRCLE_PRESENT}
@@ -362,9 +663,18 @@ public final class HarfBuzz {
      * callers if just comparing two buffers is needed.
      */
     public static BufferDiffFlagsT bufferDiff(BufferT buffer, BufferT reference, CodepointT dottedcircleGlyph, int positionFuzz) {
-        var RESULT = gtk_h.hb_buffer_diff(buffer.handle(), reference.handle(), dottedcircleGlyph.getValue(), positionFuzz);
-        return new BufferDiffFlagsT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_diff.invokeExact(buffer.handle(), reference.handle(), dottedcircleGlyph.getValue(), positionFuzz);
+            return new BufferDiffFlagsT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_cluster_level = Interop.downcallHandle(
+        "hb_buffer_get_cluster_level",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the cluster level of a buffer. The {@link buffer_cluster_level_t}
@@ -372,51 +682,105 @@ public final class HarfBuzz {
      * during shaping.
      */
     public static BufferClusterLevelT bufferGetClusterLevel(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_cluster_level(buffer.handle());
-        return new BufferClusterLevelT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_get_cluster_level.invokeExact(buffer.handle());
+            return new BufferClusterLevelT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_content_type = Interop.downcallHandle(
+        "hb_buffer_get_content_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the type of {@code buffer} contents. Buffers are either empty, contain
      * characters (before shaping), or contain glyphs (the result of shaping).
      */
     public static BufferContentTypeT bufferGetContentType(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_content_type(buffer.handle());
-        return new BufferContentTypeT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_get_content_type.invokeExact(buffer.handle());
+            return new BufferContentTypeT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_direction = Interop.downcallHandle(
+        "hb_buffer_get_direction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * See hb_buffer_set_direction()
      */
     public static DirectionT bufferGetDirection(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_direction(buffer.handle());
-        return new DirectionT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_get_direction.invokeExact(buffer.handle());
+            return new DirectionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_empty = Interop.downcallHandle(
+        "hb_buffer_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches an empty {@link buffer_t}.
      */
     public static BufferT bufferGetEmpty() {
-        var RESULT = gtk_h.hb_buffer_get_empty();
-        return new BufferT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_get_empty.invokeExact();
+            return new BufferT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_flags = Interop.downcallHandle(
+        "hb_buffer_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the {@link buffer_flags_t} of {@code buffer}.
      */
     public static BufferFlagsT bufferGetFlags(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_flags(buffer.handle());
-        return new BufferFlagsT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_get_flags.invokeExact(buffer.handle());
+            return new BufferFlagsT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_glyph_infos = Interop.downcallHandle(
+        "hb_buffer_get_glyph_infos",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code buffer} glyph information array.  Returned pointer
      * is valid as long as {@code buffer} contents are not modified.
      */
     public static PointerIterator<GlyphInfoT> bufferGetGlyphInfos(BufferT buffer, PointerInteger length) {
-        var RESULT = gtk_h.hb_buffer_get_glyph_infos(buffer.handle(), length.handle());
-        return new PointerProxy<GlyphInfoT>(RESULT, GlyphInfoT.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_get_glyph_infos.invokeExact(buffer.handle(), length.handle());
+            return new PointerProxy<GlyphInfoT>(RESULT, GlyphInfoT.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_glyph_positions = Interop.downcallHandle(
+        "hb_buffer_get_glyph_positions",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code buffer} glyph position array.  Returned pointer
@@ -428,82 +792,172 @@ public final class HarfBuzz {
      * in which case {@code null} is returned.
      */
     public static PointerIterator<GlyphPositionT> bufferGetGlyphPositions(BufferT buffer, PointerInteger length) {
-        var RESULT = gtk_h.hb_buffer_get_glyph_positions(buffer.handle(), length.handle());
-        return new PointerProxy<GlyphPositionT>(RESULT, GlyphPositionT.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_get_glyph_positions.invokeExact(buffer.handle(), length.handle());
+            return new PointerProxy<GlyphPositionT>(RESULT, GlyphPositionT.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_invisible_glyph = Interop.downcallHandle(
+        "hb_buffer_get_invisible_glyph",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * See hb_buffer_set_invisible_glyph().
      */
     public static CodepointT bufferGetInvisibleGlyph(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_invisible_glyph(buffer.handle());
-        return new CodepointT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_get_invisible_glyph.invokeExact(buffer.handle());
+            return new CodepointT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_language = Interop.downcallHandle(
+        "hb_buffer_get_language",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * See hb_buffer_set_language().
      */
     public static LanguageT bufferGetLanguage(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_language(buffer.handle());
-        return new LanguageT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_get_language.invokeExact(buffer.handle());
+            return new LanguageT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_length = Interop.downcallHandle(
+        "hb_buffer_get_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of items in the buffer.
      */
     public static int bufferGetLength(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_length(buffer.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_buffer_get_length.invokeExact(buffer.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_not_found_glyph = Interop.downcallHandle(
+        "hb_buffer_get_not_found_glyph",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * See hb_buffer_set_not_found_glyph().
      */
     public static CodepointT bufferGetNotFoundGlyph(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_not_found_glyph(buffer.handle());
-        return new CodepointT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_get_not_found_glyph.invokeExact(buffer.handle());
+            return new CodepointT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_replacement_codepoint = Interop.downcallHandle(
+        "hb_buffer_get_replacement_codepoint",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the {@link codepoint_t} that replaces invalid entries for a given encoding
      * when adding text to {@code buffer}.
      */
     public static CodepointT bufferGetReplacementCodepoint(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_replacement_codepoint(buffer.handle());
-        return new CodepointT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_get_replacement_codepoint.invokeExact(buffer.handle());
+            return new CodepointT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_script = Interop.downcallHandle(
+        "hb_buffer_get_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the script of {@code buffer}.
      */
     public static ScriptT bufferGetScript(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_script(buffer.handle());
-        return new ScriptT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_get_script.invokeExact(buffer.handle());
+            return new ScriptT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_segment_properties = Interop.downcallHandle(
+        "hb_buffer_get_segment_properties",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code props} to the {@link segment_properties_t} of {@code buffer}.
      */
     public static void bufferGetSegmentProperties(BufferT buffer, SegmentPropertiesT props) {
-        gtk_h.hb_buffer_get_segment_properties(buffer.handle(), props.handle());
+        try {
+            hb_buffer_get_segment_properties.invokeExact(buffer.handle(), props.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_unicode_funcs = Interop.downcallHandle(
+        "hb_buffer_get_unicode_funcs",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the Unicode-functions structure of a buffer.
      */
     public static UnicodeFuncsT bufferGetUnicodeFuncs(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_get_unicode_funcs(buffer.handle());
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_get_unicode_funcs.invokeExact(buffer.handle());
+            return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_get_user_data = Interop.downcallHandle(
+        "hb_buffer_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified buffer.
      */
     public static java.lang.foreign.MemoryAddress bufferGetUserData(BufferT buffer, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_buffer_get_user_data(buffer.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_get_user_data.invokeExact(buffer.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_guess_segment_properties = Interop.downcallHandle(
+        "hb_buffer_guess_segment_properties",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets unset buffer segment properties based on buffer Unicode
@@ -529,8 +983,17 @@ public final class HarfBuzz {
      * it is called.  See documentation for that function for details.
      */
     public static void bufferGuessSegmentProperties(BufferT buffer) {
-        gtk_h.hb_buffer_guess_segment_properties(buffer.handle());
+        try {
+            hb_buffer_guess_segment_properties.invokeExact(buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_has_positions = Interop.downcallHandle(
+        "hb_buffer_has_positions",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether {@code buffer} has glyph position data.
@@ -538,9 +1001,18 @@ public final class HarfBuzz {
      * and cleared of position data when hb_buffer_clear_contents() is called.
      */
     public static BoolT bufferHasPositions(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_has_positions(buffer.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_has_positions.invokeExact(buffer.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_normalize_glyphs = Interop.downcallHandle(
+        "hb_buffer_normalize_glyphs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Reorders a glyph buffer to have canonical in-cluster glyph order / position.
@@ -549,40 +1021,85 @@ public final class HarfBuzz {
      * &lt;note>This has nothing to do with Unicode normalization.</note&gt;
      */
     public static void bufferNormalizeGlyphs(BufferT buffer) {
-        gtk_h.hb_buffer_normalize_glyphs(buffer.handle());
+        try {
+            hb_buffer_normalize_glyphs.invokeExact(buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_pre_allocate = Interop.downcallHandle(
+        "hb_buffer_pre_allocate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Pre allocates memory for {@code buffer} to fit at least {@code size} number of items.
      */
     public static BoolT bufferPreAllocate(BufferT buffer, int size) {
-        var RESULT = gtk_h.hb_buffer_pre_allocate(buffer.handle(), size);
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_pre_allocate.invokeExact(buffer.handle(), size);
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_reference = Interop.downcallHandle(
+        "hb_buffer_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on {@code buffer} by one. This prevents {@code buffer} from
      * being destroyed until a matching call to hb_buffer_destroy() is made.
      */
     public static BufferT bufferReference(BufferT buffer) {
-        var RESULT = gtk_h.hb_buffer_reference(buffer.handle());
-        return new BufferT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_reference.invokeExact(buffer.handle());
+            return new BufferT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_reset = Interop.downcallHandle(
+        "hb_buffer_reset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Resets the buffer to its initial status, as if it was just newly created
      * with hb_buffer_create().
      */
     public static void bufferReset(BufferT buffer) {
-        gtk_h.hb_buffer_reset(buffer.handle());
+        try {
+            hb_buffer_reset.invokeExact(buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_reverse = Interop.downcallHandle(
+        "hb_buffer_reverse",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Reverses buffer contents.
      */
     public static void bufferReverse(BufferT buffer) {
-        gtk_h.hb_buffer_reverse(buffer.handle());
+        try {
+            hb_buffer_reverse.invokeExact(buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_reverse_clusters = Interop.downcallHandle(
+        "hb_buffer_reverse_clusters",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Reverses buffer clusters.  That is, the buffer contents are
@@ -590,15 +1107,33 @@ public final class HarfBuzz {
      * same cluster number) are reversed again.
      */
     public static void bufferReverseClusters(BufferT buffer) {
-        gtk_h.hb_buffer_reverse_clusters(buffer.handle());
+        try {
+            hb_buffer_reverse_clusters.invokeExact(buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_reverse_range = Interop.downcallHandle(
+        "hb_buffer_reverse_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Reverses buffer contents between {@code start} and {@code end}.
      */
     public static void bufferReverseRange(BufferT buffer, int start, int end) {
-        gtk_h.hb_buffer_reverse_range(buffer.handle(), start, end);
+        try {
+            hb_buffer_reverse_range.invokeExact(buffer.handle(), start, end);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_serialize = Interop.downcallHandle(
+        "hb_buffer_serialize",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Serializes {@code buffer} into a textual representation of its content, whether
@@ -608,9 +1143,18 @@ public final class HarfBuzz {
      * hb_buffer_serialize_glyphs() for a description of the output format.
      */
     public static int bufferSerialize(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
-        var RESULT = gtk_h.hb_buffer_serialize(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_buffer_serialize.invokeExact(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_serialize_format_from_string = Interop.downcallHandle(
+        "hb_buffer_serialize_format_from_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses a string into an {@link buffer_serialize_format_t}. Does not check if
@@ -618,18 +1162,36 @@ public final class HarfBuzz {
      * hb_buffer_serialize_list_formats() to get the list of supported formats.
      */
     public static BufferSerializeFormatT bufferSerializeFormatFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_buffer_serialize_format_from_string(Interop.allocateNativeArray(str).handle(), len);
-        return new BufferSerializeFormatT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_serialize_format_from_string.invokeExact(Interop.allocateNativeArray(str).handle(), len);
+            return new BufferSerializeFormatT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_serialize_format_to_string = Interop.downcallHandle(
+        "hb_buffer_serialize_format_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts {@code format} to the string corresponding it, or {@code null} if it is not a valid
      * {@link buffer_serialize_format_t}.
      */
     public static java.lang.String bufferSerializeFormatToString(BufferSerializeFormatT format) {
-        var RESULT = gtk_h.hb_buffer_serialize_format_to_string(format.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_serialize_format_to_string.invokeExact(format.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_serialize_glyphs = Interop.downcallHandle(
+        "hb_buffer_serialize_glyphs",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Serializes {@code buffer} into a textual representation of its glyph content,
@@ -679,17 +1241,35 @@ public final class HarfBuzz {
      *    {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set.
      */
     public static int bufferSerializeGlyphs(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
-        var RESULT = gtk_h.hb_buffer_serialize_glyphs(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_buffer_serialize_glyphs.invokeExact(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_serialize_list_formats = Interop.downcallHandle(
+        "hb_buffer_serialize_list_formats",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Returns a list of supported buffer serialization formats.
      */
     public static PointerIterator<java.lang.String> bufferSerializeListFormats() {
-        var RESULT = gtk_h.hb_buffer_serialize_list_formats();
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) hb_buffer_serialize_list_formats.invokeExact();
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_serialize_unicode = Interop.downcallHandle(
+        "hb_buffer_serialize_unicode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Serializes {@code buffer} into a textual representation of its content,
@@ -730,9 +1310,18 @@ public final class HarfBuzz {
      * }</pre>
      */
     public static int bufferSerializeUnicode(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
-        var RESULT = gtk_h.hb_buffer_serialize_unicode(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), format.getValue(), flags.getValue());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_buffer_serialize_unicode.invokeExact(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), format.getValue(), flags.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_cluster_level = Interop.downcallHandle(
+        "hb_buffer_set_cluster_level",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the cluster level of a buffer. The {@link buffer_cluster_level_t}
@@ -740,16 +1329,34 @@ public final class HarfBuzz {
      * during shaping.
      */
     public static void bufferSetClusterLevel(BufferT buffer, BufferClusterLevelT clusterLevel) {
-        gtk_h.hb_buffer_set_cluster_level(buffer.handle(), clusterLevel.getValue());
+        try {
+            hb_buffer_set_cluster_level.invokeExact(buffer.handle(), clusterLevel.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_content_type = Interop.downcallHandle(
+        "hb_buffer_set_content_type",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the type of {@code buffer} contents. Buffers are either empty, contain
      * characters (before shaping), or contain glyphs (the result of shaping).
      */
     public static void bufferSetContentType(BufferT buffer, BufferContentTypeT contentType) {
-        gtk_h.hb_buffer_set_content_type(buffer.handle(), contentType.getValue());
+        try {
+            hb_buffer_set_content_type.invokeExact(buffer.handle(), contentType.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_direction = Interop.downcallHandle(
+        "hb_buffer_set_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the text flow direction of the buffer. No shaping can happen without
@@ -761,15 +1368,33 @@ public final class HarfBuzz {
      * direction.
      */
     public static void bufferSetDirection(BufferT buffer, DirectionT direction) {
-        gtk_h.hb_buffer_set_direction(buffer.handle(), direction.getValue());
+        try {
+            hb_buffer_set_direction.invokeExact(buffer.handle(), direction.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_flags = Interop.downcallHandle(
+        "hb_buffer_set_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets {@code buffer} flags to {@code flags}. See {@link buffer_flags_t}.
      */
     public static void bufferSetFlags(BufferT buffer, BufferFlagsT flags) {
-        gtk_h.hb_buffer_set_flags(buffer.handle(), flags.getValue());
+        try {
+            hb_buffer_set_flags.invokeExact(buffer.handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_invisible_glyph = Interop.downcallHandle(
+        "hb_buffer_set_invisible_glyph",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the {@link codepoint_t} that replaces invisible characters in
@@ -778,8 +1403,17 @@ public final class HarfBuzz {
      * verbatim.
      */
     public static void bufferSetInvisibleGlyph(BufferT buffer, CodepointT invisible) {
-        gtk_h.hb_buffer_set_invisible_glyph(buffer.handle(), invisible.getValue());
+        try {
+            hb_buffer_set_invisible_glyph.invokeExact(buffer.handle(), invisible.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_language = Interop.downcallHandle(
+        "hb_buffer_set_language",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the language of {@code buffer} to {@code language}.
@@ -793,17 +1427,35 @@ public final class HarfBuzz {
      * {@link language_t}.
      */
     public static void bufferSetLanguage(BufferT buffer, LanguageT language) {
-        gtk_h.hb_buffer_set_language(buffer.handle(), language.handle());
+        try {
+            hb_buffer_set_language.invokeExact(buffer.handle(), language.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_length = Interop.downcallHandle(
+        "hb_buffer_set_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Similar to hb_buffer_pre_allocate(), but clears any new items added at the
      * end.
      */
     public static BoolT bufferSetLength(BufferT buffer, int length) {
-        var RESULT = gtk_h.hb_buffer_set_length(buffer.handle(), length);
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_buffer_set_length.invokeExact(buffer.handle(), length);
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_not_found_glyph = Interop.downcallHandle(
+        "hb_buffer_set_not_found_glyph",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the {@link codepoint_t} that replaces characters not found in
@@ -813,8 +1465,17 @@ public final class HarfBuzz {
      * ".notdef" glyph.  This API allows for differentiating the two.
      */
     public static void bufferSetNotFoundGlyph(BufferT buffer, CodepointT notFound) {
-        gtk_h.hb_buffer_set_not_found_glyph(buffer.handle(), notFound.getValue());
+        try {
+            hb_buffer_set_not_found_glyph.invokeExact(buffer.handle(), notFound.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_replacement_codepoint = Interop.downcallHandle(
+        "hb_buffer_set_replacement_codepoint",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the {@link codepoint_t} that replaces invalid entries for a given encoding
@@ -823,8 +1484,17 @@ public final class HarfBuzz {
      * Default is {@code HB_BUFFER_REPLACEMENT_CODEPOINT_DEFAULT}.
      */
     public static void bufferSetReplacementCodepoint(BufferT buffer, CodepointT replacement) {
-        gtk_h.hb_buffer_set_replacement_codepoint(buffer.handle(), replacement.getValue());
+        try {
+            hb_buffer_set_replacement_codepoint.invokeExact(buffer.handle(), replacement.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_script = Interop.downcallHandle(
+        "hb_buffer_set_script",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the script of {@code buffer} to {@code script}.
@@ -838,8 +1508,17 @@ public final class HarfBuzz {
      * corresponding script from an ISO 15924 script tag.
      */
     public static void bufferSetScript(BufferT buffer, ScriptT script) {
-        gtk_h.hb_buffer_set_script(buffer.handle(), script.getValue());
+        try {
+            hb_buffer_set_script.invokeExact(buffer.handle(), script.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_segment_properties = Interop.downcallHandle(
+        "hb_buffer_set_segment_properties",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the segment properties of the buffer, a shortcut for calling
@@ -847,48 +1526,102 @@ public final class HarfBuzz {
      * hb_buffer_set_language() individually.
      */
     public static void bufferSetSegmentProperties(BufferT buffer, SegmentPropertiesT props) {
-        gtk_h.hb_buffer_set_segment_properties(buffer.handle(), props.handle());
+        try {
+            hb_buffer_set_segment_properties.invokeExact(buffer.handle(), props.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_buffer_set_unicode_funcs = Interop.downcallHandle(
+        "hb_buffer_set_unicode_funcs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the Unicode-functions structure of a buffer to
      * {@code unicode_funcs}.
      */
     public static void bufferSetUnicodeFuncs(BufferT buffer, UnicodeFuncsT unicodeFuncs) {
-        gtk_h.hb_buffer_set_unicode_funcs(buffer.handle(), unicodeFuncs.handle());
+        try {
+            hb_buffer_set_unicode_funcs.invokeExact(buffer.handle(), unicodeFuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_color_get_alpha = Interop.downcallHandle(
+        "hb_color_get_alpha",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the alpha channel of the given {@code color}.
      */
     public static byte colorGetAlpha(ColorT color) {
-        var RESULT = gtk_h.hb_color_get_alpha(color.getValue());
-        return RESULT;
+        try {
+            var RESULT = (byte) hb_color_get_alpha.invokeExact(color.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_color_get_blue = Interop.downcallHandle(
+        "hb_color_get_blue",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the blue channel of the given {@code color}.
      */
     public static byte colorGetBlue(ColorT color) {
-        var RESULT = gtk_h.hb_color_get_blue(color.getValue());
-        return RESULT;
+        try {
+            var RESULT = (byte) hb_color_get_blue.invokeExact(color.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_color_get_green = Interop.downcallHandle(
+        "hb_color_get_green",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the green channel of the given {@code color}.
      */
     public static byte colorGetGreen(ColorT color) {
-        var RESULT = gtk_h.hb_color_get_green(color.getValue());
-        return RESULT;
+        try {
+            var RESULT = (byte) hb_color_get_green.invokeExact(color.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_color_get_red = Interop.downcallHandle(
+        "hb_color_get_red",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the red channel of the given {@code color}.
      */
     public static byte colorGetRed(ColorT color) {
-        var RESULT = gtk_h.hb_color_get_red(color.getValue());
-        return RESULT;
+        try {
+            var RESULT = (byte) hb_color_get_red.invokeExact(color.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_direction_from_string = Interop.downcallHandle(
+        "hb_direction_from_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a string to an {@link direction_t}.
@@ -899,39 +1632,84 @@ public final class HarfBuzz {
      * Unmatched strings will return {@code HB_DIRECTION_INVALID}.
      */
     public static DirectionT directionFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_direction_from_string(Interop.allocateNativeArray(str).handle(), len);
-        return new DirectionT(RESULT);
+        try {
+            var RESULT = (int) hb_direction_from_string.invokeExact(Interop.allocateNativeArray(str).handle(), len);
+            return new DirectionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_direction_to_string = Interop.downcallHandle(
+        "hb_direction_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an {@link direction_t} to a string.
      */
     public static java.lang.String directionToString(DirectionT direction) {
-        var RESULT = gtk_h.hb_direction_to_string(direction.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) hb_direction_to_string.invokeExact(direction.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_close_path = Interop.downcallHandle(
+        "hb_draw_close_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Perform a "close-path" draw operation.
      */
     public static void drawClosePath(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st) {
-        gtk_h.hb_draw_close_path(dfuncs.handle(), drawData, st.handle());
+        try {
+            hb_draw_close_path.invokeExact(dfuncs.handle(), drawData, st.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_cubic_to = Interop.downcallHandle(
+        "hb_draw_cubic_to",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Perform a "cubic-to" draw operation.
      */
     public static void drawCubicTo(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY) {
-        gtk_h.hb_draw_cubic_to(dfuncs.handle(), drawData, st.handle(), control1X, control1Y, control2X, control2Y, toX, toY);
+        try {
+            hb_draw_cubic_to.invokeExact(dfuncs.handle(), drawData, st.handle(), control1X, control1Y, control2X, control2Y, toX, toY);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_funcs_create = Interop.downcallHandle(
+        "hb_draw_funcs_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new draw callbacks object.
      */
     public static DrawFuncsT drawFuncsCreate() {
-        var RESULT = gtk_h.hb_draw_funcs_create();
-        return new DrawFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_draw_funcs_create.invokeExact();
+            return new DrawFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_funcs_destroy = Interop.downcallHandle(
+        "hb_draw_funcs_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Deallocate the {@code dfuncs}.
@@ -939,62 +1717,134 @@ public final class HarfBuzz {
      * {@code dfuncs} and all associated resources are freed. See hb_draw_funcs_reference().
      */
     public static void drawFuncsDestroy(DrawFuncsT dfuncs) {
-        gtk_h.hb_draw_funcs_destroy(dfuncs.handle());
+        try {
+            hb_draw_funcs_destroy.invokeExact(dfuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_funcs_is_immutable = Interop.downcallHandle(
+        "hb_draw_funcs_is_immutable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether {@code dfuncs} is immutable.
      */
     public static BoolT drawFuncsIsImmutable(DrawFuncsT dfuncs) {
-        var RESULT = gtk_h.hb_draw_funcs_is_immutable(dfuncs.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_draw_funcs_is_immutable.invokeExact(dfuncs.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_funcs_make_immutable = Interop.downcallHandle(
+        "hb_draw_funcs_make_immutable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code dfuncs} object immutable.
      */
     public static void drawFuncsMakeImmutable(DrawFuncsT dfuncs) {
-        gtk_h.hb_draw_funcs_make_immutable(dfuncs.handle());
+        try {
+            hb_draw_funcs_make_immutable.invokeExact(dfuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_funcs_reference = Interop.downcallHandle(
+        "hb_draw_funcs_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on {@code dfuncs} by one. This prevents {@code buffer} from
      * being destroyed until a matching call to hb_draw_funcs_destroy() is made.
      */
     public static DrawFuncsT drawFuncsReference(DrawFuncsT dfuncs) {
-        var RESULT = gtk_h.hb_draw_funcs_reference(dfuncs.handle());
-        return new DrawFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_draw_funcs_reference.invokeExact(dfuncs.handle());
+            return new DrawFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_line_to = Interop.downcallHandle(
+        "hb_draw_line_to",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Perform a "line-to" draw operation.
      */
     public static void drawLineTo(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY) {
-        gtk_h.hb_draw_line_to(dfuncs.handle(), drawData, st.handle(), toX, toY);
+        try {
+            hb_draw_line_to.invokeExact(dfuncs.handle(), drawData, st.handle(), toX, toY);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_move_to = Interop.downcallHandle(
+        "hb_draw_move_to",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Perform a "move-to" draw operation.
      */
     public static void drawMoveTo(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY) {
-        gtk_h.hb_draw_move_to(dfuncs.handle(), drawData, st.handle(), toX, toY);
+        try {
+            hb_draw_move_to.invokeExact(dfuncs.handle(), drawData, st.handle(), toX, toY);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_draw_quadratic_to = Interop.downcallHandle(
+        "hb_draw_quadratic_to",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Perform a "quadratic-to" draw operation.
      */
     public static void drawQuadraticTo(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float controlX, float controlY, float toX, float toY) {
-        gtk_h.hb_draw_quadratic_to(dfuncs.handle(), drawData, st.handle(), controlX, controlY, toX, toY);
+        try {
+            hb_draw_quadratic_to.invokeExact(dfuncs.handle(), drawData, st.handle(), controlX, controlY, toX, toY);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_builder_add_table = Interop.downcallHandle(
+        "hb_face_builder_add_table",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Add table for {@code tag} with data provided by {@code blob} to the face.  {@code face} must
      * be created using hb_face_builder_create().
      */
     public static BoolT faceBuilderAddTable(FaceT face, TagT tag, BlobT blob) {
-        var RESULT = gtk_h.hb_face_builder_add_table(face.handle(), tag.getValue(), blob.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_face_builder_add_table.invokeExact(face.handle(), tag.getValue(), blob.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_builder_create = Interop.downcallHandle(
+        "hb_face_builder_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a {@link face_t} that can be used with hb_face_builder_add_table().
@@ -1002,41 +1852,86 @@ public final class HarfBuzz {
      * font file by calling hb_face_reference_blob().
      */
     public static FaceT faceBuilderCreate() {
-        var RESULT = gtk_h.hb_face_builder_create();
-        return new FaceT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_face_builder_create.invokeExact();
+            return new FaceT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_collect_unicodes = Interop.downcallHandle(
+        "hb_face_collect_unicodes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Collects all of the Unicode characters covered by {@code face} and adds
      * them to the {@link set_t} set {@code out}.
      */
     public static void faceCollectUnicodes(FaceT face, SetT out) {
-        gtk_h.hb_face_collect_unicodes(face.handle(), out.handle());
+        try {
+            hb_face_collect_unicodes.invokeExact(face.handle(), out.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_collect_variation_selectors = Interop.downcallHandle(
+        "hb_face_collect_variation_selectors",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Collects all Unicode "Variation Selector" characters covered by {@code face} and adds
      * them to the {@link set_t} set {@code out}.
      */
     public static void faceCollectVariationSelectors(FaceT face, SetT out) {
-        gtk_h.hb_face_collect_variation_selectors(face.handle(), out.handle());
+        try {
+            hb_face_collect_variation_selectors.invokeExact(face.handle(), out.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_collect_variation_unicodes = Interop.downcallHandle(
+        "hb_face_collect_variation_unicodes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Collects all Unicode characters for {@code variation_selector} covered by {@code face} and adds
      * them to the {@link set_t} set {@code out}.
      */
     public static void faceCollectVariationUnicodes(FaceT face, CodepointT variationSelector, SetT out) {
-        gtk_h.hb_face_collect_variation_unicodes(face.handle(), variationSelector.getValue(), out.handle());
+        try {
+            hb_face_collect_variation_unicodes.invokeExact(face.handle(), variationSelector.getValue(), out.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_count = Interop.downcallHandle(
+        "hb_face_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the number of faces in a blob.
      */
     public static int faceCount(BlobT blob) {
-        var RESULT = gtk_h.hb_face_count(blob.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_face_count.invokeExact(blob.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_create = Interop.downcallHandle(
+        "hb_face_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Constructs a new face object from the specified blob and
@@ -1055,9 +1950,18 @@ public final class HarfBuzz {
      * hb_font_create() for details.&lt;/note&gt;
      */
     public static FaceT faceCreate(BlobT blob, int index) {
-        var RESULT = gtk_h.hb_face_create(blob.handle(), index);
-        return new FaceT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_face_create.invokeExact(blob.handle(), index);
+            return new FaceT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_destroy = Interop.downcallHandle(
+        "hb_face_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on a face object. When the
@@ -1065,24 +1969,51 @@ public final class HarfBuzz {
      * freeing all memory.
      */
     public static void faceDestroy(FaceT face) {
-        gtk_h.hb_face_destroy(face.handle());
+        try {
+            hb_face_destroy.invokeExact(face.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_get_empty = Interop.downcallHandle(
+        "hb_face_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the singleton empty face object.
      */
     public static FaceT faceGetEmpty() {
-        var RESULT = gtk_h.hb_face_get_empty();
-        return new FaceT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_face_get_empty.invokeExact();
+            return new FaceT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_get_glyph_count = Interop.downcallHandle(
+        "hb_face_get_glyph_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the glyph-count value of the specified face object.
      */
     public static int faceGetGlyphCount(FaceT face) {
-        var RESULT = gtk_h.hb_face_get_glyph_count(face.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_face_get_glyph_count.invokeExact(face.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_get_index = Interop.downcallHandle(
+        "hb_face_get_index",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the face-index corresponding to the given face.
@@ -1090,58 +2021,121 @@ public final class HarfBuzz {
      * &lt;note>Note: face indices within a collection are zero-based.</note&gt;
      */
     public static int faceGetIndex(FaceT face) {
-        var RESULT = gtk_h.hb_face_get_index(face.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_face_get_index.invokeExact(face.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_get_table_tags = Interop.downcallHandle(
+        "hb_face_get_table_tags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all table tags for a face, if possible. The list returned will
      * begin at the offset provided
      */
     public static int faceGetTableTags(FaceT face, int startOffset, PointerInteger tableCount, TagT[] tableTags) {
-        var RESULT = gtk_h.hb_face_get_table_tags(face.handle(), startOffset, tableCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(tableTags)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_face_get_table_tags.invokeExact(face.handle(), startOffset, tableCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(tableTags)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_get_upem = Interop.downcallHandle(
+        "hb_face_get_upem",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the units-per-em (upem) value of the specified face object.
      */
     public static int faceGetUpem(FaceT face) {
-        var RESULT = gtk_h.hb_face_get_upem(face.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_face_get_upem.invokeExact(face.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_get_user_data = Interop.downcallHandle(
+        "hb_face_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified face object.
      */
     public static java.lang.foreign.MemoryAddress faceGetUserData(FaceT face, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_face_get_user_data(face.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_face_get_user_data.invokeExact(face.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_is_immutable = Interop.downcallHandle(
+        "hb_face_is_immutable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether the given face object is immutable.
      */
     public static BoolT faceIsImmutable(FaceT face) {
-        var RESULT = gtk_h.hb_face_is_immutable(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_face_is_immutable.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_make_immutable = Interop.downcallHandle(
+        "hb_face_make_immutable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes the given face object immutable.
      */
     public static void faceMakeImmutable(FaceT face) {
-        gtk_h.hb_face_make_immutable(face.handle());
+        try {
+            hb_face_make_immutable.invokeExact(face.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_reference = Interop.downcallHandle(
+        "hb_face_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on a face object.
      */
     public static FaceT faceReference(FaceT face) {
-        var RESULT = gtk_h.hb_face_reference(face.handle());
-        return new FaceT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_face_reference.invokeExact(face.handle());
+            return new FaceT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_reference_blob = Interop.downcallHandle(
+        "hb_face_reference_blob",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a pointer to the binary blob that contains the
@@ -1149,25 +2143,52 @@ public final class HarfBuzz {
      * possible.
      */
     public static BlobT faceReferenceBlob(FaceT face) {
-        var RESULT = gtk_h.hb_face_reference_blob(face.handle());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_face_reference_blob.invokeExact(face.handle());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_reference_table = Interop.downcallHandle(
+        "hb_face_reference_table",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches a reference to the specified table within
      * the specified face.
      */
     public static BlobT faceReferenceTable(FaceT face, TagT tag) {
-        var RESULT = gtk_h.hb_face_reference_table(face.handle(), tag.getValue());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_face_reference_table.invokeExact(face.handle(), tag.getValue());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_set_glyph_count = Interop.downcallHandle(
+        "hb_face_set_glyph_count",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the glyph count for a face object to the specified value.
      */
     public static void faceSetGlyphCount(FaceT face, int glyphCount) {
-        gtk_h.hb_face_set_glyph_count(face.handle(), glyphCount);
+        try {
+            hb_face_set_glyph_count.invokeExact(face.handle(), glyphCount);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_set_index = Interop.downcallHandle(
+        "hb_face_set_index",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Assigns the specified face-index to {@code face}. Fails if the
@@ -1177,15 +2198,33 @@ public final class HarfBuzz {
      * This only changes the value returned by hb_face_get_index().&lt;/note&gt;
      */
     public static void faceSetIndex(FaceT face, int index) {
-        gtk_h.hb_face_set_index(face.handle(), index);
+        try {
+            hb_face_set_index.invokeExact(face.handle(), index);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_face_set_upem = Interop.downcallHandle(
+        "hb_face_set_upem",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the units-per-em (upem) for a face object to the specified value.
      */
     public static void faceSetUpem(FaceT face, int upem) {
-        gtk_h.hb_face_set_upem(face.handle(), upem);
+        try {
+            hb_face_set_upem.invokeExact(face.handle(), upem);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_feature_from_string = Interop.downcallHandle(
+        "hb_feature_from_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses a string into a {@link feature_t}.
@@ -1227,9 +2266,18 @@ public final class HarfBuzz {
      * &lt;/informaltable&gt;
      */
     public static BoolT featureFromString(byte[] str, int len, FeatureT feature) {
-        var RESULT = gtk_h.hb_feature_from_string(Interop.allocateNativeArray(str).handle(), len, feature.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_feature_from_string.invokeExact(Interop.allocateNativeArray(str).handle(), len, feature.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
+        "hb_feature_to_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a {@link feature_t} into a {@code null}-terminated string in the format
@@ -1237,8 +2285,17 @@ public final class HarfBuzz {
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
     public static void featureToString(FeatureT feature, java.lang.String[] buf, int size) {
-        gtk_h.hb_feature_to_string(feature.handle(), Interop.allocateNativeArray(buf).handle(), size);
+        try {
+            hb_feature_to_string.invokeExact(feature.handle(), Interop.allocateNativeArray(buf).handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_add_glyph_origin_for_direction = Interop.downcallHandle(
+        "hb_font_add_glyph_origin_for_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds the origin coordinates to an (X,Y) point coordinate, in
@@ -1250,10 +2307,19 @@ public final class HarfBuzz {
     public static void fontAddGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_add_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
+        try {
+            hb_font_add_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_create = Interop.downcallHandle(
+        "hb_font_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Constructs a new font object from the specified face.
@@ -1266,18 +2332,36 @@ public final class HarfBuzz {
      * face.&lt;/note&gt;
      */
     public static FontT fontCreate(FaceT face) {
-        var RESULT = gtk_h.hb_font_create(face.handle());
-        return new FontT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_font_create.invokeExact(face.handle());
+            return new FontT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_create_sub_font = Interop.downcallHandle(
+        "hb_font_create_sub_font",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Constructs a sub-font font object from the specified {@code parent} font,
      * replicating the parent's properties.
      */
     public static FontT fontCreateSubFont(FontT parent) {
-        var RESULT = gtk_h.hb_font_create_sub_font(parent.handle());
-        return new FontT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_font_create_sub_font.invokeExact(parent.handle());
+            return new FontT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_destroy = Interop.downcallHandle(
+        "hb_font_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on the given font object. When the
@@ -1285,16 +2369,34 @@ public final class HarfBuzz {
      * freeing all memory.
      */
     public static void fontDestroy(FontT font) {
-        gtk_h.hb_font_destroy(font.handle());
+        try {
+            hb_font_destroy.invokeExact(font.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_funcs_create = Interop.downcallHandle(
+        "hb_font_funcs_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link font_funcs_t} structure of font functions.
      */
     public static FontFuncsT fontFuncsCreate() {
-        var RESULT = gtk_h.hb_font_funcs_create();
-        return new FontFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_font_funcs_create.invokeExact();
+            return new FontFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_funcs_destroy = Interop.downcallHandle(
+        "hb_font_funcs_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on a font-functions structure. When
@@ -1302,56 +2404,119 @@ public final class HarfBuzz {
      * destroyed, freeing all memory.
      */
     public static void fontFuncsDestroy(FontFuncsT ffuncs) {
-        gtk_h.hb_font_funcs_destroy(ffuncs.handle());
+        try {
+            hb_font_funcs_destroy.invokeExact(ffuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_funcs_get_empty = Interop.downcallHandle(
+        "hb_font_funcs_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches an empty font-functions structure.
      */
     public static FontFuncsT fontFuncsGetEmpty() {
-        var RESULT = gtk_h.hb_font_funcs_get_empty();
-        return new FontFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_font_funcs_get_empty.invokeExact();
+            return new FontFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_funcs_get_user_data = Interop.downcallHandle(
+        "hb_font_funcs_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified font-functions structure.
      */
     public static java.lang.foreign.MemoryAddress fontFuncsGetUserData(FontFuncsT ffuncs, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_font_funcs_get_user_data(ffuncs.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_font_funcs_get_user_data.invokeExact(ffuncs.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_funcs_is_immutable = Interop.downcallHandle(
+        "hb_font_funcs_is_immutable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a font-functions structure is immutable.
      */
     public static BoolT fontFuncsIsImmutable(FontFuncsT ffuncs) {
-        var RESULT = gtk_h.hb_font_funcs_is_immutable(ffuncs.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_funcs_is_immutable.invokeExact(ffuncs.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_funcs_make_immutable = Interop.downcallHandle(
+        "hb_font_funcs_make_immutable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes a font-functions structure immutable.
      */
     public static void fontFuncsMakeImmutable(FontFuncsT ffuncs) {
-        gtk_h.hb_font_funcs_make_immutable(ffuncs.handle());
+        try {
+            hb_font_funcs_make_immutable.invokeExact(ffuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_funcs_reference = Interop.downcallHandle(
+        "hb_font_funcs_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on a font-functions structure.
      */
     public static FontFuncsT fontFuncsReference(FontFuncsT ffuncs) {
-        var RESULT = gtk_h.hb_font_funcs_reference(ffuncs.handle());
-        return new FontFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_font_funcs_reference.invokeExact(ffuncs.handle());
+            return new FontFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_empty = Interop.downcallHandle(
+        "hb_font_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the empty font object.
      */
     public static FontT fontGetEmpty() {
-        var RESULT = gtk_h.hb_font_get_empty();
-        return new FontT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_font_get_empty.invokeExact();
+            return new FontT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_extents_for_direction = Interop.downcallHandle(
+        "hb_font_get_extents_for_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the extents for a font in a text segment of the
@@ -1361,16 +2526,34 @@ public final class HarfBuzz {
      * or vertical) depending on the value of {@code direction}.
      */
     public static void fontGetExtentsForDirection(FontT font, DirectionT direction, FontExtentsT extents) {
-        gtk_h.hb_font_get_extents_for_direction(font.handle(), direction.getValue(), extents.handle());
+        try {
+            hb_font_get_extents_for_direction.invokeExact(font.handle(), direction.getValue(), extents.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_face = Interop.downcallHandle(
+        "hb_font_get_face",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the face associated with the specified font object.
      */
     public static FaceT fontGetFace(FontT font) {
-        var RESULT = gtk_h.hb_font_get_face(font.handle());
-        return new FaceT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) hb_font_get_face.invokeExact(font.handle());
+            return new FaceT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph = Interop.downcallHandle(
+        "hb_font_get_glyph",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the glyph ID for a Unicode code point in the specified
@@ -1381,10 +2564,19 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetGlyph(FontT font, CodepointT unicode, CodepointT variationSelector, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), new PointerInteger(glyph.getValue()).handle());
-        glyph.setValue(glyphPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph.invokeExact(font.handle(), unicode.getValue(), variationSelector.getValue(), new PointerInteger(glyph.getValue()).handle());
+            glyph.setValue(glyphPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_advance_for_direction = Interop.downcallHandle(
+        "hb_font_get_glyph_advance_for_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the advance for a glyph ID from the specified font,
@@ -1396,10 +2588,19 @@ public final class HarfBuzz {
     public static void fontGetGlyphAdvanceForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_get_glyph_advance_for_direction(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
+        try {
+            hb_font_get_glyph_advance_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_advances_for_direction = Interop.downcallHandle(
+        "hb_font_get_glyph_advances_for_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the advances for a sequence of glyph IDs in the specified
@@ -1411,10 +2612,19 @@ public final class HarfBuzz {
     public static void fontGetGlyphAdvancesForDirection(FontT font, DirectionT direction, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
-        gtk_h.hb_font_get_glyph_advances_for_direction(font.handle(), direction.getValue(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
-        firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.setValue(firstAdvancePOINTER.get());
+        try {
+            hb_font_get_glyph_advances_for_direction.invokeExact(font.handle(), direction.getValue(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
+            firstGlyph.setValue(firstGlyphPOINTER.get());
+            firstAdvance.setValue(firstAdvancePOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_contour_point = Interop.downcallHandle(
+        "hb_font_get_glyph_contour_point",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the (x,y) coordinates of a specified contour-point index
@@ -1423,11 +2633,20 @@ public final class HarfBuzz {
     public static BoolT fontGetGlyphContourPoint(FontT font, CodepointT glyph, int pointIndex, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_contour_point(font.handle(), glyph.getValue(), pointIndex, new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_contour_point.invokeExact(font.handle(), glyph.getValue(), pointIndex, new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_contour_point_for_origin = Interop.downcallHandle(
+        "hb_font_get_glyph_contour_point_for_origin",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the (X,Y) coordinates of a specified contour-point index
@@ -1440,20 +2659,38 @@ public final class HarfBuzz {
     public static BoolT fontGetGlyphContourPointForOrigin(FontT font, CodepointT glyph, int pointIndex, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_contour_point_for_origin(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_contour_point_for_origin.invokeExact(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_extents = Interop.downcallHandle(
+        "hb_font_get_glyph_extents",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the {@link glyph_extents_t} data for a glyph ID
      * in the specified font.
      */
     public static BoolT fontGetGlyphExtents(FontT font, CodepointT glyph, GlyphExtentsT extents) {
-        var RESULT = gtk_h.hb_font_get_glyph_extents(font.handle(), glyph.getValue(), extents.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_extents.invokeExact(font.handle(), glyph.getValue(), extents.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_extents_for_origin = Interop.downcallHandle(
+        "hb_font_get_glyph_extents_for_origin",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the {@link glyph_extents_t} data for a glyph ID
@@ -1464,9 +2701,18 @@ public final class HarfBuzz {
      * or vertical) depending on the value of {@code direction}.
      */
     public static BoolT fontGetGlyphExtentsForOrigin(FontT font, CodepointT glyph, DirectionT direction, GlyphExtentsT extents) {
-        var RESULT = gtk_h.hb_font_get_glyph_extents_for_origin(font.handle(), glyph.getValue(), direction.getValue(), extents.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_extents_for_origin.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), extents.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_from_name = Interop.downcallHandle(
+        "hb_font_get_glyph_from_name",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the glyph ID that corresponds to a name string in the specified {@code font}.
@@ -1475,19 +2721,37 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetGlyphFromName(FontT font, java.lang.String[] name, int len, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_from_name(font.handle(), Interop.allocateNativeArray(name).handle(), len, new PointerInteger(glyph.getValue()).handle());
-        glyph.setValue(glyphPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_from_name.invokeExact(font.handle(), Interop.allocateNativeArray(name).handle(), len, new PointerInteger(glyph.getValue()).handle());
+            glyph.setValue(glyphPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_h_advance = Interop.downcallHandle(
+        "hb_font_get_glyph_h_advance",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the advance for a glyph ID in the specified font,
      * for horizontal text segments.
      */
     public static PositionT fontGetGlyphHAdvance(FontT font, CodepointT glyph) {
-        var RESULT = gtk_h.hb_font_get_glyph_h_advance(font.handle(), glyph.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_h_advance.invokeExact(font.handle(), glyph.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_h_advances = Interop.downcallHandle(
+        "hb_font_get_glyph_h_advances",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the advances for a sequence of glyph IDs in the specified
@@ -1496,10 +2760,19 @@ public final class HarfBuzz {
     public static void fontGetGlyphHAdvances(FontT font, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
-        gtk_h.hb_font_get_glyph_h_advances(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
-        firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.setValue(firstAdvancePOINTER.get());
+        try {
+            hb_font_get_glyph_h_advances.invokeExact(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
+            firstGlyph.setValue(firstGlyphPOINTER.get());
+            firstAdvance.setValue(firstAdvancePOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_h_kerning = Interop.downcallHandle(
+        "hb_font_get_glyph_h_kerning",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the kerning-adjustment value for a glyph-pair in
@@ -1509,9 +2782,18 @@ public final class HarfBuzz {
      * {@link font_funcs_t} function).&lt;/note&gt;
      */
     public static PositionT fontGetGlyphHKerning(FontT font, CodepointT leftGlyph, CodepointT rightGlyph) {
-        var RESULT = gtk_h.hb_font_get_glyph_h_kerning(font.handle(), leftGlyph.getValue(), rightGlyph.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_h_kerning.invokeExact(font.handle(), leftGlyph.getValue(), rightGlyph.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_h_origin = Interop.downcallHandle(
+        "hb_font_get_glyph_h_origin",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the (X,Y) coordinates of the origin for a glyph ID
@@ -1520,11 +2802,20 @@ public final class HarfBuzz {
     public static BoolT fontGetGlyphHOrigin(FontT font, CodepointT glyph, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_h_origin(font.handle(), glyph.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_h_origin.invokeExact(font.handle(), glyph.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_kerning_for_direction = Interop.downcallHandle(
+        "hb_font_get_glyph_kerning_for_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the kerning-adjustment value for a glyph-pair in the specified font.
@@ -1535,18 +2826,36 @@ public final class HarfBuzz {
     public static void fontGetGlyphKerningForDirection(FontT font, CodepointT firstGlyph, CodepointT secondGlyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_get_glyph_kerning_for_direction(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
+        try {
+            hb_font_get_glyph_kerning_for_direction.invokeExact(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_name = Interop.downcallHandle(
+        "hb_font_get_glyph_name",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the glyph-name string for a glyph ID in the specified {@code font}.
      */
     public static BoolT fontGetGlyphName(FontT font, CodepointT glyph, java.lang.String[] name, int size) {
-        var RESULT = gtk_h.hb_font_get_glyph_name(font.handle(), glyph.getValue(), Interop.allocateNativeArray(name).handle(), size);
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_name.invokeExact(font.handle(), glyph.getValue(), Interop.allocateNativeArray(name).handle(), size);
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_origin_for_direction = Interop.downcallHandle(
+        "hb_font_get_glyph_origin_for_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the (X,Y) coordinates of the origin for a glyph in
@@ -1558,10 +2867,19 @@ public final class HarfBuzz {
     public static void fontGetGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_get_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
+        try {
+            hb_font_get_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_shape = Interop.downcallHandle(
+        "hb_font_get_glyph_shape",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the glyph shape that corresponds to a glyph in the specified {@code font}.
@@ -1569,17 +2887,35 @@ public final class HarfBuzz {
      * objects, with {@code draw_data} passed to them.
      */
     public static void fontGetGlyphShape(FontT font, CodepointT glyph, DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData) {
-        gtk_h.hb_font_get_glyph_shape(font.handle(), glyph.getValue(), dfuncs.handle(), drawData);
+        try {
+            hb_font_get_glyph_shape.invokeExact(font.handle(), glyph.getValue(), dfuncs.handle(), drawData);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_v_advance = Interop.downcallHandle(
+        "hb_font_get_glyph_v_advance",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the advance for a glyph ID in the specified font,
      * for vertical text segments.
      */
     public static PositionT fontGetGlyphVAdvance(FontT font, CodepointT glyph) {
-        var RESULT = gtk_h.hb_font_get_glyph_v_advance(font.handle(), glyph.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_v_advance.invokeExact(font.handle(), glyph.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_v_advances = Interop.downcallHandle(
+        "hb_font_get_glyph_v_advances",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the advances for a sequence of glyph IDs in the specified
@@ -1588,10 +2924,19 @@ public final class HarfBuzz {
     public static void fontGetGlyphVAdvances(FontT font, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
-        gtk_h.hb_font_get_glyph_v_advances(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
-        firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.setValue(firstAdvancePOINTER.get());
+        try {
+            hb_font_get_glyph_v_advances.invokeExact(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
+            firstGlyph.setValue(firstGlyphPOINTER.get());
+            firstAdvance.setValue(firstAdvancePOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_glyph_v_origin = Interop.downcallHandle(
+        "hb_font_get_glyph_v_origin",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the (X,Y) coordinates of the origin for a glyph ID
@@ -1600,20 +2945,38 @@ public final class HarfBuzz {
     public static BoolT fontGetGlyphVOrigin(FontT font, CodepointT glyph, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_v_origin(font.handle(), glyph.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_glyph_v_origin.invokeExact(font.handle(), glyph.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_h_extents = Interop.downcallHandle(
+        "hb_font_get_h_extents",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the extents for a specified font, for horizontal
      * text segments.
      */
     public static BoolT fontGetHExtents(FontT font, FontExtentsT extents) {
-        var RESULT = gtk_h.hb_font_get_h_extents(font.handle(), extents.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_h_extents.invokeExact(font.handle(), extents.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_nominal_glyph = Interop.downcallHandle(
+        "hb_font_get_nominal_glyph",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the nominal glyph ID for a Unicode code point in the
@@ -1625,10 +2988,19 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetNominalGlyph(FontT font, CodepointT unicode, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_get_nominal_glyph(font.handle(), unicode.getValue(), new PointerInteger(glyph.getValue()).handle());
-        glyph.setValue(glyphPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_nominal_glyph.invokeExact(font.handle(), unicode.getValue(), new PointerInteger(glyph.getValue()).handle());
+            glyph.setValue(glyphPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_nominal_glyphs = Interop.downcallHandle(
+        "hb_font_get_nominal_glyphs",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the nominal glyph IDs for a sequence of Unicode code points. Glyph
@@ -1637,68 +3009,140 @@ public final class HarfBuzz {
     public static int fontGetNominalGlyphs(FontT font, int count, CodepointT firstUnicode, int unicodeStride, CodepointT firstGlyph, int glyphStride) {
         PointerInteger firstUnicodePOINTER = new PointerInteger(firstUnicode.getValue());
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
-        var RESULT = gtk_h.hb_font_get_nominal_glyphs(font.handle(), count, new PointerInteger(firstUnicode.getValue()).handle(), unicodeStride, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride);
-        firstUnicode.setValue(firstUnicodePOINTER.get());
-        firstGlyph.setValue(firstGlyphPOINTER.get());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_font_get_nominal_glyphs.invokeExact(font.handle(), count, new PointerInteger(firstUnicode.getValue()).handle(), unicodeStride, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride);
+            firstUnicode.setValue(firstUnicodePOINTER.get());
+            firstGlyph.setValue(firstGlyphPOINTER.get());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_parent = Interop.downcallHandle(
+        "hb_font_get_parent",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the parent font of {@code font}.
      */
     public static FontT fontGetParent(FontT font) {
-        var RESULT = gtk_h.hb_font_get_parent(font.handle());
-        return new FontT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) hb_font_get_parent.invokeExact(font.handle());
+            return new FontT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_ppem = Interop.downcallHandle(
+        "hb_font_get_ppem",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the horizontal and vertical points-per-em (ppem) of a font.
      */
     public static void fontGetPpem(FontT font, PointerInteger xPpem, PointerInteger yPpem) {
-        gtk_h.hb_font_get_ppem(font.handle(), xPpem.handle(), yPpem.handle());
+        try {
+            hb_font_get_ppem.invokeExact(font.handle(), xPpem.handle(), yPpem.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_ptem = Interop.downcallHandle(
+        "hb_font_get_ptem",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the "point size" of a font. Used in CoreText to
      * implement optical sizing.
      */
     public static float fontGetPtem(FontT font) {
-        var RESULT = gtk_h.hb_font_get_ptem(font.handle());
-        return RESULT;
+        try {
+            var RESULT = (float) hb_font_get_ptem.invokeExact(font.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_scale = Interop.downcallHandle(
+        "hb_font_get_scale",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the horizontal and vertical scale of a font.
      */
     public static void fontGetScale(FontT font, PointerInteger xScale, PointerInteger yScale) {
-        gtk_h.hb_font_get_scale(font.handle(), xScale.handle(), yScale.handle());
+        try {
+            hb_font_get_scale.invokeExact(font.handle(), xScale.handle(), yScale.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_synthetic_slant = Interop.downcallHandle(
+        "hb_font_get_synthetic_slant",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the "synthetic slant" of a font.
      */
     public static float fontGetSyntheticSlant(FontT font) {
-        var RESULT = gtk_h.hb_font_get_synthetic_slant(font.handle());
-        return RESULT;
+        try {
+            var RESULT = (float) hb_font_get_synthetic_slant.invokeExact(font.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_user_data = Interop.downcallHandle(
+        "hb_font_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user-data object associated with the specified key,
      * attached to the specified font object.
      */
     public static java.lang.foreign.MemoryAddress fontGetUserData(FontT font, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_font_get_user_data(font.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_font_get_user_data.invokeExact(font.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_v_extents = Interop.downcallHandle(
+        "hb_font_get_v_extents",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the extents for a specified font, for vertical
      * text segments.
      */
     public static BoolT fontGetVExtents(FontT font, FontExtentsT extents) {
-        var RESULT = gtk_h.hb_font_get_v_extents(font.handle(), extents.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_v_extents.invokeExact(font.handle(), extents.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_var_coords_design = Interop.downcallHandle(
+        "hb_font_get_var_coords_design",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the list of variation coordinates (in design-space units) currently
@@ -1712,9 +3156,18 @@ public final class HarfBuzz {
      * are not modified.
      */
     public static PointerFloat fontGetVarCoordsDesign(FontT font, PointerInteger length) {
-        var RESULT = gtk_h.hb_font_get_var_coords_design(font.handle(), length.handle());
-        return new PointerFloat(RESULT);
+        try {
+            var RESULT = (MemoryAddress) hb_font_get_var_coords_design.invokeExact(font.handle(), length.handle());
+            return new PointerFloat(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_var_coords_normalized = Interop.downcallHandle(
+        "hb_font_get_var_coords_normalized",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the list of normalized variation coordinates currently
@@ -1727,9 +3180,18 @@ public final class HarfBuzz {
      * are not modified.
      */
     public static PointerInteger fontGetVarCoordsNormalized(FontT font, PointerInteger length) {
-        var RESULT = gtk_h.hb_font_get_var_coords_normalized(font.handle(), length.handle());
-        return new PointerInteger(RESULT);
+        try {
+            var RESULT = (MemoryAddress) hb_font_get_var_coords_normalized.invokeExact(font.handle(), length.handle());
+            return new PointerInteger(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_get_variation_glyph = Interop.downcallHandle(
+        "hb_font_get_variation_glyph",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the glyph ID for a Unicode code point when followed by
@@ -1738,10 +3200,19 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetVariationGlyph(FontT font, CodepointT unicode, CodepointT variationSelector, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_get_variation_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), new PointerInteger(glyph.getValue()).handle());
-        glyph.setValue(glyphPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_get_variation_glyph.invokeExact(font.handle(), unicode.getValue(), variationSelector.getValue(), new PointerInteger(glyph.getValue()).handle());
+            glyph.setValue(glyphPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_glyph_from_string = Interop.downcallHandle(
+        "hb_font_glyph_from_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the glyph ID from {@code font} that matches the specified string.
@@ -1751,10 +3222,19 @@ public final class HarfBuzz {
      */
     public static BoolT fontGlyphFromString(FontT font, byte[] s, int len, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_glyph_from_string(font.handle(), Interop.allocateNativeArray(s).handle(), len, new PointerInteger(glyph.getValue()).handle());
-        glyph.setValue(glyphPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_glyph_from_string.invokeExact(font.handle(), Interop.allocateNativeArray(s).handle(), len, new PointerInteger(glyph.getValue()).handle());
+            glyph.setValue(glyphPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_glyph_to_string = Interop.downcallHandle(
+        "hb_font_glyph_to_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the name of the specified glyph ID in {@code font} and returns
@@ -1764,52 +3244,115 @@ public final class HarfBuzz {
      * generated, with {@code DDD} being the glyph ID.
      */
     public static void fontGlyphToString(FontT font, CodepointT glyph, java.lang.String[] s, int size) {
-        gtk_h.hb_font_glyph_to_string(font.handle(), glyph.getValue(), Interop.allocateNativeArray(s).handle(), size);
+        try {
+            hb_font_glyph_to_string.invokeExact(font.handle(), glyph.getValue(), Interop.allocateNativeArray(s).handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_is_immutable = Interop.downcallHandle(
+        "hb_font_is_immutable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a font object is immutable.
      */
     public static BoolT fontIsImmutable(FontT font) {
-        var RESULT = gtk_h.hb_font_is_immutable(font.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_font_is_immutable.invokeExact(font.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_make_immutable = Interop.downcallHandle(
+        "hb_font_make_immutable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code font} immutable.
      */
     public static void fontMakeImmutable(FontT font) {
-        gtk_h.hb_font_make_immutable(font.handle());
+        try {
+            hb_font_make_immutable.invokeExact(font.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_reference = Interop.downcallHandle(
+        "hb_font_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on the given font object.
      */
     public static FontT fontReference(FontT font) {
-        var RESULT = gtk_h.hb_font_reference(font.handle());
-        return new FontT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_font_reference.invokeExact(font.handle());
+            return new FontT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_face = Interop.downcallHandle(
+        "hb_font_set_face",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code face} as the font-face value of {@code font}.
      */
     public static void fontSetFace(FontT font, FaceT face) {
-        gtk_h.hb_font_set_face(font.handle(), face.handle());
+        try {
+            hb_font_set_face.invokeExact(font.handle(), face.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_parent = Interop.downcallHandle(
+        "hb_font_set_parent",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the parent font of {@code font}.
      */
     public static void fontSetParent(FontT font, FontT parent) {
-        gtk_h.hb_font_set_parent(font.handle(), parent.handle());
+        try {
+            hb_font_set_parent.invokeExact(font.handle(), parent.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_ppem = Interop.downcallHandle(
+        "hb_font_set_ppem",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the horizontal and vertical pixels-per-em (ppem) of a font.
      */
     public static void fontSetPpem(FontT font, int xPpem, int yPpem) {
-        gtk_h.hb_font_set_ppem(font.handle(), xPpem, yPpem);
+        try {
+            hb_font_set_ppem.invokeExact(font.handle(), xPpem, yPpem);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_ptem = Interop.downcallHandle(
+        "hb_font_set_ptem",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the "point size" of a font. Set to zero to unset.
@@ -1818,15 +3361,33 @@ public final class HarfBuzz {
      * &lt;note>Note: There are 72 points in an inch.</note&gt;
      */
     public static void fontSetPtem(FontT font, float ptem) {
-        gtk_h.hb_font_set_ptem(font.handle(), ptem);
+        try {
+            hb_font_set_ptem.invokeExact(font.handle(), ptem);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_scale = Interop.downcallHandle(
+        "hb_font_set_scale",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the horizontal and vertical scale of a font.
      */
     public static void fontSetScale(FontT font, int xScale, int yScale) {
-        gtk_h.hb_font_set_scale(font.handle(), xScale, yScale);
+        try {
+            hb_font_set_scale.invokeExact(font.handle(), xScale, yScale);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_synthetic_slant = Interop.downcallHandle(
+        "hb_font_set_synthetic_slant",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the "synthetic slant" of a font.  By default is zero.
@@ -1844,8 +3405,17 @@ public final class HarfBuzz {
      * 20% slant would be represented as a 0.2 value.&lt;/note&gt;
      */
     public static void fontSetSyntheticSlant(FontT font, float slant) {
-        gtk_h.hb_font_set_synthetic_slant(font.handle(), slant);
+        try {
+            hb_font_set_synthetic_slant.invokeExact(font.handle(), slant);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_var_coords_design = Interop.downcallHandle(
+        "hb_font_set_var_coords_design",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Applies a list of variation coordinates (in design-space units)
@@ -1856,8 +3426,17 @@ public final class HarfBuzz {
      * default values.
      */
     public static void fontSetVarCoordsDesign(FontT font, float[] coords, int coordsLength) {
-        gtk_h.hb_font_set_var_coords_design(font.handle(), Interop.allocateNativeArray(coords).handle(), coordsLength);
+        try {
+            hb_font_set_var_coords_design.invokeExact(font.handle(), Interop.allocateNativeArray(coords).handle(), coordsLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_var_coords_normalized = Interop.downcallHandle(
+        "hb_font_set_var_coords_normalized",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Applies a list of variation coordinates (in normalized units)
@@ -1870,15 +3449,33 @@ public final class HarfBuzz {
      * &lt;note>Note: Coordinates should be normalized to 2.14.</note&gt;
      */
     public static void fontSetVarCoordsNormalized(FontT font, int[] coords, int coordsLength) {
-        gtk_h.hb_font_set_var_coords_normalized(font.handle(), Interop.allocateNativeArray(coords).handle(), coordsLength);
+        try {
+            hb_font_set_var_coords_normalized.invokeExact(font.handle(), Interop.allocateNativeArray(coords).handle(), coordsLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_var_named_instance = Interop.downcallHandle(
+        "hb_font_set_var_named_instance",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets design coords of a font from a named instance index.
      */
     public static void fontSetVarNamedInstance(FontT font, int instanceIndex) {
-        gtk_h.hb_font_set_var_named_instance(font.handle(), instanceIndex);
+        try {
+            hb_font_set_var_named_instance.invokeExact(font.handle(), instanceIndex);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_set_variations = Interop.downcallHandle(
+        "hb_font_set_variations",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Applies a list of font-variation settings to a font.
@@ -1888,8 +3485,17 @@ public final class HarfBuzz {
      * default values.
      */
     public static void fontSetVariations(FontT font, VariationT[] variations, int variationsLength) {
-        gtk_h.hb_font_set_variations(font.handle(), Interop.allocateNativeArray(variations).handle(), variationsLength);
+        try {
+            hb_font_set_variations.invokeExact(font.handle(), Interop.allocateNativeArray(variations).handle(), variationsLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_font_subtract_glyph_origin_for_direction = Interop.downcallHandle(
+        "hb_font_subtract_glyph_origin_for_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Subtracts the origin coordinates from an (X,Y) point coordinate,
@@ -1901,10 +3507,19 @@ public final class HarfBuzz {
     public static void fontSubtractGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_subtract_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
-        x.setValue(xPOINTER.get());
-        y.setValue(yPOINTER.get());
+        try {
+            hb_font_subtract_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
+            x.setValue(xPOINTER.get());
+            y.setValue(yPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ft_font_changed = Interop.downcallHandle(
+        "hb_ft_font_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Refreshes the state of {@code font} when the underlying FT_Face has changed.
@@ -1912,8 +3527,17 @@ public final class HarfBuzz {
      * variation-axis settings on the FT_Face.
      */
     public static void ftFontChanged(FontT font) {
-        gtk_h.hb_ft_font_changed(font.handle());
+        try {
+            hb_ft_font_changed.invokeExact(font.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ft_font_get_load_flags = Interop.downcallHandle(
+        "hb_ft_font_get_load_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the FT_Load_Glyph load flags of the specified {@link font_t}.
@@ -1922,9 +3546,18 @@ public final class HarfBuzz {
      * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html{@code ft_load_xxx}
      */
     public static int ftFontGetLoadFlags(FontT font) {
-        var RESULT = gtk_h.hb_ft_font_get_load_flags(font.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ft_font_get_load_flags.invokeExact(font.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ft_font_set_funcs = Interop.downcallHandle(
+        "hb_ft_font_set_funcs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Configures the font-functions structure of the specified
@@ -1944,8 +3577,17 @@ public final class HarfBuzz {
      * &lt;/note&gt;
      */
     public static void ftFontSetFuncs(FontT font) {
-        gtk_h.hb_ft_font_set_funcs(font.handle());
+        try {
+            hb_ft_font_set_funcs.invokeExact(font.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ft_font_set_load_flags = Interop.downcallHandle(
+        "hb_ft_font_set_load_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the FT_Load_Glyph load flags for the specified {@link font_t}.
@@ -1954,68 +3596,140 @@ public final class HarfBuzz {
      * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html{@code ft_load_xxx}
      */
     public static void ftFontSetLoadFlags(FontT font, int loadFlags) {
-        gtk_h.hb_ft_font_set_load_flags(font.handle(), loadFlags);
+        try {
+            hb_ft_font_set_load_flags.invokeExact(font.handle(), loadFlags);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ft_font_unlock_face = Interop.downcallHandle(
+        "hb_ft_font_unlock_face",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases an FT_Face previously obtained with hb_ft_font_lock_face().
      */
     public static void ftFontUnlockFace(FontT font) {
-        gtk_h.hb_ft_font_unlock_face(font.handle());
+        try {
+            hb_ft_font_unlock_face.invokeExact(font.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_glib_blob_create = Interop.downcallHandle(
+        "hb_glib_blob_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates an {@link blob_t} blob from the specified
      * GBytes data structure.
      */
     public static BlobT glibBlobCreate(org.gtk.glib.Bytes gbytes) {
-        var RESULT = gtk_h.hb_glib_blob_create(gbytes.handle());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_glib_blob_create.invokeExact(gbytes.handle());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_glib_get_unicode_funcs = Interop.downcallHandle(
+        "hb_glib_get_unicode_funcs",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a Unicode-functions structure that is populated
      * with the appropriate GLib function for each method.
      */
     public static UnicodeFuncsT glibGetUnicodeFuncs() {
-        var RESULT = gtk_h.hb_glib_get_unicode_funcs();
-        return new UnicodeFuncsT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) hb_glib_get_unicode_funcs.invokeExact();
+            return new UnicodeFuncsT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_glib_script_from_script = Interop.downcallHandle(
+        "hb_glib_script_from_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the GUnicodeScript identifier that corresponds to the
      * specified {@link script_t} script.
      */
     public static org.gtk.glib.UnicodeScript glibScriptFromScript(ScriptT script) {
-        var RESULT = gtk_h.hb_glib_script_from_script(script.getValue());
-        return new org.gtk.glib.UnicodeScript(RESULT);
+        try {
+            var RESULT = (int) hb_glib_script_from_script.invokeExact(script.getValue());
+            return new org.gtk.glib.UnicodeScript(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_glib_script_to_script = Interop.downcallHandle(
+        "hb_glib_script_to_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the {@link script_t} script that corresponds to the
      * specified GUnicodeScript identifier.
      */
     public static ScriptT glibScriptToScript(org.gtk.glib.UnicodeScript script) {
-        var RESULT = gtk_h.hb_glib_script_to_script(script.getValue());
-        return new ScriptT(RESULT);
+        try {
+            var RESULT = (int) hb_glib_script_to_script.invokeExact(script.getValue());
+            return new ScriptT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_glyph_info_get_glyph_flags = Interop.downcallHandle(
+        "hb_glyph_info_get_glyph_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns glyph flags encoded within a {@link glyph_info_t}.
      */
     public static GlyphFlagsT glyphInfoGetGlyphFlags(GlyphInfoT info) {
-        var RESULT = gtk_h.hb_glyph_info_get_glyph_flags(info.handle());
-        return new GlyphFlagsT(RESULT);
+        try {
+            var RESULT = (int) hb_glyph_info_get_glyph_flags.invokeExact(info.handle());
+            return new GlyphFlagsT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_language_from_string = Interop.downcallHandle(
+        "hb_language_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts {@code str} representing a BCP 47 language tag to the corresponding
      * {@link language_t}.
      */
     public static LanguageT languageFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_language_from_string(Interop.allocateNativeArray(str).handle(), len);
-        return new LanguageT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) hb_language_from_string.invokeExact(Interop.allocateNativeArray(str).handle(), len);
+            return new LanguageT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_language_get_default = Interop.downcallHandle(
+        "hb_language_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetch the default language from current locale.
@@ -2028,47 +3742,101 @@ public final class HarfBuzz {
      * HarfBuzz itself.&lt;/note&gt;
      */
     public static LanguageT languageGetDefault() {
-        var RESULT = gtk_h.hb_language_get_default();
-        return new LanguageT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) hb_language_get_default.invokeExact();
+            return new LanguageT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_language_to_string = Interop.downcallHandle(
+        "hb_language_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts an {@link language_t} to a string.
      */
     public static java.lang.String languageToString(LanguageT language) {
-        var RESULT = gtk_h.hb_language_to_string(language.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) hb_language_to_string.invokeExact(language.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_allocation_successful = Interop.downcallHandle(
+        "hb_map_allocation_successful",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether memory allocation for a set was successful.
      */
     public static BoolT mapAllocationSuccessful(MapT map) {
-        var RESULT = gtk_h.hb_map_allocation_successful(map.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_map_allocation_successful.invokeExact(map.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_clear = Interop.downcallHandle(
+        "hb_map_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Clears out the contents of {@code map}.
      */
     public static void mapClear(MapT map) {
-        gtk_h.hb_map_clear(map.handle());
+        try {
+            hb_map_clear.invokeExact(map.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_create = Interop.downcallHandle(
+        "hb_map_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new, initially empty map.
      */
     public static MapT mapCreate() {
-        var RESULT = gtk_h.hb_map_create();
-        return new MapT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_map_create.invokeExact();
+            return new MapT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_del = Interop.downcallHandle(
+        "hb_map_del",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes {@code key} and its stored value from {@code map}.
      */
     public static void mapDel(MapT map, CodepointT key) {
-        gtk_h.hb_map_del(map.handle(), key.getValue());
+        try {
+            hb_map_del.invokeExact(map.handle(), key.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_destroy = Interop.downcallHandle(
+        "hb_map_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on a map. When
@@ -2076,81 +3844,171 @@ public final class HarfBuzz {
      * destroyed, freeing all memory.
      */
     public static void mapDestroy(MapT map) {
-        gtk_h.hb_map_destroy(map.handle());
+        try {
+            hb_map_destroy.invokeExact(map.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_get = Interop.downcallHandle(
+        "hb_map_get",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the value stored for {@code key} in {@code map}.
      */
     public static CodepointT mapGet(MapT map, CodepointT key) {
-        var RESULT = gtk_h.hb_map_get(map.handle(), key.getValue());
-        return new CodepointT(RESULT);
+        try {
+            var RESULT = (int) hb_map_get.invokeExact(map.handle(), key.getValue());
+            return new CodepointT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_get_empty = Interop.downcallHandle(
+        "hb_map_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the singleton empty {@link map_t}.
      */
     public static MapT mapGetEmpty() {
-        var RESULT = gtk_h.hb_map_get_empty();
-        return new MapT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_map_get_empty.invokeExact();
+            return new MapT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_get_population = Interop.downcallHandle(
+        "hb_map_get_population",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of key-value pairs in the map.
      */
     public static int mapGetPopulation(MapT map) {
-        var RESULT = gtk_h.hb_map_get_population(map.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_map_get_population.invokeExact(map.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_get_user_data = Interop.downcallHandle(
+        "hb_map_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified map.
      */
     public static java.lang.foreign.MemoryAddress mapGetUserData(MapT map, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_map_get_user_data(map.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_map_get_user_data.invokeExact(map.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_has = Interop.downcallHandle(
+        "hb_map_has",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Tests whether {@code key} is an element of {@code map}.
      */
     public static BoolT mapHas(MapT map, CodepointT key) {
-        var RESULT = gtk_h.hb_map_has(map.handle(), key.getValue());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_map_has.invokeExact(map.handle(), key.getValue());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_is_empty = Interop.downcallHandle(
+        "hb_map_is_empty",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether {@code map} is empty (contains no elements).
      */
     public static BoolT mapIsEmpty(MapT map) {
-        var RESULT = gtk_h.hb_map_is_empty(map.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_map_is_empty.invokeExact(map.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_reference = Interop.downcallHandle(
+        "hb_map_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on a map.
      */
     public static MapT mapReference(MapT map) {
-        var RESULT = gtk_h.hb_map_reference(map.handle());
-        return new MapT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_map_reference.invokeExact(map.handle());
+            return new MapT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_map_set = Interop.downcallHandle(
+        "hb_map_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Stores {@code key}:{@code value} in the map.
      */
     public static void mapSet(MapT map, CodepointT key, CodepointT value) {
-        gtk_h.hb_map_set(map.handle(), key.getValue(), value.getValue());
+        try {
+            hb_map_set.invokeExact(map.handle(), key.getValue(), value.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_glyph_get_layers = Interop.downcallHandle(
+        "hb_ot_color_glyph_get_layers",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all color layers for the specified glyph index in the specified
      * face. The list returned will begin at the offset provided.
      */
     public static int otColorGlyphGetLayers(FaceT face, CodepointT glyph, int startOffset, PointerInteger layerCount, OtColorLayerT[] layers) {
-        var RESULT = gtk_h.hb_ot_color_glyph_get_layers(face.handle(), glyph.getValue(), startOffset, layerCount.handle(), Interop.allocateNativeArray(layers).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_color_glyph_get_layers.invokeExact(face.handle(), glyph.getValue(), startOffset, layerCount.handle(), Interop.allocateNativeArray(layers).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_glyph_reference_png = Interop.downcallHandle(
+        "hb_ot_color_glyph_reference_png",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the PNG image for a glyph. This function takes a font object, not a face object,
@@ -2160,9 +4018,18 @@ public final class HarfBuzz {
      * If the glyph has no PNG image, the singleton empty blob is returned.
      */
     public static BlobT otColorGlyphReferencePng(FontT font, CodepointT glyph) {
-        var RESULT = gtk_h.hb_ot_color_glyph_reference_png(font.handle(), glyph.getValue());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_ot_color_glyph_reference_png.invokeExact(font.handle(), glyph.getValue());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_glyph_reference_svg = Interop.downcallHandle(
+        "hb_ot_color_glyph_reference_svg",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the SVG document for a glyph. The blob may be either plain text or gzip-encoded.
@@ -2170,41 +4037,86 @@ public final class HarfBuzz {
      * If the glyph has no SVG document, the singleton empty blob is returned.
      */
     public static BlobT otColorGlyphReferenceSvg(FaceT face, CodepointT glyph) {
-        var RESULT = gtk_h.hb_ot_color_glyph_reference_svg(face.handle(), glyph.getValue());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_ot_color_glyph_reference_svg.invokeExact(face.handle(), glyph.getValue());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_has_layers = Interop.downcallHandle(
+        "hb_ot_color_has_layers",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a face includes any {@code COLR} color layers.
      */
     public static BoolT otColorHasLayers(FaceT face) {
-        var RESULT = gtk_h.hb_ot_color_has_layers(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_color_has_layers.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_has_palettes = Interop.downcallHandle(
+        "hb_ot_color_has_palettes",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a face includes a {@code CPAL} color-palette table.
      */
     public static BoolT otColorHasPalettes(FaceT face) {
-        var RESULT = gtk_h.hb_ot_color_has_palettes(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_color_has_palettes.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_has_png = Interop.downcallHandle(
+        "hb_ot_color_has_png",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a face has PNG glyph images (either in {@code CBDT} or {@code sbix} tables).
      */
     public static BoolT otColorHasPng(FaceT face) {
-        var RESULT = gtk_h.hb_ot_color_has_png(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_color_has_png.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_has_svg = Interop.downcallHandle(
+        "hb_ot_color_has_svg",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a face includes any {@code SVG} glyph images.
      */
     public static BoolT otColorHasSvg(FaceT face) {
-        var RESULT = gtk_h.hb_ot_color_has_svg(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_color_has_svg.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_palette_color_get_name_id = Interop.downcallHandle(
+        "hb_ot_color_palette_color_get_name_id",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the {@code name} table Name ID that provides display names for
@@ -2214,9 +4126,18 @@ public final class HarfBuzz {
      * (e.g., "Eye color").
      */
     public static OtNameIdT otColorPaletteColorGetNameId(FaceT face, int colorIndex) {
-        var RESULT = gtk_h.hb_ot_color_palette_color_get_name_id(face.handle(), colorIndex);
-        return new OtNameIdT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_color_palette_color_get_name_id.invokeExact(face.handle(), colorIndex);
+            return new OtNameIdT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_palette_get_colors = Interop.downcallHandle(
+        "hb_ot_color_palette_get_colors",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of the colors in a color palette.
@@ -2228,25 +4149,52 @@ public final class HarfBuzz {
      * hb_ot_color_palette_get_colors() a second time.
      */
     public static int otColorPaletteGetColors(FaceT face, int paletteIndex, int startOffset, PointerInteger colorCount, ColorT[] colors) {
-        var RESULT = gtk_h.hb_ot_color_palette_get_colors(face.handle(), paletteIndex, startOffset, colorCount.handle(), Interop.allocateNativeArray(ColorT.getIntegerValues(colors)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_color_palette_get_colors.invokeExact(face.handle(), paletteIndex, startOffset, colorCount.handle(), Interop.allocateNativeArray(ColorT.getIntegerValues(colors)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_palette_get_count = Interop.downcallHandle(
+        "hb_ot_color_palette_get_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the number of color palettes in a face.
      */
     public static int otColorPaletteGetCount(FaceT face) {
-        var RESULT = gtk_h.hb_ot_color_palette_get_count(face.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_color_palette_get_count.invokeExact(face.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_palette_get_flags = Interop.downcallHandle(
+        "hb_ot_color_palette_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the flags defined for a color palette.
      */
     public static OtColorPaletteFlagsT otColorPaletteGetFlags(FaceT face, int paletteIndex) {
-        var RESULT = gtk_h.hb_ot_color_palette_get_flags(face.handle(), paletteIndex);
-        return new OtColorPaletteFlagsT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_color_palette_get_flags.invokeExact(face.handle(), paletteIndex);
+            return new OtColorPaletteFlagsT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_color_palette_get_name_id = Interop.downcallHandle(
+        "hb_ot_color_palette_get_name_id",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the {@code name} table Name ID that provides display names for
@@ -2256,16 +4204,34 @@ public final class HarfBuzz {
      * specific, themed names (e.g., "Spring", "Summer", "Fall", and "Winter").
      */
     public static OtNameIdT otColorPaletteGetNameId(FaceT face, int paletteIndex) {
-        var RESULT = gtk_h.hb_ot_color_palette_get_name_id(face.handle(), paletteIndex);
-        return new OtNameIdT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_color_palette_get_name_id.invokeExact(face.handle(), paletteIndex);
+            return new OtNameIdT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_font_set_funcs = Interop.downcallHandle(
+        "hb_ot_font_set_funcs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the font functions to use when working with {@code font}.
      */
     public static void otFontSetFuncs(FontT font) {
-        gtk_h.hb_ot_font_set_funcs(font.handle());
+        try {
+            hb_ot_font_set_funcs.invokeExact(font.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_collect_features = Interop.downcallHandle(
+        "hb_ot_layout_collect_features",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all feature indexes in the specified face's GSUB table
@@ -2278,11 +4244,20 @@ public final class HarfBuzz {
         PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
         PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
         PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
-        gtk_h.hb_ot_layout_collect_features(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), featureIndexes.handle());
-        scripts.setValue(scriptsPOINTER.get());
-        languages.setValue(languagesPOINTER.get());
-        features.setValue(featuresPOINTER.get());
+        try {
+            hb_ot_layout_collect_features.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), featureIndexes.handle());
+            scripts.setValue(scriptsPOINTER.get());
+            languages.setValue(languagesPOINTER.get());
+            features.setValue(featuresPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_collect_lookups = Interop.downcallHandle(
+        "hb_ot_layout_collect_lookups",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all feature-lookup indexes in the specified face's GSUB
@@ -2295,20 +4270,38 @@ public final class HarfBuzz {
         PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
         PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
         PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
-        gtk_h.hb_ot_layout_collect_lookups(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), lookupIndexes.handle());
-        scripts.setValue(scriptsPOINTER.get());
-        languages.setValue(languagesPOINTER.get());
-        features.setValue(featuresPOINTER.get());
+        try {
+            hb_ot_layout_collect_lookups.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), lookupIndexes.handle());
+            scripts.setValue(scriptsPOINTER.get());
+            languages.setValue(languagesPOINTER.get());
+            features.setValue(featuresPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_feature_get_characters = Interop.downcallHandle(
+        "hb_ot_layout_feature_get_characters",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of the characters defined as having a variant under the specified
      * "Character Variant" ("cvXX") feature tag.
      */
     public static int otLayoutFeatureGetCharacters(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger charCount, CodepointT[] characters) {
-        var RESULT = gtk_h.hb_ot_layout_feature_get_characters(face.handle(), tableTag.getValue(), featureIndex, startOffset, charCount.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(characters)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_feature_get_characters.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, charCount.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(characters)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_feature_get_lookups = Interop.downcallHandle(
+        "hb_ot_layout_feature_get_lookups",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all lookups enumerated for the specified feature, in
@@ -2316,9 +4309,18 @@ public final class HarfBuzz {
      * begin at the offset provided.
      */
     public static int otLayoutFeatureGetLookups(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger lookupCount, int[] lookupIndexes) {
-        var RESULT = gtk_h.hb_ot_layout_feature_get_lookups(face.handle(), tableTag.getValue(), featureIndex, startOffset, lookupCount.handle(), Interop.allocateNativeArray(lookupIndexes).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_feature_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, lookupCount.handle(), Interop.allocateNativeArray(lookupIndexes).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_feature_get_name_ids = Interop.downcallHandle(
+        "hb_ot_layout_feature_get_name_ids",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches name indices from feature parameters for "Stylistic Set" ('ssXX') or
@@ -2329,13 +4331,22 @@ public final class HarfBuzz {
         PointerInteger tooltipIdPOINTER = new PointerInteger(tooltipId.getValue());
         PointerInteger sampleIdPOINTER = new PointerInteger(sampleId.getValue());
         PointerInteger firstParamIdPOINTER = new PointerInteger(firstParamId.getValue());
-        var RESULT = gtk_h.hb_ot_layout_feature_get_name_ids(face.handle(), tableTag.getValue(), featureIndex, new PointerInteger(labelId.getValue()).handle(), new PointerInteger(tooltipId.getValue()).handle(), new PointerInteger(sampleId.getValue()).handle(), numNamedParameters.handle(), new PointerInteger(firstParamId.getValue()).handle());
-        labelId.setValue(labelIdPOINTER.get());
-        tooltipId.setValue(tooltipIdPOINTER.get());
-        sampleId.setValue(sampleIdPOINTER.get());
-        firstParamId.setValue(firstParamIdPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_feature_get_name_ids.invokeExact(face.handle(), tableTag.getValue(), featureIndex, new PointerInteger(labelId.getValue()).handle(), new PointerInteger(tooltipId.getValue()).handle(), new PointerInteger(sampleId.getValue()).handle(), numNamedParameters.handle(), new PointerInteger(firstParamId.getValue()).handle());
+            labelId.setValue(labelIdPOINTER.get());
+            tooltipId.setValue(tooltipIdPOINTER.get());
+            sampleId.setValue(sampleIdPOINTER.get());
+            firstParamId.setValue(firstParamIdPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_feature_with_variations_get_lookups = Interop.downcallHandle(
+        "hb_ot_layout_feature_with_variations_get_lookups",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all lookups enumerated for the specified feature, in
@@ -2343,9 +4354,18 @@ public final class HarfBuzz {
      * variations index. The list returned will begin at the offset provided.
      */
     public static int otLayoutFeatureWithVariationsGetLookups(FaceT face, TagT tableTag, int featureIndex, int variationsIndex, int startOffset, PointerInteger lookupCount, int[] lookupIndexes) {
-        var RESULT = gtk_h.hb_ot_layout_feature_with_variations_get_lookups(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, lookupCount.handle(), Interop.allocateNativeArray(lookupIndexes).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_feature_with_variations_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, lookupCount.handle(), Interop.allocateNativeArray(lookupIndexes).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_get_attach_points = Interop.downcallHandle(
+        "hb_ot_layout_get_attach_points",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all attachment points for the specified glyph in the GDEF
@@ -2354,19 +4374,37 @@ public final class HarfBuzz {
      * Useful if the client program wishes to cache the list.
      */
     public static int otLayoutGetAttachPoints(FaceT face, CodepointT glyph, int startOffset, PointerInteger pointCount, int[] pointArray) {
-        var RESULT = gtk_h.hb_ot_layout_get_attach_points(face.handle(), glyph.getValue(), startOffset, pointCount.handle(), Interop.allocateNativeArray(pointArray).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_get_attach_points.invokeExact(face.handle(), glyph.getValue(), startOffset, pointCount.handle(), Interop.allocateNativeArray(pointArray).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_get_baseline = Interop.downcallHandle(
+        "hb_ot_layout_get_baseline",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a baseline value from the face.
      */
     public static BoolT otLayoutGetBaseline(FontT font, OtLayoutBaselineTagT baselineTag, DirectionT direction, TagT scriptTag, TagT languageTag, PositionT coord) {
         PointerInteger coordPOINTER = new PointerInteger(coord.getValue());
-        var RESULT = gtk_h.hb_ot_layout_get_baseline(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), new PointerInteger(coord.getValue()).handle());
-        coord.setValue(coordPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_get_baseline.invokeExact(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), new PointerInteger(coord.getValue()).handle());
+            coord.setValue(coordPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_get_baseline_with_fallback = Interop.downcallHandle(
+        "hb_ot_layout_get_baseline_with_fallback",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a baseline value from the face, and synthesizes
@@ -2374,33 +4412,69 @@ public final class HarfBuzz {
      */
     public static void otLayoutGetBaselineWithFallback(FontT font, OtLayoutBaselineTagT baselineTag, DirectionT direction, TagT scriptTag, TagT languageTag, PositionT coord) {
         PointerInteger coordPOINTER = new PointerInteger(coord.getValue());
-        gtk_h.hb_ot_layout_get_baseline_with_fallback(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), new PointerInteger(coord.getValue()).handle());
-        coord.setValue(coordPOINTER.get());
+        try {
+            hb_ot_layout_get_baseline_with_fallback.invokeExact(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), new PointerInteger(coord.getValue()).handle());
+            coord.setValue(coordPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_get_glyph_class = Interop.downcallHandle(
+        "hb_ot_layout_get_glyph_class",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the GDEF class of the requested glyph in the specified face.
      */
     public static OtLayoutGlyphClassT otLayoutGetGlyphClass(FaceT face, CodepointT glyph) {
-        var RESULT = gtk_h.hb_ot_layout_get_glyph_class(face.handle(), glyph.getValue());
-        return new OtLayoutGlyphClassT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_get_glyph_class.invokeExact(face.handle(), glyph.getValue());
+            return new OtLayoutGlyphClassT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_get_glyphs_in_class = Interop.downcallHandle(
+        "hb_ot_layout_get_glyphs_in_class",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the set of all glyphs from the face that belong to the requested
      * glyph class in the face's GDEF table.
      */
     public static void otLayoutGetGlyphsInClass(FaceT face, OtLayoutGlyphClassT klass, SetT glyphs) {
-        gtk_h.hb_ot_layout_get_glyphs_in_class(face.handle(), klass.getValue(), glyphs.handle());
+        try {
+            hb_ot_layout_get_glyphs_in_class.invokeExact(face.handle(), klass.getValue(), glyphs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_get_horizontal_baseline_tag_for_script = Interop.downcallHandle(
+        "hb_ot_layout_get_horizontal_baseline_tag_for_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the dominant horizontal baseline tag used by {@code script}.
      */
     public static OtLayoutBaselineTagT otLayoutGetHorizontalBaselineTagForScript(ScriptT script) {
-        var RESULT = gtk_h.hb_ot_layout_get_horizontal_baseline_tag_for_script(script.getValue());
-        return new OtLayoutBaselineTagT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_get_horizontal_baseline_tag_for_script.invokeExact(script.getValue());
+            return new OtLayoutBaselineTagT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_get_ligature_carets = Interop.downcallHandle(
+        "hb_ot_layout_get_ligature_carets",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of the caret positions defined for a ligature glyph in the GDEF
@@ -2414,9 +4488,18 @@ public final class HarfBuzz {
      * be fixed up for kerning that may be applied to the ligature glyph.
      */
     public static int otLayoutGetLigatureCarets(FontT font, DirectionT direction, CodepointT glyph, int startOffset, PointerInteger caretCount, PositionT[] caretArray) {
-        var RESULT = gtk_h.hb_ot_layout_get_ligature_carets(font.handle(), direction.getValue(), glyph.getValue(), startOffset, caretCount.handle(), Interop.allocateNativeArray(PositionT.getIntegerValues(caretArray)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_get_ligature_carets.invokeExact(font.handle(), direction.getValue(), glyph.getValue(), startOffset, caretCount.handle(), Interop.allocateNativeArray(PositionT.getIntegerValues(caretArray)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_get_size_params = Interop.downcallHandle(
+        "hb_ot_layout_get_size_params",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches optical-size feature data (i.e., the {@code size} feature from GPOS). Note that
@@ -2430,43 +4513,88 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutGetSizeParams(FaceT face, PointerInteger designSize, PointerInteger subfamilyId, OtNameIdT subfamilyNameId, PointerInteger rangeStart, PointerInteger rangeEnd) {
         PointerInteger subfamilyNameIdPOINTER = new PointerInteger(subfamilyNameId.getValue());
-        var RESULT = gtk_h.hb_ot_layout_get_size_params(face.handle(), designSize.handle(), subfamilyId.handle(), new PointerInteger(subfamilyNameId.getValue()).handle(), rangeStart.handle(), rangeEnd.handle());
-        subfamilyNameId.setValue(subfamilyNameIdPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_get_size_params.invokeExact(face.handle(), designSize.handle(), subfamilyId.handle(), new PointerInteger(subfamilyNameId.getValue()).handle(), rangeStart.handle(), rangeEnd.handle());
+            subfamilyNameId.setValue(subfamilyNameIdPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_has_glyph_classes = Interop.downcallHandle(
+        "hb_ot_layout_has_glyph_classes",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a face has any glyph classes defined in its GDEF table.
      */
     public static BoolT otLayoutHasGlyphClasses(FaceT face) {
-        var RESULT = gtk_h.hb_ot_layout_has_glyph_classes(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_has_glyph_classes.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_has_positioning = Interop.downcallHandle(
+        "hb_ot_layout_has_positioning",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether the specified face includes any GPOS positioning.
      */
     public static BoolT otLayoutHasPositioning(FaceT face) {
-        var RESULT = gtk_h.hb_ot_layout_has_positioning(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_has_positioning.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_has_substitution = Interop.downcallHandle(
+        "hb_ot_layout_has_substitution",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether the specified face includes any GSUB substitutions.
      */
     public static BoolT otLayoutHasSubstitution(FaceT face) {
-        var RESULT = gtk_h.hb_ot_layout_has_substitution(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_has_substitution.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_language_find_feature = Interop.downcallHandle(
+        "hb_ot_layout_language_find_feature",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the index of a given feature tag in the specified face's GSUB table
      * or GPOS table, underneath the specified script and language.
      */
     public static BoolT otLayoutLanguageFindFeature(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, TagT featureTag, PointerInteger featureIndex) {
-        var RESULT = gtk_h.hb_ot_layout_language_find_feature(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureTag.getValue(), featureIndex.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_language_find_feature.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureTag.getValue(), featureIndex.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_language_get_feature_indexes = Interop.downcallHandle(
+        "hb_ot_layout_language_get_feature_indexes",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all features in the specified face's GSUB table
@@ -2474,9 +4602,18 @@ public final class HarfBuzz {
      * returned will begin at the offset provided.
      */
     public static int otLayoutLanguageGetFeatureIndexes(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, int[] featureIndexes) {
-        var RESULT = gtk_h.hb_ot_layout_language_get_feature_indexes(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(featureIndexes).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_language_get_feature_indexes.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(featureIndexes).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_language_get_feature_tags = Interop.downcallHandle(
+        "hb_ot_layout_language_get_feature_tags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all features in the specified face's GSUB table
@@ -2484,9 +4621,18 @@ public final class HarfBuzz {
      * returned will begin at the offset provided.
      */
     public static int otLayoutLanguageGetFeatureTags(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, TagT[] featureTags) {
-        var RESULT = gtk_h.hb_ot_layout_language_get_feature_tags(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(featureTags)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_language_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(featureTags)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_language_get_required_feature = Interop.downcallHandle(
+        "hb_ot_layout_language_get_required_feature",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the tag of a requested feature index in the given face's GSUB or GPOS table,
@@ -2494,43 +4640,88 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutLanguageGetRequiredFeature(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, PointerInteger featureIndex, TagT featureTag) {
         PointerInteger featureTagPOINTER = new PointerInteger(featureTag.getValue());
-        var RESULT = gtk_h.hb_ot_layout_language_get_required_feature(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureIndex.handle(), new PointerInteger(featureTag.getValue()).handle());
-        featureTag.setValue(featureTagPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_language_get_required_feature.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureIndex.handle(), new PointerInteger(featureTag.getValue()).handle());
+            featureTag.setValue(featureTagPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_language_get_required_feature_index = Interop.downcallHandle(
+        "hb_ot_layout_language_get_required_feature_index",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the index of a requested feature in the given face's GSUB or GPOS table,
      * underneath the specified script and language.
      */
     public static BoolT otLayoutLanguageGetRequiredFeatureIndex(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, PointerInteger featureIndex) {
-        var RESULT = gtk_h.hb_ot_layout_language_get_required_feature_index(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureIndex.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_language_get_required_feature_index.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureIndex.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_lookup_collect_glyphs = Interop.downcallHandle(
+        "hb_ot_layout_lookup_collect_glyphs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all glyphs affected by the specified lookup in the
      * specified face's GSUB table or GPOS table.
      */
     public static void otLayoutLookupCollectGlyphs(FaceT face, TagT tableTag, int lookupIndex, SetT glyphsBefore, SetT glyphsInput, SetT glyphsAfter, SetT glyphsOutput) {
-        gtk_h.hb_ot_layout_lookup_collect_glyphs(face.handle(), tableTag.getValue(), lookupIndex, glyphsBefore.handle(), glyphsInput.handle(), glyphsAfter.handle(), glyphsOutput.handle());
+        try {
+            hb_ot_layout_lookup_collect_glyphs.invokeExact(face.handle(), tableTag.getValue(), lookupIndex, glyphsBefore.handle(), glyphsInput.handle(), glyphsAfter.handle(), glyphsOutput.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_lookup_get_glyph_alternates = Interop.downcallHandle(
+        "hb_ot_layout_lookup_get_glyph_alternates",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches alternates of a glyph from a given GSUB lookup index.
      */
     public static int otLayoutLookupGetGlyphAlternates(FaceT face, int lookupIndex, CodepointT glyph, int startOffset, PointerInteger alternateCount, CodepointT[] alternateGlyphs) {
-        var RESULT = gtk_h.hb_ot_layout_lookup_get_glyph_alternates(face.handle(), lookupIndex, glyph.getValue(), startOffset, alternateCount.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(alternateGlyphs)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_lookup_get_glyph_alternates.invokeExact(face.handle(), lookupIndex, glyph.getValue(), startOffset, alternateCount.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(alternateGlyphs)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_lookup_substitute_closure = Interop.downcallHandle(
+        "hb_ot_layout_lookup_substitute_closure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compute the transitive closure of glyphs needed for a
      * specified lookup.
      */
     public static void otLayoutLookupSubstituteClosure(FaceT face, int lookupIndex, SetT glyphs) {
-        gtk_h.hb_ot_layout_lookup_substitute_closure(face.handle(), lookupIndex, glyphs.handle());
+        try {
+            hb_ot_layout_lookup_substitute_closure.invokeExact(face.handle(), lookupIndex, glyphs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_lookup_would_substitute = Interop.downcallHandle(
+        "hb_ot_layout_lookup_would_substitute",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Tests whether a specified lookup in the specified face would
@@ -2538,27 +4729,54 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutLookupWouldSubstitute(FaceT face, int lookupIndex, CodepointT glyphs, int glyphsLength, BoolT zeroContext) {
         PointerInteger glyphsPOINTER = new PointerInteger(glyphs.getValue());
-        var RESULT = gtk_h.hb_ot_layout_lookup_would_substitute(face.handle(), lookupIndex, new PointerInteger(glyphs.getValue()).handle(), glyphsLength, zeroContext.getValue());
-        glyphs.setValue(glyphsPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_lookup_would_substitute.invokeExact(face.handle(), lookupIndex, new PointerInteger(glyphs.getValue()).handle(), glyphsLength, zeroContext.getValue());
+            glyphs.setValue(glyphsPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_lookups_substitute_closure = Interop.downcallHandle(
+        "hb_ot_layout_lookups_substitute_closure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compute the transitive closure of glyphs needed for all of the
      * provided lookups.
      */
     public static void otLayoutLookupsSubstituteClosure(FaceT face, SetT lookups, SetT glyphs) {
-        gtk_h.hb_ot_layout_lookups_substitute_closure(face.handle(), lookups.handle(), glyphs.handle());
+        try {
+            hb_ot_layout_lookups_substitute_closure.invokeExact(face.handle(), lookups.handle(), glyphs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_script_get_language_tags = Interop.downcallHandle(
+        "hb_ot_layout_script_get_language_tags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of language tags in the given face's GSUB or GPOS table, underneath
      * the specified script index. The list returned will begin at the offset provided.
      */
     public static int otLayoutScriptGetLanguageTags(FaceT face, TagT tableTag, int scriptIndex, int startOffset, PointerInteger languageCount, TagT[] languageTags) {
-        var RESULT = gtk_h.hb_ot_layout_script_get_language_tags(face.handle(), tableTag.getValue(), scriptIndex, startOffset, languageCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(languageTags)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_script_get_language_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, startOffset, languageCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(languageTags)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_script_select_language = Interop.downcallHandle(
+        "hb_ot_layout_script_select_language",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the index of the first language tag fom {@code language_tags} that is present
@@ -2570,10 +4788,19 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutScriptSelectLanguage(FaceT face, TagT tableTag, int scriptIndex, int languageCount, TagT languageTags, PointerInteger languageIndex) {
         PointerInteger languageTagsPOINTER = new PointerInteger(languageTags.getValue());
-        var RESULT = gtk_h.hb_ot_layout_script_select_language(face.handle(), tableTag.getValue(), scriptIndex, languageCount, new PointerInteger(languageTags.getValue()).handle(), languageIndex.handle());
-        languageTags.setValue(languageTagsPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_script_select_language.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageCount, new PointerInteger(languageTags.getValue()).handle(), languageIndex.handle());
+            languageTags.setValue(languageTagsPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_table_choose_script = Interop.downcallHandle(
+        "hb_ot_layout_table_choose_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Deprecated since 2.0.0
@@ -2581,55 +4808,109 @@ public final class HarfBuzz {
     public static BoolT otLayoutTableChooseScript(FaceT face, TagT tableTag, TagT scriptTags, PointerInteger scriptIndex, TagT chosenScript) {
         PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
         PointerInteger chosenScriptPOINTER = new PointerInteger(chosenScript.getValue());
-        var RESULT = gtk_h.hb_ot_layout_table_choose_script(face.handle(), tableTag.getValue(), new PointerInteger(scriptTags.getValue()).handle(), scriptIndex.handle(), new PointerInteger(chosenScript.getValue()).handle());
-        scriptTags.setValue(scriptTagsPOINTER.get());
-        chosenScript.setValue(chosenScriptPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_table_choose_script.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scriptTags.getValue()).handle(), scriptIndex.handle(), new PointerInteger(chosenScript.getValue()).handle());
+            scriptTags.setValue(scriptTagsPOINTER.get());
+            chosenScript.setValue(chosenScriptPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_table_find_feature_variations = Interop.downcallHandle(
+        "hb_ot_layout_table_find_feature_variations",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of feature variations in the specified face's GSUB table
      * or GPOS table, at the specified variation coordinates.
      */
     public static BoolT otLayoutTableFindFeatureVariations(FaceT face, TagT tableTag, PointerInteger coords, int numCoords, PointerInteger variationsIndex) {
-        var RESULT = gtk_h.hb_ot_layout_table_find_feature_variations(face.handle(), tableTag.getValue(), coords.handle(), numCoords, variationsIndex.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_table_find_feature_variations.invokeExact(face.handle(), tableTag.getValue(), coords.handle(), numCoords, variationsIndex.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_table_find_script = Interop.downcallHandle(
+        "hb_ot_layout_table_find_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the index if a given script tag in the specified face's GSUB table
      * or GPOS table.
      */
     public static BoolT otLayoutTableFindScript(FaceT face, TagT tableTag, TagT scriptTag, PointerInteger scriptIndex) {
-        var RESULT = gtk_h.hb_ot_layout_table_find_script(face.handle(), tableTag.getValue(), scriptTag.getValue(), scriptIndex.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_table_find_script.invokeExact(face.handle(), tableTag.getValue(), scriptTag.getValue(), scriptIndex.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_table_get_feature_tags = Interop.downcallHandle(
+        "hb_ot_layout_table_get_feature_tags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all feature tags in the given face's GSUB or GPOS table.
      */
     public static int otLayoutTableGetFeatureTags(FaceT face, TagT tableTag, int startOffset, PointerInteger featureCount, TagT[] featureTags) {
-        var RESULT = gtk_h.hb_ot_layout_table_get_feature_tags(face.handle(), tableTag.getValue(), startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(featureTags)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_table_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(featureTags)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_table_get_lookup_count = Interop.downcallHandle(
+        "hb_ot_layout_table_get_lookup_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the total number of lookups enumerated in the specified
      * face's GSUB table or GPOS table.
      */
     public static int otLayoutTableGetLookupCount(FaceT face, TagT tableTag) {
-        var RESULT = gtk_h.hb_ot_layout_table_get_lookup_count(face.handle(), tableTag.getValue());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_table_get_lookup_count.invokeExact(face.handle(), tableTag.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_table_get_script_tags = Interop.downcallHandle(
+        "hb_ot_layout_table_get_script_tags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all scripts enumerated in the specified face's GSUB table
      * or GPOS table. The list returned will begin at the offset provided.
      */
     public static int otLayoutTableGetScriptTags(FaceT face, TagT tableTag, int startOffset, PointerInteger scriptCount, TagT[] scriptTags) {
-        var RESULT = gtk_h.hb_ot_layout_table_get_script_tags(face.handle(), tableTag.getValue(), startOffset, scriptCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(scriptTags)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_layout_table_get_script_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, scriptCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(scriptTags)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_layout_table_select_script = Interop.downcallHandle(
+        "hb_ot_layout_table_select_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Selects an OpenType script for {@code table_tag} from the {@code script_tags} array.
@@ -2642,11 +4923,20 @@ public final class HarfBuzz {
     public static BoolT otLayoutTableSelectScript(FaceT face, TagT tableTag, int scriptCount, TagT scriptTags, PointerInteger scriptIndex, TagT chosenScript) {
         PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
         PointerInteger chosenScriptPOINTER = new PointerInteger(chosenScript.getValue());
-        var RESULT = gtk_h.hb_ot_layout_table_select_script(face.handle(), tableTag.getValue(), scriptCount, new PointerInteger(scriptTags.getValue()).handle(), scriptIndex.handle(), new PointerInteger(chosenScript.getValue()).handle());
-        scriptTags.setValue(scriptTagsPOINTER.get());
-        chosenScript.setValue(chosenScriptPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_layout_table_select_script.invokeExact(face.handle(), tableTag.getValue(), scriptCount, new PointerInteger(scriptTags.getValue()).handle(), scriptIndex.handle(), new PointerInteger(chosenScript.getValue()).handle());
+            scriptTags.setValue(scriptTagsPOINTER.get());
+            chosenScript.setValue(chosenScriptPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_get_constant = Interop.downcallHandle(
+        "hb_ot_math_get_constant",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the specified math constant. For most constants, the value returned
@@ -2658,9 +4948,18 @@ public final class HarfBuzz {
      * an integer between 0 and 100 representing that percentage.
      */
     public static PositionT otMathGetConstant(FontT font, OtMathConstantT constant) {
-        var RESULT = gtk_h.hb_ot_math_get_constant(font.handle(), constant.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_math_get_constant.invokeExact(font.handle(), constant.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_get_glyph_assembly = Interop.downcallHandle(
+        "hb_ot_math_get_glyph_assembly",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the GlyphAssembly for the specified font, glyph index, and direction.
@@ -2675,19 +4974,37 @@ public final class HarfBuzz {
      */
     public static int otMathGetGlyphAssembly(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger partsCount, OtMathGlyphPartT[] parts, PositionT italicsCorrection) {
         PointerInteger italicsCorrectionPOINTER = new PointerInteger(italicsCorrection.getValue());
-        var RESULT = gtk_h.hb_ot_math_get_glyph_assembly(font.handle(), glyph.getValue(), direction.getValue(), startOffset, partsCount.handle(), Interop.allocateNativeArray(parts).handle(), new PointerInteger(italicsCorrection.getValue()).handle());
-        italicsCorrection.setValue(italicsCorrectionPOINTER.get());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_math_get_glyph_assembly.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, partsCount.handle(), Interop.allocateNativeArray(parts).handle(), new PointerInteger(italicsCorrection.getValue()).handle());
+            italicsCorrection.setValue(italicsCorrectionPOINTER.get());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_get_glyph_italics_correction = Interop.downcallHandle(
+        "hb_ot_math_get_glyph_italics_correction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches an italics-correction value (if one exists) for the specified
      * glyph index.
      */
     public static PositionT otMathGetGlyphItalicsCorrection(FontT font, CodepointT glyph) {
-        var RESULT = gtk_h.hb_ot_math_get_glyph_italics_correction(font.handle(), glyph.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_math_get_glyph_italics_correction.invokeExact(font.handle(), glyph.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_get_glyph_kerning = Interop.downcallHandle(
+        "hb_ot_math_get_glyph_kerning",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the math kerning (cut-ins) value for the specified font, glyph index, and
@@ -2699,9 +5016,18 @@ public final class HarfBuzz {
      * no such height value is found, the last kerning value is returned.
      */
     public static PositionT otMathGetGlyphKerning(FontT font, CodepointT glyph, OtMathKernT kern, PositionT correctionHeight) {
-        var RESULT = gtk_h.hb_ot_math_get_glyph_kerning(font.handle(), glyph.getValue(), kern.getValue(), correctionHeight.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_math_get_glyph_kerning.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), correctionHeight.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_get_glyph_kernings = Interop.downcallHandle(
+        "hb_ot_math_get_glyph_kernings",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the raw MathKern (cut-in) data for the specified font, glyph index,
@@ -2720,9 +5046,18 @@ public final class HarfBuzz {
      * &lt;code>INT32_MAX</code>.</note&gt;
      */
     public static int otMathGetGlyphKernings(FontT font, CodepointT glyph, OtMathKernT kern, int startOffset, PointerInteger entriesCount, OtMathKernEntryT[] kernEntries) {
-        var RESULT = gtk_h.hb_ot_math_get_glyph_kernings(font.handle(), glyph.getValue(), kern.getValue(), startOffset, entriesCount.handle(), Interop.allocateNativeArray(kernEntries).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_math_get_glyph_kernings.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), startOffset, entriesCount.handle(), Interop.allocateNativeArray(kernEntries).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_get_glyph_top_accent_attachment = Interop.downcallHandle(
+        "hb_ot_math_get_glyph_top_accent_attachment",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches a top-accent-attachment value (if one exists) for the specified
@@ -2735,9 +5070,18 @@ public final class HarfBuzz {
      * one-half the glyph's advance width.
      */
     public static PositionT otMathGetGlyphTopAccentAttachment(FontT font, CodepointT glyph) {
-        var RESULT = gtk_h.hb_ot_math_get_glyph_top_accent_attachment(font.handle(), glyph.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_math_get_glyph_top_accent_attachment.invokeExact(font.handle(), glyph.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_get_glyph_variants = Interop.downcallHandle(
+        "hb_ot_math_get_glyph_variants",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the MathGlyphConstruction for the specified font, glyph index, and
@@ -2750,9 +5094,18 @@ public final class HarfBuzz {
      * considered.&lt;/note&gt;
      */
     public static int otMathGetGlyphVariants(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger variantsCount, OtMathGlyphVariantT[] variants) {
-        var RESULT = gtk_h.hb_ot_math_get_glyph_variants(font.handle(), glyph.getValue(), direction.getValue(), startOffset, variantsCount.handle(), Interop.allocateNativeArray(variants).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_math_get_glyph_variants.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, variantsCount.handle(), Interop.allocateNativeArray(variants).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_get_min_connector_overlap = Interop.downcallHandle(
+        "hb_ot_math_get_min_connector_overlap",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the MathVariants table for the specified font and returns the
@@ -2765,51 +5118,105 @@ public final class HarfBuzz {
      * considered.&lt;/note&gt;
      */
     public static PositionT otMathGetMinConnectorOverlap(FontT font, DirectionT direction) {
-        var RESULT = gtk_h.hb_ot_math_get_min_connector_overlap(font.handle(), direction.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_math_get_min_connector_overlap.invokeExact(font.handle(), direction.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_has_data = Interop.downcallHandle(
+        "hb_ot_math_has_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a face has a {@code MATH} table.
      */
     public static BoolT otMathHasData(FaceT face) {
-        var RESULT = gtk_h.hb_ot_math_has_data(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_math_has_data.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_math_is_glyph_extended_shape = Interop.downcallHandle(
+        "hb_ot_math_is_glyph_extended_shape",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Tests whether the given glyph index is an extended shape in the face.
      */
     public static BoolT otMathIsGlyphExtendedShape(FaceT face, CodepointT glyph) {
-        var RESULT = gtk_h.hb_ot_math_is_glyph_extended_shape(face.handle(), glyph.getValue());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_math_is_glyph_extended_shape.invokeExact(face.handle(), glyph.getValue());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_meta_get_entry_tags = Interop.downcallHandle(
+        "hb_ot_meta_get_entry_tags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches all available feature types.
      */
     public static int otMetaGetEntryTags(FaceT face, int startOffset, PointerInteger entriesCount, OtMetaTagT[] entries) {
-        var RESULT = gtk_h.hb_ot_meta_get_entry_tags(face.handle(), startOffset, entriesCount.handle(), Interop.allocateNativeArray(OtMetaTagT.getValues(entries)).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_meta_get_entry_tags.invokeExact(face.handle(), startOffset, entriesCount.handle(), Interop.allocateNativeArray(OtMetaTagT.getValues(entries)).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_meta_reference_entry = Interop.downcallHandle(
+        "hb_ot_meta_reference_entry",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * It fetches metadata entry of a given tag from a font.
      */
     public static BlobT otMetaReferenceEntry(FaceT face, OtMetaTagT metaTag) {
-        var RESULT = gtk_h.hb_ot_meta_reference_entry(face.handle(), metaTag.getValue());
-        return new BlobT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_ot_meta_reference_entry.invokeExact(face.handle(), metaTag.getValue());
+            return new BlobT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_metrics_get_position = Interop.downcallHandle(
+        "hb_ot_metrics_get_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches metrics value corresponding to {@code metrics_tag} from {@code font}.
      */
     public static BoolT otMetricsGetPosition(FontT font, OtMetricsTagT metricsTag, PositionT position) {
         PointerInteger positionPOINTER = new PointerInteger(position.getValue());
-        var RESULT = gtk_h.hb_ot_metrics_get_position(font.handle(), metricsTag.getValue(), new PointerInteger(position.getValue()).handle());
-        position.setValue(positionPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_metrics_get_position.invokeExact(font.handle(), metricsTag.getValue(), new PointerInteger(position.getValue()).handle());
+            position.setValue(positionPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_metrics_get_position_with_fallback = Interop.downcallHandle(
+        "hb_ot_metrics_get_position_with_fallback",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches metrics value corresponding to {@code metrics_tag} from {@code font},
@@ -2817,36 +5224,72 @@ public final class HarfBuzz {
      */
     public static void otMetricsGetPositionWithFallback(FontT font, OtMetricsTagT metricsTag, PositionT position) {
         PointerInteger positionPOINTER = new PointerInteger(position.getValue());
-        gtk_h.hb_ot_metrics_get_position_with_fallback(font.handle(), metricsTag.getValue(), new PointerInteger(position.getValue()).handle());
-        position.setValue(positionPOINTER.get());
+        try {
+            hb_ot_metrics_get_position_with_fallback.invokeExact(font.handle(), metricsTag.getValue(), new PointerInteger(position.getValue()).handle());
+            position.setValue(positionPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_metrics_get_variation = Interop.downcallHandle(
+        "hb_ot_metrics_get_variation",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches metrics value corresponding to {@code metrics_tag} from {@code font} with the
      * current font variation settings applied.
      */
     public static float otMetricsGetVariation(FontT font, OtMetricsTagT metricsTag) {
-        var RESULT = gtk_h.hb_ot_metrics_get_variation(font.handle(), metricsTag.getValue());
-        return RESULT;
+        try {
+            var RESULT = (float) hb_ot_metrics_get_variation.invokeExact(font.handle(), metricsTag.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_metrics_get_x_variation = Interop.downcallHandle(
+        "hb_ot_metrics_get_x_variation",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches horizontal metrics value corresponding to {@code metrics_tag} from {@code font}
      * with the current font variation settings applied.
      */
     public static PositionT otMetricsGetXVariation(FontT font, OtMetricsTagT metricsTag) {
-        var RESULT = gtk_h.hb_ot_metrics_get_x_variation(font.handle(), metricsTag.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_metrics_get_x_variation.invokeExact(font.handle(), metricsTag.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_metrics_get_y_variation = Interop.downcallHandle(
+        "hb_ot_metrics_get_y_variation",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches vertical metrics value corresponding to {@code metrics_tag} from {@code font} with
      * the current font variation settings applied.
      */
     public static PositionT otMetricsGetYVariation(FontT font, OtMetricsTagT metricsTag) {
-        var RESULT = gtk_h.hb_ot_metrics_get_y_variation(font.handle(), metricsTag.getValue());
-        return new PositionT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_metrics_get_y_variation.invokeExact(font.handle(), metricsTag.getValue());
+            return new PositionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_name_get_utf16 = Interop.downcallHandle(
+        "hb_ot_name_get_utf16",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a font name from the OpenType 'name' table.
@@ -2855,9 +5298,18 @@ public final class HarfBuzz {
      * for convenience, and isn't included in the output {@code text_size}.
      */
     public static int otNameGetUtf16(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, short[] text) {
-        var RESULT = gtk_h.hb_ot_name_get_utf16(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_name_get_utf16.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_name_get_utf32 = Interop.downcallHandle(
+        "hb_ot_name_get_utf32",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a font name from the OpenType 'name' table.
@@ -2866,9 +5318,18 @@ public final class HarfBuzz {
      * for convenience, and isn't included in the output {@code text_size}.
      */
     public static int otNameGetUtf32(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, int[] text) {
-        var RESULT = gtk_h.hb_ot_name_get_utf32(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_name_get_utf32.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_name_get_utf8 = Interop.downcallHandle(
+        "hb_ot_name_get_utf8",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a font name from the OpenType 'name' table.
@@ -2877,9 +5338,18 @@ public final class HarfBuzz {
      * for convenience, and isn't included in the output {@code text_size}.
      */
     public static int otNameGetUtf8(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, java.lang.String[] text) {
-        var RESULT = gtk_h.hb_ot_name_get_utf8(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_name_get_utf8.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_name_list_names = Interop.downcallHandle(
+        "hb_ot_name_list_names",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Enumerates all available name IDs and language combinations. Returned
@@ -2887,9 +5357,18 @@ public final class HarfBuzz {
      * used as long as {@code face} is alive.
      */
     public static PointerIterator<OtNameEntryT> otNameListNames(FaceT face, PointerInteger numEntries) {
-        var RESULT = gtk_h.hb_ot_name_list_names(face.handle(), numEntries.handle());
-        return new PointerProxy<OtNameEntryT>(RESULT, OtNameEntryT.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) hb_ot_name_list_names.invokeExact(face.handle(), numEntries.handle());
+            return new PointerProxy<OtNameEntryT>(RESULT, OtNameEntryT.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_shape_glyphs_closure = Interop.downcallHandle(
+        "hb_ot_shape_glyphs_closure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the transitive closure of glyphs needed for a specified
@@ -2897,45 +5376,99 @@ public final class HarfBuzz {
      * computed as a set, not as a list.
      */
     public static void otShapeGlyphsClosure(FontT font, BufferT buffer, FeatureT[] features, int numFeatures, SetT glyphs) {
-        gtk_h.hb_ot_shape_glyphs_closure(font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures, glyphs.handle());
+        try {
+            hb_ot_shape_glyphs_closure.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures, glyphs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_shape_plan_collect_lookups = Interop.downcallHandle(
+        "hb_ot_shape_plan_collect_lookups",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the complete set of GSUB or GPOS lookups that are applicable
      * under a given {@code shape_plan}.
      */
     public static void otShapePlanCollectLookups(ShapePlanT shapePlan, TagT tableTag, SetT lookupIndexes) {
-        gtk_h.hb_ot_shape_plan_collect_lookups(shapePlan.handle(), tableTag.getValue(), lookupIndexes.handle());
+        try {
+            hb_ot_shape_plan_collect_lookups.invokeExact(shapePlan.handle(), tableTag.getValue(), lookupIndexes.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle hb_ot_tag_from_language = Interop.downcallHandle(
+        "hb_ot_tag_from_language",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     public static TagT otTagFromLanguage(LanguageT language) {
-        var RESULT = gtk_h.hb_ot_tag_from_language(language.handle());
-        return new TagT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_tag_from_language.invokeExact(language.handle());
+            return new TagT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_tag_to_language = Interop.downcallHandle(
+        "hb_ot_tag_to_language",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a language tag to an {@link language_t}.
      */
     public static LanguageT otTagToLanguage(TagT tag) {
-        var RESULT = gtk_h.hb_ot_tag_to_language(tag.getValue());
-        return new LanguageT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) hb_ot_tag_to_language.invokeExact(tag.getValue());
+            return new LanguageT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_tag_to_script = Interop.downcallHandle(
+        "hb_ot_tag_to_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a script tag to an {@link script_t}.
      */
     public static ScriptT otTagToScript(TagT tag) {
-        var RESULT = gtk_h.hb_ot_tag_to_script(tag.getValue());
-        return new ScriptT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_tag_to_script.invokeExact(tag.getValue());
+            return new ScriptT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_tags_from_script = Interop.downcallHandle(
+        "hb_ot_tags_from_script",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     public static void otTagsFromScript(ScriptT script, TagT scriptTag1, TagT scriptTag2) {
         PointerInteger scriptTag1POINTER = new PointerInteger(scriptTag1.getValue());
         PointerInteger scriptTag2POINTER = new PointerInteger(scriptTag2.getValue());
-        gtk_h.hb_ot_tags_from_script(script.getValue(), new PointerInteger(scriptTag1.getValue()).handle(), new PointerInteger(scriptTag2.getValue()).handle());
-        scriptTag1.setValue(scriptTag1POINTER.get());
-        scriptTag2.setValue(scriptTag2POINTER.get());
+        try {
+            hb_ot_tags_from_script.invokeExact(script.getValue(), new PointerInteger(scriptTag1.getValue()).handle(), new PointerInteger(scriptTag2.getValue()).handle());
+            scriptTag1.setValue(scriptTag1POINTER.get());
+            scriptTag2.setValue(scriptTag2POINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_tags_from_script_and_language = Interop.downcallHandle(
+        "hb_ot_tags_from_script_and_language",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts an {@link script_t} and an {@link language_t} to script and language tags.
@@ -2943,87 +5476,177 @@ public final class HarfBuzz {
     public static void otTagsFromScriptAndLanguage(ScriptT script, LanguageT language, PointerInteger scriptCount, TagT scriptTags, PointerInteger languageCount, TagT languageTags) {
         PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
         PointerInteger languageTagsPOINTER = new PointerInteger(languageTags.getValue());
-        gtk_h.hb_ot_tags_from_script_and_language(script.getValue(), language.handle(), scriptCount.handle(), new PointerInteger(scriptTags.getValue()).handle(), languageCount.handle(), new PointerInteger(languageTags.getValue()).handle());
-        scriptTags.setValue(scriptTagsPOINTER.get());
-        languageTags.setValue(languageTagsPOINTER.get());
+        try {
+            hb_ot_tags_from_script_and_language.invokeExact(script.getValue(), language.handle(), scriptCount.handle(), new PointerInteger(scriptTags.getValue()).handle(), languageCount.handle(), new PointerInteger(languageTags.getValue()).handle());
+            scriptTags.setValue(scriptTagsPOINTER.get());
+            languageTags.setValue(languageTagsPOINTER.get());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_tags_to_script_and_language = Interop.downcallHandle(
+        "hb_ot_tags_to_script_and_language",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a script tag and a language tag to an {@link script_t} and an
      * {@link language_t}.
      */
     public static void otTagsToScriptAndLanguage(TagT scriptTag, TagT languageTag, ScriptT script, LanguageT language) {
-        gtk_h.hb_ot_tags_to_script_and_language(scriptTag.getValue(), languageTag.getValue(), new PointerInteger(script.getValue()).handle(), language.handle());
+        try {
+            hb_ot_tags_to_script_and_language.invokeExact(scriptTag.getValue(), languageTag.getValue(), new PointerInteger(script.getValue()).handle(), language.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_find_axis_info = Interop.downcallHandle(
+        "hb_ot_var_find_axis_info",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the variation-axis information corresponding to the specified axis tag
      * in the specified face.
      */
     public static BoolT otVarFindAxisInfo(FaceT face, TagT axisTag, OtVarAxisInfoT axisInfo) {
-        var RESULT = gtk_h.hb_ot_var_find_axis_info(face.handle(), axisTag.getValue(), axisInfo.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_var_find_axis_info.invokeExact(face.handle(), axisTag.getValue(), axisInfo.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_get_axis_count = Interop.downcallHandle(
+        "hb_ot_var_get_axis_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the number of OpenType variation axes included in the face.
      */
     public static int otVarGetAxisCount(FaceT face) {
-        var RESULT = gtk_h.hb_ot_var_get_axis_count(face.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_var_get_axis_count.invokeExact(face.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_get_axis_infos = Interop.downcallHandle(
+        "hb_ot_var_get_axis_infos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a list of all variation axes in the specified face. The list returned will begin
      * at the offset provided.
      */
     public static int otVarGetAxisInfos(FaceT face, int startOffset, PointerInteger axesCount, OtVarAxisInfoT[] axesArray) {
-        var RESULT = gtk_h.hb_ot_var_get_axis_infos(face.handle(), startOffset, axesCount.handle(), Interop.allocateNativeArray(axesArray).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_var_get_axis_infos.invokeExact(face.handle(), startOffset, axesCount.handle(), Interop.allocateNativeArray(axesArray).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_get_named_instance_count = Interop.downcallHandle(
+        "hb_ot_var_get_named_instance_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the number of named instances included in the face.
      */
     public static int otVarGetNamedInstanceCount(FaceT face) {
-        var RESULT = gtk_h.hb_ot_var_get_named_instance_count(face.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_var_get_named_instance_count.invokeExact(face.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_has_data = Interop.downcallHandle(
+        "hb_ot_var_has_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a face includes any OpenType variation data in the {@code fvar} table.
      */
     public static BoolT otVarHasData(FaceT face) {
-        var RESULT = gtk_h.hb_ot_var_has_data(face.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_var_has_data.invokeExact(face.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_named_instance_get_design_coords = Interop.downcallHandle(
+        "hb_ot_var_named_instance_get_design_coords",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the design-space coordinates corresponding to the given
      * named instance in the face.
      */
     public static int otVarNamedInstanceGetDesignCoords(FaceT face, int instanceIndex, PointerInteger coordsLength, float[] coords) {
-        var RESULT = gtk_h.hb_ot_var_named_instance_get_design_coords(face.handle(), instanceIndex, coordsLength.handle(), Interop.allocateNativeArray(coords).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_ot_var_named_instance_get_design_coords.invokeExact(face.handle(), instanceIndex, coordsLength.handle(), Interop.allocateNativeArray(coords).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_named_instance_get_postscript_name_id = Interop.downcallHandle(
+        "hb_ot_var_named_instance_get_postscript_name_id",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the {@code name} table Name ID that provides display names for
      * the "PostScript name" defined for the given named instance in the face.
      */
     public static OtNameIdT otVarNamedInstanceGetPostscriptNameId(FaceT face, int instanceIndex) {
-        var RESULT = gtk_h.hb_ot_var_named_instance_get_postscript_name_id(face.handle(), instanceIndex);
-        return new OtNameIdT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_var_named_instance_get_postscript_name_id.invokeExact(face.handle(), instanceIndex);
+            return new OtNameIdT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_named_instance_get_subfamily_name_id = Interop.downcallHandle(
+        "hb_ot_var_named_instance_get_subfamily_name_id",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the {@code name} table Name ID that provides display names for
      * the "Subfamily name" defined for the given named instance in the face.
      */
     public static OtNameIdT otVarNamedInstanceGetSubfamilyNameId(FaceT face, int instanceIndex) {
-        var RESULT = gtk_h.hb_ot_var_named_instance_get_subfamily_name_id(face.handle(), instanceIndex);
-        return new OtNameIdT(RESULT);
+        try {
+            var RESULT = (int) hb_ot_var_named_instance_get_subfamily_name_id.invokeExact(face.handle(), instanceIndex);
+            return new OtNameIdT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_normalize_coords = Interop.downcallHandle(
+        "hb_ot_var_normalize_coords",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Normalizes the given design-space coordinates. The minimum and maximum
@@ -3037,23 +5660,50 @@ public final class HarfBuzz {
      * applied, as described at https://docs.microsoft.com/en-us/typography/opentype/spec/avar
      */
     public static void otVarNormalizeCoords(FaceT face, int coordsLength, PointerFloat designCoords, PointerInteger normalizedCoords) {
-        gtk_h.hb_ot_var_normalize_coords(face.handle(), coordsLength, designCoords.handle(), normalizedCoords.handle());
+        try {
+            hb_ot_var_normalize_coords.invokeExact(face.handle(), coordsLength, designCoords.handle(), normalizedCoords.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_ot_var_normalize_variations = Interop.downcallHandle(
+        "hb_ot_var_normalize_variations",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Normalizes all of the coordinates in the given list of variation axes.
      */
     public static void otVarNormalizeVariations(FaceT face, VariationT variations, int variationsLength, int[] coords, int coordsLength) {
-        gtk_h.hb_ot_var_normalize_variations(face.handle(), variations.handle(), variationsLength, Interop.allocateNativeArray(coords).handle(), coordsLength);
+        try {
+            hb_ot_var_normalize_variations.invokeExact(face.handle(), variations.handle(), variationsLength, Interop.allocateNativeArray(coords).handle(), coordsLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_script_from_iso15924_tag = Interop.downcallHandle(
+        "hb_script_from_iso15924_tag",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an ISO 15924 script tag to a corresponding {@link script_t}.
      */
     public static ScriptT scriptFromIso15924Tag(TagT tag) {
-        var RESULT = gtk_h.hb_script_from_iso15924_tag(tag.getValue());
-        return new ScriptT(RESULT);
+        try {
+            var RESULT = (int) hb_script_from_iso15924_tag.invokeExact(tag.getValue());
+            return new ScriptT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_script_from_string = Interop.downcallHandle(
+        "hb_script_from_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a string {@code str} representing an ISO 15924 script tag to a
@@ -3061,9 +5711,18 @@ public final class HarfBuzz {
      * hb_script_from_iso15924_tag().
      */
     public static ScriptT scriptFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_script_from_string(Interop.allocateNativeArray(str).handle(), len);
-        return new ScriptT(RESULT);
+        try {
+            var RESULT = (int) hb_script_from_string.invokeExact(Interop.allocateNativeArray(str).handle(), len);
+            return new ScriptT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_script_get_horizontal_direction = Interop.downcallHandle(
+        "hb_script_get_horizontal_direction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the {@link direction_t} of a script when it is
@@ -3074,33 +5733,69 @@ public final class HarfBuzz {
      * Unknown scripts will return {@code HB_DIRECTION_LTR}.
      */
     public static DirectionT scriptGetHorizontalDirection(ScriptT script) {
-        var RESULT = gtk_h.hb_script_get_horizontal_direction(script.getValue());
-        return new DirectionT(RESULT);
+        try {
+            var RESULT = (int) hb_script_get_horizontal_direction.invokeExact(script.getValue());
+            return new DirectionT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_script_to_iso15924_tag = Interop.downcallHandle(
+        "hb_script_to_iso15924_tag",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an {@link script_t} to a corresponding ISO 15924 script tag.
      */
     public static TagT scriptToIso15924Tag(ScriptT script) {
-        var RESULT = gtk_h.hb_script_to_iso15924_tag(script.getValue());
-        return new TagT(RESULT);
+        try {
+            var RESULT = (int) hb_script_to_iso15924_tag.invokeExact(script.getValue());
+            return new TagT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_segment_properties_equal = Interop.downcallHandle(
+        "hb_segment_properties_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks the equality of two {@link segment_properties_t}'s.
      */
     public static BoolT segmentPropertiesEqual(SegmentPropertiesT a, SegmentPropertiesT b) {
-        var RESULT = gtk_h.hb_segment_properties_equal(a.handle(), b.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_segment_properties_equal.invokeExact(a.handle(), b.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_segment_properties_hash = Interop.downcallHandle(
+        "hb_segment_properties_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a hash representing @p.
      */
     public static int segmentPropertiesHash(SegmentPropertiesT p) {
-        var RESULT = gtk_h.hb_segment_properties_hash(p.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_segment_properties_hash.invokeExact(p.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_segment_properties_overlay = Interop.downcallHandle(
+        "hb_segment_properties_overlay",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fills in missing fields of @p from {@code src} in a considered manner.
@@ -3115,61 +5810,133 @@ public final class HarfBuzz {
      * {@code src}.
      */
     public static void segmentPropertiesOverlay(SegmentPropertiesT p, SegmentPropertiesT src) {
-        gtk_h.hb_segment_properties_overlay(p.handle(), src.handle());
+        try {
+            hb_segment_properties_overlay.invokeExact(p.handle(), src.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_add = Interop.downcallHandle(
+        "hb_set_add",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds {@code codepoint} to {@code set}.
      */
     public static void setAdd(SetT set, CodepointT codepoint) {
-        gtk_h.hb_set_add(set.handle(), codepoint.getValue());
+        try {
+            hb_set_add.invokeExact(set.handle(), codepoint.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_add_range = Interop.downcallHandle(
+        "hb_set_add_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds all of the elements from {@code first} to {@code last}
      * (inclusive) to {@code set}.
      */
     public static void setAddRange(SetT set, CodepointT first, CodepointT last) {
-        gtk_h.hb_set_add_range(set.handle(), first.getValue(), last.getValue());
+        try {
+            hb_set_add_range.invokeExact(set.handle(), first.getValue(), last.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_allocation_successful = Interop.downcallHandle(
+        "hb_set_allocation_successful",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether memory allocation for a set was successful.
      */
     public static BoolT setAllocationSuccessful(SetT set) {
-        var RESULT = gtk_h.hb_set_allocation_successful(set.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_allocation_successful.invokeExact(set.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_clear = Interop.downcallHandle(
+        "hb_set_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Clears out the contents of a set.
      */
     public static void setClear(SetT set) {
-        gtk_h.hb_set_clear(set.handle());
+        try {
+            hb_set_clear.invokeExact(set.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_copy = Interop.downcallHandle(
+        "hb_set_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Allocate a copy of {@code set}.
      */
     public static SetT setCopy(SetT set) {
-        var RESULT = gtk_h.hb_set_copy(set.handle());
-        return new SetT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_set_copy.invokeExact(set.handle());
+            return new SetT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_create = Interop.downcallHandle(
+        "hb_set_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new, initially empty set.
      */
     public static SetT setCreate() {
-        var RESULT = gtk_h.hb_set_create();
-        return new SetT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_set_create.invokeExact();
+            return new SetT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_del = Interop.downcallHandle(
+        "hb_set_del",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes {@code codepoint} from {@code set}.
      */
     public static void setDel(SetT set, CodepointT codepoint) {
-        gtk_h.hb_set_del(set.handle(), codepoint.getValue());
+        try {
+            hb_set_del.invokeExact(set.handle(), codepoint.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_del_range = Interop.downcallHandle(
+        "hb_set_del_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes all of the elements from {@code first} to {@code last}
@@ -3179,8 +5946,17 @@ public final class HarfBuzz {
      * greater than or equal to {@code first} are removed.
      */
     public static void setDelRange(SetT set, CodepointT first, CodepointT last) {
-        gtk_h.hb_set_del_range(set.handle(), first.getValue(), last.getValue());
+        try {
+            hb_set_del_range.invokeExact(set.handle(), first.getValue(), last.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_destroy = Interop.downcallHandle(
+        "hb_set_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on a set. When
@@ -3188,96 +5964,204 @@ public final class HarfBuzz {
      * destroyed, freeing all memory.
      */
     public static void setDestroy(SetT set) {
-        gtk_h.hb_set_destroy(set.handle());
+        try {
+            hb_set_destroy.invokeExact(set.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_get_empty = Interop.downcallHandle(
+        "hb_set_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the singleton empty {@link set_t}.
      */
     public static SetT setGetEmpty() {
-        var RESULT = gtk_h.hb_set_get_empty();
-        return new SetT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_set_get_empty.invokeExact();
+            return new SetT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_get_max = Interop.downcallHandle(
+        "hb_set_get_max",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the largest element in the set.
      */
     public static CodepointT setGetMax(SetT set) {
-        var RESULT = gtk_h.hb_set_get_max(set.handle());
-        return new CodepointT(RESULT);
+        try {
+            var RESULT = (int) hb_set_get_max.invokeExact(set.handle());
+            return new CodepointT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_get_min = Interop.downcallHandle(
+        "hb_set_get_min",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the smallest element in the set.
      */
     public static CodepointT setGetMin(SetT set) {
-        var RESULT = gtk_h.hb_set_get_min(set.handle());
-        return new CodepointT(RESULT);
+        try {
+            var RESULT = (int) hb_set_get_min.invokeExact(set.handle());
+            return new CodepointT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_get_population = Interop.downcallHandle(
+        "hb_set_get_population",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of elements in the set.
      */
     public static int setGetPopulation(SetT set) {
-        var RESULT = gtk_h.hb_set_get_population(set.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) hb_set_get_population.invokeExact(set.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_get_user_data = Interop.downcallHandle(
+        "hb_set_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified set.
      */
     public static java.lang.foreign.MemoryAddress setGetUserData(SetT set, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_set_get_user_data(set.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_set_get_user_data.invokeExact(set.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_has = Interop.downcallHandle(
+        "hb_set_has",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Tests whether {@code codepoint} belongs to {@code set}.
      */
     public static BoolT setHas(SetT set, CodepointT codepoint) {
-        var RESULT = gtk_h.hb_set_has(set.handle(), codepoint.getValue());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_has.invokeExact(set.handle(), codepoint.getValue());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_intersect = Interop.downcallHandle(
+        "hb_set_intersect",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code set} the intersection of {@code set} and {@code other}.
      */
     public static void setIntersect(SetT set, SetT other) {
-        gtk_h.hb_set_intersect(set.handle(), other.handle());
+        try {
+            hb_set_intersect.invokeExact(set.handle(), other.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_invert = Interop.downcallHandle(
+        "hb_set_invert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Inverts the contents of {@code set}.
      */
     public static void setInvert(SetT set) {
-        gtk_h.hb_set_invert(set.handle());
+        try {
+            hb_set_invert.invokeExact(set.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_is_empty = Interop.downcallHandle(
+        "hb_set_is_empty",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether a set is empty (contains no elements).
      */
     public static BoolT setIsEmpty(SetT set) {
-        var RESULT = gtk_h.hb_set_is_empty(set.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_is_empty.invokeExact(set.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_is_equal = Interop.downcallHandle(
+        "hb_set_is_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether {@code set} and {@code other} are equal (contain the same
      * elements).
      */
     public static BoolT setIsEqual(SetT set, SetT other) {
-        var RESULT = gtk_h.hb_set_is_equal(set.handle(), other.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_is_equal.invokeExact(set.handle(), other.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_is_subset = Interop.downcallHandle(
+        "hb_set_is_subset",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether {@code set} is a subset of {@code larger_set}.
      */
     public static BoolT setIsSubset(SetT set, SetT largerSet) {
-        var RESULT = gtk_h.hb_set_is_subset(set.handle(), largerSet.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_is_subset.invokeExact(set.handle(), largerSet.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_next = Interop.downcallHandle(
+        "hb_set_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the next element in {@code set} that is greater than current value of {@code codepoint}.
@@ -3286,10 +6170,19 @@ public final class HarfBuzz {
      */
     public static BoolT setNext(SetT set, CodepointT codepoint) {
         PointerInteger codepointPOINTER = new PointerInteger(codepoint.getValue());
-        var RESULT = gtk_h.hb_set_next(set.handle(), new PointerInteger(codepoint.getValue()).handle());
-        codepoint.setValue(codepointPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_next.invokeExact(set.handle(), new PointerInteger(codepoint.getValue()).handle());
+            codepoint.setValue(codepointPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_next_range = Interop.downcallHandle(
+        "hb_set_next_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the next consecutive range of elements in {@code set} that
@@ -3300,11 +6193,20 @@ public final class HarfBuzz {
     public static BoolT setNextRange(SetT set, CodepointT first, CodepointT last) {
         PointerInteger firstPOINTER = new PointerInteger(first.getValue());
         PointerInteger lastPOINTER = new PointerInteger(last.getValue());
-        var RESULT = gtk_h.hb_set_next_range(set.handle(), new PointerInteger(first.getValue()).handle(), new PointerInteger(last.getValue()).handle());
-        first.setValue(firstPOINTER.get());
-        last.setValue(lastPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_next_range.invokeExact(set.handle(), new PointerInteger(first.getValue()).handle(), new PointerInteger(last.getValue()).handle());
+            first.setValue(firstPOINTER.get());
+            last.setValue(lastPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_previous = Interop.downcallHandle(
+        "hb_set_previous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the previous element in {@code set} that is lower than current value of {@code codepoint}.
@@ -3313,10 +6215,19 @@ public final class HarfBuzz {
      */
     public static BoolT setPrevious(SetT set, CodepointT codepoint) {
         PointerInteger codepointPOINTER = new PointerInteger(codepoint.getValue());
-        var RESULT = gtk_h.hb_set_previous(set.handle(), new PointerInteger(codepoint.getValue()).handle());
-        codepoint.setValue(codepointPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_previous.invokeExact(set.handle(), new PointerInteger(codepoint.getValue()).handle());
+            codepoint.setValue(codepointPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_previous_range = Interop.downcallHandle(
+        "hb_set_previous_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the previous consecutive range of elements in {@code set} that
@@ -3327,48 +6238,102 @@ public final class HarfBuzz {
     public static BoolT setPreviousRange(SetT set, CodepointT first, CodepointT last) {
         PointerInteger firstPOINTER = new PointerInteger(first.getValue());
         PointerInteger lastPOINTER = new PointerInteger(last.getValue());
-        var RESULT = gtk_h.hb_set_previous_range(set.handle(), new PointerInteger(first.getValue()).handle(), new PointerInteger(last.getValue()).handle());
-        first.setValue(firstPOINTER.get());
-        last.setValue(lastPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_set_previous_range.invokeExact(set.handle(), new PointerInteger(first.getValue()).handle(), new PointerInteger(last.getValue()).handle());
+            first.setValue(firstPOINTER.get());
+            last.setValue(lastPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_reference = Interop.downcallHandle(
+        "hb_set_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on a set.
      */
     public static SetT setReference(SetT set) {
-        var RESULT = gtk_h.hb_set_reference(set.handle());
-        return new SetT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_set_reference.invokeExact(set.handle());
+            return new SetT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_set = Interop.downcallHandle(
+        "hb_set_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes the contents of {@code set} equal to the contents of {@code other}.
      */
     public static void setSet(SetT set, SetT other) {
-        gtk_h.hb_set_set(set.handle(), other.handle());
+        try {
+            hb_set_set.invokeExact(set.handle(), other.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_subtract = Interop.downcallHandle(
+        "hb_set_subtract",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Subtracts the contents of {@code other} from {@code set}.
      */
     public static void setSubtract(SetT set, SetT other) {
-        gtk_h.hb_set_subtract(set.handle(), other.handle());
+        try {
+            hb_set_subtract.invokeExact(set.handle(), other.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_symmetric_difference = Interop.downcallHandle(
+        "hb_set_symmetric_difference",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code set} the symmetric difference of {@code set}
      * and {@code other}.
      */
     public static void setSymmetricDifference(SetT set, SetT other) {
-        gtk_h.hb_set_symmetric_difference(set.handle(), other.handle());
+        try {
+            hb_set_symmetric_difference.invokeExact(set.handle(), other.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_set_union = Interop.downcallHandle(
+        "hb_set_union",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code set} the union of {@code set} and {@code other}.
      */
     public static void setUnion(SetT set, SetT other) {
-        gtk_h.hb_set_union(set.handle(), other.handle());
+        try {
+            hb_set_union.invokeExact(set.handle(), other.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape = Interop.downcallHandle(
+        "hb_shape",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Shapes {@code buffer} using {@code font} turning its Unicode characters content to
@@ -3378,8 +6343,17 @@ public final class HarfBuzz {
      * precedence.
      */
     public static void shape(FontT font, BufferT buffer, FeatureT[] features, int numFeatures) {
-        gtk_h.hb_shape(font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures);
+        try {
+            hb_shape.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_full = Interop.downcallHandle(
+        "hb_shape_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * See hb_shape() for details. If {@code shaper_list} is not {@code null}, the specified
@@ -3387,26 +6361,53 @@ public final class HarfBuzz {
      * will be used.
      */
     public static BoolT shapeFull(FontT font, BufferT buffer, FeatureT[] features, int numFeatures, java.lang.String[] shaperList) {
-        var RESULT = gtk_h.hb_shape_full(font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures, Interop.allocateNativeArray(shaperList).handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_shape_full.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures, Interop.allocateNativeArray(shaperList).handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_list_shapers = Interop.downcallHandle(
+        "hb_shape_list_shapers",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Retrieves the list of shapers supported by HarfBuzz.
      */
     public static PointerIterator<java.lang.String> shapeListShapers() {
-        var RESULT = gtk_h.hb_shape_list_shapers();
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) hb_shape_list_shapers.invokeExact();
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_create = Interop.downcallHandle(
+        "hb_shape_plan_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Constructs a shaping plan for a combination of {@code face}, {@code user_features}, {@code props},
      * and {@code shaper_list}.
      */
     public static ShapePlanT shapePlanCreate(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
-        var RESULT = gtk_h.hb_shape_plan_create(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(shaperList).handle());
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_shape_plan_create.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(shaperList).handle());
+            return new ShapePlanT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_create2 = Interop.downcallHandle(
+        "hb_shape_plan_create2",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * The variable-font version of {@code hb_shape_plan_create}.
@@ -3414,18 +6415,36 @@ public final class HarfBuzz {
      * and {@code shaper_list}, plus the variation-space coordinates {@code coords}.
      */
     public static ShapePlanT shapePlanCreate2(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
-        var RESULT = gtk_h.hb_shape_plan_create2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(coords).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_shape_plan_create2.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(coords).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
+            return new ShapePlanT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_create_cached = Interop.downcallHandle(
+        "hb_shape_plan_create_cached",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a cached shaping plan suitable for reuse, for a combination
      * of {@code face}, {@code user_features}, {@code props}, and {@code shaper_list}.
      */
     public static ShapePlanT shapePlanCreateCached(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
-        var RESULT = gtk_h.hb_shape_plan_create_cached(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(shaperList).handle());
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_shape_plan_create_cached.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(shaperList).handle());
+            return new ShapePlanT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_create_cached2 = Interop.downcallHandle(
+        "hb_shape_plan_create_cached2",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * The variable-font version of {@code hb_shape_plan_create_cached}.
@@ -3434,9 +6453,18 @@ public final class HarfBuzz {
      * variation-space coordinates {@code coords}.
      */
     public static ShapePlanT shapePlanCreateCached2(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
-        var RESULT = gtk_h.hb_shape_plan_create_cached2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(coords).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_shape_plan_create_cached2.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(coords).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
+            return new ShapePlanT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_destroy = Interop.downcallHandle(
+        "hb_shape_plan_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on the given shaping plan. When the
@@ -3444,50 +6472,104 @@ public final class HarfBuzz {
      * freeing all memory.
      */
     public static void shapePlanDestroy(ShapePlanT shapePlan) {
-        gtk_h.hb_shape_plan_destroy(shapePlan.handle());
+        try {
+            hb_shape_plan_destroy.invokeExact(shapePlan.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_execute = Interop.downcallHandle(
+        "hb_shape_plan_execute",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Executes the given shaping plan on the specified buffer, using
      * the given {@code font} and {@code features}.
      */
     public static BoolT shapePlanExecute(ShapePlanT shapePlan, FontT font, BufferT buffer, FeatureT[] features, int numFeatures) {
-        var RESULT = gtk_h.hb_shape_plan_execute(shapePlan.handle(), font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures);
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_shape_plan_execute.invokeExact(shapePlan.handle(), font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures);
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_get_empty = Interop.downcallHandle(
+        "hb_shape_plan_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the singleton empty shaping plan.
      */
     public static ShapePlanT shapePlanGetEmpty() {
-        var RESULT = gtk_h.hb_shape_plan_get_empty();
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_shape_plan_get_empty.invokeExact();
+            return new ShapePlanT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_get_shaper = Interop.downcallHandle(
+        "hb_shape_plan_get_shaper",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the shaper from a given shaping plan.
      */
     public static java.lang.String shapePlanGetShaper(ShapePlanT shapePlan) {
-        var RESULT = gtk_h.hb_shape_plan_get_shaper(shapePlan.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) hb_shape_plan_get_shaper.invokeExact(shapePlan.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_get_user_data = Interop.downcallHandle(
+        "hb_shape_plan_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified shaping plan.
      */
     public static java.lang.foreign.MemoryAddress shapePlanGetUserData(ShapePlanT shapePlan, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_shape_plan_get_user_data(shapePlan.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_shape_plan_get_user_data.invokeExact(shapePlan.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_shape_plan_reference = Interop.downcallHandle(
+        "hb_shape_plan_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on the given shaping plan.
      */
     public static ShapePlanT shapePlanReference(ShapePlanT shapePlan) {
-        var RESULT = gtk_h.hb_shape_plan_reference(shapePlan.handle());
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_shape_plan_reference.invokeExact(shapePlan.handle());
+            return new ShapePlanT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_style_get_value = Interop.downcallHandle(
+        "hb_style_get_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Searches variation axes of a {@link font_t} object for a specific axis first,
@@ -3495,9 +6577,18 @@ public final class HarfBuzz {
      * tables of the font.
      */
     public static float styleGetValue(FontT font, StyleTagT styleTag) {
-        var RESULT = gtk_h.hb_style_get_value(font.handle(), styleTag.getValue());
-        return RESULT;
+        try {
+            var RESULT = (float) hb_style_get_value.invokeExact(font.handle(), styleTag.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_tag_from_string = Interop.downcallHandle(
+        "hb_tag_from_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a string into an {@link tag_t}. Valid tags
@@ -3506,26 +6597,53 @@ public final class HarfBuzz {
      * truncated.
      */
     public static TagT tagFromString(byte[] str, int len) {
-        var RESULT = gtk_h.hb_tag_from_string(Interop.allocateNativeArray(str).handle(), len);
-        return new TagT(RESULT);
+        try {
+            var RESULT = (int) hb_tag_from_string.invokeExact(Interop.allocateNativeArray(str).handle(), len);
+            return new TagT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_tag_to_string = Interop.downcallHandle(
+        "hb_tag_to_string",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts an {@link tag_t} to a string and returns it in {@code buf}.
      * Strings will be four characters long.
      */
     public static void tagToString(TagT tag, byte[] buf) {
-        gtk_h.hb_tag_to_string(tag.getValue(), Interop.allocateNativeArray(buf).handle());
+        try {
+            hb_tag_to_string.invokeExact(tag.getValue(), Interop.allocateNativeArray(buf).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_combining_class = Interop.downcallHandle(
+        "hb_unicode_combining_class",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the Canonical Combining Class (ccc) property
      * of code point {@code unicode}.
      */
     public static UnicodeCombiningClassT unicodeCombiningClass(UnicodeFuncsT ufuncs, CodepointT unicode) {
-        var RESULT = gtk_h.hb_unicode_combining_class(ufuncs.handle(), unicode.getValue());
-        return new UnicodeCombiningClassT(RESULT);
+        try {
+            var RESULT = (int) hb_unicode_combining_class.invokeExact(ufuncs.handle(), unicode.getValue());
+            return new UnicodeCombiningClassT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_compose = Interop.downcallHandle(
+        "hb_unicode_compose",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the composition of a sequence of two Unicode
@@ -3536,10 +6654,19 @@ public final class HarfBuzz {
      */
     public static BoolT unicodeCompose(UnicodeFuncsT ufuncs, CodepointT a, CodepointT b, CodepointT ab) {
         PointerInteger abPOINTER = new PointerInteger(ab.getValue());
-        var RESULT = gtk_h.hb_unicode_compose(ufuncs.handle(), a.getValue(), b.getValue(), new PointerInteger(ab.getValue()).handle());
-        ab.setValue(abPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_unicode_compose.invokeExact(ufuncs.handle(), a.getValue(), b.getValue(), new PointerInteger(ab.getValue()).handle());
+            ab.setValue(abPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_decompose = Interop.downcallHandle(
+        "hb_unicode_decompose",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the decomposition of a Unicode code point.
@@ -3550,19 +6677,37 @@ public final class HarfBuzz {
     public static BoolT unicodeDecompose(UnicodeFuncsT ufuncs, CodepointT ab, CodepointT a, CodepointT b) {
         PointerInteger aPOINTER = new PointerInteger(a.getValue());
         PointerInteger bPOINTER = new PointerInteger(b.getValue());
-        var RESULT = gtk_h.hb_unicode_decompose(ufuncs.handle(), ab.getValue(), new PointerInteger(a.getValue()).handle(), new PointerInteger(b.getValue()).handle());
-        a.setValue(aPOINTER.get());
-        b.setValue(bPOINTER.get());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_unicode_decompose.invokeExact(ufuncs.handle(), ab.getValue(), new PointerInteger(a.getValue()).handle(), new PointerInteger(b.getValue()).handle());
+            a.setValue(aPOINTER.get());
+            b.setValue(bPOINTER.get());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_create = Interop.downcallHandle(
+        "hb_unicode_funcs_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link unicode_funcs_t} structure of Unicode functions.
      */
     public static UnicodeFuncsT unicodeFuncsCreate(UnicodeFuncsT parent) {
-        var RESULT = gtk_h.hb_unicode_funcs_create(parent.handle());
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_unicode_funcs_create.invokeExact(parent.handle());
+            return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_destroy = Interop.downcallHandle(
+        "hb_unicode_funcs_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on a Unicode-functions structure. When
@@ -3570,95 +6715,194 @@ public final class HarfBuzz {
      * destroyed, freeing all memory.
      */
     public static void unicodeFuncsDestroy(UnicodeFuncsT ufuncs) {
-        gtk_h.hb_unicode_funcs_destroy(ufuncs.handle());
+        try {
+            hb_unicode_funcs_destroy.invokeExact(ufuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_get_default = Interop.downcallHandle(
+        "hb_unicode_funcs_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches a pointer to the default Unicode-functions structure that is used
      * when no functions are explicitly set on {@link buffer_t}.
      */
     public static UnicodeFuncsT unicodeFuncsGetDefault() {
-        var RESULT = gtk_h.hb_unicode_funcs_get_default();
-        return new UnicodeFuncsT(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) hb_unicode_funcs_get_default.invokeExact();
+            return new UnicodeFuncsT(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_get_empty = Interop.downcallHandle(
+        "hb_unicode_funcs_get_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the singleton empty Unicode-functions structure.
      */
     public static UnicodeFuncsT unicodeFuncsGetEmpty() {
-        var RESULT = gtk_h.hb_unicode_funcs_get_empty();
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_unicode_funcs_get_empty.invokeExact();
+            return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_get_parent = Interop.downcallHandle(
+        "hb_unicode_funcs_get_parent",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the parent of the Unicode-functions structure
      * {@code ufuncs}.
      */
     public static UnicodeFuncsT unicodeFuncsGetParent(UnicodeFuncsT ufuncs) {
-        var RESULT = gtk_h.hb_unicode_funcs_get_parent(ufuncs.handle());
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_unicode_funcs_get_parent.invokeExact(ufuncs.handle());
+            return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_get_user_data = Interop.downcallHandle(
+        "hb_unicode_funcs_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the user-data associated with the specified key,
      * attached to the specified Unicode-functions structure.
      */
     public static java.lang.foreign.MemoryAddress unicodeFuncsGetUserData(UnicodeFuncsT ufuncs, UserDataKeyT key) {
-        var RESULT = gtk_h.hb_unicode_funcs_get_user_data(ufuncs.handle(), key.handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) hb_unicode_funcs_get_user_data.invokeExact(ufuncs.handle(), key.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_is_immutable = Interop.downcallHandle(
+        "hb_unicode_funcs_is_immutable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tests whether the specified Unicode-functions structure
      * is immutable.
      */
     public static BoolT unicodeFuncsIsImmutable(UnicodeFuncsT ufuncs) {
-        var RESULT = gtk_h.hb_unicode_funcs_is_immutable(ufuncs.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_unicode_funcs_is_immutable.invokeExact(ufuncs.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_make_immutable = Interop.downcallHandle(
+        "hb_unicode_funcs_make_immutable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes the specified Unicode-functions structure
      * immutable.
      */
     public static void unicodeFuncsMakeImmutable(UnicodeFuncsT ufuncs) {
-        gtk_h.hb_unicode_funcs_make_immutable(ufuncs.handle());
+        try {
+            hb_unicode_funcs_make_immutable.invokeExact(ufuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_funcs_reference = Interop.downcallHandle(
+        "hb_unicode_funcs_reference",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on a Unicode-functions structure.
      */
     public static UnicodeFuncsT unicodeFuncsReference(UnicodeFuncsT ufuncs) {
-        var RESULT = gtk_h.hb_unicode_funcs_reference(ufuncs.handle());
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) hb_unicode_funcs_reference.invokeExact(ufuncs.handle());
+            return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_general_category = Interop.downcallHandle(
+        "hb_unicode_general_category",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the General Category (gc) property
      * of code point {@code unicode}.
      */
     public static UnicodeGeneralCategoryT unicodeGeneralCategory(UnicodeFuncsT ufuncs, CodepointT unicode) {
-        var RESULT = gtk_h.hb_unicode_general_category(ufuncs.handle(), unicode.getValue());
-        return new UnicodeGeneralCategoryT(RESULT);
+        try {
+            var RESULT = (int) hb_unicode_general_category.invokeExact(ufuncs.handle(), unicode.getValue());
+            return new UnicodeGeneralCategoryT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_mirroring = Interop.downcallHandle(
+        "hb_unicode_mirroring",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the Bi-directional Mirroring Glyph code
      * point defined for code point {@code unicode}.
      */
     public static CodepointT unicodeMirroring(UnicodeFuncsT ufuncs, CodepointT unicode) {
-        var RESULT = gtk_h.hb_unicode_mirroring(ufuncs.handle(), unicode.getValue());
-        return new CodepointT(RESULT);
+        try {
+            var RESULT = (int) hb_unicode_mirroring.invokeExact(ufuncs.handle(), unicode.getValue());
+            return new CodepointT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_unicode_script = Interop.downcallHandle(
+        "hb_unicode_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the {@link script_t} script to which code
      * point {@code unicode} belongs.
      */
     public static ScriptT unicodeScript(UnicodeFuncsT ufuncs, CodepointT unicode) {
-        var RESULT = gtk_h.hb_unicode_script(ufuncs.handle(), unicode.getValue());
-        return new ScriptT(RESULT);
+        try {
+            var RESULT = (int) hb_unicode_script.invokeExact(ufuncs.handle(), unicode.getValue());
+            return new ScriptT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_variation_from_string = Interop.downcallHandle(
+        "hb_variation_from_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses a string into a {@link variation_t}.
@@ -3671,9 +6915,18 @@ public final class HarfBuzz {
      * number. For example {@code wght=500}, or {@code slnt=-7.5}.
      */
     public static BoolT variationFromString(byte[] str, int len, VariationT variation) {
-        var RESULT = gtk_h.hb_variation_from_string(Interop.allocateNativeArray(str).handle(), len, variation.handle());
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_variation_from_string.invokeExact(Interop.allocateNativeArray(str).handle(), len, variation.handle());
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_variation_to_string = Interop.downcallHandle(
+        "hb_variation_to_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts an {@link variation_t} into a {@code null}-terminated string in the format
@@ -3681,31 +6934,62 @@ public final class HarfBuzz {
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
     public static void variationToString(VariationT variation, java.lang.String[] buf, int size) {
-        gtk_h.hb_variation_to_string(variation.handle(), Interop.allocateNativeArray(buf).handle(), size);
+        try {
+            hb_variation_to_string.invokeExact(variation.handle(), Interop.allocateNativeArray(buf).handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_version = Interop.downcallHandle(
+        "hb_version",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns library version as three integer components.
      */
     public static void version(PointerInteger major, PointerInteger minor, PointerInteger micro) {
-        gtk_h.hb_version(major.handle(), minor.handle(), micro.handle());
+        try {
+            hb_version.invokeExact(major.handle(), minor.handle(), micro.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_version_atleast = Interop.downcallHandle(
+        "hb_version_atleast",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Tests the library version against a minimum value,
      * as three integer components.
      */
     public static BoolT versionAtleast(int major, int minor, int micro) {
-        var RESULT = gtk_h.hb_version_atleast(major, minor, micro);
-        return new BoolT(RESULT);
+        try {
+            var RESULT = (int) hb_version_atleast.invokeExact(major, minor, micro);
+            return new BoolT(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle hb_version_string = Interop.downcallHandle(
+        "hb_version_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns library version as a string with three components.
      */
     public static java.lang.String versionString() {
-        var RESULT = gtk_h.hb_version_string();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) hb_version_string.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

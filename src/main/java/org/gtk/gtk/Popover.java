@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -94,9 +93,18 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
         return new Popover(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_popover_new = Interop.downcallHandle(
+        "gtk_popover_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_popover_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_popover_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -106,6 +114,11 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
         super(constructNew());
     }
     
+    static final MethodHandle gtk_popover_get_autohide = Interop.downcallHandle(
+        "gtk_popover_get_autohide",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether the popover is modal.
      * <p>
@@ -113,49 +126,103 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * implications of this.
      */
     public boolean getAutohide() {
-        var RESULT = gtk_h.gtk_popover_get_autohide(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_popover_get_autohide.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_get_cascade_popdown = Interop.downcallHandle(
+        "gtk_popover_get_cascade_popdown",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the popover will close after a modal child is closed.
      */
     public boolean getCascadePopdown() {
-        var RESULT = gtk_h.gtk_popover_get_cascade_popdown(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_popover_get_cascade_popdown.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_get_child = Interop.downcallHandle(
+        "gtk_popover_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the child widget of {@code popover}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_popover_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_popover_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_get_has_arrow = Interop.downcallHandle(
+        "gtk_popover_get_has_arrow",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether this popover is showing an arrow
      * pointing at the widget that it is relative to.
      */
     public boolean getHasArrow() {
-        var RESULT = gtk_h.gtk_popover_get_has_arrow(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_popover_get_has_arrow.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_get_mnemonics_visible = Interop.downcallHandle(
+        "gtk_popover_get_mnemonics_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether mnemonics are visible.
      */
     public boolean getMnemonicsVisible() {
-        var RESULT = gtk_h.gtk_popover_get_mnemonics_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_popover_get_mnemonics_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_get_offset = Interop.downcallHandle(
+        "gtk_popover_get_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the offset previous set with gtk_popover_set_offset().
      */
     public void getOffset(PointerInteger xOffset, PointerInteger yOffset) {
-        gtk_h.gtk_popover_get_offset(handle(), xOffset.handle(), yOffset.handle());
+        try {
+            gtk_popover_get_offset.invokeExact(handle(), xOffset.handle(), yOffset.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_get_pointing_to = Interop.downcallHandle(
+        "gtk_popover_get_pointing_to",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the rectangle that the popover points to.
@@ -166,17 +233,35 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * widget coordinates.
      */
     public boolean getPointingTo(org.gtk.gdk.Rectangle rect) {
-        var RESULT = gtk_h.gtk_popover_get_pointing_to(handle(), rect.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_popover_get_pointing_to.invokeExact(handle(), rect.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_get_position = Interop.downcallHandle(
+        "gtk_popover_get_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the preferred position of {@code popover}.
      */
     public PositionType getPosition() {
-        var RESULT = gtk_h.gtk_popover_get_position(handle());
-        return new PositionType(RESULT);
+        try {
+            var RESULT = (int) gtk_popover_get_position.invokeExact(handle());
+            return new PositionType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_popdown = Interop.downcallHandle(
+        "gtk_popover_popdown",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Pops {@code popover} down.
@@ -185,22 +270,49 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * as well. See {@code Gtk.Popover:cascade-popdown}.
      */
     public void popdown() {
-        gtk_h.gtk_popover_popdown(handle());
+        try {
+            gtk_popover_popdown.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_popup = Interop.downcallHandle(
+        "gtk_popover_popup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Pops {@code popover} up.
      */
     public void popup() {
-        gtk_h.gtk_popover_popup(handle());
+        try {
+            gtk_popover_popup.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_present = Interop.downcallHandle(
+        "gtk_popover_present",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Presents the popover to the user.
      */
     public void present() {
-        gtk_h.gtk_popover_present(handle());
+        try {
+            gtk_popover_present.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_autohide = Interop.downcallHandle(
+        "gtk_popover_set_autohide",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code popover} is modal.
@@ -214,8 +326,17 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * popup to be hidden.
      */
     public void setAutohide(boolean autohide) {
-        gtk_h.gtk_popover_set_autohide(handle(), autohide ? 1 : 0);
+        try {
+            gtk_popover_set_autohide.invokeExact(handle(), autohide ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_cascade_popdown = Interop.downcallHandle(
+        "gtk_popover_set_cascade_popdown",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code cascade_popdown} is {@code true}, the popover will be
@@ -224,15 +345,33 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * If {@code false}, {@code popover} will stay visible.
      */
     public void setCascadePopdown(boolean cascadePopdown) {
-        gtk_h.gtk_popover_set_cascade_popdown(handle(), cascadePopdown ? 1 : 0);
+        try {
+            gtk_popover_set_cascade_popdown.invokeExact(handle(), cascadePopdown ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_child = Interop.downcallHandle(
+        "gtk_popover_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code popover}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_popover_set_child(handle(), child.handle());
+        try {
+            gtk_popover_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_default_widget = Interop.downcallHandle(
+        "gtk_popover_set_default_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the default widget of a {@code GtkPopover}.
@@ -242,23 +381,50 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * unsets the default widget for a {@code GtkPopover}.
      */
     public void setDefaultWidget(Widget widget) {
-        gtk_h.gtk_popover_set_default_widget(handle(), widget.handle());
+        try {
+            gtk_popover_set_default_widget.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_has_arrow = Interop.downcallHandle(
+        "gtk_popover_set_has_arrow",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether this popover should draw an arrow
      * pointing at the widget it is relative to.
      */
     public void setHasArrow(boolean hasArrow) {
-        gtk_h.gtk_popover_set_has_arrow(handle(), hasArrow ? 1 : 0);
+        try {
+            gtk_popover_set_has_arrow.invokeExact(handle(), hasArrow ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_mnemonics_visible = Interop.downcallHandle(
+        "gtk_popover_set_mnemonics_visible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether mnemonics should be visible.
      */
     public void setMnemonicsVisible(boolean mnemonicsVisible) {
-        gtk_h.gtk_popover_set_mnemonics_visible(handle(), mnemonicsVisible ? 1 : 0);
+        try {
+            gtk_popover_set_mnemonics_visible.invokeExact(handle(), mnemonicsVisible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_offset = Interop.downcallHandle(
+        "gtk_popover_set_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the offset to use when calculating the position
@@ -268,8 +434,17 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * for positioning the popover.
      */
     public void setOffset(int xOffset, int yOffset) {
-        gtk_h.gtk_popover_set_offset(handle(), xOffset, yOffset);
+        try {
+            gtk_popover_set_offset.invokeExact(handle(), xOffset, yOffset);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_pointing_to = Interop.downcallHandle(
+        "gtk_popover_set_pointing_to",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the rectangle that {@code popover} points to.
@@ -277,8 +452,17 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * This is in the coordinate space of the {@code popover} parent.
      */
     public void setPointingTo(org.gtk.gdk.Rectangle rect) {
-        gtk_h.gtk_popover_set_pointing_to(handle(), rect.handle());
+        try {
+            gtk_popover_set_pointing_to.invokeExact(handle(), rect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_popover_set_position = Interop.downcallHandle(
+        "gtk_popover_set_position",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the preferred position for {@code popover} to appear.
@@ -291,7 +475,11 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * {@code GtkPopover} may choose to appear on the opposite side.
      */
     public void setPosition(PositionType position) {
-        gtk_h.gtk_popover_set_position(handle(), position.getValue());
+        try {
+            gtk_popover_set_position.invokeExact(handle(), position.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -306,19 +494,19 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onActivateDefault(ActivateDefaultHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate-default").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Popover.Callbacks.class, "signalPopoverActivateDefault",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -332,19 +520,19 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onClosed(ClosedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("closed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Popover.Callbacks.class, "signalPopoverClosed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

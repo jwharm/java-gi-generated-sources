@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class BorderNode extends RenderNode {
         return new BorderNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_border_node_new = Interop.downcallHandle(
+        "gsk_border_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_border_node_new(outline.handle(), Interop.allocateNativeArray(borderWidth).handle(), Interop.allocateNativeArray(borderColor).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_border_node_new.invokeExact(outline.handle(), Interop.allocateNativeArray(borderWidth).handle(), Interop.allocateNativeArray(borderColor).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -34,28 +42,55 @@ public class BorderNode extends RenderNode {
         super(constructNew(outline, borderWidth, borderColor));
     }
     
+    static final MethodHandle gsk_border_node_get_colors = Interop.downcallHandle(
+        "gsk_border_node_get_colors",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the colors of the border.
      */
     public org.gtk.gdk.RGBA getColors() {
-        var RESULT = gtk_h.gsk_border_node_get_colors(handle());
-        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_border_node_get_colors.invokeExact(handle());
+            return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_border_node_get_outline = Interop.downcallHandle(
+        "gsk_border_node_get_outline",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the outline of the border.
      */
     public RoundedRect getOutline() {
-        var RESULT = gtk_h.gsk_border_node_get_outline(handle());
-        return new RoundedRect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_border_node_get_outline.invokeExact(handle());
+            return new RoundedRect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_border_node_get_widths = Interop.downcallHandle(
+        "gsk_border_node_get_widths",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the stroke widths of the border.
      */
     public PointerIterator<Float> getWidths() {
-        var RESULT = gtk_h.gsk_border_node_get_widths(handle());
-        return new PointerFloat(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gsk_border_node_get_widths.invokeExact(handle());
+            return new PointerFloat(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

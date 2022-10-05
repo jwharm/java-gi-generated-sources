@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -29,6 +28,11 @@ public final class Pango {
 
     public static final java.lang.String VERSION_STRING = "1.50.9";
 
+    static final MethodHandle pango_attr_allow_breaks_new = Interop.downcallHandle(
+        "pango_attr_allow_breaks_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Create a new allow-breaks attribute.
      * <p>
@@ -36,25 +40,52 @@ public final class Pango {
      * single run, as far as possible.
      */
     public static Attribute attrAllowBreaksNew(boolean allowBreaks) {
-        var RESULT = gtk_h.pango_attr_allow_breaks_new(allowBreaks ? 1 : 0);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_allow_breaks_new.invokeExact(allowBreaks ? 1 : 0);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_background_alpha_new = Interop.downcallHandle(
+        "pango_attr_background_alpha_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Create a new background alpha attribute.
      */
     public static Attribute attrBackgroundAlphaNew(short alpha) {
-        var RESULT = gtk_h.pango_attr_background_alpha_new(alpha);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_background_alpha_new.invokeExact(alpha);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_background_new = Interop.downcallHandle(
+        "pango_attr_background_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Create a new background color attribute.
      */
     public static Attribute attrBackgroundNew(short red, short green, short blue) {
-        var RESULT = gtk_h.pango_attr_background_new(red, green, blue);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_background_new.invokeExact(red, green, blue);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_baseline_shift_new = Interop.downcallHandle(
+        "pango_attr_baseline_shift_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new baseline displacement attribute.
@@ -68,9 +99,18 @@ public final class Pango {
      * &lt;/picture&gt;
      */
     public static Attribute attrBaselineShiftNew(int shift) {
-        var RESULT = gtk_h.pango_attr_baseline_shift_new(shift);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_baseline_shift_new.invokeExact(shift);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_break = Interop.downcallHandle(
+        "pango_attr_break",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Apply customization from attributes to the breaks in {@code attrs}.
@@ -79,8 +119,17 @@ public final class Pango {
      * by {@code Pango.tailor_break}.
      */
     public static void attrBreak(java.lang.String text, int length, AttrList attrList, int offset, LogAttr[] attrs, int attrsLen) {
-        gtk_h.pango_attr_break(Interop.allocateNativeString(text).handle(), length, attrList.handle(), offset, Interop.allocateNativeArray(attrs).handle(), attrsLen);
+        try {
+            pango_attr_break.invokeExact(Interop.allocateNativeString(text).handle(), length, attrList.handle(), offset, Interop.allocateNativeArray(attrs).handle(), attrsLen);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_fallback_new = Interop.downcallHandle(
+        "pango_attr_fallback_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new font fallback attribute.
@@ -91,17 +140,35 @@ public final class Pango {
      * that might contain the characters in the text.
      */
     public static Attribute attrFallbackNew(boolean enableFallback) {
-        var RESULT = gtk_h.pango_attr_fallback_new(enableFallback ? 1 : 0);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_fallback_new.invokeExact(enableFallback ? 1 : 0);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_family_new = Interop.downcallHandle(
+        "pango_attr_family_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new font family attribute.
      */
     public static Attribute attrFamilyNew(java.lang.String family) {
-        var RESULT = gtk_h.pango_attr_family_new(Interop.allocateNativeString(family).handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_family_new.invokeExact(Interop.allocateNativeString(family).handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
+        "pango_attr_font_desc_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new font description attribute.
@@ -110,9 +177,18 @@ public final class Pango {
      * stretch, and size simultaneously.
      */
     public static Attribute attrFontDescNew(FontDescription desc) {
-        var RESULT = gtk_h.pango_attr_font_desc_new(desc.handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_font_desc_new.invokeExact(desc.handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
+        "pango_attr_font_features_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new font features tag attribute.
@@ -121,9 +197,18 @@ public final class Pango {
      * alternative glyphs, ligatures, etc. for fonts that support them.
      */
     public static Attribute attrFontFeaturesNew(java.lang.String features) {
-        var RESULT = gtk_h.pango_attr_font_features_new(Interop.allocateNativeString(features).handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_font_features_new.invokeExact(Interop.allocateNativeString(features).handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_font_scale_new = Interop.downcallHandle(
+        "pango_attr_font_scale_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new font scale attribute.
@@ -132,41 +217,86 @@ public final class Pango {
      * relative to the size of preceding run.
      */
     public static Attribute attrFontScaleNew(FontScale scale) {
-        var RESULT = gtk_h.pango_attr_font_scale_new(scale.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_font_scale_new.invokeExact(scale.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_foreground_alpha_new = Interop.downcallHandle(
+        "pango_attr_foreground_alpha_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Create a new foreground alpha attribute.
      */
     public static Attribute attrForegroundAlphaNew(short alpha) {
-        var RESULT = gtk_h.pango_attr_foreground_alpha_new(alpha);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_foreground_alpha_new.invokeExact(alpha);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_foreground_new = Interop.downcallHandle(
+        "pango_attr_foreground_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Create a new foreground color attribute.
      */
     public static Attribute attrForegroundNew(short red, short green, short blue) {
-        var RESULT = gtk_h.pango_attr_foreground_new(red, green, blue);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_foreground_new.invokeExact(red, green, blue);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_gravity_hint_new = Interop.downcallHandle(
+        "pango_attr_gravity_hint_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new gravity hint attribute.
      */
     public static Attribute attrGravityHintNew(GravityHint hint) {
-        var RESULT = gtk_h.pango_attr_gravity_hint_new(hint.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_gravity_hint_new.invokeExact(hint.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_gravity_new = Interop.downcallHandle(
+        "pango_attr_gravity_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new gravity attribute.
      */
     public static Attribute attrGravityNew(Gravity gravity) {
-        var RESULT = gtk_h.pango_attr_gravity_new(gravity.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_gravity_new.invokeExact(gravity.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_insert_hyphens_new = Interop.downcallHandle(
+        "pango_attr_insert_hyphens_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new insert-hyphens attribute.
@@ -176,25 +306,52 @@ public final class Pango {
      * to suppress the hyphen.
      */
     public static Attribute attrInsertHyphensNew(boolean insertHyphens) {
-        var RESULT = gtk_h.pango_attr_insert_hyphens_new(insertHyphens ? 1 : 0);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_insert_hyphens_new.invokeExact(insertHyphens ? 1 : 0);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_language_new = Interop.downcallHandle(
+        "pango_attr_language_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new language tag attribute.
      */
     public static Attribute attrLanguageNew(Language language) {
-        var RESULT = gtk_h.pango_attr_language_new(language.handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_language_new.invokeExact(language.handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_letter_spacing_new = Interop.downcallHandle(
+        "pango_attr_letter_spacing_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new letter-spacing attribute.
      */
     public static Attribute attrLetterSpacingNew(int letterSpacing) {
-        var RESULT = gtk_h.pango_attr_letter_spacing_new(letterSpacing);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_letter_spacing_new.invokeExact(letterSpacing);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_line_height_new = Interop.downcallHandle(
+        "pango_attr_line_height_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Modify the height of logical line extents by a factor.
@@ -205,9 +362,18 @@ public final class Pango {
      * {@link LayoutIter#getLineExtents}.
      */
     public static Attribute attrLineHeightNew(double factor) {
-        var RESULT = gtk_h.pango_attr_line_height_new(factor);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_line_height_new.invokeExact(factor);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_line_height_new_absolute = Interop.downcallHandle(
+        "pango_attr_line_height_new_absolute",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Override the height of logical line extents to be {@code height}.
@@ -218,9 +384,18 @@ public final class Pango {
      * {@link LayoutIter#getLineExtents}.
      */
     public static Attribute attrLineHeightNewAbsolute(int height) {
-        var RESULT = gtk_h.pango_attr_line_height_new_absolute(height);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_line_height_new_absolute.invokeExact(height);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
+        "pango_attr_list_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Deserializes a {@code PangoAttrList} from a string.
@@ -229,9 +404,18 @@ public final class Pango {
      * See that functions for details about the format.
      */
     public static AttrList attrListFromString(java.lang.String text) {
-        var RESULT = gtk_h.pango_attr_list_from_string(Interop.allocateNativeString(text).handle());
-        return new AttrList(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_list_from_string.invokeExact(Interop.allocateNativeString(text).handle());
+            return new AttrList(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_overline_color_new = Interop.downcallHandle(
+        "pango_attr_overline_color_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Create a new overline color attribute.
@@ -240,25 +424,52 @@ public final class Pango {
      * If not set, overlines will use the foreground color.
      */
     public static Attribute attrOverlineColorNew(short red, short green, short blue) {
-        var RESULT = gtk_h.pango_attr_overline_color_new(red, green, blue);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_overline_color_new.invokeExact(red, green, blue);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_overline_new = Interop.downcallHandle(
+        "pango_attr_overline_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new overline-style attribute.
      */
     public static Attribute attrOverlineNew(Overline overline) {
-        var RESULT = gtk_h.pango_attr_overline_new(overline.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_overline_new.invokeExact(overline.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_rise_new = Interop.downcallHandle(
+        "pango_attr_rise_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new baseline displacement attribute.
      */
     public static Attribute attrRiseNew(int rise) {
-        var RESULT = gtk_h.pango_attr_rise_new(rise);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_rise_new.invokeExact(rise);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_scale_new = Interop.downcallHandle(
+        "pango_attr_scale_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Create a new font size scale attribute.
@@ -267,9 +478,18 @@ public final class Pango {
      * its size multiplied by {@code scale_factor}.
      */
     public static Attribute attrScaleNew(double scaleFactor) {
-        var RESULT = gtk_h.pango_attr_scale_new(scaleFactor);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_scale_new.invokeExact(scaleFactor);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_sentence_new = Interop.downcallHandle(
+        "pango_attr_sentence_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Marks the range of the attribute as a single sentence.
@@ -278,9 +498,18 @@ public final class Pango {
      * sentence classification around the range.
      */
     public static Attribute attrSentenceNew() {
-        var RESULT = gtk_h.pango_attr_sentence_new();
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_sentence_new.invokeExact();
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
+        "pango_attr_shape_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new shape attribute.
@@ -291,9 +520,18 @@ public final class Pango {
      * or a widget inside a {@code PangoLayout}.
      */
     public static Attribute attrShapeNew(Rectangle inkRect, Rectangle logicalRect) {
-        var RESULT = gtk_h.pango_attr_shape_new(inkRect.handle(), logicalRect.handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_shape_new.invokeExact(inkRect.handle(), logicalRect.handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
+        "pango_attr_shape_new_with_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new shape attribute.
@@ -304,52 +542,93 @@ public final class Pango {
      */
     public static Attribute attrShapeNewWithData(Rectangle inkRect, Rectangle logicalRect, AttrDataCopyFunc copyFunc) {
         try {
-            var RESULT = gtk_h.pango_attr_shape_new_with_data(inkRect.handle(), logicalRect.handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) pango_attr_shape_new_with_data.invokeExact(inkRect.handle(), logicalRect.handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.class, "__cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol());
             return new Attribute(Refcounted.get(RESULT, true));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle pango_attr_show_new = Interop.downcallHandle(
+        "pango_attr_show_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new attribute that influences how invisible
      * characters are rendered.
      */
     public static Attribute attrShowNew(ShowFlags flags) {
-        var RESULT = gtk_h.pango_attr_show_new(flags.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_show_new.invokeExact(flags.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_size_new = Interop.downcallHandle(
+        "pango_attr_size_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new font-size attribute in fractional points.
      */
     public static Attribute attrSizeNew(int size) {
-        var RESULT = gtk_h.pango_attr_size_new(size);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_size_new.invokeExact(size);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_size_new_absolute = Interop.downcallHandle(
+        "pango_attr_size_new_absolute",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new font-size attribute in device units.
      */
     public static Attribute attrSizeNewAbsolute(int size) {
-        var RESULT = gtk_h.pango_attr_size_new_absolute(size);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_size_new_absolute.invokeExact(size);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_stretch_new = Interop.downcallHandle(
+        "pango_attr_stretch_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new font stretch attribute.
      */
     public static Attribute attrStretchNew(Stretch stretch) {
-        var RESULT = gtk_h.pango_attr_stretch_new(stretch.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_stretch_new.invokeExact(stretch.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_strikethrough_color_new = Interop.downcallHandle(
+        "pango_attr_strikethrough_color_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Create a new strikethrough color attribute.
@@ -358,34 +637,70 @@ public final class Pango {
      * If not set, strikethrough lines will use the foreground color.
      */
     public static Attribute attrStrikethroughColorNew(short red, short green, short blue) {
-        var RESULT = gtk_h.pango_attr_strikethrough_color_new(red, green, blue);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_strikethrough_color_new.invokeExact(red, green, blue);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_strikethrough_new = Interop.downcallHandle(
+        "pango_attr_strikethrough_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new strike-through attribute.
      */
     public static Attribute attrStrikethroughNew(boolean strikethrough) {
-        var RESULT = gtk_h.pango_attr_strikethrough_new(strikethrough ? 1 : 0);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_strikethrough_new.invokeExact(strikethrough ? 1 : 0);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_style_new = Interop.downcallHandle(
+        "pango_attr_style_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new font slant style attribute.
      */
     public static Attribute attrStyleNew(Style style) {
-        var RESULT = gtk_h.pango_attr_style_new(style.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_style_new.invokeExact(style.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_text_transform_new = Interop.downcallHandle(
+        "pango_attr_text_transform_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new attribute that influences how characters
      * are transformed during shaping.
      */
     public static Attribute attrTextTransformNew(TextTransform transform) {
-        var RESULT = gtk_h.pango_attr_text_transform_new(transform.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_text_transform_new.invokeExact(transform.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_type_get_name = Interop.downcallHandle(
+        "pango_attr_type_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Fetches the attribute type name.
@@ -399,9 +714,18 @@ public final class Pango {
      * not be modified or freed.
      */
     public static java.lang.String attrTypeGetName(AttrType type) {
-        var RESULT = gtk_h.pango_attr_type_get_name(type.getValue());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_attr_type_get_name.invokeExact(type.getValue());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_type_register = Interop.downcallHandle(
+        "pango_attr_type_register",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Allocate a new attribute type ID.
@@ -410,9 +734,18 @@ public final class Pango {
      * by using {@link Pango#AttrType}.
      */
     public static AttrType attrTypeRegister(java.lang.String name) {
-        var RESULT = gtk_h.pango_attr_type_register(Interop.allocateNativeString(name).handle());
-        return new AttrType(RESULT);
+        try {
+            var RESULT = (int) pango_attr_type_register.invokeExact(Interop.allocateNativeString(name).handle());
+            return new AttrType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_underline_color_new = Interop.downcallHandle(
+        "pango_attr_underline_color_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+    );
     
     /**
      * Create a new underline color attribute.
@@ -421,33 +754,69 @@ public final class Pango {
      * If not set, underlines will use the foreground color.
      */
     public static Attribute attrUnderlineColorNew(short red, short green, short blue) {
-        var RESULT = gtk_h.pango_attr_underline_color_new(red, green, blue);
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_underline_color_new.invokeExact(red, green, blue);
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_underline_new = Interop.downcallHandle(
+        "pango_attr_underline_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new underline-style attribute.
      */
     public static Attribute attrUnderlineNew(Underline underline) {
-        var RESULT = gtk_h.pango_attr_underline_new(underline.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_underline_new.invokeExact(underline.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_variant_new = Interop.downcallHandle(
+        "pango_attr_variant_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new font variant attribute (normal or small caps).
      */
     public static Attribute attrVariantNew(Variant variant) {
-        var RESULT = gtk_h.pango_attr_variant_new(variant.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_variant_new.invokeExact(variant.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_weight_new = Interop.downcallHandle(
+        "pango_attr_weight_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a new font weight attribute.
      */
     public static Attribute attrWeightNew(Weight weight) {
-        var RESULT = gtk_h.pango_attr_weight_new(weight.getValue());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_weight_new.invokeExact(weight.getValue());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_word_new = Interop.downcallHandle(
+        "pango_attr_word_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Marks the range of the attribute as a single word.
@@ -456,9 +825,18 @@ public final class Pango {
      * sentence classification around the range.
      */
     public static Attribute attrWordNew() {
-        var RESULT = gtk_h.pango_attr_word_new();
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_word_new.invokeExact();
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_bidi_type_for_unichar = Interop.downcallHandle(
+        "pango_bidi_type_for_unichar",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines the bidirectional type of a character.
@@ -468,9 +846,18 @@ public final class Pango {
      * A simplified version of this function is available as {@link unichar_direction#null}.
      */
     public static BidiType bidiTypeForUnichar(int ch) {
-        var RESULT = gtk_h.pango_bidi_type_for_unichar(ch);
-        return new BidiType(RESULT);
+        try {
+            var RESULT = (int) pango_bidi_type_for_unichar.invokeExact(ch);
+            return new BidiType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_default_break = Interop.downcallHandle(
+        "pango_default_break",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This is the default break algorithm.
@@ -484,8 +871,17 @@ public final class Pango {
      * See {@link Pango#attrBreak} for attribute-based customization.
      */
     public static void defaultBreak(java.lang.String text, int length, Analysis analysis, LogAttr attrs, int attrsLen) {
-        gtk_h.pango_default_break(Interop.allocateNativeString(text).handle(), length, analysis.handle(), attrs.handle(), attrsLen);
+        try {
+            pango_default_break.invokeExact(Interop.allocateNativeString(text).handle(), length, analysis.handle(), attrs.handle(), attrsLen);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_extents_to_pixels = Interop.downcallHandle(
+        "pango_extents_to_pixels",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts extents from Pango units to device units.
@@ -507,17 +903,35 @@ public final class Pango {
      * as {@code nearest}.
      */
     public static void extentsToPixels(Rectangle inclusive, Rectangle nearest) {
-        gtk_h.pango_extents_to_pixels(inclusive.handle(), nearest.handle());
+        try {
+            pango_extents_to_pixels.invokeExact(inclusive.handle(), nearest.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_find_base_dir = Interop.downcallHandle(
+        "pango_find_base_dir",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Searches a string the first character that has a strong
      * direction, according to the Unicode bidirectional algorithm.
      */
     public static Direction findBaseDir(java.lang.String text, int length) {
-        var RESULT = gtk_h.pango_find_base_dir(Interop.allocateNativeString(text).handle(), length);
-        return new Direction(RESULT);
+        try {
+            var RESULT = (int) pango_find_base_dir.invokeExact(Interop.allocateNativeString(text).handle(), length);
+            return new Direction(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_find_paragraph_boundary = Interop.downcallHandle(
+        "pango_find_paragraph_boundary",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Locates a paragraph boundary in {@code text}.
@@ -536,8 +950,17 @@ public final class Pango {
      * (an index one off the end).
      */
     public static void findParagraphBoundary(java.lang.String text, int length, PointerInteger paragraphDelimiterIndex, PointerInteger nextParagraphStart) {
-        gtk_h.pango_find_paragraph_boundary(Interop.allocateNativeString(text).handle(), length, paragraphDelimiterIndex.handle(), nextParagraphStart.handle());
+        try {
+            pango_find_paragraph_boundary.invokeExact(Interop.allocateNativeString(text).handle(), length, paragraphDelimiterIndex.handle(), nextParagraphStart.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_from_string = Interop.downcallHandle(
+        "pango_font_description_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new font description from a string representation.
@@ -586,9 +1009,18 @@ public final class Pango {
      *     "Cantarell Italic Light 15 \\{@code wght}=200"
      */
     public static FontDescription fontDescriptionFromString(java.lang.String str) {
-        var RESULT = gtk_h.pango_font_description_from_string(Interop.allocateNativeString(str).handle());
-        return new FontDescription(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_description_from_string.invokeExact(Interop.allocateNativeString(str).handle());
+            return new FontDescription(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_get_log_attrs = Interop.downcallHandle(
+        "pango_get_log_attrs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Computes a {@code PangoLogAttr} for each character in {@code text}.
@@ -602,17 +1034,35 @@ public final class Pango {
      * a word to know the word is a word).
      */
     public static void getLogAttrs(java.lang.String text, int length, int level, Language language, LogAttr[] attrs, int attrsLen) {
-        gtk_h.pango_get_log_attrs(Interop.allocateNativeString(text).handle(), length, level, language.handle(), Interop.allocateNativeArray(attrs).handle(), attrsLen);
+        try {
+            pango_get_log_attrs.invokeExact(Interop.allocateNativeString(text).handle(), length, level, language.handle(), Interop.allocateNativeArray(attrs).handle(), attrsLen);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_gravity_get_for_matrix = Interop.downcallHandle(
+        "pango_gravity_get_for_matrix",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the gravity that best matches the rotation component
      * in a {@code PangoMatrix}.
      */
     public static Gravity gravityGetForMatrix(Matrix matrix) {
-        var RESULT = gtk_h.pango_gravity_get_for_matrix(matrix.handle());
-        return new Gravity(RESULT);
+        try {
+            var RESULT = (int) pango_gravity_get_for_matrix.invokeExact(matrix.handle());
+            return new Gravity(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_gravity_get_for_script = Interop.downcallHandle(
+        "pango_gravity_get_for_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the gravity to use in laying out a {@code PangoItem}.
@@ -624,9 +1074,18 @@ public final class Pango {
      * pass {@link Gravity#AUTO} and {@link GravityHint#STRONG} in.
      */
     public static Gravity gravityGetForScript(Script script, Gravity baseGravity, GravityHint hint) {
-        var RESULT = gtk_h.pango_gravity_get_for_script(script.getValue(), baseGravity.getValue(), hint.getValue());
-        return new Gravity(RESULT);
+        try {
+            var RESULT = (int) pango_gravity_get_for_script.invokeExact(script.getValue(), baseGravity.getValue(), hint.getValue());
+            return new Gravity(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_gravity_get_for_script_and_width = Interop.downcallHandle(
+        "pango_gravity_get_for_script_and_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the gravity to use in laying out a single character
@@ -646,9 +1105,18 @@ public final class Pango {
      * preferred gravity of {@code script}.
      */
     public static Gravity gravityGetForScriptAndWidth(Script script, boolean wide, Gravity baseGravity, GravityHint hint) {
-        var RESULT = gtk_h.pango_gravity_get_for_script_and_width(script.getValue(), wide ? 1 : 0, baseGravity.getValue(), hint.getValue());
-        return new Gravity(RESULT);
+        try {
+            var RESULT = (int) pango_gravity_get_for_script_and_width.invokeExact(script.getValue(), wide ? 1 : 0, baseGravity.getValue(), hint.getValue());
+            return new Gravity(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_gravity_to_rotation = Interop.downcallHandle(
+        "pango_gravity_to_rotation",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a {@code PangoGravity} value to its natural rotation in radians.
@@ -658,9 +1126,18 @@ public final class Pango {
      * you should multiply it by (180. / G_PI).
      */
     public static double gravityToRotation(Gravity gravity) {
-        var RESULT = gtk_h.pango_gravity_to_rotation(gravity.getValue());
-        return RESULT;
+        try {
+            var RESULT = (double) pango_gravity_to_rotation.invokeExact(gravity.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_is_zero_width = Interop.downcallHandle(
+        "pango_is_zero_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks if a character that should not be normally rendered.
@@ -671,9 +1148,18 @@ public final class Pango {
      * This is totally different from {@link GLib#unicharIszerowidth} and is at best misnamed.
      */
     public static boolean isZeroWidth(int ch) {
-        var RESULT = gtk_h.pango_is_zero_width(ch);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_is_zero_width.invokeExact(ch);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_itemize = Interop.downcallHandle(
+        "pango_itemize",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Breaks a piece of text into segments with consistent directional
@@ -690,9 +1176,18 @@ public final class Pango {
      * in the same {@code cached_iter}).
      */
     public static org.gtk.glib.List itemize(Context context, java.lang.String text, int startIndex, int length, AttrList attrs, AttrIterator cachedIter) {
-        var RESULT = gtk_h.pango_itemize(context.handle(), Interop.allocateNativeString(text).handle(), startIndex, length, attrs.handle(), cachedIter.handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_itemize.invokeExact(context.handle(), Interop.allocateNativeString(text).handle(), startIndex, length, attrs.handle(), cachedIter.handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_itemize_with_base_dir = Interop.downcallHandle(
+        "pango_itemize_with_base_dir",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Like {@code pango_itemize()}, but with an explicitly specified base direction.
@@ -702,9 +1197,18 @@ public final class Pango {
      * (see {@link Context#setBaseDir}).
      */
     public static org.gtk.glib.List itemizeWithBaseDir(Context context, Direction baseDir, java.lang.String text, int startIndex, int length, AttrList attrs, AttrIterator cachedIter) {
-        var RESULT = gtk_h.pango_itemize_with_base_dir(context.handle(), baseDir.getValue(), Interop.allocateNativeString(text).handle(), startIndex, length, attrs.handle(), cachedIter.handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_itemize_with_base_dir.invokeExact(context.handle(), baseDir.getValue(), Interop.allocateNativeString(text).handle(), startIndex, length, attrs.handle(), cachedIter.handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_from_string = Interop.downcallHandle(
+        "pango_language_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a language tag to a {@code PangoLanguage}.
@@ -721,9 +1225,18 @@ public final class Pango {
      * {@code PangoLanguage} for the current locale of the process.
      */
     public static Language languageFromString(java.lang.String language) {
-        var RESULT = gtk_h.pango_language_from_string(Interop.allocateNativeString(language).handle());
-        return new Language(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_language_from_string.invokeExact(Interop.allocateNativeString(language).handle());
+            return new Language(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_get_default = Interop.downcallHandle(
+        "pango_language_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code PangoLanguage} for the current locale of the process.
@@ -759,9 +1272,18 @@ public final class Pango {
      * just call pango_language_from_string() yourself.
      */
     public static Language languageGetDefault() {
-        var RESULT = gtk_h.pango_language_get_default();
-        return new Language(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_language_get_default.invokeExact();
+            return new Language(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
+        "pango_language_get_preferred",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the list of languages that the user prefers.
@@ -777,14 +1299,32 @@ public final class Pango {
      * languages returned by this function.
      */
     public static PointerProxy<Language> languageGetPreferred() {
-        var RESULT = gtk_h.pango_language_get_preferred();
-        return new PointerProxy<Language>(RESULT, Language.class);
+        try {
+            var RESULT = (MemoryAddress) pango_language_get_preferred.invokeExact();
+            return new PointerProxy<Language>(RESULT, Language.class);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle pango_layout_deserialize_error_quark = Interop.downcallHandle(
+        "pango_layout_deserialize_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static org.gtk.glib.Quark layoutDeserializeErrorQuark() {
-        var RESULT = gtk_h.pango_layout_deserialize_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) pango_layout_deserialize_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_log2vis_get_embedding_levels = Interop.downcallHandle(
+        "pango_log2vis_get_embedding_levels",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Return the bidirectional embedding levels of the input paragraph.
@@ -796,9 +1336,18 @@ public final class Pango {
      * characters in the text will determine the final resolved direction.
      */
     public static PointerByte log2visGetEmbeddingLevels(java.lang.String text, int length, Direction pbaseDir) {
-        var RESULT = gtk_h.pango_log2vis_get_embedding_levels(Interop.allocateNativeString(text).handle(), length, new PointerInteger(pbaseDir.getValue()).handle());
-        return new PointerByte(RESULT);
+        try {
+            var RESULT = (MemoryAddress) pango_log2vis_get_embedding_levels.invokeExact(Interop.allocateNativeString(text).handle(), length, new PointerInteger(pbaseDir.getValue()).handle());
+            return new PointerByte(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_markup_parser_finish = Interop.downcallHandle(
+        "pango_markup_parser_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finishes parsing markup.
@@ -810,12 +1359,21 @@ public final class Pango {
      */
     public static boolean markupParserFinish(org.gtk.glib.MarkupParseContext context, AttrList[] attrList, java.lang.String[] text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.pango_markup_parser_finish(context.handle(), Interop.allocateNativeArray(attrList).handle(), Interop.allocateNativeArray(text).handle(), accelChar.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) pango_markup_parser_finish.invokeExact(context.handle(), Interop.allocateNativeArray(attrList).handle(), Interop.allocateNativeArray(text).handle(), accelChar.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle pango_markup_parser_new = Interop.downcallHandle(
+        "pango_markup_parser_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Incrementally parses marked-up text to create a plain-text string
@@ -842,9 +1400,18 @@ public final class Pango {
      * the {@link Pango#parseMarkup} API is recommended instead.
      */
     public static org.gtk.glib.MarkupParseContext markupParserNew(int accelMarker) {
-        var RESULT = gtk_h.pango_markup_parser_new(accelMarker);
-        return new org.gtk.glib.MarkupParseContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_markup_parser_new.invokeExact(accelMarker);
+            return new org.gtk.glib.MarkupParseContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_parse_markup = Interop.downcallHandle(
+        "pango_parse_markup",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses marked-up text to create a plain-text string and an attribute list.
@@ -867,12 +1434,21 @@ public final class Pango {
      */
     public static boolean parseMarkup(java.lang.String markupText, int length, int accelMarker, AttrList[] attrList, java.lang.String[] text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.pango_parse_markup(Interop.allocateNativeString(markupText).handle(), length, accelMarker, Interop.allocateNativeArray(attrList).handle(), Interop.allocateNativeArray(text).handle(), accelChar.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) pango_parse_markup.invokeExact(Interop.allocateNativeString(markupText).handle(), length, accelMarker, Interop.allocateNativeArray(attrList).handle(), Interop.allocateNativeArray(text).handle(), accelChar.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle pango_parse_stretch = Interop.downcallHandle(
+        "pango_parse_stretch",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses a font stretch.
@@ -884,9 +1460,18 @@ public final class Pango {
      * ignored and the '_' characters may be omitted.
      */
     public static boolean parseStretch(java.lang.String str, Stretch stretch, boolean warn) {
-        var RESULT = gtk_h.pango_parse_stretch(Interop.allocateNativeString(str).handle(), new PointerInteger(stretch.getValue()).handle(), warn ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_parse_stretch.invokeExact(Interop.allocateNativeString(str).handle(), new PointerInteger(stretch.getValue()).handle(), warn ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_parse_style = Interop.downcallHandle(
+        "pango_parse_style",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses a font style.
@@ -896,9 +1481,18 @@ public final class Pango {
      * ignored.
      */
     public static boolean parseStyle(java.lang.String str, Style style, boolean warn) {
-        var RESULT = gtk_h.pango_parse_style(Interop.allocateNativeString(str).handle(), new PointerInteger(style.getValue()).handle(), warn ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_parse_style.invokeExact(Interop.allocateNativeString(str).handle(), new PointerInteger(style.getValue()).handle(), warn ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_parse_variant = Interop.downcallHandle(
+        "pango_parse_variant",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses a font variant.
@@ -908,9 +1502,18 @@ public final class Pango {
      * case variations being ignored.
      */
     public static boolean parseVariant(java.lang.String str, Variant variant, boolean warn) {
-        var RESULT = gtk_h.pango_parse_variant(Interop.allocateNativeString(str).handle(), new PointerInteger(variant.getValue()).handle(), warn ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_parse_variant.invokeExact(Interop.allocateNativeString(str).handle(), new PointerInteger(variant.getValue()).handle(), warn ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_parse_weight = Interop.downcallHandle(
+        "pango_parse_weight",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Parses a font weight.
@@ -920,9 +1523,18 @@ public final class Pango {
      * and integers. Case variations are ignored.
      */
     public static boolean parseWeight(java.lang.String str, Weight weight, boolean warn) {
-        var RESULT = gtk_h.pango_parse_weight(Interop.allocateNativeString(str).handle(), new PointerInteger(weight.getValue()).handle(), warn ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_parse_weight.invokeExact(Interop.allocateNativeString(str).handle(), new PointerInteger(weight.getValue()).handle(), warn ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_quantize_line_geometry = Interop.downcallHandle(
+        "pango_quantize_line_geometry",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Quantizes the thickness and position of a line to whole device pixels.
@@ -935,8 +1547,17 @@ public final class Pango {
      * of rounding.
      */
     public static void quantizeLineGeometry(PointerInteger thickness, PointerInteger position) {
-        gtk_h.pango_quantize_line_geometry(thickness.handle(), position.handle());
+        try {
+            pango_quantize_line_geometry.invokeExact(thickness.handle(), position.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_reorder_items = Interop.downcallHandle(
+        "pango_reorder_items",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Reorder items from logical order to visual order.
@@ -949,9 +1570,18 @@ public final class Pango {
      *  is duplicated elsewhere in Pango for that reason.)
      */
     public static org.gtk.glib.List reorderItems(org.gtk.glib.List items) {
-        var RESULT = gtk_h.pango_reorder_items(items.handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_reorder_items.invokeExact(items.handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_script_get_sample_language = Interop.downcallHandle(
+        "pango_script_get_sample_language",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Finds a language tag that is reasonably representative of {@code script}.
@@ -985,9 +1615,18 @@ public final class Pango {
      * context language is not feasible.
      */
     public static Language scriptGetSampleLanguage(Script script) {
-        var RESULT = gtk_h.pango_script_get_sample_language(script.getValue());
-        return new Language(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_script_get_sample_language.invokeExact(script.getValue());
+            return new Language(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_shape = Interop.downcallHandle(
+        "pango_shape",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert the characters in {@code text} into glyphs.
@@ -1006,8 +1645,17 @@ public final class Pango {
      * calling {@link Pango#shape}.
      */
     public static void shape(java.lang.String text, int length, Analysis analysis, GlyphString glyphs) {
-        gtk_h.pango_shape(Interop.allocateNativeString(text).handle(), length, analysis.handle(), glyphs.handle());
+        try {
+            pango_shape.invokeExact(Interop.allocateNativeString(text).handle(), length, analysis.handle(), glyphs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_shape_full = Interop.downcallHandle(
+        "pango_shape_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert the characters in {@code text} into glyphs.
@@ -1029,8 +1677,17 @@ public final class Pango {
      * {@link Pango#shapeFull}.
      */
     public static void shapeFull(java.lang.String itemText, int itemLength, java.lang.String paragraphText, int paragraphLength, Analysis analysis, GlyphString glyphs) {
-        gtk_h.pango_shape_full(Interop.allocateNativeString(itemText).handle(), itemLength, Interop.allocateNativeString(paragraphText).handle(), paragraphLength, analysis.handle(), glyphs.handle());
+        try {
+            pango_shape_full.invokeExact(Interop.allocateNativeString(itemText).handle(), itemLength, Interop.allocateNativeString(paragraphText).handle(), paragraphLength, analysis.handle(), glyphs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_shape_item = Interop.downcallHandle(
+        "pango_shape_item",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Convert the characters in {@code item} into glyphs.
@@ -1047,8 +1704,17 @@ public final class Pango {
      * {@link Pango#shapeWithFlags}.
      */
     public static void shapeItem(Item item, java.lang.String paragraphText, int paragraphLength, LogAttr logAttrs, GlyphString glyphs, ShapeFlags flags) {
-        gtk_h.pango_shape_item(item.handle(), Interop.allocateNativeString(paragraphText).handle(), paragraphLength, logAttrs.handle(), glyphs.handle(), flags.getValue());
+        try {
+            pango_shape_item.invokeExact(item.handle(), Interop.allocateNativeString(paragraphText).handle(), paragraphLength, logAttrs.handle(), glyphs.handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_shape_with_flags = Interop.downcallHandle(
+        "pango_shape_with_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Convert the characters in {@code text} into glyphs.
@@ -1067,8 +1733,17 @@ public final class Pango {
      * {@link Pango#shapeWithFlags}.
      */
     public static void shapeWithFlags(java.lang.String itemText, int itemLength, java.lang.String paragraphText, int paragraphLength, Analysis analysis, GlyphString glyphs, ShapeFlags flags) {
-        gtk_h.pango_shape_with_flags(Interop.allocateNativeString(itemText).handle(), itemLength, Interop.allocateNativeString(paragraphText).handle(), paragraphLength, analysis.handle(), glyphs.handle(), flags.getValue());
+        try {
+            pango_shape_with_flags.invokeExact(Interop.allocateNativeString(itemText).handle(), itemLength, Interop.allocateNativeString(paragraphText).handle(), paragraphLength, analysis.handle(), glyphs.handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_tab_array_from_string = Interop.downcallHandle(
+        "pango_tab_array_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Deserializes a {@code PangoTabArray} from a string.
@@ -1077,9 +1752,18 @@ public final class Pango {
      * See that functions for details about the format.
      */
     public static TabArray tabArrayFromString(java.lang.String text) {
-        var RESULT = gtk_h.pango_tab_array_from_string(Interop.allocateNativeString(text).handle());
-        return new TabArray(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_tab_array_from_string.invokeExact(Interop.allocateNativeString(text).handle());
+            return new TabArray(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_tailor_break = Interop.downcallHandle(
+        "pango_tailor_break",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Apply language-specific tailoring to the breaks in {@code attrs}.
@@ -1093,8 +1777,17 @@ public final class Pango {
      * to apply attributes to the whole paragraph.
      */
     public static void tailorBreak(java.lang.String text, int length, Analysis analysis, int offset, LogAttr[] attrs, int attrsLen) {
-        gtk_h.pango_tailor_break(Interop.allocateNativeString(text).handle(), length, analysis.handle(), offset, Interop.allocateNativeArray(attrs).handle(), attrsLen);
+        try {
+            pango_tailor_break.invokeExact(Interop.allocateNativeString(text).handle(), length, analysis.handle(), offset, Interop.allocateNativeArray(attrs).handle(), attrsLen);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_unichar_direction = Interop.downcallHandle(
+        "pango_unichar_direction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines the inherent direction of a character.
@@ -1108,9 +1801,18 @@ public final class Pango {
      * can be used instead.
      */
     public static Direction unicharDirection(int ch) {
-        var RESULT = gtk_h.pango_unichar_direction(ch);
-        return new Direction(RESULT);
+        try {
+            var RESULT = (int) pango_unichar_direction.invokeExact(ch);
+            return new Direction(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_units_from_double = Interop.downcallHandle(
+        "pango_units_from_double",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Converts a floating-point number to Pango units.
@@ -1119,9 +1821,18 @@ public final class Pango {
      * rounding the result to nearest integer.
      */
     public static int unitsFromDouble(double d) {
-        var RESULT = gtk_h.pango_units_from_double(d);
-        return RESULT;
+        try {
+            var RESULT = (int) pango_units_from_double.invokeExact(d);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_units_to_double = Interop.downcallHandle(
+        "pango_units_to_double",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Converts a number in Pango units to floating-point.
@@ -1129,9 +1840,18 @@ public final class Pango {
      * The conversion is done by dividing @i by {@code PANGO_SCALE}.
      */
     public static double unitsToDouble(int i) {
-        var RESULT = gtk_h.pango_units_to_double(i);
-        return RESULT;
+        try {
+            var RESULT = (double) pango_units_to_double.invokeExact(i);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_version = Interop.downcallHandle(
+        "pango_version",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the encoded version of Pango available at run-time.
@@ -1141,9 +1861,18 @@ public final class Pango {
      * number can be encoded into an integer using PANGO_VERSION_ENCODE().
      */
     public static int version() {
-        var RESULT = gtk_h.pango_version();
-        return RESULT;
+        try {
+            var RESULT = (int) pango_version.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_version_check = Interop.downcallHandle(
+        "pango_version_check",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks that the Pango library in use is compatible with the
@@ -1165,9 +1894,18 @@ public final class Pango {
      * For compile-time version checking use PANGO_VERSION_CHECK().
      */
     public static java.lang.String versionCheck(int requiredMajor, int requiredMinor, int requiredMicro) {
-        var RESULT = gtk_h.pango_version_check(requiredMajor, requiredMinor, requiredMicro);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_version_check.invokeExact(requiredMajor, requiredMinor, requiredMicro);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_version_string = Interop.downcallHandle(
+        "pango_version_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the version of Pango available at run-time.
@@ -1176,8 +1914,12 @@ public final class Pango {
      * macro returns the version available at compile-time.
      */
     public static java.lang.String versionString() {
-        var RESULT = gtk_h.pango_version_string();
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_version_string.invokeExact();
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     public static boolean __cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {

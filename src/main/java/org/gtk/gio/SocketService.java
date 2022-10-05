@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,9 +43,18 @@ public class SocketService extends SocketListener {
         return new SocketService(gobject.refcounted());
     }
     
+    static final MethodHandle g_socket_service_new = Interop.downcallHandle(
+        "g_socket_service_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_socket_service_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_service_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -62,6 +70,11 @@ public class SocketService extends SocketListener {
         super(constructNew());
     }
     
+    static final MethodHandle g_socket_service_is_active = Interop.downcallHandle(
+        "g_socket_service_is_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Check whether the service is active or not. An active
      * service will accept new clients that connect, while
@@ -69,9 +82,18 @@ public class SocketService extends SocketListener {
      * up until the service is started.
      */
     public boolean isActive() {
-        var RESULT = gtk_h.g_socket_service_is_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_socket_service_is_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_service_start = Interop.downcallHandle(
+        "g_socket_service_start",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Restarts the service, i.e. start accepting connections
@@ -83,8 +105,17 @@ public class SocketService extends SocketListener {
      * handling an incoming client request.
      */
     public void start() {
-        gtk_h.g_socket_service_start(handle());
+        try {
+            g_socket_service_start.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_service_stop = Interop.downcallHandle(
+        "g_socket_service_stop",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stops the service, i.e. stops accepting connections
@@ -104,7 +135,11 @@ public class SocketService extends SocketListener {
      * when a new socket is added.
      */
     public void stop() {
-        gtk_h.g_socket_service_stop(handle());
+        try {
+            g_socket_service_stop.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -123,19 +158,19 @@ public class SocketService extends SocketListener {
      */
     public SignalHandle onIncoming(IncomingHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("incoming").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SocketService.Callbacks.class, "signalSocketServiceIncoming",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

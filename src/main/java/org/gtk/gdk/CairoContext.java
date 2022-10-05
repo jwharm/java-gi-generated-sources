@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,6 +23,11 @@ public class CairoContext extends DrawContext {
         return new CairoContext(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_cairo_context_cairo_create = Interop.downcallHandle(
+        "gdk_cairo_context_cairo_create",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves a Cairo context to be used to draw on the {@code GdkSurface}
      * of {@code context}.
@@ -35,8 +39,12 @@ public class CairoContext extends DrawContext {
      * {@link DrawContext#endFrame} is called.
      */
     public org.cairographics.Context cairoCreate() {
-        var RESULT = gtk_h.gdk_cairo_context_cairo_create(handle());
-        return new org.cairographics.Context(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_cairo_context_cairo_create.invokeExact(handle());
+            return new org.cairographics.Context(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

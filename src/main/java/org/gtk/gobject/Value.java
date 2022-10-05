@@ -1,6 +1,5 @@
 package org.gtk.gobject;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,16 +22,26 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Value() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GValue.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_value_copy = Interop.downcallHandle(
+        "g_value_copy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Copies the value of {@code src_value} into {@code dest_value}.
      */
     public void copy(Value destValue) {
-        gtk_h.g_value_copy(handle(), destValue.handle());
+        try {
+            g_value_copy.invokeExact(handle(), destValue.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_dup_boxed = Interop.downcallHandle(
+        "g_value_dup_boxed",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_BOXED} derived {@link Value}.  Upon getting,
@@ -41,9 +50,18 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * return_value);
      */
     public java.lang.foreign.MemoryAddress dupBoxed() {
-        var RESULT = gtk_h.g_value_dup_boxed(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_value_dup_boxed.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_dup_object = Interop.downcallHandle(
+        "g_value_dup_object",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_OBJECT} derived {@link Value}, increasing
@@ -51,212 +69,446 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * {@code null} will be returned.
      */
     public Object dupObject() {
-        var RESULT = gtk_h.g_value_dup_object(handle());
-        return new Object(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_value_dup_object.invokeExact(handle());
+            return new Object(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_dup_param = Interop.downcallHandle(
+        "g_value_dup_param",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_PARAM} {@link Value}, increasing its
      * reference count.
      */
     public ParamSpec dupParam() {
-        var RESULT = gtk_h.g_value_dup_param(handle());
-        return new ParamSpec(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_value_dup_param.invokeExact(handle());
+            return new ParamSpec(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_dup_string = Interop.downcallHandle(
+        "g_value_dup_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get a copy the contents of a {@code G_TYPE_STRING} {@link Value}.
      */
     public java.lang.String dupString() {
-        var RESULT = gtk_h.g_value_dup_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_value_dup_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_dup_variant = Interop.downcallHandle(
+        "g_value_dup_variant",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a variant {@link Value}, increasing its refcount. The returned
      * {@link org.gtk.glib.Variant} is never floating.
      */
     public org.gtk.glib.Variant dupVariant() {
-        var RESULT = gtk_h.g_value_dup_variant(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_value_dup_variant.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_fits_pointer = Interop.downcallHandle(
+        "g_value_fits_pointer",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if {@code value} will fit inside the size of a pointer value.
      * This is an internal function introduced mainly for C marshallers.
      */
     public boolean fitsPointer() {
-        var RESULT = gtk_h.g_value_fits_pointer(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_value_fits_pointer.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_boolean = Interop.downcallHandle(
+        "g_value_get_boolean",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_BOOLEAN} {@link Value}.
      */
     public boolean getBoolean() {
-        var RESULT = gtk_h.g_value_get_boolean(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_value_get_boolean.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_boxed = Interop.downcallHandle(
+        "g_value_get_boxed",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_BOXED} derived {@link Value}.
      */
     public java.lang.foreign.MemoryAddress getBoxed() {
-        var RESULT = gtk_h.g_value_get_boxed(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_value_get_boxed.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_double = Interop.downcallHandle(
+        "g_value_get_double",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_DOUBLE} {@link Value}.
      */
     public double getDouble() {
-        var RESULT = gtk_h.g_value_get_double(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) g_value_get_double.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_enum = Interop.downcallHandle(
+        "g_value_get_enum",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_ENUM} {@link Value}.
      */
     public int getEnum() {
-        var RESULT = gtk_h.g_value_get_enum(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_value_get_enum.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_flags = Interop.downcallHandle(
+        "g_value_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_FLAGS} {@link Value}.
      */
     public int getFlags() {
-        var RESULT = gtk_h.g_value_get_flags(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_value_get_flags.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_float = Interop.downcallHandle(
+        "g_value_get_float",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_FLOAT} {@link Value}.
      */
     public float getFloat() {
-        var RESULT = gtk_h.g_value_get_float(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) g_value_get_float.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_gtype = Interop.downcallHandle(
+        "g_value_get_gtype",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_GTYPE} {@link Value}.
      */
     public org.gtk.gobject.Type getGtype() {
-        var RESULT = gtk_h.g_value_get_gtype(handle());
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) g_value_get_gtype.invokeExact(handle());
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_int = Interop.downcallHandle(
+        "g_value_get_int",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_INT} {@link Value}.
      */
     public int getInt() {
-        var RESULT = gtk_h.g_value_get_int(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_value_get_int.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_int64 = Interop.downcallHandle(
+        "g_value_get_int64",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_INT64} {@link Value}.
      */
     public long getInt64() {
-        var RESULT = gtk_h.g_value_get_int64(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_value_get_int64.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_long = Interop.downcallHandle(
+        "g_value_get_long",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_LONG} {@link Value}.
      */
     public long getLong() {
-        var RESULT = gtk_h.g_value_get_long(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_value_get_long.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_object = Interop.downcallHandle(
+        "g_value_get_object",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_OBJECT} derived {@link Value}.
      */
     public Object getObject() {
-        var RESULT = gtk_h.g_value_get_object(handle());
-        return new Object(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_value_get_object.invokeExact(handle());
+            return new Object(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_param = Interop.downcallHandle(
+        "g_value_get_param",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_PARAM} {@link Value}.
      */
     public ParamSpec getParam() {
-        var RESULT = gtk_h.g_value_get_param(handle());
-        return new ParamSpec(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_value_get_param.invokeExact(handle());
+            return new ParamSpec(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_pointer = Interop.downcallHandle(
+        "g_value_get_pointer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a pointer {@link Value}.
      */
     public java.lang.foreign.MemoryAddress getPointer() {
-        var RESULT = gtk_h.g_value_get_pointer(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_value_get_pointer.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_schar = Interop.downcallHandle(
+        "g_value_get_schar",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_CHAR} {@link Value}.
      */
     public byte getSchar() {
-        var RESULT = gtk_h.g_value_get_schar(handle());
-        return RESULT;
+        try {
+            var RESULT = (byte) g_value_get_schar.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_string = Interop.downcallHandle(
+        "g_value_get_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_STRING} {@link Value}.
      */
     public java.lang.String getString() {
-        var RESULT = gtk_h.g_value_get_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_value_get_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_uchar = Interop.downcallHandle(
+        "g_value_get_uchar",
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_UCHAR} {@link Value}.
      */
     public byte getUchar() {
-        var RESULT = gtk_h.g_value_get_uchar(handle());
-        return RESULT;
+        try {
+            var RESULT = (byte) g_value_get_uchar.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_uint = Interop.downcallHandle(
+        "g_value_get_uint",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_UINT} {@link Value}.
      */
     public int getUint() {
-        var RESULT = gtk_h.g_value_get_uint(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_value_get_uint.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_uint64 = Interop.downcallHandle(
+        "g_value_get_uint64",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_UINT64} {@link Value}.
      */
     public long getUint64() {
-        var RESULT = gtk_h.g_value_get_uint64(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_value_get_uint64.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_ulong = Interop.downcallHandle(
+        "g_value_get_ulong",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a {@code G_TYPE_ULONG} {@link Value}.
      */
     public long getUlong() {
-        var RESULT = gtk_h.g_value_get_ulong(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_value_get_ulong.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_get_variant = Interop.downcallHandle(
+        "g_value_get_variant",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the contents of a variant {@link Value}.
      */
     public org.gtk.glib.Variant getVariant() {
-        var RESULT = gtk_h.g_value_get_variant(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_value_get_variant.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_init = Interop.downcallHandle(
+        "g_value_init",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Initializes {@code value} with the default value of {@code type}.
      */
     public Value init(org.gtk.gobject.Type gType) {
-        var RESULT = gtk_h.g_value_init(handle(), gType.getValue());
-        return new Value(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_value_init.invokeExact(handle(), gType.getValue());
+            return new Value(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_init_from_instance = Interop.downcallHandle(
+        "g_value_init_from_instance",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes and sets {@code value} from an instantiatable type via the
@@ -268,8 +520,17 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * g_value_init() and g_value_set_instance().
      */
     public void initFromInstance(TypeInstance instance) {
-        gtk_h.g_value_init_from_instance(handle(), instance.handle());
+        try {
+            g_value_init_from_instance.invokeExact(handle(), instance.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_peek_pointer = Interop.downcallHandle(
+        "g_value_peek_pointer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the value contents as pointer. This function asserts that
@@ -277,89 +538,197 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * This is an internal function introduced mainly for C marshallers.
      */
     public java.lang.foreign.MemoryAddress peekPointer() {
-        var RESULT = gtk_h.g_value_peek_pointer(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_value_peek_pointer.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_reset = Interop.downcallHandle(
+        "g_value_reset",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Clears the current value in {@code value} and resets it to the default value
      * (as if the value had just been initialized).
      */
     public Value reset() {
-        var RESULT = gtk_h.g_value_reset(handle());
-        return new Value(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_value_reset.invokeExact(handle());
+            return new Value(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_boolean = Interop.downcallHandle(
+        "g_value_set_boolean",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_BOOLEAN} {@link Value} to {@code v_boolean}.
      */
     public void setBoolean(boolean vBoolean) {
-        gtk_h.g_value_set_boolean(handle(), vBoolean ? 1 : 0);
+        try {
+            g_value_set_boolean.invokeExact(handle(), vBoolean ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_boxed = Interop.downcallHandle(
+        "g_value_set_boxed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_BOXED} derived {@link Value} to {@code v_boxed}.
      */
     public void setBoxed(java.lang.foreign.MemoryAddress vBoxed) {
-        gtk_h.g_value_set_boxed(handle(), vBoxed);
+        try {
+            g_value_set_boxed.invokeExact(handle(), vBoxed);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_double = Interop.downcallHandle(
+        "g_value_set_double",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_DOUBLE} {@link Value} to {@code v_double}.
      */
     public void setDouble(double vDouble) {
-        gtk_h.g_value_set_double(handle(), vDouble);
+        try {
+            g_value_set_double.invokeExact(handle(), vDouble);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_enum = Interop.downcallHandle(
+        "g_value_set_enum",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_ENUM} {@link Value} to {@code v_enum}.
      */
     public void setEnum(int vEnum) {
-        gtk_h.g_value_set_enum(handle(), vEnum);
+        try {
+            g_value_set_enum.invokeExact(handle(), vEnum);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_flags = Interop.downcallHandle(
+        "g_value_set_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_FLAGS} {@link Value} to {@code v_flags}.
      */
     public void setFlags(int vFlags) {
-        gtk_h.g_value_set_flags(handle(), vFlags);
+        try {
+            g_value_set_flags.invokeExact(handle(), vFlags);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_float = Interop.downcallHandle(
+        "g_value_set_float",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_FLOAT} {@link Value} to {@code v_float}.
      */
     public void setFloat(float vFloat) {
-        gtk_h.g_value_set_float(handle(), vFloat);
+        try {
+            g_value_set_float.invokeExact(handle(), vFloat);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_gtype = Interop.downcallHandle(
+        "g_value_set_gtype",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_GTYPE} {@link Value} to {@code v_gtype}.
      */
     public void setGtype(org.gtk.gobject.Type vGtype) {
-        gtk_h.g_value_set_gtype(handle(), vGtype.getValue());
+        try {
+            g_value_set_gtype.invokeExact(handle(), vGtype.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_instance = Interop.downcallHandle(
+        "g_value_set_instance",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code value} from an instantiatable type via the
      * value_table's collect_value() function.
      */
     public void setInstance(java.lang.foreign.MemoryAddress instance) {
-        gtk_h.g_value_set_instance(handle(), instance);
+        try {
+            g_value_set_instance.invokeExact(handle(), instance);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_int = Interop.downcallHandle(
+        "g_value_set_int",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_INT} {@link Value} to {@code v_int}.
      */
     public void setInt(int vInt) {
-        gtk_h.g_value_set_int(handle(), vInt);
+        try {
+            g_value_set_int.invokeExact(handle(), vInt);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_int64 = Interop.downcallHandle(
+        "g_value_set_int64",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_INT64} {@link Value} to {@code v_int64}.
      */
     public void setInt64(long vInt64) {
-        gtk_h.g_value_set_int64(handle(), vInt64);
+        try {
+            g_value_set_int64.invokeExact(handle(), vInt64);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_interned_string = Interop.downcallHandle(
+        "g_value_set_interned_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_STRING} {@link Value} to {@code v_string}.  The string is
@@ -367,15 +736,33 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * g_intern_string()), and is thus not duplicated when setting the {@link Value}.
      */
     public void setInternedString(java.lang.String vString) {
-        gtk_h.g_value_set_interned_string(handle(), Interop.allocateNativeString(vString).handle());
+        try {
+            g_value_set_interned_string.invokeExact(handle(), Interop.allocateNativeString(vString).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_long = Interop.downcallHandle(
+        "g_value_set_long",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_LONG} {@link Value} to {@code v_long}.
      */
     public void setLong(long vLong) {
-        gtk_h.g_value_set_long(handle(), vLong);
+        try {
+            g_value_set_long.invokeExact(handle(), vLong);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_object = Interop.downcallHandle(
+        "g_value_set_object",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_OBJECT} derived {@link Value} to {@code v_object}.
@@ -391,29 +778,65 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * the {@link Value} still exists).
      */
     public void setObject(Object vObject) {
-        gtk_h.g_value_set_object(handle(), vObject.handle());
+        try {
+            g_value_set_object.invokeExact(handle(), vObject.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_param = Interop.downcallHandle(
+        "g_value_set_param",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_PARAM} {@link Value} to {@code param}.
      */
     public void setParam(ParamSpec param) {
-        gtk_h.g_value_set_param(handle(), param.handle());
+        try {
+            g_value_set_param.invokeExact(handle(), param.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_pointer = Interop.downcallHandle(
+        "g_value_set_pointer",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a pointer {@link Value} to {@code v_pointer}.
      */
     public void setPointer(java.lang.foreign.MemoryAddress vPointer) {
-        gtk_h.g_value_set_pointer(handle(), vPointer);
+        try {
+            g_value_set_pointer.invokeExact(handle(), vPointer);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_schar = Interop.downcallHandle(
+        "g_value_set_schar",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_CHAR} {@link Value} to {@code v_char}.
      */
     public void setSchar(byte vChar) {
-        gtk_h.g_value_set_schar(handle(), vChar);
+        try {
+            g_value_set_schar.invokeExact(handle(), vChar);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_static_boxed = Interop.downcallHandle(
+        "g_value_set_static_boxed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_BOXED} derived {@link Value} to {@code v_boxed}.
@@ -422,8 +845,17 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * when setting the {@link Value}.
      */
     public void setStaticBoxed(java.lang.foreign.MemoryAddress vBoxed) {
-        gtk_h.g_value_set_static_boxed(handle(), vBoxed);
+        try {
+            g_value_set_static_boxed.invokeExact(handle(), vBoxed);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_static_string = Interop.downcallHandle(
+        "g_value_set_static_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_STRING} {@link Value} to {@code v_string}.
@@ -434,51 +866,114 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * is more appropriate.
      */
     public void setStaticString(java.lang.String vString) {
-        gtk_h.g_value_set_static_string(handle(), Interop.allocateNativeString(vString).handle());
+        try {
+            g_value_set_static_string.invokeExact(handle(), Interop.allocateNativeString(vString).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_string = Interop.downcallHandle(
+        "g_value_set_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_STRING} {@link Value} to a copy of {@code v_string}.
      */
     public void setString(java.lang.String vString) {
-        gtk_h.g_value_set_string(handle(), Interop.allocateNativeString(vString).handle());
+        try {
+            g_value_set_string.invokeExact(handle(), Interop.allocateNativeString(vString).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_uchar = Interop.downcallHandle(
+        "g_value_set_uchar",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_UCHAR} {@link Value} to {@code v_uchar}.
      */
     public void setUchar(byte vUchar) {
-        gtk_h.g_value_set_uchar(handle(), vUchar);
+        try {
+            g_value_set_uchar.invokeExact(handle(), vUchar);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_uint = Interop.downcallHandle(
+        "g_value_set_uint",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_UINT} {@link Value} to {@code v_uint}.
      */
     public void setUint(int vUint) {
-        gtk_h.g_value_set_uint(handle(), vUint);
+        try {
+            g_value_set_uint.invokeExact(handle(), vUint);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_uint64 = Interop.downcallHandle(
+        "g_value_set_uint64",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_UINT64} {@link Value} to {@code v_uint64}.
      */
     public void setUint64(long vUint64) {
-        gtk_h.g_value_set_uint64(handle(), vUint64);
+        try {
+            g_value_set_uint64.invokeExact(handle(), vUint64);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_ulong = Interop.downcallHandle(
+        "g_value_set_ulong",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Set the contents of a {@code G_TYPE_ULONG} {@link Value} to {@code v_ulong}.
      */
     public void setUlong(long vUlong) {
-        gtk_h.g_value_set_ulong(handle(), vUlong);
+        try {
+            g_value_set_ulong.invokeExact(handle(), vUlong);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_set_variant = Interop.downcallHandle(
+        "g_value_set_variant",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a variant {@link Value} to {@code variant}.
      * If the variant is floating, it is consumed.
      */
     public void setVariant(org.gtk.glib.Variant variant) {
-        gtk_h.g_value_set_variant(handle(), variant.handle());
+        try {
+            g_value_set_variant.invokeExact(handle(), variant.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_take_boxed = Interop.downcallHandle(
+        "g_value_take_boxed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the contents of a {@code G_TYPE_BOXED} derived {@link Value} to {@code v_boxed}
@@ -486,8 +981,17 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * the caller doesn’t have to unref it any more.
      */
     public void takeBoxed(java.lang.foreign.MemoryAddress vBoxed) {
-        gtk_h.g_value_take_boxed(handle(), vBoxed);
+        try {
+            g_value_take_boxed.invokeExact(handle(), vBoxed);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_take_object = Interop.downcallHandle(
+        "g_value_take_object",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the contents of a {@code G_TYPE_OBJECT} derived {@link Value} to {@code v_object}
@@ -499,8 +1003,17 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * g_value_set_object() instead.
      */
     public void takeObject(java.lang.foreign.MemoryAddress vObject) {
-        gtk_h.g_value_take_object(handle(), vObject);
+        try {
+            g_value_take_object.invokeExact(handle(), vObject);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_take_param = Interop.downcallHandle(
+        "g_value_take_param",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the contents of a {@code G_TYPE_PARAM} {@link Value} to {@code param} and takes
@@ -508,15 +1021,33 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * doesn’t have to unref it any more.
      */
     public void takeParam(ParamSpec param) {
-        gtk_h.g_value_take_param(handle(), param.handle());
+        try {
+            g_value_take_param.invokeExact(handle(), param.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_take_string = Interop.downcallHandle(
+        "g_value_take_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the contents of a {@code G_TYPE_STRING} {@link Value} to {@code v_string}.
      */
     public void takeString(java.lang.String vString) {
-        gtk_h.g_value_take_string(handle(), Interop.allocateNativeString(vString).handle());
+        try {
+            g_value_take_string.invokeExact(handle(), Interop.allocateNativeString(vString).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_take_variant = Interop.downcallHandle(
+        "g_value_take_variant",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the contents of a variant {@link Value} to {@code variant}, and takes over
@@ -533,8 +1064,17 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * This is an internal function introduced mainly for C marshallers.
      */
     public void takeVariant(org.gtk.glib.Variant variant) {
-        gtk_h.g_value_take_variant(handle(), variant.refcounted().unowned().handle());
+        try {
+            g_value_take_variant.invokeExact(handle(), variant.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_transform = Interop.downcallHandle(
+        "g_value_transform",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to cast the contents of {@code src_value} into a type appropriate
@@ -546,9 +1086,18 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * as rcfile value or object property serialization).
      */
     public boolean transform(Value destValue) {
-        var RESULT = gtk_h.g_value_transform(handle(), destValue.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_value_transform.invokeExact(handle(), destValue.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_unset = Interop.downcallHandle(
+        "g_value_unset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Clears the current value in {@code value} (if any) and "unsets" the type,
@@ -557,17 +1106,35 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * structure.
      */
     public void unset() {
-        gtk_h.g_value_unset(handle());
+        try {
+            g_value_unset.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_type_compatible = Interop.downcallHandle(
+        "g_value_type_compatible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Returns whether a {@link Value} of type {@code src_type} can be copied into
      * a {@link Value} of type {@code dest_type}.
      */
     public static boolean typeCompatible(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
-        var RESULT = gtk_h.g_value_type_compatible(srcType.getValue(), destType.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_value_type_compatible.invokeExact(srcType.getValue(), destType.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_value_type_transformable = Interop.downcallHandle(
+        "g_value_type_transformable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Check whether g_value_transform() is able to transform values
@@ -576,8 +1143,12 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * transformation function must be registered.
      */
     public static boolean typeTransformable(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
-        var RESULT = gtk_h.g_value_type_transformable(srcType.getValue(), destType.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_value_type_transformable.invokeExact(srcType.getValue(), destType.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

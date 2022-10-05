@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,13 +18,22 @@ public class FocusEvent extends Event {
         return new FocusEvent(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_focus_event_get_in = Interop.downcallHandle(
+        "gdk_focus_event_get_in",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Extracts whether this event is about focus entering or
      * leaving the surface.
      */
     public boolean getIn() {
-        var RESULT = gtk_h.gdk_focus_event_get_in(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_focus_event_get_in.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

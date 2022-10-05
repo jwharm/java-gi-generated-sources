@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -32,9 +31,18 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_texture_new_for_pixbuf = Interop.downcallHandle(
+        "gdk_texture_new_for_pixbuf",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_for_pixbuf.invokeExact(pixbuf.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -48,13 +56,22 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(constructNewForPixbuf(pixbuf));
     }
     
+    static final MethodHandle gdk_texture_new_from_bytes = Interop.downcallHandle(
+        "gdk_texture_new_from_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_from_bytes(bytes.handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_bytes.invokeExact(bytes.handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -73,13 +90,22 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(constructNewFromBytes(bytes));
     }
     
+    static final MethodHandle gdk_texture_new_from_file = Interop.downcallHandle(
+        "gdk_texture_new_from_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromFile(org.gtk.gio.File file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_from_file(file.handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_file.invokeExact(file.handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -98,13 +124,22 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(constructNewFromFile(file));
     }
     
+    static final MethodHandle gdk_texture_new_from_filename = Interop.downcallHandle(
+        "gdk_texture_new_from_filename",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromFilename(java.lang.String path) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_from_filename(Interop.allocateNativeString(path).handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_filename.invokeExact(Interop.allocateNativeString(path).handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -123,9 +158,18 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(constructNewFromFilename(path));
     }
     
+    static final MethodHandle gdk_texture_new_from_resource = Interop.downcallHandle(
+        "gdk_texture_new_from_resource",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromResource(java.lang.String resourcePath) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -146,6 +190,11 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
     public static Texture newFromResource(java.lang.String resourcePath) {
         return new Texture(constructNewFromResource(resourcePath));
     }
+    
+    static final MethodHandle gdk_texture_download = Interop.downcallHandle(
+        "gdk_texture_download",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Downloads the {@code texture} into local memory.
@@ -169,24 +218,51 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * }</pre>
      */
     public void download(byte[] data, long stride) {
-        gtk_h.gdk_texture_download(handle(), Interop.allocateNativeArray(data).handle(), stride);
+        try {
+            gdk_texture_download.invokeExact(handle(), Interop.allocateNativeArray(data).handle(), stride);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_texture_get_height = Interop.downcallHandle(
+        "gdk_texture_get_height",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the height of the {@code texture}, in pixels.
      */
     public int getHeight() {
-        var RESULT = gtk_h.gdk_texture_get_height(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_texture_get_height.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_texture_get_width = Interop.downcallHandle(
+        "gdk_texture_get_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the width of {@code texture}, in pixels.
      */
     public int getWidth() {
-        var RESULT = gtk_h.gdk_texture_get_width(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_texture_get_width.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_texture_save_to_png = Interop.downcallHandle(
+        "gdk_texture_save_to_png",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Store the given {@code texture} to the {@code filename} as a PNG file.
@@ -198,9 +274,18 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * gdk-pixbuf library.
      */
     public boolean saveToPng(java.lang.String filename) {
-        var RESULT = gtk_h.gdk_texture_save_to_png(handle(), Interop.allocateNativeString(filename).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_texture_save_to_png.invokeExact(handle(), Interop.allocateNativeString(filename).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_texture_save_to_png_bytes = Interop.downcallHandle(
+        "gdk_texture_save_to_png_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Store the given {@code texture} in memory as a PNG file.
@@ -219,9 +304,18 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * instead.
      */
     public org.gtk.glib.Bytes saveToPngBytes() {
-        var RESULT = gtk_h.gdk_texture_save_to_png_bytes(handle());
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_texture_save_to_png_bytes.invokeExact(handle());
+            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_texture_save_to_tiff = Interop.downcallHandle(
+        "gdk_texture_save_to_tiff",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Store the given {@code texture} to the {@code filename} as a TIFF file.
@@ -229,9 +323,18 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * GTK will attempt to store data without loss.
      */
     public boolean saveToTiff(java.lang.String filename) {
-        var RESULT = gtk_h.gdk_texture_save_to_tiff(handle(), Interop.allocateNativeString(filename).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_texture_save_to_tiff.invokeExact(handle(), Interop.allocateNativeString(filename).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_texture_save_to_tiff_bytes = Interop.downcallHandle(
+        "gdk_texture_save_to_tiff_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Store the given {@code texture} in memory as a TIFF file.
@@ -248,8 +351,12 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * use {@link Texture#saveToPngBytes}.
      */
     public org.gtk.glib.Bytes saveToTiffBytes() {
-        var RESULT = gtk_h.gdk_texture_save_to_tiff_bytes(handle());
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_texture_save_to_tiff_bytes.invokeExact(handle());
+            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class PropertyExpression extends Expression {
         return new PropertyExpression(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_property_expression_new = Interop.downcallHandle(
+        "gtk_property_expression_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gobject.Type thisType, Expression expression, java.lang.String propertyName) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_property_expression_new(thisType.getValue(), expression.refcounted().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_property_expression_new.invokeExact(thisType.getValue(), expression.refcounted().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -40,9 +48,18 @@ public class PropertyExpression extends Expression {
         super(constructNew(thisType, expression, propertyName));
     }
     
+    static final MethodHandle gtk_property_expression_new_for_pspec = Interop.downcallHandle(
+        "gtk_property_expression_new_for_pspec",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_property_expression_new_for_pspec(expression.refcounted().unowned().handle(), pspec.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_property_expression_new_for_pspec.invokeExact(expression.refcounted().unowned().handle(), pspec.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -59,22 +76,40 @@ public class PropertyExpression extends Expression {
         return new PropertyExpression(constructNewForPspec(expression, pspec));
     }
     
+    static final MethodHandle gtk_property_expression_get_expression = Interop.downcallHandle(
+        "gtk_property_expression_get_expression",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the expression specifying the object of
      * a property expression.
      */
     public Expression getExpression() {
-        var RESULT = gtk_h.gtk_property_expression_get_expression(handle());
-        return new Expression(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_property_expression_get_expression.invokeExact(handle());
+            return new Expression(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_property_expression_get_pspec = Interop.downcallHandle(
+        "gtk_property_expression_get_pspec",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GParamSpec} specifying the property of
      * a property expression.
      */
     public org.gtk.gobject.ParamSpec getPspec() {
-        var RESULT = gtk_h.gtk_property_expression_get_pspec(handle());
-        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_property_expression_get_pspec.invokeExact(handle());
+            return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class RadialGradientNode extends RenderNode {
         return new RadialGradientNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_radial_gradient_node_new = Interop.downcallHandle(
+        "gsk_radial_gradient_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_radial_gradient_node_new(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_radial_gradient_node_new.invokeExact(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -35,60 +43,123 @@ public class RadialGradientNode extends RenderNode {
         super(constructNew(bounds, center, hradius, vradius, start, end, colorStops, nColorStops));
     }
     
+    static final MethodHandle gsk_radial_gradient_node_get_center = Interop.downcallHandle(
+        "gsk_radial_gradient_node_get_center",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the center pointer for the gradient.
      */
     public org.gtk.graphene.Point getCenter() {
-        var RESULT = gtk_h.gsk_radial_gradient_node_get_center(handle());
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_radial_gradient_node_get_center.invokeExact(handle());
+            return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_radial_gradient_node_get_color_stops = Interop.downcallHandle(
+        "gsk_radial_gradient_node_get_color_stops",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the color stops in the gradient.
      */
     public PointerIterator<ColorStop> getColorStops(PointerLong nStops) {
-        var RESULT = gtk_h.gsk_radial_gradient_node_get_color_stops(handle(), nStops.handle());
-        return new PointerProxy<ColorStop>(RESULT, ColorStop.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) gsk_radial_gradient_node_get_color_stops.invokeExact(handle(), nStops.handle());
+            return new PointerProxy<ColorStop>(RESULT, ColorStop.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_radial_gradient_node_get_end = Interop.downcallHandle(
+        "gsk_radial_gradient_node_get_end",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the end value for the gradient.
      */
     public float getEnd() {
-        var RESULT = gtk_h.gsk_radial_gradient_node_get_end(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_radial_gradient_node_get_end.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_radial_gradient_node_get_hradius = Interop.downcallHandle(
+        "gsk_radial_gradient_node_get_hradius",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the horizonal radius for the gradient.
      */
     public float getHradius() {
-        var RESULT = gtk_h.gsk_radial_gradient_node_get_hradius(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_radial_gradient_node_get_hradius.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_radial_gradient_node_get_n_color_stops = Interop.downcallHandle(
+        "gsk_radial_gradient_node_get_n_color_stops",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of color stops in the gradient.
      */
     public long getNColorStops() {
-        var RESULT = gtk_h.gsk_radial_gradient_node_get_n_color_stops(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gsk_radial_gradient_node_get_n_color_stops.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_radial_gradient_node_get_start = Interop.downcallHandle(
+        "gsk_radial_gradient_node_get_start",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the start value for the gradient.
      */
     public float getStart() {
-        var RESULT = gtk_h.gsk_radial_gradient_node_get_start(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_radial_gradient_node_get_start.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_radial_gradient_node_get_vradius = Interop.downcallHandle(
+        "gsk_radial_gradient_node_get_vradius",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the vertical radius for the gradient.
      */
     public float getVradius() {
-        var RESULT = gtk_h.gsk_radial_gradient_node_get_vradius(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_radial_gradient_node_get_vradius.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

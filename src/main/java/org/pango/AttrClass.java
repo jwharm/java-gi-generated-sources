@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,10 +15,6 @@ public class AttrClass extends io.github.jwharm.javagi.ResourceBase {
 
     public AttrClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public AttrClass() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrClass.allocate(Interop.getAllocator()).address()));
     }
     
 }

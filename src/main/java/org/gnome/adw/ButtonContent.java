@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -64,9 +63,18 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         return new ButtonContent(gobject.refcounted());
     }
     
+    static final MethodHandle adw_button_content_new = Interop.downcallHandle(
+        "adw_button_content_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_button_content_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_button_content_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -76,49 +84,103 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         super(constructNew());
     }
     
+    static final MethodHandle adw_button_content_get_icon_name = Interop.downcallHandle(
+        "adw_button_content_get_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the name of the displayed icon.
      */
     public java.lang.String getIconName() {
-        var RESULT = gtk_h.adw_button_content_get_icon_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_button_content_get_icon_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_button_content_get_label = Interop.downcallHandle(
+        "adw_button_content_get_label",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the displayed label.
      */
     public java.lang.String getLabel() {
-        var RESULT = gtk_h.adw_button_content_get_label(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_button_content_get_label.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_button_content_get_use_underline = Interop.downcallHandle(
+        "adw_button_content_get_use_underline",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether an underline in the text indicates a mnemonic.
      */
     public boolean getUseUnderline() {
-        var RESULT = gtk_h.adw_button_content_get_use_underline(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_button_content_get_use_underline.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_button_content_set_icon_name = Interop.downcallHandle(
+        "adw_button_content_set_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name of the displayed icon.
      */
     public void setIconName(java.lang.String iconName) {
-        gtk_h.adw_button_content_set_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
+        try {
+            adw_button_content_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_button_content_set_label = Interop.downcallHandle(
+        "adw_button_content_set_label",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the displayed label.
      */
     public void setLabel(java.lang.String label) {
-        gtk_h.adw_button_content_set_label(handle(), Interop.allocateNativeString(label).handle());
+        try {
+            adw_button_content_set_label.invokeExact(handle(), Interop.allocateNativeString(label).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_button_content_set_use_underline = Interop.downcallHandle(
+        "adw_button_content_set_use_underline",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether an underline in the text indicates a mnemonic.
      */
     public void setUseUnderline(boolean useUnderline) {
-        gtk_h.adw_button_content_set_use_underline(handle(), useUnderline ? 1 : 0);
+        try {
+            adw_button_content_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

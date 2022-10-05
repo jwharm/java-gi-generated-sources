@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,12 +18,26 @@ public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Builda
         return new MultiFilter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_multi_filter_append = Interop.downcallHandle(
+        "gtk_multi_filter_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a {@code filter} to {@code self} to use for matching.
      */
     public void append(Filter filter) {
-        gtk_h.gtk_multi_filter_append(handle(), filter.refcounted().unowned().handle());
+        try {
+            gtk_multi_filter_append.invokeExact(handle(), filter.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_multi_filter_remove = Interop.downcallHandle(
+        "gtk_multi_filter_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the filter at the given {@code position} from the list of filters used
@@ -34,7 +47,11 @@ public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Builda
      * the function returns.
      */
     public void remove(int position) {
-        gtk_h.gtk_multi_filter_remove(handle(), position);
+        try {
+            gtk_multi_filter_remove.invokeExact(handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

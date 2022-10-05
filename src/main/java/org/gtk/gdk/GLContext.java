@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -67,13 +66,27 @@ public class GLContext extends DrawContext {
         return new GLContext(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_gl_context_get_allowed_apis = Interop.downcallHandle(
+        "gdk_gl_context_get_allowed_apis",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the allowed APIs set via gdk_gl_context_set_allowed_apis().
      */
     public GLAPI getAllowedApis() {
-        var RESULT = gtk_h.gdk_gl_context_get_allowed_apis(handle());
-        return new GLAPI(RESULT);
+        try {
+            var RESULT = (int) gdk_gl_context_get_allowed_apis.invokeExact(handle());
+            return new GLAPI(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_api = Interop.downcallHandle(
+        "gdk_gl_context_get_api",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the API currently in use.
@@ -81,9 +94,18 @@ public class GLContext extends DrawContext {
      * If the renderer has not been realized yet, 0 is returned.
      */
     public GLAPI getApi() {
-        var RESULT = gtk_h.gdk_gl_context_get_api(handle());
-        return new GLAPI(RESULT);
+        try {
+            var RESULT = (int) gdk_gl_context_get_api.invokeExact(handle());
+            return new GLAPI(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_debug_enabled = Interop.downcallHandle(
+        "gdk_gl_context_get_debug_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves whether the context is doing extra validations and runtime checking.
@@ -91,17 +113,35 @@ public class GLContext extends DrawContext {
      * See {@link GLContext#setDebugEnabled}.
      */
     public boolean getDebugEnabled() {
-        var RESULT = gtk_h.gdk_gl_context_get_debug_enabled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_gl_context_get_debug_enabled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_display = Interop.downcallHandle(
+        "gdk_gl_context_get_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the display the {@code context} is created for
      */
     public Display getDisplay() {
-        var RESULT = gtk_h.gdk_gl_context_get_display(handle());
-        return new Display(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_gl_context_get_display.invokeExact(handle());
+            return new Display(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_forward_compatible = Interop.downcallHandle(
+        "gdk_gl_context_get_forward_compatible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves whether the context is forward-compatible.
@@ -109,9 +149,18 @@ public class GLContext extends DrawContext {
      * See {@link GLContext#setForwardCompatible}.
      */
     public boolean getForwardCompatible() {
-        var RESULT = gtk_h.gdk_gl_context_get_forward_compatible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_gl_context_get_forward_compatible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_required_version = Interop.downcallHandle(
+        "gdk_gl_context_get_required_version",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves required OpenGL version.
@@ -119,24 +168,51 @@ public class GLContext extends DrawContext {
      * See {@link GLContext#setRequiredVersion}.
      */
     public void getRequiredVersion(PointerInteger major, PointerInteger minor) {
-        gtk_h.gdk_gl_context_get_required_version(handle(), major.handle(), minor.handle());
+        try {
+            gdk_gl_context_get_required_version.invokeExact(handle(), major.handle(), minor.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_surface = Interop.downcallHandle(
+        "gdk_gl_context_get_surface",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the surface used by the {@code context}.
      */
     public Surface getSurface() {
-        var RESULT = gtk_h.gdk_gl_context_get_surface(handle());
-        return new Surface(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_gl_context_get_surface.invokeExact(handle());
+            return new Surface(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_use_es = Interop.downcallHandle(
+        "gdk_gl_context_get_use_es",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the {@code context} is using an OpenGL or OpenGL ES profile.
      */
     public boolean getUseEs() {
-        var RESULT = gtk_h.gdk_gl_context_get_use_es(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_gl_context_get_use_es.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_version = Interop.downcallHandle(
+        "gdk_gl_context_get_version",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the OpenGL version of the {@code context}.
@@ -144,8 +220,17 @@ public class GLContext extends DrawContext {
      * The {@code context} must be realized prior to calling this function.
      */
     public void getVersion(PointerInteger major, PointerInteger minor) {
-        gtk_h.gdk_gl_context_get_version(handle(), major.handle(), minor.handle());
+        try {
+            gdk_gl_context_get_version.invokeExact(handle(), major.handle(), minor.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_is_legacy = Interop.downcallHandle(
+        "gdk_gl_context_is_legacy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Whether the {@code GdkGLContext} is in legacy mode or not.
@@ -166,9 +251,18 @@ public class GLContext extends DrawContext {
      * kind of shader programs to load.
      */
     public boolean isLegacy() {
-        var RESULT = gtk_h.gdk_gl_context_is_legacy(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_gl_context_is_legacy.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_is_shared = Interop.downcallHandle(
+        "gdk_gl_context_is_shared",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the two GL contexts can share resources.
@@ -185,16 +279,34 @@ public class GLContext extends DrawContext {
      * is not, this function will return {@code false}.
      */
     public boolean isShared(GLContext other) {
-        var RESULT = gtk_h.gdk_gl_context_is_shared(handle(), other.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_gl_context_is_shared.invokeExact(handle(), other.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_make_current = Interop.downcallHandle(
+        "gdk_gl_context_make_current",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes the {@code context} the current one.
      */
     public void makeCurrent() {
-        gtk_h.gdk_gl_context_make_current(handle());
+        try {
+            gdk_gl_context_make_current.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_realize = Interop.downcallHandle(
+        "gdk_gl_context_realize",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Realizes the given {@code GdkGLContext}.
@@ -203,12 +315,21 @@ public class GLContext extends DrawContext {
      */
     public boolean realize() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gdk_gl_context_realize(handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) gdk_gl_context_realize.invokeExact(handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle gdk_gl_context_set_allowed_apis = Interop.downcallHandle(
+        "gdk_gl_context_set_allowed_apis",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the allowed APIs. When gdk_gl_context_realize() is called, only the
@@ -220,8 +341,17 @@ public class GLContext extends DrawContext {
      * By default, all APIs are allowed.
      */
     public void setAllowedApis(GLAPI apis) {
-        gtk_h.gdk_gl_context_set_allowed_apis(handle(), apis.getValue());
+        try {
+            gdk_gl_context_set_allowed_apis.invokeExact(handle(), apis.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_set_debug_enabled = Interop.downcallHandle(
+        "gdk_gl_context_set_debug_enabled",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GdkGLContext} should perform extra validations and
@@ -233,8 +363,17 @@ public class GLContext extends DrawContext {
      * calling this function.
      */
     public void setDebugEnabled(boolean enabled) {
-        gtk_h.gdk_gl_context_set_debug_enabled(handle(), enabled ? 1 : 0);
+        try {
+            gdk_gl_context_set_debug_enabled.invokeExact(handle(), enabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_set_forward_compatible = Interop.downcallHandle(
+        "gdk_gl_context_set_forward_compatible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GdkGLContext} should be forward-compatible.
@@ -248,8 +387,17 @@ public class GLContext extends DrawContext {
      * this function.
      */
     public void setForwardCompatible(boolean compatible) {
-        gtk_h.gdk_gl_context_set_forward_compatible(handle(), compatible ? 1 : 0);
+        try {
+            gdk_gl_context_set_forward_compatible.invokeExact(handle(), compatible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_set_required_version = Interop.downcallHandle(
+        "gdk_gl_context_set_required_version",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the major and minor version of OpenGL to request.
@@ -260,8 +408,17 @@ public class GLContext extends DrawContext {
      * this function.
      */
     public void setRequiredVersion(int major, int minor) {
-        gtk_h.gdk_gl_context_set_required_version(handle(), major, minor);
+        try {
+            gdk_gl_context_set_required_version.invokeExact(handle(), major, minor);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_set_use_es = Interop.downcallHandle(
+        "gdk_gl_context_set_use_es",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Requests that GDK create an OpenGL ES context instead of an OpenGL one.
@@ -279,8 +436,17 @@ public class GLContext extends DrawContext {
      * the OpenGL or OpenGL ES API, extensions, or shaders.
      */
     public void setUseEs(int useEs) {
-        gtk_h.gdk_gl_context_set_use_es(handle(), useEs);
+        try {
+            gdk_gl_context_set_use_es.invokeExact(handle(), useEs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_clear_current = Interop.downcallHandle(
+        "gdk_gl_context_clear_current",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Clears the current {@code GdkGLContext}.
@@ -289,15 +455,28 @@ public class GLContext extends DrawContext {
      * until {@link GLContext#makeCurrent} is called.
      */
     public static void clearCurrent() {
-        gtk_h.gdk_gl_context_clear_current();
+        try {
+            gdk_gl_context_clear_current.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_gl_context_get_current = Interop.downcallHandle(
+        "gdk_gl_context_get_current",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the current {@code GdkGLContext}.
      */
     public static GLContext getCurrent() {
-        var RESULT = gtk_h.gdk_gl_context_get_current();
-        return new GLContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_gl_context_get_current.invokeExact();
+            return new GLContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

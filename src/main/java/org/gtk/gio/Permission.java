@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -33,6 +32,11 @@ public class Permission extends org.gtk.gobject.Object {
         return new Permission(gobject.refcounted());
     }
     
+    static final MethodHandle g_permission_acquire = Interop.downcallHandle(
+        "g_permission_acquire",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Attempts to acquire the permission represented by {@code permission}.
      * <p>
@@ -52,12 +56,21 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public boolean acquire(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_permission_acquire(handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_permission_acquire.invokeExact(handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_permission_acquire_async = Interop.downcallHandle(
+        "g_permission_acquire_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Attempts to acquire the permission represented by {@code permission}.
@@ -67,17 +80,22 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public void acquireAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_permission_acquire_async(handle(), cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_permission_acquire_async.invokeExact(handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_permission_acquire_finish = Interop.downcallHandle(
+        "g_permission_acquire_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Collects the result of attempting to acquire the permission
@@ -88,12 +106,21 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public boolean acquireFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_permission_acquire_finish(handle(), result.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_permission_acquire_finish.invokeExact(handle(), result.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_permission_get_allowed = Interop.downcallHandle(
+        "g_permission_get_allowed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value of the 'allowed' property.  This property is {@code true} if
@@ -101,9 +128,18 @@ public class Permission extends org.gtk.gobject.Object {
      * {@code permission} represents the permission to perform.
      */
     public boolean getAllowed() {
-        var RESULT = gtk_h.g_permission_get_allowed(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_permission_get_allowed.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_permission_get_can_acquire = Interop.downcallHandle(
+        "g_permission_get_can_acquire",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value of the 'can-acquire' property.  This property is {@code true}
@@ -111,9 +147,18 @@ public class Permission extends org.gtk.gobject.Object {
      * g_permission_acquire().
      */
     public boolean getCanAcquire() {
-        var RESULT = gtk_h.g_permission_get_can_acquire(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_permission_get_can_acquire.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_permission_get_can_release = Interop.downcallHandle(
+        "g_permission_get_can_release",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value of the 'can-release' property.  This property is {@code true}
@@ -121,9 +166,18 @@ public class Permission extends org.gtk.gobject.Object {
      * g_permission_release().
      */
     public boolean getCanRelease() {
-        var RESULT = gtk_h.g_permission_get_can_release(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_permission_get_can_release.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_permission_impl_update = Interop.downcallHandle(
+        "g_permission_impl_update",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function is called by the {@link Permission} implementation to update
@@ -133,8 +187,17 @@ public class Permission extends org.gtk.gobject.Object {
      * GObject notify signals are generated, as appropriate.
      */
     public void implUpdate(boolean allowed, boolean canAcquire, boolean canRelease) {
-        gtk_h.g_permission_impl_update(handle(), allowed ? 1 : 0, canAcquire ? 1 : 0, canRelease ? 1 : 0);
+        try {
+            g_permission_impl_update.invokeExact(handle(), allowed ? 1 : 0, canAcquire ? 1 : 0, canRelease ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_permission_release = Interop.downcallHandle(
+        "g_permission_release",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Attempts to release the permission represented by {@code permission}.
@@ -155,12 +218,21 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public boolean release(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_permission_release(handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_permission_release.invokeExact(handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_permission_release_async = Interop.downcallHandle(
+        "g_permission_release_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Attempts to release the permission represented by {@code permission}.
@@ -170,17 +242,22 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public void releaseAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_permission_release_async(handle(), cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_permission_release_async.invokeExact(handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_permission_release_finish = Interop.downcallHandle(
+        "g_permission_release_finish",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Collects the result of attempting to release the permission
@@ -191,11 +268,15 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public boolean releaseFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_permission_release_finish(handle(), result.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_permission_release_finish.invokeExact(handle(), result.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
 }

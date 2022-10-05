@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,9 +20,18 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
         return new EnumListModel(gobject.refcounted());
     }
     
+    static final MethodHandle adw_enum_list_model_new = Interop.downcallHandle(
+        "adw_enum_list_model_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNew(org.gtk.gobject.Type enumType) {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_enum_list_model_new(enumType.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_enum_list_model_new.invokeExact(enumType.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,20 +41,38 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
         super(constructNew(enumType));
     }
     
+    static final MethodHandle adw_enum_list_model_find_position = Interop.downcallHandle(
+        "adw_enum_list_model_find_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Finds the position of a given enum value in {@code self}.
      */
     public int findPosition(int value) {
-        var RESULT = gtk_h.adw_enum_list_model_find_position(handle(), value);
-        return RESULT;
+        try {
+            var RESULT = (int) adw_enum_list_model_find_position.invokeExact(handle(), value);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_enum_list_model_get_enum_type = Interop.downcallHandle(
+        "adw_enum_list_model_get_enum_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the type of the enum represented by {@code self}.
      */
     public org.gtk.gobject.Type getEnumType() {
-        var RESULT = gtk_h.adw_enum_list_model_get_enum_type(handle());
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) adw_enum_list_model_get_enum_type.invokeExact(handle());
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

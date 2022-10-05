@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,18 @@ public class SignalAction extends ShortcutAction {
         return new SignalAction(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_signal_action_new = Interop.downcallHandle(
+        "gtk_signal_action_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String signalName) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_signal_action_new.invokeExact(Interop.allocateNativeString(signalName).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -37,12 +45,21 @@ public class SignalAction extends ShortcutAction {
         super(constructNew(signalName));
     }
     
+    static final MethodHandle gtk_signal_action_get_signal_name = Interop.downcallHandle(
+        "gtk_signal_action_get_signal_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the name of the signal that will be emitted.
      */
     public java.lang.String getSignalName() {
-        var RESULT = gtk_h.gtk_signal_action_get_signal_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_signal_action_get_signal_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

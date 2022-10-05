@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,28 +18,60 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle pango_layout_iter_at_last_line = Interop.downcallHandle(
+        "pango_layout_iter_at_last_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Determines whether {@code iter} is on the last line of the layout.
      */
     public boolean atLastLine() {
-        var RESULT = gtk_h.pango_layout_iter_at_last_line(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_layout_iter_at_last_line.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_copy = Interop.downcallHandle(
+        "pango_layout_iter_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Copies a {@code PangoLayoutIter}.
      */
     public LayoutIter copy() {
-        var RESULT = gtk_h.pango_layout_iter_copy(handle());
-        return new LayoutIter(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_layout_iter_copy.invokeExact(handle());
+            return new LayoutIter(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_free = Interop.downcallHandle(
+        "pango_layout_iter_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees an iterator that's no longer in use.
      */
     public void free() {
-        gtk_h.pango_layout_iter_free(handle());
+        try {
+            pango_layout_iter_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_baseline = Interop.downcallHandle(
+        "pango_layout_iter_get_baseline",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the Y position of the current line's baseline, in layout
@@ -49,9 +80,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * Layout coordinates have the origin at the top left of the entire layout.
      */
     public int getBaseline() {
-        var RESULT = gtk_h.pango_layout_iter_get_baseline(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_layout_iter_get_baseline.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_char_extents = Interop.downcallHandle(
+        "pango_layout_iter_get_char_extents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the extents of the current character, in layout coordinates.
@@ -62,8 +102,17 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * ink extents make sense only down to the level of clusters.
      */
     public void getCharExtents(Rectangle logicalRect) {
-        gtk_h.pango_layout_iter_get_char_extents(handle(), logicalRect.handle());
+        try {
+            pango_layout_iter_get_char_extents.invokeExact(handle(), logicalRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_cluster_extents = Interop.downcallHandle(
+        "pango_layout_iter_get_cluster_extents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the extents of the current cluster, in layout coordinates.
@@ -71,8 +120,17 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * Layout coordinates have the origin at the top left of the entire layout.
      */
     public void getClusterExtents(Rectangle inkRect, Rectangle logicalRect) {
-        gtk_h.pango_layout_iter_get_cluster_extents(handle(), inkRect.handle(), logicalRect.handle());
+        try {
+            pango_layout_iter_get_cluster_extents.invokeExact(handle(), inkRect.handle(), logicalRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_index = Interop.downcallHandle(
+        "pango_layout_iter_get_index",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current byte index.
@@ -83,24 +141,51 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * layout, if on the {@code null} run (see {@link LayoutIter#getRun}).
      */
     public int getIndex() {
-        var RESULT = gtk_h.pango_layout_iter_get_index(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_layout_iter_get_index.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_layout = Interop.downcallHandle(
+        "pango_layout_iter_get_layout",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the layout associated with a {@code PangoLayoutIter}.
      */
     public Layout getLayout() {
-        var RESULT = gtk_h.pango_layout_iter_get_layout(handle());
-        return new Layout(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_layout_iter_get_layout.invokeExact(handle());
+            return new Layout(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_layout_extents = Interop.downcallHandle(
+        "pango_layout_iter_get_layout_extents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the extents of the {@code PangoLayout} being iterated over.
      */
     public void getLayoutExtents(Rectangle inkRect, Rectangle logicalRect) {
-        gtk_h.pango_layout_iter_get_layout_extents(handle(), inkRect.handle(), logicalRect.handle());
+        try {
+            pango_layout_iter_get_layout_extents.invokeExact(handle(), inkRect.handle(), logicalRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_line = Interop.downcallHandle(
+        "pango_layout_iter_get_line",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current line.
@@ -110,9 +195,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * glyph widths, etc.).
      */
     public LayoutLine getLine() {
-        var RESULT = gtk_h.pango_layout_iter_get_line(handle());
-        return new LayoutLine(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_layout_iter_get_line.invokeExact(handle());
+            return new LayoutLine(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_line_extents = Interop.downcallHandle(
+        "pango_layout_iter_get_line_extents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the extents of the current line.
@@ -123,8 +217,17 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * as the extents returned from {@link LayoutLine#getExtents}.
      */
     public void getLineExtents(Rectangle inkRect, Rectangle logicalRect) {
-        gtk_h.pango_layout_iter_get_line_extents(handle(), inkRect.handle(), logicalRect.handle());
+        try {
+            pango_layout_iter_get_line_extents.invokeExact(handle(), inkRect.handle(), logicalRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_line_readonly = Interop.downcallHandle(
+        "pango_layout_iter_get_line_readonly",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current line for read-only access.
@@ -134,9 +237,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * (glyphs, glyph widths, etc.).
      */
     public LayoutLine getLineReadonly() {
-        var RESULT = gtk_h.pango_layout_iter_get_line_readonly(handle());
-        return new LayoutLine(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_layout_iter_get_line_readonly.invokeExact(handle());
+            return new LayoutLine(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_line_yrange = Interop.downcallHandle(
+        "pango_layout_iter_get_line_yrange",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Divides the vertical space in the {@code PangoLayout} being iterated over
@@ -152,8 +264,17 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * may be gaps between the ranges returned by this function.
      */
     public void getLineYrange(PointerInteger y0, PointerInteger y1) {
-        gtk_h.pango_layout_iter_get_line_yrange(handle(), y0.handle(), y1.handle());
+        try {
+            pango_layout_iter_get_line_yrange.invokeExact(handle(), y0.handle(), y1.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_run = Interop.downcallHandle(
+        "pango_layout_iter_get_run",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current run.
@@ -167,9 +288,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * plan to modify the contents of the run (glyphs, glyph widths, etc.).
      */
     public LayoutRun getRun() {
-        var RESULT = gtk_h.pango_layout_iter_get_run(handle());
-        return new LayoutRun(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_layout_iter_get_run.invokeExact(handle());
+            return new LayoutRun(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_run_baseline = Interop.downcallHandle(
+        "pango_layout_iter_get_run_baseline",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the Y position of the current run's baseline, in layout
@@ -181,9 +311,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * example due to superscript or subscript positioning.
      */
     public int getRunBaseline() {
-        var RESULT = gtk_h.pango_layout_iter_get_run_baseline(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_layout_iter_get_run_baseline.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_run_extents = Interop.downcallHandle(
+        "pango_layout_iter_get_run_extents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the extents of the current run in layout coordinates.
@@ -191,8 +330,17 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * Layout coordinates have the origin at the top left of the entire layout.
      */
     public void getRunExtents(Rectangle inkRect, Rectangle logicalRect) {
-        gtk_h.pango_layout_iter_get_run_extents(handle(), inkRect.handle(), logicalRect.handle());
+        try {
+            pango_layout_iter_get_run_extents.invokeExact(handle(), inkRect.handle(), logicalRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_get_run_readonly = Interop.downcallHandle(
+        "pango_layout_iter_get_run_readonly",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current run for read-only access.
@@ -207,9 +355,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * glyph widths, etc.).
      */
     public LayoutRun getRunReadonly() {
-        var RESULT = gtk_h.pango_layout_iter_get_run_readonly(handle());
-        return new LayoutRun(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_layout_iter_get_run_readonly.invokeExact(handle());
+            return new LayoutRun(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_next_char = Interop.downcallHandle(
+        "pango_layout_iter_next_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward to the next character in visual order.
@@ -217,9 +374,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * If {@code iter} was already at the end of the layout, returns {@code false}.
      */
     public boolean nextChar() {
-        var RESULT = gtk_h.pango_layout_iter_next_char(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_layout_iter_next_char.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_next_cluster = Interop.downcallHandle(
+        "pango_layout_iter_next_cluster",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward to the next cluster in visual order.
@@ -227,9 +393,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * If {@code iter} was already at the end of the layout, returns {@code false}.
      */
     public boolean nextCluster() {
-        var RESULT = gtk_h.pango_layout_iter_next_cluster(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_layout_iter_next_cluster.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_next_line = Interop.downcallHandle(
+        "pango_layout_iter_next_line",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward to the start of the next line.
@@ -237,9 +412,18 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * If {@code iter} is already on the last line, returns {@code false}.
      */
     public boolean nextLine() {
-        var RESULT = gtk_h.pango_layout_iter_next_line(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_layout_iter_next_line.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_layout_iter_next_run = Interop.downcallHandle(
+        "pango_layout_iter_next_run",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} forward to the next run in visual order.
@@ -247,8 +431,12 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * If {@code iter} was already at the end of the layout, returns {@code false}.
      */
     public boolean nextRun() {
-        var RESULT = gtk_h.pango_layout_iter_next_run(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_layout_iter_next_run.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -54,14 +53,28 @@ import java.lang.invoke.*;
  */
 public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_action_group_action_added = Interop.downcallHandle(
+        "g_action_group_action_added",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Emits the {@link ActionGroup}::action-added signal on {@code action_group}.
      * <p>
      * This function should only be called by {@link ActionGroup} implementations.
      */
     public default void actionAdded(java.lang.String actionName) {
-        gtk_h.g_action_group_action_added(handle(), Interop.allocateNativeString(actionName).handle());
+        try {
+            g_action_group_action_added.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_action_enabled_changed = Interop.downcallHandle(
+        "g_action_group_action_enabled_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Emits the {@link ActionGroup}::action-enabled-changed signal on {@code action_group}.
@@ -69,8 +82,17 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * This function should only be called by {@link ActionGroup} implementations.
      */
     public default void actionEnabledChanged(java.lang.String actionName, boolean enabled) {
-        gtk_h.g_action_group_action_enabled_changed(handle(), Interop.allocateNativeString(actionName).handle(), enabled ? 1 : 0);
+        try {
+            g_action_group_action_enabled_changed.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), enabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_action_removed = Interop.downcallHandle(
+        "g_action_group_action_removed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Emits the {@link ActionGroup}::action-removed signal on {@code action_group}.
@@ -78,8 +100,17 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * This function should only be called by {@link ActionGroup} implementations.
      */
     public default void actionRemoved(java.lang.String actionName) {
-        gtk_h.g_action_group_action_removed(handle(), Interop.allocateNativeString(actionName).handle());
+        try {
+            g_action_group_action_removed.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_action_state_changed = Interop.downcallHandle(
+        "g_action_group_action_state_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Emits the {@link ActionGroup}::action-state-changed signal on {@code action_group}.
@@ -87,8 +118,17 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * This function should only be called by {@link ActionGroup} implementations.
      */
     public default void actionStateChanged(java.lang.String actionName, org.gtk.glib.Variant state) {
-        gtk_h.g_action_group_action_state_changed(handle(), Interop.allocateNativeString(actionName).handle(), state.handle());
+        try {
+            g_action_group_action_state_changed.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), state.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_activate_action = Interop.downcallHandle(
+        "g_action_group_activate_action",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Activate the named action within {@code action_group}.
@@ -126,8 +166,17 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * }</pre>
      */
     public default void activateAction(java.lang.String actionName, org.gtk.glib.Variant parameter) {
-        gtk_h.g_action_group_activate_action(handle(), Interop.allocateNativeString(actionName).handle(), parameter.handle());
+        try {
+            g_action_group_activate_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), parameter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_change_action_state = Interop.downcallHandle(
+        "g_action_group_change_action_state",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Request for the state of the named action within {@code action_group} to be
@@ -143,8 +192,17 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * If the {@code value} GVariant is floating, it is consumed.
      */
     public default void changeActionState(java.lang.String actionName, org.gtk.glib.Variant value) {
-        gtk_h.g_action_group_change_action_state(handle(), Interop.allocateNativeString(actionName).handle(), value.handle());
+        try {
+            g_action_group_change_action_state.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_get_action_enabled = Interop.downcallHandle(
+        "g_action_group_get_action_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the named action within {@code action_group} is currently enabled.
@@ -153,9 +211,18 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * have its state changed from outside callers.
      */
     public default boolean getActionEnabled(java.lang.String actionName) {
-        var RESULT = gtk_h.g_action_group_get_action_enabled(handle(), Interop.allocateNativeString(actionName).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_action_group_get_action_enabled.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_get_action_parameter_type = Interop.downcallHandle(
+        "g_action_group_get_action_parameter_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the type of the parameter that must be given when activating
@@ -173,9 +240,18 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * with the same name but a different parameter type.
      */
     public default org.gtk.glib.VariantType getActionParameterType(java.lang.String actionName) {
-        var RESULT = gtk_h.g_action_group_get_action_parameter_type(handle(), Interop.allocateNativeString(actionName).handle());
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_action_group_get_action_parameter_type.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_get_action_state = Interop.downcallHandle(
+        "g_action_group_get_action_state",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the current state of the named action within {@code action_group}.
@@ -188,9 +264,18 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getActionState(java.lang.String actionName) {
-        var RESULT = gtk_h.g_action_group_get_action_state(handle(), Interop.allocateNativeString(actionName).handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_action_group_get_action_state.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_get_action_state_hint = Interop.downcallHandle(
+        "g_action_group_get_action_state_hint",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Requests a hint about the valid range of values for the state of the
@@ -213,9 +298,18 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getActionStateHint(java.lang.String actionName) {
-        var RESULT = gtk_h.g_action_group_get_action_state_hint(handle(), Interop.allocateNativeString(actionName).handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_action_group_get_action_state_hint.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_get_action_state_type = Interop.downcallHandle(
+        "g_action_group_get_action_state_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the type of the state of the named action within
@@ -236,17 +330,35 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * with the same name but a different state type.
      */
     public default org.gtk.glib.VariantType getActionStateType(java.lang.String actionName) {
-        var RESULT = gtk_h.g_action_group_get_action_state_type(handle(), Interop.allocateNativeString(actionName).handle());
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_action_group_get_action_state_type.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_has_action = Interop.downcallHandle(
+        "g_action_group_has_action",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the named action exists within {@code action_group}.
      */
     public default boolean hasAction(java.lang.String actionName) {
-        var RESULT = gtk_h.g_action_group_has_action(handle(), Interop.allocateNativeString(actionName).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_action_group_has_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_list_actions = Interop.downcallHandle(
+        "g_action_group_list_actions",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Lists the actions contained within {@code action_group}.
@@ -255,9 +367,18 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * it is no longer required.
      */
     public default PointerIterator<java.lang.String> listActions() {
-        var RESULT = gtk_h.g_action_group_list_actions(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_action_group_list_actions.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_group_query_action = Interop.downcallHandle(
+        "g_action_group_query_action",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries all aspects of the named action within an {@code action_group}.
@@ -289,8 +410,12 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * fields may or may not have been modified.
      */
     public default boolean queryAction(java.lang.String actionName, PointerBoolean enabled, org.gtk.glib.VariantType[] parameterType, org.gtk.glib.VariantType[] stateType, org.gtk.glib.Variant[] stateHint, org.gtk.glib.Variant[] state) {
-        var RESULT = gtk_h.g_action_group_query_action(handle(), Interop.allocateNativeString(actionName).handle(), enabled.handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(stateType).handle(), Interop.allocateNativeArray(stateHint).handle(), Interop.allocateNativeArray(state).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_action_group_query_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), enabled.handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(stateType).handle(), Interop.allocateNativeArray(stateHint).handle(), Interop.allocateNativeArray(state).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -305,19 +430,19 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onActionAdded(ActionAddedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("action-added").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ActionGroup.Callbacks.class, "signalActionGroupActionAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -331,19 +456,19 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onActionEnabledChanged(ActionEnabledChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("action-enabled-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ActionGroup.Callbacks.class, "signalActionGroupActionEnabledChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -359,19 +484,19 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onActionRemoved(ActionRemovedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("action-removed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ActionGroup.Callbacks.class, "signalActionGroupActionRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -385,19 +510,19 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onActionStateChanged(ActionStateChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("action-state-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ActionGroup.Callbacks.class, "signalActionGroupActionStateChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

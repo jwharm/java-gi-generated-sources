@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,18 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_pattern_spec_new = Interop.downcallHandle(
+        "g_pattern_spec_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String pattern) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_pattern_spec_new.invokeExact(Interop.allocateNativeString(pattern).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -27,29 +35,61 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(pattern));
     }
     
+    static final MethodHandle g_pattern_spec_copy = Interop.downcallHandle(
+        "g_pattern_spec_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Copies {@code pspec} in a new {@link PatternSpec}.
      */
     public PatternSpec copy() {
-        var RESULT = gtk_h.g_pattern_spec_copy(handle());
-        return new PatternSpec(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_pattern_spec_copy.invokeExact(handle());
+            return new PatternSpec(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_pattern_spec_equal = Interop.downcallHandle(
+        "g_pattern_spec_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two compiled pattern specs and returns whether they will
      * match the same set of strings.
      */
     public boolean equal(PatternSpec pspec2) {
-        var RESULT = gtk_h.g_pattern_spec_equal(handle(), pspec2.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_pattern_spec_equal.invokeExact(handle(), pspec2.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_pattern_spec_free = Interop.downcallHandle(
+        "g_pattern_spec_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the memory allocated for the {@link PatternSpec}.
      */
     public void free() {
-        gtk_h.g_pattern_spec_free(handle());
+        try {
+            g_pattern_spec_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_pattern_spec_match = Interop.downcallHandle(
+        "g_pattern_spec_match",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Matches a string against a compiled pattern. Passing the correct
@@ -71,9 +111,18 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      * g_utf8_strreverse() function to reverse UTF-8 encoded strings.
      */
     public boolean match(long stringLength, java.lang.String string, java.lang.String stringReversed) {
-        var RESULT = gtk_h.g_pattern_spec_match(handle(), stringLength, Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(stringReversed).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_pattern_spec_match.invokeExact(handle(), stringLength, Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(stringReversed).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_pattern_spec_match_string = Interop.downcallHandle(
+        "g_pattern_spec_match_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Matches a string against a compiled pattern. If the string is to be
@@ -81,8 +130,12 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      * g_pattern_match() instead while supplying the reversed string.
      */
     public boolean matchString(java.lang.String string) {
-        var RESULT = gtk_h.g_pattern_spec_match_string(handle(), Interop.allocateNativeString(string).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_pattern_spec_match_string.invokeExact(handle(), Interop.allocateNativeString(string).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

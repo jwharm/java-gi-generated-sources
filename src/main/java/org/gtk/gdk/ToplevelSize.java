@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,6 +14,11 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gdk_toplevel_size_get_bounds = Interop.downcallHandle(
+        "gdk_toplevel_size_get_bounds",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the bounds the toplevel is placed within.
      * <p>
@@ -25,8 +29,17 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * toplevel can be presented.
      */
     public void getBounds(PointerInteger boundsWidth, PointerInteger boundsHeight) {
-        gtk_h.gdk_toplevel_size_get_bounds(handle(), boundsWidth.handle(), boundsHeight.handle());
+        try {
+            gdk_toplevel_size_get_bounds.invokeExact(handle(), boundsWidth.handle(), boundsHeight.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_toplevel_size_set_min_size = Interop.downcallHandle(
+        "gdk_toplevel_size_set_min_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the minimum size of the toplevel.
@@ -40,8 +53,17 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * {@link ToplevelSize#getBounds}).
      */
     public void setMinSize(int minWidth, int minHeight) {
-        gtk_h.gdk_toplevel_size_set_min_size(handle(), minWidth, minHeight);
+        try {
+            gdk_toplevel_size_set_min_size.invokeExact(handle(), minWidth, minHeight);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_toplevel_size_set_shadow_width = Interop.downcallHandle(
+        "gdk_toplevel_size_set_shadow_width",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the shadows size of the toplevel.
@@ -51,8 +73,17 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * there be any.
      */
     public void setShadowWidth(int left, int right, int top, int bottom) {
-        gtk_h.gdk_toplevel_size_set_shadow_width(handle(), left, right, top, bottom);
+        try {
+            gdk_toplevel_size_set_shadow_width.invokeExact(handle(), left, right, top, bottom);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_toplevel_size_set_size = Interop.downcallHandle(
+        "gdk_toplevel_size_set_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the size the toplevel prefers to be resized to.
@@ -63,7 +94,11 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * respected by the windowing system, or backend.
      */
     public void setSize(int width, int height) {
-        gtk_h.gdk_toplevel_size_set_size(handle(), width, height);
+        try {
+            gdk_toplevel_size_set_size.invokeExact(handle(), width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

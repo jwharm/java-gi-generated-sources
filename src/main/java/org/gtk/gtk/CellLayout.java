@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -117,6 +116,11 @@ import java.lang.invoke.*;
  */
 public interface CellLayout extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_cell_layout_add_attribute = Interop.downcallHandle(
+        "gtk_cell_layout_add_attribute",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Adds an attribute mapping to the list in {@code cell_layout}.
      * <p>
@@ -127,24 +131,51 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * In this context "attribute" and "property" are used interchangeably.
      */
     public default void addAttribute(CellRenderer cell, java.lang.String attribute, int column) {
-        gtk_h.gtk_cell_layout_add_attribute(handle(), cell.handle(), Interop.allocateNativeString(attribute).handle(), column);
+        try {
+            gtk_cell_layout_add_attribute.invokeExact(handle(), cell.handle(), Interop.allocateNativeString(attribute).handle(), column);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_layout_clear = Interop.downcallHandle(
+        "gtk_cell_layout_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unsets all the mappings on all renderers on {@code cell_layout} and
      * removes all renderers from {@code cell_layout}.
      */
     public default void clear() {
-        gtk_h.gtk_cell_layout_clear(handle());
+        try {
+            gtk_cell_layout_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_layout_clear_attributes = Interop.downcallHandle(
+        "gtk_cell_layout_clear_attributes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Clears all existing attributes previously set with
      * gtk_cell_layout_set_attributes().
      */
     public default void clearAttributes(CellRenderer cell) {
-        gtk_h.gtk_cell_layout_clear_attributes(handle(), cell.handle());
+        try {
+            gtk_cell_layout_clear_attributes.invokeExact(handle(), cell.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_layout_get_area = Interop.downcallHandle(
+        "gtk_cell_layout_get_area",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the underlying {@code GtkCellArea} which might be {@code cell_layout}
@@ -152,17 +183,35 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * is used by {@code cell_layout}.
      */
     public default CellArea getArea() {
-        var RESULT = gtk_h.gtk_cell_layout_get_area(handle());
-        return new CellArea(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_cell_layout_get_area.invokeExact(handle());
+            return new CellArea(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_layout_get_cells = Interop.downcallHandle(
+        "gtk_cell_layout_get_cells",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the cell renderers which have been added to {@code cell_layout}.
      */
     public default org.gtk.glib.List getCells() {
-        var RESULT = gtk_h.gtk_cell_layout_get_cells(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_cell_layout_get_cells.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_layout_pack_end = Interop.downcallHandle(
+        "gtk_cell_layout_pack_end",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds the {@code cell} to the end of {@code cell_layout}. If {@code expand} is {@code false}, then the
@@ -172,8 +221,17 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * Note that reusing the same cell renderer is not supported.
      */
     public default void packEnd(CellRenderer cell, boolean expand) {
-        gtk_h.gtk_cell_layout_pack_end(handle(), cell.handle(), expand ? 1 : 0);
+        try {
+            gtk_cell_layout_pack_end.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_layout_pack_start = Interop.downcallHandle(
+        "gtk_cell_layout_pack_start",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Packs the {@code cell} into the beginning of {@code cell_layout}. If {@code expand} is {@code false},
@@ -183,8 +241,17 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * Note that reusing the same cell renderer is not supported.
      */
     public default void packStart(CellRenderer cell, boolean expand) {
-        gtk_h.gtk_cell_layout_pack_start(handle(), cell.handle(), expand ? 1 : 0);
+        try {
+            gtk_cell_layout_pack_start.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_layout_reorder = Interop.downcallHandle(
+        "gtk_cell_layout_reorder",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Re-inserts {@code cell} at {@code position}.
@@ -193,8 +260,17 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * for this to function properly.
      */
     public default void reorder(CellRenderer cell, int position) {
-        gtk_h.gtk_cell_layout_reorder(handle(), cell.handle(), position);
+        try {
+            gtk_cell_layout_reorder.invokeExact(handle(), cell.handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_layout_set_cell_data_func = Interop.downcallHandle(
+        "gtk_cell_layout_set_cell_data_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkCellLayout}DataFunc to use for {@code cell_layout}.
@@ -207,16 +283,16 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      */
     public default void setCellDataFunc(CellRenderer cell, CellLayoutDataFunc func) {
         try {
-            gtk_h.gtk_cell_layout_set_cell_data_func(handle(), cell.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_cell_layout_set_cell_data_func.invokeExact(handle(), cell.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbCellLayoutDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

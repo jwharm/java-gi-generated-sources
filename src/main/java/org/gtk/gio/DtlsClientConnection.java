@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -11,6 +10,11 @@ import java.lang.invoke.*;
  */
 public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_dtls_client_connection_get_accepted_cas = Interop.downcallHandle(
+        "g_dtls_client_connection_get_accepted_cas",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the list of distinguished names of the Certificate Authorities
      * that the server will accept certificates from. This will be set
@@ -21,25 +25,52 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * subject DN of the certificate authority.
      */
     public default org.gtk.glib.List getAcceptedCas() {
-        var RESULT = gtk_h.g_dtls_client_connection_get_accepted_cas(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_dtls_client_connection_get_accepted_cas.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dtls_client_connection_get_server_identity = Interop.downcallHandle(
+        "g_dtls_client_connection_get_server_identity",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code conn}'s expected server identity
      */
     public default SocketConnectable getServerIdentity() {
-        var RESULT = gtk_h.g_dtls_client_connection_get_server_identity(handle());
-        return new SocketConnectable.SocketConnectableImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dtls_client_connection_get_server_identity.invokeExact(handle());
+            return new SocketConnectable.SocketConnectableImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dtls_client_connection_get_validation_flags = Interop.downcallHandle(
+        "g_dtls_client_connection_get_validation_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code conn}'s validation flags
      */
     public default TlsCertificateFlags getValidationFlags() {
-        var RESULT = gtk_h.g_dtls_client_connection_get_validation_flags(handle());
-        return new TlsCertificateFlags(RESULT);
+        try {
+            var RESULT = (int) g_dtls_client_connection_get_validation_flags.invokeExact(handle());
+            return new TlsCertificateFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dtls_client_connection_set_server_identity = Interop.downcallHandle(
+        "g_dtls_client_connection_set_server_identity",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code conn}'s expected server identity, which is used both to tell
@@ -48,8 +79,17 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * performing {@link TlsCertificateFlags#BAD_IDENTITY} validation, if enabled.
      */
     public default void setServerIdentity(SocketConnectable identity) {
-        gtk_h.g_dtls_client_connection_set_server_identity(handle(), identity.handle());
+        try {
+            g_dtls_client_connection_set_server_identity.invokeExact(handle(), identity.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dtls_client_connection_set_validation_flags = Interop.downcallHandle(
+        "g_dtls_client_connection_set_validation_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets {@code conn}'s validation flags, to override the default set of
@@ -57,8 +97,17 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * {@link TlsCertificateFlags#VALIDATE_ALL} is used.
      */
     public default void setValidationFlags(TlsCertificateFlags flags) {
-        gtk_h.g_dtls_client_connection_set_validation_flags(handle(), flags.getValue());
+        try {
+            g_dtls_client_connection_set_validation_flags.invokeExact(handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dtls_client_connection_new = Interop.downcallHandle(
+        "g_dtls_client_connection_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link DtlsClientConnection} wrapping {@code base_socket} which is
@@ -66,11 +115,15 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static DtlsClientConnection new_(DatagramBased baseSocket, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dtls_client_connection_new(baseSocket.handle(), serverIdentity.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_dtls_client_connection_new.invokeExact(baseSocket.handle(), serverIdentity.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new DtlsClientConnection.DtlsClientConnectionImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DtlsClientConnection.DtlsClientConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     class DtlsClientConnectionImpl extends org.gtk.gobject.Object implements DtlsClientConnection {

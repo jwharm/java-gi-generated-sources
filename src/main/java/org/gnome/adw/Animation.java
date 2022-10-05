@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -63,6 +62,11 @@ public class Animation extends org.gtk.gobject.Object {
         return new Animation(gobject.refcounted());
     }
     
+    static final MethodHandle adw_animation_get_state = Interop.downcallHandle(
+        "adw_animation_get_state",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the current value of {@code self}.
      * <p>
@@ -70,33 +74,69 @@ public class Animation extends org.gtk.gobject.Object {
      * hasn't been started yet.
      */
     public AnimationState getState() {
-        var RESULT = gtk_h.adw_animation_get_state(handle());
-        return new AnimationState(RESULT);
+        try {
+            var RESULT = (int) adw_animation_get_state.invokeExact(handle());
+            return new AnimationState(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_animation_get_target = Interop.downcallHandle(
+        "adw_animation_get_target",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the target {@code self} animates.
      */
     public AnimationTarget getTarget() {
-        var RESULT = gtk_h.adw_animation_get_target(handle());
-        return new AnimationTarget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_animation_get_target.invokeExact(handle());
+            return new AnimationTarget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_animation_get_value = Interop.downcallHandle(
+        "adw_animation_get_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current value of {@code self}.
      */
     public double getValue() {
-        var RESULT = gtk_h.adw_animation_get_value(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_animation_get_value.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_animation_get_widget = Interop.downcallHandle(
+        "adw_animation_get_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the widget {@code self} was created for.
      */
     public org.gtk.gtk.Widget getWidget() {
-        var RESULT = gtk_h.adw_animation_get_widget(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_animation_get_widget.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_animation_pause = Interop.downcallHandle(
+        "adw_animation_pause",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Pauses a playing animation for {@code self}.
@@ -106,8 +146,17 @@ public class Animation extends org.gtk.gobject.Object {
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_PAUSED}.
      */
     public void pause() {
-        gtk_h.adw_animation_pause(handle());
+        try {
+            adw_animation_pause.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_animation_play = Interop.downcallHandle(
+        "adw_animation_play",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Starts the animation for {@code self}.
@@ -127,8 +176,17 @@ public class Animation extends org.gtk.gobject.Object {
      * run after the animation has already finished, and not while it's playing.
      */
     public void play() {
-        gtk_h.adw_animation_play(handle());
+        try {
+            adw_animation_play.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_animation_reset = Interop.downcallHandle(
+        "adw_animation_reset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Resets the animation for {@code self}.
@@ -136,8 +194,17 @@ public class Animation extends org.gtk.gobject.Object {
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_IDLE}.
      */
     public void reset() {
-        gtk_h.adw_animation_reset(handle());
+        try {
+            adw_animation_reset.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_animation_resume = Interop.downcallHandle(
+        "adw_animation_resume",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Resumes a paused animation for {@code self}.
@@ -148,8 +215,17 @@ public class Animation extends org.gtk.gobject.Object {
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_PLAYING}.
      */
     public void resume() {
-        gtk_h.adw_animation_resume(handle());
+        try {
+            adw_animation_resume.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_animation_skip = Interop.downcallHandle(
+        "adw_animation_skip",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Skips the animation for {@code self}.
@@ -161,7 +237,11 @@ public class Animation extends org.gtk.gobject.Object {
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_FINISHED}.
      */
     public void skip() {
-        gtk_h.adw_animation_skip(handle());
+        try {
+            adw_animation_skip.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -175,19 +255,19 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public SignalHandle onDone(DoneHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("done").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Animation.Callbacks.class, "signalAnimationDone",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

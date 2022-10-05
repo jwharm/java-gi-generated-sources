@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -43,22 +42,45 @@ public class TreeSelection extends org.gtk.gobject.Object {
         return new TreeSelection(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_tree_selection_count_selected_rows = Interop.downcallHandle(
+        "gtk_tree_selection_count_selected_rows",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the number of rows that have been selected in {@code tree}.
      */
     public int countSelectedRows() {
-        var RESULT = gtk_h.gtk_tree_selection_count_selected_rows(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_selection_count_selected_rows.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_get_mode = Interop.downcallHandle(
+        "gtk_tree_selection_get_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the selection mode for {@code selection}. See
      * gtk_tree_selection_set_mode().
      */
     public SelectionMode getMode() {
-        var RESULT = gtk_h.gtk_tree_selection_get_mode(handle());
-        return new SelectionMode(RESULT);
+        try {
+            var RESULT = (int) gtk_tree_selection_get_mode.invokeExact(handle());
+            return new SelectionMode(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_get_selected = Interop.downcallHandle(
+        "gtk_tree_selection_get_selected",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code iter} to the currently selected node if {@code selection} is set to
@@ -68,9 +90,18 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * use {@code selection} is {@link SelectionMode#MULTIPLE}.
      */
     public boolean getSelected(TreeModel[] model, TreeIter iter) {
-        var RESULT = gtk_h.gtk_tree_selection_get_selected(handle(), Interop.allocateNativeArray(model).handle(), iter.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_selection_get_selected.invokeExact(handle(), Interop.allocateNativeArray(model).handle(), iter.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_get_selected_rows = Interop.downcallHandle(
+        "gtk_tree_selection_get_selected_rows",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a list of path of all selected rows. Additionally, if you are
@@ -84,72 +115,153 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * }</pre>
      */
     public org.gtk.glib.List getSelectedRows(TreeModel[] model) {
-        var RESULT = gtk_h.gtk_tree_selection_get_selected_rows(handle(), Interop.allocateNativeArray(model).handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_selection_get_selected_rows.invokeExact(handle(), Interop.allocateNativeArray(model).handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_get_tree_view = Interop.downcallHandle(
+        "gtk_tree_selection_get_tree_view",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the tree view associated with {@code selection}.
      */
     public TreeView getTreeView() {
-        var RESULT = gtk_h.gtk_tree_selection_get_tree_view(handle());
-        return new TreeView(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_selection_get_tree_view.invokeExact(handle());
+            return new TreeView(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_get_user_data = Interop.downcallHandle(
+        "gtk_tree_selection_get_user_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the user data for the selection function.
      */
     public java.lang.foreign.MemoryAddress getUserData() {
-        var RESULT = gtk_h.gtk_tree_selection_get_user_data(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_selection_get_user_data.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_iter_is_selected = Interop.downcallHandle(
+        "gtk_tree_selection_iter_is_selected",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the row at {@code iter} is currently selected.
      */
     public boolean iterIsSelected(TreeIter iter) {
-        var RESULT = gtk_h.gtk_tree_selection_iter_is_selected(handle(), iter.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_selection_iter_is_selected.invokeExact(handle(), iter.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_path_is_selected = Interop.downcallHandle(
+        "gtk_tree_selection_path_is_selected",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the row pointed to by {@code path} is currently selected.  If {@code path}
      * does not point to a valid location, {@code false} is returned
      */
     public boolean pathIsSelected(TreePath path) {
-        var RESULT = gtk_h.gtk_tree_selection_path_is_selected(handle(), path.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_selection_path_is_selected.invokeExact(handle(), path.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_select_all = Interop.downcallHandle(
+        "gtk_tree_selection_select_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Selects all the nodes. {@code selection} must be set to {@link SelectionMode#MULTIPLE}
      * mode.
      */
     public void selectAll() {
-        gtk_h.gtk_tree_selection_select_all(handle());
+        try {
+            gtk_tree_selection_select_all.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_select_iter = Interop.downcallHandle(
+        "gtk_tree_selection_select_iter",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Selects the specified iterator.
      */
     public void selectIter(TreeIter iter) {
-        gtk_h.gtk_tree_selection_select_iter(handle(), iter.handle());
+        try {
+            gtk_tree_selection_select_iter.invokeExact(handle(), iter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_select_path = Interop.downcallHandle(
+        "gtk_tree_selection_select_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Select the row at {@code path}.
      */
     public void selectPath(TreePath path) {
-        gtk_h.gtk_tree_selection_select_path(handle(), path.handle());
+        try {
+            gtk_tree_selection_select_path.invokeExact(handle(), path.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_select_range = Interop.downcallHandle(
+        "gtk_tree_selection_select_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Selects a range of nodes, determined by {@code start_path} and {@code end_path} inclusive.
      * {@code selection} must be set to {@link SelectionMode#MULTIPLE} mode.
      */
     public void selectRange(TreePath startPath, TreePath endPath) {
-        gtk_h.gtk_tree_selection_select_range(handle(), startPath.handle(), endPath.handle());
+        try {
+            gtk_tree_selection_select_range.invokeExact(handle(), startPath.handle(), endPath.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_selected_foreach = Interop.downcallHandle(
+        "gtk_tree_selection_selected_foreach",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls a function for each selected node. Note that you cannot modify
@@ -158,17 +270,22 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public void selectedForeach(TreeSelectionForeachFunc func) {
         try {
-            gtk_h.gtk_tree_selection_selected_foreach(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_tree_selection_selected_foreach.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeSelectionForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_selection_set_mode = Interop.downcallHandle(
+        "gtk_tree_selection_set_mode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the selection mode of the {@code selection}.  If the previous type was
@@ -176,8 +293,17 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * previously selected.
      */
     public void setMode(SelectionMode type) {
-        gtk_h.gtk_tree_selection_set_mode(handle(), type.getValue());
+        try {
+            gtk_tree_selection_set_mode.invokeExact(handle(), type.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_set_select_function = Interop.downcallHandle(
+        "gtk_tree_selection_set_select_function",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the selection function.
@@ -189,46 +315,82 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public void setSelectFunction(TreeSelectionFunc func) {
         try {
-            gtk_h.gtk_tree_selection_set_select_function(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_tree_selection_set_select_function.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeSelectionFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_selection_unselect_all = Interop.downcallHandle(
+        "gtk_tree_selection_unselect_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unselects all the nodes.
      */
     public void unselectAll() {
-        gtk_h.gtk_tree_selection_unselect_all(handle());
+        try {
+            gtk_tree_selection_unselect_all.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_unselect_iter = Interop.downcallHandle(
+        "gtk_tree_selection_unselect_iter",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unselects the specified iterator.
      */
     public void unselectIter(TreeIter iter) {
-        gtk_h.gtk_tree_selection_unselect_iter(handle(), iter.handle());
+        try {
+            gtk_tree_selection_unselect_iter.invokeExact(handle(), iter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_unselect_path = Interop.downcallHandle(
+        "gtk_tree_selection_unselect_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unselects the row at {@code path}.
      */
     public void unselectPath(TreePath path) {
-        gtk_h.gtk_tree_selection_unselect_path(handle(), path.handle());
+        try {
+            gtk_tree_selection_unselect_path.invokeExact(handle(), path.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_selection_unselect_range = Interop.downcallHandle(
+        "gtk_tree_selection_unselect_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unselects a range of nodes, determined by {@code start_path} and {@code end_path}
      * inclusive.
      */
     public void unselectRange(TreePath startPath, TreePath endPath) {
-        gtk_h.gtk_tree_selection_unselect_range(handle(), startPath.handle(), endPath.handle());
+        try {
+            gtk_tree_selection_unselect_range.invokeExact(handle(), startPath.handle(), endPath.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -244,19 +406,19 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeSelection.Callbacks.class, "signalTreeSelectionChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

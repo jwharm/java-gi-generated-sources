@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -164,9 +163,18 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
         return new FileChooserNative(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_file_chooser_native_new = Interop.downcallHandle(
+        "gtk_file_chooser_native_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).handle(), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel).handle(), Interop.allocateNativeString(cancelLabel).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_file_chooser_native_new.invokeExact(Interop.allocateNativeString(title).handle(), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel).handle(), Interop.allocateNativeString(cancelLabel).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -176,21 +184,44 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
         super(constructNew(title, parent, action, acceptLabel, cancelLabel));
     }
     
+    static final MethodHandle gtk_file_chooser_native_get_accept_label = Interop.downcallHandle(
+        "gtk_file_chooser_native_get_accept_label",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the custom label text for the accept button.
      */
     public java.lang.String getAcceptLabel() {
-        var RESULT = gtk_h.gtk_file_chooser_native_get_accept_label(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_file_chooser_native_get_accept_label.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_file_chooser_native_get_cancel_label = Interop.downcallHandle(
+        "gtk_file_chooser_native_get_cancel_label",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the custom label text for the cancel button.
      */
     public java.lang.String getCancelLabel() {
-        var RESULT = gtk_h.gtk_file_chooser_native_get_cancel_label(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_file_chooser_native_get_cancel_label.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_file_chooser_native_set_accept_label = Interop.downcallHandle(
+        "gtk_file_chooser_native_set_accept_label",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the custom label text for the accept button.
@@ -203,8 +234,17 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Pressing Alt and that key should activate the button.
      */
     public void setAcceptLabel(java.lang.String acceptLabel) {
-        gtk_h.gtk_file_chooser_native_set_accept_label(handle(), Interop.allocateNativeString(acceptLabel).handle());
+        try {
+            gtk_file_chooser_native_set_accept_label.invokeExact(handle(), Interop.allocateNativeString(acceptLabel).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_file_chooser_native_set_cancel_label = Interop.downcallHandle(
+        "gtk_file_chooser_native_set_cancel_label",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the custom label text for the cancel button.
@@ -217,7 +257,11 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Pressing Alt and that key should activate the button.
      */
     public void setCancelLabel(java.lang.String cancelLabel) {
-        gtk_h.gtk_file_chooser_native_set_cancel_label(handle(), Interop.allocateNativeString(cancelLabel).handle());
+        try {
+            gtk_file_chooser_native_set_cancel_label.invokeExact(handle(), Interop.allocateNativeString(cancelLabel).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

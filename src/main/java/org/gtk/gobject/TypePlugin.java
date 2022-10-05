@@ -1,6 +1,5 @@
 package org.gtk.gobject;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -57,14 +56,28 @@ import java.lang.invoke.*;
  */
 public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_type_plugin_complete_interface_info = Interop.downcallHandle(
+        "g_type_plugin_complete_interface_info",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Calls the {@code complete_interface_info} function from the
      * {@link TypePluginClass} of {@code plugin}. There should be no need to use this
      * function outside of the GObject type system itself.
      */
     public default void completeInterfaceInfo(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, InterfaceInfo info) {
-        gtk_h.g_type_plugin_complete_interface_info(handle(), instanceType.getValue(), interfaceType.getValue(), info.handle());
+        try {
+            g_type_plugin_complete_interface_info.invokeExact(handle(), instanceType.getValue(), interfaceType.getValue(), info.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_plugin_complete_type_info = Interop.downcallHandle(
+        "g_type_plugin_complete_type_info",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the {@code complete_type_info} function from the {@link TypePluginClass} of {@code plugin}.
@@ -72,8 +85,17 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * type system itself.
      */
     public default void completeTypeInfo(org.gtk.gobject.Type gType, TypeInfo info, TypeValueTable valueTable) {
-        gtk_h.g_type_plugin_complete_type_info(handle(), gType.getValue(), info.handle(), valueTable.handle());
+        try {
+            g_type_plugin_complete_type_info.invokeExact(handle(), gType.getValue(), info.handle(), valueTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_plugin_unuse = Interop.downcallHandle(
+        "g_type_plugin_unuse",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the {@code unuse_plugin} function from the {@link TypePluginClass} of
@@ -81,8 +103,17 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * the GObject type system itself.
      */
     public default void unuse() {
-        gtk_h.g_type_plugin_unuse(handle());
+        try {
+            g_type_plugin_unuse.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_type_plugin_use = Interop.downcallHandle(
+        "g_type_plugin_use",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the {@code use_plugin} function from the {@link TypePluginClass} of
@@ -90,7 +121,11 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * the GObject type system itself.
      */
     public default void use() {
-        gtk_h.g_type_plugin_use(handle());
+        try {
+            g_type_plugin_use.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class TypePluginImpl extends org.gtk.gobject.Object implements TypePlugin {

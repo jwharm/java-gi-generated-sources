@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,9 +25,18 @@ public class Menu extends MenuModel {
         return new Menu(gobject.refcounted());
     }
     
+    static final MethodHandle g_menu_new = Interop.downcallHandle(
+        "g_menu_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_menu_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_menu_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -40,14 +48,28 @@ public class Menu extends MenuModel {
         super(constructNew());
     }
     
+    static final MethodHandle g_menu_append = Interop.downcallHandle(
+        "g_menu_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Convenience function for appending a normal menu item to the end of
      * {@code menu}.  Combine g_menu_item_new() and g_menu_insert_item() for a more
      * flexible alternative.
      */
     public void append(java.lang.String label, java.lang.String detailedAction) {
-        gtk_h.g_menu_append(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+        try {
+            g_menu_append.invokeExact(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_append_item = Interop.downcallHandle(
+        "g_menu_append_item",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Appends {@code item} to the end of {@code menu}.
@@ -55,8 +77,17 @@ public class Menu extends MenuModel {
      * See g_menu_insert_item() for more information.
      */
     public void appendItem(MenuItem item) {
-        gtk_h.g_menu_append_item(handle(), item.handle());
+        try {
+            g_menu_append_item.invokeExact(handle(), item.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_append_section = Interop.downcallHandle(
+        "g_menu_append_section",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function for appending a section menu item to the end of
@@ -64,8 +95,17 @@ public class Menu extends MenuModel {
      * more flexible alternative.
      */
     public void appendSection(java.lang.String label, MenuModel section) {
-        gtk_h.g_menu_append_section(handle(), Interop.allocateNativeString(label).handle(), section.handle());
+        try {
+            g_menu_append_section.invokeExact(handle(), Interop.allocateNativeString(label).handle(), section.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_append_submenu = Interop.downcallHandle(
+        "g_menu_append_submenu",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function for appending a submenu menu item to the end of
@@ -73,8 +113,17 @@ public class Menu extends MenuModel {
      * more flexible alternative.
      */
     public void appendSubmenu(java.lang.String label, MenuModel submenu) {
-        gtk_h.g_menu_append_submenu(handle(), Interop.allocateNativeString(label).handle(), submenu.handle());
+        try {
+            g_menu_append_submenu.invokeExact(handle(), Interop.allocateNativeString(label).handle(), submenu.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_freeze = Interop.downcallHandle(
+        "g_menu_freeze",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Marks {@code menu} as frozen.
@@ -87,8 +136,17 @@ public class Menu extends MenuModel {
      * {@code false}, which has some positive performance implications.
      */
     public void freeze() {
-        gtk_h.g_menu_freeze(handle());
+        try {
+            g_menu_freeze.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_insert = Interop.downcallHandle(
+        "g_menu_insert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function for inserting a normal menu item into {@code menu}.
@@ -96,8 +154,17 @@ public class Menu extends MenuModel {
      * alternative.
      */
     public void insert(int position, java.lang.String label, java.lang.String detailedAction) {
-        gtk_h.g_menu_insert(handle(), position, Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+        try {
+            g_menu_insert.invokeExact(handle(), position, Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_insert_item = Interop.downcallHandle(
+        "g_menu_insert_item",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts {@code item} into {@code menu}.
@@ -119,8 +186,17 @@ public class Menu extends MenuModel {
      * each of these functions.
      */
     public void insertItem(int position, MenuItem item) {
-        gtk_h.g_menu_insert_item(handle(), position, item.handle());
+        try {
+            g_menu_insert_item.invokeExact(handle(), position, item.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_insert_section = Interop.downcallHandle(
+        "g_menu_insert_section",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function for inserting a section menu item into {@code menu}.
@@ -128,8 +204,17 @@ public class Menu extends MenuModel {
      * flexible alternative.
      */
     public void insertSection(int position, java.lang.String label, MenuModel section) {
-        gtk_h.g_menu_insert_section(handle(), position, Interop.allocateNativeString(label).handle(), section.handle());
+        try {
+            g_menu_insert_section.invokeExact(handle(), position, Interop.allocateNativeString(label).handle(), section.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_insert_submenu = Interop.downcallHandle(
+        "g_menu_insert_submenu",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function for inserting a submenu menu item into {@code menu}.
@@ -137,8 +222,17 @@ public class Menu extends MenuModel {
      * flexible alternative.
      */
     public void insertSubmenu(int position, java.lang.String label, MenuModel submenu) {
-        gtk_h.g_menu_insert_submenu(handle(), position, Interop.allocateNativeString(label).handle(), submenu.handle());
+        try {
+            g_menu_insert_submenu.invokeExact(handle(), position, Interop.allocateNativeString(label).handle(), submenu.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_prepend = Interop.downcallHandle(
+        "g_menu_prepend",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function for prepending a normal menu item to the start
@@ -146,8 +240,17 @@ public class Menu extends MenuModel {
      * flexible alternative.
      */
     public void prepend(java.lang.String label, java.lang.String detailedAction) {
-        gtk_h.g_menu_prepend(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+        try {
+            g_menu_prepend.invokeExact(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_prepend_item = Interop.downcallHandle(
+        "g_menu_prepend_item",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prepends {@code item} to the start of {@code menu}.
@@ -155,8 +258,17 @@ public class Menu extends MenuModel {
      * See g_menu_insert_item() for more information.
      */
     public void prependItem(MenuItem item) {
-        gtk_h.g_menu_prepend_item(handle(), item.handle());
+        try {
+            g_menu_prepend_item.invokeExact(handle(), item.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_prepend_section = Interop.downcallHandle(
+        "g_menu_prepend_section",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function for prepending a section menu item to the start
@@ -164,8 +276,17 @@ public class Menu extends MenuModel {
      * a more flexible alternative.
      */
     public void prependSection(java.lang.String label, MenuModel section) {
-        gtk_h.g_menu_prepend_section(handle(), Interop.allocateNativeString(label).handle(), section.handle());
+        try {
+            g_menu_prepend_section.invokeExact(handle(), Interop.allocateNativeString(label).handle(), section.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_prepend_submenu = Interop.downcallHandle(
+        "g_menu_prepend_submenu",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function for prepending a submenu menu item to the start
@@ -173,8 +294,17 @@ public class Menu extends MenuModel {
      * a more flexible alternative.
      */
     public void prependSubmenu(java.lang.String label, MenuModel submenu) {
-        gtk_h.g_menu_prepend_submenu(handle(), Interop.allocateNativeString(label).handle(), submenu.handle());
+        try {
+            g_menu_prepend_submenu.invokeExact(handle(), Interop.allocateNativeString(label).handle(), submenu.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_remove = Interop.downcallHandle(
+        "g_menu_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes an item from the menu.
@@ -189,14 +319,27 @@ public class Menu extends MenuModel {
      * identity of the item itself is not preserved).
      */
     public void remove(int position) {
-        gtk_h.g_menu_remove(handle(), position);
+        try {
+            g_menu_remove.invokeExact(handle(), position);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_remove_all = Interop.downcallHandle(
+        "g_menu_remove_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all items in the menu.
      */
     public void removeAll() {
-        gtk_h.g_menu_remove_all(handle());
+        try {
+            g_menu_remove_all.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

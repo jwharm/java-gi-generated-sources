@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -33,9 +32,18 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
         return new StackSidebar(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_stack_sidebar_new = Interop.downcallHandle(
+        "gtk_stack_sidebar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_stack_sidebar_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_stack_sidebar_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -45,13 +53,27 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
         super(constructNew());
     }
     
+    static final MethodHandle gtk_stack_sidebar_get_stack = Interop.downcallHandle(
+        "gtk_stack_sidebar_get_stack",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the stack.
      */
     public Stack getStack() {
-        var RESULT = gtk_h.gtk_stack_sidebar_get_stack(handle());
-        return new Stack(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_stack_sidebar_get_stack.invokeExact(handle());
+            return new Stack(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_stack_sidebar_set_stack = Interop.downcallHandle(
+        "gtk_stack_sidebar_set_stack",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the {@code GtkStack} associated with this {@code GtkStackSidebar}.
@@ -60,7 +82,11 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
      * the order and items within the given {@code GtkStack}.
      */
     public void setStack(Stack stack) {
-        gtk_h.gtk_stack_sidebar_set_stack(handle(), stack.handle());
+        try {
+            gtk_stack_sidebar_set_stack.invokeExact(handle(), stack.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

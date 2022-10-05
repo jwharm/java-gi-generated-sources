@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_source_new = Interop.downcallHandle(
+        "g_source_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(SourceFuncs sourceFuncs, int structSize) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_source_new(sourceFuncs.handle(), structSize), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_source_new.invokeExact(sourceFuncs.handle(), structSize), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,6 +41,11 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public Source(SourceFuncs sourceFuncs, int structSize) {
         super(constructNew(sourceFuncs, structSize));
     }
+    
+    static final MethodHandle g_source_add_child_source = Interop.downcallHandle(
+        "g_source_add_child_source",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code child_source} to {@code source} as a "polled" source; when {@code source} is
@@ -54,8 +67,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * Do not call this API on a {@link Source} that you did not create.
      */
     public void addChildSource(Source childSource) {
-        gtk_h.g_source_add_child_source(handle(), childSource.handle());
+        try {
+            g_source_add_child_source.invokeExact(handle(), childSource.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_add_poll = Interop.downcallHandle(
+        "g_source_add_poll",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a file descriptor to the set of file descriptors polled for
@@ -72,8 +94,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * g_source_add_unix_fd() instead of this API.
      */
     public void addPoll(PollFD fd) {
-        gtk_h.g_source_add_poll(handle(), fd.handle());
+        try {
+            g_source_add_poll.invokeExact(handle(), fd.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_add_unix_fd = Interop.downcallHandle(
+        "g_source_add_unix_fd",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Monitors {@code fd} for the IO events in {@code events}.
@@ -91,9 +122,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * As the name suggests, this function is not available on Windows.
      */
     public java.lang.foreign.MemoryAddress addUnixFd(int fd, IOCondition events) {
-        var RESULT = gtk_h.g_source_add_unix_fd(handle(), fd, events.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_source_add_unix_fd.invokeExact(handle(), fd, events.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_attach = Interop.downcallHandle(
+        "g_source_attach",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a {@link Source} to a {@code context} so that it will be executed within
@@ -103,9 +143,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * the {@code context} is running in.
      */
     public int attach(MainContext context) {
-        var RESULT = gtk_h.g_source_attach(handle(), context.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_source_attach.invokeExact(handle(), context.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_destroy = Interop.downcallHandle(
+        "g_source_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a source from its {@link MainContext}, if any, and mark it as
@@ -124,17 +173,35 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * This can mean, that the data's {@link DestroyNotify} gets called right away.
      */
     public void destroy() {
-        gtk_h.g_source_destroy(handle());
+        try {
+            g_source_destroy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_get_can_recurse = Interop.downcallHandle(
+        "g_source_get_can_recurse",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether a source is allowed to be called recursively.
      * see g_source_set_can_recurse().
      */
     public boolean getCanRecurse() {
-        var RESULT = gtk_h.g_source_get_can_recurse(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_source_get_can_recurse.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_get_context = Interop.downcallHandle(
+        "g_source_get_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link MainContext} with which the source is associated.
@@ -147,9 +214,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * whose {@link MainContext} has been destroyed is an error.
      */
     public MainContext getContext() {
-        var RESULT = gtk_h.g_source_get_context(handle());
-        return new MainContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_source_get_context.invokeExact(handle());
+            return new MainContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_get_id = Interop.downcallHandle(
+        "g_source_get_id",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the numeric ID for a particular source. The ID of a source
@@ -163,26 +239,53 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * is unique within the {@link MainContext} instance passed to g_source_attach().
      */
     public int getId() {
-        var RESULT = gtk_h.g_source_get_id(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_source_get_id.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_get_name = Interop.downcallHandle(
+        "g_source_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a name for the source, used in debugging and profiling.  The
      * name may be {@code NULL} if it has never been set with g_source_set_name().
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.g_source_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_source_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_get_priority = Interop.downcallHandle(
+        "g_source_get_priority",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the priority of a source.
      */
     public int getPriority() {
-        var RESULT = gtk_h.g_source_get_priority(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_source_get_priority.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_get_ready_time = Interop.downcallHandle(
+        "g_source_get_ready_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the "ready time" of {@code source}, as set by
@@ -192,9 +295,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * indication that the source will fire immediately.
      */
     public long getReadyTime() {
-        var RESULT = gtk_h.g_source_get_ready_time(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_source_get_ready_time.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_get_time = Interop.downcallHandle(
+        "g_source_get_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the time to be used when checking this source. The advantage of
@@ -206,9 +318,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * other reasonable alternative otherwise.  See g_get_monotonic_time().
      */
     public long getTime() {
-        var RESULT = gtk_h.g_source_get_time(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_source_get_time.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_is_destroyed = Interop.downcallHandle(
+        "g_source_is_destroyed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether {@code source} has been destroyed.
@@ -291,9 +412,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * used for opportunistic checks from any thread.
      */
     public boolean isDestroyed() {
-        var RESULT = gtk_h.g_source_is_destroyed(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_source_is_destroyed.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_modify_unix_fd = Interop.downcallHandle(
+        "g_source_modify_unix_fd",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Updates the event mask to watch for the fd identified by {@code tag}.
@@ -309,8 +439,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * As the name suggests, this function is not available on Windows.
      */
     public void modifyUnixFd(java.lang.foreign.MemoryAddress tag, IOCondition newEvents) {
-        gtk_h.g_source_modify_unix_fd(handle(), tag, newEvents.getValue());
+        try {
+            g_source_modify_unix_fd.invokeExact(handle(), tag, newEvents.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_query_unix_fd = Interop.downcallHandle(
+        "g_source_query_unix_fd",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the events reported for the fd corresponding to {@code tag} on
@@ -325,17 +464,35 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * As the name suggests, this function is not available on Windows.
      */
     public IOCondition queryUnixFd(java.lang.foreign.MemoryAddress tag) {
-        var RESULT = gtk_h.g_source_query_unix_fd(handle(), tag);
-        return new IOCondition(RESULT);
+        try {
+            var RESULT = (int) g_source_query_unix_fd.invokeExact(handle(), tag);
+            return new IOCondition(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_ref = Interop.downcallHandle(
+        "g_source_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on a source by one.
      */
     public Source ref() {
-        var RESULT = gtk_h.g_source_ref(handle());
-        return new Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_source_ref.invokeExact(handle());
+            return new Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove_child_source = Interop.downcallHandle(
+        "g_source_remove_child_source",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Detaches {@code child_source} from {@code source} and destroys it.
@@ -344,8 +501,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * Do not call this API on a {@link Source} that you did not create.
      */
     public void removeChildSource(Source childSource) {
-        gtk_h.g_source_remove_child_source(handle(), childSource.handle());
+        try {
+            g_source_remove_child_source.invokeExact(handle(), childSource.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove_poll = Interop.downcallHandle(
+        "g_source_remove_poll",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a file descriptor from the set of file descriptors polled for
@@ -355,8 +521,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * Do not call this API on a {@link Source} that you did not create.
      */
     public void removePoll(PollFD fd) {
-        gtk_h.g_source_remove_poll(handle(), fd.handle());
+        try {
+            g_source_remove_poll.invokeExact(handle(), fd.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove_unix_fd = Interop.downcallHandle(
+        "g_source_remove_unix_fd",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Reverses the effect of a previous call to g_source_add_unix_fd().
@@ -371,8 +546,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * As the name suggests, this function is not available on Windows.
      */
     public void removeUnixFd(java.lang.foreign.MemoryAddress tag) {
-        gtk_h.g_source_remove_unix_fd(handle(), tag);
+        try {
+            g_source_remove_unix_fd.invokeExact(handle(), tag);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_callback = Interop.downcallHandle(
+        "g_source_set_callback",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the callback function for a source. The callback for a source is
@@ -398,18 +582,23 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setCallback(SourceFunc func) {
         try {
-            gtk_h.g_source_set_callback(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_source_set_callback.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_source_set_callback_indirect = Interop.downcallHandle(
+        "g_source_set_callback_indirect",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the callback function storing the data as a refcounted callback
@@ -424,8 +613,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * the source is dispatched after this call returns.
      */
     public void setCallbackIndirect(java.lang.foreign.MemoryAddress callbackData, SourceCallbackFuncs callbackFuncs) {
-        gtk_h.g_source_set_callback_indirect(handle(), callbackData, callbackFuncs.handle());
+        try {
+            g_source_set_callback_indirect.invokeExact(handle(), callbackData, callbackFuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_can_recurse = Interop.downcallHandle(
+        "g_source_set_can_recurse",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether a source can be called recursively. If {@code can_recurse} is
@@ -434,16 +632,34 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * source is blocked until the dispatch function returns.
      */
     public void setCanRecurse(boolean canRecurse) {
-        gtk_h.g_source_set_can_recurse(handle(), canRecurse ? 1 : 0);
+        try {
+            g_source_set_can_recurse.invokeExact(handle(), canRecurse ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_funcs = Interop.downcallHandle(
+        "g_source_set_funcs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the source functions (can be used to override
      * default implementations) of an unattached source.
      */
     public void setFuncs(SourceFuncs funcs) {
-        gtk_h.g_source_set_funcs(handle(), funcs.handle());
+        try {
+            g_source_set_funcs.invokeExact(handle(), funcs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_name = Interop.downcallHandle(
+        "g_source_set_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a name for the source, used in debugging and profiling.
@@ -466,8 +682,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * Also see g_source_set_static_name().
      */
     public void setName(java.lang.String name) {
-        gtk_h.g_source_set_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            g_source_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_priority = Interop.downcallHandle(
+        "g_source_set_priority",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the priority of a source. While the main loop is being run, a
@@ -480,8 +705,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * as a child of another source.
      */
     public void setPriority(int priority) {
-        gtk_h.g_source_set_priority(handle(), priority);
+        try {
+            g_source_set_priority.invokeExact(handle(), priority);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_ready_time = Interop.downcallHandle(
+        "g_source_set_ready_time",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Sets a {@link Source} to be dispatched when the given monotonic time is
@@ -508,8 +742,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * Do not call this API on a {@link Source} that you did not create.
      */
     public void setReadyTime(long readyTime) {
-        gtk_h.g_source_set_ready_time(handle(), readyTime);
+        try {
+            g_source_set_ready_time.invokeExact(handle(), readyTime);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_static_name = Interop.downcallHandle(
+        "g_source_set_static_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A variant of g_source_set_name() that does not
@@ -517,8 +760,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * string literals.
      */
     public void setStaticName(java.lang.String name) {
-        gtk_h.g_source_set_static_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            g_source_set_static_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_unref = Interop.downcallHandle(
+        "g_source_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of a source by one. If the
@@ -526,8 +778,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * memory will be destroyed.
      */
     public void unref() {
-        gtk_h.g_source_unref(handle());
+        try {
+            g_source_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove = Interop.downcallHandle(
+        "g_source_remove",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the source with the given ID from the default main context. You must
@@ -551,9 +812,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * wrong source.
      */
     public static boolean remove(int tag) {
-        var RESULT = gtk_h.g_source_remove(tag);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_source_remove.invokeExact(tag);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove_by_funcs_user_data = Interop.downcallHandle(
+        "g_source_remove_by_funcs_user_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a source from the default main loop context given the
@@ -561,9 +831,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * same source functions and user data, only one will be destroyed.
      */
     public static boolean removeByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_source_remove_by_funcs_user_data(funcs.handle(), userData);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_source_remove_by_funcs_user_data.invokeExact(funcs.handle(), userData);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_remove_by_user_data = Interop.downcallHandle(
+        "g_source_remove_by_user_data",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a source from the default main loop context given the user
@@ -571,9 +850,18 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * data, only one will be destroyed.
      */
     public static boolean removeByUserData(java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_source_remove_by_user_data(userData);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_source_remove_by_user_data.invokeExact(userData);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_source_set_name_by_id = Interop.downcallHandle(
+        "g_source_set_name_by_id",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name of a source using its ID.
@@ -594,7 +882,11 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * wrong source.
      */
     public static void setNameById(int tag, java.lang.String name) {
-        gtk_h.g_source_set_name_by_id(tag, Interop.allocateNativeString(name).handle());
+        try {
+            g_source_set_name_by_id.invokeExact(tag, Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

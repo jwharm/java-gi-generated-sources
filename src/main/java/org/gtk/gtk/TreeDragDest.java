@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -10,6 +9,11 @@ import java.lang.invoke.*;
  */
 public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_tree_drag_dest_drag_data_received = Interop.downcallHandle(
+        "gtk_tree_drag_dest_drag_data_received",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Asks the {@code GtkTreeDragDest} to insert a row before the path {@code dest},
      * deriving the contents of the row from {@code value}. If {@code dest} is
@@ -19,9 +23,18 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
      * a {@code dest} no longer found in the model!
      */
     public default boolean dragDataReceived(TreePath dest, org.gtk.gobject.Value value) {
-        var RESULT = gtk_h.gtk_tree_drag_dest_drag_data_received(handle(), dest.handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_drag_dest_drag_data_received.invokeExact(handle(), dest.handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_drag_dest_row_drop_possible = Interop.downcallHandle(
+        "gtk_tree_drag_dest_row_drop_possible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether a drop is possible before the given {@code dest_path},
@@ -31,8 +44,12 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
      * parent of {@code dest_path} doesn’t exist, though.
      */
     public default boolean rowDropPossible(TreePath destPath, org.gtk.gobject.Value value) {
-        var RESULT = gtk_h.gtk_tree_drag_dest_row_drop_possible(handle(), destPath.handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_drag_dest_row_drop_possible.invokeExact(handle(), destPath.handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class TreeDragDestImpl extends org.gtk.gobject.Object implements TreeDragDest {

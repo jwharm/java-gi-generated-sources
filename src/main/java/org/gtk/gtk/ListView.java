@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -115,9 +114,18 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         return new ListView(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_list_view_new = Interop.downcallHandle(
+        "gtk_list_view_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(SelectionModel model, ListItemFactory factory) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_list_view_new(model.refcounted().unowned().handle(), factory.refcounted().unowned().handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_list_view_new.invokeExact(model.refcounted().unowned().handle(), factory.refcounted().unowned().handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -135,61 +143,129 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         super(constructNew(model, factory));
     }
     
+    static final MethodHandle gtk_list_view_get_enable_rubberband = Interop.downcallHandle(
+        "gtk_list_view_get_enable_rubberband",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether rows can be selected by dragging with the mouse.
      */
     public boolean getEnableRubberband() {
-        var RESULT = gtk_h.gtk_list_view_get_enable_rubberband(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_list_view_get_enable_rubberband.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_get_factory = Interop.downcallHandle(
+        "gtk_list_view_get_factory",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the factory that's currently used to populate list items.
      */
     public ListItemFactory getFactory() {
-        var RESULT = gtk_h.gtk_list_view_get_factory(handle());
-        return new ListItemFactory(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_list_view_get_factory.invokeExact(handle());
+            return new ListItemFactory(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_get_model = Interop.downcallHandle(
+        "gtk_list_view_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the model that's currently used to read the items displayed.
      */
     public SelectionModel getModel() {
-        var RESULT = gtk_h.gtk_list_view_get_model(handle());
-        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_list_view_get_model.invokeExact(handle());
+            return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_get_show_separators = Interop.downcallHandle(
+        "gtk_list_view_get_show_separators",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the list box should show separators
      * between rows.
      */
     public boolean getShowSeparators() {
-        var RESULT = gtk_h.gtk_list_view_get_show_separators(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_list_view_get_show_separators.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_get_single_click_activate = Interop.downcallHandle(
+        "gtk_list_view_get_single_click_activate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether rows will be activated on single click and
      * selected on hover.
      */
     public boolean getSingleClickActivate() {
-        var RESULT = gtk_h.gtk_list_view_get_single_click_activate(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_list_view_get_single_click_activate.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_set_enable_rubberband = Interop.downcallHandle(
+        "gtk_list_view_set_enable_rubberband",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether selections can be changed by dragging with the mouse.
      */
     public void setEnableRubberband(boolean enableRubberband) {
-        gtk_h.gtk_list_view_set_enable_rubberband(handle(), enableRubberband ? 1 : 0);
+        try {
+            gtk_list_view_set_enable_rubberband.invokeExact(handle(), enableRubberband ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_set_factory = Interop.downcallHandle(
+        "gtk_list_view_set_factory",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkListItemFactory} to use for populating list items.
      */
     public void setFactory(ListItemFactory factory) {
-        gtk_h.gtk_list_view_set_factory(handle(), factory.handle());
+        try {
+            gtk_list_view_set_factory.invokeExact(handle(), factory.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_set_model = Interop.downcallHandle(
+        "gtk_list_view_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the model to use.
@@ -197,23 +273,45 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * This must be a {@code Gtk.SelectionModel} to use.
      */
     public void setModel(SelectionModel model) {
-        gtk_h.gtk_list_view_set_model(handle(), model.handle());
+        try {
+            gtk_list_view_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_set_show_separators = Interop.downcallHandle(
+        "gtk_list_view_set_show_separators",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the list box should show separators
      * between rows.
      */
     public void setShowSeparators(boolean showSeparators) {
-        gtk_h.gtk_list_view_set_show_separators(handle(), showSeparators ? 1 : 0);
+        try {
+            gtk_list_view_set_show_separators.invokeExact(handle(), showSeparators ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_list_view_set_single_click_activate = Interop.downcallHandle(
+        "gtk_list_view_set_single_click_activate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether rows should be activated on single click and
      * selected on hover.
      */
     public void setSingleClickActivate(boolean singleClickActivate) {
-        gtk_h.gtk_list_view_set_single_click_activate(handle(), singleClickActivate ? 1 : 0);
+        try {
+            gtk_list_view_set_single_click_activate.invokeExact(handle(), singleClickActivate ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -231,19 +329,19 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListView.Callbacks.class, "signalListViewActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

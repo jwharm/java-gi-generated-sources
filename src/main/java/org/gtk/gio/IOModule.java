@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,9 +20,18 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         return new IOModule(gobject.refcounted());
     }
     
+    static final MethodHandle g_io_module_new = Interop.downcallHandle(
+        "g_io_module_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String filename) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_io_module_new(Interop.allocateNativeString(filename).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_io_module_new.invokeExact(Interop.allocateNativeString(filename).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,6 +41,11 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
     public IOModule(java.lang.String filename) {
         super(constructNew(filename));
     }
+    
+    static final MethodHandle g_io_module_load = Interop.downcallHandle(
+        "g_io_module_load",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Required API for GIO modules to implement.
@@ -50,8 +63,17 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * for static builds.
      */
     public void load() {
-        gtk_h.g_io_module_load(handle());
+        try {
+            g_io_module_load.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_io_module_unload = Interop.downcallHandle(
+        "g_io_module_unload",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Required API for GIO modules to implement.
@@ -68,8 +90,17 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * for static builds.
      */
     public void unload() {
-        gtk_h.g_io_module_unload(handle());
+        try {
+            g_io_module_unload.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_io_module_query = Interop.downcallHandle(
+        "g_io_module_query",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Optional API for GIO modules to implement.
@@ -105,8 +136,12 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * for static builds.
      */
     public static PointerIterator<java.lang.String> query() {
-        var RESULT = gtk_h.g_io_module_query();
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_io_module_query.invokeExact();
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

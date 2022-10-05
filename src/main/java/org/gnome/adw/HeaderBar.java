@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -102,9 +101,18 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         return new HeaderBar(gobject.refcounted());
     }
     
+    static final MethodHandle adw_header_bar_new = Interop.downcallHandle(
+        "adw_header_bar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_header_bar_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_header_bar_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -114,59 +122,127 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         super(constructNew());
     }
     
+    static final MethodHandle adw_header_bar_get_centering_policy = Interop.downcallHandle(
+        "adw_header_bar_get_centering_policy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the policy for aligning the center widget.
      */
     public CenteringPolicy getCenteringPolicy() {
-        var RESULT = gtk_h.adw_header_bar_get_centering_policy(handle());
-        return new CenteringPolicy(RESULT);
+        try {
+            var RESULT = (int) adw_header_bar_get_centering_policy.invokeExact(handle());
+            return new CenteringPolicy(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_get_decoration_layout = Interop.downcallHandle(
+        "adw_header_bar_get_decoration_layout",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the decoration layout for {@code self}.
      */
     public java.lang.String getDecorationLayout() {
-        var RESULT = gtk_h.adw_header_bar_get_decoration_layout(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_header_bar_get_decoration_layout.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_get_show_end_title_buttons = Interop.downcallHandle(
+        "adw_header_bar_get_show_end_title_buttons",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether to show title buttons at the end of {@code self}.
      */
     public boolean getShowEndTitleButtons() {
-        var RESULT = gtk_h.adw_header_bar_get_show_end_title_buttons(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_header_bar_get_show_end_title_buttons.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_get_show_start_title_buttons = Interop.downcallHandle(
+        "adw_header_bar_get_show_start_title_buttons",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether to show title buttons at the start of {@code self}.
      */
     public boolean getShowStartTitleButtons() {
-        var RESULT = gtk_h.adw_header_bar_get_show_start_title_buttons(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_header_bar_get_show_start_title_buttons.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_get_title_widget = Interop.downcallHandle(
+        "adw_header_bar_get_title_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the title widget widget of {@code self}.
      */
     public org.gtk.gtk.Widget getTitleWidget() {
-        var RESULT = gtk_h.adw_header_bar_get_title_widget(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_header_bar_get_title_widget.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_pack_end = Interop.downcallHandle(
+        "adw_header_bar_pack_end",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code child} to {@code self}, packed with reference to the end of {@code self}.
      */
     public void packEnd(org.gtk.gtk.Widget child) {
-        gtk_h.adw_header_bar_pack_end(handle(), child.handle());
+        try {
+            adw_header_bar_pack_end.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_pack_start = Interop.downcallHandle(
+        "adw_header_bar_pack_start",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code child} to {@code self}, packed with reference to the start of the {@code self}.
      */
     public void packStart(org.gtk.gtk.Widget child) {
-        gtk_h.adw_header_bar_pack_start(handle(), child.handle());
+        try {
+            adw_header_bar_pack_start.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_remove = Interop.downcallHandle(
+        "adw_header_bar_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a child from {@code self}.
@@ -175,42 +251,91 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * {@code HeaderBar:title-widget}.
      */
     public void remove(org.gtk.gtk.Widget child) {
-        gtk_h.adw_header_bar_remove(handle(), child.handle());
+        try {
+            adw_header_bar_remove.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_set_centering_policy = Interop.downcallHandle(
+        "adw_header_bar_set_centering_policy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the policy for aligning the center widget.
      */
     public void setCenteringPolicy(CenteringPolicy centeringPolicy) {
-        gtk_h.adw_header_bar_set_centering_policy(handle(), centeringPolicy.getValue());
+        try {
+            adw_header_bar_set_centering_policy.invokeExact(handle(), centeringPolicy.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_set_decoration_layout = Interop.downcallHandle(
+        "adw_header_bar_set_decoration_layout",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the decoration layout for {@code self}.
      */
     public void setDecorationLayout(java.lang.String layout) {
-        gtk_h.adw_header_bar_set_decoration_layout(handle(), Interop.allocateNativeString(layout).handle());
+        try {
+            adw_header_bar_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_set_show_end_title_buttons = Interop.downcallHandle(
+        "adw_header_bar_set_show_end_title_buttons",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to show title buttons at the end of {@code self}.
      */
     public void setShowEndTitleButtons(boolean setting) {
-        gtk_h.adw_header_bar_set_show_end_title_buttons(handle(), setting ? 1 : 0);
+        try {
+            adw_header_bar_set_show_end_title_buttons.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_set_show_start_title_buttons = Interop.downcallHandle(
+        "adw_header_bar_set_show_start_title_buttons",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to show title buttons at the start of {@code self}.
      */
     public void setShowStartTitleButtons(boolean setting) {
-        gtk_h.adw_header_bar_set_show_start_title_buttons(handle(), setting ? 1 : 0);
+        try {
+            adw_header_bar_set_show_start_title_buttons.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_header_bar_set_title_widget = Interop.downcallHandle(
+        "adw_header_bar_set_title_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the title widget for {@code self}.
      */
     public void setTitleWidget(org.gtk.gtk.Widget titleWidget) {
-        gtk_h.adw_header_bar_set_title_widget(handle(), titleWidget.handle());
+        try {
+            adw_header_bar_set_title_widget.invokeExact(handle(), titleWidget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

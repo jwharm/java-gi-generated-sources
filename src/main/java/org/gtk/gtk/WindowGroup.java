@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -34,9 +33,18 @@ public class WindowGroup extends org.gtk.gobject.Object {
         return new WindowGroup(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_window_group_new = Interop.downcallHandle(
+        "gtk_window_group_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_window_group_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_window_group_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -49,26 +57,53 @@ public class WindowGroup extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_window_group_add_window = Interop.downcallHandle(
+        "gtk_window_group_add_window",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a window to a {@code GtkWindowGroup}.
      */
     public void addWindow(Window window) {
-        gtk_h.gtk_window_group_add_window(handle(), window.handle());
+        try {
+            gtk_window_group_add_window.invokeExact(handle(), window.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_group_list_windows = Interop.downcallHandle(
+        "gtk_window_group_list_windows",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a list of the {@code GtkWindows} that belong to {@code window_group}.
      */
     public org.gtk.glib.List listWindows() {
-        var RESULT = gtk_h.gtk_window_group_list_windows(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_window_group_list_windows.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_window_group_remove_window = Interop.downcallHandle(
+        "gtk_window_group_remove_window",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a window from a {@code GtkWindowGroup}.
      */
     public void removeWindow(Window window) {
-        gtk_h.gtk_window_group_remove_window(handle(), window.handle());
+        try {
+            gtk_window_group_remove_window.invokeExact(handle(), window.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

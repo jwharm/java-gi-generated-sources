@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -32,9 +31,18 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
         return new BufferedOutputStream(gobject.refcounted());
     }
     
+    static final MethodHandle g_buffered_output_stream_new = Interop.downcallHandle(
+        "g_buffered_output_stream_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(OutputStream baseStream) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_buffered_output_stream_new(baseStream.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_buffered_output_stream_new.invokeExact(baseStream.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -44,9 +52,18 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
         super(constructNew(baseStream));
     }
     
+    static final MethodHandle g_buffered_output_stream_new_sized = Interop.downcallHandle(
+        "g_buffered_output_stream_new_sized",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewSized(OutputStream baseStream, long size) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_buffered_output_stream_new_sized(baseStream.handle(), size), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_buffered_output_stream_new_sized.invokeExact(baseStream.handle(), size), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -56,21 +73,44 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
         return new BufferedOutputStream(constructNewSized(baseStream, size));
     }
     
+    static final MethodHandle g_buffered_output_stream_get_auto_grow = Interop.downcallHandle(
+        "g_buffered_output_stream_get_auto_grow",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Checks if the buffer automatically grows as data is added.
      */
     public boolean getAutoGrow() {
-        var RESULT = gtk_h.g_buffered_output_stream_get_auto_grow(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_buffered_output_stream_get_auto_grow.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_buffered_output_stream_get_buffer_size = Interop.downcallHandle(
+        "g_buffered_output_stream_get_buffer_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the size of the buffer in the {@code stream}.
      */
     public long getBufferSize() {
-        var RESULT = gtk_h.g_buffered_output_stream_get_buffer_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_buffered_output_stream_get_buffer_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_buffered_output_stream_set_auto_grow = Interop.downcallHandle(
+        "g_buffered_output_stream_set_auto_grow",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether or not the {@code stream}'s buffer should automatically grow.
@@ -79,14 +119,27 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
      * the data to the underlying stream.
      */
     public void setAutoGrow(boolean autoGrow) {
-        gtk_h.g_buffered_output_stream_set_auto_grow(handle(), autoGrow ? 1 : 0);
+        try {
+            g_buffered_output_stream_set_auto_grow.invokeExact(handle(), autoGrow ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_buffered_output_stream_set_buffer_size = Interop.downcallHandle(
+        "g_buffered_output_stream_set_buffer_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Sets the size of the internal buffer to {@code size}.
      */
     public void setBufferSize(long size) {
-        gtk_h.g_buffered_output_stream_set_buffer_size(handle(), size);
+        try {
+            g_buffered_output_stream_set_buffer_size.invokeExact(handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

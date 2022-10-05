@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,9 +36,18 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_cell_view_new = Interop.downcallHandle(
+        "gtk_cell_view_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_view_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -49,9 +57,18 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         super(constructNew());
     }
     
+    static final MethodHandle gtk_cell_view_new_with_context = Interop.downcallHandle(
+        "gtk_cell_view_new_with_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithContext(CellArea area, CellAreaContext context) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new_with_context(area.handle(), context.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_view_new_with_context.invokeExact(area.handle(), context.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -67,9 +84,18 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(constructNewWithContext(area, context));
     }
     
+    static final MethodHandle gtk_cell_view_new_with_markup = Interop.downcallHandle(
+        "gtk_cell_view_new_with_markup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithMarkup(java.lang.String markup) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_view_new_with_markup.invokeExact(Interop.allocateNativeString(markup).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -81,9 +107,18 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(constructNewWithMarkup(markup));
     }
     
+    static final MethodHandle gtk_cell_view_new_with_text = Interop.downcallHandle(
+        "gtk_cell_view_new_with_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithText(java.lang.String text) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_view_new_with_text.invokeExact(Interop.allocateNativeString(text).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -94,9 +129,18 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(constructNewWithText(text));
     }
     
+    static final MethodHandle gtk_cell_view_new_with_texture = Interop.downcallHandle(
+        "gtk_cell_view_new_with_texture",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithTexture(org.gtk.gdk.Texture texture) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_view_new_with_texture(texture.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_view_new_with_texture.invokeExact(texture.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -107,42 +151,83 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(constructNewWithTexture(texture));
     }
     
+    static final MethodHandle gtk_cell_view_get_displayed_row = Interop.downcallHandle(
+        "gtk_cell_view_get_displayed_row",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns a {@code GtkTreePath} referring to the currently
      * displayed row. If no row is currently displayed,
      * {@code null} is returned.
      */
     public TreePath getDisplayedRow() {
-        var RESULT = gtk_h.gtk_cell_view_get_displayed_row(handle());
-        return new TreePath(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_cell_view_get_displayed_row.invokeExact(handle());
+            return new TreePath(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_view_get_draw_sensitive = Interop.downcallHandle(
+        "gtk_cell_view_get_draw_sensitive",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code cell_view} is configured to draw all of its
      * cells in a sensitive state.
      */
     public boolean getDrawSensitive() {
-        var RESULT = gtk_h.gtk_cell_view_get_draw_sensitive(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_view_get_draw_sensitive.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_view_get_fit_model = Interop.downcallHandle(
+        "gtk_cell_view_get_fit_model",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code cell_view} is configured to request space
      * to fit the entire {@code GtkTreeModel}.
      */
     public boolean getFitModel() {
-        var RESULT = gtk_h.gtk_cell_view_get_fit_model(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_cell_view_get_fit_model.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_view_get_model = Interop.downcallHandle(
+        "gtk_cell_view_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the model for {@code cell_view}. If no model is used {@code null} is
      * returned.
      */
     public TreeModel getModel() {
-        var RESULT = gtk_h.gtk_cell_view_get_model(handle());
-        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_cell_view_get_model.invokeExact(handle());
+            return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_view_set_displayed_row = Interop.downcallHandle(
+        "gtk_cell_view_set_displayed_row",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the row of the model that is currently displayed
@@ -153,8 +238,17 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * the {@code GtkCellView} becomes temporarily empty.
      */
     public void setDisplayedRow(TreePath path) {
-        gtk_h.gtk_cell_view_set_displayed_row(handle(), path.handle());
+        try {
+            gtk_cell_view_set_displayed_row.invokeExact(handle(), path.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_view_set_draw_sensitive = Interop.downcallHandle(
+        "gtk_cell_view_set_draw_sensitive",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code cell_view} should draw all of its
@@ -163,8 +257,17 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * children appear sensitive in the parent menu item.
      */
     public void setDrawSensitive(boolean drawSensitive) {
-        gtk_h.gtk_cell_view_set_draw_sensitive(handle(), drawSensitive ? 1 : 0);
+        try {
+            gtk_cell_view_set_draw_sensitive.invokeExact(handle(), drawSensitive ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_view_set_fit_model = Interop.downcallHandle(
+        "gtk_cell_view_set_fit_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code cell_view} should request space to fit the entire {@code GtkTreeModel}.
@@ -174,8 +277,17 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * when selection changes.
      */
     public void setFitModel(boolean fitModel) {
-        gtk_h.gtk_cell_view_set_fit_model(handle(), fitModel ? 1 : 0);
+        try {
+            gtk_cell_view_set_fit_model.invokeExact(handle(), fitModel ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_view_set_model = Interop.downcallHandle(
+        "gtk_cell_view_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the model for {@code cell_view}.  If {@code cell_view} already has a model
@@ -183,7 +295,11 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * {@code null}, then it will unset the old model.
      */
     public void setModel(TreeModel model) {
-        gtk_h.gtk_cell_view_set_model(handle(), model.handle());
+        try {
+            gtk_cell_view_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,9 +25,18 @@ public class Coverage extends org.gtk.gobject.Object {
         return new Coverage(gobject.refcounted());
     }
     
+    static final MethodHandle pango_coverage_new = Interop.downcallHandle(
+        "pango_coverage_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.pango_coverage_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) pango_coverage_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -38,27 +46,54 @@ public class Coverage extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
+    static final MethodHandle pango_coverage_copy = Interop.downcallHandle(
+        "pango_coverage_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Copy an existing {@code PangoCoverage}.
      */
     public Coverage copy() {
-        var RESULT = gtk_h.pango_coverage_copy(handle());
-        return new Coverage(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_coverage_copy.invokeExact(handle());
+            return new Coverage(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_coverage_get = Interop.downcallHandle(
+        "pango_coverage_get",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determine whether a particular index is covered by {@code coverage}.
      */
     public CoverageLevel get(int index) {
-        var RESULT = gtk_h.pango_coverage_get(handle(), index);
-        return new CoverageLevel(RESULT);
+        try {
+            var RESULT = (int) pango_coverage_get.invokeExact(handle(), index);
+            return new CoverageLevel(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_coverage_set = Interop.downcallHandle(
+        "pango_coverage_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Modify a particular index within {@code coverage}
      */
     public void set(int index, CoverageLevel level) {
-        gtk_h.pango_coverage_set(handle(), index, level.getValue());
+        try {
+            pango_coverage_set.invokeExact(handle(), index, level.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

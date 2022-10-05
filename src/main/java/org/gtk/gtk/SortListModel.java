@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,9 +36,18 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
         return new SortListModel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_sort_list_model_new = Interop.downcallHandle(
+        "gtk_sort_list_model_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.ListModel model, Sorter sorter) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_sort_list_model_new(model.refcounted().unowned().handle(), sorter.refcounted().unowned().handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_sort_list_model_new.invokeExact(model.refcounted().unowned().handle(), sorter.refcounted().unowned().handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -49,23 +57,46 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
         super(constructNew(model, sorter));
     }
     
+    static final MethodHandle gtk_sort_list_model_get_incremental = Interop.downcallHandle(
+        "gtk_sort_list_model_get_incremental",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether incremental sorting is enabled.
      * <p>
      * See {@link SortListModel#setIncremental}.
      */
     public boolean getIncremental() {
-        var RESULT = gtk_h.gtk_sort_list_model_get_incremental(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_sort_list_model_get_incremental.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_sort_list_model_get_model = Interop.downcallHandle(
+        "gtk_sort_list_model_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the model currently sorted or {@code null} if none.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = gtk_h.gtk_sort_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_sort_list_model_get_model.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_sort_list_model_get_pending = Interop.downcallHandle(
+        "gtk_sort_list_model_get_pending",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Estimates progress of an ongoing sorting operation.
@@ -87,17 +118,35 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * function returns 0.
      */
     public int getPending() {
-        var RESULT = gtk_h.gtk_sort_list_model_get_pending(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_sort_list_model_get_pending.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_sort_list_model_get_sorter = Interop.downcallHandle(
+        "gtk_sort_list_model_get_sorter",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the sorter that is used to sort {@code self}.
      */
     public Sorter getSorter() {
-        var RESULT = gtk_h.gtk_sort_list_model_get_sorter(handle());
-        return new Sorter(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_sort_list_model_get_sorter.invokeExact(handle());
+            return new Sorter(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_sort_list_model_set_incremental = Interop.downcallHandle(
+        "gtk_sort_list_model_set_incremental",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the sort model to do an incremental sort.
@@ -118,8 +167,17 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * about an ongoing incremental sorting operation.
      */
     public void setIncremental(boolean incremental) {
-        gtk_h.gtk_sort_list_model_set_incremental(handle(), incremental ? 1 : 0);
+        try {
+            gtk_sort_list_model_set_incremental.invokeExact(handle(), incremental ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_sort_list_model_set_model = Interop.downcallHandle(
+        "gtk_sort_list_model_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the model to be sorted.
@@ -127,14 +185,27 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * The {@code model}'s item type must conform to the item type of {@code self}.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        gtk_h.gtk_sort_list_model_set_model(handle(), model.handle());
+        try {
+            gtk_sort_list_model_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_sort_list_model_set_sorter = Interop.downcallHandle(
+        "gtk_sort_list_model_set_sorter",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a new sorter on {@code self}.
      */
     public void setSorter(Sorter sorter) {
-        gtk_h.gtk_sort_list_model_set_sorter(handle(), sorter.handle());
+        try {
+            gtk_sort_list_model_set_sorter.invokeExact(handle(), sorter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

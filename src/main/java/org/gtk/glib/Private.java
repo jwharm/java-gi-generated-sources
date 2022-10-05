@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,9 +29,10 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Private() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GPrivate.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_private_get = Interop.downcallHandle(
+        "g_private_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current value of the thread local variable {@code key}.
@@ -42,9 +42,18 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * created, for example).
      */
     public java.lang.foreign.MemoryAddress get() {
-        var RESULT = gtk_h.g_private_get(handle());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_private_get.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_private_replace = Interop.downcallHandle(
+        "g_private_replace",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the thread local variable {@code key} to have the value {@code value} in the
@@ -55,8 +64,17 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * {@code key} is run on it.
      */
     public void replace(java.lang.foreign.MemoryAddress value) {
-        gtk_h.g_private_replace(handle(), value);
+        try {
+            g_private_replace.invokeExact(handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_private_set = Interop.downcallHandle(
+        "g_private_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the thread local variable {@code key} to have the value {@code value} in the
@@ -66,7 +84,11 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * the {@link DestroyNotify} for {@code key} is not called on the old value.
      */
     public void set(java.lang.foreign.MemoryAddress value) {
-        gtk_h.g_private_set(handle(), value);
+        try {
+            g_private_set.invokeExact(handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

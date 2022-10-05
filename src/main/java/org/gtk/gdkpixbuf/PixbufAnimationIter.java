@@ -1,6 +1,5 @@
 package org.gtk.gdkpixbuf;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,6 +18,11 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
     public static PixbufAnimationIter castFrom(org.gtk.gobject.Object gobject) {
         return new PixbufAnimationIter(gobject.refcounted());
     }
+    
+    static final MethodHandle gdk_pixbuf_animation_iter_advance = Interop.downcallHandle(
+        "gdk_pixbuf_animation_iter_advance",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Possibly advances an animation to a new frame.
@@ -44,9 +48,18 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * and update the display with the new pixbuf.
      */
     public boolean advance(org.gtk.glib.TimeVal currentTime) {
-        var RESULT = gtk_h.gdk_pixbuf_animation_iter_advance(handle(), currentTime.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_pixbuf_animation_iter_advance.invokeExact(handle(), currentTime.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_pixbuf_animation_iter_get_delay_time = Interop.downcallHandle(
+        "gdk_pixbuf_animation_iter_get_delay_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of milliseconds the current pixbuf should be displayed,
@@ -60,9 +73,18 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * for GIF images is currently 20 milliseconds.
      */
     public int getDelayTime() {
-        var RESULT = gtk_h.gdk_pixbuf_animation_iter_get_delay_time(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_pixbuf_animation_iter_get_delay_time.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_pixbuf_animation_iter_get_pixbuf = Interop.downcallHandle(
+        "gdk_pixbuf_animation_iter_get_pixbuf",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current pixbuf which should be displayed.
@@ -82,9 +104,18 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * recycled as you advance the iterator.
      */
     public Pixbuf getPixbuf() {
-        var RESULT = gtk_h.gdk_pixbuf_animation_iter_get_pixbuf(handle());
-        return new Pixbuf(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_pixbuf_animation_iter_get_pixbuf.invokeExact(handle());
+            return new Pixbuf(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_pixbuf_animation_iter_on_currently_loading_frame = Interop.downcallHandle(
+        "gdk_pixbuf_animation_iter_on_currently_loading_frame",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Used to determine how to respond to the area_updated signal on
@@ -95,8 +126,12 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * you will need to redraw the screen for the updated area.
      */
     public boolean onCurrentlyLoadingFrame() {
-        var RESULT = gtk_h.gdk_pixbuf_animation_iter_on_currently_loading_frame(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_pixbuf_animation_iter_on_currently_loading_frame.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

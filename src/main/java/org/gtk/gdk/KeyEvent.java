@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,45 +18,95 @@ public class KeyEvent extends Event {
         return new KeyEvent(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_key_event_get_consumed_modifiers = Interop.downcallHandle(
+        "gdk_key_event_get_consumed_modifiers",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Extracts the consumed modifiers from a key event.
      */
     public ModifierType getConsumedModifiers() {
-        var RESULT = gtk_h.gdk_key_event_get_consumed_modifiers(handle());
-        return new ModifierType(RESULT);
+        try {
+            var RESULT = (int) gdk_key_event_get_consumed_modifiers.invokeExact(handle());
+            return new ModifierType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_key_event_get_keycode = Interop.downcallHandle(
+        "gdk_key_event_get_keycode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts the keycode from a key event.
      */
     public int getKeycode() {
-        var RESULT = gtk_h.gdk_key_event_get_keycode(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_key_event_get_keycode.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_key_event_get_keyval = Interop.downcallHandle(
+        "gdk_key_event_get_keyval",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts the keyval from a key event.
      */
     public int getKeyval() {
-        var RESULT = gtk_h.gdk_key_event_get_keyval(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_key_event_get_keyval.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_key_event_get_layout = Interop.downcallHandle(
+        "gdk_key_event_get_layout",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts the layout from a key event.
      */
     public int getLayout() {
-        var RESULT = gtk_h.gdk_key_event_get_layout(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_key_event_get_layout.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_key_event_get_level = Interop.downcallHandle(
+        "gdk_key_event_get_level",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts the shift level from a key event.
      */
     public int getLevel() {
-        var RESULT = gtk_h.gdk_key_event_get_level(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_key_event_get_level.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_key_event_get_match = Interop.downcallHandle(
+        "gdk_key_event_get_match",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets a keyval and modifier combination that will match
@@ -66,17 +115,35 @@ public class KeyEvent extends Event {
      * See {@link KeyEvent#matches}.
      */
     public boolean getMatch(PointerInteger keyval, ModifierType modifiers) {
-        var RESULT = gtk_h.gdk_key_event_get_match(handle(), keyval.handle(), new PointerInteger(modifiers.getValue()).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_key_event_get_match.invokeExact(handle(), keyval.handle(), new PointerInteger(modifiers.getValue()).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_key_event_is_modifier = Interop.downcallHandle(
+        "gdk_key_event_is_modifier",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts whether the key event is for a modifier key.
      */
     public boolean isModifier() {
-        var RESULT = gtk_h.gdk_key_event_is_modifier(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_key_event_is_modifier.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_key_event_matches = Interop.downcallHandle(
+        "gdk_key_event_matches",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Matches a key event against a keyval and modifiers.
@@ -89,8 +156,12 @@ public class KeyEvent extends Event {
      * Note that we ignore Caps Lock for matching.
      */
     public KeyMatch matches(int keyval, ModifierType modifiers) {
-        var RESULT = gtk_h.gdk_key_event_matches(handle(), keyval, modifiers.getValue());
-        return new KeyMatch(RESULT);
+        try {
+            var RESULT = (int) gdk_key_event_matches.invokeExact(handle(), keyval, modifiers.getValue());
+            return new KeyMatch(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

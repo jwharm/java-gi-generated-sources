@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,10 +19,19 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_option_group_new = Interop.downcallHandle(
+        "g_option_group_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String name, java.lang.String description, java.lang.String helpDescription, java.lang.foreign.MemoryAddress userData, DestroyNotify destroy) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_option_group_new(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(helpDescription).handle(), userData, 
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_option_group_new.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(helpDescription).handle(), userData, 
                     Interop.cbDestroyNotifySymbol()), true);
-        return RESULT;
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,20 +41,43 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(name, description, helpDescription, userData, destroy));
     }
     
+    static final MethodHandle g_option_group_add_entries = Interop.downcallHandle(
+        "g_option_group_add_entries",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds the options specified in {@code entries} to {@code group}.
      */
     public void addEntries(OptionEntry[] entries) {
-        gtk_h.g_option_group_add_entries(handle(), Interop.allocateNativeArray(entries).handle());
+        try {
+            g_option_group_add_entries.invokeExact(handle(), Interop.allocateNativeArray(entries).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_group_ref = Interop.downcallHandle(
+        "g_option_group_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increments the reference count of {@code group} by one.
      */
     public OptionGroup ref() {
-        var RESULT = gtk_h.g_option_group_ref(handle());
-        return new OptionGroup(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_option_group_ref.invokeExact(handle());
+            return new OptionGroup(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_group_set_translate_func = Interop.downcallHandle(
+        "g_option_group_set_translate_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the function which is used to translate user-visible strings,
@@ -58,26 +89,40 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setTranslateFunc(TranslateFunc func) {
         try {
-            gtk_h.g_option_group_set_translate_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_option_group_set_translate_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTranslateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_option_group_set_translation_domain = Interop.downcallHandle(
+        "g_option_group_set_translation_domain",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function to use gettext() for translating
      * user-visible strings.
      */
     public void setTranslationDomain(java.lang.String domain) {
-        gtk_h.g_option_group_set_translation_domain(handle(), Interop.allocateNativeString(domain).handle());
+        try {
+            g_option_group_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_group_unref = Interop.downcallHandle(
+        "g_option_group_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrements the reference count of {@code group} by one.
@@ -85,7 +130,11 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      * and all memory allocated by the {@code group} is released.
      */
     public void unref() {
-        gtk_h.g_option_group_unref(handle());
+        try {
+            g_option_group_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

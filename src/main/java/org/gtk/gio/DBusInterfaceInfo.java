@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,9 +13,10 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public DBusInterfaceInfo() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GDBusInterfaceInfo.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_dbus_interface_info_cache_build = Interop.downcallHandle(
+        "g_dbus_interface_info_cache_build",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Builds a lookup-cache to speed up
@@ -31,8 +31,17 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * g_dbus_interface_info_cache_release() is called.
      */
     public void cacheBuild() {
-        gtk_h.g_dbus_interface_info_cache_build(handle());
+        try {
+            g_dbus_interface_info_cache_build.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_info_cache_release = Interop.downcallHandle(
+        "g_dbus_interface_info_cache_release",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrements the usage count for the cache for {@code info} built by
@@ -40,8 +49,17 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * resources used by the cache if the usage count drops to zero.
      */
     public void cacheRelease() {
-        gtk_h.g_dbus_interface_info_cache_release(handle());
+        try {
+            g_dbus_interface_info_cache_release.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_info_generate_xml = Interop.downcallHandle(
+        "g_dbus_interface_info_generate_xml",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Appends an XML representation of {@code info} (and its children) to {@code string_builder}.
@@ -52,8 +70,17 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * method.
      */
     public void generateXml(int indent, org.gtk.glib.String stringBuilder) {
-        gtk_h.g_dbus_interface_info_generate_xml(handle(), indent, stringBuilder.handle());
+        try {
+            g_dbus_interface_info_generate_xml.invokeExact(handle(), indent, stringBuilder.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_info_lookup_method = Interop.downcallHandle(
+        "g_dbus_interface_info_lookup_method",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up information about a method.
@@ -62,9 +89,18 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * g_dbus_interface_info_cache_build() has been used on {@code info}.
      */
     public DBusMethodInfo lookupMethod(java.lang.String name) {
-        var RESULT = gtk_h.g_dbus_interface_info_lookup_method(handle(), Interop.allocateNativeString(name).handle());
-        return new DBusMethodInfo(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_info_lookup_method.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return new DBusMethodInfo(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_info_lookup_property = Interop.downcallHandle(
+        "g_dbus_interface_info_lookup_property",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up information about a property.
@@ -73,9 +109,18 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * g_dbus_interface_info_cache_build() has been used on {@code info}.
      */
     public DBusPropertyInfo lookupProperty(java.lang.String name) {
-        var RESULT = gtk_h.g_dbus_interface_info_lookup_property(handle(), Interop.allocateNativeString(name).handle());
-        return new DBusPropertyInfo(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_info_lookup_property.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return new DBusPropertyInfo(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_info_lookup_signal = Interop.downcallHandle(
+        "g_dbus_interface_info_lookup_signal",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up information about a signal.
@@ -84,18 +129,36 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * g_dbus_interface_info_cache_build() has been used on {@code info}.
      */
     public DBusSignalInfo lookupSignal(java.lang.String name) {
-        var RESULT = gtk_h.g_dbus_interface_info_lookup_signal(handle(), Interop.allocateNativeString(name).handle());
-        return new DBusSignalInfo(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_info_lookup_signal.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return new DBusSignalInfo(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_info_ref = Interop.downcallHandle(
+        "g_dbus_interface_info_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.
      */
     public DBusInterfaceInfo ref() {
-        var RESULT = gtk_h.g_dbus_interface_info_ref(handle());
-        return new DBusInterfaceInfo(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_info_ref.invokeExact(handle());
+            return new DBusInterfaceInfo(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_info_unref = Interop.downcallHandle(
+        "g_dbus_interface_info_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code info} is statically allocated, does nothing. Otherwise decreases
@@ -103,7 +166,11 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * the memory used is freed.
      */
     public void unref() {
-        gtk_h.g_dbus_interface_info_unref(handle());
+        try {
+            g_dbus_interface_info_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

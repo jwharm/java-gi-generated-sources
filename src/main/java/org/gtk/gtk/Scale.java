@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -98,9 +97,18 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
         return new Scale(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_scale_new = Interop.downcallHandle(
+        "gtk_scale_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Orientation orientation, Adjustment adjustment) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_scale_new(orientation.getValue(), adjustment.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_scale_new.invokeExact(orientation.getValue(), adjustment.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -110,9 +118,18 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
         super(constructNew(orientation, adjustment));
     }
     
+    static final MethodHandle gtk_scale_new_with_range = Interop.downcallHandle(
+        "gtk_scale_new_with_range",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNewWithRange(Orientation orientation, double min, double max, double step) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_scale_new_with_range.invokeExact(orientation.getValue(), min, max, step), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -132,6 +149,11 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
         return new Scale(constructNewWithRange(orientation, min, max, step));
     }
     
+    static final MethodHandle gtk_scale_add_mark = Interop.downcallHandle(
+        "gtk_scale_add_mark",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a mark at {@code value}.
      * <p>
@@ -144,40 +166,85 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * To remove marks from a scale, use {@link Scale#clearMarks}.
      */
     public void addMark(double value, PositionType position, java.lang.String markup) {
-        gtk_h.gtk_scale_add_mark(handle(), value, position.getValue(), Interop.allocateNativeString(markup).handle());
+        try {
+            gtk_scale_add_mark.invokeExact(handle(), value, position.getValue(), Interop.allocateNativeString(markup).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_clear_marks = Interop.downcallHandle(
+        "gtk_scale_clear_marks",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes any marks that have been added.
      */
     public void clearMarks() {
-        gtk_h.gtk_scale_clear_marks(handle());
+        try {
+            gtk_scale_clear_marks.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_get_digits = Interop.downcallHandle(
+        "gtk_scale_get_digits",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of decimal places that are displayed in the value.
      */
     public int getDigits() {
-        var RESULT = gtk_h.gtk_scale_get_digits(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_scale_get_digits.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_get_draw_value = Interop.downcallHandle(
+        "gtk_scale_get_draw_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the current value is displayed as a string
      * next to the slider.
      */
     public boolean getDrawValue() {
-        var RESULT = gtk_h.gtk_scale_get_draw_value(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_scale_get_draw_value.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_get_has_origin = Interop.downcallHandle(
+        "gtk_scale_get_has_origin",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the scale has an origin.
      */
     public boolean getHasOrigin() {
-        var RESULT = gtk_h.gtk_scale_get_has_origin(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_scale_get_has_origin.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_get_layout = Interop.downcallHandle(
+        "gtk_scale_get_layout",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code PangoLayout} used to display the scale.
@@ -186,9 +253,18 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * to be freed by the caller.
      */
     public org.pango.Layout getLayout() {
-        var RESULT = gtk_h.gtk_scale_get_layout(handle());
-        return new org.pango.Layout(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_scale_get_layout.invokeExact(handle());
+            return new org.pango.Layout(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_get_layout_offsets = Interop.downcallHandle(
+        "gtk_scale_get_layout_offsets",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the coordinates where the scale will draw the
@@ -201,16 +277,34 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * values are undefined.
      */
     public void getLayoutOffsets(PointerInteger x, PointerInteger y) {
-        gtk_h.gtk_scale_get_layout_offsets(handle(), x.handle(), y.handle());
+        try {
+            gtk_scale_get_layout_offsets.invokeExact(handle(), x.handle(), y.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_get_value_pos = Interop.downcallHandle(
+        "gtk_scale_get_value_pos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the position in which the current value is displayed.
      */
     public PositionType getValuePos() {
-        var RESULT = gtk_h.gtk_scale_get_value_pos(handle());
-        return new PositionType(RESULT);
+        try {
+            var RESULT = (int) gtk_scale_get_value_pos.invokeExact(handle());
+            return new PositionType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_set_digits = Interop.downcallHandle(
+        "gtk_scale_set_digits",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the number of decimal places that are displayed in the value.
@@ -227,16 +321,34 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * value yourself.
      */
     public void setDigits(int digits) {
-        gtk_h.gtk_scale_set_digits(handle(), digits);
+        try {
+            gtk_scale_set_digits.invokeExact(handle(), digits);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_set_draw_value = Interop.downcallHandle(
+        "gtk_scale_set_draw_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Specifies whether the current value is displayed as a string next
      * to the slider.
      */
     public void setDrawValue(boolean drawValue) {
-        gtk_h.gtk_scale_set_draw_value(handle(), drawValue ? 1 : 0);
+        try {
+            gtk_scale_set_draw_value.invokeExact(handle(), drawValue ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_set_format_value_func = Interop.downcallHandle(
+        "gtk_scale_set_format_value_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * {@code func} allows you to change how the scale value is displayed.
@@ -250,18 +362,23 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      */
     public void setFormatValueFunc(ScaleFormatValueFunc func) {
         try {
-            gtk_h.gtk_scale_set_format_value_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_scale_set_format_value_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbScaleFormatValueFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_scale_set_has_origin = Interop.downcallHandle(
+        "gtk_scale_set_has_origin",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the scale has an origin.
@@ -271,14 +388,27 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * (bottom or left side) and the current value.
      */
     public void setHasOrigin(boolean hasOrigin) {
-        gtk_h.gtk_scale_set_has_origin(handle(), hasOrigin ? 1 : 0);
+        try {
+            gtk_scale_set_has_origin.invokeExact(handle(), hasOrigin ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scale_set_value_pos = Interop.downcallHandle(
+        "gtk_scale_set_value_pos",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the position in which the current value is displayed.
      */
     public void setValuePos(PositionType pos) {
-        gtk_h.gtk_scale_set_value_pos(handle(), pos.getValue());
+        try {
+            gtk_scale_set_value_pos.invokeExact(handle(), pos.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

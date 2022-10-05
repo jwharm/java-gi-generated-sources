@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,6 +20,11 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gdk_frame_timings_get_complete = Interop.downcallHandle(
+        "gdk_frame_timings_get_complete",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether {@code timings} are complete.
      * <p>
@@ -37,18 +41,36 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * stored in the {@code GdkFrameTimings}.
      */
     public boolean getComplete() {
-        var RESULT = gtk_h.gdk_frame_timings_get_complete(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_frame_timings_get_complete.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_frame_timings_get_frame_counter = Interop.downcallHandle(
+        "gdk_frame_timings_get_frame_counter",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the frame counter value of the {@code GdkFrameClock} when
      * this frame was drawn.
      */
     public long getFrameCounter() {
-        var RESULT = gtk_h.gdk_frame_timings_get_frame_counter(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gdk_frame_timings_get_frame_counter.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_frame_timings_get_frame_time = Interop.downcallHandle(
+        "gdk_frame_timings_get_frame_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the frame time for the frame.
@@ -57,9 +79,18 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * animations for the frame. See {@link FrameClock#getFrameTime}.
      */
     public long getFrameTime() {
-        var RESULT = gtk_h.gdk_frame_timings_get_frame_time(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gdk_frame_timings_get_frame_time.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_frame_timings_get_predicted_presentation_time = Interop.downcallHandle(
+        "gdk_frame_timings_get_predicted_presentation_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the predicted time at which this frame will be displayed.
@@ -76,9 +107,18 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * for Audio/Video synchronization.
      */
     public long getPredictedPresentationTime() {
-        var RESULT = gtk_h.gdk_frame_timings_get_predicted_presentation_time(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gdk_frame_timings_get_predicted_presentation_time.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_frame_timings_get_presentation_time = Interop.downcallHandle(
+        "gdk_frame_timings_get_presentation_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Reurns the presentation time.
@@ -86,9 +126,18 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * This is the time at which the frame became visible to the user.
      */
     public long getPresentationTime() {
-        var RESULT = gtk_h.gdk_frame_timings_get_presentation_time(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gdk_frame_timings_get_presentation_time.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_frame_timings_get_refresh_interval = Interop.downcallHandle(
+        "gdk_frame_timings_get_refresh_interval",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the natural interval between presentation times for
@@ -98,17 +147,35 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * blanking interval”.
      */
     public long getRefreshInterval() {
-        var RESULT = gtk_h.gdk_frame_timings_get_refresh_interval(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gdk_frame_timings_get_refresh_interval.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_frame_timings_ref = Interop.downcallHandle(
+        "gdk_frame_timings_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of {@code timings}.
      */
     public FrameTimings ref() {
-        var RESULT = gtk_h.gdk_frame_timings_ref(handle());
-        return new FrameTimings(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_frame_timings_ref.invokeExact(handle());
+            return new FrameTimings(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_frame_timings_unref = Interop.downcallHandle(
+        "gdk_frame_timings_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of {@code timings}.
@@ -116,7 +183,11 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * If {@code timings} is no longer referenced, it will be freed.
      */
     public void unref() {
-        gtk_h.gdk_frame_timings_unref(handle());
+        try {
+            gdk_frame_timings_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

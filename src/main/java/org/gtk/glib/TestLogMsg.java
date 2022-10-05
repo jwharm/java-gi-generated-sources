@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -11,15 +10,20 @@ public class TestLogMsg extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public TestLogMsg() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTestLogMsg.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_test_log_msg_free = Interop.downcallHandle(
+        "g_test_log_msg_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Internal function for gtester to free test log messages, no ABI guarantees provided.
      */
     public void free() {
-        gtk_h.g_test_log_msg_free(handle());
+        try {
+            g_test_log_msg_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

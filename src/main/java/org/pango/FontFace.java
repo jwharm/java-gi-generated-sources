@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,6 +19,11 @@ public class FontFace extends org.gtk.gobject.Object {
         return new FontFace(gobject.refcounted());
     }
     
+    static final MethodHandle pango_font_face_describe = Interop.downcallHandle(
+        "pango_font_face_describe",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns a font description that matches the face.
      * <p>
@@ -28,9 +32,18 @@ public class FontFace extends org.gtk.gobject.Object {
      * will be unset.
      */
     public FontDescription describe() {
-        var RESULT = gtk_h.pango_font_face_describe(handle());
-        return new FontDescription(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_face_describe.invokeExact(handle());
+            return new FontDescription(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_face_get_face_name = Interop.downcallHandle(
+        "pango_font_face_get_face_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a name representing the style of this face.
@@ -40,17 +53,35 @@ public class FontFace extends org.gtk.gobject.Object {
      * face for the same style).
      */
     public java.lang.String getFaceName() {
-        var RESULT = gtk_h.pango_font_face_get_face_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_font_face_get_face_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_face_get_family = Interop.downcallHandle(
+        "pango_font_face_get_family",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code PangoFontFamily} that {@code face} belongs to.
      */
     public FontFamily getFamily() {
-        var RESULT = gtk_h.pango_font_face_get_family(handle());
-        return new FontFamily(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_font_face_get_family.invokeExact(handle());
+            return new FontFamily(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_face_is_synthesized = Interop.downcallHandle(
+        "pango_font_face_is_synthesized",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether a {@code PangoFontFace} is synthesized.
@@ -60,9 +91,18 @@ public class FontFace extends org.gtk.gobject.Object {
      * lightening or modifying it in some other way.
      */
     public boolean isSynthesized() {
-        var RESULT = gtk_h.pango_font_face_is_synthesized(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_font_face_is_synthesized.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_face_list_sizes = Interop.downcallHandle(
+        "pango_font_face_list_sizes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * List the available sizes for a font.
@@ -73,7 +113,11 @@ public class FontFace extends org.gtk.gobject.Object {
      * in ascending order.
      */
     public void listSizes(int[] sizes, PointerInteger nSizes) {
-        gtk_h.pango_font_face_list_sizes(handle(), Interop.allocateNativeArray(sizes).handle(), nSizes.handle());
+        try {
+            pango_font_face_list_sizes.invokeExact(handle(), Interop.allocateNativeArray(sizes).handle(), nSizes.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

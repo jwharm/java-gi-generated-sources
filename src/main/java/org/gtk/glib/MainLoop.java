@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,18 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_main_loop_new = Interop.downcallHandle(
+        "g_main_loop_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(MainContext context, boolean isRunning) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_main_loop_new(context.handle(), isRunning ? 1 : 0), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_main_loop_new.invokeExact(context.handle(), isRunning ? 1 : 0), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -27,21 +35,44 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(context, isRunning));
     }
     
+    static final MethodHandle g_main_loop_get_context = Interop.downcallHandle(
+        "g_main_loop_get_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the {@link MainContext} of {@code loop}.
      */
     public MainContext getContext() {
-        var RESULT = gtk_h.g_main_loop_get_context(handle());
-        return new MainContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_main_loop_get_context.invokeExact(handle());
+            return new MainContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_loop_is_running = Interop.downcallHandle(
+        "g_main_loop_is_running",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks to see if the main loop is currently being run via g_main_loop_run().
      */
     public boolean isRunning() {
-        var RESULT = gtk_h.g_main_loop_is_running(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_main_loop_is_running.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_loop_quit = Interop.downcallHandle(
+        "g_main_loop_quit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stops a {@link MainLoop} from running. Any calls to g_main_loop_run()
@@ -51,16 +82,34 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      * g_main_loop_quit() is called will still be executed.
      */
     public void quit() {
-        gtk_h.g_main_loop_quit(handle());
+        try {
+            g_main_loop_quit.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_loop_ref = Interop.downcallHandle(
+        "g_main_loop_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count on a {@link MainLoop} object by one.
      */
     public MainLoop ref() {
-        var RESULT = gtk_h.g_main_loop_ref(handle());
-        return new MainLoop(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_main_loop_ref.invokeExact(handle());
+            return new MainLoop(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_loop_run = Interop.downcallHandle(
+        "g_main_loop_run",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Runs a main loop until g_main_loop_quit() is called on the loop.
@@ -69,15 +118,28 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      * simply wait.
      */
     public void run() {
-        gtk_h.g_main_loop_run(handle());
+        try {
+            g_main_loop_run.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_main_loop_unref = Interop.downcallHandle(
+        "g_main_loop_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on a {@link MainLoop} object by one. If
      * the result is zero, free the loop and free all associated memory.
      */
     public void unref() {
-        gtk_h.g_main_loop_unref(handle());
+        try {
+            g_main_loop_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

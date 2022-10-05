@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,9 +26,18 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_srv_target_new = Interop.downcallHandle(
+        "g_srv_target_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+    );
+    
     private static Refcounted constructNew(java.lang.String hostname, short port, short priority, short weight) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).handle(), port, priority, weight), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_srv_target_new.invokeExact(Interop.allocateNativeString(hostname).handle(), port, priority, weight), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -42,20 +50,43 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(hostname, port, priority, weight));
     }
     
+    static final MethodHandle g_srv_target_copy = Interop.downcallHandle(
+        "g_srv_target_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Copies {@code target}
      */
     public SrvTarget copy() {
-        var RESULT = gtk_h.g_srv_target_copy(handle());
-        return new SrvTarget(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_srv_target_copy.invokeExact(handle());
+            return new SrvTarget(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_srv_target_free = Interop.downcallHandle(
+        "g_srv_target_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees {@code target}
      */
     public void free() {
-        gtk_h.g_srv_target_free(handle());
+        try {
+            g_srv_target_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_srv_target_get_hostname = Interop.downcallHandle(
+        "g_srv_target_get_hostname",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code target}'s hostname (in ASCII form; if you are going to present
@@ -64,17 +95,35 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
      * g_hostname_to_unicode() to convert it if it does.)
      */
     public java.lang.String getHostname() {
-        var RESULT = gtk_h.g_srv_target_get_hostname(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_srv_target_get_hostname.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_srv_target_get_port = Interop.downcallHandle(
+        "g_srv_target_get_port",
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code target}'s port
      */
     public short getPort() {
-        var RESULT = gtk_h.g_srv_target_get_port(handle());
-        return RESULT;
+        try {
+            var RESULT = (short) g_srv_target_get_port.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_srv_target_get_priority = Interop.downcallHandle(
+        "g_srv_target_get_priority",
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code target}'s priority. You should not need to look at this;
@@ -82,9 +131,18 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
      * RFC 2782.
      */
     public short getPriority() {
-        var RESULT = gtk_h.g_srv_target_get_priority(handle());
-        return RESULT;
+        try {
+            var RESULT = (short) g_srv_target_get_priority.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_srv_target_get_weight = Interop.downcallHandle(
+        "g_srv_target_get_weight",
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code target}'s weight. You should not need to look at this;
@@ -92,16 +150,29 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
      * RFC 2782.
      */
     public short getWeight() {
-        var RESULT = gtk_h.g_srv_target_get_weight(handle());
-        return RESULT;
+        try {
+            var RESULT = (short) g_srv_target_get_weight.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_srv_target_list_sort = Interop.downcallHandle(
+        "g_srv_target_list_sort",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sorts {@code targets} in place according to the algorithm in RFC 2782.
      */
     public static org.gtk.glib.List listSort(org.gtk.glib.List targets) {
-        var RESULT = gtk_h.g_srv_target_list_sort(targets.handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_srv_target_list_sort.invokeExact(targets.handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

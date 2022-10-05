@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,27 +18,54 @@ public class PadEvent extends Event {
         return new PadEvent(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_pad_event_get_axis_value = Interop.downcallHandle(
+        "gdk_pad_event_get_axis_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Extracts the information from a pad strip or ring event.
      */
     public void getAxisValue(PointerInteger index, PointerDouble value) {
-        gtk_h.gdk_pad_event_get_axis_value(handle(), index.handle(), value.handle());
+        try {
+            gdk_pad_event_get_axis_value.invokeExact(handle(), index.handle(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_pad_event_get_button = Interop.downcallHandle(
+        "gdk_pad_event_get_button",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts information about the pressed button from
      * a pad event.
      */
     public int getButton() {
-        var RESULT = gtk_h.gdk_pad_event_get_button(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_pad_event_get_button.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_pad_event_get_group_mode = Interop.downcallHandle(
+        "gdk_pad_event_get_group_mode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts group and mode information from a pad event.
      */
     public void getGroupMode(PointerInteger group, PointerInteger mode) {
-        gtk_h.gdk_pad_event_get_group_mode(handle(), group.handle(), mode.handle());
+        try {
+            gdk_pad_event_get_group_mode.invokeExact(handle(), group.handle(), mode.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -112,6 +111,11 @@ public class Gesture extends EventController {
         return new Gesture(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_gesture_get_bounding_box = Interop.downcallHandle(
+        "gtk_gesture_get_bounding_box",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * If there are touch sequences being currently handled by {@code gesture},
      * returns {@code true} and fills in {@code rect} with the bounding box containing
@@ -126,9 +130,18 @@ public class Gesture extends EventController {
      * regardless of the number of touchpoints.
      */
     public boolean getBoundingBox(org.gtk.gdk.Rectangle rect) {
-        var RESULT = gtk_h.gtk_gesture_get_bounding_box(handle(), rect.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_get_bounding_box.invokeExact(handle(), rect.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_get_bounding_box_center = Interop.downcallHandle(
+        "gtk_gesture_get_bounding_box_center",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If there are touch sequences being currently handled by {@code gesture},
@@ -138,9 +151,18 @@ public class Gesture extends EventController {
      * Otherwise, {@code false} will be returned.
      */
     public boolean getBoundingBoxCenter(PointerDouble x, PointerDouble y) {
-        var RESULT = gtk_h.gtk_gesture_get_bounding_box_center(handle(), x.handle(), y.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_get_bounding_box_center.invokeExact(handle(), x.handle(), y.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_get_device = Interop.downcallHandle(
+        "gtk_gesture_get_device",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the logical {@code GdkDevice} that is currently operating
@@ -149,17 +171,35 @@ public class Gesture extends EventController {
      * This returns {@code null} if the gesture is not being interacted.
      */
     public org.gtk.gdk.Device getDevice() {
-        var RESULT = gtk_h.gtk_gesture_get_device(handle());
-        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_gesture_get_device.invokeExact(handle());
+            return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_get_group = Interop.downcallHandle(
+        "gtk_gesture_get_group",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns all gestures in the group of {@code gesture}
      */
     public org.gtk.glib.List getGroup() {
-        var RESULT = gtk_h.gtk_gesture_get_group(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_gesture_get_group.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_get_last_event = Interop.downcallHandle(
+        "gtk_gesture_get_last_event",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the last event that was processed for {@code sequence}.
@@ -169,17 +209,35 @@ public class Gesture extends EventController {
      * you should make a copy of the event.
      */
     public org.gtk.gdk.Event getLastEvent(org.gtk.gdk.EventSequence sequence) {
-        var RESULT = gtk_h.gtk_gesture_get_last_event(handle(), sequence.handle());
-        return new org.gtk.gdk.Event(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_gesture_get_last_event.invokeExact(handle(), sequence.handle());
+            return new org.gtk.gdk.Event(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_get_last_updated_sequence = Interop.downcallHandle(
+        "gtk_gesture_get_last_updated_sequence",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code GdkEventSequence} that was last updated on {@code gesture}.
      */
     public org.gtk.gdk.EventSequence getLastUpdatedSequence() {
-        var RESULT = gtk_h.gtk_gesture_get_last_updated_sequence(handle());
-        return new org.gtk.gdk.EventSequence(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_gesture_get_last_updated_sequence.invokeExact(handle());
+            return new org.gtk.gdk.EventSequence(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_get_point = Interop.downcallHandle(
+        "gtk_gesture_get_point",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code sequence} is currently being interpreted by {@code gesture},
@@ -189,26 +247,53 @@ public class Gesture extends EventController {
      * The coordinates are always relative to the widget allocation.
      */
     public boolean getPoint(org.gtk.gdk.EventSequence sequence, PointerDouble x, PointerDouble y) {
-        var RESULT = gtk_h.gtk_gesture_get_point(handle(), sequence.handle(), x.handle(), y.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_get_point.invokeExact(handle(), sequence.handle(), x.handle(), y.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_get_sequence_state = Interop.downcallHandle(
+        "gtk_gesture_get_sequence_state",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code sequence} state, as seen by {@code gesture}.
      */
     public EventSequenceState getSequenceState(org.gtk.gdk.EventSequence sequence) {
-        var RESULT = gtk_h.gtk_gesture_get_sequence_state(handle(), sequence.handle());
-        return new EventSequenceState(RESULT);
+        try {
+            var RESULT = (int) gtk_gesture_get_sequence_state.invokeExact(handle(), sequence.handle());
+            return new EventSequenceState(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_get_sequences = Interop.downcallHandle(
+        "gtk_gesture_get_sequences",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the list of {@code GdkEventSequences} currently being interpreted
      * by {@code gesture}.
      */
     public org.gtk.glib.List getSequences() {
-        var RESULT = gtk_h.gtk_gesture_get_sequences(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_gesture_get_sequences.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_group = Interop.downcallHandle(
+        "gtk_gesture_group",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code gesture} to the same group than {@code group_gesture}.
@@ -230,17 +315,35 @@ public class Gesture extends EventController {
      * {@link EventSequenceState#DENIED}.
      */
     public void group(Gesture gesture) {
-        gtk_h.gtk_gesture_group(handle(), gesture.handle());
+        try {
+            gtk_gesture_group.invokeExact(handle(), gesture.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_handles_sequence = Interop.downcallHandle(
+        "gtk_gesture_handles_sequence",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code gesture} is currently handling events
      * corresponding to {@code sequence}.
      */
     public boolean handlesSequence(org.gtk.gdk.EventSequence sequence) {
-        var RESULT = gtk_h.gtk_gesture_handles_sequence(handle(), sequence.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_handles_sequence.invokeExact(handle(), sequence.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_is_active = Interop.downcallHandle(
+        "gtk_gesture_is_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the gesture is currently active.
@@ -249,17 +352,35 @@ public class Gesture extends EventController {
      * interacting with it.
      */
     public boolean isActive() {
-        var RESULT = gtk_h.gtk_gesture_is_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_is_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_is_grouped_with = Interop.downcallHandle(
+        "gtk_gesture_is_grouped_with",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if both gestures pertain to the same group.
      */
     public boolean isGroupedWith(Gesture other) {
-        var RESULT = gtk_h.gtk_gesture_is_grouped_with(handle(), other.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_is_grouped_with.invokeExact(handle(), other.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_is_recognized = Interop.downcallHandle(
+        "gtk_gesture_is_recognized",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the gesture is currently recognized.
@@ -268,9 +389,18 @@ public class Gesture extends EventController {
      * touch sequences as required by {@code gesture}.
      */
     public boolean isRecognized() {
-        var RESULT = gtk_h.gtk_gesture_is_recognized(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_is_recognized.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_set_sequence_state = Interop.downcallHandle(
+        "gtk_gesture_set_sequence_state",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the state of {@code sequence} in {@code gesture}.
@@ -317,9 +447,18 @@ public class Gesture extends EventController {
      * gesture processes the event.
      */
     public boolean setSequenceState(org.gtk.gdk.EventSequence sequence, EventSequenceState state) {
-        var RESULT = gtk_h.gtk_gesture_set_sequence_state(handle(), sequence.handle(), state.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_set_sequence_state.invokeExact(handle(), sequence.handle(), state.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_set_state = Interop.downcallHandle(
+        "gtk_gesture_set_state",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the state of all sequences that {@code gesture} is currently
@@ -329,15 +468,28 @@ public class Gesture extends EventController {
      * on sequence states.
      */
     public boolean setState(EventSequenceState state) {
-        var RESULT = gtk_h.gtk_gesture_set_state(handle(), state.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_set_state.invokeExact(handle(), state.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_ungroup = Interop.downcallHandle(
+        "gtk_gesture_ungroup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Separates {@code gesture} into an isolated group.
      */
     public void ungroup() {
-        gtk_h.gtk_gesture_ungroup(handle());
+        try {
+            gtk_gesture_ungroup.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -358,19 +510,19 @@ public class Gesture extends EventController {
      */
     public SignalHandle onBegin(BeginHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("begin").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Gesture.Callbacks.class, "signalGestureBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -393,19 +545,19 @@ public class Gesture extends EventController {
      */
     public SignalHandle onCancel(CancelHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("cancel").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Gesture.Callbacks.class, "signalGestureCancel",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -427,19 +579,19 @@ public class Gesture extends EventController {
      */
     public SignalHandle onEnd(EndHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("end").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Gesture.Callbacks.class, "signalGestureEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -456,19 +608,19 @@ public class Gesture extends EventController {
      */
     public SignalHandle onSequenceStateChanged(SequenceStateChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("sequence-state-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Gesture.Callbacks.class, "signalGestureSequenceStateChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -484,19 +636,19 @@ public class Gesture extends EventController {
      */
     public SignalHandle onUpdate(UpdateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("update").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Gesture.Callbacks.class, "signalGestureUpdate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -46,6 +45,11 @@ import java.lang.invoke.*;
  */
 public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_selection_model_get_selection = Interop.downcallHandle(
+        "gtk_selection_model_get_selection",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the set containing all currently selected items in the model.
      * <p>
@@ -54,9 +58,18 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      * interested in a few, consider {@link SelectionModel#getSelectionInRange}.
      */
     public default Bitset getSelection() {
-        var RESULT = gtk_h.gtk_selection_model_get_selection(handle());
-        return new Bitset(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_selection_model_get_selection.invokeExact(handle());
+            return new Bitset(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_get_selection_in_range = Interop.downcallHandle(
+        "gtk_selection_model_get_selection_in_range",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the set of selected items in a range.
@@ -68,41 +81,86 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      * signal.
      */
     public default Bitset getSelectionInRange(int position, int nItems) {
-        var RESULT = gtk_h.gtk_selection_model_get_selection_in_range(handle(), position, nItems);
-        return new Bitset(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_selection_model_get_selection_in_range.invokeExact(handle(), position, nItems);
+            return new Bitset(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_is_selected = Interop.downcallHandle(
+        "gtk_selection_model_is_selected",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks if the given item is selected.
      */
     public default boolean isSelected(int position) {
-        var RESULT = gtk_h.gtk_selection_model_is_selected(handle(), position);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_selection_model_is_selected.invokeExact(handle(), position);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_select_all = Interop.downcallHandle(
+        "gtk_selection_model_select_all",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Requests to select all items in the model.
      */
     public default boolean selectAll() {
-        var RESULT = gtk_h.gtk_selection_model_select_all(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_selection_model_select_all.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_select_item = Interop.downcallHandle(
+        "gtk_selection_model_select_item",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Requests to select an item in the model.
      */
     public default boolean selectItem(int position, boolean unselectRest) {
-        var RESULT = gtk_h.gtk_selection_model_select_item(handle(), position, unselectRest ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_selection_model_select_item.invokeExact(handle(), position, unselectRest ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_select_range = Interop.downcallHandle(
+        "gtk_selection_model_select_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Requests to select a range of items in the model.
      */
     public default boolean selectRange(int position, int nItems, boolean unselectRest) {
-        var RESULT = gtk_h.gtk_selection_model_select_range(handle(), position, nItems, unselectRest ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_selection_model_select_range.invokeExact(handle(), position, nItems, unselectRest ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_selection_changed = Interop.downcallHandle(
+        "gtk_selection_model_selection_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Helper function for implementations of {@code GtkSelectionModel}.
@@ -111,8 +169,17 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      * {@code Gtk.SelectionModel::selection-changed} signal.
      */
     public default void selectionChanged(int position, int nItems) {
-        gtk_h.gtk_selection_model_selection_changed(handle(), position, nItems);
+        try {
+            gtk_selection_model_selection_changed.invokeExact(handle(), position, nItems);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_set_selection = Interop.downcallHandle(
+        "gtk_selection_model_set_selection",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Make selection changes.
@@ -150,32 +217,63 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      * be selected.
      */
     public default boolean setSelection(Bitset selected, Bitset mask) {
-        var RESULT = gtk_h.gtk_selection_model_set_selection(handle(), selected.handle(), mask.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_selection_model_set_selection.invokeExact(handle(), selected.handle(), mask.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_unselect_all = Interop.downcallHandle(
+        "gtk_selection_model_unselect_all",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Requests to unselect all items in the model.
      */
     public default boolean unselectAll() {
-        var RESULT = gtk_h.gtk_selection_model_unselect_all(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_selection_model_unselect_all.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_unselect_item = Interop.downcallHandle(
+        "gtk_selection_model_unselect_item",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Requests to unselect an item in the model.
      */
     public default boolean unselectItem(int position) {
-        var RESULT = gtk_h.gtk_selection_model_unselect_item(handle(), position);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_selection_model_unselect_item.invokeExact(handle(), position);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_model_unselect_range = Interop.downcallHandle(
+        "gtk_selection_model_unselect_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Requests to unselect a range of items in the model.
      */
     public default boolean unselectRange(int position, int nItems) {
-        var RESULT = gtk_h.gtk_selection_model_unselect_range(handle(), position, nItems);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_selection_model_unselect_range.invokeExact(handle(), position, nItems);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -193,19 +291,19 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onSelectionChanged(SelectionChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("selection-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SelectionModel.Callbacks.class, "signalSelectionModelSelectionChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

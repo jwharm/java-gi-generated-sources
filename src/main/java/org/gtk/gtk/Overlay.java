@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,9 +49,18 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
         return new Overlay(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_overlay_new = Interop.downcallHandle(
+        "gtk_overlay_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_overlay_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_overlay_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -61,6 +69,11 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
     public Overlay() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_overlay_add_overlay = Interop.downcallHandle(
+        "gtk_overlay_add_overlay",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code widget} to {@code overlay}.
@@ -73,54 +86,117 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * {@code Gtk.Widget:valign} properties.
      */
     public void addOverlay(Widget widget) {
-        gtk_h.gtk_overlay_add_overlay(handle(), widget.handle());
+        try {
+            gtk_overlay_add_overlay.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_get_child = Interop.downcallHandle(
+        "gtk_overlay_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the child widget of {@code overlay}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_overlay_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_overlay_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_get_clip_overlay = Interop.downcallHandle(
+        "gtk_overlay_get_clip_overlay",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code widget} should be clipped within the parent.
      */
     public boolean getClipOverlay(Widget widget) {
-        var RESULT = gtk_h.gtk_overlay_get_clip_overlay(handle(), widget.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_overlay_get_clip_overlay.invokeExact(handle(), widget.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_get_measure_overlay = Interop.downcallHandle(
+        "gtk_overlay_get_measure_overlay",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code widget}'s size is included in the measurement of
      * {@code overlay}.
      */
     public boolean getMeasureOverlay(Widget widget) {
-        var RESULT = gtk_h.gtk_overlay_get_measure_overlay(handle(), widget.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_overlay_get_measure_overlay.invokeExact(handle(), widget.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_remove_overlay = Interop.downcallHandle(
+        "gtk_overlay_remove_overlay",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes an overlay that was added with gtk_overlay_add_overlay().
      */
     public void removeOverlay(Widget widget) {
-        gtk_h.gtk_overlay_remove_overlay(handle(), widget.handle());
+        try {
+            gtk_overlay_remove_overlay.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_set_child = Interop.downcallHandle(
+        "gtk_overlay_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code overlay}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_overlay_set_child(handle(), child.handle());
+        try {
+            gtk_overlay_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_set_clip_overlay = Interop.downcallHandle(
+        "gtk_overlay_set_clip_overlay",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code widget} should be clipped within the parent.
      */
     public void setClipOverlay(Widget widget, boolean clipOverlay) {
-        gtk_h.gtk_overlay_set_clip_overlay(handle(), widget.handle(), clipOverlay ? 1 : 0);
+        try {
+            gtk_overlay_set_clip_overlay.invokeExact(handle(), widget.handle(), clipOverlay ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_overlay_set_measure_overlay = Interop.downcallHandle(
+        "gtk_overlay_set_measure_overlay",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code widget} is included in the measured size of {@code overlay}.
@@ -130,7 +206,11 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * be drawn outside of {@code overlay}'s allocation if they are too large.
      */
     public void setMeasureOverlay(Widget widget, boolean measure) {
-        gtk_h.gtk_overlay_set_measure_overlay(handle(), widget.handle(), measure ? 1 : 0);
+        try {
+            gtk_overlay_set_measure_overlay.invokeExact(handle(), widget.handle(), measure ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -156,19 +236,19 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onGetChildPosition(GetChildPositionHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("get-child-position").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Overlay.Callbacks.class, "signalOverlayGetChildPosition",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

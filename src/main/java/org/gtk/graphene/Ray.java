@@ -1,6 +1,5 @@
 package org.gtk.graphene;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,9 +16,18 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle graphene_ray_alloc = Interop.downcallHandle(
+        "graphene_ray_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructAlloc() {
-        Refcounted RESULT = Refcounted.get(gtk_h.graphene_ray_alloc(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) graphene_ray_alloc.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -31,35 +39,76 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
         return new Ray(constructAlloc());
     }
     
+    static final MethodHandle graphene_ray_equal = Interop.downcallHandle(
+        "graphene_ray_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Checks whether the two given {@link Ray} are equal.
      */
     public boolean equal(Ray b) {
-        var RESULT = gtk_h.graphene_ray_equal(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_ray_equal.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_free = Interop.downcallHandle(
+        "graphene_ray_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the resources allocated by graphene_ray_alloc().
      */
     public void free() {
-        gtk_h.graphene_ray_free(handle());
+        try {
+            graphene_ray_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_get_closest_point_to_point = Interop.downcallHandle(
+        "graphene_ray_get_closest_point_to_point",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the point on the given {@link Ray} that is closest to the
      * given point @p.
      */
     public void getClosestPointToPoint(Point3D p, Point3D res) {
-        gtk_h.graphene_ray_get_closest_point_to_point(handle(), p.handle(), res.handle());
+        try {
+            graphene_ray_get_closest_point_to_point.invokeExact(handle(), p.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_get_direction = Interop.downcallHandle(
+        "graphene_ray_get_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the direction of the given {@link Ray}.
      */
     public void getDirection(Vec3 direction) {
-        gtk_h.graphene_ray_get_direction(handle(), direction.handle());
+        try {
+            graphene_ray_get_direction.invokeExact(handle(), direction.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_get_distance_to_plane = Interop.downcallHandle(
+        "graphene_ray_get_distance_to_plane",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the distance of the origin of the given {@link Ray} from the
@@ -68,9 +117,18 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * If the ray does not intersect the plane, this function returns {@code INFINITY}.
      */
     public float getDistanceToPlane(Plane p) {
-        var RESULT = gtk_h.graphene_ray_get_distance_to_plane(handle(), p.handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_ray_get_distance_to_plane.invokeExact(handle(), p.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_get_distance_to_point = Interop.downcallHandle(
+        "graphene_ray_get_distance_to_point",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the distance of the closest approach between the
@@ -81,77 +139,158 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * ray itself.
      */
     public float getDistanceToPoint(Point3D p) {
-        var RESULT = gtk_h.graphene_ray_get_distance_to_point(handle(), p.handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_ray_get_distance_to_point.invokeExact(handle(), p.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_get_origin = Interop.downcallHandle(
+        "graphene_ray_get_origin",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the origin of the given {@link Ray}.
      */
     public void getOrigin(Point3D origin) {
-        gtk_h.graphene_ray_get_origin(handle(), origin.handle());
+        try {
+            graphene_ray_get_origin.invokeExact(handle(), origin.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_get_position_at = Interop.downcallHandle(
+        "graphene_ray_get_position_at",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the coordinates of a point at the distance @t along the
      * given {@link Ray}.
      */
     public void getPositionAt(float t, Point3D position) {
-        gtk_h.graphene_ray_get_position_at(handle(), t, position.handle());
+        try {
+            graphene_ray_get_position_at.invokeExact(handle(), t, position.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_init = Interop.downcallHandle(
+        "graphene_ray_init",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes the given {@link Ray} using the given {@code origin}
      * and {@code direction} values.
      */
     public Ray init(Point3D origin, Vec3 direction) {
-        var RESULT = gtk_h.graphene_ray_init(handle(), origin.handle(), direction.handle());
-        return new Ray(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_ray_init.invokeExact(handle(), origin.handle(), direction.handle());
+            return new Ray(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_init_from_ray = Interop.downcallHandle(
+        "graphene_ray_init_from_ray",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes the given {@link Ray} using the origin and direction
      * values of another {@link Ray}.
      */
     public Ray initFromRay(Ray src) {
-        var RESULT = gtk_h.graphene_ray_init_from_ray(handle(), src.handle());
-        return new Ray(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_ray_init_from_ray.invokeExact(handle(), src.handle());
+            return new Ray(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_init_from_vec3 = Interop.downcallHandle(
+        "graphene_ray_init_from_vec3",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes the given {@link Ray} using the given vectors.
      */
     public Ray initFromVec3(Vec3 origin, Vec3 direction) {
-        var RESULT = gtk_h.graphene_ray_init_from_vec3(handle(), origin.handle(), direction.handle());
-        return new Ray(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_ray_init_from_vec3.invokeExact(handle(), origin.handle(), direction.handle());
+            return new Ray(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_intersect_box = Interop.downcallHandle(
+        "graphene_ray_intersect_box",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Intersects the given {@link Ray} @r with the given
      * {@link Box} @b.
      */
     public RayIntersectionKind intersectBox(Box b, PointerFloat tOut) {
-        var RESULT = gtk_h.graphene_ray_intersect_box(handle(), b.handle(), tOut.handle());
-        return new RayIntersectionKind(RESULT);
+        try {
+            var RESULT = (int) graphene_ray_intersect_box.invokeExact(handle(), b.handle(), tOut.handle());
+            return new RayIntersectionKind(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_intersect_sphere = Interop.downcallHandle(
+        "graphene_ray_intersect_sphere",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Intersects the given {@link Ray} @r with the given
      * {@link Sphere} @s.
      */
     public RayIntersectionKind intersectSphere(Sphere s, PointerFloat tOut) {
-        var RESULT = gtk_h.graphene_ray_intersect_sphere(handle(), s.handle(), tOut.handle());
-        return new RayIntersectionKind(RESULT);
+        try {
+            var RESULT = (int) graphene_ray_intersect_sphere.invokeExact(handle(), s.handle(), tOut.handle());
+            return new RayIntersectionKind(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_intersect_triangle = Interop.downcallHandle(
+        "graphene_ray_intersect_triangle",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Intersects the given {@link Ray} @r with the given
      * {@link Triangle} @t.
      */
     public RayIntersectionKind intersectTriangle(Triangle t, PointerFloat tOut) {
-        var RESULT = gtk_h.graphene_ray_intersect_triangle(handle(), t.handle(), tOut.handle());
-        return new RayIntersectionKind(RESULT);
+        try {
+            var RESULT = (int) graphene_ray_intersect_triangle.invokeExact(handle(), t.handle(), tOut.handle());
+            return new RayIntersectionKind(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_intersects_box = Interop.downcallHandle(
+        "graphene_ray_intersects_box",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the given {@link Ray} @r intersects the
@@ -160,9 +299,18 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_ray_intersect_box()
      */
     public boolean intersectsBox(Box b) {
-        var RESULT = gtk_h.graphene_ray_intersects_box(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_ray_intersects_box.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_intersects_sphere = Interop.downcallHandle(
+        "graphene_ray_intersects_sphere",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the given {@link Ray} @r intersects the
@@ -171,9 +319,18 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_ray_intersect_sphere()
      */
     public boolean intersectsSphere(Sphere s) {
-        var RESULT = gtk_h.graphene_ray_intersects_sphere(handle(), s.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_ray_intersects_sphere.invokeExact(handle(), s.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_ray_intersects_triangle = Interop.downcallHandle(
+        "graphene_ray_intersects_triangle",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the given {@link Ray} @r intersects the
@@ -182,8 +339,12 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_ray_intersect_triangle()
      */
     public boolean intersectsTriangle(Triangle t) {
-        var RESULT = gtk_h.graphene_ray_intersects_triangle(handle(), t.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_ray_intersects_triangle.invokeExact(handle(), t.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

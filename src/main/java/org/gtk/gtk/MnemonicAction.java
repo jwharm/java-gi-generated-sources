@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,6 +18,11 @@ public class MnemonicAction extends ShortcutAction {
         return new MnemonicAction(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_mnemonic_action_get = Interop.downcallHandle(
+        "gtk_mnemonic_action_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the mnemonic action.
      * <p>
@@ -26,8 +30,12 @@ public class MnemonicAction extends ShortcutAction {
      * on the given widget upon activation.
      */
     public static MnemonicAction get() {
-        var RESULT = gtk_h.gtk_mnemonic_action_get();
-        return new MnemonicAction(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_mnemonic_action_get.invokeExact();
+            return new MnemonicAction(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

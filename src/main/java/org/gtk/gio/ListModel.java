@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -56,6 +55,11 @@ import java.lang.invoke.*;
  */
 public interface ListModel extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_list_model_get_item = Interop.downcallHandle(
+        "g_list_model_get_item",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Get the item at {@code position}.
      * <p>
@@ -68,9 +72,18 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * See also: g_list_model_get_n_items()
      */
     public default java.lang.foreign.MemoryAddress getItem(int position) {
-        var RESULT = gtk_h.g_list_model_get_item(handle(), position);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_list_model_get_item.invokeExact(handle(), position);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_list_model_get_item_type = Interop.downcallHandle(
+        "g_list_model_get_item_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the type of the items in {@code list}.
@@ -83,9 +96,18 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * model.
      */
     public default org.gtk.gobject.Type getItemType() {
-        var RESULT = gtk_h.g_list_model_get_item_type(handle());
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) g_list_model_get_item_type.invokeExact(handle());
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_list_model_get_n_items = Interop.downcallHandle(
+        "g_list_model_get_n_items",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of items in {@code list}.
@@ -95,9 +117,18 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * {@code position} until g_list_model_get_item() returns {@code null}.
      */
     public default int getNItems() {
-        var RESULT = gtk_h.g_list_model_get_n_items(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_list_model_get_n_items.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_list_model_get_object = Interop.downcallHandle(
+        "g_list_model_get_object",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Get the item at {@code position}.
@@ -114,9 +145,18 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * See also: g_list_model_get_n_items()
      */
     public default org.gtk.gobject.Object getObject(int position) {
-        var RESULT = gtk_h.g_list_model_get_object(handle(), position);
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_list_model_get_object.invokeExact(handle(), position);
+            return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_list_model_items_changed = Interop.downcallHandle(
+        "g_list_model_items_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Emits the {@link ListModel}::items-changed signal on {@code list}.
@@ -141,7 +181,11 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * same contents of the model.
      */
     public default void itemsChanged(int position, int removed, int added) {
-        gtk_h.g_list_model_items_changed(handle(), position, removed, added);
+        try {
+            g_list_model_items_changed.invokeExact(handle(), position, removed, added);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -159,19 +203,19 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onItemsChanged(ItemsChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("items-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListModel.Callbacks.class, "signalListModelItemsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

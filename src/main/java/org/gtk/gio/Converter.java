@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,6 +15,11 @@ import java.lang.invoke.*;
  */
 public interface Converter extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_converter_convert = Interop.downcallHandle(
+        "g_converter_convert",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * This is the main operation used when converting data. It is to be called
      * multiple times in a loop, and each time it will do some work, i.e.
@@ -102,12 +106,21 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      */
     public default ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, ConverterFlags flags, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_converter_convert(handle(), Interop.allocateNativeArray(inbuf).handle(), inbufSize, Interop.allocateNativeArray(outbuf).handle(), outbufSize, flags.getValue(), bytesRead.handle(), bytesWritten.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_converter_convert.invokeExact(handle(), Interop.allocateNativeArray(inbuf).handle(), inbufSize, Interop.allocateNativeArray(outbuf).handle(), outbufSize, flags.getValue(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new ConverterResult(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ConverterResult(RESULT);
     }
+    
+    static final MethodHandle g_converter_reset = Interop.downcallHandle(
+        "g_converter_reset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Resets all internal state in the converter, making it behave
@@ -115,7 +128,11 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * state that would produce output then that output is lost.
      */
     public default void reset() {
-        gtk_h.g_converter_reset(handle());
+        try {
+            g_converter_reset.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class ConverterImpl extends org.gtk.gobject.Object implements Converter {

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -110,9 +109,18 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         return new TreeView(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_tree_view_new = Interop.downcallHandle(
+        "gtk_tree_view_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_view_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_view_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -122,9 +130,18 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
+    static final MethodHandle gtk_tree_view_new_with_model = Interop.downcallHandle(
+        "gtk_tree_view_new_with_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithModel(TreeModel model) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_view_new_with_model(model.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_view_new_with_model.invokeExact(model.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -134,140 +151,298 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         return new TreeView(constructNewWithModel(model));
     }
     
+    static final MethodHandle gtk_tree_view_append_column = Interop.downcallHandle(
+        "gtk_tree_view_append_column",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Appends {@code column} to the list of columns. If {@code tree_view} has “fixed_height”
      * mode enabled, then {@code column} must have its “sizing” property set to be
      * GTK_TREE_VIEW_COLUMN_FIXED.
      */
     public int appendColumn(TreeViewColumn column) {
-        var RESULT = gtk_h.gtk_tree_view_append_column(handle(), column.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_view_append_column.invokeExact(handle(), column.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_collapse_all = Interop.downcallHandle(
+        "gtk_tree_view_collapse_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Recursively collapses all visible, expanded nodes in {@code tree_view}.
      */
     public void collapseAll() {
-        gtk_h.gtk_tree_view_collapse_all(handle());
+        try {
+            gtk_tree_view_collapse_all.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_collapse_row = Interop.downcallHandle(
+        "gtk_tree_view_collapse_row",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Collapses a row (hides its child rows, if they exist).
      */
     public boolean collapseRow(TreePath path) {
-        var RESULT = gtk_h.gtk_tree_view_collapse_row(handle(), path.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_collapse_row.invokeExact(handle(), path.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_columns_autosize = Interop.downcallHandle(
+        "gtk_tree_view_columns_autosize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Resizes all columns to their optimal width. Only works after the
      * treeview has been realized.
      */
     public void columnsAutosize() {
-        gtk_h.gtk_tree_view_columns_autosize(handle());
+        try {
+            gtk_tree_view_columns_autosize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_convert_bin_window_to_tree_coords = Interop.downcallHandle(
+        "gtk_tree_view_convert_bin_window_to_tree_coords",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts bin_window coordinates to coordinates for the
      * tree (the full scrollable area of the tree).
      */
     public void convertBinWindowToTreeCoords(int bx, int by, PointerInteger tx, PointerInteger ty) {
-        gtk_h.gtk_tree_view_convert_bin_window_to_tree_coords(handle(), bx, by, tx.handle(), ty.handle());
+        try {
+            gtk_tree_view_convert_bin_window_to_tree_coords.invokeExact(handle(), bx, by, tx.handle(), ty.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_convert_bin_window_to_widget_coords = Interop.downcallHandle(
+        "gtk_tree_view_convert_bin_window_to_widget_coords",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts bin_window coordinates to widget relative coordinates.
      */
     public void convertBinWindowToWidgetCoords(int bx, int by, PointerInteger wx, PointerInteger wy) {
-        gtk_h.gtk_tree_view_convert_bin_window_to_widget_coords(handle(), bx, by, wx.handle(), wy.handle());
+        try {
+            gtk_tree_view_convert_bin_window_to_widget_coords.invokeExact(handle(), bx, by, wx.handle(), wy.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_convert_tree_to_bin_window_coords = Interop.downcallHandle(
+        "gtk_tree_view_convert_tree_to_bin_window_coords",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts tree coordinates (coordinates in full scrollable area of the tree)
      * to bin_window coordinates.
      */
     public void convertTreeToBinWindowCoords(int tx, int ty, PointerInteger bx, PointerInteger by) {
-        gtk_h.gtk_tree_view_convert_tree_to_bin_window_coords(handle(), tx, ty, bx.handle(), by.handle());
+        try {
+            gtk_tree_view_convert_tree_to_bin_window_coords.invokeExact(handle(), tx, ty, bx.handle(), by.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_convert_tree_to_widget_coords = Interop.downcallHandle(
+        "gtk_tree_view_convert_tree_to_widget_coords",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts tree coordinates (coordinates in full scrollable area of the tree)
      * to widget coordinates.
      */
     public void convertTreeToWidgetCoords(int tx, int ty, PointerInteger wx, PointerInteger wy) {
-        gtk_h.gtk_tree_view_convert_tree_to_widget_coords(handle(), tx, ty, wx.handle(), wy.handle());
+        try {
+            gtk_tree_view_convert_tree_to_widget_coords.invokeExact(handle(), tx, ty, wx.handle(), wy.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_convert_widget_to_bin_window_coords = Interop.downcallHandle(
+        "gtk_tree_view_convert_widget_to_bin_window_coords",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts widget coordinates to coordinates for the bin_window.
      */
     public void convertWidgetToBinWindowCoords(int wx, int wy, PointerInteger bx, PointerInteger by) {
-        gtk_h.gtk_tree_view_convert_widget_to_bin_window_coords(handle(), wx, wy, bx.handle(), by.handle());
+        try {
+            gtk_tree_view_convert_widget_to_bin_window_coords.invokeExact(handle(), wx, wy, bx.handle(), by.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_convert_widget_to_tree_coords = Interop.downcallHandle(
+        "gtk_tree_view_convert_widget_to_tree_coords",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts widget coordinates to coordinates for the
      * tree (the full scrollable area of the tree).
      */
     public void convertWidgetToTreeCoords(int wx, int wy, PointerInteger tx, PointerInteger ty) {
-        gtk_h.gtk_tree_view_convert_widget_to_tree_coords(handle(), wx, wy, tx.handle(), ty.handle());
+        try {
+            gtk_tree_view_convert_widget_to_tree_coords.invokeExact(handle(), wx, wy, tx.handle(), ty.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_create_row_drag_icon = Interop.downcallHandle(
+        "gtk_tree_view_create_row_drag_icon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a {@code cairo_surface_t} representation of the row at {@code path}.
      * This image is used for a drag icon.
      */
     public org.gtk.gdk.Paintable createRowDragIcon(TreePath path) {
-        var RESULT = gtk_h.gtk_tree_view_create_row_drag_icon(handle(), path.handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_view_create_row_drag_icon.invokeExact(handle(), path.handle());
+            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_enable_model_drag_dest = Interop.downcallHandle(
+        "gtk_tree_view_enable_model_drag_dest",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Turns {@code tree_view} into a drop destination for automatic DND. Calling
      * this method sets {@code GtkTreeView}:reorderable to {@code false}.
      */
     public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
-        gtk_h.gtk_tree_view_enable_model_drag_dest(handle(), formats.handle(), actions.getValue());
+        try {
+            gtk_tree_view_enable_model_drag_dest.invokeExact(handle(), formats.handle(), actions.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_enable_model_drag_source = Interop.downcallHandle(
+        "gtk_tree_view_enable_model_drag_source",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Turns {@code tree_view} into a drag source for automatic DND. Calling this
      * method sets {@code GtkTreeView}:reorderable to {@code false}.
      */
     public void enableModelDragSource(org.gtk.gdk.ModifierType startButtonMask, org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
-        gtk_h.gtk_tree_view_enable_model_drag_source(handle(), startButtonMask.getValue(), formats.handle(), actions.getValue());
+        try {
+            gtk_tree_view_enable_model_drag_source.invokeExact(handle(), startButtonMask.getValue(), formats.handle(), actions.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_expand_all = Interop.downcallHandle(
+        "gtk_tree_view_expand_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Recursively expands all nodes in the {@code tree_view}.
      */
     public void expandAll() {
-        gtk_h.gtk_tree_view_expand_all(handle());
+        try {
+            gtk_tree_view_expand_all.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_expand_row = Interop.downcallHandle(
+        "gtk_tree_view_expand_row",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Opens the row so its children are visible.
      */
     public boolean expandRow(TreePath path, boolean openAll) {
-        var RESULT = gtk_h.gtk_tree_view_expand_row(handle(), path.handle(), openAll ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_expand_row.invokeExact(handle(), path.handle(), openAll ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_expand_to_path = Interop.downcallHandle(
+        "gtk_tree_view_expand_to_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Expands the row at {@code path}. This will also expand all parent rows of
      * {@code path} as necessary.
      */
     public void expandToPath(TreePath path) {
-        gtk_h.gtk_tree_view_expand_to_path(handle(), path.handle());
+        try {
+            gtk_tree_view_expand_to_path.invokeExact(handle(), path.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_activate_on_single_click = Interop.downcallHandle(
+        "gtk_tree_view_get_activate_on_single_click",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the setting set by gtk_tree_view_set_activate_on_single_click().
      */
     public boolean getActivateOnSingleClick() {
-        var RESULT = gtk_h.gtk_tree_view_get_activate_on_single_click(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_activate_on_single_click.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_background_area = Interop.downcallHandle(
+        "gtk_tree_view_get_background_area",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fills the bounding rectangle in bin_window coordinates for the cell at the
@@ -281,8 +456,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * itself, excluding surrounding borders and the tree expander area.
      */
     public void getBackgroundArea(TreePath path, TreeViewColumn column, org.gtk.gdk.Rectangle rect) {
-        gtk_h.gtk_tree_view_get_background_area(handle(), path.handle(), column.handle(), rect.handle());
+        try {
+            gtk_tree_view_get_background_area.invokeExact(handle(), path.handle(), column.handle(), rect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_cell_area = Interop.downcallHandle(
+        "gtk_tree_view_get_cell_area",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fills the bounding rectangle in bin_window coordinates for the cell at the
@@ -296,25 +480,52 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * realized.
      */
     public void getCellArea(TreePath path, TreeViewColumn column, org.gtk.gdk.Rectangle rect) {
-        gtk_h.gtk_tree_view_get_cell_area(handle(), path.handle(), column.handle(), rect.handle());
+        try {
+            gtk_tree_view_get_cell_area.invokeExact(handle(), path.handle(), column.handle(), rect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_column = Interop.downcallHandle(
+        "gtk_tree_view_get_column",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the {@code GtkTreeViewColumn} at the given position in the {@code tree_view}.
      */
     public TreeViewColumn getColumn(int n) {
-        var RESULT = gtk_h.gtk_tree_view_get_column(handle(), n);
-        return new TreeViewColumn(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_view_get_column.invokeExact(handle(), n);
+            return new TreeViewColumn(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_columns = Interop.downcallHandle(
+        "gtk_tree_view_get_columns",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a {@code GList} of all the {@code GtkTreeViewColumn}s currently in {@code tree_view}.
      * The returned list must be freed with g_list_free ().
      */
     public org.gtk.glib.List getColumns() {
-        var RESULT = gtk_h.gtk_tree_view_get_columns(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_view_get_columns.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_cursor = Interop.downcallHandle(
+        "gtk_tree_view_get_cursor",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fills in {@code path} and {@code focus_column} with the current path and focus column.  If
@@ -325,8 +536,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * you are done with it.
      */
     public void getCursor(TreePath[] path, TreeViewColumn[] focusColumn) {
-        gtk_h.gtk_tree_view_get_cursor(handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(focusColumn).handle());
+        try {
+            gtk_tree_view_get_cursor.invokeExact(handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(focusColumn).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_dest_row_at_pos = Interop.downcallHandle(
+        "gtk_tree_view_get_dest_row_at_pos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines the destination row for a given position.  {@code drag_x} and
@@ -335,33 +555,69 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * return {@code false} if {@code tree_view} is not realized or does not have a model.
      */
     public boolean getDestRowAtPos(int dragX, int dragY, TreePath[] path, TreeViewDropPosition pos) {
-        var RESULT = gtk_h.gtk_tree_view_get_dest_row_at_pos(handle(), dragX, dragY, Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_dest_row_at_pos.invokeExact(handle(), dragX, dragY, Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_drag_dest_row = Interop.downcallHandle(
+        "gtk_tree_view_get_drag_dest_row",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets information about the row that is highlighted for feedback.
      */
     public void getDragDestRow(TreePath[] path, TreeViewDropPosition pos) {
-        gtk_h.gtk_tree_view_get_drag_dest_row(handle(), Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
+        try {
+            gtk_tree_view_get_drag_dest_row.invokeExact(handle(), Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_enable_search = Interop.downcallHandle(
+        "gtk_tree_view_get_enable_search",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether or not the tree allows to start interactive searching
      * by typing in text.
      */
     public boolean getEnableSearch() {
-        var RESULT = gtk_h.gtk_tree_view_get_enable_search(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_enable_search.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_enable_tree_lines = Interop.downcallHandle(
+        "gtk_tree_view_get_enable_tree_lines",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether or not tree lines are drawn in {@code tree_view}.
      */
     public boolean getEnableTreeLines() {
-        var RESULT = gtk_h.gtk_tree_view_get_enable_tree_lines(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_enable_tree_lines.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_expander_column = Interop.downcallHandle(
+        "gtk_tree_view_get_expander_column",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the column that is the current expander column,
@@ -369,83 +625,173 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * This column has the expander arrow drawn next to it.
      */
     public TreeViewColumn getExpanderColumn() {
-        var RESULT = gtk_h.gtk_tree_view_get_expander_column(handle());
-        return new TreeViewColumn(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_view_get_expander_column.invokeExact(handle());
+            return new TreeViewColumn(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_fixed_height_mode = Interop.downcallHandle(
+        "gtk_tree_view_get_fixed_height_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether fixed height mode is turned on for {@code tree_view}.
      */
     public boolean getFixedHeightMode() {
-        var RESULT = gtk_h.gtk_tree_view_get_fixed_height_mode(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_fixed_height_mode.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_grid_lines = Interop.downcallHandle(
+        "gtk_tree_view_get_grid_lines",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns which grid lines are enabled in {@code tree_view}.
      */
     public TreeViewGridLines getGridLines() {
-        var RESULT = gtk_h.gtk_tree_view_get_grid_lines(handle());
-        return new TreeViewGridLines(RESULT);
+        try {
+            var RESULT = (int) gtk_tree_view_get_grid_lines.invokeExact(handle());
+            return new TreeViewGridLines(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_headers_clickable = Interop.downcallHandle(
+        "gtk_tree_view_get_headers_clickable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether all header columns are clickable.
      */
     public boolean getHeadersClickable() {
-        var RESULT = gtk_h.gtk_tree_view_get_headers_clickable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_headers_clickable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_headers_visible = Interop.downcallHandle(
+        "gtk_tree_view_get_headers_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the headers on the {@code tree_view} are visible.
      */
     public boolean getHeadersVisible() {
-        var RESULT = gtk_h.gtk_tree_view_get_headers_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_headers_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_hover_expand = Interop.downcallHandle(
+        "gtk_tree_view_get_hover_expand",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether hover expansion mode is turned on for {@code tree_view}.
      */
     public boolean getHoverExpand() {
-        var RESULT = gtk_h.gtk_tree_view_get_hover_expand(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_hover_expand.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_hover_selection = Interop.downcallHandle(
+        "gtk_tree_view_get_hover_selection",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether hover selection mode is turned on for {@code tree_view}.
      */
     public boolean getHoverSelection() {
-        var RESULT = gtk_h.gtk_tree_view_get_hover_selection(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_hover_selection.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_level_indentation = Interop.downcallHandle(
+        "gtk_tree_view_get_level_indentation",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the amount, in pixels, of extra indentation for child levels
      * in {@code tree_view}.
      */
     public int getLevelIndentation() {
-        var RESULT = gtk_h.gtk_tree_view_get_level_indentation(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_view_get_level_indentation.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_model = Interop.downcallHandle(
+        "gtk_tree_view_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the model the {@code GtkTreeView} is based on.  Returns {@code null} if the
      * model is unset.
      */
     public TreeModel getModel() {
-        var RESULT = gtk_h.gtk_tree_view_get_model(handle());
-        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_view_get_model.invokeExact(handle());
+            return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_n_columns = Interop.downcallHandle(
+        "gtk_tree_view_get_n_columns",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the number of columns in the given {@code tree_view}.
      */
     public int getNColumns() {
-        var RESULT = gtk_h.gtk_tree_view_get_n_columns(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_view_get_n_columns.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_path_at_pos = Interop.downcallHandle(
+        "gtk_tree_view_get_path_at_pos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the path at the point (@x, @y), relative to bin_window coordinates.
@@ -466,18 +812,36 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * gtk_tree_view_convert_widget_to_bin_window_coords().
      */
     public boolean getPathAtPos(int x, int y, TreePath[] path, TreeViewColumn[] column, PointerInteger cellX, PointerInteger cellY) {
-        var RESULT = gtk_h.gtk_tree_view_get_path_at_pos(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(column).handle(), cellX.handle(), cellY.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_path_at_pos.invokeExact(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(column).handle(), cellX.handle(), cellY.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_reorderable = Interop.downcallHandle(
+        "gtk_tree_view_get_reorderable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves whether the user can reorder the tree via drag-and-drop. See
      * gtk_tree_view_set_reorderable().
      */
     public boolean getReorderable() {
-        var RESULT = gtk_h.gtk_tree_view_get_reorderable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_reorderable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_rubber_banding = Interop.downcallHandle(
+        "gtk_tree_view_get_rubber_banding",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether rubber banding is turned on for {@code tree_view}.  If the
@@ -485,17 +849,35 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * user to select multiple rows by dragging the mouse.
      */
     public boolean getRubberBanding() {
-        var RESULT = gtk_h.gtk_tree_view_get_rubber_banding(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_rubber_banding.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_search_column = Interop.downcallHandle(
+        "gtk_tree_view_get_search_column",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the column searched on by the interactive search code.
      */
     public int getSearchColumn() {
-        var RESULT = gtk_h.gtk_tree_view_get_search_column(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_view_get_search_column.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_search_entry = Interop.downcallHandle(
+        "gtk_tree_view_get_search_entry",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code GtkEntry} which is currently in use as interactive search
@@ -503,34 +885,70 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * will be returned.
      */
     public Editable getSearchEntry() {
-        var RESULT = gtk_h.gtk_tree_view_get_search_entry(handle());
-        return new Editable.EditableImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_view_get_search_entry.invokeExact(handle());
+            return new Editable.EditableImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_selection = Interop.downcallHandle(
+        "gtk_tree_view_get_selection",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GtkTreeSelection} associated with {@code tree_view}.
      */
     public TreeSelection getSelection() {
-        var RESULT = gtk_h.gtk_tree_view_get_selection(handle());
-        return new TreeSelection(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_view_get_selection.invokeExact(handle());
+            return new TreeSelection(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_show_expanders = Interop.downcallHandle(
+        "gtk_tree_view_get_show_expanders",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether or not expanders are drawn in {@code tree_view}.
      */
     public boolean getShowExpanders() {
-        var RESULT = gtk_h.gtk_tree_view_get_show_expanders(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_show_expanders.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_tooltip_column = Interop.downcallHandle(
+        "gtk_tree_view_get_tooltip_column",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the column of {@code tree_view}’s model which is being used for
      * displaying tooltips on {@code tree_view}’s rows.
      */
     public int getTooltipColumn() {
-        var RESULT = gtk_h.gtk_tree_view_get_tooltip_column(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_view_get_tooltip_column.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_tooltip_context = Interop.downcallHandle(
+        "gtk_tree_view_get_tooltip_context",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function is supposed to be used in a ::query-tooltip
@@ -546,9 +964,18 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * to be relative to {@code tree_view}’s bin_window if {@code keyboard_tooltip} is {@code false}.
      */
     public boolean getTooltipContext(int x, int y, boolean keyboardTip, TreeModel[] model, TreePath[] path, TreeIter iter) {
-        var RESULT = gtk_h.gtk_tree_view_get_tooltip_context(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model).handle(), Interop.allocateNativeArray(path).handle(), iter.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_tooltip_context.invokeExact(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model).handle(), Interop.allocateNativeArray(path).handle(), iter.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_visible_range = Interop.downcallHandle(
+        "gtk_tree_view_get_visible_range",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code start_path} and {@code end_path} to be the first and last visible path.
@@ -557,9 +984,18 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * The paths should be freed with gtk_tree_path_free() after use.
      */
     public boolean getVisibleRange(TreePath[] startPath, TreePath[] endPath) {
-        var RESULT = gtk_h.gtk_tree_view_get_visible_range(handle(), Interop.allocateNativeArray(startPath).handle(), Interop.allocateNativeArray(endPath).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_get_visible_range.invokeExact(handle(), Interop.allocateNativeArray(startPath).handle(), Interop.allocateNativeArray(endPath).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_get_visible_rect = Interop.downcallHandle(
+        "gtk_tree_view_get_visible_rect",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fills {@code visible_rect} with the currently-visible region of the
@@ -569,8 +1005,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * scrollable area of the tree.
      */
     public void getVisibleRect(org.gtk.gdk.Rectangle visibleRect) {
-        gtk_h.gtk_tree_view_get_visible_rect(handle(), visibleRect.handle());
+        try {
+            gtk_tree_view_get_visible_rect.invokeExact(handle(), visibleRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_insert_column = Interop.downcallHandle(
+        "gtk_tree_view_insert_column",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This inserts the {@code column} into the {@code tree_view} at {@code position}.  If {@code position} is
@@ -579,9 +1024,18 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * set to be GTK_TREE_VIEW_COLUMN_FIXED.
      */
     public int insertColumn(TreeViewColumn column, int position) {
-        var RESULT = gtk_h.gtk_tree_view_insert_column(handle(), column.handle(), position);
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_view_insert_column.invokeExact(handle(), column.handle(), position);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_insert_column_with_data_func = Interop.downcallHandle(
+        "gtk_tree_view_insert_column_with_data_func",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convenience function that inserts a new column into the {@code GtkTreeView}
@@ -593,19 +1047,24 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public int insertColumnWithDataFunc(int position, java.lang.String title, CellRenderer cell, TreeCellDataFunc func) {
         try {
-            var RESULT = gtk_h.gtk_tree_view_insert_column_with_data_func(handle(), position, Interop.allocateNativeString(title).handle(), cell.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) gtk_tree_view_insert_column_with_data_func.invokeExact(handle(), position, Interop.allocateNativeString(title).handle(), cell.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeCellDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_view_is_blank_at_pos = Interop.downcallHandle(
+        "gtk_tree_view_is_blank_at_pos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determine whether the point (@x, @y) in {@code tree_view} is blank, that is no
@@ -627,66 +1086,125 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * gtk_tree_view_get_path_at_pos() for more information.
      */
     public boolean isBlankAtPos(int x, int y, TreePath[] path, TreeViewColumn[] column, PointerInteger cellX, PointerInteger cellY) {
-        var RESULT = gtk_h.gtk_tree_view_is_blank_at_pos(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(column).handle(), cellX.handle(), cellY.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_is_blank_at_pos.invokeExact(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(column).handle(), cellX.handle(), cellY.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_is_rubber_banding_active = Interop.downcallHandle(
+        "gtk_tree_view_is_rubber_banding_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether a rubber banding operation is currently being done
      * in {@code tree_view}.
      */
     public boolean isRubberBandingActive() {
-        var RESULT = gtk_h.gtk_tree_view_is_rubber_banding_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_is_rubber_banding_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_map_expanded_rows = Interop.downcallHandle(
+        "gtk_tree_view_map_expanded_rows",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls {@code func} on all expanded rows.
      */
     public void mapExpandedRows(TreeViewMappingFunc func) {
         try {
-            gtk_h.gtk_tree_view_map_expanded_rows(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_tree_view_map_expanded_rows.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeViewMappingFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_view_move_column_after = Interop.downcallHandle(
+        "gtk_tree_view_move_column_after",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code column} to be after to {@code base_column}.  If {@code base_column} is {@code null}, then
      * {@code column} is placed in the first position.
      */
     public void moveColumnAfter(TreeViewColumn column, TreeViewColumn baseColumn) {
-        gtk_h.gtk_tree_view_move_column_after(handle(), column.handle(), baseColumn.handle());
+        try {
+            gtk_tree_view_move_column_after.invokeExact(handle(), column.handle(), baseColumn.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_remove_column = Interop.downcallHandle(
+        "gtk_tree_view_remove_column",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes {@code column} from {@code tree_view}.
      */
     public int removeColumn(TreeViewColumn column) {
-        var RESULT = gtk_h.gtk_tree_view_remove_column(handle(), column.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_view_remove_column.invokeExact(handle(), column.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_row_activated = Interop.downcallHandle(
+        "gtk_tree_view_row_activated",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Activates the cell determined by {@code path} and {@code column}.
      */
     public void rowActivated(TreePath path, TreeViewColumn column) {
-        gtk_h.gtk_tree_view_row_activated(handle(), path.handle(), column.handle());
+        try {
+            gtk_tree_view_row_activated.invokeExact(handle(), path.handle(), column.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_row_expanded = Interop.downcallHandle(
+        "gtk_tree_view_row_expanded",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if the node pointed to by {@code path} is expanded in {@code tree_view}.
      */
     public boolean rowExpanded(TreePath path) {
-        var RESULT = gtk_h.gtk_tree_view_row_expanded(handle(), path.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_view_row_expanded.invokeExact(handle(), path.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_scroll_to_cell = Interop.downcallHandle(
+        "gtk_tree_view_scroll_to_cell",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Moves the alignments of {@code tree_view} to the position specified by {@code column} and
@@ -707,8 +1225,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * path will be modified to reflect this change.
      */
     public void scrollToCell(TreePath path, TreeViewColumn column, boolean useAlign, float rowAlign, float colAlign) {
-        gtk_h.gtk_tree_view_scroll_to_cell(handle(), path.handle(), column.handle(), useAlign ? 1 : 0, rowAlign, colAlign);
+        try {
+            gtk_tree_view_scroll_to_cell.invokeExact(handle(), path.handle(), column.handle(), useAlign ? 1 : 0, rowAlign, colAlign);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_scroll_to_point = Interop.downcallHandle(
+        "gtk_tree_view_scroll_to_point",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Scrolls the tree view such that the top-left corner of the visible
@@ -720,16 +1247,34 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * If either {@code tree_x} or {@code tree_y} are -1, then that direction isn’t scrolled.
      */
     public void scrollToPoint(int treeX, int treeY) {
-        gtk_h.gtk_tree_view_scroll_to_point(handle(), treeX, treeY);
+        try {
+            gtk_tree_view_scroll_to_point.invokeExact(handle(), treeX, treeY);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_activate_on_single_click = Interop.downcallHandle(
+        "gtk_tree_view_set_activate_on_single_click",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Cause the {@code GtkTreeView}::row-activated signal to be emitted
      * on a single click instead of a double click.
      */
     public void setActivateOnSingleClick(boolean single) {
-        gtk_h.gtk_tree_view_set_activate_on_single_click(handle(), single ? 1 : 0);
+        try {
+            gtk_tree_view_set_activate_on_single_click.invokeExact(handle(), single ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_column_drag_function = Interop.downcallHandle(
+        "gtk_tree_view_set_column_drag_function",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a user function for determining where a column may be dropped when
@@ -744,18 +1289,23 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public void setColumnDragFunction(TreeViewColumnDropFunc func) {
         try {
-            gtk_h.gtk_tree_view_set_column_drag_function(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_tree_view_set_column_drag_function.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeViewColumnDropFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_view_set_cursor = Interop.downcallHandle(
+        "gtk_tree_view_set_cursor",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the current keyboard focus to be at {@code path}, and selects it.  This is
@@ -771,8 +1321,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * and the function will return without failing.
      */
     public void setCursor(TreePath path, TreeViewColumn focusColumn, boolean startEditing) {
-        gtk_h.gtk_tree_view_set_cursor(handle(), path.handle(), focusColumn.handle(), startEditing ? 1 : 0);
+        try {
+            gtk_tree_view_set_cursor.invokeExact(handle(), path.handle(), focusColumn.handle(), startEditing ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_cursor_on_cell = Interop.downcallHandle(
+        "gtk_tree_view_set_cursor_on_cell",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the current keyboard focus to be at {@code path}, and selects it.  This is
@@ -791,16 +1350,34 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * and the function will return without failing.
      */
     public void setCursorOnCell(TreePath path, TreeViewColumn focusColumn, CellRenderer focusCell, boolean startEditing) {
-        gtk_h.gtk_tree_view_set_cursor_on_cell(handle(), path.handle(), focusColumn.handle(), focusCell.handle(), startEditing ? 1 : 0);
+        try {
+            gtk_tree_view_set_cursor_on_cell.invokeExact(handle(), path.handle(), focusColumn.handle(), focusCell.handle(), startEditing ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_drag_dest_row = Interop.downcallHandle(
+        "gtk_tree_view_set_drag_dest_row",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the row that is highlighted for feedback.
      * If {@code path} is {@code null}, an existing highlight is removed.
      */
     public void setDragDestRow(TreePath path, TreeViewDropPosition pos) {
-        gtk_h.gtk_tree_view_set_drag_dest_row(handle(), path.handle(), pos.getValue());
+        try {
+            gtk_tree_view_set_drag_dest_row.invokeExact(handle(), path.handle(), pos.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_enable_search = Interop.downcallHandle(
+        "gtk_tree_view_set_enable_search",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code enable_search} is set, then the user can type in text to search through
@@ -810,16 +1387,34 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * using the “start-interactive-search” key binding.
      */
     public void setEnableSearch(boolean enableSearch) {
-        gtk_h.gtk_tree_view_set_enable_search(handle(), enableSearch ? 1 : 0);
+        try {
+            gtk_tree_view_set_enable_search.invokeExact(handle(), enableSearch ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_enable_tree_lines = Interop.downcallHandle(
+        "gtk_tree_view_set_enable_tree_lines",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to draw lines interconnecting the expanders in {@code tree_view}.
      * This does not have any visible effects for lists.
      */
     public void setEnableTreeLines(boolean enabled) {
-        gtk_h.gtk_tree_view_set_enable_tree_lines(handle(), enabled ? 1 : 0);
+        try {
+            gtk_tree_view_set_enable_tree_lines.invokeExact(handle(), enabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_expander_column = Interop.downcallHandle(
+        "gtk_tree_view_set_expander_column",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the column to draw the expander arrow at. It must be in {@code tree_view}.
@@ -830,8 +1425,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * expander column to a hidden column.
      */
     public void setExpanderColumn(TreeViewColumn column) {
-        gtk_h.gtk_tree_view_set_expander_column(handle(), column.handle());
+        try {
+            gtk_tree_view_set_expander_column.invokeExact(handle(), column.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_fixed_height_mode = Interop.downcallHandle(
+        "gtk_tree_view_set_fixed_height_mode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Enables or disables the fixed height mode of {@code tree_view}.
@@ -841,29 +1445,65 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * columns are of type {@link TreeViewColumnSizing#FIXED}.
      */
     public void setFixedHeightMode(boolean enable) {
-        gtk_h.gtk_tree_view_set_fixed_height_mode(handle(), enable ? 1 : 0);
+        try {
+            gtk_tree_view_set_fixed_height_mode.invokeExact(handle(), enable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_grid_lines = Interop.downcallHandle(
+        "gtk_tree_view_set_grid_lines",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets which grid lines to draw in {@code tree_view}.
      */
     public void setGridLines(TreeViewGridLines gridLines) {
-        gtk_h.gtk_tree_view_set_grid_lines(handle(), gridLines.getValue());
+        try {
+            gtk_tree_view_set_grid_lines.invokeExact(handle(), gridLines.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_headers_clickable = Interop.downcallHandle(
+        "gtk_tree_view_set_headers_clickable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Allow the column title buttons to be clicked.
      */
     public void setHeadersClickable(boolean setting) {
-        gtk_h.gtk_tree_view_set_headers_clickable(handle(), setting ? 1 : 0);
+        try {
+            gtk_tree_view_set_headers_clickable.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_headers_visible = Interop.downcallHandle(
+        "gtk_tree_view_set_headers_visible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the visibility state of the headers.
      */
     public void setHeadersVisible(boolean headersVisible) {
-        gtk_h.gtk_tree_view_set_headers_visible(handle(), headersVisible ? 1 : 0);
+        try {
+            gtk_tree_view_set_headers_visible.invokeExact(handle(), headersVisible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_hover_expand = Interop.downcallHandle(
+        "gtk_tree_view_set_hover_expand",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Enables or disables the hover expansion mode of {@code tree_view}.
@@ -871,8 +1511,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * moves over them.
      */
     public void setHoverExpand(boolean expand) {
-        gtk_h.gtk_tree_view_set_hover_expand(handle(), expand ? 1 : 0);
+        try {
+            gtk_tree_view_set_hover_expand.invokeExact(handle(), expand ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_hover_selection = Interop.downcallHandle(
+        "gtk_tree_view_set_hover_selection",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Enables or disables the hover selection mode of {@code tree_view}.
@@ -881,8 +1530,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * {@link SelectionMode#SINGLE} and {@link SelectionMode#BROWSE}.
      */
     public void setHoverSelection(boolean hover) {
-        gtk_h.gtk_tree_view_set_hover_selection(handle(), hover ? 1 : 0);
+        try {
+            gtk_tree_view_set_hover_selection.invokeExact(handle(), hover ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_level_indentation = Interop.downcallHandle(
+        "gtk_tree_view_set_level_indentation",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the amount of extra indentation for child levels to use in {@code tree_view}
@@ -892,8 +1550,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * This does not have any visible effects for lists.
      */
     public void setLevelIndentation(int indentation) {
-        gtk_h.gtk_tree_view_set_level_indentation(handle(), indentation);
+        try {
+            gtk_tree_view_set_level_indentation.invokeExact(handle(), indentation);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_model = Interop.downcallHandle(
+        "gtk_tree_view_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the model for a {@code GtkTreeView}.  If the {@code tree_view} already has a model
@@ -901,8 +1568,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * then it will unset the old model.
      */
     public void setModel(TreeModel model) {
-        gtk_h.gtk_tree_view_set_model(handle(), model.handle());
+        try {
+            gtk_tree_view_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_reorderable = Interop.downcallHandle(
+        "gtk_tree_view_set_reorderable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function is a convenience function to allow you to reorder
@@ -921,8 +1597,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * handle drag and drop manually.
      */
     public void setReorderable(boolean reorderable) {
-        gtk_h.gtk_tree_view_set_reorderable(handle(), reorderable ? 1 : 0);
+        try {
+            gtk_tree_view_set_reorderable.invokeExact(handle(), reorderable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_row_separator_func = Interop.downcallHandle(
+        "gtk_tree_view_set_row_separator_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the row separator function, which is used to determine
@@ -931,18 +1616,23 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public void setRowSeparatorFunc(TreeViewRowSeparatorFunc func) {
         try {
-            gtk_h.gtk_tree_view_set_row_separator_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_tree_view_set_row_separator_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeViewRowSeparatorFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_view_set_rubber_banding = Interop.downcallHandle(
+        "gtk_tree_view_set_rubber_banding",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Enables or disables rubber banding in {@code tree_view}.  If the selection mode
@@ -950,8 +1640,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * multiple rows by dragging the mouse.
      */
     public void setRubberBanding(boolean enable) {
-        gtk_h.gtk_tree_view_set_rubber_banding(handle(), enable ? 1 : 0);
+        try {
+            gtk_tree_view_set_rubber_banding.invokeExact(handle(), enable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_search_column = Interop.downcallHandle(
+        "gtk_tree_view_set_search_column",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets {@code column} as the column where the interactive search code should
@@ -965,8 +1664,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * column is reset to -1 when the model is changed.
      */
     public void setSearchColumn(int column) {
-        gtk_h.gtk_tree_view_set_search_column(handle(), column);
+        try {
+            gtk_tree_view_set_search_column.invokeExact(handle(), column);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_search_entry = Interop.downcallHandle(
+        "gtk_tree_view_set_search_entry",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the entry which the interactive search code will use for this
@@ -976,8 +1684,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * entry again.
      */
     public void setSearchEntry(Editable entry) {
-        gtk_h.gtk_tree_view_set_search_entry(handle(), entry.handle());
+        try {
+            gtk_tree_view_set_search_entry.invokeExact(handle(), entry.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_search_equal_func = Interop.downcallHandle(
+        "gtk_tree_view_set_search_equal_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the compare function for the interactive search capabilities; note
@@ -986,18 +1703,23 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public void setSearchEqualFunc(TreeViewSearchEqualFunc searchEqualFunc) {
         try {
-            gtk_h.gtk_tree_view_set_search_equal_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            gtk_tree_view_set_search_equal_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeViewSearchEqualFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchEqualFunc.hashCode(), searchEqualFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchEqualFunc.hashCode(), searchEqualFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_tree_view_set_show_expanders = Interop.downcallHandle(
+        "gtk_tree_view_set_show_expanders",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to draw and enable expanders and indent child rows in
@@ -1009,8 +1731,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * This does not have any visible effects for lists.
      */
     public void setShowExpanders(boolean enabled) {
-        gtk_h.gtk_tree_view_set_show_expanders(handle(), enabled ? 1 : 0);
+        try {
+            gtk_tree_view_set_show_expanders.invokeExact(handle(), enabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_tooltip_cell = Interop.downcallHandle(
+        "gtk_tree_view_set_tooltip_cell",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the tip area of {@code tooltip} to the area {@code path}, {@code column} and {@code cell} have
@@ -1026,8 +1757,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * See also gtk_tree_view_set_tooltip_column() for a simpler alternative.
      */
     public void setTooltipCell(Tooltip tooltip, TreePath path, TreeViewColumn column, CellRenderer cell) {
-        gtk_h.gtk_tree_view_set_tooltip_cell(handle(), tooltip.handle(), path.handle(), column.handle(), cell.handle());
+        try {
+            gtk_tree_view_set_tooltip_cell.invokeExact(handle(), tooltip.handle(), path.handle(), column.handle(), cell.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_tooltip_column = Interop.downcallHandle(
+        "gtk_tree_view_set_tooltip_column",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If you only plan to have simple (text-only) tooltips on full rows, you
@@ -1042,8 +1782,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * so &, <, etc have to be escaped in the text.
      */
     public void setTooltipColumn(int column) {
-        gtk_h.gtk_tree_view_set_tooltip_column(handle(), column);
+        try {
+            gtk_tree_view_set_tooltip_column.invokeExact(handle(), column);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_set_tooltip_row = Interop.downcallHandle(
+        "gtk_tree_view_set_tooltip_row",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the tip area of {@code tooltip} to be the area covered by the row at {@code path}.
@@ -1051,8 +1800,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * See also gtk_tooltip_set_tip_area().
      */
     public void setTooltipRow(Tooltip tooltip, TreePath path) {
-        gtk_h.gtk_tree_view_set_tooltip_row(handle(), tooltip.handle(), path.handle());
+        try {
+            gtk_tree_view_set_tooltip_row.invokeExact(handle(), tooltip.handle(), path.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_unset_rows_drag_dest = Interop.downcallHandle(
+        "gtk_tree_view_unset_rows_drag_dest",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Undoes the effect of
@@ -1060,8 +1818,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * {@code GtkTreeView}:reorderable to {@code false}.
      */
     public void unsetRowsDragDest() {
-        gtk_h.gtk_tree_view_unset_rows_drag_dest(handle());
+        try {
+            gtk_tree_view_unset_rows_drag_dest.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_view_unset_rows_drag_source = Interop.downcallHandle(
+        "gtk_tree_view_unset_rows_drag_source",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Undoes the effect of
@@ -1069,7 +1836,11 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * {@code GtkTreeView}:reorderable to {@code false}.
      */
     public void unsetRowsDragSource() {
-        gtk_h.gtk_tree_view_unset_rows_drag_source(handle());
+        try {
+            gtk_tree_view_unset_rows_drag_source.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -1082,19 +1853,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public SignalHandle onColumnsChanged(ColumnsChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("columns-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewColumnsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1108,19 +1879,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public SignalHandle onCursorChanged(CursorChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("cursor-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewCursorChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1131,19 +1902,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     public SignalHandle onExpandCollapseCursorRow(ExpandCollapseCursorRowHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("expand-collapse-cursor-row").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewExpandCollapseCursorRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1165,19 +1936,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public SignalHandle onMoveCursor(MoveCursorHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewMoveCursor",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1204,19 +1975,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public SignalHandle onRowActivated(RowActivatedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("row-activated").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewRowActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1230,19 +2001,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public SignalHandle onRowCollapsed(RowCollapsedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("row-collapsed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewRowCollapsed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1256,19 +2027,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public SignalHandle onRowExpanded(RowExpandedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("row-expanded").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewRowExpanded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1279,19 +2050,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     public SignalHandle onSelectAll(SelectAllHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("select-all").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewSelectAll",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1302,19 +2073,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     public SignalHandle onSelectCursorParent(SelectCursorParentHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("select-cursor-parent").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewSelectCursorParent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1325,19 +2096,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     public SignalHandle onSelectCursorRow(SelectCursorRowHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("select-cursor-row").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewSelectCursorRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1348,19 +2119,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     public SignalHandle onStartInteractiveSearch(StartInteractiveSearchHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("start-interactive-search").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewStartInteractiveSearch",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1375,19 +2146,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public SignalHandle onTestCollapseRow(TestCollapseRowHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("test-collapse-row").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewTestCollapseRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1402,19 +2173,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public SignalHandle onTestExpandRow(TestExpandRowHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("test-expand-row").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewTestExpandRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1425,19 +2196,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     public SignalHandle onToggleCursorRow(ToggleCursorRowHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("toggle-cursor-row").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewToggleCursorRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1448,19 +2219,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     public SignalHandle onUnselectAll(UnselectAllHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("unselect-all").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewUnselectAll",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

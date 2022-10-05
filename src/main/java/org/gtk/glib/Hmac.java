@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,15 +15,29 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_hmac_copy = Interop.downcallHandle(
+        "g_hmac_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Copies a {@link Hmac}. If {@code hmac} has been closed, by calling
      * g_hmac_get_string() or g_hmac_get_digest(), the copied
      * HMAC will be closed as well.
      */
     public Hmac copy() {
-        var RESULT = gtk_h.g_hmac_copy(handle());
-        return new Hmac(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_hmac_copy.invokeExact(handle());
+            return new Hmac(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hmac_get_digest = Interop.downcallHandle(
+        "g_hmac_get_digest",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the digest from {@code checksum} as a raw binary array and places it
@@ -34,8 +47,17 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * no longer be updated with g_checksum_update().
      */
     public void getDigest(byte[] buffer, PointerLong digestLen) {
-        gtk_h.g_hmac_get_digest(handle(), Interop.allocateNativeArray(buffer).handle(), digestLen.handle());
+        try {
+            g_hmac_get_digest.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), digestLen.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hmac_get_string = Interop.downcallHandle(
+        "g_hmac_get_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the HMAC as a hexadecimal string.
@@ -46,9 +68,18 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * The hexadecimal characters will be lower case.
      */
     public java.lang.String getString() {
-        var RESULT = gtk_h.g_hmac_get_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_hmac_get_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hmac_ref = Interop.downcallHandle(
+        "g_hmac_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically increments the reference count of {@code hmac} by one.
@@ -56,9 +87,18 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * This function is MT-safe and may be called from any thread.
      */
     public Hmac ref() {
-        var RESULT = gtk_h.g_hmac_ref(handle());
-        return new Hmac(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_hmac_ref.invokeExact(handle());
+            return new Hmac(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hmac_unref = Interop.downcallHandle(
+        "g_hmac_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code hmac} by one.
@@ -69,8 +109,17 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * Frees the memory allocated for {@code hmac}.
      */
     public void unref() {
-        gtk_h.g_hmac_unref(handle());
+        try {
+            g_hmac_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hmac_update = Interop.downcallHandle(
+        "g_hmac_update",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Feeds {@code data} into an existing {@link Hmac}.
@@ -79,8 +128,17 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * g_hmac_get_digest() must not have been called on {@code hmac}.
      */
     public void update(byte[] data, long length) {
-        gtk_h.g_hmac_update(handle(), Interop.allocateNativeArray(data).handle(), length);
+        try {
+            g_hmac_update.invokeExact(handle(), Interop.allocateNativeArray(data).handle(), length);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hmac_new = Interop.downcallHandle(
+        "g_hmac_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Creates a new {@link Hmac}, using the digest algorithm {@code digest_type}.
@@ -101,8 +159,12 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * Support for {@link ChecksumType#SHA384} was added in GLib 2.52.
      */
     public static Hmac new_(ChecksumType digestType, byte[] key, long keyLen) {
-        var RESULT = gtk_h.g_hmac_new(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen);
-        return new Hmac(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_hmac_new.invokeExact(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen);
+            return new Hmac(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

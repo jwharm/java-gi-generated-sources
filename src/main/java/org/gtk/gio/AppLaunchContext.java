@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,9 +20,18 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         return new AppLaunchContext(gobject.refcounted());
     }
     
+    static final MethodHandle g_app_launch_context_new = Interop.downcallHandle(
+        "g_app_launch_context_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_app_launch_context_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_app_launch_context_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -34,15 +42,29 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
+    static final MethodHandle g_app_launch_context_get_display = Interop.downcallHandle(
+        "g_app_launch_context_get_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the display string for the {@code context}. This is used to ensure new
      * applications are started on the same display as the launching
      * application, by setting the {@code DISPLAY} environment variable.
      */
     public java.lang.String getDisplay(AppInfo info, org.gtk.glib.List files) {
-        var RESULT = gtk_h.g_app_launch_context_get_display(handle(), info.handle(), files.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_app_launch_context_get_display.invokeExact(handle(), info.handle(), files.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_app_launch_context_get_environment = Interop.downcallHandle(
+        "g_app_launch_context_get_environment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the complete environment variable list to be passed to
@@ -51,9 +73,18 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * the form {@code KEY=VALUE}.
      */
     public PointerIterator<java.lang.String> getEnvironment() {
-        var RESULT = gtk_h.g_app_launch_context_get_environment(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_app_launch_context_get_environment.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_app_launch_context_get_startup_notify_id = Interop.downcallHandle(
+        "g_app_launch_context_get_startup_notify_id",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initiates startup notification for the application and returns the
@@ -63,32 +94,63 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * <a href="http://standards.freedesktop.org/startup-notification-spec/startup-notification-latest.txt">FreeDesktop.Org Startup Notifications standard</a>.
      */
     public java.lang.String getStartupNotifyId(AppInfo info, org.gtk.glib.List files) {
-        var RESULT = gtk_h.g_app_launch_context_get_startup_notify_id(handle(), info.handle(), files.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_app_launch_context_get_startup_notify_id.invokeExact(handle(), info.handle(), files.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_app_launch_context_launch_failed = Interop.downcallHandle(
+        "g_app_launch_context_launch_failed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Called when an application has failed to launch, so that it can cancel
      * the application startup notification started in g_app_launch_context_get_startup_notify_id().
      */
     public void launchFailed(java.lang.String startupNotifyId) {
-        gtk_h.g_app_launch_context_launch_failed(handle(), Interop.allocateNativeString(startupNotifyId).handle());
+        try {
+            g_app_launch_context_launch_failed.invokeExact(handle(), Interop.allocateNativeString(startupNotifyId).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_app_launch_context_setenv = Interop.downcallHandle(
+        "g_app_launch_context_setenv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Arranges for {@code variable} to be set to {@code value} in the child's
      * environment when {@code context} is used to launch an application.
      */
     public void setenv(java.lang.String variable, java.lang.String value) {
-        gtk_h.g_app_launch_context_setenv(handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle());
+        try {
+            g_app_launch_context_setenv.invokeExact(handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_app_launch_context_unsetenv = Interop.downcallHandle(
+        "g_app_launch_context_unsetenv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Arranges for {@code variable} to be unset in the child's environment
      * when {@code context} is used to launch an application.
      */
     public void unsetenv(java.lang.String variable) {
-        gtk_h.g_app_launch_context_unsetenv(handle(), Interop.allocateNativeString(variable).handle());
+        try {
+            g_app_launch_context_unsetenv.invokeExact(handle(), Interop.allocateNativeString(variable).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -103,19 +165,19 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onLaunchFailed(LaunchFailedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("launch-failed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunchFailed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -142,19 +204,19 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onLaunchStarted(LaunchStartedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("launch-started").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunchStarted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -176,19 +238,19 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      */
     public SignalHandle onLaunched(LaunchedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("launched").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunched",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

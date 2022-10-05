@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -49,9 +48,18 @@ public class SpringAnimation extends Animation {
         return new SpringAnimation(gobject.refcounted());
     }
     
+    static final MethodHandle adw_spring_animation_new = Interop.downcallHandle(
+        "adw_spring_animation_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gtk.Widget widget, double from, double to, SpringParams springParams, AnimationTarget target) {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_spring_animation_new(widget.handle(), from, to, springParams.refcounted().unowned().handle(), target.refcounted().unowned().handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_spring_animation_new.invokeExact(widget.handle(), from, to, springParams.refcounted().unowned().handle(), target.refcounted().unowned().handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -64,110 +72,236 @@ public class SpringAnimation extends Animation {
         super(constructNew(widget, from, to, springParams, target));
     }
     
+    static final MethodHandle adw_spring_animation_get_clamp = Interop.downcallHandle(
+        "adw_spring_animation_get_clamp",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets whether {@code self} should be clamped.
      */
     public boolean getClamp() {
-        var RESULT = gtk_h.adw_spring_animation_get_clamp(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_spring_animation_get_clamp.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_get_epsilon = Interop.downcallHandle(
+        "adw_spring_animation_get_epsilon",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the precision used to determine the duration of {@code self}.
      */
     public double getEpsilon() {
-        var RESULT = gtk_h.adw_spring_animation_get_epsilon(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_animation_get_epsilon.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_get_estimated_duration = Interop.downcallHandle(
+        "adw_spring_animation_get_estimated_duration",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the estimated duration of {@code self}.
      */
     public int getEstimatedDuration() {
-        var RESULT = gtk_h.adw_spring_animation_get_estimated_duration(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_spring_animation_get_estimated_duration.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_get_initial_velocity = Interop.downcallHandle(
+        "adw_spring_animation_get_initial_velocity",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the initial velocity of {@code self}.
      */
     public double getInitialVelocity() {
-        var RESULT = gtk_h.adw_spring_animation_get_initial_velocity(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_animation_get_initial_velocity.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_get_spring_params = Interop.downcallHandle(
+        "adw_spring_animation_get_spring_params",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the physical parameters of the spring of {@code self}.
      */
     public SpringParams getSpringParams() {
-        var RESULT = gtk_h.adw_spring_animation_get_spring_params(handle());
-        return new SpringParams(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_spring_animation_get_spring_params.invokeExact(handle());
+            return new SpringParams(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_get_value_from = Interop.downcallHandle(
+        "adw_spring_animation_get_value_from",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value {@code self} will animate from.
      */
     public double getValueFrom() {
-        var RESULT = gtk_h.adw_spring_animation_get_value_from(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_animation_get_value_from.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_get_value_to = Interop.downcallHandle(
+        "adw_spring_animation_get_value_to",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value {@code self} will animate to.
      */
     public double getValueTo() {
-        var RESULT = gtk_h.adw_spring_animation_get_value_to(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_animation_get_value_to.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_get_velocity = Interop.downcallHandle(
+        "adw_spring_animation_get_velocity",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current velocity of {@code self}.
      */
     public double getVelocity() {
-        var RESULT = gtk_h.adw_spring_animation_get_velocity(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_animation_get_velocity.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_set_clamp = Interop.downcallHandle(
+        "adw_spring_animation_set_clamp",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} should be clamped.
      */
     public void setClamp(boolean clamp) {
-        gtk_h.adw_spring_animation_set_clamp(handle(), clamp ? 1 : 0);
+        try {
+            adw_spring_animation_set_clamp.invokeExact(handle(), clamp ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_set_epsilon = Interop.downcallHandle(
+        "adw_spring_animation_set_epsilon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the precision used to determine the duration of {@code self}.
      */
     public void setEpsilon(double epsilon) {
-        gtk_h.adw_spring_animation_set_epsilon(handle(), epsilon);
+        try {
+            adw_spring_animation_set_epsilon.invokeExact(handle(), epsilon);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_set_initial_velocity = Interop.downcallHandle(
+        "adw_spring_animation_set_initial_velocity",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the initial velocity of {@code self}.
      */
     public void setInitialVelocity(double velocity) {
-        gtk_h.adw_spring_animation_set_initial_velocity(handle(), velocity);
+        try {
+            adw_spring_animation_set_initial_velocity.invokeExact(handle(), velocity);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_set_spring_params = Interop.downcallHandle(
+        "adw_spring_animation_set_spring_params",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the physical parameters of the spring of {@code self}.
      */
     public void setSpringParams(SpringParams springParams) {
-        gtk_h.adw_spring_animation_set_spring_params(handle(), springParams.handle());
+        try {
+            adw_spring_animation_set_spring_params.invokeExact(handle(), springParams.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_set_value_from = Interop.downcallHandle(
+        "adw_spring_animation_set_value_from",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the value {@code self} will animate from.
      */
     public void setValueFrom(double value) {
-        gtk_h.adw_spring_animation_set_value_from(handle(), value);
+        try {
+            adw_spring_animation_set_value_from.invokeExact(handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_animation_set_value_to = Interop.downcallHandle(
+        "adw_spring_animation_set_value_to",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the value {@code self} will animate to.
      */
     public void setValueTo(double value) {
-        gtk_h.adw_spring_animation_set_value_to(handle(), value);
+        try {
+            adw_spring_animation_set_value_to.invokeExact(handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

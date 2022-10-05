@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class KeyvalTrigger extends ShortcutTrigger {
         return new KeyvalTrigger(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_keyval_trigger_new = Interop.downcallHandle(
+        "gtk_keyval_trigger_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(int keyval, org.gtk.gdk.ModifierType modifiers) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_keyval_trigger_new(keyval, modifiers.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_keyval_trigger_new.invokeExact(keyval, modifiers.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,22 +40,40 @@ public class KeyvalTrigger extends ShortcutTrigger {
         super(constructNew(keyval, modifiers));
     }
     
+    static final MethodHandle gtk_keyval_trigger_get_keyval = Interop.downcallHandle(
+        "gtk_keyval_trigger_get_keyval",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the keyval that must be pressed to succeed
      * triggering {@code self}.
      */
     public int getKeyval() {
-        var RESULT = gtk_h.gtk_keyval_trigger_get_keyval(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_keyval_trigger_get_keyval.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_keyval_trigger_get_modifiers = Interop.downcallHandle(
+        "gtk_keyval_trigger_get_modifiers",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the modifiers that must be present to succeed
      * triggering {@code self}.
      */
     public org.gtk.gdk.ModifierType getModifiers() {
-        var RESULT = gtk_h.gtk_keyval_trigger_get_modifiers(handle());
-        return new org.gtk.gdk.ModifierType(RESULT);
+        try {
+            var RESULT = (int) gtk_keyval_trigger_get_modifiers.invokeExact(handle());
+            return new org.gtk.gdk.ModifierType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

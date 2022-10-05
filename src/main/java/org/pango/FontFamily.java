@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,13 +22,27 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         return new FontFamily(gobject.refcounted());
     }
     
+    static final MethodHandle pango_font_family_get_face = Interop.downcallHandle(
+        "pango_font_family_get_face",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the {@code PangoFontFace} of {@code family} with the given name.
      */
     public FontFace getFace(java.lang.String name) {
-        var RESULT = gtk_h.pango_font_family_get_face(handle(), Interop.allocateNativeString(name).handle());
-        return new FontFace(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_font_family_get_face.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return new FontFace(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_family_get_name = Interop.downcallHandle(
+        "pango_font_family_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of the family.
@@ -39,9 +52,18 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * this family is desired.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.pango_font_family_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_font_family_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_family_is_monospace = Interop.downcallHandle(
+        "pango_font_family_is_monospace",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A monospace font is a font designed for text display where the the
@@ -60,9 +82,18 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * be affected by double-width characters.
      */
     public boolean isMonospace() {
-        var RESULT = gtk_h.pango_font_family_is_monospace(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_font_family_is_monospace.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_family_is_variable = Interop.downcallHandle(
+        "pango_font_family_is_variable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A variable font is a font which has axes that can be modified to
@@ -72,9 +103,18 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * {@link FontDescription#setVariations} for more information.
      */
     public boolean isVariable() {
-        var RESULT = gtk_h.pango_font_family_is_variable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_font_family_is_variable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_family_list_faces = Interop.downcallHandle(
+        "pango_font_family_list_faces",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Lists the different font faces that make up {@code family}.
@@ -89,7 +129,11 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * for enumerating faces.
      */
     public void listFaces(FontFace[] faces, PointerInteger nFaces) {
-        gtk_h.pango_font_family_list_faces(handle(), Interop.allocateNativeArray(faces).handle(), nFaces.handle());
+        try {
+            pango_font_family_list_faces.invokeExact(handle(), Interop.allocateNativeArray(faces).handle(), nFaces.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

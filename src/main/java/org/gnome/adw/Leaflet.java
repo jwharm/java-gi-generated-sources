@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -49,9 +48,18 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
         return new Leaflet(gobject.refcounted());
     }
     
+    static final MethodHandle adw_leaflet_new = Interop.downcallHandle(
+        "adw_leaflet_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_leaflet_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_leaflet_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -61,13 +69,27 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
         super(constructNew());
     }
     
+    static final MethodHandle adw_leaflet_append = Interop.downcallHandle(
+        "adw_leaflet_append",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a child to {@code self}.
      */
     public LeafletPage append(org.gtk.gtk.Widget child) {
-        var RESULT = gtk_h.adw_leaflet_append(handle(), child.handle());
-        return new LeafletPage(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_append.invokeExact(handle(), child.handle());
+            return new LeafletPage(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_adjacent_child = Interop.downcallHandle(
+        "adw_leaflet_get_adjacent_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Finds the previous or next navigatable child.
@@ -80,33 +102,69 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * See {@code LeafletPage:navigatable}.
      */
     public org.gtk.gtk.Widget getAdjacentChild(NavigationDirection direction) {
-        var RESULT = gtk_h.adw_leaflet_get_adjacent_child(handle(), direction.getValue());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_get_adjacent_child.invokeExact(handle(), direction.getValue());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_can_navigate_back = Interop.downcallHandle(
+        "adw_leaflet_get_can_navigate_back",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether gestures and shortcuts for navigating backward are enabled.
      */
     public boolean getCanNavigateBack() {
-        var RESULT = gtk_h.adw_leaflet_get_can_navigate_back(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_leaflet_get_can_navigate_back.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_can_navigate_forward = Interop.downcallHandle(
+        "adw_leaflet_get_can_navigate_forward",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether gestures and shortcuts for navigating forward are enabled.
      */
     public boolean getCanNavigateForward() {
-        var RESULT = gtk_h.adw_leaflet_get_can_navigate_forward(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_leaflet_get_can_navigate_forward.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_can_unfold = Interop.downcallHandle(
+        "adw_leaflet_get_can_unfold",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} can unfold.
      */
     public boolean getCanUnfold() {
-        var RESULT = gtk_h.adw_leaflet_get_can_unfold(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_leaflet_get_can_unfold.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_child_by_name = Interop.downcallHandle(
+        "adw_leaflet_get_child_by_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds the child of {@code self} with {@code name}.
@@ -116,65 +174,137 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * See {@code LeafletPage:name}.
      */
     public org.gtk.gtk.Widget getChildByName(java.lang.String name) {
-        var RESULT = gtk_h.adw_leaflet_get_child_by_name(handle(), Interop.allocateNativeString(name).handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_get_child_by_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_child_transition_params = Interop.downcallHandle(
+        "adw_leaflet_get_child_transition_params",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the child transition spring parameters for {@code self}.
      */
     public SpringParams getChildTransitionParams() {
-        var RESULT = gtk_h.adw_leaflet_get_child_transition_params(handle());
-        return new SpringParams(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_get_child_transition_params.invokeExact(handle());
+            return new SpringParams(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_child_transition_running = Interop.downcallHandle(
+        "adw_leaflet_get_child_transition_running",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether a child transition is currently running for {@code self}.
      */
     public boolean getChildTransitionRunning() {
-        var RESULT = gtk_h.adw_leaflet_get_child_transition_running(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_leaflet_get_child_transition_running.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_fold_threshold_policy = Interop.downcallHandle(
+        "adw_leaflet_get_fold_threshold_policy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the fold threshold policy for {@code self}.
      */
     public FoldThresholdPolicy getFoldThresholdPolicy() {
-        var RESULT = gtk_h.adw_leaflet_get_fold_threshold_policy(handle());
-        return new FoldThresholdPolicy(RESULT);
+        try {
+            var RESULT = (int) adw_leaflet_get_fold_threshold_policy.invokeExact(handle());
+            return new FoldThresholdPolicy(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_folded = Interop.downcallHandle(
+        "adw_leaflet_get_folded",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} is folded.
      */
     public boolean getFolded() {
-        var RESULT = gtk_h.adw_leaflet_get_folded(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_leaflet_get_folded.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_homogeneous = Interop.downcallHandle(
+        "adw_leaflet_get_homogeneous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} is homogeneous.
      */
     public boolean getHomogeneous() {
-        var RESULT = gtk_h.adw_leaflet_get_homogeneous(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_leaflet_get_homogeneous.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_mode_transition_duration = Interop.downcallHandle(
+        "adw_leaflet_get_mode_transition_duration",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the mode transition animation duration for {@code self}.
      */
     public int getModeTransitionDuration() {
-        var RESULT = gtk_h.adw_leaflet_get_mode_transition_duration(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_leaflet_get_mode_transition_duration.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_page = Interop.downcallHandle(
+        "adw_leaflet_get_page",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@link LeafletPage} object for {@code child}.
      */
     public LeafletPage getPage(org.gtk.gtk.Widget child) {
-        var RESULT = gtk_h.adw_leaflet_get_page(handle(), child.handle());
-        return new LeafletPage(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_get_page.invokeExact(handle(), child.handle());
+            return new LeafletPage(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_pages = Interop.downcallHandle(
+        "adw_leaflet_get_pages",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a {@code Gio.ListModel} that contains the pages of the leaflet.
@@ -184,33 +314,69 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * page.
      */
     public org.gtk.gtk.SelectionModel getPages() {
-        var RESULT = gtk_h.adw_leaflet_get_pages(handle());
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_get_pages.invokeExact(handle());
+            return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_transition_type = Interop.downcallHandle(
+        "adw_leaflet_get_transition_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the type of animation used for transitions between modes and children.
      */
     public LeafletTransitionType getTransitionType() {
-        var RESULT = gtk_h.adw_leaflet_get_transition_type(handle());
-        return new LeafletTransitionType(RESULT);
+        try {
+            var RESULT = (int) adw_leaflet_get_transition_type.invokeExact(handle());
+            return new LeafletTransitionType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_visible_child = Interop.downcallHandle(
+        "adw_leaflet_get_visible_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the widget currently visible when the leaflet is folded.
      */
     public org.gtk.gtk.Widget getVisibleChild() {
-        var RESULT = gtk_h.adw_leaflet_get_visible_child(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_get_visible_child.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_get_visible_child_name = Interop.downcallHandle(
+        "adw_leaflet_get_visible_child_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of the currently visible child widget.
      */
     public java.lang.String getVisibleChildName() {
-        var RESULT = gtk_h.adw_leaflet_get_visible_child_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_get_visible_child_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_insert_child_after = Interop.downcallHandle(
+        "adw_leaflet_insert_child_after",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts {@code child} in the position after {@code sibling} in the list of children.
@@ -218,9 +384,18 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * If {@code sibling} is {@code NULL}, inserts {@code child} at the first position.
      */
     public LeafletPage insertChildAfter(org.gtk.gtk.Widget child, org.gtk.gtk.Widget sibling) {
-        var RESULT = gtk_h.adw_leaflet_insert_child_after(handle(), child.handle(), sibling.handle());
-        return new LeafletPage(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_insert_child_after.invokeExact(handle(), child.handle(), sibling.handle());
+            return new LeafletPage(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_navigate = Interop.downcallHandle(
+        "adw_leaflet_navigate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Navigates to the previous or next child.
@@ -232,24 +407,51 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * {@link Leaflet#getAdjacentChild} or navigated to via swipe gestures.
      */
     public boolean navigate(NavigationDirection direction) {
-        var RESULT = gtk_h.adw_leaflet_navigate(handle(), direction.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_leaflet_navigate.invokeExact(handle(), direction.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_prepend = Interop.downcallHandle(
+        "adw_leaflet_prepend",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts {@code child} at the first position in {@code self}.
      */
     public LeafletPage prepend(org.gtk.gtk.Widget child) {
-        var RESULT = gtk_h.adw_leaflet_prepend(handle(), child.handle());
-        return new LeafletPage(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_leaflet_prepend.invokeExact(handle(), child.handle());
+            return new LeafletPage(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_remove = Interop.downcallHandle(
+        "adw_leaflet_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a child widget from {@code self}.
      */
     public void remove(org.gtk.gtk.Widget child) {
-        gtk_h.adw_leaflet_remove(handle(), child.handle());
+        try {
+            adw_leaflet_remove.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_reorder_child_after = Interop.downcallHandle(
+        "adw_leaflet_reorder_child_after",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code child} to the position after {@code sibling} in the list of children.
@@ -257,43 +459,97 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * If {@code sibling} is {@code NULL}, moves {@code child} to the first position.
      */
     public void reorderChildAfter(org.gtk.gtk.Widget child, org.gtk.gtk.Widget sibling) {
-        gtk_h.adw_leaflet_reorder_child_after(handle(), child.handle(), sibling.handle());
+        try {
+            adw_leaflet_reorder_child_after.invokeExact(handle(), child.handle(), sibling.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_can_navigate_back = Interop.downcallHandle(
+        "adw_leaflet_set_can_navigate_back",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether gestures and shortcuts for navigating backward are enabled.
      */
     public void setCanNavigateBack(boolean canNavigateBack) {
-        gtk_h.adw_leaflet_set_can_navigate_back(handle(), canNavigateBack ? 1 : 0);
+        try {
+            adw_leaflet_set_can_navigate_back.invokeExact(handle(), canNavigateBack ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_can_navigate_forward = Interop.downcallHandle(
+        "adw_leaflet_set_can_navigate_forward",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether gestures and shortcuts for navigating forward are enabled.
      */
     public void setCanNavigateForward(boolean canNavigateForward) {
-        gtk_h.adw_leaflet_set_can_navigate_forward(handle(), canNavigateForward ? 1 : 0);
+        try {
+            adw_leaflet_set_can_navigate_forward.invokeExact(handle(), canNavigateForward ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_can_unfold = Interop.downcallHandle(
+        "adw_leaflet_set_can_unfold",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} can unfold.
      */
     public void setCanUnfold(boolean canUnfold) {
-        gtk_h.adw_leaflet_set_can_unfold(handle(), canUnfold ? 1 : 0);
+        try {
+            adw_leaflet_set_can_unfold.invokeExact(handle(), canUnfold ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_child_transition_params = Interop.downcallHandle(
+        "adw_leaflet_set_child_transition_params",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child transition spring parameters for {@code self}.
      */
     public void setChildTransitionParams(SpringParams params) {
-        gtk_h.adw_leaflet_set_child_transition_params(handle(), params.handle());
+        try {
+            adw_leaflet_set_child_transition_params.invokeExact(handle(), params.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_fold_threshold_policy = Interop.downcallHandle(
+        "adw_leaflet_set_fold_threshold_policy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the fold threshold policy for {@code self}.
      */
     public void setFoldThresholdPolicy(FoldThresholdPolicy policy) {
-        gtk_h.adw_leaflet_set_fold_threshold_policy(handle(), policy.getValue());
+        try {
+            adw_leaflet_set_fold_threshold_policy.invokeExact(handle(), policy.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_homogeneous = Interop.downcallHandle(
+        "adw_leaflet_set_homogeneous",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets {@code self} to be homogeneous or not.
@@ -302,29 +558,65 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * opposite orientation.
      */
     public void setHomogeneous(boolean homogeneous) {
-        gtk_h.adw_leaflet_set_homogeneous(handle(), homogeneous ? 1 : 0);
+        try {
+            adw_leaflet_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_mode_transition_duration = Interop.downcallHandle(
+        "adw_leaflet_set_mode_transition_duration",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the mode transition animation duration for {@code self}.
      */
     public void setModeTransitionDuration(int duration) {
-        gtk_h.adw_leaflet_set_mode_transition_duration(handle(), duration);
+        try {
+            adw_leaflet_set_mode_transition_duration.invokeExact(handle(), duration);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_transition_type = Interop.downcallHandle(
+        "adw_leaflet_set_transition_type",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the type of animation used for transitions between modes and children.
      */
     public void setTransitionType(LeafletTransitionType transition) {
-        gtk_h.adw_leaflet_set_transition_type(handle(), transition.getValue());
+        try {
+            adw_leaflet_set_transition_type.invokeExact(handle(), transition.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_visible_child = Interop.downcallHandle(
+        "adw_leaflet_set_visible_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the widget currently visible when the leaflet is folded.
      */
     public void setVisibleChild(org.gtk.gtk.Widget visibleChild) {
-        gtk_h.adw_leaflet_set_visible_child(handle(), visibleChild.handle());
+        try {
+            adw_leaflet_set_visible_child.invokeExact(handle(), visibleChild.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_leaflet_set_visible_child_name = Interop.downcallHandle(
+        "adw_leaflet_set_visible_child_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes the child with the name {@code name} visible.
@@ -332,7 +624,11 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * See adw_leaflet_set_visible_child() for more details.
      */
     public void setVisibleChildName(java.lang.String name) {
-        gtk_h.adw_leaflet_set_visible_child_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            adw_leaflet_set_visible_child_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

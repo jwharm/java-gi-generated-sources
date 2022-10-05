@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
         return new SelectionFilterModel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_selection_filter_model_new = Interop.downcallHandle(
+        "gtk_selection_filter_model_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(SelectionModel model) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_selection_filter_model_new(model.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_selection_filter_model_new.invokeExact(model.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,13 +41,27 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
         super(constructNew(model));
     }
     
+    static final MethodHandle gtk_selection_filter_model_get_model = Interop.downcallHandle(
+        "gtk_selection_filter_model_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the model currently filtered or {@code null} if none.
      */
     public SelectionModel getModel() {
-        var RESULT = gtk_h.gtk_selection_filter_model_get_model(handle());
-        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_selection_filter_model_get_model.invokeExact(handle());
+            return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_selection_filter_model_set_model = Interop.downcallHandle(
+        "gtk_selection_filter_model_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the model to be filtered.
@@ -50,7 +72,11 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * types match.
      */
     public void setModel(SelectionModel model) {
-        gtk_h.gtk_selection_filter_model_set_model(handle(), model.handle());
+        try {
+            gtk_selection_filter_model_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -94,9 +93,18 @@ public class DragSource extends GestureSingle {
         return new DragSource(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_drag_source_new = Interop.downcallHandle(
+        "gtk_drag_source_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_drag_source_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drag_source_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -106,36 +114,77 @@ public class DragSource extends GestureSingle {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_drag_source_drag_cancel = Interop.downcallHandle(
+        "gtk_drag_source_drag_cancel",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Cancels a currently ongoing drag operation.
      */
     public void dragCancel() {
-        gtk_h.gtk_drag_source_drag_cancel(handle());
+        try {
+            gtk_drag_source_drag_cancel.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_drag_source_get_actions = Interop.downcallHandle(
+        "gtk_drag_source_get_actions",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the actions that are currently set on the {@code GtkDragSource}.
      */
     public org.gtk.gdk.DragAction getActions() {
-        var RESULT = gtk_h.gtk_drag_source_get_actions(handle());
-        return new org.gtk.gdk.DragAction(RESULT);
+        try {
+            var RESULT = (int) gtk_drag_source_get_actions.invokeExact(handle());
+            return new org.gtk.gdk.DragAction(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_drag_source_get_content = Interop.downcallHandle(
+        "gtk_drag_source_get_content",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current content provider of a {@code GtkDragSource}.
      */
     public org.gtk.gdk.ContentProvider getContent() {
-        var RESULT = gtk_h.gtk_drag_source_get_content(handle());
-        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_drag_source_get_content.invokeExact(handle());
+            return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_drag_source_get_drag = Interop.downcallHandle(
+        "gtk_drag_source_get_drag",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the underlying {@code GdkDrag} object for an ongoing drag.
      */
     public org.gtk.gdk.Drag getDrag() {
-        var RESULT = gtk_h.gtk_drag_source_get_drag(handle());
-        return new org.gtk.gdk.Drag(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_drag_source_get_drag.invokeExact(handle());
+            return new org.gtk.gdk.Drag(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_drag_source_set_actions = Interop.downcallHandle(
+        "gtk_drag_source_set_actions",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the actions on the {@code GtkDragSource}.
@@ -149,8 +198,17 @@ public class DragSource extends GestureSingle {
      * or in a handler for the {@code Gtk.DragSource::prepare} signal.
      */
     public void setActions(org.gtk.gdk.DragAction actions) {
-        gtk_h.gtk_drag_source_set_actions(handle(), actions.getValue());
+        try {
+            gtk_drag_source_set_actions.invokeExact(handle(), actions.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_drag_source_set_content = Interop.downcallHandle(
+        "gtk_drag_source_set_content",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a content provider on a {@code GtkDragSource}.
@@ -165,8 +223,17 @@ public class DragSource extends GestureSingle {
      * {@code null} in a {@code Gtk.DragSource::drag-end} signal handler.
      */
     public void setContent(org.gtk.gdk.ContentProvider content) {
-        gtk_h.gtk_drag_source_set_content(handle(), content.handle());
+        try {
+            gtk_drag_source_set_content.invokeExact(handle(), content.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_drag_source_set_icon = Interop.downcallHandle(
+        "gtk_drag_source_set_icon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets a paintable to use as icon during DND operations.
@@ -181,7 +248,11 @@ public class DragSource extends GestureSingle {
      * {@code Gtk.DragSource::drag-begin} signal handler.
      */
     public void setIcon(org.gtk.gdk.Paintable paintable, int hotX, int hotY) {
-        gtk_h.gtk_drag_source_set_icon(handle(), paintable.handle(), hotX, hotY);
+        try {
+            gtk_drag_source_set_icon.invokeExact(handle(), paintable.handle(), hotX, hotY);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -197,19 +268,19 @@ public class DragSource extends GestureSingle {
      */
     public SignalHandle onDragBegin(DragBeginHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("drag-begin").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -227,19 +298,19 @@ public class DragSource extends GestureSingle {
      */
     public SignalHandle onDragCancel(DragCancelHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("drag-cancel").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragCancel",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -257,19 +328,19 @@ public class DragSource extends GestureSingle {
      */
     public SignalHandle onDragEnd(DragEndHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("drag-end").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -288,19 +359,19 @@ public class DragSource extends GestureSingle {
      */
     public SignalHandle onPrepare(PrepareHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("prepare").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourcePrepare",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

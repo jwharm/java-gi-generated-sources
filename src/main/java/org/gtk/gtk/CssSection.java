@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,9 +16,18 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gtk_css_section_new = Interop.downcallHandle(
+        "gtk_css_section_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.File file, CssLocation start, CssLocation end) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_css_section_new(file.handle(), start.handle(), end.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_css_section_new.invokeExact(file.handle(), start.handle(), end.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -31,13 +39,27 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(file, start, end));
     }
     
+    static final MethodHandle gtk_css_section_get_end_location = Interop.downcallHandle(
+        "gtk_css_section_get_end_location",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the location in the CSS document where this section ends.
      */
     public CssLocation getEndLocation() {
-        var RESULT = gtk_h.gtk_css_section_get_end_location(handle());
-        return new CssLocation(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_css_section_get_end_location.invokeExact(handle());
+            return new CssLocation(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_css_section_get_file = Interop.downcallHandle(
+        "gtk_css_section_get_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the file that {@code section} was parsed from.
@@ -46,9 +68,18 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      * {@link CssProvider#loadFromData}, then {@code NULL} is returned.
      */
     public org.gtk.gio.File getFile() {
-        var RESULT = gtk_h.gtk_css_section_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_css_section_get_file.invokeExact(handle());
+            return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_css_section_get_parent = Interop.downcallHandle(
+        "gtk_css_section_get_parent",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the parent section for the given {@code section}.
@@ -61,17 +92,35 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      * a different file.
      */
     public CssSection getParent() {
-        var RESULT = gtk_h.gtk_css_section_get_parent(handle());
-        return new CssSection(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_css_section_get_parent.invokeExact(handle());
+            return new CssSection(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_css_section_get_start_location = Interop.downcallHandle(
+        "gtk_css_section_get_start_location",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the location in the CSS document where this section starts.
      */
     public CssLocation getStartLocation() {
-        var RESULT = gtk_h.gtk_css_section_get_start_location(handle());
-        return new CssLocation(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_css_section_get_start_location.invokeExact(handle());
+            return new CssLocation(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_css_section_print = Interop.downcallHandle(
+        "gtk_css_section_print",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prints the {@code section} into {@code string} in a human-readable form.
@@ -80,32 +129,63 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      * 1 to 23 in the file {@code gtk.css}.
      */
     public void print(org.gtk.glib.String string) {
-        gtk_h.gtk_css_section_print(handle(), string.handle());
+        try {
+            gtk_css_section_print.invokeExact(handle(), string.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_css_section_ref = Interop.downcallHandle(
+        "gtk_css_section_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increments the reference count on {@code section}.
      */
     public CssSection ref() {
-        var RESULT = gtk_h.gtk_css_section_ref(handle());
-        return new CssSection(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_css_section_ref.invokeExact(handle());
+            return new CssSection(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_css_section_to_string = Interop.downcallHandle(
+        "gtk_css_section_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prints the section into a human-readable text form using
      * {@link CssSection#print}.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.gtk_css_section_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_css_section_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_css_section_unref = Interop.downcallHandle(
+        "gtk_css_section_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrements the reference count on {@code section}, freeing the
      * structure if the reference count reaches 0.
      */
     public void unref() {
-        gtk_h.gtk_css_section_unref(handle());
+        try {
+            gtk_css_section_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

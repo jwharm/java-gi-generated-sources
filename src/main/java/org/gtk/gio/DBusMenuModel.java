@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,6 +20,11 @@ public class DBusMenuModel extends MenuModel {
         return new DBusMenuModel(gobject.refcounted());
     }
     
+    static final MethodHandle g_dbus_menu_model_get = Interop.downcallHandle(
+        "g_dbus_menu_model_get",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Obtains a {@link DBusMenuModel} for the menu model which is exported
      * at the given {@code bus_name} and {@code object_path}.
@@ -32,8 +36,12 @@ public class DBusMenuModel extends MenuModel {
      * the thread default main context unchanged.
      */
     public static DBusMenuModel get(DBusConnection connection, java.lang.String busName, java.lang.String objectPath) {
-        var RESULT = gtk_h.g_dbus_menu_model_get(connection.handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle());
-        return new DBusMenuModel(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_menu_model_get.invokeExact(connection.handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle());
+            return new DBusMenuModel(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -139,9 +138,18 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         return new Dialog(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_dialog_new = Interop.downcallHandle(
+        "gtk_dialog_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_dialog_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_dialog_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -155,6 +163,11 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         super(constructNew());
     }
     
+    static final MethodHandle gtk_dialog_add_action_widget = Interop.downcallHandle(
+        "gtk_dialog_add_action_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Adds an activatable widget to the action area of a {@code GtkDialog}.
      * <p>
@@ -167,8 +180,17 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * the {@code action_area} field of the {@code GtkDialog} struct.
      */
     public void addActionWidget(Widget child, int responseId) {
-        gtk_h.gtk_dialog_add_action_widget(handle(), child.handle(), responseId);
+        try {
+            gtk_dialog_add_action_widget.invokeExact(handle(), child.handle(), responseId);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_dialog_add_button = Interop.downcallHandle(
+        "gtk_dialog_add_button",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds a button with the given text.
@@ -179,17 +201,35 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * The button widget is returned, but usually you don’t need it.
      */
     public Widget addButton(java.lang.String buttonText, int responseId) {
-        var RESULT = gtk_h.gtk_dialog_add_button(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_dialog_add_button.invokeExact(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_dialog_get_content_area = Interop.downcallHandle(
+        "gtk_dialog_get_content_area",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the content area of {@code dialog}.
      */
     public Box getContentArea() {
-        var RESULT = gtk_h.gtk_dialog_get_content_area(handle());
-        return new Box(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_dialog_get_content_area.invokeExact(handle());
+            return new Box(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_dialog_get_header_bar = Interop.downcallHandle(
+        "gtk_dialog_get_header_bar",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the header bar of {@code dialog}.
@@ -198,27 +238,54 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * {@code Gtk.Dialog:use-header-bar} property is {@code true}.
      */
     public HeaderBar getHeaderBar() {
-        var RESULT = gtk_h.gtk_dialog_get_header_bar(handle());
-        return new HeaderBar(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_dialog_get_header_bar.invokeExact(handle());
+            return new HeaderBar(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_dialog_get_response_for_widget = Interop.downcallHandle(
+        "gtk_dialog_get_response_for_widget",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the response id of a widget in the action area
      * of a dialog.
      */
     public int getResponseForWidget(Widget widget) {
-        var RESULT = gtk_h.gtk_dialog_get_response_for_widget(handle(), widget.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_dialog_get_response_for_widget.invokeExact(handle(), widget.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_dialog_get_widget_for_response = Interop.downcallHandle(
+        "gtk_dialog_get_widget_for_response",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets the widget button that uses the given response ID in the action area
      * of a dialog.
      */
     public Widget getWidgetForResponse(int responseId) {
-        var RESULT = gtk_h.gtk_dialog_get_widget_for_response(handle(), responseId);
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_dialog_get_widget_for_response.invokeExact(handle(), responseId);
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_dialog_response = Interop.downcallHandle(
+        "gtk_dialog_response",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Emits the ::response signal with the given response ID.
@@ -226,8 +293,17 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Used to indicate that the user has responded to the dialog in some way.
      */
     public void response(int responseId) {
-        gtk_h.gtk_dialog_response(handle(), responseId);
+        try {
+            gtk_dialog_response.invokeExact(handle(), responseId);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_dialog_set_default_response = Interop.downcallHandle(
+        "gtk_dialog_set_default_response",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the default widget for the dialog based on the response ID.
@@ -235,8 +311,17 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Pressing “Enter” normally activates the default widget.
      */
     public void setDefaultResponse(int responseId) {
-        gtk_h.gtk_dialog_set_default_response(handle(), responseId);
+        try {
+            gtk_dialog_set_default_response.invokeExact(handle(), responseId);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_dialog_set_response_sensitive = Interop.downcallHandle(
+        "gtk_dialog_set_response_sensitive",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * A convenient way to sensitize/desensitize dialog buttons.
@@ -245,7 +330,11 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * for each widget in the dialog’s action area with the given {@code response_id}.
      */
     public void setResponseSensitive(int responseId, boolean setting) {
-        gtk_h.gtk_dialog_set_response_sensitive(handle(), responseId, setting ? 1 : 0);
+        try {
+            gtk_dialog_set_response_sensitive.invokeExact(handle(), responseId, setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -262,19 +351,19 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onClose(CloseHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("close").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Dialog.Callbacks.class, "signalDialogClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -293,19 +382,19 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public SignalHandle onResponse(ResponseHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("response").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Dialog.Callbacks.class, "signalDialogResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

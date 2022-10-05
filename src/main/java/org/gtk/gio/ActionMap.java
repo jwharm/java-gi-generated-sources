@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -18,6 +17,11 @@ import java.lang.invoke.*;
  */
 public interface ActionMap extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_action_map_add_action = Interop.downcallHandle(
+        "g_action_map_add_action",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds an action to the {@code action_map}.
      * <p>
@@ -27,8 +31,17 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * The action map takes its own reference on {@code action}.
      */
     public default void addAction(Action action) {
-        gtk_h.g_action_map_add_action(handle(), action.handle());
+        try {
+            g_action_map_add_action.invokeExact(handle(), action.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_map_add_action_entries = Interop.downcallHandle(
+        "g_action_map_add_action_entries",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function for creating multiple {@link SimpleAction} instances
@@ -70,8 +83,17 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * }</pre>
      */
     public default void addActionEntries(ActionEntry[] entries, int nEntries, java.lang.foreign.MemoryAddress userData) {
-        gtk_h.g_action_map_add_action_entries(handle(), Interop.allocateNativeArray(entries).handle(), nEntries, userData);
+        try {
+            g_action_map_add_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries).handle(), nEntries, userData);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_map_lookup_action = Interop.downcallHandle(
+        "g_action_map_lookup_action",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up the action with the name {@code action_name} in {@code action_map}.
@@ -79,9 +101,18 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * If no such action exists, returns {@code null}.
      */
     public default Action lookupAction(java.lang.String actionName) {
-        var RESULT = gtk_h.g_action_map_lookup_action(handle(), Interop.allocateNativeString(actionName).handle());
-        return new Action.ActionImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_action_map_lookup_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            return new Action.ActionImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_map_remove_action = Interop.downcallHandle(
+        "g_action_map_remove_action",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes the named action from the action map.
@@ -89,7 +120,11 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * If no action of this name is in the map then nothing happens.
      */
     public default void removeAction(java.lang.String actionName) {
-        gtk_h.g_action_map_remove_action(handle(), Interop.allocateNativeString(actionName).handle());
+        try {
+            g_action_map_remove_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class ActionMapImpl extends org.gtk.gobject.Object implements ActionMap {

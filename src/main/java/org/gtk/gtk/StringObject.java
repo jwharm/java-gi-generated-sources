@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,18 @@ public class StringObject extends org.gtk.gobject.Object {
         return new StringObject(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_string_object_new = Interop.downcallHandle(
+        "gtk_string_object_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String string) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_string_object_new.invokeExact(Interop.allocateNativeString(string).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -34,12 +42,21 @@ public class StringObject extends org.gtk.gobject.Object {
         super(constructNew(string));
     }
     
+    static final MethodHandle gtk_string_object_get_string = Interop.downcallHandle(
+        "gtk_string_object_get_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the string contained in a {@code GtkStringObject}.
      */
     public java.lang.String getString() {
-        var RESULT = gtk_h.gtk_string_object_get_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_string_object_get_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,9 +23,18 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle pango_attr_list_new = Interop.downcallHandle(
+        "pango_attr_list_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.pango_attr_list_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) pango_attr_list_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -36,6 +44,11 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     public AttrList() {
         super(constructNew());
     }
+    
+    static final MethodHandle pango_attr_list_change = Interop.downcallHandle(
+        "pango_attr_list_change",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Insert the given attribute into the {@code PangoAttrList}.
@@ -52,16 +65,34 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * never removes or combines existing attributes.
      */
     public void change(Attribute attr) {
-        gtk_h.pango_attr_list_change(handle(), attr.refcounted().unowned().handle());
+        try {
+            pango_attr_list_change.invokeExact(handle(), attr.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_copy = Interop.downcallHandle(
+        "pango_attr_list_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Copy {@code list} and return an identical new list.
      */
     public AttrList copy() {
-        var RESULT = gtk_h.pango_attr_list_copy(handle());
-        return new AttrList(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_list_copy.invokeExact(handle());
+            return new AttrList(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_equal = Interop.downcallHandle(
+        "pango_attr_list_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether {@code list} and {@code other_list} contain the same
@@ -72,9 +103,18 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * contains duplicates.
      */
     public boolean equal(AttrList otherList) {
-        var RESULT = gtk_h.pango_attr_list_equal(handle(), otherList.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_attr_list_equal.invokeExact(handle(), otherList.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_filter = Interop.downcallHandle(
+        "pango_attr_list_filter",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Given a {@code PangoAttrList} and callback function, removes
@@ -83,26 +123,40 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      */
     public AttrList filter(AttrFilterFunc func) {
         try {
-            var RESULT = gtk_h.pango_attr_list_filter(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) pango_attr_list_filter.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.class, "__cbAttrFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
             return new AttrList(Refcounted.get(RESULT, true));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle pango_attr_list_get_attributes = Interop.downcallHandle(
+        "pango_attr_list_get_attributes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a list of all attributes in {@code list}.
      */
     public org.gtk.glib.SList getAttributes() {
-        var RESULT = gtk_h.pango_attr_list_get_attributes(handle());
-        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_list_get_attributes.invokeExact(handle());
+            return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_get_iterator = Interop.downcallHandle(
+        "pango_attr_list_get_iterator",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a iterator initialized to the beginning of the list.
@@ -110,9 +164,18 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * {@code list} must not be modified until this iterator is freed.
      */
     public AttrIterator getIterator() {
-        var RESULT = gtk_h.pango_attr_list_get_iterator(handle());
-        return new AttrIterator(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_list_get_iterator.invokeExact(handle());
+            return new AttrIterator(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_insert = Interop.downcallHandle(
+        "pango_attr_list_insert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Insert the given attribute into the {@code PangoAttrList}.
@@ -121,8 +184,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * matching {@code start_index}.
      */
     public void insert(Attribute attr) {
-        gtk_h.pango_attr_list_insert(handle(), attr.refcounted().unowned().handle());
+        try {
+            pango_attr_list_insert.invokeExact(handle(), attr.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_insert_before = Interop.downcallHandle(
+        "pango_attr_list_insert_before",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Insert the given attribute into the {@code PangoAttrList}.
@@ -131,17 +203,35 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * matching {@code start_index}.
      */
     public void insertBefore(Attribute attr) {
-        gtk_h.pango_attr_list_insert_before(handle(), attr.refcounted().unowned().handle());
+        try {
+            pango_attr_list_insert_before.invokeExact(handle(), attr.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_ref = Interop.downcallHandle(
+        "pango_attr_list_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increase the reference count of the given attribute
      * list by one.
      */
     public AttrList ref() {
-        var RESULT = gtk_h.pango_attr_list_ref(handle());
-        return new AttrList(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_list_ref.invokeExact(handle());
+            return new AttrList(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_splice = Interop.downcallHandle(
+        "pango_attr_list_splice",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This function opens up a hole in {@code list}, fills it
@@ -164,8 +254,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * This mode is useful for merging two lists of attributes together.
      */
     public void splice(AttrList other, int pos, int len) {
-        gtk_h.pango_attr_list_splice(handle(), other.handle(), pos, len);
+        try {
+            pango_attr_list_splice.invokeExact(handle(), other.handle(), pos, len);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_to_string = Interop.downcallHandle(
+        "pango_attr_list_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Serializes a {@code PangoAttrList} to a string.
@@ -178,9 +277,18 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * storage format.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.pango_attr_list_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_attr_list_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_unref = Interop.downcallHandle(
+        "pango_attr_list_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrease the reference count of the given attribute
@@ -190,8 +298,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * and the attributes it contains.
      */
     public void unref() {
-        gtk_h.pango_attr_list_unref(handle());
+        try {
+            pango_attr_list_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_update = Interop.downcallHandle(
+        "pango_attr_list_update",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Update indices of attributes in {@code list} for a change in the
@@ -210,8 +327,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * behind {@code pos} + {@code remove}.
      */
     public void update(int pos, int remove, int add) {
-        gtk_h.pango_attr_list_update(handle(), pos, remove, add);
+        try {
+            pango_attr_list_update.invokeExact(handle(), pos, remove, add);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
+        "pango_attr_list_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Deserializes a {@code PangoAttrList} from a string.
@@ -220,8 +346,12 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * See that functions for details about the format.
      */
     public static AttrList fromString(java.lang.String text) {
-        var RESULT = gtk_h.pango_attr_list_from_string(Interop.allocateNativeString(text).handle());
-        return new AttrList(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_list_from_string.invokeExact(Interop.allocateNativeString(text).handle());
+            return new AttrList(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

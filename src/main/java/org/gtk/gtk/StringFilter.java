@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -31,9 +30,18 @@ public class StringFilter extends Filter {
         return new StringFilter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_string_filter_new = Interop.downcallHandle(
+        "gtk_string_filter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Expression expression) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_string_filter_new(expression.refcounted().unowned().handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_string_filter_new.invokeExact(expression.refcounted().unowned().handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -46,38 +54,79 @@ public class StringFilter extends Filter {
         super(constructNew(expression));
     }
     
+    static final MethodHandle gtk_string_filter_get_expression = Interop.downcallHandle(
+        "gtk_string_filter_get_expression",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the expression that the string filter uses to
      * obtain strings from items.
      */
     public Expression getExpression() {
-        var RESULT = gtk_h.gtk_string_filter_get_expression(handle());
-        return new Expression(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_string_filter_get_expression.invokeExact(handle());
+            return new Expression(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_filter_get_ignore_case = Interop.downcallHandle(
+        "gtk_string_filter_get_ignore_case",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the filter ignores case differences.
      */
     public boolean getIgnoreCase() {
-        var RESULT = gtk_h.gtk_string_filter_get_ignore_case(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_string_filter_get_ignore_case.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_filter_get_match_mode = Interop.downcallHandle(
+        "gtk_string_filter_get_match_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the match mode that the filter is using.
      */
     public StringFilterMatchMode getMatchMode() {
-        var RESULT = gtk_h.gtk_string_filter_get_match_mode(handle());
-        return new StringFilterMatchMode(RESULT);
+        try {
+            var RESULT = (int) gtk_string_filter_get_match_mode.invokeExact(handle());
+            return new StringFilterMatchMode(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_filter_get_search = Interop.downcallHandle(
+        "gtk_string_filter_get_search",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the search term.
      */
     public java.lang.String getSearch() {
-        var RESULT = gtk_h.gtk_string_filter_get_search(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_string_filter_get_search.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_filter_set_expression = Interop.downcallHandle(
+        "gtk_string_filter_set_expression",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the expression that the string filter uses to
@@ -86,28 +135,59 @@ public class StringFilter extends Filter {
      * The expression must have a value type of {@code G_TYPE_STRING}.
      */
     public void setExpression(Expression expression) {
-        gtk_h.gtk_string_filter_set_expression(handle(), expression.handle());
+        try {
+            gtk_string_filter_set_expression.invokeExact(handle(), expression.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_filter_set_ignore_case = Interop.downcallHandle(
+        "gtk_string_filter_set_ignore_case",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the filter ignores case differences.
      */
     public void setIgnoreCase(boolean ignoreCase) {
-        gtk_h.gtk_string_filter_set_ignore_case(handle(), ignoreCase ? 1 : 0);
+        try {
+            gtk_string_filter_set_ignore_case.invokeExact(handle(), ignoreCase ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_filter_set_match_mode = Interop.downcallHandle(
+        "gtk_string_filter_set_match_mode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the match mode for the filter.
      */
     public void setMatchMode(StringFilterMatchMode mode) {
-        gtk_h.gtk_string_filter_set_match_mode(handle(), mode.getValue());
+        try {
+            gtk_string_filter_set_match_mode.invokeExact(handle(), mode.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_filter_set_search = Interop.downcallHandle(
+        "gtk_string_filter_set_search",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the string to search for.
      */
     public void setSearch(java.lang.String search) {
-        gtk_h.gtk_string_filter_set_search(handle(), Interop.allocateNativeString(search).handle());
+        try {
+            gtk_string_filter_set_search.invokeExact(handle(), Interop.allocateNativeString(search).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

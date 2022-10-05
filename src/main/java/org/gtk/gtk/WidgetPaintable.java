@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -38,9 +37,18 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
         return new WidgetPaintable(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_widget_paintable_new = Interop.downcallHandle(
+        "gtk_widget_paintable_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Widget widget) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_widget_paintable_new(widget.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_widget_paintable_new.invokeExact(widget.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -50,19 +58,37 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
         super(constructNew(widget));
     }
     
+    static final MethodHandle gtk_widget_paintable_get_widget = Interop.downcallHandle(
+        "gtk_widget_paintable_get_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the widget that is observed or {@code null} if none.
      */
     public Widget getWidget() {
-        var RESULT = gtk_h.gtk_widget_paintable_get_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_paintable_get_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_paintable_set_widget = Interop.downcallHandle(
+        "gtk_widget_paintable_set_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the widget that should be observed.
      */
     public void setWidget(Widget widget) {
-        gtk_h.gtk_widget_paintable_set_widget(handle(), widget.handle());
+        try {
+            gtk_widget_paintable_set_widget.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class OutsetShadowNode extends RenderNode {
         return new OutsetShadowNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_outset_shadow_node_new = Interop.downcallHandle(
+        "gsk_outset_shadow_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
+    
     private static Refcounted constructNew(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_outset_shadow_node_new(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_outset_shadow_node_new.invokeExact(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,52 +40,106 @@ public class OutsetShadowNode extends RenderNode {
         super(constructNew(outline, color, dx, dy, spread, blurRadius));
     }
     
+    static final MethodHandle gsk_outset_shadow_node_get_blur_radius = Interop.downcallHandle(
+        "gsk_outset_shadow_node_get_blur_radius",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the blur radius of the shadow.
      */
     public float getBlurRadius() {
-        var RESULT = gtk_h.gsk_outset_shadow_node_get_blur_radius(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_outset_shadow_node_get_blur_radius.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_outset_shadow_node_get_color = Interop.downcallHandle(
+        "gsk_outset_shadow_node_get_color",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the color of the outset shadow.
      */
     public org.gtk.gdk.RGBA getColor() {
-        var RESULT = gtk_h.gsk_outset_shadow_node_get_color(handle());
-        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_outset_shadow_node_get_color.invokeExact(handle());
+            return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_outset_shadow_node_get_dx = Interop.downcallHandle(
+        "gsk_outset_shadow_node_get_dx",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the horizontal offset of the outset shadow.
      */
     public float getDx() {
-        var RESULT = gtk_h.gsk_outset_shadow_node_get_dx(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_outset_shadow_node_get_dx.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_outset_shadow_node_get_dy = Interop.downcallHandle(
+        "gsk_outset_shadow_node_get_dy",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the vertical offset of the outset shadow.
      */
     public float getDy() {
-        var RESULT = gtk_h.gsk_outset_shadow_node_get_dy(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_outset_shadow_node_get_dy.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_outset_shadow_node_get_outline = Interop.downcallHandle(
+        "gsk_outset_shadow_node_get_outline",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the outline rectangle of the outset shadow.
      */
     public RoundedRect getOutline() {
-        var RESULT = gtk_h.gsk_outset_shadow_node_get_outline(handle());
-        return new RoundedRect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_outset_shadow_node_get_outline.invokeExact(handle());
+            return new RoundedRect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_outset_shadow_node_get_spread = Interop.downcallHandle(
+        "gsk_outset_shadow_node_get_spread",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves how much the shadow spreads outwards.
      */
     public float getSpread() {
-        var RESULT = gtk_h.gsk_outset_shadow_node_get_spread(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_outset_shadow_node_get_spread.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

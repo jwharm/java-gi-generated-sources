@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -89,9 +88,18 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         return new ToggleButton(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_toggle_button_new = Interop.downcallHandle(
+        "gtk_toggle_button_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_toggle_button_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_toggle_button_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -103,9 +111,18 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         super(constructNew());
     }
     
+    static final MethodHandle gtk_toggle_button_new_with_label = Interop.downcallHandle(
+        "gtk_toggle_button_new_with_label",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithLabel(java.lang.String label) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_toggle_button_new_with_label.invokeExact(Interop.allocateNativeString(label).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -115,9 +132,18 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         return new ToggleButton(constructNewWithLabel(label));
     }
     
+    static final MethodHandle gtk_toggle_button_new_with_mnemonic = Interop.downcallHandle(
+        "gtk_toggle_button_new_with_mnemonic",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithMnemonic(java.lang.String label) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_toggle_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -130,6 +156,11 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         return new ToggleButton(constructNewWithMnemonic(label));
     }
     
+    static final MethodHandle gtk_toggle_button_get_active = Interop.downcallHandle(
+        "gtk_toggle_button_get_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Queries a {@code GtkToggleButton} and returns its current state.
      * <p>
@@ -137,9 +168,18 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * if it is raised.
      */
     public boolean getActive() {
-        var RESULT = gtk_h.gtk_toggle_button_get_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_toggle_button_get_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_toggle_button_set_active = Interop.downcallHandle(
+        "gtk_toggle_button_set_active",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the status of the toggle button.
@@ -151,8 +191,17 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * {@code GtkToggleButton::toggled} signal to be emitted.
      */
     public void setActive(boolean isActive) {
-        gtk_h.gtk_toggle_button_set_active(handle(), isActive ? 1 : 0);
+        try {
+            gtk_toggle_button_set_active.invokeExact(handle(), isActive ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_toggle_button_set_group = Interop.downcallHandle(
+        "gtk_toggle_button_set_group",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code self} to the group of {@code group}.
@@ -168,8 +217,17 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * value.
      */
     public void setGroup(ToggleButton group) {
-        gtk_h.gtk_toggle_button_set_group(handle(), group.handle());
+        try {
+            gtk_toggle_button_set_group.invokeExact(handle(), group.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_toggle_button_toggled = Interop.downcallHandle(
+        "gtk_toggle_button_toggled",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Emits the ::toggled signal on the {@code GtkToggleButton}.
@@ -177,7 +235,11 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * There is no good reason for an application ever to call this function.
      */
     public void toggled() {
-        gtk_h.gtk_toggle_button_toggled(handle());
+        try {
+            gtk_toggle_button_toggled.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -190,19 +252,19 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      */
     public SignalHandle onToggled(ToggledHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("toggled").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ToggleButton.Callbacks.class, "signalToggleButtonToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

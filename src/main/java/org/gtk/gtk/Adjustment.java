@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -29,9 +28,18 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         return new Adjustment(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_adjustment_new = Interop.downcallHandle(
+        "gtk_adjustment_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNew(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_adjustment_new.invokeExact(value, lower, upper, stepIncrement, pageIncrement, pageSize), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -40,6 +48,11 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public Adjustment(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
         super(constructNew(value, lower, upper, stepIncrement, pageIncrement, pageSize));
     }
+    
+    static final MethodHandle gtk_adjustment_clamp_page = Interop.downcallHandle(
+        "gtk_adjustment_clamp_page",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Updates the value property to ensure that the range
@@ -53,8 +66,17 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * if the value is changed.
      */
     public void clampPage(double lower, double upper) {
-        gtk_h.gtk_adjustment_clamp_page(handle(), lower, upper);
+        try {
+            gtk_adjustment_clamp_page.invokeExact(handle(), lower, upper);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_configure = Interop.downcallHandle(
+        "gtk_adjustment_configure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets all properties of the adjustment at once.
@@ -66,64 +88,136 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * {@code Gtk.Adjustment::changed} into one.
      */
     public void configure(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        gtk_h.gtk_adjustment_configure(handle(), value, lower, upper, stepIncrement, pageIncrement, pageSize);
+        try {
+            gtk_adjustment_configure.invokeExact(handle(), value, lower, upper, stepIncrement, pageIncrement, pageSize);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_get_lower = Interop.downcallHandle(
+        "gtk_adjustment_get_lower",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the minimum value of the adjustment.
      */
     public double getLower() {
-        var RESULT = gtk_h.gtk_adjustment_get_lower(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_adjustment_get_lower.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_get_minimum_increment = Interop.downcallHandle(
+        "gtk_adjustment_get_minimum_increment",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the smaller of step increment and page increment.
      */
     public double getMinimumIncrement() {
-        var RESULT = gtk_h.gtk_adjustment_get_minimum_increment(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_adjustment_get_minimum_increment.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_get_page_increment = Interop.downcallHandle(
+        "gtk_adjustment_get_page_increment",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the page increment of the adjustment.
      */
     public double getPageIncrement() {
-        var RESULT = gtk_h.gtk_adjustment_get_page_increment(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_adjustment_get_page_increment.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_get_page_size = Interop.downcallHandle(
+        "gtk_adjustment_get_page_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the page size of the adjustment.
      */
     public double getPageSize() {
-        var RESULT = gtk_h.gtk_adjustment_get_page_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_adjustment_get_page_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_get_step_increment = Interop.downcallHandle(
+        "gtk_adjustment_get_step_increment",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the step increment of the adjustment.
      */
     public double getStepIncrement() {
-        var RESULT = gtk_h.gtk_adjustment_get_step_increment(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_adjustment_get_step_increment.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_get_upper = Interop.downcallHandle(
+        "gtk_adjustment_get_upper",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the maximum value of the adjustment.
      */
     public double getUpper() {
-        var RESULT = gtk_h.gtk_adjustment_get_upper(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_adjustment_get_upper.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_get_value = Interop.downcallHandle(
+        "gtk_adjustment_get_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current value of the adjustment.
      */
     public double getValue() {
-        var RESULT = gtk_h.gtk_adjustment_get_value(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_adjustment_get_value.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_set_lower = Interop.downcallHandle(
+        "gtk_adjustment_set_lower",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the minimum value of the adjustment.
@@ -141,8 +235,17 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * to change, or using {@link Adjustment#configure} has the same effect.
      */
     public void setLower(double lower) {
-        gtk_h.gtk_adjustment_set_lower(handle(), lower);
+        try {
+            gtk_adjustment_set_lower.invokeExact(handle(), lower);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_set_page_increment = Interop.downcallHandle(
+        "gtk_adjustment_set_page_increment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the page increment of the adjustment.
@@ -152,8 +255,17 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * signal when setting multiple adjustment properties.
      */
     public void setPageIncrement(double pageIncrement) {
-        gtk_h.gtk_adjustment_set_page_increment(handle(), pageIncrement);
+        try {
+            gtk_adjustment_set_page_increment.invokeExact(handle(), pageIncrement);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_set_page_size = Interop.downcallHandle(
+        "gtk_adjustment_set_page_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the page size of the adjustment.
@@ -163,8 +275,17 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * signal when setting multiple adjustment properties.
      */
     public void setPageSize(double pageSize) {
-        gtk_h.gtk_adjustment_set_page_size(handle(), pageSize);
+        try {
+            gtk_adjustment_set_page_size.invokeExact(handle(), pageSize);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_set_step_increment = Interop.downcallHandle(
+        "gtk_adjustment_set_step_increment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the step increment of the adjustment.
@@ -174,8 +295,17 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * signal when setting multiple adjustment properties.
      */
     public void setStepIncrement(double stepIncrement) {
-        gtk_h.gtk_adjustment_set_step_increment(handle(), stepIncrement);
+        try {
+            gtk_adjustment_set_step_increment.invokeExact(handle(), stepIncrement);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_set_upper = Interop.downcallHandle(
+        "gtk_adjustment_set_upper",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the maximum value of the adjustment.
@@ -188,8 +318,17 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * signal when setting multiple adjustment properties.
      */
     public void setUpper(double upper) {
-        gtk_h.gtk_adjustment_set_upper(handle(), upper);
+        try {
+            gtk_adjustment_set_upper.invokeExact(handle(), upper);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_adjustment_set_value = Interop.downcallHandle(
+        "gtk_adjustment_set_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the {@code GtkAdjustment} value.
@@ -203,7 +342,11 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * {@code Gtk.Adjustment:page-size}.
      */
     public void setValue(double value) {
-        gtk_h.gtk_adjustment_set_value(handle(), value);
+        try {
+            gtk_adjustment_set_value.invokeExact(handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -220,19 +363,19 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Adjustment.Callbacks.class, "signalAdjustmentChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -246,19 +389,19 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public SignalHandle onValueChanged(ValueChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("value-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Adjustment.Callbacks.class, "signalAdjustmentValueChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

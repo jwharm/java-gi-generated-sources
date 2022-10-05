@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
         return new FileIcon(gobject.refcounted());
     }
     
+    static final MethodHandle g_file_icon_new = Interop.downcallHandle(
+        "g_file_icon_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(File file) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_file_icon_new(file.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_file_icon_new.invokeExact(file.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,12 +40,21 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
         super(constructNew(file));
     }
     
+    static final MethodHandle g_file_icon_get_file = Interop.downcallHandle(
+        "g_file_icon_get_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the {@link File} associated with the given {@code icon}.
      */
     public File getFile() {
-        var RESULT = gtk_h.g_file_icon_get_file(handle());
-        return new File.FileImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_file_icon_get_file.invokeExact(handle());
+            return new File.FileImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

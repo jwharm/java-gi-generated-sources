@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -35,9 +34,18 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         return new PreferencesPage(gobject.refcounted());
     }
     
+    static final MethodHandle adw_preferences_page_new = Interop.downcallHandle(
+        "adw_preferences_page_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_preferences_page_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_preferences_page_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -47,78 +55,168 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         super(constructNew());
     }
     
+    static final MethodHandle adw_preferences_page_add = Interop.downcallHandle(
+        "adw_preferences_page_add",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a preferences group to {@code self}.
      */
     public void add(PreferencesGroup group) {
-        gtk_h.adw_preferences_page_add(handle(), group.handle());
+        try {
+            adw_preferences_page_add.invokeExact(handle(), group.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_get_icon_name = Interop.downcallHandle(
+        "adw_preferences_page_get_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the icon name for {@code self}.
      */
     public java.lang.String getIconName() {
-        var RESULT = gtk_h.adw_preferences_page_get_icon_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_preferences_page_get_icon_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_get_name = Interop.downcallHandle(
+        "adw_preferences_page_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of {@code self}.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.adw_preferences_page_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_preferences_page_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_get_title = Interop.downcallHandle(
+        "adw_preferences_page_get_title",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the title of {@code self}.
      */
     public java.lang.String getTitle() {
-        var RESULT = gtk_h.adw_preferences_page_get_title(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_preferences_page_get_title.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_get_use_underline = Interop.downcallHandle(
+        "adw_preferences_page_get_use_underline",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether an embedded underline in the title indicates a mnemonic.
      */
     public boolean getUseUnderline() {
-        var RESULT = gtk_h.adw_preferences_page_get_use_underline(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_preferences_page_get_use_underline.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_remove = Interop.downcallHandle(
+        "adw_preferences_page_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a group from {@code self}.
      */
     public void remove(PreferencesGroup group) {
-        gtk_h.adw_preferences_page_remove(handle(), group.handle());
+        try {
+            adw_preferences_page_remove.invokeExact(handle(), group.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_set_icon_name = Interop.downcallHandle(
+        "adw_preferences_page_set_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon name for {@code self}.
      */
     public void setIconName(java.lang.String iconName) {
-        gtk_h.adw_preferences_page_set_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
+        try {
+            adw_preferences_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_set_name = Interop.downcallHandle(
+        "adw_preferences_page_set_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name of {@code self}.
      */
     public void setName(java.lang.String name) {
-        gtk_h.adw_preferences_page_set_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            adw_preferences_page_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_set_title = Interop.downcallHandle(
+        "adw_preferences_page_set_title",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the title of {@code self}.
      */
     public void setTitle(java.lang.String title) {
-        gtk_h.adw_preferences_page_set_title(handle(), Interop.allocateNativeString(title).handle());
+        try {
+            adw_preferences_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_preferences_page_set_use_underline = Interop.downcallHandle(
+        "adw_preferences_page_set_use_underline",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether an embedded underline in the title indicates a mnemonic.
      */
     public void setUseUnderline(boolean useUnderline) {
-        gtk_h.adw_preferences_page_set_use_underline(handle(), useUnderline ? 1 : 0);
+        try {
+            adw_preferences_page_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

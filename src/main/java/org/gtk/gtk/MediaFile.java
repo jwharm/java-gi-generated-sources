@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,9 +25,18 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_media_file_new = Interop.downcallHandle(
+        "gtk_media_file_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_media_file_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -38,9 +46,18 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_media_file_new_for_file = Interop.downcallHandle(
+        "gtk_media_file_new_for_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForFile(org.gtk.gio.File file) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new_for_file(file.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_media_file_new_for_file.invokeExact(file.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -50,9 +67,18 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(constructNewForFile(file));
     }
     
+    static final MethodHandle gtk_media_file_new_for_filename = Interop.downcallHandle(
+        "gtk_media_file_new_for_filename",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForFilename(java.lang.String filename) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new_for_filename(Interop.allocateNativeString(filename).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_media_file_new_for_filename.invokeExact(Interop.allocateNativeString(filename).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -65,9 +91,18 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(constructNewForFilename(filename));
     }
     
+    static final MethodHandle gtk_media_file_new_for_input_stream = Interop.downcallHandle(
+        "gtk_media_file_new_for_input_stream",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForInputStream(org.gtk.gio.InputStream stream) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new_for_input_stream(stream.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_media_file_new_for_input_stream.invokeExact(stream.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -80,9 +115,18 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(constructNewForInputStream(stream));
     }
     
+    static final MethodHandle gtk_media_file_new_for_resource = Interop.downcallHandle(
+        "gtk_media_file_new_for_resource",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForResource(java.lang.String resourcePath) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_media_file_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_media_file_new_for_resource.invokeExact(Interop.allocateNativeString(resourcePath).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -95,12 +139,26 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(constructNewForResource(resourcePath));
     }
     
+    static final MethodHandle gtk_media_file_clear = Interop.downcallHandle(
+        "gtk_media_file_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Resets the media file to be empty.
      */
     public void clear() {
-        gtk_h.gtk_media_file_clear(handle());
+        try {
+            gtk_media_file_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_media_file_get_file = Interop.downcallHandle(
+        "gtk_media_file_get_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the file that {@code self} is currently playing from.
@@ -109,9 +167,18 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * {@code null} is returned.
      */
     public org.gtk.gio.File getFile() {
-        var RESULT = gtk_h.gtk_media_file_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_media_file_get_file.invokeExact(handle());
+            return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_media_file_get_input_stream = Interop.downcallHandle(
+        "gtk_media_file_get_input_stream",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the stream that {@code self} is currently playing from.
@@ -120,9 +187,18 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * {@code null} is returned.
      */
     public org.gtk.gio.InputStream getInputStream() {
-        var RESULT = gtk_h.gtk_media_file_get_input_stream(handle());
-        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_media_file_get_input_stream.invokeExact(handle());
+            return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_media_file_set_file = Interop.downcallHandle(
+        "gtk_media_file_set_file",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkMediaFile} to play the given file.
@@ -130,8 +206,17 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * If any file is still playing, stop playing it.
      */
     public void setFile(org.gtk.gio.File file) {
-        gtk_h.gtk_media_file_set_file(handle(), file.handle());
+        try {
+            gtk_media_file_set_file.invokeExact(handle(), file.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_media_file_set_filename = Interop.downcallHandle(
+        "gtk_media_file_set_filename",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkMediaFile to play the given file.
@@ -140,8 +225,17 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a }GFile` and calls {@link MediaFile#setFile}.
      */
     public void setFilename(java.lang.String filename) {
-        gtk_h.gtk_media_file_set_filename(handle(), Interop.allocateNativeString(filename).handle());
+        try {
+            gtk_media_file_set_filename.invokeExact(handle(), Interop.allocateNativeString(filename).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_media_file_set_input_stream = Interop.downcallHandle(
+        "gtk_media_file_set_input_stream",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkMediaFile} to play the given stream.
@@ -152,8 +246,17 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * playback. The stream will not be closed.
      */
     public void setInputStream(org.gtk.gio.InputStream stream) {
-        gtk_h.gtk_media_file_set_input_stream(handle(), stream.handle());
+        try {
+            gtk_media_file_set_input_stream.invokeExact(handle(), stream.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_media_file_set_resource = Interop.downcallHandle(
+        "gtk_media_file_set_resource",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkMediaFile to play the given resource.
@@ -162,7 +265,11 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a }GFile` and calls {@link MediaFile#setFile}.
      */
     public void setResource(java.lang.String resourcePath) {
-        gtk_h.gtk_media_file_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());
+        try {
+            gtk_media_file_set_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,9 +25,18 @@ public class SimpleIOStream extends IOStream {
         return new SimpleIOStream(gobject.refcounted());
     }
     
+    static final MethodHandle g_simple_io_stream_new = Interop.downcallHandle(
+        "g_simple_io_stream_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(InputStream inputStream, OutputStream outputStream) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_simple_io_stream_new(inputStream.handle(), outputStream.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_io_stream_new.invokeExact(inputStream.handle(), outputStream.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -18,9 +17,10 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public TreeIter() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkTreeIter.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle gtk_tree_iter_copy = Interop.downcallHandle(
+        "gtk_tree_iter_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a dynamically allocated tree iterator as a copy of {@code iter}.
@@ -31,9 +31,18 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
      * You must free this iter with gtk_tree_iter_free().
      */
     public TreeIter copy() {
-        var RESULT = gtk_h.gtk_tree_iter_copy(handle());
-        return new TreeIter(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_iter_copy.invokeExact(handle());
+            return new TreeIter(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_iter_free = Interop.downcallHandle(
+        "gtk_tree_iter_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees an iterator that has been allocated by gtk_tree_iter_copy().
@@ -41,7 +50,11 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
      * This function is mainly used for language bindings.
      */
     public void free() {
-        gtk_h.gtk_tree_iter_free(handle());
+        try {
+            gtk_tree_iter_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

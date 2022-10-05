@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -305,9 +304,18 @@ public class Settings extends org.gtk.gobject.Object {
         return new Settings(gobject.refcounted());
     }
     
+    static final MethodHandle g_settings_new = Interop.downcallHandle(
+        "g_settings_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String schemaId) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new(Interop.allocateNativeString(schemaId).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_new.invokeExact(Interop.allocateNativeString(schemaId).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -329,9 +337,18 @@ public class Settings extends org.gtk.gobject.Object {
         super(constructNew(schemaId));
     }
     
+    static final MethodHandle g_settings_new_full = Interop.downcallHandle(
+        "g_settings_new_full",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFull(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new_full(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_new_full.invokeExact(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -363,9 +380,18 @@ public class Settings extends org.gtk.gobject.Object {
         return new Settings(constructNewFull(schema, backend, path));
     }
     
+    static final MethodHandle g_settings_new_with_backend = Interop.downcallHandle(
+        "g_settings_new_with_backend",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithBackend(java.lang.String schemaId, SettingsBackend backend) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_new_with_backend.invokeExact(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -382,9 +408,18 @@ public class Settings extends org.gtk.gobject.Object {
         return new Settings(constructNewWithBackend(schemaId, backend));
     }
     
+    static final MethodHandle g_settings_new_with_backend_and_path = Interop.downcallHandle(
+        "g_settings_new_with_backend_and_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithBackendAndPath(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_new_with_backend_and_path.invokeExact(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -398,9 +433,18 @@ public class Settings extends org.gtk.gobject.Object {
         return new Settings(constructNewWithBackendAndPath(schemaId, backend, path));
     }
     
+    static final MethodHandle g_settings_new_with_path = Interop.downcallHandle(
+        "g_settings_new_with_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithPath(java.lang.String schemaId, java.lang.String path) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_new_with_path.invokeExact(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -422,6 +466,11 @@ public class Settings extends org.gtk.gobject.Object {
         return new Settings(constructNewWithPath(schemaId, path));
     }
     
+    static final MethodHandle g_settings_apply = Interop.downcallHandle(
+        "g_settings_apply",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Applies any changes that have been made to the settings.  This
      * function does nothing unless {@code settings} is in 'delay-apply' mode;
@@ -429,8 +478,17 @@ public class Settings extends org.gtk.gobject.Object {
      * applied immediately.
      */
     public void apply() {
-        gtk_h.g_settings_apply(handle());
+        try {
+            g_settings_apply.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_bind = Interop.downcallHandle(
+        "g_settings_bind",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a binding between the {@code key} in the {@code settings} object
@@ -455,8 +513,17 @@ public class Settings extends org.gtk.gobject.Object {
      * binding overrides the first one.
      */
     public void bind(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, SettingsBindFlags flags) {
-        gtk_h.g_settings_bind(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags.getValue());
+        try {
+            g_settings_bind.invokeExact(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_bind_with_mapping = Interop.downcallHandle(
+        "g_settings_bind_with_mapping",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a binding between the {@code key} in the {@code settings} object
@@ -472,23 +539,28 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public void bindWithMapping(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, SettingsBindFlags flags, SettingsBindGetMapping getMapping, SettingsBindSetMapping setMapping) {
         try {
-            gtk_h.g_settings_bind_with_mapping(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            g_settings_bind_with_mapping.invokeExact(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSettingsBindGetMapping",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Linker.nativeLinker().upcallStub(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSettingsBindSetMapping",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getMapping.hashCode(), getMapping)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getMapping.hashCode(), getMapping)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_settings_bind_writable = Interop.downcallHandle(
+        "g_settings_bind_writable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Create a binding between the writability of {@code key} in the
@@ -510,8 +582,17 @@ public class Settings extends org.gtk.gobject.Object {
      * binding overrides the first one.
      */
     public void bindWritable(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, boolean inverted) {
-        gtk_h.g_settings_bind_writable(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), inverted ? 1 : 0);
+        try {
+            g_settings_bind_writable.invokeExact(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), inverted ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_create_action = Interop.downcallHandle(
+        "g_settings_create_action",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a {@link Action} corresponding to a given {@link Settings} key.
@@ -530,9 +611,18 @@ public class Settings extends org.gtk.gobject.Object {
      * correct type).
      */
     public Action createAction(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_create_action(handle(), Interop.allocateNativeString(key).handle());
-        return new Action.ActionImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_create_action.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return new Action.ActionImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_delay = Interop.downcallHandle(
+        "g_settings_delay",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Changes the {@link Settings} object into 'delay-apply' mode. In this
@@ -540,8 +630,17 @@ public class Settings extends org.gtk.gobject.Object {
      * backend, but kept locally until g_settings_apply() is called.
      */
     public void delay() {
-        gtk_h.g_settings_delay(handle());
+        try {
+            g_settings_delay.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_boolean = Interop.downcallHandle(
+        "g_settings_get_boolean",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored at {@code key} in {@code settings}.
@@ -552,9 +651,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a boolean type in the schema for {@code settings}.
      */
     public boolean getBoolean(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_boolean(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_get_boolean.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_child = Interop.downcallHandle(
+        "g_settings_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a child settings object which has a base path of
@@ -568,9 +676,18 @@ public class Settings extends org.gtk.gobject.Object {
      * mode from {@code settings}.
      */
     public Settings getChild(java.lang.String name) {
-        var RESULT = gtk_h.g_settings_get_child(handle(), Interop.allocateNativeString(name).handle());
-        return new Settings(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_get_child.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return new Settings(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_default_value = Interop.downcallHandle(
+        "g_settings_get_default_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the "default value" of a key.
@@ -596,9 +713,18 @@ public class Settings extends org.gtk.gobject.Object {
      * schema for {@code settings}.
      */
     public org.gtk.glib.Variant getDefaultValue(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_default_value(handle(), Interop.allocateNativeString(key).handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_get_default_value.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_double = Interop.downcallHandle(
+        "g_settings_get_double",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored at {@code key} in {@code settings}.
@@ -609,9 +735,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a 'double' type in the schema for {@code settings}.
      */
     public double getDouble(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_double(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (double) g_settings_get_double.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_enum = Interop.downcallHandle(
+        "g_settings_get_enum",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored in {@code settings} for {@code key} and converts it
@@ -628,9 +763,18 @@ public class Settings extends org.gtk.gobject.Object {
      * default value.
      */
     public int getEnum(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_enum(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_settings_get_enum.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_flags = Interop.downcallHandle(
+        "g_settings_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored in {@code settings} for {@code key} and converts it
@@ -647,18 +791,36 @@ public class Settings extends org.gtk.gobject.Object {
      * value.
      */
     public int getFlags(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_flags(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_settings_get_flags.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_has_unapplied = Interop.downcallHandle(
+        "g_settings_get_has_unapplied",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the {@link Settings} object has any unapplied
      * changes.  This can only be the case if it is in 'delayed-apply' mode.
      */
     public boolean getHasUnapplied() {
-        var RESULT = gtk_h.g_settings_get_has_unapplied(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_get_has_unapplied.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_int = Interop.downcallHandle(
+        "g_settings_get_int",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored at {@code key} in {@code settings}.
@@ -669,9 +831,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a int32 type in the schema for {@code settings}.
      */
     public int getInt(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_int(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_settings_get_int.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_int64 = Interop.downcallHandle(
+        "g_settings_get_int64",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored at {@code key} in {@code settings}.
@@ -682,9 +853,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a int64 type in the schema for {@code settings}.
      */
     public long getInt64(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_int64(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_settings_get_int64.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_mapped = Interop.downcallHandle(
+        "g_settings_get_mapped",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored at {@code key} in {@code settings}, subject to
@@ -717,18 +897,23 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public java.lang.foreign.MemoryAddress getMapped(java.lang.String key, SettingsGetMapping mapping) {
         try {
-            var RESULT = gtk_h.g_settings_get_mapped(handle(), Interop.allocateNativeString(key).handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_settings_get_mapped.invokeExact(handle(), Interop.allocateNativeString(key).handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSettingsGetMapping",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapping.hashCode(), mapping)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapping.hashCode(), mapping)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_settings_get_string = Interop.downcallHandle(
+        "g_settings_get_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored at {@code key} in {@code settings}.
@@ -739,9 +924,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a string type in the schema for {@code settings}.
      */
     public java.lang.String getString(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_string(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_settings_get_string.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_strv = Interop.downcallHandle(
+        "g_settings_get_strv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience variant of g_settings_get() for string arrays.
@@ -750,9 +944,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having an array of strings type in the schema for {@code settings}.
      */
     public PointerIterator<java.lang.String> getStrv(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_strv(handle(), Interop.allocateNativeString(key).handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_settings_get_strv.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_uint = Interop.downcallHandle(
+        "g_settings_get_uint",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored at {@code key} in {@code settings}.
@@ -764,9 +967,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a uint32 type in the schema for {@code settings}.
      */
     public int getUint(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_uint(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_settings_get_uint.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_uint64 = Interop.downcallHandle(
+        "g_settings_get_uint64",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored at {@code key} in {@code settings}.
@@ -778,9 +990,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a uint64 type in the schema for {@code settings}.
      */
     public long getUint64(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_uint64(handle(), Interop.allocateNativeString(key).handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_settings_get_uint64.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_user_value = Interop.downcallHandle(
+        "g_settings_get_user_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks the "user value" of a key, if there is one.
@@ -803,9 +1024,18 @@ public class Settings extends org.gtk.gobject.Object {
      * schema for {@code settings}.
      */
     public org.gtk.glib.Variant getUserValue(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_user_value(handle(), Interop.allocateNativeString(key).handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_get_user_value.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_get_value = Interop.downcallHandle(
+        "g_settings_get_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value that is stored in {@code settings} for {@code key}.
@@ -814,17 +1044,35 @@ public class Settings extends org.gtk.gobject.Object {
      * schema for {@code settings}.
      */
     public org.gtk.glib.Variant getValue(java.lang.String key) {
-        var RESULT = gtk_h.g_settings_get_value(handle(), Interop.allocateNativeString(key).handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_get_value.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_is_writable = Interop.downcallHandle(
+        "g_settings_is_writable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Finds out if a key can be written or not
      */
     public boolean isWritable(java.lang.String name) {
-        var RESULT = gtk_h.g_settings_is_writable(handle(), Interop.allocateNativeString(name).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_is_writable.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_list_children = Interop.downcallHandle(
+        "g_settings_list_children",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the list of children on {@code settings}.
@@ -840,9 +1088,18 @@ public class Settings extends org.gtk.gobject.Object {
      * with it.
      */
     public PointerIterator<java.lang.String> listChildren() {
-        var RESULT = gtk_h.g_settings_list_children(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_settings_list_children.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_reset = Interop.downcallHandle(
+        "g_settings_reset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Resets {@code key} to its default value.
@@ -852,8 +1109,17 @@ public class Settings extends org.gtk.gobject.Object {
      * administrator.
      */
     public void reset(java.lang.String key) {
-        gtk_h.g_settings_reset(handle(), Interop.allocateNativeString(key).handle());
+        try {
+            g_settings_reset.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_revert = Interop.downcallHandle(
+        "g_settings_revert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Reverts all non-applied changes to the settings.  This function
@@ -864,8 +1130,17 @@ public class Settings extends org.gtk.gobject.Object {
      * Change notifications will be emitted for affected keys.
      */
     public void revert() {
-        gtk_h.g_settings_revert(handle());
+        try {
+            g_settings_revert.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_boolean = Interop.downcallHandle(
+        "g_settings_set_boolean",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -876,9 +1151,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a boolean type in the schema for {@code settings}.
      */
     public boolean setBoolean(java.lang.String key, boolean value) {
-        var RESULT = gtk_h.g_settings_set_boolean(handle(), Interop.allocateNativeString(key).handle(), value ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_boolean.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_double = Interop.downcallHandle(
+        "g_settings_set_double",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -889,9 +1173,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a 'double' type in the schema for {@code settings}.
      */
     public boolean setDouble(java.lang.String key, double value) {
-        var RESULT = gtk_h.g_settings_set_double(handle(), Interop.allocateNativeString(key).handle(), value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_double.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_enum = Interop.downcallHandle(
+        "g_settings_set_enum",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks up the enumerated type nick for {@code value} and writes it to {@code key},
@@ -906,9 +1199,18 @@ public class Settings extends org.gtk.gobject.Object {
      * {@code value}.
      */
     public boolean setEnum(java.lang.String key, int value) {
-        var RESULT = gtk_h.g_settings_set_enum(handle(), Interop.allocateNativeString(key).handle(), value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_enum.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_flags = Interop.downcallHandle(
+        "g_settings_set_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks up the flags type nicks for the bits specified by {@code value}, puts
@@ -924,9 +1226,18 @@ public class Settings extends org.gtk.gobject.Object {
      * bit in {@code value}.
      */
     public boolean setFlags(java.lang.String key, int value) {
-        var RESULT = gtk_h.g_settings_set_flags(handle(), Interop.allocateNativeString(key).handle(), value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_flags.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_int = Interop.downcallHandle(
+        "g_settings_set_int",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -937,9 +1248,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a int32 type in the schema for {@code settings}.
      */
     public boolean setInt(java.lang.String key, int value) {
-        var RESULT = gtk_h.g_settings_set_int(handle(), Interop.allocateNativeString(key).handle(), value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_int.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_int64 = Interop.downcallHandle(
+        "g_settings_set_int64",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -950,9 +1270,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a int64 type in the schema for {@code settings}.
      */
     public boolean setInt64(java.lang.String key, long value) {
-        var RESULT = gtk_h.g_settings_set_int64(handle(), Interop.allocateNativeString(key).handle(), value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_int64.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_string = Interop.downcallHandle(
+        "g_settings_set_string",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -963,9 +1292,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a string type in the schema for {@code settings}.
      */
     public boolean setString(java.lang.String key, java.lang.String value) {
-        var RESULT = gtk_h.g_settings_set_string(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(value).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_string.invokeExact(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(value).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_strv = Interop.downcallHandle(
+        "g_settings_set_strv",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -977,9 +1315,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having an array of strings type in the schema for {@code settings}.
      */
     public boolean setStrv(java.lang.String key, java.lang.String[] value) {
-        var RESULT = gtk_h.g_settings_set_strv(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(value).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_strv.invokeExact(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(value).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_uint = Interop.downcallHandle(
+        "g_settings_set_uint",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -991,9 +1338,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a uint32 type in the schema for {@code settings}.
      */
     public boolean setUint(java.lang.String key, int value) {
-        var RESULT = gtk_h.g_settings_set_uint(handle(), Interop.allocateNativeString(key).handle(), value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_uint.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_uint64 = Interop.downcallHandle(
+        "g_settings_set_uint64",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -1005,9 +1361,18 @@ public class Settings extends org.gtk.gobject.Object {
      * having a uint64 type in the schema for {@code settings}.
      */
     public boolean setUint64(java.lang.String key, long value) {
-        var RESULT = gtk_h.g_settings_set_uint64(handle(), Interop.allocateNativeString(key).handle(), value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_uint64.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_set_value = Interop.downcallHandle(
+        "g_settings_set_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code key} in {@code settings} to {@code value}.
@@ -1019,9 +1384,18 @@ public class Settings extends org.gtk.gobject.Object {
      * If {@code value} is floating then this function consumes the reference.
      */
     public boolean setValue(java.lang.String key, org.gtk.glib.Variant value) {
-        var RESULT = gtk_h.g_settings_set_value(handle(), Interop.allocateNativeString(key).handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_set_value.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_sync = Interop.downcallHandle(
+        "g_settings_sync",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Ensures that all pending operations are complete for the default backend.
@@ -1036,8 +1410,17 @@ public class Settings extends org.gtk.gobject.Object {
      * time the call is done).
      */
     public static void sync() {
-        gtk_h.g_settings_sync();
+        try {
+            g_settings_sync.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_unbind = Interop.downcallHandle(
+        "g_settings_unbind",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes an existing binding for {@code property} on {@code object}.
@@ -1047,7 +1430,11 @@ public class Settings extends org.gtk.gobject.Object {
      * function.
      */
     public static void unbind(org.gtk.gobject.Object object, java.lang.String property) {
-        gtk_h.g_settings_unbind(object.handle(), Interop.allocateNativeString(property).handle());
+        try {
+            g_settings_unbind.invokeExact(object.handle(), Interop.allocateNativeString(property).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -1074,19 +1461,19 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public SignalHandle onChangeEvent(ChangeEventHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("change-event").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsChangeEvent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1109,19 +1496,19 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1152,19 +1539,19 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public SignalHandle onWritableChangeEvent(WritableChangeEventHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("writable-change-event").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsWritableChangeEvent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1184,19 +1571,19 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public SignalHandle onWritableChanged(WritableChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("writable-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsWritableChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

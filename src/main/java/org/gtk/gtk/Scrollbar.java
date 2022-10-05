@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -60,9 +59,18 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
         return new Scrollbar(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_scrollbar_new = Interop.downcallHandle(
+        "gtk_scrollbar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Orientation orientation, Adjustment adjustment) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_scrollbar_new.invokeExact(orientation.getValue(), adjustment.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -72,19 +80,37 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew(orientation, adjustment));
     }
     
+    static final MethodHandle gtk_scrollbar_get_adjustment = Interop.downcallHandle(
+        "gtk_scrollbar_get_adjustment",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the scrollbar's adjustment.
      */
     public Adjustment getAdjustment() {
-        var RESULT = gtk_h.gtk_scrollbar_get_adjustment(handle());
-        return new Adjustment(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_scrollbar_get_adjustment.invokeExact(handle());
+            return new Adjustment(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_scrollbar_set_adjustment = Interop.downcallHandle(
+        "gtk_scrollbar_set_adjustment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes the scrollbar use the given adjustment.
      */
     public void setAdjustment(Adjustment adjustment) {
-        gtk_h.gtk_scrollbar_set_adjustment(handle(), adjustment.handle());
+        try {
+            gtk_scrollbar_set_adjustment.invokeExact(handle(), adjustment.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

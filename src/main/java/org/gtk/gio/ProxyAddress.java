@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
         return new ProxyAddress(gobject.refcounted());
     }
     
+    static final MethodHandle g_proxy_address_new = Interop.downcallHandle(
+        "g_proxy_address_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, java.lang.String username, java.lang.String password) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_proxy_address_new(inetaddr.handle(), port, Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(destHostname).handle(), destPort, Interop.allocateNativeString(username).handle(), Interop.allocateNativeString(password).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_proxy_address_new.invokeExact(inetaddr.handle(), port, Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(destHostname).handle(), destPort, Interop.allocateNativeString(username).handle(), Interop.allocateNativeString(password).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -36,15 +44,29 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
         super(constructNew(inetaddr, port, protocol, destHostname, destPort, username, password));
     }
     
+    static final MethodHandle g_proxy_address_get_destination_hostname = Interop.downcallHandle(
+        "g_proxy_address_get_destination_hostname",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets {@code proxy}'s destination hostname; that is, the name of the host
      * that will be connected to via the proxy, not the name of the proxy
      * itself.
      */
     public java.lang.String getDestinationHostname() {
-        var RESULT = gtk_h.g_proxy_address_get_destination_hostname(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_proxy_address_get_destination_hostname.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_proxy_address_get_destination_port = Interop.downcallHandle(
+        "g_proxy_address_get_destination_port",
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code proxy}'s destination port; that is, the port on the
@@ -52,49 +74,98 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * port number of the proxy itself.
      */
     public short getDestinationPort() {
-        var RESULT = gtk_h.g_proxy_address_get_destination_port(handle());
-        return RESULT;
+        try {
+            var RESULT = (short) g_proxy_address_get_destination_port.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_proxy_address_get_destination_protocol = Interop.downcallHandle(
+        "g_proxy_address_get_destination_protocol",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the protocol that is being spoken to the destination
      * server; eg, "http" or "ftp".
      */
     public java.lang.String getDestinationProtocol() {
-        var RESULT = gtk_h.g_proxy_address_get_destination_protocol(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_proxy_address_get_destination_protocol.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_proxy_address_get_password = Interop.downcallHandle(
+        "g_proxy_address_get_password",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code proxy}'s password.
      */
     public java.lang.String getPassword() {
-        var RESULT = gtk_h.g_proxy_address_get_password(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_proxy_address_get_password.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_proxy_address_get_protocol = Interop.downcallHandle(
+        "g_proxy_address_get_protocol",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code proxy}'s protocol. eg, "socks" or "http"
      */
     public java.lang.String getProtocol() {
-        var RESULT = gtk_h.g_proxy_address_get_protocol(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_proxy_address_get_protocol.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_proxy_address_get_uri = Interop.downcallHandle(
+        "g_proxy_address_get_uri",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the proxy URI that {@code proxy} was constructed from.
      */
     public java.lang.String getUri() {
-        var RESULT = gtk_h.g_proxy_address_get_uri(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_proxy_address_get_uri.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_proxy_address_get_username = Interop.downcallHandle(
+        "g_proxy_address_get_username",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code proxy}'s username.
      */
     public java.lang.String getUsername() {
-        var RESULT = gtk_h.g_proxy_address_get_username(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_proxy_address_get_username.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

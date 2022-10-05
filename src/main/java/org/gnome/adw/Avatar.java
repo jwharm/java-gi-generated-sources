@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -41,9 +40,18 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         return new Avatar(gobject.refcounted());
     }
     
+    static final MethodHandle adw_avatar_new = Interop.downcallHandle(
+        "adw_avatar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(int size, java.lang.String text, boolean showInitials) {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_avatar_new(size, Interop.allocateNativeString(text).handle(), showInitials ? 1 : 0), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_avatar_new.invokeExact(size, Interop.allocateNativeString(text).handle(), showInitials ? 1 : 0), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -53,62 +61,130 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         super(constructNew(size, text, showInitials));
     }
     
+    static final MethodHandle adw_avatar_draw_to_texture = Interop.downcallHandle(
+        "adw_avatar_draw_to_texture",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Renders {@code self} into a {@link org.gtk.gdk.Texture} at {@code scale_factor}.
      * <p>
      * This can be used to export the fallback avatar.
      */
     public org.gtk.gdk.Texture drawToTexture(int scaleFactor) {
-        var RESULT = gtk_h.adw_avatar_draw_to_texture(handle(), scaleFactor);
-        return new org.gtk.gdk.Texture(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) adw_avatar_draw_to_texture.invokeExact(handle(), scaleFactor);
+            return new org.gtk.gdk.Texture(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_get_custom_image = Interop.downcallHandle(
+        "adw_avatar_get_custom_image",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the custom image paintable.
      */
     public org.gtk.gdk.Paintable getCustomImage() {
-        var RESULT = gtk_h.adw_avatar_get_custom_image(handle());
-        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_avatar_get_custom_image.invokeExact(handle());
+            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_get_icon_name = Interop.downcallHandle(
+        "adw_avatar_get_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of an icon to use as a fallback.
      */
     public java.lang.String getIconName() {
-        var RESULT = gtk_h.adw_avatar_get_icon_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_avatar_get_icon_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_get_show_initials = Interop.downcallHandle(
+        "adw_avatar_get_show_initials",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether initials are used instead of an icon on the fallback avatar.
      */
     public boolean getShowInitials() {
-        var RESULT = gtk_h.adw_avatar_get_show_initials(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_avatar_get_show_initials.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_get_size = Interop.downcallHandle(
+        "adw_avatar_get_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the size of the avatar.
      */
     public int getSize() {
-        var RESULT = gtk_h.adw_avatar_get_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_avatar_get_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_get_text = Interop.downcallHandle(
+        "adw_avatar_get_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the text used to generate the fallback initials and color.
      */
     public java.lang.String getText() {
-        var RESULT = gtk_h.adw_avatar_get_text(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) adw_avatar_get_text.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_set_custom_image = Interop.downcallHandle(
+        "adw_avatar_set_custom_image",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the custom image paintable.
      */
     public void setCustomImage(org.gtk.gdk.Paintable customImage) {
-        gtk_h.adw_avatar_set_custom_image(handle(), customImage.handle());
+        try {
+            adw_avatar_set_custom_image.invokeExact(handle(), customImage.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_set_icon_name = Interop.downcallHandle(
+        "adw_avatar_set_icon_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name of an icon to use as a fallback.
@@ -116,28 +192,59 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * If no name is set, {@code avatar-default-symbolic} will be used.
      */
     public void setIconName(java.lang.String iconName) {
-        gtk_h.adw_avatar_set_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
+        try {
+            adw_avatar_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_set_show_initials = Interop.downcallHandle(
+        "adw_avatar_set_show_initials",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to use initials instead of an icon on the fallback avatar.
      */
     public void setShowInitials(boolean showInitials) {
-        gtk_h.adw_avatar_set_show_initials(handle(), showInitials ? 1 : 0);
+        try {
+            adw_avatar_set_show_initials.invokeExact(handle(), showInitials ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_set_size = Interop.downcallHandle(
+        "adw_avatar_set_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the size of the avatar.
      */
     public void setSize(int size) {
-        gtk_h.adw_avatar_set_size(handle(), size);
+        try {
+            adw_avatar_set_size.invokeExact(handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_avatar_set_text = Interop.downcallHandle(
+        "adw_avatar_set_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the text used to generate the fallback initials and color.
      */
     public void setText(java.lang.String text) {
-        gtk_h.adw_avatar_set_text(handle(), Interop.allocateNativeString(text).handle());
+        try {
+            adw_avatar_set_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,9 +15,18 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gtk_border_new = Interop.downcallHandle(
+        "gtk_border_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_border_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_border_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -28,19 +36,37 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_border_copy = Interop.downcallHandle(
+        "gtk_border_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Copies a {@code GtkBorder}.
      */
     public Border copy() {
-        var RESULT = gtk_h.gtk_border_copy(handle());
-        return new Border(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_border_copy.invokeExact(handle());
+            return new Border(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_border_free = Interop.downcallHandle(
+        "gtk_border_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a {@code GtkBorder}.
      */
     public void free() {
-        gtk_h.gtk_border_free(handle());
+        try {
+            gtk_border_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

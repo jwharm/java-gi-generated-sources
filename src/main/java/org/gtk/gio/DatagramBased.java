@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -56,6 +55,11 @@ import java.lang.invoke.*;
  */
 public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_datagram_based_condition_check = Interop.downcallHandle(
+        "g_datagram_based_condition_check",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Checks on the readiness of {@code datagram_based} to perform operations. The
      * operations specified in {@code condition} are checked for and masked against the
@@ -95,9 +99,18 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * This call never blocks.
      */
     public default org.gtk.glib.IOCondition conditionCheck(org.gtk.glib.IOCondition condition) {
-        var RESULT = gtk_h.g_datagram_based_condition_check(handle(), condition.getValue());
-        return new org.gtk.glib.IOCondition(RESULT);
+        try {
+            var RESULT = (int) g_datagram_based_condition_check.invokeExact(handle(), condition.getValue());
+            return new org.gtk.glib.IOCondition(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datagram_based_condition_wait = Interop.downcallHandle(
+        "g_datagram_based_condition_wait",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Waits for up to {@code timeout} microseconds for condition to become true on
@@ -109,12 +122,21 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      */
     public default boolean conditionWait(org.gtk.glib.IOCondition condition, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_datagram_based_condition_wait(handle(), condition.getValue(), timeout, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_datagram_based_condition_wait.invokeExact(handle(), condition.getValue(), timeout, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_datagram_based_create_source = Interop.downcallHandle(
+        "g_datagram_based_create_source",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a {@link org.gtk.glib.Source} that can be attached to a {@link org.gtk.glib.MainContext} to monitor for
@@ -133,9 +155,18 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * g_cancellable_is_cancelled().
      */
     public default org.gtk.glib.Source createSource(org.gtk.glib.IOCondition condition, Cancellable cancellable) {
-        var RESULT = gtk_h.g_datagram_based_create_source(handle(), condition.getValue(), cancellable.handle());
-        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_datagram_based_create_source.invokeExact(handle(), condition.getValue(), cancellable.handle());
+            return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_datagram_based_receive_messages = Interop.downcallHandle(
+        "g_datagram_based_receive_messages",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Receive one or more data messages from {@code datagram_based} in one go.
@@ -191,12 +222,21 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      */
     public default int receiveMessages(InputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_datagram_based_receive_messages(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_datagram_based_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
+    
+    static final MethodHandle g_datagram_based_send_messages = Interop.downcallHandle(
+        "g_datagram_based_send_messages",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Send one or more data messages from {@code datagram_based} in one go.
@@ -243,11 +283,15 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      */
     public default int sendMessages(OutputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_datagram_based_send_messages(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_datagram_based_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     class DatagramBasedImpl extends org.gtk.gobject.Object implements DatagramBased {

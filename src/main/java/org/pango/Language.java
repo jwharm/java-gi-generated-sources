@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,6 +16,11 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
     public Language(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
+    
+    static final MethodHandle pango_language_get_sample_string = Interop.downcallHandle(
+        "pango_language_get_sample_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get a string that is representative of the characters needed to
@@ -40,9 +44,18 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public java.lang.String getSampleString() {
-        var RESULT = gtk_h.pango_language_get_sample_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_language_get_sample_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_get_scripts = Interop.downcallHandle(
+        "pango_language_get_scripts",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the scripts used to to write {@code language}.
@@ -70,9 +83,18 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * may have more values. Callers need to handle unknown values.
      */
     public PointerIterator<Script> getScripts(PointerInteger numScripts) {
-        var RESULT = gtk_h.pango_language_get_scripts(handle(), numScripts.handle());
-        return new PointerEnumeration<Script>(RESULT, Script.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) pango_language_get_scripts.invokeExact(handle(), numScripts.handle());
+            return new PointerEnumeration<Script>(RESULT, Script.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_includes_script = Interop.downcallHandle(
+        "pango_language_includes_script",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Determines if {@code script} is one of the scripts used to
@@ -90,9 +112,18 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * This function uses {@link Language#getScripts} internally.
      */
     public boolean includesScript(Script script) {
-        var RESULT = gtk_h.pango_language_includes_script(handle(), script.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_language_includes_script.invokeExact(handle(), script.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_matches = Interop.downcallHandle(
+        "pango_language_matches",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if a language tag matches one of the elements in a list of
@@ -103,9 +134,18 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * of the tag, and the character after it in the tag is '-'.
      */
     public boolean matches(java.lang.String rangeList) {
-        var RESULT = gtk_h.pango_language_matches(handle(), Interop.allocateNativeString(rangeList).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_language_matches.invokeExact(handle(), Interop.allocateNativeString(rangeList).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_to_string = Interop.downcallHandle(
+        "pango_language_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the RFC-3066 format string representing the given language tag.
@@ -113,9 +153,18 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * Returns (transfer none): a string representing the language tag
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.pango_language_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_language_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_from_string = Interop.downcallHandle(
+        "pango_language_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Convert a language tag to a {@code PangoLanguage}.
@@ -132,9 +181,18 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * {@code PangoLanguage} for the current locale of the process.
      */
     public static Language fromString(java.lang.String language) {
-        var RESULT = gtk_h.pango_language_from_string(Interop.allocateNativeString(language).handle());
-        return new Language(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_language_from_string.invokeExact(Interop.allocateNativeString(language).handle());
+            return new Language(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_get_default = Interop.downcallHandle(
+        "pango_language_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code PangoLanguage} for the current locale of the process.
@@ -170,9 +228,18 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * just call pango_language_from_string() yourself.
      */
     public static Language getDefault() {
-        var RESULT = gtk_h.pango_language_get_default();
-        return new Language(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) pango_language_get_default.invokeExact();
+            return new Language(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
+        "pango_language_get_preferred",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the list of languages that the user prefers.
@@ -188,8 +255,12 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * languages returned by this function.
      */
     public static PointerProxy<Language> getPreferred() {
-        var RESULT = gtk_h.pango_language_get_preferred();
-        return new PointerProxy<Language>(RESULT, Language.class);
+        try {
+            var RESULT = (MemoryAddress) pango_language_get_preferred.invokeExact();
+            return new PointerProxy<Language>(RESULT, Language.class);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

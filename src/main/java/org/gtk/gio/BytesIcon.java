@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
         return new BytesIcon(gobject.refcounted());
     }
     
+    static final MethodHandle g_bytes_icon_new = Interop.downcallHandle(
+        "g_bytes_icon_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.glib.Bytes bytes) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_bytes_icon_new(bytes.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_icon_new.invokeExact(bytes.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -35,12 +43,21 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
         super(constructNew(bytes));
     }
     
+    static final MethodHandle g_bytes_icon_get_bytes = Interop.downcallHandle(
+        "g_bytes_icon_get_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the {@link org.gtk.glib.Bytes} associated with the given {@code icon}.
      */
     public org.gtk.glib.Bytes getBytes() {
-        var RESULT = gtk_h.g_bytes_icon_get_bytes(handle());
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_bytes_icon_get_bytes.invokeExact(handle());
+            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

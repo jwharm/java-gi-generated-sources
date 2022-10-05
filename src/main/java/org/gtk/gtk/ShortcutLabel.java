@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,9 +20,18 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
         return new ShortcutLabel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_shortcut_label_new = Interop.downcallHandle(
+        "gtk_shortcut_label_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String accelerator) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_shortcut_label_new.invokeExact(Interop.allocateNativeString(accelerator).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,34 +41,70 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
         super(constructNew(accelerator));
     }
     
+    static final MethodHandle gtk_shortcut_label_get_accelerator = Interop.downcallHandle(
+        "gtk_shortcut_label_get_accelerator",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the current accelerator of {@code self}.
      */
     public java.lang.String getAccelerator() {
-        var RESULT = gtk_h.gtk_shortcut_label_get_accelerator(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_shortcut_label_get_accelerator.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_label_get_disabled_text = Interop.downcallHandle(
+        "gtk_shortcut_label_get_disabled_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the text that is displayed when no accelerator is set.
      */
     public java.lang.String getDisabledText() {
-        var RESULT = gtk_h.gtk_shortcut_label_get_disabled_text(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_shortcut_label_get_disabled_text.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_label_set_accelerator = Interop.downcallHandle(
+        "gtk_shortcut_label_set_accelerator",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the accelerator to be displayed by {@code self}.
      */
     public void setAccelerator(java.lang.String accelerator) {
-        gtk_h.gtk_shortcut_label_set_accelerator(handle(), Interop.allocateNativeString(accelerator).handle());
+        try {
+            gtk_shortcut_label_set_accelerator.invokeExact(handle(), Interop.allocateNativeString(accelerator).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_label_set_disabled_text = Interop.downcallHandle(
+        "gtk_shortcut_label_set_disabled_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the text to be displayed by {@code self} when no accelerator is set.
      */
     public void setDisabledText(java.lang.String disabledText) {
-        gtk_h.gtk_shortcut_label_set_disabled_text(handle(), Interop.allocateNativeString(disabledText).handle());
+        try {
+            gtk_shortcut_label_set_disabled_text.invokeExact(handle(), Interop.allocateNativeString(disabledText).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

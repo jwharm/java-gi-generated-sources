@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,21 +26,44 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         return new Range(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_range_get_adjustment = Interop.downcallHandle(
+        "gtk_range_get_adjustment",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Get the adjustment which is the “model” object for {@code GtkRange}.
      */
     public Adjustment getAdjustment() {
-        var RESULT = gtk_h.gtk_range_get_adjustment(handle());
-        return new Adjustment(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_range_get_adjustment.invokeExact(handle());
+            return new Adjustment(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_fill_level = Interop.downcallHandle(
+        "gtk_range_get_fill_level",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current position of the fill level indicator.
      */
     public double getFillLevel() {
-        var RESULT = gtk_h.gtk_range_get_fill_level(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_range_get_fill_level.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_flippable = Interop.downcallHandle(
+        "gtk_range_get_flippable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the {@code GtkRange} respects text direction.
@@ -49,9 +71,18 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Range#setFlippable}.
      */
     public boolean getFlippable() {
-        var RESULT = gtk_h.gtk_range_get_flippable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_range_get_flippable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_inverted = Interop.downcallHandle(
+        "gtk_range_get_inverted",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the range is inverted.
@@ -59,9 +90,18 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Range#setInverted}.
      */
     public boolean getInverted() {
-        var RESULT = gtk_h.gtk_range_get_inverted(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_range_get_inverted.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_range_rect = Interop.downcallHandle(
+        "gtk_range_get_range_rect",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function returns the area that contains the range’s trough,
@@ -70,16 +110,34 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * This function is useful mainly for {@code GtkRange} subclasses.
      */
     public void getRangeRect(org.gtk.gdk.Rectangle rangeRect) {
-        gtk_h.gtk_range_get_range_rect(handle(), rangeRect.handle());
+        try {
+            gtk_range_get_range_rect.invokeExact(handle(), rangeRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_restrict_to_fill_level = Interop.downcallHandle(
+        "gtk_range_get_restrict_to_fill_level",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the range is restricted to the fill level.
      */
     public boolean getRestrictToFillLevel() {
-        var RESULT = gtk_h.gtk_range_get_restrict_to_fill_level(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_range_get_restrict_to_fill_level.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_round_digits = Interop.downcallHandle(
+        "gtk_range_get_round_digits",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of digits to round the value to when
@@ -88,17 +146,35 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@code Gtk.Range::change-value}.
      */
     public int getRoundDigits() {
-        var RESULT = gtk_h.gtk_range_get_round_digits(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_range_get_round_digits.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_show_fill_level = Interop.downcallHandle(
+        "gtk_range_get_show_fill_level",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the range displays the fill level graphically.
      */
     public boolean getShowFillLevel() {
-        var RESULT = gtk_h.gtk_range_get_show_fill_level(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_range_get_show_fill_level.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_slider_range = Interop.downcallHandle(
+        "gtk_range_get_slider_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function returns sliders range along the long dimension,
@@ -107,8 +183,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * This function is useful mainly for {@code GtkRange} subclasses.
      */
     public void getSliderRange(PointerInteger sliderStart, PointerInteger sliderEnd) {
-        gtk_h.gtk_range_get_slider_range(handle(), sliderStart.handle(), sliderEnd.handle());
+        try {
+            gtk_range_get_slider_range.invokeExact(handle(), sliderStart.handle(), sliderEnd.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_slider_size_fixed = Interop.downcallHandle(
+        "gtk_range_get_slider_size_fixed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function is useful mainly for {@code GtkRange} subclasses.
@@ -116,17 +201,35 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Range#setSliderSizeFixed}.
      */
     public boolean getSliderSizeFixed() {
-        var RESULT = gtk_h.gtk_range_get_slider_size_fixed(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_range_get_slider_size_fixed.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_get_value = Interop.downcallHandle(
+        "gtk_range_get_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current value of the range.
      */
     public double getValue() {
-        var RESULT = gtk_h.gtk_range_get_value(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_range_get_value.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_adjustment = Interop.downcallHandle(
+        "gtk_range_set_adjustment",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the adjustment to be used as the “model” object for the {@code GtkRange}
@@ -140,8 +243,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * The page size affects the size of the scrollbar slider.
      */
     public void setAdjustment(Adjustment adjustment) {
-        gtk_h.gtk_range_set_adjustment(handle(), adjustment.handle());
+        try {
+            gtk_range_set_adjustment.invokeExact(handle(), adjustment.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_fill_level = Interop.downcallHandle(
+        "gtk_range_set_fill_level",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Set the new position of the fill level indicator.
@@ -163,8 +275,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * enabled.
      */
     public void setFillLevel(double fillLevel) {
-        gtk_h.gtk_range_set_fill_level(handle(), fillLevel);
+        try {
+            gtk_range_set_fill_level.invokeExact(handle(), fillLevel);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_flippable = Interop.downcallHandle(
+        "gtk_range_set_flippable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GtkRange} respects text direction.
@@ -175,8 +296,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Widget#getDirection}.
      */
     public void setFlippable(boolean flippable) {
-        gtk_h.gtk_range_set_flippable(handle(), flippable ? 1 : 0);
+        try {
+            gtk_range_set_flippable.invokeExact(handle(), flippable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_increments = Interop.downcallHandle(
+        "gtk_range_set_increments",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the step and page sizes for the range.
@@ -186,8 +316,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * is used for example when moving via Page Up or Page Down keys.
      */
     public void setIncrements(double step, double page) {
-        gtk_h.gtk_range_set_increments(handle(), step, page);
+        try {
+            gtk_range_set_increments.invokeExact(handle(), step, page);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_inverted = Interop.downcallHandle(
+        "gtk_range_set_inverted",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to invert the range.
@@ -198,8 +337,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * than on the bottom or left.
      */
     public void setInverted(boolean setting) {
-        gtk_h.gtk_range_set_inverted(handle(), setting ? 1 : 0);
+        try {
+            gtk_range_set_inverted.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_range = Interop.downcallHandle(
+        "gtk_range_set_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the allowable values in the {@code GtkRange}.
@@ -209,8 +357,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * between {@code min} and {@code max} - page-size.)
      */
     public void setRange(double min, double max) {
-        gtk_h.gtk_range_set_range(handle(), min, max);
+        try {
+            gtk_range_set_range.invokeExact(handle(), min, max);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_restrict_to_fill_level = Interop.downcallHandle(
+        "gtk_range_set_restrict_to_fill_level",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the slider is restricted to the fill level.
@@ -219,8 +376,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * of the fill level concept.
      */
     public void setRestrictToFillLevel(boolean restrictToFillLevel) {
-        gtk_h.gtk_range_set_restrict_to_fill_level(handle(), restrictToFillLevel ? 1 : 0);
+        try {
+            gtk_range_set_restrict_to_fill_level.invokeExact(handle(), restrictToFillLevel ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_round_digits = Interop.downcallHandle(
+        "gtk_range_set_round_digits",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the number of digits to round the value to when
@@ -229,8 +395,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@code Gtk.Range::change-value}.
      */
     public void setRoundDigits(int roundDigits) {
-        gtk_h.gtk_range_set_round_digits(handle(), roundDigits);
+        try {
+            gtk_range_set_round_digits.invokeExact(handle(), roundDigits);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_show_fill_level = Interop.downcallHandle(
+        "gtk_range_set_show_fill_level",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether a graphical fill level is show on the trough.
@@ -239,8 +414,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * of the fill level concept.
      */
     public void setShowFillLevel(boolean showFillLevel) {
-        gtk_h.gtk_range_set_show_fill_level(handle(), showFillLevel ? 1 : 0);
+        try {
+            gtk_range_set_show_fill_level.invokeExact(handle(), showFillLevel ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_slider_size_fixed = Interop.downcallHandle(
+        "gtk_range_set_slider_size_fixed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the range’s slider has a fixed size, or a size that
@@ -249,8 +433,17 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * This function is useful mainly for {@code GtkRange} subclasses.
      */
     public void setSliderSizeFixed(boolean sizeFixed) {
-        gtk_h.gtk_range_set_slider_size_fixed(handle(), sizeFixed ? 1 : 0);
+        try {
+            gtk_range_set_slider_size_fixed.invokeExact(handle(), sizeFixed ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_range_set_value = Interop.downcallHandle(
+        "gtk_range_set_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the current value of the range.
@@ -260,7 +453,11 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * {@code Gtk.Range::value-changed} signal if the value changes.
      */
     public void setValue(double value) {
-        gtk_h.gtk_range_set_value(handle(), value);
+        try {
+            gtk_range_set_value.invokeExact(handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -274,19 +471,19 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public SignalHandle onAdjustBounds(AdjustBoundsHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("adjust-bounds").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeAdjustBounds",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -311,19 +508,19 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public SignalHandle onChangeValue(ChangeValueHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("change-value").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeChangeValue",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -339,19 +536,19 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public SignalHandle onMoveSlider(MoveSliderHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("move-slider").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeMoveSlider",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -365,19 +562,19 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public SignalHandle onValueChanged(ValueChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("value-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeValueChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

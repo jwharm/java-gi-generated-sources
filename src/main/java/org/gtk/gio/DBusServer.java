@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -36,13 +35,22 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
         return new DBusServer(gobject.refcounted());
     }
     
+    static final MethodHandle g_dbus_server_new_sync = Interop.downcallHandle(
+        "g_dbus_server_new_sync",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewSync(java.lang.String address, DBusServerFlags flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_dbus_server_new_sync(Interop.allocateNativeString(address).handle(), flags.getValue(), Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_server_new_sync.invokeExact(Interop.allocateNativeString(address).handle(), flags.getValue(), Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -71,6 +79,11 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
         return new DBusServer(constructNewSync(address, flags, guid, observer, cancellable));
     }
     
+    static final MethodHandle g_dbus_server_get_client_address = Interop.downcallHandle(
+        "g_dbus_server_get_client_address",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets a
      * <a href="https://dbus.freedesktop.org/doc/dbus-specification.html#addresses">D-Bus address</a>
@@ -79,46 +92,95 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * This is valid and non-empty if initializing the {@link DBusServer} succeeded.
      */
     public java.lang.String getClientAddress() {
-        var RESULT = gtk_h.g_dbus_server_get_client_address(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dbus_server_get_client_address.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_server_get_flags = Interop.downcallHandle(
+        "g_dbus_server_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the flags for {@code server}.
      */
     public DBusServerFlags getFlags() {
-        var RESULT = gtk_h.g_dbus_server_get_flags(handle());
-        return new DBusServerFlags(RESULT);
+        try {
+            var RESULT = (int) g_dbus_server_get_flags.invokeExact(handle());
+            return new DBusServerFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_server_get_guid = Interop.downcallHandle(
+        "g_dbus_server_get_guid",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the GUID for {@code server}, as provided to g_dbus_server_new_sync().
      */
     public java.lang.String getGuid() {
-        var RESULT = gtk_h.g_dbus_server_get_guid(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dbus_server_get_guid.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_server_is_active = Interop.downcallHandle(
+        "g_dbus_server_is_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code server} is active.
      */
     public boolean isActive() {
-        var RESULT = gtk_h.g_dbus_server_is_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_dbus_server_is_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_server_start = Interop.downcallHandle(
+        "g_dbus_server_start",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Starts {@code server}.
      */
     public void start() {
-        gtk_h.g_dbus_server_start(handle());
+        try {
+            g_dbus_server_start.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_server_stop = Interop.downcallHandle(
+        "g_dbus_server_stop",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stops {@code server}.
      */
     public void stop() {
-        gtk_h.g_dbus_server_stop(handle());
+        try {
+            g_dbus_server_stop.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -151,19 +213,19 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      */
     public SignalHandle onNewConnection(NewConnectionHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("new-connection").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusServer.Callbacks.class, "signalDBusServerNewConnection",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

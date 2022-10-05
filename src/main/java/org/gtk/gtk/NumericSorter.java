@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,18 @@ public class NumericSorter extends Sorter {
         return new NumericSorter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_numeric_sorter_new = Interop.downcallHandle(
+        "gtk_numeric_sorter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Expression expression) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_numeric_sorter_new(expression.refcounted().unowned().handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_numeric_sorter_new.invokeExact(expression.refcounted().unowned().handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -37,21 +45,44 @@ public class NumericSorter extends Sorter {
         super(constructNew(expression));
     }
     
+    static final MethodHandle gtk_numeric_sorter_get_expression = Interop.downcallHandle(
+        "gtk_numeric_sorter_get_expression",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the expression that is evaluated to obtain numbers from items.
      */
     public Expression getExpression() {
-        var RESULT = gtk_h.gtk_numeric_sorter_get_expression(handle());
-        return new Expression(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_numeric_sorter_get_expression.invokeExact(handle());
+            return new Expression(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_numeric_sorter_get_sort_order = Interop.downcallHandle(
+        "gtk_numeric_sorter_get_sort_order",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether this sorter will sort smaller numbers first.
      */
     public SortType getSortOrder() {
-        var RESULT = gtk_h.gtk_numeric_sorter_get_sort_order(handle());
-        return new SortType(RESULT);
+        try {
+            var RESULT = (int) gtk_numeric_sorter_get_sort_order.invokeExact(handle());
+            return new SortType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_numeric_sorter_set_expression = Interop.downcallHandle(
+        "gtk_numeric_sorter_set_expression",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the expression that is evaluated to obtain numbers from items.
@@ -63,14 +94,27 @@ public class NumericSorter extends Sorter {
      * numerically, such as {@code G_TYPE_INT} or {@code G_TYPE_DOUBLE}.
      */
     public void setExpression(Expression expression) {
-        gtk_h.gtk_numeric_sorter_set_expression(handle(), expression.handle());
+        try {
+            gtk_numeric_sorter_set_expression.invokeExact(handle(), expression.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_numeric_sorter_set_sort_order = Interop.downcallHandle(
+        "gtk_numeric_sorter_set_sort_order",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to sort smaller numbers before larger ones.
      */
     public void setSortOrder(SortType sortOrder) {
-        gtk_h.gtk_numeric_sorter_set_sort_order(handle(), sortOrder.getValue());
+        try {
+            gtk_numeric_sorter_set_sort_order.invokeExact(handle(), sortOrder.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

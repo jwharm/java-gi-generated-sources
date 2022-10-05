@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class OpacityNode extends RenderNode {
         return new OpacityNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_opacity_node_new = Interop.downcallHandle(
+        "gsk_opacity_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
+    
     private static Refcounted constructNew(RenderNode child, float opacity) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_opacity_node_new(child.handle(), opacity), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_opacity_node_new.invokeExact(child.handle(), opacity), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,20 +40,38 @@ public class OpacityNode extends RenderNode {
         super(constructNew(child, opacity));
     }
     
+    static final MethodHandle gsk_opacity_node_get_child = Interop.downcallHandle(
+        "gsk_opacity_node_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the child node that is getting opacityed by the given {@code node}.
      */
     public RenderNode getChild() {
-        var RESULT = gtk_h.gsk_opacity_node_get_child(handle());
-        return new RenderNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_opacity_node_get_child.invokeExact(handle());
+            return new RenderNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_opacity_node_get_opacity = Interop.downcallHandle(
+        "gsk_opacity_node_get_opacity",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the transparency factor for an opacity node.
      */
     public float getOpacity() {
-        var RESULT = gtk_h.gsk_opacity_node_get_opacity(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_opacity_node_get_opacity.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

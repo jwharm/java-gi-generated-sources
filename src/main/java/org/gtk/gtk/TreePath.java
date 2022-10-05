@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,9 +13,18 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gtk_tree_path_new = Interop.downcallHandle(
+        "gtk_tree_path_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_path_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_path_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -27,9 +35,18 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_tree_path_new_first = Interop.downcallHandle(
+        "gtk_tree_path_new_first",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFirst() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_path_new_first(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_path_new_first.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -41,9 +58,18 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         return new TreePath(constructNewFirst());
     }
     
+    static final MethodHandle gtk_tree_path_new_from_indicesv = Interop.downcallHandle(
+        "gtk_tree_path_new_from_indicesv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewFromIndicesv(int[] indices, long length) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_path_new_from_indicesv(Interop.allocateNativeArray(indices).handle(), length), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_path_new_from_indicesv.invokeExact(Interop.allocateNativeArray(indices).handle(), length), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -53,9 +79,18 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         return new TreePath(constructNewFromIndicesv(indices, length));
     }
     
+    static final MethodHandle gtk_tree_path_new_from_string = Interop.downcallHandle(
+        "gtk_tree_path_new_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromString(java.lang.String path) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_path_new_from_string.invokeExact(Interop.allocateNativeString(path).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -71,14 +106,28 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
         return new TreePath(constructNewFromString(path));
     }
     
+    static final MethodHandle gtk_tree_path_append_index = Interop.downcallHandle(
+        "gtk_tree_path_append_index",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Appends a new index to a path.
      * <p>
      * As a result, the depth of the path is increased.
      */
     public void appendIndex(int index) {
-        gtk_h.gtk_tree_path_append_index(handle(), index);
+        try {
+            gtk_tree_path_append_index.invokeExact(handle(), index);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_compare = Interop.downcallHandle(
+        "gtk_tree_path_compare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two paths.
@@ -88,39 +137,84 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * If the two nodes are equal, then 0 is returned.
      */
     public int compare(TreePath b) {
-        var RESULT = gtk_h.gtk_tree_path_compare(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_path_compare.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_copy = Interop.downcallHandle(
+        "gtk_tree_path_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@code GtkTreePath} as a copy of {@code path}.
      */
     public TreePath copy() {
-        var RESULT = gtk_h.gtk_tree_path_copy(handle());
-        return new TreePath(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_path_copy.invokeExact(handle());
+            return new TreePath(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_down = Interop.downcallHandle(
+        "gtk_tree_path_down",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code path} to point to the first child of the current path.
      */
     public void down() {
-        gtk_h.gtk_tree_path_down(handle());
+        try {
+            gtk_tree_path_down.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_free = Interop.downcallHandle(
+        "gtk_tree_path_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees {@code path}. If {@code path} is {@code null}, it simply returns.
      */
     public void free() {
-        gtk_h.gtk_tree_path_free(handle());
+        try {
+            gtk_tree_path_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_get_depth = Interop.downcallHandle(
+        "gtk_tree_path_get_depth",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current depth of {@code path}.
      */
     public int getDepth() {
-        var RESULT = gtk_h.gtk_tree_path_get_depth(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_path_get_depth.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_get_indices = Interop.downcallHandle(
+        "gtk_tree_path_get_indices",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current indices of {@code path}.
@@ -131,9 +225,18 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * The length of the array can be obtained with gtk_tree_path_get_depth().
      */
     public PointerInteger getIndices() {
-        var RESULT = gtk_h.gtk_tree_path_get_indices(handle());
-        return new PointerInteger(RESULT);
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_path_get_indices.invokeExact(handle());
+            return new PointerInteger(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_get_indices_with_depth = Interop.downcallHandle(
+        "gtk_tree_path_get_indices_with_depth",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current indices of {@code path}.
@@ -143,32 +246,68 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * The array should not be freed.
      */
     public PointerIterator<Integer> getIndicesWithDepth(PointerInteger depth) {
-        var RESULT = gtk_h.gtk_tree_path_get_indices_with_depth(handle(), depth.handle());
-        return new PointerInteger(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_path_get_indices_with_depth.invokeExact(handle(), depth.handle());
+            return new PointerInteger(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_is_ancestor = Interop.downcallHandle(
+        "gtk_tree_path_is_ancestor",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code descendant} is a descendant of {@code path}.
      */
     public boolean isAncestor(TreePath descendant) {
-        var RESULT = gtk_h.gtk_tree_path_is_ancestor(handle(), descendant.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_path_is_ancestor.invokeExact(handle(), descendant.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_is_descendant = Interop.downcallHandle(
+        "gtk_tree_path_is_descendant",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code path} is a descendant of {@code ancestor}.
      */
     public boolean isDescendant(TreePath ancestor) {
-        var RESULT = gtk_h.gtk_tree_path_is_descendant(handle(), ancestor.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_path_is_descendant.invokeExact(handle(), ancestor.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_next = Interop.downcallHandle(
+        "gtk_tree_path_next",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves the {@code path} to point to the next node at the current depth.
      */
     public void next() {
-        gtk_h.gtk_tree_path_next(handle());
+        try {
+            gtk_tree_path_next.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_prepend_index = Interop.downcallHandle(
+        "gtk_tree_path_prepend_index",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Prepends a new index to a path.
@@ -176,17 +315,35 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * As a result, the depth of the path is increased.
      */
     public void prependIndex(int index) {
-        gtk_h.gtk_tree_path_prepend_index(handle(), index);
+        try {
+            gtk_tree_path_prepend_index.invokeExact(handle(), index);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_prev = Interop.downcallHandle(
+        "gtk_tree_path_prev",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves the {@code path} to point to the previous node at the
      * current depth, if it exists.
      */
     public boolean prev() {
-        var RESULT = gtk_h.gtk_tree_path_prev(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_path_prev.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_to_string = Interop.downcallHandle(
+        "gtk_tree_path_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Generates a string representation of the path.
@@ -197,16 +354,29 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * depth 0, {@code null} is returned.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.gtk_tree_path_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_path_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_path_up = Interop.downcallHandle(
+        "gtk_tree_path_up",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves the {@code path} to point to its parent node, if it has a parent.
      */
     public boolean up() {
-        var RESULT = gtk_h.gtk_tree_path_up(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_path_up.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

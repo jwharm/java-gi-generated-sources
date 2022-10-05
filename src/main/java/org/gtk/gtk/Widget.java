@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -378,13 +377,27 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         return new Widget(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_widget_action_set_enabled = Interop.downcallHandle(
+        "gtk_widget_action_set_enabled",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Enable or disable an action installed with
      * gtk_widget_class_install_action().
      */
     public void actionSetEnabled(java.lang.String actionName, boolean enabled) {
-        gtk_h.gtk_widget_action_set_enabled(handle(), Interop.allocateNativeString(actionName).handle(), enabled ? 1 : 0);
+        try {
+            gtk_widget_action_set_enabled.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), enabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_activate = Interop.downcallHandle(
+        "gtk_widget_activate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * For widgets that can be “activated” (buttons, menu items, etc.),
@@ -403,9 +416,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * If {@code widget} isn't activatable, the function returns {@code false}.
      */
     public boolean activate() {
-        var RESULT = gtk_h.gtk_widget_activate(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_activate.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_activate_action_variant = Interop.downcallHandle(
+        "gtk_widget_activate_action_variant",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up the action in the action groups associated with
@@ -420,16 +442,34 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * as returned by {@code g_action_get_parameter_type()}.
      */
     public boolean activateActionVariant(java.lang.String name, org.gtk.glib.Variant args) {
-        var RESULT = gtk_h.gtk_widget_activate_action_variant(handle(), Interop.allocateNativeString(name).handle(), args.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_activate_action_variant.invokeExact(handle(), Interop.allocateNativeString(name).handle(), args.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_activate_default = Interop.downcallHandle(
+        "gtk_widget_activate_default",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Activates the {@code default.activate} action from {@code widget}.
      */
     public void activateDefault() {
-        gtk_h.gtk_widget_activate_default(handle());
+        try {
+            gtk_widget_activate_default.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_add_controller = Interop.downcallHandle(
+        "gtk_widget_add_controller",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code controller} to {@code widget} so that it will receive events.
@@ -438,8 +478,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * creating any kind of {@link EventController}.
      */
     public void addController(EventController controller) {
-        gtk_h.gtk_widget_add_controller(handle(), controller.refcounted().unowned().handle());
+        try {
+            gtk_widget_add_controller.invokeExact(handle(), controller.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_add_css_class = Interop.downcallHandle(
+        "gtk_widget_add_css_class",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a style class to {@code widget}.
@@ -451,8 +500,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * style again.
      */
     public void addCssClass(java.lang.String cssClass) {
-        gtk_h.gtk_widget_add_css_class(handle(), Interop.allocateNativeString(cssClass).handle());
+        try {
+            gtk_widget_add_css_class.invokeExact(handle(), Interop.allocateNativeString(cssClass).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_add_mnemonic_label = Interop.downcallHandle(
+        "gtk_widget_add_mnemonic_label",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a widget to the list of mnemonic labels for this widget.
@@ -463,8 +521,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * its internal state at this point as well.
      */
     public void addMnemonicLabel(Widget label) {
-        gtk_h.gtk_widget_add_mnemonic_label(handle(), label.handle());
+        try {
+            gtk_widget_add_mnemonic_label.invokeExact(handle(), label.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_add_tick_callback = Interop.downcallHandle(
+        "gtk_widget_add_tick_callback",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queues an animation frame update and adds a callback to be called
@@ -492,19 +559,24 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public int addTickCallback(TickCallback callback) {
         try {
-            var RESULT = gtk_h.gtk_widget_add_tick_callback(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) gtk_widget_add_tick_callback.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbTickCallback",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_widget_allocate = Interop.downcallHandle(
+        "gtk_widget_allocate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function is only used by {@code GtkWidget} subclasses, to
@@ -519,8 +591,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@link Widget#sizeAllocate}.
      */
     public void allocate(int width, int height, int baseline, org.gtk.gsk.Transform transform) {
-        gtk_h.gtk_widget_allocate(handle(), width, height, baseline, transform.refcounted().unowned().handle());
+        try {
+            gtk_widget_allocate.invokeExact(handle(), width, height, baseline, transform.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_child_focus = Interop.downcallHandle(
+        "gtk_widget_child_focus",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Called by widgets as the user moves around the window using
@@ -545,9 +626,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the focus to a particular widget.
      */
     public boolean childFocus(DirectionType direction) {
-        var RESULT = gtk_h.gtk_widget_child_focus(handle(), direction.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_child_focus.invokeExact(handle(), direction.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_compute_bounds = Interop.downcallHandle(
+        "gtk_widget_compute_bounds",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the bounds for {@code widget} in the coordinate space of {@code target}.
@@ -562,9 +652,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * It is valid for {@code widget} and {@code target} to be the same widget.
      */
     public boolean computeBounds(Widget target, org.gtk.graphene.Rect outBounds) {
-        var RESULT = gtk_h.gtk_widget_compute_bounds(handle(), target.handle(), outBounds.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_compute_bounds.invokeExact(handle(), target.handle(), outBounds.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_compute_expand = Interop.downcallHandle(
+        "gtk_widget_compute_expand",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Computes whether a container should give this widget
@@ -582,9 +681,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the widget may expand if some of its children do.
      */
     public boolean computeExpand(Orientation orientation) {
-        var RESULT = gtk_h.gtk_widget_compute_expand(handle(), orientation.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_compute_expand.invokeExact(handle(), orientation.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_compute_point = Interop.downcallHandle(
+        "gtk_widget_compute_point",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Translates the given {@code point} in {@code widget}'s coordinates to coordinates
@@ -594,9 +702,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * common ancestor.
      */
     public boolean computePoint(Widget target, org.gtk.graphene.Point point, org.gtk.graphene.Point outPoint) {
-        var RESULT = gtk_h.gtk_widget_compute_point(handle(), target.handle(), point.handle(), outPoint.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_compute_point.invokeExact(handle(), target.handle(), point.handle(), outPoint.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_compute_transform = Interop.downcallHandle(
+        "gtk_widget_compute_transform",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes a matrix suitable to describe a transformation from
@@ -607,9 +724,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * case {@code out_transform} gets set to the identity matrix.
      */
     public boolean computeTransform(Widget target, org.gtk.graphene.Matrix outTransform) {
-        var RESULT = gtk_h.gtk_widget_compute_transform(handle(), target.handle(), outTransform.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_compute_transform.invokeExact(handle(), target.handle(), outTransform.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_contains = Interop.downcallHandle(
+        "gtk_widget_contains",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Tests if the point at (@x, @y) is contained in {@code widget}.
@@ -618,9 +744,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * (0, 0) is assumed to be the top left of {@code widget}'s content area.
      */
     public boolean contains(double x, double y) {
-        var RESULT = gtk_h.gtk_widget_contains(handle(), x, y);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_contains.invokeExact(handle(), x, y);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_create_pango_context = Interop.downcallHandle(
+        "gtk_widget_create_pango_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@code PangoContext} with the appropriate font map,
@@ -630,9 +765,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See also {@link Widget#getPangoContext}.
      */
     public org.pango.Context createPangoContext() {
-        var RESULT = gtk_h.gtk_widget_create_pango_context(handle());
-        return new org.pango.Context(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_create_pango_context.invokeExact(handle());
+            return new org.pango.Context(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_create_pango_layout = Interop.downcallHandle(
+        "gtk_widget_create_pango_layout",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@code PangoLayout} with the appropriate font map,
@@ -645,17 +789,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of the {@code Gtk.Widget:root} property on the widget.
      */
     public org.pango.Layout createPangoLayout(java.lang.String text) {
-        var RESULT = gtk_h.gtk_widget_create_pango_layout(handle(), Interop.allocateNativeString(text).handle());
-        return new org.pango.Layout(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_create_pango_layout.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+            return new org.pango.Layout(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_drag_check_threshold = Interop.downcallHandle(
+        "gtk_drag_check_threshold",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks to see if a drag movement has passed the GTK drag threshold.
      */
     public boolean dragCheckThreshold(int startX, int startY, int currentX, int currentY) {
-        var RESULT = gtk_h.gtk_drag_check_threshold(handle(), startX, startY, currentX, currentY);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_drag_check_threshold.invokeExact(handle(), startX, startY, currentX, currentY);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_error_bell = Interop.downcallHandle(
+        "gtk_widget_error_bell",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Notifies the user about an input-related error on this widget.
@@ -668,8 +830,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * environment or window manager that is used.
      */
     public void errorBell() {
-        gtk_h.gtk_widget_error_bell(handle());
+        try {
+            gtk_widget_error_bell.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_allocated_baseline = Interop.downcallHandle(
+        "gtk_widget_get_allocated_baseline",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the baseline that has currently been allocated to {@code widget}.
@@ -679,25 +850,52 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * child widgets in {@code GtkWidget}Class.size_allocate().
      */
     public int getAllocatedBaseline() {
-        var RESULT = gtk_h.gtk_widget_get_allocated_baseline(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_allocated_baseline.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_allocated_height = Interop.downcallHandle(
+        "gtk_widget_get_allocated_height",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the height that has currently been allocated to {@code widget}.
      */
     public int getAllocatedHeight() {
-        var RESULT = gtk_h.gtk_widget_get_allocated_height(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_allocated_height.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_allocated_width = Interop.downcallHandle(
+        "gtk_widget_get_allocated_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the width that has currently been allocated to {@code widget}.
      */
     public int getAllocatedWidth() {
-        var RESULT = gtk_h.gtk_widget_get_allocated_width(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_allocated_width.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_allocation = Interop.downcallHandle(
+        "gtk_widget_get_allocation",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the widget’s allocation.
@@ -717,8 +915,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * container assigned.
      */
     public void getAllocation(Allocation allocation) {
-        gtk_h.gtk_widget_get_allocation(handle(), allocation.handle());
+        try {
+            gtk_widget_get_allocation.invokeExact(handle(), allocation.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_ancestor = Interop.downcallHandle(
+        "gtk_widget_get_ancestor",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Gets the first ancestor of {@code widget} with type {@code widget_type}.
@@ -732,9 +939,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * considers {@code widget} to be an ancestor of itself.
      */
     public Widget getAncestor(org.gtk.gobject.Type widgetType) {
-        var RESULT = gtk_h.gtk_widget_get_ancestor(handle(), widgetType.getValue());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_ancestor.invokeExact(handle(), widgetType.getValue());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_can_focus = Interop.downcallHandle(
+        "gtk_widget_get_can_focus",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether the input focus can enter {@code widget} or any
@@ -743,17 +959,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setFocusable}.
      */
     public boolean getCanFocus() {
-        var RESULT = gtk_h.gtk_widget_get_can_focus(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_can_focus.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_can_target = Interop.downcallHandle(
+        "gtk_widget_get_can_target",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries whether {@code widget} can be the target of pointer events.
      */
     public boolean getCanTarget() {
-        var RESULT = gtk_h.gtk_widget_get_can_target(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_can_target.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_child_visible = Interop.downcallHandle(
+        "gtk_widget_get_child_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value set with gtk_widget_set_child_visible().
@@ -765,9 +999,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * and should never be called by an application.
      */
     public boolean getChildVisible() {
-        var RESULT = gtk_h.gtk_widget_get_child_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_child_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_clipboard = Interop.downcallHandle(
+        "gtk_widget_get_clipboard",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the clipboard object for {@code widget}.
@@ -779,25 +1022,52 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * realized yet.
      */
     public org.gtk.gdk.Clipboard getClipboard() {
-        var RESULT = gtk_h.gtk_widget_get_clipboard(handle());
-        return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_clipboard.invokeExact(handle());
+            return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_css_classes = Interop.downcallHandle(
+        "gtk_widget_get_css_classes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the list of style classes applied to {@code widget}.
      */
     public PointerIterator<java.lang.String> getCssClasses() {
-        var RESULT = gtk_h.gtk_widget_get_css_classes(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_css_classes.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_css_name = Interop.downcallHandle(
+        "gtk_widget_get_css_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the CSS name that is used for {@code self}.
      */
     public java.lang.String getCssName() {
-        var RESULT = gtk_h.gtk_widget_get_css_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_css_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_cursor = Interop.downcallHandle(
+        "gtk_widget_get_cursor",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the cursor set on {@code widget}.
@@ -805,9 +1075,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setCursor} for details.
      */
     public org.gtk.gdk.Cursor getCursor() {
-        var RESULT = gtk_h.gtk_widget_get_cursor(handle());
-        return new org.gtk.gdk.Cursor(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_cursor.invokeExact(handle());
+            return new org.gtk.gdk.Cursor(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_direction = Interop.downcallHandle(
+        "gtk_widget_get_direction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the reading direction for a particular widget.
@@ -815,9 +1094,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setDirection}.
      */
     public TextDirection getDirection() {
-        var RESULT = gtk_h.gtk_widget_get_direction(handle());
-        return new TextDirection(RESULT);
+        try {
+            var RESULT = (int) gtk_widget_get_direction.invokeExact(handle());
+            return new TextDirection(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_display = Interop.downcallHandle(
+        "gtk_widget_get_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the {@code GdkDisplay} for the toplevel window associated with
@@ -831,9 +1119,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * free those resources when the widget is unrealized.
      */
     public org.gtk.gdk.Display getDisplay() {
-        var RESULT = gtk_h.gtk_widget_get_display(handle());
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_display.invokeExact(handle());
+            return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_first_child = Interop.downcallHandle(
+        "gtk_widget_get_first_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widgets first child.
@@ -841,17 +1138,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This API is primarily meant for widget implementations.
      */
     public Widget getFirstChild() {
-        var RESULT = gtk_h.gtk_widget_get_first_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_first_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_focus_child = Interop.downcallHandle(
+        "gtk_widget_get_focus_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current focus child of {@code widget}.
      */
     public Widget getFocusChild() {
-        var RESULT = gtk_h.gtk_widget_get_focus_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_focus_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_focus_on_click = Interop.downcallHandle(
+        "gtk_widget_get_focus_on_click",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the widget should grab focus when it is clicked
@@ -860,9 +1175,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setFocusOnClick}.
      */
     public boolean getFocusOnClick() {
-        var RESULT = gtk_h.gtk_widget_get_focus_on_click(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_focus_on_click.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_focusable = Interop.downcallHandle(
+        "gtk_widget_get_focusable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code widget} can own the input focus.
@@ -870,9 +1194,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setFocusable}.
      */
     public boolean getFocusable() {
-        var RESULT = gtk_h.gtk_widget_get_focusable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_focusable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_font_map = Interop.downcallHandle(
+        "gtk_widget_get_font_map",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the font map of {@code widget}.
@@ -880,9 +1213,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setFontMap}.
      */
     public org.pango.FontMap getFontMap() {
-        var RESULT = gtk_h.gtk_widget_get_font_map(handle());
-        return new org.pango.FontMap(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_font_map.invokeExact(handle());
+            return new org.pango.FontMap(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_font_options = Interop.downcallHandle(
+        "gtk_widget_get_font_options",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code cairo_font_options_t} of widget.
@@ -890,9 +1232,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Seee {@link Widget#setFontOptions}.
      */
     public org.cairographics.FontOptions getFontOptions() {
-        var RESULT = gtk_h.gtk_widget_get_font_options(handle());
-        return new org.cairographics.FontOptions(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_font_options.invokeExact(handle());
+            return new org.cairographics.FontOptions(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_frame_clock = Interop.downcallHandle(
+        "gtk_widget_get_frame_clock",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the frame clock for a widget.
@@ -919,9 +1270,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Unrealized widgets do not have a frame clock.
      */
     public org.gtk.gdk.FrameClock getFrameClock() {
-        var RESULT = gtk_h.gtk_widget_get_frame_clock(handle());
-        return new org.gtk.gdk.FrameClock(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_frame_clock.invokeExact(handle());
+            return new org.gtk.gdk.FrameClock(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_halign = Interop.downcallHandle(
+        "gtk_widget_get_halign",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the horizontal alignment of {@code widget}.
@@ -932,17 +1292,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * alignment.
      */
     public Align getHalign() {
-        var RESULT = gtk_h.gtk_widget_get_halign(handle());
-        return new Align(RESULT);
+        try {
+            var RESULT = (int) gtk_widget_get_halign.invokeExact(handle());
+            return new Align(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_has_tooltip = Interop.downcallHandle(
+        "gtk_widget_get_has_tooltip",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current value of the {@code has-tooltip} property.
      */
     public boolean getHasTooltip() {
-        var RESULT = gtk_h.gtk_widget_get_has_tooltip(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_has_tooltip.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_height = Interop.downcallHandle(
+        "gtk_widget_get_height",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the content height of the widget.
@@ -954,9 +1332,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * For pointer events, see {@link Widget#contains}.
      */
     public int getHeight() {
-        var RESULT = gtk_h.gtk_widget_get_height(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_height.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_hexpand = Interop.downcallHandle(
+        "gtk_widget_get_hexpand",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the widget would like any available extra horizontal
@@ -977,9 +1364,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * wants to expand.
      */
     public boolean getHexpand() {
-        var RESULT = gtk_h.gtk_widget_get_hexpand(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_hexpand.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_hexpand_set = Interop.downcallHandle(
+        "gtk_widget_get_hexpand_set",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether gtk_widget_set_hexpand() has been used
@@ -994,9 +1390,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * for completeness and consistency.
      */
     public boolean getHexpandSet() {
-        var RESULT = gtk_h.gtk_widget_get_hexpand_set(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_hexpand_set.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_last_child = Interop.downcallHandle(
+        "gtk_widget_get_last_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widgets last child.
@@ -1004,9 +1409,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This API is primarily meant for widget implementations.
      */
     public Widget getLastChild() {
-        var RESULT = gtk_h.gtk_widget_get_last_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_last_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_layout_manager = Interop.downcallHandle(
+        "gtk_widget_get_layout_manager",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the layout manager used by {@code widget}.
@@ -1014,49 +1428,103 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setLayoutManager}.
      */
     public LayoutManager getLayoutManager() {
-        var RESULT = gtk_h.gtk_widget_get_layout_manager(handle());
-        return new LayoutManager(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_layout_manager.invokeExact(handle());
+            return new LayoutManager(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_mapped = Interop.downcallHandle(
+        "gtk_widget_get_mapped",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Whether the widget is mapped.
      */
     public boolean getMapped() {
-        var RESULT = gtk_h.gtk_widget_get_mapped(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_mapped.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_margin_bottom = Interop.downcallHandle(
+        "gtk_widget_get_margin_bottom",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the bottom margin of {@code widget}.
      */
     public int getMarginBottom() {
-        var RESULT = gtk_h.gtk_widget_get_margin_bottom(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_margin_bottom.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_margin_end = Interop.downcallHandle(
+        "gtk_widget_get_margin_end",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the end margin of {@code widget}.
      */
     public int getMarginEnd() {
-        var RESULT = gtk_h.gtk_widget_get_margin_end(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_margin_end.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_margin_start = Interop.downcallHandle(
+        "gtk_widget_get_margin_start",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the start margin of {@code widget}.
      */
     public int getMarginStart() {
-        var RESULT = gtk_h.gtk_widget_get_margin_start(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_margin_start.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_margin_top = Interop.downcallHandle(
+        "gtk_widget_get_margin_top",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the top margin of {@code widget}.
      */
     public int getMarginTop() {
-        var RESULT = gtk_h.gtk_widget_get_margin_top(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_margin_top.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_name = Interop.downcallHandle(
+        "gtk_widget_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the name of a widget.
@@ -1064,9 +1532,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setName} for the significance of widget names.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.gtk_widget_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_native = Interop.downcallHandle(
+        "gtk_widget_get_native",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the nearest {@code GtkNative} ancestor of {@code widget}.
@@ -1077,9 +1554,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@code GtkNative} widgets will return themselves here.
      */
     public Native getNative() {
-        var RESULT = gtk_h.gtk_widget_get_native(handle());
-        return new Native.NativeImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_native.invokeExact(handle());
+            return new Native.NativeImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_next_sibling = Interop.downcallHandle(
+        "gtk_widget_get_next_sibling",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widgets next sibling.
@@ -1087,9 +1573,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This API is primarily meant for widget implementations.
      */
     public Widget getNextSibling() {
-        var RESULT = gtk_h.gtk_widget_get_next_sibling(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_next_sibling.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_opacity = Interop.downcallHandle(
+        "gtk_widget_get_opacity",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * {@code Fetches} the requested opacity for this widget.
@@ -1097,17 +1592,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setOpacity}.
      */
     public double getOpacity() {
-        var RESULT = gtk_h.gtk_widget_get_opacity(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_widget_get_opacity.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_overflow = Interop.downcallHandle(
+        "gtk_widget_get_overflow",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widgets overflow value.
      */
     public Overflow getOverflow() {
-        var RESULT = gtk_h.gtk_widget_get_overflow(handle());
-        return new Overflow(RESULT);
+        try {
+            var RESULT = (int) gtk_widget_get_overflow.invokeExact(handle());
+            return new Overflow(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_pango_context = Interop.downcallHandle(
+        "gtk_widget_get_pango_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a {@code PangoContext} with the appropriate font map, font description,
@@ -1121,17 +1634,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@code Gtk.Widget:root} property on the widget.
      */
     public org.pango.Context getPangoContext() {
-        var RESULT = gtk_h.gtk_widget_get_pango_context(handle());
-        return new org.pango.Context(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_pango_context.invokeExact(handle());
+            return new org.pango.Context(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_parent = Interop.downcallHandle(
+        "gtk_widget_get_parent",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the parent widget of {@code widget}.
      */
     public Widget getParent() {
-        var RESULT = gtk_h.gtk_widget_get_parent(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_parent.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_preferred_size = Interop.downcallHandle(
+        "gtk_widget_get_preferred_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the minimum and natural size of a widget, taking
@@ -1150,8 +1681,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Use {@link Widget#measure} if you want to support baseline alignment.
      */
     public void getPreferredSize(Requisition minimumSize, Requisition naturalSize) {
-        gtk_h.gtk_widget_get_preferred_size(handle(), minimumSize.handle(), naturalSize.handle());
+        try {
+            gtk_widget_get_preferred_size.invokeExact(handle(), minimumSize.handle(), naturalSize.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_prev_sibling = Interop.downcallHandle(
+        "gtk_widget_get_prev_sibling",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widgets previous sibling.
@@ -1159,9 +1699,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This API is primarily meant for widget implementations.
      */
     public Widget getPrevSibling() {
-        var RESULT = gtk_h.gtk_widget_get_prev_sibling(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_prev_sibling.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_primary_clipboard = Interop.downcallHandle(
+        "gtk_widget_get_primary_clipboard",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the primary clipboard of {@code widget}.
@@ -1173,17 +1722,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * realized yet.
      */
     public org.gtk.gdk.Clipboard getPrimaryClipboard() {
-        var RESULT = gtk_h.gtk_widget_get_primary_clipboard(handle());
-        return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_primary_clipboard.invokeExact(handle());
+            return new org.gtk.gdk.Clipboard(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_realized = Interop.downcallHandle(
+        "gtk_widget_get_realized",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code widget} is realized.
      */
     public boolean getRealized() {
-        var RESULT = gtk_h.gtk_widget_get_realized(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_realized.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_receives_default = Interop.downcallHandle(
+        "gtk_widget_get_receives_default",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code widget} is always treated as the default widget
@@ -1193,9 +1760,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setReceivesDefault}.
      */
     public boolean getReceivesDefault() {
-        var RESULT = gtk_h.gtk_widget_get_receives_default(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_receives_default.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_request_mode = Interop.downcallHandle(
+        "gtk_widget_get_request_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the widget prefers a height-for-width layout
@@ -1207,9 +1783,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * allocation capabilities.
      */
     public SizeRequestMode getRequestMode() {
-        var RESULT = gtk_h.gtk_widget_get_request_mode(handle());
-        return new SizeRequestMode(RESULT);
+        try {
+            var RESULT = (int) gtk_widget_get_request_mode.invokeExact(handle());
+            return new SizeRequestMode(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_root = Interop.downcallHandle(
+        "gtk_widget_get_root",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code GtkRoot} widget of {@code widget}.
@@ -1220,9 +1805,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@code GtkRoot} widgets will return themselves here.
      */
     public Root getRoot() {
-        var RESULT = gtk_h.gtk_widget_get_root(handle());
-        return new Root.RootImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_root.invokeExact(handle());
+            return new Root.RootImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_scale_factor = Interop.downcallHandle(
+        "gtk_widget_get_scale_factor",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the internal scale factor that maps from window
@@ -1234,9 +1828,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link org.gtk.gdk.Surface#getScaleFactor}.
      */
     public int getScaleFactor() {
-        var RESULT = gtk_h.gtk_widget_get_scale_factor(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_scale_factor.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_sensitive = Interop.downcallHandle(
+        "gtk_widget_get_sensitive",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widget’s sensitivity.
@@ -1249,9 +1852,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#isSensitive}.
      */
     public boolean getSensitive() {
-        var RESULT = gtk_h.gtk_widget_get_sensitive(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_sensitive.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_settings = Interop.downcallHandle(
+        "gtk_widget_get_settings",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the settings object holding the settings used for this widget.
@@ -1262,9 +1874,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * changes in its settings, connect to the {@code notify::display} signal.
      */
     public Settings getSettings() {
-        var RESULT = gtk_h.gtk_widget_get_settings(handle());
-        return new Settings(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_settings.invokeExact(handle());
+            return new Settings(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_size = Interop.downcallHandle(
+        "gtk_widget_get_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the content width or height of the widget.
@@ -1278,9 +1899,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * implementing {@code Gtk.Orientable} widgets.
      */
     public int getSize(Orientation orientation) {
-        var RESULT = gtk_h.gtk_widget_get_size(handle(), orientation.getValue());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_size.invokeExact(handle(), orientation.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_size_request = Interop.downcallHandle(
+        "gtk_widget_get_size_request",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the size request that was explicitly set for the widget using
@@ -1294,8 +1924,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * this function.
      */
     public void getSizeRequest(PointerInteger width, PointerInteger height) {
-        gtk_h.gtk_widget_get_size_request(handle(), width.handle(), height.handle());
+        try {
+            gtk_widget_get_size_request.invokeExact(handle(), width.handle(), height.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_state_flags = Interop.downcallHandle(
+        "gtk_widget_get_state_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widget state as a flag set.
@@ -1309,9 +1948,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * method, you should look at {@link StyleContext#getState}.
      */
     public StateFlags getStateFlags() {
-        var RESULT = gtk_h.gtk_widget_get_state_flags(handle());
-        return new StateFlags(RESULT);
+        try {
+            var RESULT = (int) gtk_widget_get_state_flags.invokeExact(handle());
+            return new StateFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_style_context = Interop.downcallHandle(
+        "gtk_widget_get_style_context",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the style context associated to {@code widget}.
@@ -1320,9 +1968,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * for the lifetime of {@code widget}.
      */
     public StyleContext getStyleContext() {
-        var RESULT = gtk_h.gtk_widget_get_style_context(handle());
-        return new StyleContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_style_context.invokeExact(handle());
+            return new StyleContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_template_child = Interop.downcallHandle(
+        "gtk_widget_get_template_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetch an object build from the template XML for {@code widget_type} in
@@ -1337,9 +1994,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * bindings which cannot easily make use of the GObject structure offsets.
      */
     public org.gtk.gobject.Object getTemplateChild(org.gtk.gobject.Type widgetType, java.lang.String name) {
-        var RESULT = gtk_h.gtk_widget_get_template_child(handle(), widgetType.getValue(), Interop.allocateNativeString(name).handle());
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_template_child.invokeExact(handle(), widgetType.getValue(), Interop.allocateNativeString(name).handle());
+            return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_tooltip_markup = Interop.downcallHandle(
+        "gtk_widget_get_tooltip_markup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of the tooltip for {@code widget}.
@@ -1349,9 +2015,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * function returns {@code null}.
      */
     public java.lang.String getTooltipMarkup() {
-        var RESULT = gtk_h.gtk_widget_get_tooltip_markup(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_tooltip_markup.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_tooltip_text = Interop.downcallHandle(
+        "gtk_widget_get_tooltip_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of the tooltip for {@code widget}.
@@ -1361,17 +2036,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * this function will return the escaped text.
      */
     public java.lang.String getTooltipText() {
-        var RESULT = gtk_h.gtk_widget_get_tooltip_text(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_get_tooltip_text.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_valign = Interop.downcallHandle(
+        "gtk_widget_get_valign",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the vertical alignment of {@code widget}.
      */
     public Align getValign() {
-        var RESULT = gtk_h.gtk_widget_get_valign(handle());
-        return new Align(RESULT);
+        try {
+            var RESULT = (int) gtk_widget_get_valign.invokeExact(handle());
+            return new Align(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_vexpand = Interop.downcallHandle(
+        "gtk_widget_get_vexpand",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the widget would like any available extra vertical
@@ -1380,9 +2073,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#getHexpand} for more detail.
      */
     public boolean getVexpand() {
-        var RESULT = gtk_h.gtk_widget_get_vexpand(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_vexpand.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_vexpand_set = Interop.downcallHandle(
+        "gtk_widget_get_vexpand_set",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether gtk_widget_set_vexpand() has been used to
@@ -1391,9 +2093,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#getHexpandSet} for more detail.
      */
     public boolean getVexpandSet() {
-        var RESULT = gtk_h.gtk_widget_get_vexpand_set(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_vexpand_set.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_visible = Interop.downcallHandle(
+        "gtk_widget_get_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether the widget is visible.
@@ -1408,9 +2119,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setVisible}.
      */
     public boolean getVisible() {
-        var RESULT = gtk_h.gtk_widget_get_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_get_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_width = Interop.downcallHandle(
+        "gtk_widget_get_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the content width of the widget.
@@ -1422,9 +2142,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * For pointer events, see {@link Widget#contains}.
      */
     public int getWidth() {
-        var RESULT = gtk_h.gtk_widget_get_width(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_widget_get_width.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_grab_focus = Interop.downcallHandle(
+        "gtk_widget_grab_focus",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Causes {@code widget} to have the keyboard focus for the {@code GtkWindow} it's inside.
@@ -1437,26 +2166,53 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * is allowed, should not have an effect, and return {@code true}.
      */
     public boolean grabFocus() {
-        var RESULT = gtk_h.gtk_widget_grab_focus(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_grab_focus.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_has_css_class = Interop.downcallHandle(
+        "gtk_widget_has_css_class",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether {@code css_class} is currently applied to {@code widget}.
      */
     public boolean hasCssClass(java.lang.String cssClass) {
-        var RESULT = gtk_h.gtk_widget_has_css_class(handle(), Interop.allocateNativeString(cssClass).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_has_css_class.invokeExact(handle(), Interop.allocateNativeString(cssClass).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_has_default = Interop.downcallHandle(
+        "gtk_widget_has_default",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code widget} is the current default widget
      * within its toplevel.
      */
     public boolean hasDefault() {
-        var RESULT = gtk_h.gtk_widget_has_default(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_has_default.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_has_focus = Interop.downcallHandle(
+        "gtk_widget_has_focus",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the widget has the global input focus.
@@ -1466,9 +2222,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * within a toplevel.
      */
     public boolean hasFocus() {
-        var RESULT = gtk_h.gtk_widget_has_focus(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_has_focus.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_has_visible_focus = Interop.downcallHandle(
+        "gtk_widget_has_visible_focus",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the widget should show a visible indication that
@@ -1483,9 +2248,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@link Widget#hasFocus}.
      */
     public boolean hasVisibleFocus() {
-        var RESULT = gtk_h.gtk_widget_has_visible_focus(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_has_visible_focus.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_hide = Interop.downcallHandle(
+        "gtk_widget_hide",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Reverses the effects of gtk_widget_show().
@@ -1493,8 +2267,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This is causing the widget to be hidden (invisible to the user).
      */
     public void hide() {
-        gtk_h.gtk_widget_hide(handle());
+        try {
+            gtk_widget_hide.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_in_destruction = Interop.downcallHandle(
+        "gtk_widget_in_destruction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the widget is currently being destroyed.
@@ -1503,9 +2286,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * unnecessary work.
      */
     public boolean inDestruction() {
-        var RESULT = gtk_h.gtk_widget_in_destruction(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_in_destruction.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_init_template = Interop.downcallHandle(
+        "gtk_widget_init_template",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates and initializes child widgets defined in templates.
@@ -1532,8 +2324,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * an instance initialization function.
      */
     public void initTemplate() {
-        gtk_h.gtk_widget_init_template(handle());
+        try {
+            gtk_widget_init_template.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_insert_action_group = Interop.downcallHandle(
+        "gtk_widget_insert_action_group",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts {@code group} into {@code widget}.
@@ -1551,8 +2352,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * removed from {@code widget}.
      */
     public void insertActionGroup(java.lang.String name, org.gtk.gio.ActionGroup group) {
-        gtk_h.gtk_widget_insert_action_group(handle(), Interop.allocateNativeString(name).handle(), group.handle());
+        try {
+            gtk_widget_insert_action_group.invokeExact(handle(), Interop.allocateNativeString(name).handle(), group.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_insert_after = Interop.downcallHandle(
+        "gtk_widget_insert_after",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts {@code widget} into the child widget list of {@code parent}.
@@ -1571,8 +2381,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * just using a widget, you <strong>must</strong> use its own API for adding children.
      */
     public void insertAfter(Widget parent, Widget previousSibling) {
-        gtk_h.gtk_widget_insert_after(handle(), parent.handle(), previousSibling.handle());
+        try {
+            gtk_widget_insert_after.invokeExact(handle(), parent.handle(), previousSibling.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_insert_before = Interop.downcallHandle(
+        "gtk_widget_insert_before",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts {@code widget} into the child widget list of {@code parent}.
@@ -1590,17 +2409,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * just using a widget, you <strong>must</strong> use its own API for adding children.
      */
     public void insertBefore(Widget parent, Widget nextSibling) {
-        gtk_h.gtk_widget_insert_before(handle(), parent.handle(), nextSibling.handle());
+        try {
+            gtk_widget_insert_before.invokeExact(handle(), parent.handle(), nextSibling.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_is_ancestor = Interop.downcallHandle(
+        "gtk_widget_is_ancestor",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code widget} is somewhere inside {@code ancestor},
      * possibly with intermediate containers.
      */
     public boolean isAncestor(Widget ancestor) {
-        var RESULT = gtk_h.gtk_widget_is_ancestor(handle(), ancestor.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_is_ancestor.invokeExact(handle(), ancestor.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_is_drawable = Interop.downcallHandle(
+        "gtk_widget_is_drawable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether {@code widget} can be drawn to.
@@ -1608,9 +2445,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * A widget can be drawn if it is mapped and visible.
      */
     public boolean isDrawable() {
-        var RESULT = gtk_h.gtk_widget_is_drawable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_is_drawable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_is_focus = Interop.downcallHandle(
+        "gtk_widget_is_focus",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the widget is the focus widget within its
@@ -1622,9 +2468,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * global input focus.
      */
     public boolean isFocus() {
-        var RESULT = gtk_h.gtk_widget_is_focus(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_is_focus.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_is_sensitive = Interop.downcallHandle(
+        "gtk_widget_is_sensitive",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widget’s effective sensitivity.
@@ -1633,9 +2488,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * parent widget is sensitive.
      */
     public boolean isSensitive() {
-        var RESULT = gtk_h.gtk_widget_is_sensitive(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_is_sensitive.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_is_visible = Interop.downcallHandle(
+        "gtk_widget_is_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether the widget and all its parents are marked as
@@ -1647,9 +2511,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@link Widget#setVisible}.
      */
     public boolean isVisible() {
-        var RESULT = gtk_h.gtk_widget_is_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_is_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_keynav_failed = Interop.downcallHandle(
+        "gtk_widget_keynav_failed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Emits the {@code ::keynav-failed} signal on the widget.
@@ -1681,9 +2554,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * interfaces that require entering license keys.
      */
     public boolean keynavFailed(DirectionType direction) {
-        var RESULT = gtk_h.gtk_widget_keynav_failed(handle(), direction.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_keynav_failed.invokeExact(handle(), direction.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_list_mnemonic_labels = Interop.downcallHandle(
+        "gtk_widget_list_mnemonic_labels",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the widgets for which this widget is the target of a
@@ -1699,9 +2581,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * first, and then unref all the widgets afterwards.
      */
     public org.gtk.glib.List listMnemonicLabels() {
-        var RESULT = gtk_h.gtk_widget_list_mnemonic_labels(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_list_mnemonic_labels.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_map = Interop.downcallHandle(
+        "gtk_widget_map",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Causes a widget to be mapped if it isn’t already.
@@ -1709,8 +2600,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only for use in widget implementations.
      */
     public void map() {
-        gtk_h.gtk_widget_map(handle());
+        try {
+            gtk_widget_map.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_measure = Interop.downcallHandle(
+        "gtk_widget_measure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Measures {@code widget} in the orientation {@code orientation} and for the given {@code for_size}.
@@ -1723,8 +2623,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * a more details on implementing {@code GtkWidgetClass.measure()}.
      */
     public void measure(Orientation orientation, int forSize, PointerInteger minimum, PointerInteger natural, PointerInteger minimumBaseline, PointerInteger naturalBaseline) {
-        gtk_h.gtk_widget_measure(handle(), orientation.getValue(), forSize, minimum.handle(), natural.handle(), minimumBaseline.handle(), naturalBaseline.handle());
+        try {
+            gtk_widget_measure.invokeExact(handle(), orientation.getValue(), forSize, minimum.handle(), natural.handle(), minimumBaseline.handle(), naturalBaseline.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_mnemonic_activate = Interop.downcallHandle(
+        "gtk_widget_mnemonic_activate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Emits the ::mnemonic-activate signal.
@@ -1732,9 +2641,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@code Gtk.Widget::mnemonic-activate}.
      */
     public boolean mnemonicActivate(boolean groupCycling) {
-        var RESULT = gtk_h.gtk_widget_mnemonic_activate(handle(), groupCycling ? 1 : 0);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_mnemonic_activate.invokeExact(handle(), groupCycling ? 1 : 0);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_observe_children = Interop.downcallHandle(
+        "gtk_widget_observe_children",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a {@code GListModel} to track the children of {@code widget}.
@@ -1747,9 +2665,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * because of the slowdowns.
      */
     public org.gtk.gio.ListModel observeChildren() {
-        var RESULT = gtk_h.gtk_widget_observe_children(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_observe_children.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_observe_controllers = Interop.downcallHandle(
+        "gtk_widget_observe_controllers",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a {@code GListModel} to track the {@link EventController}s
@@ -1763,9 +2690,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * because of the slowdowns.
      */
     public org.gtk.gio.ListModel observeControllers() {
-        var RESULT = gtk_h.gtk_widget_observe_controllers(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_observe_controllers.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_pick = Interop.downcallHandle(
+        "gtk_widget_pick",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Finds the descendant of {@code widget} closest to the point (@x, @y).
@@ -1784,9 +2720,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * delivering events.
      */
     public Widget pick(double x, double y, PickFlags flags) {
-        var RESULT = gtk_h.gtk_widget_pick(handle(), x, y, flags.getValue());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_widget_pick.invokeExact(handle(), x, y, flags.getValue());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_queue_allocate = Interop.downcallHandle(
+        "gtk_widget_queue_allocate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Flags the widget for a rerun of the {@link Widget#sizeAllocate}
@@ -1801,8 +2746,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only for use in widget implementations.
      */
     public void queueAllocate() {
-        gtk_h.gtk_widget_queue_allocate(handle());
+        try {
+            gtk_widget_queue_allocate.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_queue_draw = Interop.downcallHandle(
+        "gtk_widget_queue_draw",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Schedules this widget to be redrawn in the paint phase
@@ -1812,8 +2766,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * implementation will be called.
      */
     public void queueDraw() {
-        gtk_h.gtk_widget_queue_draw(handle());
+        try {
+            gtk_widget_queue_draw.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_queue_resize = Interop.downcallHandle(
+        "gtk_widget_queue_resize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Flags a widget to have its size renegotiated.
@@ -1831,8 +2794,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only for use in widget implementations.
      */
     public void queueResize() {
-        gtk_h.gtk_widget_queue_resize(handle());
+        try {
+            gtk_widget_queue_resize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_realize = Interop.downcallHandle(
+        "gtk_widget_realize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates the GDK resources associated with a widget.
@@ -1853,8 +2825,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@code Gtk.Widget::realize}.
      */
     public void realize() {
-        gtk_h.gtk_widget_realize(handle());
+        try {
+            gtk_widget_realize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_remove_controller = Interop.downcallHandle(
+        "gtk_widget_remove_controller",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes {@code controller} from {@code widget}, so that it doesn't process
@@ -1866,8 +2847,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * are destroyed, there is normally no need to call this function.
      */
     public void removeController(EventController controller) {
-        gtk_h.gtk_widget_remove_controller(handle(), controller.handle());
+        try {
+            gtk_widget_remove_controller.invokeExact(handle(), controller.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_remove_css_class = Interop.downcallHandle(
+        "gtk_widget_remove_css_class",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a style from {@code widget}.
@@ -1875,8 +2865,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * After this, the style of {@code widget} will stop matching for {@code css_class}.
      */
     public void removeCssClass(java.lang.String cssClass) {
-        gtk_h.gtk_widget_remove_css_class(handle(), Interop.allocateNativeString(cssClass).handle());
+        try {
+            gtk_widget_remove_css_class.invokeExact(handle(), Interop.allocateNativeString(cssClass).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_remove_mnemonic_label = Interop.downcallHandle(
+        "gtk_widget_remove_mnemonic_label",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a widget from the list of mnemonic labels for this widget.
@@ -1886,16 +2885,34 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@link Widget#addMnemonicLabel}.
      */
     public void removeMnemonicLabel(Widget label) {
-        gtk_h.gtk_widget_remove_mnemonic_label(handle(), label.handle());
+        try {
+            gtk_widget_remove_mnemonic_label.invokeExact(handle(), label.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_remove_tick_callback = Interop.downcallHandle(
+        "gtk_widget_remove_tick_callback",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes a tick callback previously registered with
      * gtk_widget_add_tick_callback().
      */
     public void removeTickCallback(int id) {
-        gtk_h.gtk_widget_remove_tick_callback(handle(), id);
+        try {
+            gtk_widget_remove_tick_callback.invokeExact(handle(), id);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_can_focus = Interop.downcallHandle(
+        "gtk_widget_set_can_focus",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Specifies whether the input focus can enter the widget
@@ -1914,15 +2931,33 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the input focus on a widget.
      */
     public void setCanFocus(boolean canFocus) {
-        gtk_h.gtk_widget_set_can_focus(handle(), canFocus ? 1 : 0);
+        try {
+            gtk_widget_set_can_focus.invokeExact(handle(), canFocus ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_can_target = Interop.downcallHandle(
+        "gtk_widget_set_can_target",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code widget} can be the target of pointer events.
      */
     public void setCanTarget(boolean canTarget) {
-        gtk_h.gtk_widget_set_can_target(handle(), canTarget ? 1 : 0);
+        try {
+            gtk_widget_set_can_target.invokeExact(handle(), canTarget ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_child_visible = Interop.downcallHandle(
+        "gtk_widget_set_child_visible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code widget} should be mapped along with its parent.
@@ -1943,16 +2978,34 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * and should never be called by an application.
      */
     public void setChildVisible(boolean childVisible) {
-        gtk_h.gtk_widget_set_child_visible(handle(), childVisible ? 1 : 0);
+        try {
+            gtk_widget_set_child_visible.invokeExact(handle(), childVisible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_css_classes = Interop.downcallHandle(
+        "gtk_widget_set_css_classes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Clear all style classes applied to {@code widget}
      * and replace them with {@code classes}.
      */
     public void setCssClasses(java.lang.String[] classes) {
-        gtk_h.gtk_widget_set_css_classes(handle(), Interop.allocateNativeArray(classes).handle());
+        try {
+            gtk_widget_set_css_classes.invokeExact(handle(), Interop.allocateNativeArray(classes).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_cursor = Interop.downcallHandle(
+        "gtk_widget_set_cursor",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the cursor to be shown when pointer devices point
@@ -1962,8 +3015,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * inherited from the parent widget.
      */
     public void setCursor(org.gtk.gdk.Cursor cursor) {
-        gtk_h.gtk_widget_set_cursor(handle(), cursor.handle());
+        try {
+            gtk_widget_set_cursor.invokeExact(handle(), cursor.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_cursor_from_name = Interop.downcallHandle(
+        "gtk_widget_set_cursor_from_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a named cursor to be shown when pointer devices point
@@ -1979,8 +3041,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * with a {@code null} cursor.
      */
     public void setCursorFromName(java.lang.String name) {
-        gtk_h.gtk_widget_set_cursor_from_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            gtk_widget_set_cursor_from_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_direction = Interop.downcallHandle(
+        "gtk_widget_set_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the reading direction on a particular widget.
@@ -1998,8 +3069,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * set by {@link Gtk#Widget} will be used.
      */
     public void setDirection(TextDirection dir) {
-        gtk_h.gtk_widget_set_direction(handle(), dir.getValue());
+        try {
+            gtk_widget_set_direction.invokeExact(handle(), dir.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_focus_child = Interop.downcallHandle(
+        "gtk_widget_set_focus_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set {@code child} as the current focus child of {@code widget}.
@@ -2009,8 +3089,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@link Widget#grabFocus} on it.
      */
     public void setFocusChild(Widget child) {
-        gtk_h.gtk_widget_set_focus_child(handle(), child.handle());
+        try {
+            gtk_widget_set_focus_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_focus_on_click = Interop.downcallHandle(
+        "gtk_widget_set_focus_on_click",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the widget should grab focus when it is clicked
@@ -2021,8 +3110,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the main area of the application.
      */
     public void setFocusOnClick(boolean focusOnClick) {
-        gtk_h.gtk_widget_set_focus_on_click(handle(), focusOnClick ? 1 : 0);
+        try {
+            gtk_widget_set_focus_on_click.invokeExact(handle(), focusOnClick ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_focusable = Interop.downcallHandle(
+        "gtk_widget_set_focusable",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Specifies whether {@code widget} can own the input focus.
@@ -2040,8 +3138,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the input focus on a widget.
      */
     public void setFocusable(boolean focusable) {
-        gtk_h.gtk_widget_set_focusable(handle(), focusable ? 1 : 0);
+        try {
+            gtk_widget_set_focusable.invokeExact(handle(), focusable ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_font_map = Interop.downcallHandle(
+        "gtk_widget_set_font_map",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the font map to use for Pango rendering.
@@ -2054,8 +3161,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * When not set, the widget will inherit the font map from its parent.
      */
     public void setFontMap(org.pango.FontMap fontMap) {
-        gtk_h.gtk_widget_set_font_map(handle(), fontMap.handle());
+        try {
+            gtk_widget_set_font_map.invokeExact(handle(), fontMap.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_font_options = Interop.downcallHandle(
+        "gtk_widget_set_font_options",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code cairo_font_options_t} used for Pango rendering
@@ -2065,22 +3181,49 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * will be used.
      */
     public void setFontOptions(org.cairographics.FontOptions options) {
-        gtk_h.gtk_widget_set_font_options(handle(), options.handle());
+        try {
+            gtk_widget_set_font_options.invokeExact(handle(), options.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_halign = Interop.downcallHandle(
+        "gtk_widget_set_halign",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the horizontal alignment of {@code widget}.
      */
     public void setHalign(Align align) {
-        gtk_h.gtk_widget_set_halign(handle(), align.getValue());
+        try {
+            gtk_widget_set_halign.invokeExact(handle(), align.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_has_tooltip = Interop.downcallHandle(
+        "gtk_widget_set_has_tooltip",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the {@code has-tooltip} property on {@code widget} to {@code has_tooltip}.
      */
     public void setHasTooltip(boolean hasTooltip) {
-        gtk_h.gtk_widget_set_has_tooltip(handle(), hasTooltip ? 1 : 0);
+        try {
+            gtk_widget_set_has_tooltip.invokeExact(handle(), hasTooltip ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_hexpand = Interop.downcallHandle(
+        "gtk_widget_set_hexpand",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the widget would like any available extra horizontal
@@ -2112,8 +3255,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * value to be used, rather than looking at children and widget state.
      */
     public void setHexpand(boolean expand) {
-        gtk_h.gtk_widget_set_hexpand(handle(), expand ? 1 : 0);
+        try {
+            gtk_widget_set_hexpand.invokeExact(handle(), expand ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_hexpand_set = Interop.downcallHandle(
+        "gtk_widget_set_hexpand_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the hexpand flag will be used.
@@ -2132,44 +3284,98 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * for completeness and consistency.
      */
     public void setHexpandSet(boolean set) {
-        gtk_h.gtk_widget_set_hexpand_set(handle(), set ? 1 : 0);
+        try {
+            gtk_widget_set_hexpand_set.invokeExact(handle(), set ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_layout_manager = Interop.downcallHandle(
+        "gtk_widget_set_layout_manager",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the layout manager delegate instance that provides an
      * implementation for measuring and allocating the children of {@code widget}.
      */
     public void setLayoutManager(LayoutManager layoutManager) {
-        gtk_h.gtk_widget_set_layout_manager(handle(), layoutManager.refcounted().unowned().handle());
+        try {
+            gtk_widget_set_layout_manager.invokeExact(handle(), layoutManager.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_margin_bottom = Interop.downcallHandle(
+        "gtk_widget_set_margin_bottom",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the bottom margin of {@code widget}.
      */
     public void setMarginBottom(int margin) {
-        gtk_h.gtk_widget_set_margin_bottom(handle(), margin);
+        try {
+            gtk_widget_set_margin_bottom.invokeExact(handle(), margin);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_margin_end = Interop.downcallHandle(
+        "gtk_widget_set_margin_end",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the end margin of {@code widget}.
      */
     public void setMarginEnd(int margin) {
-        gtk_h.gtk_widget_set_margin_end(handle(), margin);
+        try {
+            gtk_widget_set_margin_end.invokeExact(handle(), margin);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_margin_start = Interop.downcallHandle(
+        "gtk_widget_set_margin_start",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the start margin of {@code widget}.
      */
     public void setMarginStart(int margin) {
-        gtk_h.gtk_widget_set_margin_start(handle(), margin);
+        try {
+            gtk_widget_set_margin_start.invokeExact(handle(), margin);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_margin_top = Interop.downcallHandle(
+        "gtk_widget_set_margin_top",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the top margin of {@code widget}.
      */
     public void setMarginTop(int margin) {
-        gtk_h.gtk_widget_set_margin_top(handle(), margin);
+        try {
+            gtk_widget_set_margin_top.invokeExact(handle(), margin);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_name = Interop.downcallHandle(
+        "gtk_widget_set_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a widgets name.
@@ -2185,8 +3391,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of alphanumeric symbols, dashes and underscores will suffice.
      */
     public void setName(java.lang.String name) {
-        gtk_h.gtk_widget_set_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            gtk_widget_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_opacity = Interop.downcallHandle(
+        "gtk_widget_set_opacity",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Request the {@code widget} to be rendered partially transparent.
@@ -2213,8 +3428,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * even if they are attached to a toplevel that is translucent.
      */
     public void setOpacity(double opacity) {
-        gtk_h.gtk_widget_set_opacity(handle(), opacity);
+        try {
+            gtk_widget_set_opacity.invokeExact(handle(), opacity);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_overflow = Interop.downcallHandle(
+        "gtk_widget_set_overflow",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets how {@code widget} treats content that is drawn outside the
@@ -2228,8 +3452,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * The default value is {@link Overflow#VISIBLE}.
      */
     public void setOverflow(Overflow overflow) {
-        gtk_h.gtk_widget_set_overflow(handle(), overflow.getValue());
+        try {
+            gtk_widget_set_overflow.invokeExact(handle(), overflow.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_parent = Interop.downcallHandle(
+        "gtk_widget_set_parent",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code parent} as the parent widget of {@code widget}.
@@ -2242,8 +3475,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@code GtkWidget}.
      */
     public void setParent(Widget parent) {
-        gtk_h.gtk_widget_set_parent(handle(), parent.handle());
+        try {
+            gtk_widget_set_parent.invokeExact(handle(), parent.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_receives_default = Interop.downcallHandle(
+        "gtk_widget_set_receives_default",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Specifies whether {@code widget} will be treated as the default
@@ -2251,8 +3493,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * another widget is the default.
      */
     public void setReceivesDefault(boolean receivesDefault) {
-        gtk_h.gtk_widget_set_receives_default(handle(), receivesDefault ? 1 : 0);
+        try {
+            gtk_widget_set_receives_default.invokeExact(handle(), receivesDefault ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_sensitive = Interop.downcallHandle(
+        "gtk_widget_set_sensitive",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the sensitivity of a widget.
@@ -2263,8 +3514,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * “inactive”, “disabled”, or “ghosted” in some other toolkits.
      */
     public void setSensitive(boolean sensitive) {
-        gtk_h.gtk_widget_set_sensitive(handle(), sensitive ? 1 : 0);
+        try {
+            gtk_widget_set_sensitive.invokeExact(handle(), sensitive ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_size_request = Interop.downcallHandle(
+        "gtk_widget_set_size_request",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the minimum size of a widget.
@@ -2304,8 +3564,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of {@code GtkWidget}.
      */
     public void setSizeRequest(int width, int height) {
-        gtk_h.gtk_widget_set_size_request(handle(), width, height);
+        try {
+            gtk_widget_set_size_request.invokeExact(handle(), width, height);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_state_flags = Interop.downcallHandle(
+        "gtk_widget_set_state_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Turns on flag values in the current widget state.
@@ -2319,8 +3588,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is for use in widget implementations.
      */
     public void setStateFlags(StateFlags flags, boolean clear) {
-        gtk_h.gtk_widget_set_state_flags(handle(), flags.getValue(), clear ? 1 : 0);
+        try {
+            gtk_widget_set_state_flags.invokeExact(handle(), flags.getValue(), clear ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_tooltip_markup = Interop.downcallHandle(
+        "gtk_widget_set_tooltip_markup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code markup} as the contents of the tooltip, which is marked
@@ -2333,8 +3611,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See also {@link Tooltip#setMarkup}.
      */
     public void setTooltipMarkup(java.lang.String markup) {
-        gtk_h.gtk_widget_set_tooltip_markup(handle(), Interop.allocateNativeString(markup).handle());
+        try {
+            gtk_widget_set_tooltip_markup.invokeExact(handle(), Interop.allocateNativeString(markup).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_tooltip_text = Interop.downcallHandle(
+        "gtk_widget_set_tooltip_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets {@code text} as the contents of the tooltip.
@@ -2349,15 +3636,33 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See also {@link Tooltip#setText}.
      */
     public void setTooltipText(java.lang.String text) {
-        gtk_h.gtk_widget_set_tooltip_text(handle(), Interop.allocateNativeString(text).handle());
+        try {
+            gtk_widget_set_tooltip_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_valign = Interop.downcallHandle(
+        "gtk_widget_set_valign",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the vertical alignment of {@code widget}.
      */
     public void setValign(Align align) {
-        gtk_h.gtk_widget_set_valign(handle(), align.getValue());
+        try {
+            gtk_widget_set_valign.invokeExact(handle(), align.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_vexpand = Interop.downcallHandle(
+        "gtk_widget_set_vexpand",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the widget would like any available extra vertical
@@ -2366,8 +3671,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setHexpand} for more detail.
      */
     public void setVexpand(boolean expand) {
-        gtk_h.gtk_widget_set_vexpand(handle(), expand ? 1 : 0);
+        try {
+            gtk_widget_set_vexpand.invokeExact(handle(), expand ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_vexpand_set = Interop.downcallHandle(
+        "gtk_widget_set_vexpand_set",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the vexpand flag will be used.
@@ -2375,8 +3689,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setHexpandSet} for more detail.
      */
     public void setVexpandSet(boolean set) {
-        gtk_h.gtk_widget_set_vexpand_set(handle(), set ? 1 : 0);
+        try {
+            gtk_widget_set_vexpand_set.invokeExact(handle(), set ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_visible = Interop.downcallHandle(
+        "gtk_widget_set_visible",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the visibility state of {@code widget}.
@@ -2389,8 +3712,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * visibility of the widget depends on some condition.
      */
     public void setVisible(boolean visible) {
-        gtk_h.gtk_widget_set_visible(handle(), visible ? 1 : 0);
+        try {
+            gtk_widget_set_visible.invokeExact(handle(), visible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_should_layout = Interop.downcallHandle(
+        "gtk_widget_should_layout",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether {@code widget} should contribute to
@@ -2400,9 +3732,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * for children that have their own surface.
      */
     public boolean shouldLayout() {
-        var RESULT = gtk_h.gtk_widget_should_layout(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_should_layout.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_show = Interop.downcallHandle(
+        "gtk_widget_show",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Flags a widget to be displayed.
@@ -2417,8 +3758,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * toplevel container is realized and mapped.
      */
     public void show() {
-        gtk_h.gtk_widget_show(handle());
+        try {
+            gtk_widget_show.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_size_allocate = Interop.downcallHandle(
+        "gtk_widget_size_allocate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Allocates widget with a transformation that translates
@@ -2427,8 +3777,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This is a simple form of {@link Widget#allocate}.
      */
     public void sizeAllocate(Allocation allocation, int baseline) {
-        gtk_h.gtk_widget_size_allocate(handle(), allocation.handle(), baseline);
+        try {
+            gtk_widget_size_allocate.invokeExact(handle(), allocation.handle(), baseline);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_snapshot_child = Interop.downcallHandle(
+        "gtk_widget_snapshot_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Snapshot the a child of {@code widget}.
@@ -2447,8 +3806,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function does nothing for children that implement {@code GtkNative}.
      */
     public void snapshotChild(Widget child, Snapshot snapshot) {
-        gtk_h.gtk_widget_snapshot_child(handle(), child.handle(), snapshot.handle());
+        try {
+            gtk_widget_snapshot_child.invokeExact(handle(), child.handle(), snapshot.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_translate_coordinates = Interop.downcallHandle(
+        "gtk_widget_translate_coordinates",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Translate coordinates relative to {@code src_widget}’s allocation
@@ -2458,17 +3826,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * a common ancestor.
      */
     public boolean translateCoordinates(Widget destWidget, double srcX, double srcY, PointerDouble destX, PointerDouble destY) {
-        var RESULT = gtk_h.gtk_widget_translate_coordinates(handle(), destWidget.handle(), srcX, srcY, destX.handle(), destY.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_widget_translate_coordinates.invokeExact(handle(), destWidget.handle(), srcX, srcY, destX.handle(), destY.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_trigger_tooltip_query = Interop.downcallHandle(
+        "gtk_widget_trigger_tooltip_query",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Triggers a tooltip query on the display where the toplevel
      * of {@code widget} is located.
      */
     public void triggerTooltipQuery() {
-        gtk_h.gtk_widget_trigger_tooltip_query(handle());
+        try {
+            gtk_widget_trigger_tooltip_query.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_unmap = Interop.downcallHandle(
+        "gtk_widget_unmap",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Causes a widget to be unmapped if it’s currently mapped.
@@ -2476,8 +3862,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only for use in widget implementations.
      */
     public void unmap() {
-        gtk_h.gtk_widget_unmap(handle());
+        try {
+            gtk_widget_unmap.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_unparent = Interop.downcallHandle(
+        "gtk_widget_unparent",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Dissociate {@code widget} from its parent.
@@ -2486,8 +3881,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * typically in dispose.
      */
     public void unparent() {
-        gtk_h.gtk_widget_unparent(handle());
+        try {
+            gtk_widget_unparent.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_unrealize = Interop.downcallHandle(
+        "gtk_widget_unrealize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Causes a widget to be unrealized (frees all GDK resources
@@ -2496,8 +3900,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only useful in widget implementations.
      */
     public void unrealize() {
-        gtk_h.gtk_widget_unrealize(handle());
+        try {
+            gtk_widget_unrealize.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_unset_state_flags = Interop.downcallHandle(
+        "gtk_widget_unset_state_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Turns off flag values for the current widget state.
@@ -2507,8 +3920,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is for use in widget implementations.
      */
     public void unsetStateFlags(StateFlags flags) {
-        gtk_h.gtk_widget_unset_state_flags(handle(), flags.getValue());
+        try {
+            gtk_widget_unset_state_flags.invokeExact(handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_get_default_direction = Interop.downcallHandle(
+        "gtk_widget_get_default_direction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Obtains the current default reading direction.
@@ -2516,9 +3938,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Gtk#Widget}.
      */
     public static TextDirection getDefaultDirection() {
-        var RESULT = gtk_h.gtk_widget_get_default_direction();
-        return new TextDirection(RESULT);
+        try {
+            var RESULT = (int) gtk_widget_get_default_direction.invokeExact();
+            return new TextDirection(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_widget_set_default_direction = Interop.downcallHandle(
+        "gtk_widget_set_default_direction",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the default reading direction for widgets.
@@ -2526,7 +3957,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See {@link Widget#setDirection}.
      */
     public static void setDefaultDirection(TextDirection dir) {
-        gtk_h.gtk_widget_set_default_direction(dir.getValue());
+        try {
+            gtk_widget_set_default_direction.invokeExact(dir.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -2544,19 +3979,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onDestroy(DestroyHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("destroy").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetDestroy",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2570,19 +4005,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onDirectionChanged(DirectionChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("direction-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetDirectionChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2596,19 +4031,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onHide(HideHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("hide").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetHide",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2624,19 +4059,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onKeynavFailed(KeynavFailedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("keynav-failed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetKeynavFailed",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2658,19 +4093,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onMap(MapHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("map").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMap",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2687,19 +4122,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onMnemonicActivate(MnemonicActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("mnemonic-activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMnemonicActivate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2713,19 +4148,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onMoveFocus(MoveFocusHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("move-focus").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMoveFocus",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2752,19 +4187,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onQueryTooltip(QueryTooltipHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("query-tooltip").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetQueryTooltip",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2781,19 +4216,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onRealize(RealizeHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("realize").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetRealize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2807,19 +4242,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onShow(ShowHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("show").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetShow",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2835,19 +4270,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onStateFlagsChanged(StateFlagsChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("state-flags-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetStateFlagsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2867,19 +4302,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onUnmap(UnmapHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("unmap").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetUnmap",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -2896,19 +4331,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SignalHandle onUnrealize(UnrealizeHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("unrealize").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetUnrealize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

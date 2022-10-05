@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -38,6 +37,11 @@ import java.lang.invoke.*;
  */
 public interface Action extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_action_activate = Interop.downcallHandle(
+        "g_action_activate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Activates the action.
      * <p>
@@ -48,8 +52,17 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * If the {@code parameter} GVariant is floating, it is consumed.
      */
     public default void activate(org.gtk.glib.Variant parameter) {
-        gtk_h.g_action_activate(handle(), parameter.handle());
+        try {
+            g_action_activate.invokeExact(handle(), parameter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_change_state = Interop.downcallHandle(
+        "g_action_change_state",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Request for the state of {@code action} to be changed to {@code value}.
@@ -64,8 +77,17 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * If the {@code value} GVariant is floating, it is consumed.
      */
     public default void changeState(org.gtk.glib.Variant value) {
-        gtk_h.g_action_change_state(handle(), value.handle());
+        try {
+            g_action_change_state.invokeExact(handle(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_get_enabled = Interop.downcallHandle(
+        "g_action_get_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code action} is currently enabled.
@@ -74,17 +96,35 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * have its state changed from outside callers.
      */
     public default boolean getEnabled() {
-        var RESULT = gtk_h.g_action_get_enabled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_action_get_enabled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_get_name = Interop.downcallHandle(
+        "g_action_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the name of {@code action}.
      */
     public default java.lang.String getName() {
-        var RESULT = gtk_h.g_action_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_action_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_get_parameter_type = Interop.downcallHandle(
+        "g_action_get_parameter_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the type of the parameter that must be given when activating
@@ -97,9 +137,18 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * {@link org.gtk.glib.Variant}, but {@code null} instead.
      */
     public default org.gtk.glib.VariantType getParameterType() {
-        var RESULT = gtk_h.g_action_get_parameter_type(handle());
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_action_get_parameter_type.invokeExact(handle());
+            return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_get_state = Interop.downcallHandle(
+        "g_action_get_state",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the current state of {@code action}.
@@ -112,9 +161,18 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getState() {
-        var RESULT = gtk_h.g_action_get_state(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_action_get_state.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_get_state_hint = Interop.downcallHandle(
+        "g_action_get_state_hint",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Requests a hint about the valid range of values for the state of
@@ -137,9 +195,18 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getStateHint() {
-        var RESULT = gtk_h.g_action_get_state_hint(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_action_get_state_hint.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_get_state_type = Interop.downcallHandle(
+        "g_action_get_state_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the type of the state of {@code action}.
@@ -156,9 +223,18 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * will return {@code null} and you must not call g_action_change_state().
      */
     public default org.gtk.glib.VariantType getStateType() {
-        var RESULT = gtk_h.g_action_get_state_type(handle());
-        return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_action_get_state_type.invokeExact(handle());
+            return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_name_is_valid = Interop.downcallHandle(
+        "g_action_name_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code action_name} is valid.
@@ -170,9 +246,18 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * {@code action_name} must not be {@code null}.
      */
     public static boolean nameIsValid(java.lang.String actionName) {
-        var RESULT = gtk_h.g_action_name_is_valid(Interop.allocateNativeString(actionName).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_action_name_is_valid.invokeExact(Interop.allocateNativeString(actionName).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_action_parse_detailed_name = Interop.downcallHandle(
+        "g_action_parse_detailed_name",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses a detailed action name into its separate name and target
@@ -202,12 +287,21 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      */
     public static boolean parseDetailedName(java.lang.String detailedName, java.lang.String[] actionName, org.gtk.glib.Variant[] targetValue) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_action_parse_detailed_name(Interop.allocateNativeString(detailedName).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(targetValue).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(targetValue).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_action_print_detailed_name = Interop.downcallHandle(
+        "g_action_print_detailed_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Formats a detailed action name from {@code action_name} and {@code target_value}.
@@ -222,8 +316,12 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * this function.
      */
     public static java.lang.String printDetailedName(java.lang.String actionName, org.gtk.glib.Variant targetValue) {
-        var RESULT = gtk_h.g_action_print_detailed_name(Interop.allocateNativeString(actionName).handle(), targetValue.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_action_print_detailed_name.invokeExact(Interop.allocateNativeString(actionName).handle(), targetValue.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class ActionImpl extends org.gtk.gobject.Object implements Action {

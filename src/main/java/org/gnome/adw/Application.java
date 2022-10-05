@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -51,9 +50,18 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
         return new Application(gobject.refcounted());
     }
     
+    static final MethodHandle adw_application_new = Interop.downcallHandle(
+        "adw_application_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_application_new.invokeExact(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -69,12 +77,21 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
         super(constructNew(applicationId, flags));
     }
     
+    static final MethodHandle adw_application_get_style_manager = Interop.downcallHandle(
+        "adw_application_get_style_manager",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the style manager for {@code self}.
      */
     public StyleManager getStyleManager() {
-        var RESULT = gtk_h.adw_application_get_style_manager(handle());
-        return new StyleManager(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_application_get_style_manager.invokeExact(handle());
+            return new StyleManager(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

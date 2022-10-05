@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,10 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public AttrFontDesc() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFontDesc.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
+        "pango_attr_font_desc_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new font description attribute.
@@ -26,8 +26,12 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
      * stretch, and size simultaneously.
      */
     public static Attribute new_(FontDescription desc) {
-        var RESULT = gtk_h.pango_attr_font_desc_new(desc.handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_font_desc_new.invokeExact(desc.handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

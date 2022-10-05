@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,6 +19,11 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         return new MenuAttributeIter(gobject.refcounted());
     }
     
+    static final MethodHandle g_menu_attribute_iter_get_name = Interop.downcallHandle(
+        "g_menu_attribute_iter_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the name of the attribute at the current iterator position, as
      * a string.
@@ -27,9 +31,18 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.g_menu_attribute_iter_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_menu_attribute_iter_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_attribute_iter_get_next = Interop.downcallHandle(
+        "g_menu_attribute_iter_get_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function combines g_menu_attribute_iter_next() with
@@ -49,9 +62,18 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * be unreffed using g_variant_unref() when it is no longer in use.
      */
     public boolean getNext(java.lang.String[] outName, org.gtk.glib.Variant[] value) {
-        var RESULT = gtk_h.g_menu_attribute_iter_get_next(handle(), Interop.allocateNativeArray(outName).handle(), Interop.allocateNativeArray(value).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_menu_attribute_iter_get_next.invokeExact(handle(), Interop.allocateNativeArray(outName).handle(), Interop.allocateNativeArray(value).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_attribute_iter_get_value = Interop.downcallHandle(
+        "g_menu_attribute_iter_get_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value of the attribute at the current iterator position.
@@ -59,9 +81,18 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      */
     public org.gtk.glib.Variant getValue() {
-        var RESULT = gtk_h.g_menu_attribute_iter_get_value(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_menu_attribute_iter_get_value.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_attribute_iter_next = Interop.downcallHandle(
+        "g_menu_attribute_iter_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Attempts to advance the iterator to the next (possibly first)
@@ -75,8 +106,12 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * attribute exists at all).
      */
     public boolean next() {
-        var RESULT = gtk_h.g_menu_attribute_iter_next(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_menu_attribute_iter_next.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

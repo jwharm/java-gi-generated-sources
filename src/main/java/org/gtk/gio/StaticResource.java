@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,10 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public StaticResource() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GStaticResource.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_static_resource_fini = Interop.downcallHandle(
+        "g_static_resource_fini",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Finalized a GResource initialized by g_static_resource_init().
@@ -27,8 +27,17 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      * and is not typically used by other code.
      */
     public void fini() {
-        gtk_h.g_static_resource_fini(handle());
+        try {
+            g_static_resource_fini.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_static_resource_get_resource = Interop.downcallHandle(
+        "g_static_resource_get_resource",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the GResource that was registered by a call to g_static_resource_init().
@@ -38,9 +47,18 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      * and is not typically used by other code.
      */
     public Resource getResource() {
-        var RESULT = gtk_h.g_static_resource_get_resource(handle());
-        return new Resource(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_static_resource_get_resource.invokeExact(handle());
+            return new Resource(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_static_resource_init = Interop.downcallHandle(
+        "g_static_resource_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a GResource from static data using a
@@ -51,7 +69,11 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      * and is not typically used by other code.
      */
     public void init() {
-        gtk_h.g_static_resource_init(handle());
+        try {
+            g_static_resource_init.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

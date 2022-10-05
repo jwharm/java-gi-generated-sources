@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,9 +13,18 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_file_attribute_matcher_new = Interop.downcallHandle(
+        "g_file_attribute_matcher_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String attributes) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_file_attribute_matcher_new(Interop.allocateNativeString(attributes).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_file_attribute_matcher_new.invokeExact(Interop.allocateNativeString(attributes).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -45,6 +53,11 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(attributes));
     }
     
+    static final MethodHandle g_file_attribute_matcher_enumerate_namespace = Interop.downcallHandle(
+        "g_file_attribute_matcher_enumerate_namespace",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Checks if the matcher will match all of the keys in a given namespace.
      * This will always return {@code true} if a wildcard character is in use (e.g. if
@@ -54,17 +67,35 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * TODO: this is awkwardly worded.
      */
     public boolean enumerateNamespace(java.lang.String ns) {
-        var RESULT = gtk_h.g_file_attribute_matcher_enumerate_namespace(handle(), Interop.allocateNativeString(ns).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_file_attribute_matcher_enumerate_namespace.invokeExact(handle(), Interop.allocateNativeString(ns).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_attribute_matcher_enumerate_next = Interop.downcallHandle(
+        "g_file_attribute_matcher_enumerate_next",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the next matched attribute from a {@link FileAttributeMatcher}.
      */
     public java.lang.String enumerateNext() {
-        var RESULT = gtk_h.g_file_attribute_matcher_enumerate_next(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_file_attribute_matcher_enumerate_next.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_attribute_matcher_matches = Interop.downcallHandle(
+        "g_file_attribute_matcher_matches",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if an attribute will be matched by an attribute matcher. If
@@ -72,26 +103,53 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * will always return {@code true}.
      */
     public boolean matches(java.lang.String attribute) {
-        var RESULT = gtk_h.g_file_attribute_matcher_matches(handle(), Interop.allocateNativeString(attribute).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_file_attribute_matcher_matches.invokeExact(handle(), Interop.allocateNativeString(attribute).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_attribute_matcher_matches_only = Interop.downcallHandle(
+        "g_file_attribute_matcher_matches_only",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if a attribute matcher only matches a given attribute. Always
      * returns {@code false} if "*" was used when creating the matcher.
      */
     public boolean matchesOnly(java.lang.String attribute) {
-        var RESULT = gtk_h.g_file_attribute_matcher_matches_only(handle(), Interop.allocateNativeString(attribute).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_file_attribute_matcher_matches_only.invokeExact(handle(), Interop.allocateNativeString(attribute).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_attribute_matcher_ref = Interop.downcallHandle(
+        "g_file_attribute_matcher_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * References a file attribute matcher.
      */
     public FileAttributeMatcher ref() {
-        var RESULT = gtk_h.g_file_attribute_matcher_ref(handle());
-        return new FileAttributeMatcher(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_file_attribute_matcher_ref.invokeExact(handle());
+            return new FileAttributeMatcher(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_attribute_matcher_subtract = Interop.downcallHandle(
+        "g_file_attribute_matcher_subtract",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Subtracts all attributes of {@code subtract} from {@code matcher} and returns
@@ -104,9 +162,18 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * in the future.
      */
     public FileAttributeMatcher subtract(FileAttributeMatcher subtract) {
-        var RESULT = gtk_h.g_file_attribute_matcher_subtract(handle(), subtract.handle());
-        return new FileAttributeMatcher(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_file_attribute_matcher_subtract.invokeExact(handle(), subtract.handle());
+            return new FileAttributeMatcher(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_attribute_matcher_to_string = Interop.downcallHandle(
+        "g_file_attribute_matcher_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prints what the matcher is matching against. The format will be
@@ -115,16 +182,29 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * decide to use a different order or omit needless parts.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.g_file_attribute_matcher_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_file_attribute_matcher_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_file_attribute_matcher_unref = Interop.downcallHandle(
+        "g_file_attribute_matcher_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unreferences {@code matcher}. If the reference count falls below 1,
      * the {@code matcher} is automatically freed.
      */
     public void unref() {
-        gtk_h.g_file_attribute_matcher_unref(handle());
+        try {
+            g_file_attribute_matcher_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

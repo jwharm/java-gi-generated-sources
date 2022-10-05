@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -42,6 +41,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
         return new SettingsBackend(gobject.refcounted());
     }
     
+    static final MethodHandle g_settings_backend_changed = Interop.downcallHandle(
+        "g_settings_backend_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Signals that a single key has possibly changed.  Backend
      * implementations should call this if a key has possibly changed its
@@ -67,8 +71,17 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * value that was passed to that call.
      */
     public void changed(java.lang.String key, java.lang.foreign.MemoryAddress originTag) {
-        gtk_h.g_settings_backend_changed(handle(), Interop.allocateNativeString(key).handle(), originTag);
+        try {
+            g_settings_backend_changed.invokeExact(handle(), Interop.allocateNativeString(key).handle(), originTag);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_backend_changed_tree = Interop.downcallHandle(
+        "g_settings_backend_changed_tree",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This call is a convenience wrapper.  It gets the list of changes from
@@ -76,8 +89,17 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * g_settings_backend_changed().
      */
     public void changedTree(org.gtk.glib.Tree tree, java.lang.foreign.MemoryAddress originTag) {
-        gtk_h.g_settings_backend_changed_tree(handle(), tree.handle(), originTag);
+        try {
+            g_settings_backend_changed_tree.invokeExact(handle(), tree.handle(), originTag);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_backend_keys_changed = Interop.downcallHandle(
+        "g_settings_backend_keys_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Signals that a list of keys have possibly changed.  Backend
@@ -103,8 +125,17 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * keys that were changed) but this is not strictly required.
      */
     public void keysChanged(java.lang.String path, java.lang.String[] items, java.lang.foreign.MemoryAddress originTag) {
-        gtk_h.g_settings_backend_keys_changed(handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeArray(items).handle(), originTag);
+        try {
+            g_settings_backend_keys_changed.invokeExact(handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeArray(items).handle(), originTag);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_backend_path_changed = Interop.downcallHandle(
+        "g_settings_backend_path_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Signals that all keys below a given path may have possibly changed.
@@ -130,8 +161,17 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * single key in the application will be notified of a possible change.
      */
     public void pathChanged(java.lang.String path, java.lang.foreign.MemoryAddress originTag) {
-        gtk_h.g_settings_backend_path_changed(handle(), Interop.allocateNativeString(path).handle(), originTag);
+        try {
+            g_settings_backend_path_changed.invokeExact(handle(), Interop.allocateNativeString(path).handle(), originTag);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_backend_path_writable_changed = Interop.downcallHandle(
+        "g_settings_backend_path_writable_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Signals that the writability of all keys below a given path may have
@@ -141,8 +181,17 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * will always be made in response to external events.
      */
     public void pathWritableChanged(java.lang.String path) {
-        gtk_h.g_settings_backend_path_writable_changed(handle(), Interop.allocateNativeString(path).handle());
+        try {
+            g_settings_backend_path_writable_changed.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_backend_writable_changed = Interop.downcallHandle(
+        "g_settings_backend_writable_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Signals that the writability of a single key has possibly changed.
@@ -151,8 +200,17 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * will always be made in response to external events.
      */
     public void writableChanged(java.lang.String key) {
-        gtk_h.g_settings_backend_writable_changed(handle(), Interop.allocateNativeString(key).handle());
+        try {
+            g_settings_backend_writable_changed.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_backend_flatten_tree = Interop.downcallHandle(
+        "g_settings_backend_flatten_tree",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calculate the longest common prefix of all keys in a tree and write
@@ -164,8 +222,17 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * {@code keys} or {@code values}.
      */
     public static void flattenTree(org.gtk.glib.Tree tree, java.lang.String[] path, java.lang.String[] keys, org.gtk.glib.Variant[] values) {
-        gtk_h.g_settings_backend_flatten_tree(tree.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(keys).handle(), Interop.allocateNativeArray(values).handle());
+        try {
+            g_settings_backend_flatten_tree.invokeExact(tree.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(keys).handle(), Interop.allocateNativeArray(values).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_backend_get_default = Interop.downcallHandle(
+        "g_settings_backend_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the default {@link SettingsBackend}. It is possible to override
@@ -175,8 +242,12 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * The user gets a reference to the backend.
      */
     public static SettingsBackend getDefault() {
-        var RESULT = gtk_h.g_settings_backend_get_default();
-        return new SettingsBackend(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_backend_get_default.invokeExact();
+            return new SettingsBackend(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

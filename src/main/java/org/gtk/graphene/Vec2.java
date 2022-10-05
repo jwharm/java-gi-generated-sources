@@ -1,6 +1,5 @@
 package org.gtk.graphene;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,9 +16,18 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle graphene_vec2_alloc = Interop.downcallHandle(
+        "graphene_vec2_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructAlloc() {
-        Refcounted RESULT = Refcounted.get(gtk_h.graphene_vec2_alloc(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) graphene_vec2_alloc.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,13 +41,27 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
         return new Vec2(constructAlloc());
     }
     
+    static final MethodHandle graphene_vec2_add = Interop.downcallHandle(
+        "graphene_vec2_add",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds each component of the two passed vectors and places
      * each result into the components of {@code res}.
      */
     public void add(Vec2 b, Vec2 res) {
-        gtk_h.graphene_vec2_add(handle(), b.handle(), res.handle());
+        try {
+            graphene_vec2_add.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_divide = Interop.downcallHandle(
+        "graphene_vec2_divide",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Divides each component of the first operand @a by the corresponding
@@ -47,47 +69,101 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
      * vector {@code res}.
      */
     public void divide(Vec2 b, Vec2 res) {
-        gtk_h.graphene_vec2_divide(handle(), b.handle(), res.handle());
+        try {
+            graphene_vec2_divide.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_dot = Interop.downcallHandle(
+        "graphene_vec2_dot",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the dot product of the two given vectors.
      */
     public float dot(Vec2 b) {
-        var RESULT = gtk_h.graphene_vec2_dot(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_vec2_dot.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_equal = Interop.downcallHandle(
+        "graphene_vec2_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the two given {@link Vec2} are equal.
      */
     public boolean equal(Vec2 v2) {
-        var RESULT = gtk_h.graphene_vec2_equal(handle(), v2.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_vec2_equal.invokeExact(handle(), v2.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_free = Interop.downcallHandle(
+        "graphene_vec2_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the resources allocated by @v
      */
     public void free() {
-        gtk_h.graphene_vec2_free(handle());
+        try {
+            graphene_vec2_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_get_x = Interop.downcallHandle(
+        "graphene_vec2_get_x",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the X component of the {@link Vec2}.
      */
     public float getX() {
-        var RESULT = gtk_h.graphene_vec2_get_x(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_vec2_get_x.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_get_y = Interop.downcallHandle(
+        "graphene_vec2_get_y",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the Y component of the {@link Vec2}.
      */
     public float getY() {
-        var RESULT = gtk_h.graphene_vec2_get_y(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_vec2_get_y.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_init = Interop.downcallHandle(
+        "graphene_vec2_init",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Initializes a {@link Vec2} using the given values.
@@ -95,94 +171,202 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
      * This function can be called multiple times.
      */
     public Vec2 init(float x, float y) {
-        var RESULT = gtk_h.graphene_vec2_init(handle(), x, y);
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_init.invokeExact(handle(), x, y);
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_init_from_float = Interop.downcallHandle(
+        "graphene_vec2_init_from_float",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes @v with the contents of the given array.
      */
     public Vec2 initFromFloat(float[] src) {
-        var RESULT = gtk_h.graphene_vec2_init_from_float(handle(), Interop.allocateNativeArray(src).handle());
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(src).handle());
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_init_from_vec2 = Interop.downcallHandle(
+        "graphene_vec2_init_from_vec2",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Copies the contents of {@code src} into @v.
      */
     public Vec2 initFromVec2(Vec2 src) {
-        var RESULT = gtk_h.graphene_vec2_init_from_vec2(handle(), src.handle());
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_init_from_vec2.invokeExact(handle(), src.handle());
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_interpolate = Interop.downcallHandle(
+        "graphene_vec2_interpolate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Linearly interpolates {@code v1} and {@code v2} using the given {@code factor}.
      */
     public void interpolate(Vec2 v2, double factor, Vec2 res) {
-        gtk_h.graphene_vec2_interpolate(handle(), v2.handle(), factor, res.handle());
+        try {
+            graphene_vec2_interpolate.invokeExact(handle(), v2.handle(), factor, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_length = Interop.downcallHandle(
+        "graphene_vec2_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the length of the given vector.
      */
     public float length() {
-        var RESULT = gtk_h.graphene_vec2_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_vec2_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_max = Interop.downcallHandle(
+        "graphene_vec2_max",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares the two given vectors and places the maximum
      * values of each component into {@code res}.
      */
     public void max(Vec2 b, Vec2 res) {
-        gtk_h.graphene_vec2_max(handle(), b.handle(), res.handle());
+        try {
+            graphene_vec2_max.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_min = Interop.downcallHandle(
+        "graphene_vec2_min",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares the two given vectors and places the minimum
      * values of each component into {@code res}.
      */
     public void min(Vec2 b, Vec2 res) {
-        gtk_h.graphene_vec2_min(handle(), b.handle(), res.handle());
+        try {
+            graphene_vec2_min.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_multiply = Interop.downcallHandle(
+        "graphene_vec2_multiply",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Multiplies each component of the two passed vectors and places
      * each result into the components of {@code res}.
      */
     public void multiply(Vec2 b, Vec2 res) {
-        gtk_h.graphene_vec2_multiply(handle(), b.handle(), res.handle());
+        try {
+            graphene_vec2_multiply.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_near = Interop.downcallHandle(
+        "graphene_vec2_near",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Compares the two given {@link Vec2} vectors and checks
      * whether their values are within the given {@code epsilon}.
      */
     public boolean near(Vec2 v2, float epsilon) {
-        var RESULT = gtk_h.graphene_vec2_near(handle(), v2.handle(), epsilon);
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_vec2_near.invokeExact(handle(), v2.handle(), epsilon);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_negate = Interop.downcallHandle(
+        "graphene_vec2_negate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Negates the given {@link Vec2}.
      */
     public void negate(Vec2 res) {
-        gtk_h.graphene_vec2_negate(handle(), res.handle());
+        try {
+            graphene_vec2_negate.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_normalize = Interop.downcallHandle(
+        "graphene_vec2_normalize",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes the normalized vector for the given vector @v.
      */
     public void normalize(Vec2 res) {
-        gtk_h.graphene_vec2_normalize(handle(), res.handle());
+        try {
+            graphene_vec2_normalize.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_scale = Interop.downcallHandle(
+        "graphene_vec2_scale",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Multiplies all components of the given vector with the given scalar {@code factor}.
      */
     public void scale(float factor, Vec2 res) {
-        gtk_h.graphene_vec2_scale(handle(), factor, res.handle());
+        try {
+            graphene_vec2_scale.invokeExact(handle(), factor, res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_subtract = Interop.downcallHandle(
+        "graphene_vec2_subtract",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Subtracts from each component of the first operand @a the
@@ -190,46 +374,95 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
      * each result into the components of {@code res}.
      */
     public void subtract(Vec2 b, Vec2 res) {
-        gtk_h.graphene_vec2_subtract(handle(), b.handle(), res.handle());
+        try {
+            graphene_vec2_subtract.invokeExact(handle(), b.handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_to_float = Interop.downcallHandle(
+        "graphene_vec2_to_float",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Stores the components of @v into an array.
      */
     public void toFloat(float[] dest) {
-        gtk_h.graphene_vec2_to_float(handle(), Interop.allocateNativeArray(dest).handle());
+        try {
+            graphene_vec2_to_float.invokeExact(handle(), Interop.allocateNativeArray(dest).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_one = Interop.downcallHandle(
+        "graphene_vec2_one",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant vector with (1, 1) components.
      */
     public static Vec2 one() {
-        var RESULT = gtk_h.graphene_vec2_one();
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_one.invokeExact();
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_x_axis = Interop.downcallHandle(
+        "graphene_vec2_x_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant vector with (1, 0) components.
      */
     public static Vec2 xAxis() {
-        var RESULT = gtk_h.graphene_vec2_x_axis();
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_x_axis.invokeExact();
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_y_axis = Interop.downcallHandle(
+        "graphene_vec2_y_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant vector with (0, 1) components.
      */
     public static Vec2 yAxis() {
-        var RESULT = gtk_h.graphene_vec2_y_axis();
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_y_axis.invokeExact();
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_zero = Interop.downcallHandle(
+        "graphene_vec2_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant vector with (0, 0) components.
      */
     public static Vec2 zero() {
-        var RESULT = gtk_h.graphene_vec2_zero();
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_zero.invokeExact();
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

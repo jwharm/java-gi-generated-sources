@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -80,9 +79,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         return new PrintOperation(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_print_operation_new = Interop.downcallHandle(
+        "gtk_print_operation_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_operation_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_operation_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -92,6 +100,11 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         super(constructNew());
     }
     
+    static final MethodHandle gtk_print_operation_cancel = Interop.downcallHandle(
+        "gtk_print_operation_cancel",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Cancels a running print operation.
      * <p>
@@ -100,8 +113,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * signal handler to stop the currently running print operation.
      */
     public void cancel() {
-        gtk_h.gtk_print_operation_cancel(handle());
+        try {
+            gtk_print_operation_cancel.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_draw_page_finish = Interop.downcallHandle(
+        "gtk_print_operation_draw_page_finish",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Signal that drawing of particular page is complete.
@@ -112,24 +134,51 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Otherwise it is called by GTK itself.
      */
     public void drawPageFinish() {
-        gtk_h.gtk_print_operation_draw_page_finish(handle());
+        try {
+            gtk_print_operation_draw_page_finish.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_get_default_page_setup = Interop.downcallHandle(
+        "gtk_print_operation_get_default_page_setup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the default page setup.
      */
     public PageSetup getDefaultPageSetup() {
-        var RESULT = gtk_h.gtk_print_operation_get_default_page_setup(handle());
-        return new PageSetup(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_operation_get_default_page_setup.invokeExact(handle());
+            return new PageSetup(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_get_embed_page_setup = Interop.downcallHandle(
+        "gtk_print_operation_get_embed_page_setup",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether page setup selection combos are embedded
      */
     public boolean getEmbedPageSetup() {
-        var RESULT = gtk_h.gtk_print_operation_get_embed_page_setup(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_operation_get_embed_page_setup.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_get_error = Interop.downcallHandle(
+        "gtk_print_operation_get_error",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Call this when the result of a print operation is
@@ -143,19 +192,37 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public void getError() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        gtk_h.gtk_print_operation_get_error(handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            gtk_print_operation_get_error.invokeExact(handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle gtk_print_operation_get_has_selection = Interop.downcallHandle(
+        "gtk_print_operation_get_has_selection",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether there is a selection.
      */
     public boolean getHasSelection() {
-        var RESULT = gtk_h.gtk_print_operation_get_has_selection(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_operation_get_has_selection.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_get_n_pages_to_print = Interop.downcallHandle(
+        "gtk_print_operation_get_n_pages_to_print",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of pages that will be printed.
@@ -170,9 +237,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * This is typically used to track the progress of print operation.
      */
     public int getNPagesToPrint() {
-        var RESULT = gtk_h.gtk_print_operation_get_n_pages_to_print(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_print_operation_get_n_pages_to_print.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_get_print_settings = Interop.downcallHandle(
+        "gtk_print_operation_get_print_settings",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current print settings.
@@ -182,9 +258,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * {@link PrintOperation#run} have been called.
      */
     public PrintSettings getPrintSettings() {
-        var RESULT = gtk_h.gtk_print_operation_get_print_settings(handle());
-        return new PrintSettings(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_operation_get_print_settings.invokeExact(handle());
+            return new PrintSettings(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_get_status = Interop.downcallHandle(
+        "gtk_print_operation_get_status",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the status of the print operation.
@@ -192,9 +277,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Also see {@link PrintOperation#getStatusString}.
      */
     public PrintStatus getStatus() {
-        var RESULT = gtk_h.gtk_print_operation_get_status(handle());
-        return new PrintStatus(RESULT);
+        try {
+            var RESULT = (int) gtk_print_operation_get_status.invokeExact(handle());
+            return new PrintStatus(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_get_status_string = Interop.downcallHandle(
+        "gtk_print_operation_get_status_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a string representation of the status of the
@@ -207,17 +301,35 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * a status value that is suitable for programmatic use.
      */
     public java.lang.String getStatusString() {
-        var RESULT = gtk_h.gtk_print_operation_get_status_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_print_operation_get_status_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_get_support_selection = Interop.downcallHandle(
+        "gtk_print_operation_get_support_selection",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the application supports print of selection
      */
     public boolean getSupportSelection() {
-        var RESULT = gtk_h.gtk_print_operation_get_support_selection(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_operation_get_support_selection.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_is_finished = Interop.downcallHandle(
+        "gtk_print_operation_is_finished",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function to find out if the print operation
@@ -231,9 +343,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * the operation status then tracks the print job status on the printer.
      */
     public boolean isFinished() {
-        var RESULT = gtk_h.gtk_print_operation_is_finished(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_operation_is_finished.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_run = Interop.downcallHandle(
+        "gtk_print_operation_run",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Runs the print operation.
@@ -294,12 +415,21 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PrintOperationResult run(PrintOperationAction action, Window parent) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_print_operation_run(handle(), action.getValue(), parent.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) gtk_print_operation_run.invokeExact(handle(), action.getValue(), parent.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PrintOperationResult(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PrintOperationResult(RESULT);
     }
+    
+    static final MethodHandle gtk_print_operation_set_allow_async = Interop.downcallHandle(
+        "gtk_print_operation_set_allow_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether gtk_print_operation_run() may return
@@ -309,8 +439,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * operation.
      */
     public void setAllowAsync(boolean allowAsync) {
-        gtk_h.gtk_print_operation_set_allow_async(handle(), allowAsync ? 1 : 0);
+        try {
+            gtk_print_operation_set_allow_async.invokeExact(handle(), allowAsync ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_current_page = Interop.downcallHandle(
+        "gtk_print_operation_set_current_page",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the current page.
@@ -321,15 +460,33 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Note that this only makes sense for pre-paginated documents.
      */
     public void setCurrentPage(int currentPage) {
-        gtk_h.gtk_print_operation_set_current_page(handle(), currentPage);
+        try {
+            gtk_print_operation_set_current_page.invokeExact(handle(), currentPage);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_custom_tab_label = Interop.downcallHandle(
+        "gtk_print_operation_set_custom_tab_label",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the label for the tab holding custom widgets.
      */
     public void setCustomTabLabel(java.lang.String label) {
-        gtk_h.gtk_print_operation_set_custom_tab_label(handle(), Interop.allocateNativeString(label).handle());
+        try {
+            gtk_print_operation_set_custom_tab_label.invokeExact(handle(), Interop.allocateNativeString(label).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_default_page_setup = Interop.downcallHandle(
+        "gtk_print_operation_set_default_page_setup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code default_page_setup} the default page setup for {@code op}.
@@ -339,8 +496,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * to the {@code Gtk.PrintOperation::request-page-setup} signal.
      */
     public void setDefaultPageSetup(PageSetup defaultPageSetup) {
-        gtk_h.gtk_print_operation_set_default_page_setup(handle(), defaultPageSetup.handle());
+        try {
+            gtk_print_operation_set_default_page_setup.invokeExact(handle(), defaultPageSetup.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_defer_drawing = Interop.downcallHandle(
+        "gtk_print_operation_set_defer_drawing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets up the {@code GtkPrintOperation} to wait for calling of
@@ -352,8 +518,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * {@code Gtk.PrintOperation::draw-page} signal.
      */
     public void setDeferDrawing() {
-        gtk_h.gtk_print_operation_set_defer_drawing(handle());
+        try {
+            gtk_print_operation_set_defer_drawing.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_embed_page_setup = Interop.downcallHandle(
+        "gtk_print_operation_set_embed_page_setup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Embed page size combo box and orientation combo box into page setup page.
@@ -361,8 +536,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Selected page setup is stored as default page setup in {@code GtkPrintOperation}.
      */
     public void setEmbedPageSetup(boolean embed) {
-        gtk_h.gtk_print_operation_set_embed_page_setup(handle(), embed ? 1 : 0);
+        try {
+            gtk_print_operation_set_embed_page_setup.invokeExact(handle(), embed ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_export_filename = Interop.downcallHandle(
+        "gtk_print_operation_set_export_filename",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets up the {@code GtkPrintOperation} to generate a file instead
@@ -377,8 +561,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * of printers in the print dialog.
      */
     public void setExportFilename(java.lang.String filename) {
-        gtk_h.gtk_print_operation_set_export_filename(handle(), Interop.allocateNativeString(filename).handle());
+        try {
+            gtk_print_operation_set_export_filename.invokeExact(handle(), Interop.allocateNativeString(filename).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_has_selection = Interop.downcallHandle(
+        "gtk_print_operation_set_has_selection",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether there is a selection to print.
@@ -388,8 +581,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * for the {@code Gtk.PrintOperation::begin-print} signal.
      */
     public void setHasSelection(boolean hasSelection) {
-        gtk_h.gtk_print_operation_set_has_selection(handle(), hasSelection ? 1 : 0);
+        try {
+            gtk_print_operation_set_has_selection.invokeExact(handle(), hasSelection ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_job_name = Interop.downcallHandle(
+        "gtk_print_operation_set_job_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name of the print job.
@@ -401,8 +603,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * numbering successive print jobs.
      */
     public void setJobName(java.lang.String jobName) {
-        gtk_h.gtk_print_operation_set_job_name(handle(), Interop.allocateNativeString(jobName).handle());
+        try {
+            gtk_print_operation_set_job_name.invokeExact(handle(), Interop.allocateNativeString(jobName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_n_pages = Interop.downcallHandle(
+        "gtk_print_operation_set_n_pages",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the number of pages in the document.
@@ -418,8 +629,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * will be for page {@code n_pages} - 1.
      */
     public void setNPages(int nPages) {
-        gtk_h.gtk_print_operation_set_n_pages(handle(), nPages);
+        try {
+            gtk_print_operation_set_n_pages.invokeExact(handle(), nPages);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_print_settings = Interop.downcallHandle(
+        "gtk_print_operation_set_print_settings",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the print settings for {@code op}.
@@ -428,23 +648,50 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * from a previous print operation, see {@link PrintOperation#run}.
      */
     public void setPrintSettings(PrintSettings printSettings) {
-        gtk_h.gtk_print_operation_set_print_settings(handle(), printSettings.handle());
+        try {
+            gtk_print_operation_set_print_settings.invokeExact(handle(), printSettings.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_show_progress = Interop.downcallHandle(
+        "gtk_print_operation_set_show_progress",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code show_progress} is {@code true}, the print operation will show
      * a progress dialog during the print operation.
      */
     public void setShowProgress(boolean showProgress) {
-        gtk_h.gtk_print_operation_set_show_progress(handle(), showProgress ? 1 : 0);
+        try {
+            gtk_print_operation_set_show_progress.invokeExact(handle(), showProgress ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_support_selection = Interop.downcallHandle(
+        "gtk_print_operation_set_support_selection",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether selection is supported by {@code GtkPrintOperation}.
      */
     public void setSupportSelection(boolean supportSelection) {
-        gtk_h.gtk_print_operation_set_support_selection(handle(), supportSelection ? 1 : 0);
+        try {
+            gtk_print_operation_set_support_selection.invokeExact(handle(), supportSelection ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_track_print_status = Interop.downcallHandle(
+        "gtk_print_operation_set_track_print_status",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If track_status is {@code true}, the print operation will try to continue
@@ -457,8 +704,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * so it should not be enabled unless needed.
      */
     public void setTrackPrintStatus(boolean trackStatus) {
-        gtk_h.gtk_print_operation_set_track_print_status(handle(), trackStatus ? 1 : 0);
+        try {
+            gtk_print_operation_set_track_print_status.invokeExact(handle(), trackStatus ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_unit = Interop.downcallHandle(
+        "gtk_print_operation_set_unit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets up the transformation for the cairo context obtained from
@@ -466,8 +722,17 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * units of {@code unit}.
      */
     public void setUnit(Unit unit) {
-        gtk_h.gtk_print_operation_set_unit(handle(), unit.getValue());
+        try {
+            gtk_print_operation_set_unit.invokeExact(handle(), unit.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_set_use_full_page = Interop.downcallHandle(
+        "gtk_print_operation_set_use_full_page",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code full_page} is {@code true}, the transformation for the cairo context
@@ -479,7 +744,11 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * is at the top left corner of the imageable area (i.e. inside the margins).
      */
     public void setUseFullPage(boolean fullPage) {
-        gtk_h.gtk_print_operation_set_use_full_page(handle(), fullPage ? 1 : 0);
+        try {
+            gtk_print_operation_set_use_full_page.invokeExact(handle(), fullPage ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -498,19 +767,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onBeginPrint(BeginPrintHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("begin-print").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationBeginPrint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -534,19 +803,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onCreateCustomWidget(CreateCustomWidgetHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("create-custom-widget").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationCreateCustomWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -565,19 +834,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onCustomWidgetApply(CustomWidgetApplyHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("custom-widget-apply").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationCustomWidgetApply",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -600,19 +869,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onDone(DoneHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("done").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationDone",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -676,19 +945,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onDrawPage(DrawPageHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("draw-page").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationDrawPage",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -705,19 +974,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onEndPrint(EndPrintHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("end-print").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationEndPrint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -744,19 +1013,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onPaginate(PaginateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("paginate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationPaginate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -786,19 +1055,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onPreview(PreviewHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("preview").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationPreview",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -816,19 +1085,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onRequestPageSetup(RequestPageSetupHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("request-page-setup").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationRequestPageSetup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -846,19 +1115,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onStatusChanged(StatusChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("status-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationStatusChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -875,19 +1144,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onUpdateCustomWidget(UpdateCustomWidgetHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("update-custom-widget").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationUpdateCustomWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

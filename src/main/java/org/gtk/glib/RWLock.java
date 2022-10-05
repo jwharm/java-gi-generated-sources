@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -76,9 +75,10 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public RWLock() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GRWLock.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_rw_lock_clear = Interop.downcallHandle(
+        "g_rw_lock_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the resources allocated to a lock with g_rw_lock_init().
@@ -92,8 +92,17 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * Sine: 2.32
      */
     public void clear() {
-        gtk_h.g_rw_lock_clear(handle());
+        try {
+            g_rw_lock_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rw_lock_init = Interop.downcallHandle(
+        "g_rw_lock_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link RWLock} so that it can be used.
@@ -122,8 +131,17 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * to undefined behaviour.
      */
     public void init() {
-        gtk_h.g_rw_lock_init(handle());
+        try {
+            g_rw_lock_init.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rw_lock_reader_lock = Interop.downcallHandle(
+        "g_rw_lock_reader_lock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtain a read lock on {@code rw_lock}. If another thread currently holds
@@ -143,8 +161,17 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * or if a deadlock is detected, a critical warning will be emitted.
      */
     public void readerLock() {
-        gtk_h.g_rw_lock_reader_lock(handle());
+        try {
+            g_rw_lock_reader_lock.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rw_lock_reader_trylock = Interop.downcallHandle(
+        "g_rw_lock_reader_trylock",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to obtain a read lock on {@code rw_lock} and returns {@code true} if
@@ -152,9 +179,18 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * returns {@code false}.
      */
     public boolean readerTrylock() {
-        var RESULT = gtk_h.g_rw_lock_reader_trylock(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_rw_lock_reader_trylock.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rw_lock_reader_unlock = Interop.downcallHandle(
+        "g_rw_lock_reader_unlock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Release a read lock on {@code rw_lock}.
@@ -163,8 +199,17 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * by the current thread leads to undefined behaviour.
      */
     public void readerUnlock() {
-        gtk_h.g_rw_lock_reader_unlock(handle());
+        try {
+            g_rw_lock_reader_unlock.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rw_lock_writer_lock = Interop.downcallHandle(
+        "g_rw_lock_writer_lock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtain a write lock on {@code rw_lock}. If another thread currently holds
@@ -175,8 +220,17 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * owns a read or write lock on {@code rw_lock} leads to undefined behaviour.
      */
     public void writerLock() {
-        gtk_h.g_rw_lock_writer_lock(handle());
+        try {
+            g_rw_lock_writer_lock.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rw_lock_writer_trylock = Interop.downcallHandle(
+        "g_rw_lock_writer_trylock",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Tries to obtain a write lock on {@code rw_lock}. If another thread
@@ -185,9 +239,18 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * Otherwise it locks {@code rw_lock} and returns {@code true}.
      */
     public boolean writerTrylock() {
-        var RESULT = gtk_h.g_rw_lock_writer_trylock(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_rw_lock_writer_trylock.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_rw_lock_writer_unlock = Interop.downcallHandle(
+        "g_rw_lock_writer_unlock",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Release a write lock on {@code rw_lock}.
@@ -196,7 +259,11 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * by the current thread leads to undefined behaviour.
      */
     public void writerUnlock() {
-        gtk_h.g_rw_lock_writer_unlock(handle());
+        try {
+            g_rw_lock_writer_unlock.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

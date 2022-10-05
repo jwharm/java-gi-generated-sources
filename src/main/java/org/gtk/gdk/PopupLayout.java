@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -46,9 +45,18 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle gdk_popup_layout_new = Interop.downcallHandle(
+        "gdk_popup_layout_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_popup_layout_new(anchorRect.handle(), rectAnchor.getValue(), surfaceAnchor.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_popup_layout_new.invokeExact(anchorRect.handle(), rectAnchor.getValue(), surfaceAnchor.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -69,75 +77,161 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(anchorRect, rectAnchor, surfaceAnchor));
     }
     
+    static final MethodHandle gdk_popup_layout_copy = Interop.downcallHandle(
+        "gdk_popup_layout_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Makes a copy of {@code layout}.
      */
     public PopupLayout copy() {
-        var RESULT = gtk_h.gdk_popup_layout_copy(handle());
-        return new PopupLayout(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_popup_layout_copy.invokeExact(handle());
+            return new PopupLayout(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_equal = Interop.downcallHandle(
+        "gdk_popup_layout_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check whether {@code layout} and {@code other} has identical layout properties.
      */
     public boolean equal(PopupLayout other) {
-        var RESULT = gtk_h.gdk_popup_layout_equal(handle(), other.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_popup_layout_equal.invokeExact(handle(), other.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_get_anchor_hints = Interop.downcallHandle(
+        "gdk_popup_layout_get_anchor_hints",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the {@code GdkAnchorHints}.
      */
     public AnchorHints getAnchorHints() {
-        var RESULT = gtk_h.gdk_popup_layout_get_anchor_hints(handle());
-        return new AnchorHints(RESULT);
+        try {
+            var RESULT = (int) gdk_popup_layout_get_anchor_hints.invokeExact(handle());
+            return new AnchorHints(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_get_anchor_rect = Interop.downcallHandle(
+        "gdk_popup_layout_get_anchor_rect",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the anchor rectangle.
      */
     public Rectangle getAnchorRect() {
-        var RESULT = gtk_h.gdk_popup_layout_get_anchor_rect(handle());
-        return new Rectangle(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_popup_layout_get_anchor_rect.invokeExact(handle());
+            return new Rectangle(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_get_offset = Interop.downcallHandle(
+        "gdk_popup_layout_get_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the offset for the anchor rectangle.
      */
     public void getOffset(PointerInteger dx, PointerInteger dy) {
-        gtk_h.gdk_popup_layout_get_offset(handle(), dx.handle(), dy.handle());
+        try {
+            gdk_popup_layout_get_offset.invokeExact(handle(), dx.handle(), dy.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_get_rect_anchor = Interop.downcallHandle(
+        "gdk_popup_layout_get_rect_anchor",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the anchor position on the anchor rectangle.
      */
     public Gravity getRectAnchor() {
-        var RESULT = gtk_h.gdk_popup_layout_get_rect_anchor(handle());
-        return new Gravity(RESULT);
+        try {
+            var RESULT = (int) gdk_popup_layout_get_rect_anchor.invokeExact(handle());
+            return new Gravity(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_get_shadow_width = Interop.downcallHandle(
+        "gdk_popup_layout_get_shadow_width",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Obtains the shadow widths of this layout.
      */
     public void getShadowWidth(PointerInteger left, PointerInteger right, PointerInteger top, PointerInteger bottom) {
-        gtk_h.gdk_popup_layout_get_shadow_width(handle(), left.handle(), right.handle(), top.handle(), bottom.handle());
+        try {
+            gdk_popup_layout_get_shadow_width.invokeExact(handle(), left.handle(), right.handle(), top.handle(), bottom.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_get_surface_anchor = Interop.downcallHandle(
+        "gdk_popup_layout_get_surface_anchor",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the anchor position on the popup surface.
      */
     public Gravity getSurfaceAnchor() {
-        var RESULT = gtk_h.gdk_popup_layout_get_surface_anchor(handle());
-        return new Gravity(RESULT);
+        try {
+            var RESULT = (int) gdk_popup_layout_get_surface_anchor.invokeExact(handle());
+            return new Gravity(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_ref = Interop.downcallHandle(
+        "gdk_popup_layout_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of {@code value}.
      */
     public PopupLayout ref() {
-        var RESULT = gtk_h.gdk_popup_layout_ref(handle());
-        return new PopupLayout(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_popup_layout_ref.invokeExact(handle());
+            return new PopupLayout(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_set_anchor_hints = Interop.downcallHandle(
+        "gdk_popup_layout_set_anchor_hints",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set new anchor hints.
@@ -149,29 +243,65 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      * beyond the left or right edges of the monitor.
      */
     public void setAnchorHints(AnchorHints anchorHints) {
-        gtk_h.gdk_popup_layout_set_anchor_hints(handle(), anchorHints.getValue());
+        try {
+            gdk_popup_layout_set_anchor_hints.invokeExact(handle(), anchorHints.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_set_anchor_rect = Interop.downcallHandle(
+        "gdk_popup_layout_set_anchor_rect",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the anchor rectangle.
      */
     public void setAnchorRect(Rectangle anchorRect) {
-        gtk_h.gdk_popup_layout_set_anchor_rect(handle(), anchorRect.handle());
+        try {
+            gdk_popup_layout_set_anchor_rect.invokeExact(handle(), anchorRect.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_set_offset = Interop.downcallHandle(
+        "gdk_popup_layout_set_offset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Offset the position of the anchor rectangle with the given delta.
      */
     public void setOffset(int dx, int dy) {
-        gtk_h.gdk_popup_layout_set_offset(handle(), dx, dy);
+        try {
+            gdk_popup_layout_set_offset.invokeExact(handle(), dx, dy);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_set_rect_anchor = Interop.downcallHandle(
+        "gdk_popup_layout_set_rect_anchor",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the anchor on the anchor rectangle.
      */
     public void setRectAnchor(Gravity anchor) {
-        gtk_h.gdk_popup_layout_set_rect_anchor(handle(), anchor.getValue());
+        try {
+            gdk_popup_layout_set_rect_anchor.invokeExact(handle(), anchor.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_set_shadow_width = Interop.downcallHandle(
+        "gdk_popup_layout_set_shadow_width",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the shadow width of the popup.
@@ -181,21 +311,43 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      * surrounding the window, would there be any.
      */
     public void setShadowWidth(int left, int right, int top, int bottom) {
-        gtk_h.gdk_popup_layout_set_shadow_width(handle(), left, right, top, bottom);
+        try {
+            gdk_popup_layout_set_shadow_width.invokeExact(handle(), left, right, top, bottom);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_set_surface_anchor = Interop.downcallHandle(
+        "gdk_popup_layout_set_surface_anchor",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the anchor on the popup surface.
      */
     public void setSurfaceAnchor(Gravity anchor) {
-        gtk_h.gdk_popup_layout_set_surface_anchor(handle(), anchor.getValue());
+        try {
+            gdk_popup_layout_set_surface_anchor.invokeExact(handle(), anchor.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_popup_layout_unref = Interop.downcallHandle(
+        "gdk_popup_layout_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of {@code value}.
      */
     public void unref() {
-        gtk_h.gdk_popup_layout_unref(handle());
+        try {
+            gdk_popup_layout_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

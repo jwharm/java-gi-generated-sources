@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,9 +25,18 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
         return new PageSetupUnixDialog(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_page_setup_unix_dialog_new = Interop.downcallHandle(
+        "gtk_page_setup_unix_dialog_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String title, Window parent) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_page_setup_unix_dialog_new.invokeExact(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -38,36 +46,72 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
         super(constructNew(title, parent));
     }
     
+    static final MethodHandle gtk_page_setup_unix_dialog_get_page_setup = Interop.downcallHandle(
+        "gtk_page_setup_unix_dialog_get_page_setup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the currently selected page setup from the dialog.
      */
     public PageSetup getPageSetup() {
-        var RESULT = gtk_h.gtk_page_setup_unix_dialog_get_page_setup(handle());
-        return new PageSetup(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_page_setup_unix_dialog_get_page_setup.invokeExact(handle());
+            return new PageSetup(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_page_setup_unix_dialog_get_print_settings = Interop.downcallHandle(
+        "gtk_page_setup_unix_dialog_get_print_settings",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current print settings from the dialog.
      */
     public PrintSettings getPrintSettings() {
-        var RESULT = gtk_h.gtk_page_setup_unix_dialog_get_print_settings(handle());
-        return new PrintSettings(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_page_setup_unix_dialog_get_print_settings.invokeExact(handle());
+            return new PrintSettings(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_page_setup_unix_dialog_set_page_setup = Interop.downcallHandle(
+        "gtk_page_setup_unix_dialog_set_page_setup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkPageSetup} from which the page setup
      * dialog takes its values.
      */
     public void setPageSetup(PageSetup pageSetup) {
-        gtk_h.gtk_page_setup_unix_dialog_set_page_setup(handle(), pageSetup.handle());
+        try {
+            gtk_page_setup_unix_dialog_set_page_setup.invokeExact(handle(), pageSetup.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_page_setup_unix_dialog_set_print_settings = Interop.downcallHandle(
+        "gtk_page_setup_unix_dialog_set_print_settings",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkPrintSettings} from which the page setup dialog
      * takes its values.
      */
     public void setPrintSettings(PrintSettings printSettings) {
-        gtk_h.gtk_page_setup_unix_dialog_set_print_settings(handle(), printSettings.handle());
+        try {
+            gtk_page_setup_unix_dialog_set_print_settings.invokeExact(handle(), printSettings.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

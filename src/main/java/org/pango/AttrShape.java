@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,10 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public AttrShape() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoAttrShape.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
+        "pango_attr_shape_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Create a new shape attribute.
@@ -28,9 +28,18 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
      * or a widget inside a {@code PangoLayout}.
      */
     public static Attribute new_(Rectangle inkRect, Rectangle logicalRect) {
-        var RESULT = gtk_h.pango_attr_shape_new(inkRect.handle(), logicalRect.handle());
-        return new Attribute(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_attr_shape_new.invokeExact(inkRect.handle(), logicalRect.handle());
+            return new Attribute(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
+        "pango_attr_shape_new_with_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new shape attribute.
@@ -41,17 +50,17 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Attribute newWithData(Rectangle inkRect, Rectangle logicalRect, AttrDataCopyFunc copyFunc) {
         try {
-            var RESULT = gtk_h.pango_attr_shape_new_with_data(inkRect.handle(), logicalRect.handle(), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) pango_attr_shape_new_with_data.invokeExact(inkRect.handle(), logicalRect.handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.class, "__cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol());
             return new Attribute(Refcounted.get(RESULT, true));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Matrix() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.PangoMatrix.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle pango_matrix_concat = Interop.downcallHandle(
+        "pango_matrix_concat",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Changes the transformation represented by {@code matrix} to be the
@@ -32,23 +32,50 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * given by {@code new_matrix} then applying the original transformation.
      */
     public void concat(Matrix newMatrix) {
-        gtk_h.pango_matrix_concat(handle(), newMatrix.handle());
+        try {
+            pango_matrix_concat.invokeExact(handle(), newMatrix.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_copy = Interop.downcallHandle(
+        "pango_matrix_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Copies a {@code PangoMatrix}.
      */
     public Matrix copy() {
-        var RESULT = gtk_h.pango_matrix_copy(handle());
-        return new Matrix(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_matrix_copy.invokeExact(handle());
+            return new Matrix(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_free = Interop.downcallHandle(
+        "pango_matrix_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Free a {@code PangoMatrix}.
      */
     public void free() {
-        gtk_h.pango_matrix_free(handle());
+        try {
+            pango_matrix_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_get_font_scale_factor = Interop.downcallHandle(
+        "pango_matrix_get_font_scale_factor",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the scale factor of a matrix on the height of the font.
@@ -58,9 +85,18 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * coordinate is needed as well, use {@link Matrix#getFontScaleFactors}.
      */
     public double getFontScaleFactor() {
-        var RESULT = gtk_h.pango_matrix_get_font_scale_factor(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) pango_matrix_get_font_scale_factor.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_get_font_scale_factors = Interop.downcallHandle(
+        "pango_matrix_get_font_scale_factors",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calculates the scale factor of a matrix on the width and height of the font.
@@ -72,8 +108,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * Note that output numbers will always be non-negative.
      */
     public void getFontScaleFactors(PointerDouble xscale, PointerDouble yscale) {
-        gtk_h.pango_matrix_get_font_scale_factors(handle(), xscale.handle(), yscale.handle());
+        try {
+            pango_matrix_get_font_scale_factors.invokeExact(handle(), xscale.handle(), yscale.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_get_slant_ratio = Interop.downcallHandle(
+        "pango_matrix_get_slant_ratio",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the slant ratio of a matrix.
@@ -86,9 +131,18 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * this is simply λ.
      */
     public double getSlantRatio() {
-        var RESULT = gtk_h.pango_matrix_get_slant_ratio(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) pango_matrix_get_slant_ratio.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_rotate = Interop.downcallHandle(
+        "pango_matrix_rotate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Changes the transformation represented by {@code matrix} to be the
@@ -96,8 +150,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * counter-clockwise then applying the original transformation.
      */
     public void rotate(double degrees) {
-        gtk_h.pango_matrix_rotate(handle(), degrees);
+        try {
+            pango_matrix_rotate.invokeExact(handle(), degrees);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_scale = Interop.downcallHandle(
+        "pango_matrix_scale",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Changes the transformation represented by {@code matrix} to be the
@@ -106,8 +169,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * transformation.
      */
     public void scale(double scaleX, double scaleY) {
-        gtk_h.pango_matrix_scale(handle(), scaleX, scaleY);
+        try {
+            pango_matrix_scale.invokeExact(handle(), scaleX, scaleY);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_transform_distance = Interop.downcallHandle(
+        "pango_matrix_transform_distance",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms the distance vector ({@code dx},{@code dy}) by {@code matrix}.
@@ -127,8 +199,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * ({@code x1}+{@code dx2},{@code y1}+{@code dy2}) for all values of {@code x1} and {@code x2}.
      */
     public void transformDistance(PointerDouble dx, PointerDouble dy) {
-        gtk_h.pango_matrix_transform_distance(handle(), dx.handle(), dy.handle());
+        try {
+            pango_matrix_transform_distance.invokeExact(handle(), dx.handle(), dy.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_transform_pixel_rectangle = Interop.downcallHandle(
+        "pango_matrix_transform_pixel_rectangle",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * First transforms the {@code rect} using {@code matrix}, then calculates the bounding box
@@ -143,15 +224,33 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * using {@link extents_to_pixels#null}'s first argument.
      */
     public void transformPixelRectangle(Rectangle rect) {
-        gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.refcounted().unowned().handle());
+        try {
+            pango_matrix_transform_pixel_rectangle.invokeExact(handle(), rect.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_transform_point = Interop.downcallHandle(
+        "pango_matrix_transform_point",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transforms the point (@x, @y) by {@code matrix}.
      */
     public void transformPoint(PointerDouble x, PointerDouble y) {
-        gtk_h.pango_matrix_transform_point(handle(), x.handle(), y.handle());
+        try {
+            pango_matrix_transform_point.invokeExact(handle(), x.handle(), y.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_transform_rectangle = Interop.downcallHandle(
+        "pango_matrix_transform_rectangle",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * First transforms {@code rect} using {@code matrix}, then calculates the bounding box
@@ -174,8 +273,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * example).
      */
     public void transformRectangle(Rectangle rect) {
-        gtk_h.pango_matrix_transform_rectangle(handle(), rect.refcounted().unowned().handle());
+        try {
+            pango_matrix_transform_rectangle.invokeExact(handle(), rect.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_matrix_translate = Interop.downcallHandle(
+        "pango_matrix_translate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Changes the transformation represented by {@code matrix} to be the
@@ -183,7 +291,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * then applying the original transformation.
      */
     public void translate(double tx, double ty) {
-        gtk_h.pango_matrix_translate(handle(), tx, ty);
+        try {
+            pango_matrix_translate.invokeExact(handle(), tx, ty);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -149,13 +148,22 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_resource_new_from_data = Interop.downcallHandle(
+        "g_resource_new_from_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromData(org.gtk.glib.Bytes data) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_resource_new_from_data(data.handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_resource_new_from_data.invokeExact(data.handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -176,21 +184,44 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         return new Resource(constructNewFromData(data));
     }
     
+    static final MethodHandle g_resources_register = Interop.downcallHandle(
+        "g_resources_register",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Registers the resource with the process-global set of resources.
      * Once a resource is registered the files in it can be accessed
      * with the global resource lookup functions like g_resources_lookup_data().
      */
     public void Register() {
-        gtk_h.g_resources_register(handle());
+        try {
+            g_resources_register.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_resources_unregister = Interop.downcallHandle(
+        "g_resources_unregister",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unregisters the resource from the process-global set of resources.
      */
     public void Unregister() {
-        gtk_h.g_resources_unregister(handle());
+        try {
+            g_resources_unregister.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_resource_enumerate_children = Interop.downcallHandle(
+        "g_resource_enumerate_children",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns all the names of children at the specified {@code path} in the resource.
@@ -204,12 +235,21 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public PointerIterator<java.lang.String> enumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resource_enumerate_children(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerString(RESULT).iterator();
     }
+    
+    static final MethodHandle g_resource_get_info = Interop.downcallHandle(
+        "g_resource_get_info",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks for a file at the specified {@code path} in the resource and
@@ -219,12 +259,21 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean getInfo(java.lang.String path, ResourceLookupFlags lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resource_get_info(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_resource_get_info.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_resource_lookup_data = Interop.downcallHandle(
+        "g_resource_lookup_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks for a file at the specified {@code path} in the resource and
@@ -244,12 +293,21 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public org.gtk.glib.Bytes lookupData(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resource_lookup_data(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_resource_lookup_data.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_resource_open_stream = Interop.downcallHandle(
+        "g_resource_open_stream",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks for a file at the specified {@code path} in the resource and
@@ -259,21 +317,39 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public InputStream openStream(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resource_open_stream(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_resource_open_stream.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new InputStream(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new InputStream(Refcounted.get(RESULT, true));
     }
+    
+    static final MethodHandle g_resource_ref = Interop.downcallHandle(
+        "g_resource_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically increments the reference count of {@code resource} by one. This
      * function is MT-safe and may be called from any thread.
      */
     public Resource ref() {
-        var RESULT = gtk_h.g_resource_ref(handle());
-        return new Resource(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_resource_ref.invokeExact(handle());
+            return new Resource(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_resource_unref = Interop.downcallHandle(
+        "g_resource_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code resource} by one. If the
@@ -282,8 +358,17 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * thread.
      */
     public void unref() {
-        gtk_h.g_resource_unref(handle());
+        try {
+            g_resource_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_resource_load = Interop.downcallHandle(
+        "g_resource_load",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Loads a binary resource bundle and creates a {@link Resource} representation of it, allowing
@@ -299,11 +384,15 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Resource load(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resource_load(Interop.allocateNativeString(filename).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_resource_load.invokeExact(Interop.allocateNativeString(filename).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new Resource(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Resource(Refcounted.get(RESULT, true));
     }
     
 }

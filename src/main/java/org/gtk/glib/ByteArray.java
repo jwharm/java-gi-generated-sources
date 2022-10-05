@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,18 +13,28 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public ByteArray() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GByteArray.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_byte_array_append = Interop.downcallHandle(
+        "g_byte_array_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds the given bytes to the end of the {@link ByteArray}.
      * The array will grow in size automatically if necessary.
      */
     public static PointerIterator<Byte> append(byte[] array, PointerByte data, int len) {
-        var RESULT = gtk_h.g_byte_array_append(Interop.allocateNativeArray(array).handle(), data.handle(), len);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_append.invokeExact(Interop.allocateNativeArray(array).handle(), data.handle(), len);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_free = Interop.downcallHandle(
+        "g_byte_array_free",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Frees the memory allocated by the {@link ByteArray}. If {@code free_segment} is
@@ -34,9 +43,18 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * the size of {@code array} will be set to zero.
      */
     public static PointerByte free(byte[] array, boolean freeSegment) {
-        var RESULT = gtk_h.g_byte_array_free(Interop.allocateNativeArray(array).handle(), freeSegment ? 1 : 0);
-        return new PointerByte(RESULT);
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_free.invokeExact(Interop.allocateNativeArray(array).handle(), freeSegment ? 1 : 0);
+            return new PointerByte(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_free_to_bytes = Interop.downcallHandle(
+        "g_byte_array_free_to_bytes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Transfers the data from the {@link ByteArray} into a new immutable {@link Bytes}.
@@ -49,17 +67,35 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * together.
      */
     public static Bytes freeToBytes(byte[] array) {
-        var RESULT = gtk_h.g_byte_array_free_to_bytes(Interop.allocateNativeArray(array).handle());
-        return new Bytes(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_free_to_bytes.invokeExact(Interop.allocateNativeArray(array).handle());
+            return new Bytes(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_new = Interop.downcallHandle(
+        "g_byte_array_new",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Creates a new {@link ByteArray} with a reference count of 1.
      */
     public static PointerIterator<Byte> new_() {
-        var RESULT = gtk_h.g_byte_array_new();
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_new.invokeExact();
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_new_take = Interop.downcallHandle(
+        "g_byte_array_new_take",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Create byte array containing the data. The data will be owned by the array
@@ -70,36 +106,72 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * {@code gsize}.
      */
     public static PointerIterator<Byte> newTake(byte[] data, long len) {
-        var RESULT = gtk_h.g_byte_array_new_take(Interop.allocateNativeArray(data).handle(), len);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_new_take.invokeExact(Interop.allocateNativeArray(data).handle(), len);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_prepend = Interop.downcallHandle(
+        "g_byte_array_prepend",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds the given data to the start of the {@link ByteArray}.
      * The array will grow in size automatically if necessary.
      */
     public static PointerIterator<Byte> prepend(byte[] array, PointerByte data, int len) {
-        var RESULT = gtk_h.g_byte_array_prepend(Interop.allocateNativeArray(array).handle(), data.handle(), len);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_prepend.invokeExact(Interop.allocateNativeArray(array).handle(), data.handle(), len);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_ref = Interop.downcallHandle(
+        "g_byte_array_ref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically increments the reference count of {@code array} by one.
      * This function is thread-safe and may be called from any thread.
      */
     public static PointerIterator<Byte> ref(byte[] array) {
-        var RESULT = gtk_h.g_byte_array_ref(Interop.allocateNativeArray(array).handle());
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_ref.invokeExact(Interop.allocateNativeArray(array).handle());
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_remove_index = Interop.downcallHandle(
+        "g_byte_array_remove_index",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the byte at the given index from a {@link ByteArray}.
      * The following bytes are moved down one place.
      */
     public static PointerIterator<Byte> removeIndex(byte[] array, int index) {
-        var RESULT = gtk_h.g_byte_array_remove_index(Interop.allocateNativeArray(array).handle(), index);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_remove_index.invokeExact(Interop.allocateNativeArray(array).handle(), index);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_remove_index_fast = Interop.downcallHandle(
+        "g_byte_array_remove_index_fast",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the byte at the given index from a {@link ByteArray}. The last
@@ -108,26 +180,53 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * than g_byte_array_remove_index().
      */
     public static PointerIterator<Byte> removeIndexFast(byte[] array, int index) {
-        var RESULT = gtk_h.g_byte_array_remove_index_fast(Interop.allocateNativeArray(array).handle(), index);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array).handle(), index);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_remove_range = Interop.downcallHandle(
+        "g_byte_array_remove_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Removes the given number of bytes starting at the given index from a
      * {@link ByteArray}.  The following elements are moved to close the gap.
      */
     public static PointerIterator<Byte> removeRange(byte[] array, int index, int length) {
-        var RESULT = gtk_h.g_byte_array_remove_range(Interop.allocateNativeArray(array).handle(), index, length);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_remove_range.invokeExact(Interop.allocateNativeArray(array).handle(), index, length);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_set_size = Interop.downcallHandle(
+        "g_byte_array_set_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the size of the {@link ByteArray}, expanding it if necessary.
      */
     public static PointerIterator<Byte> setSize(byte[] array, int length) {
-        var RESULT = gtk_h.g_byte_array_set_size(Interop.allocateNativeArray(array).handle(), length);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_set_size.invokeExact(Interop.allocateNativeArray(array).handle(), length);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_sized_new = Interop.downcallHandle(
+        "g_byte_array_sized_new",
+        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a new {@link ByteArray} with {@code reserved_size} bytes preallocated.
@@ -136,9 +235,18 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * 0.
      */
     public static PointerIterator<Byte> sizedNew(int reservedSize) {
-        var RESULT = gtk_h.g_byte_array_sized_new(reservedSize);
-        return new PointerByte(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_sized_new.invokeExact(reservedSize);
+            return new PointerByte(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_sort_with_data = Interop.downcallHandle(
+        "g_byte_array_sort_with_data",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Like g_byte_array_sort(), but the comparison function takes an extra
@@ -146,17 +254,22 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      */
     public static void sortWithData(byte[] array, CompareDataFunc compareFunc) {
         try {
-            gtk_h.g_byte_array_sort_with_data(Interop.allocateNativeArray(array).handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_byte_array_sort_with_data.invokeExact(Interop.allocateNativeArray(array).handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_byte_array_steal = Interop.downcallHandle(
+        "g_byte_array_steal",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the data in the array and resets the size to zero, while
@@ -164,9 +277,18 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * to the caller.
      */
     public static PointerByte steal(byte[] array, PointerLong len) {
-        var RESULT = gtk_h.g_byte_array_steal(Interop.allocateNativeArray(array).handle(), len.handle());
-        return new PointerByte(RESULT);
+        try {
+            var RESULT = (MemoryAddress) g_byte_array_steal.invokeExact(Interop.allocateNativeArray(array).handle(), len.handle());
+            return new PointerByte(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_byte_array_unref = Interop.downcallHandle(
+        "g_byte_array_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically decrements the reference count of {@code array} by one. If the
@@ -175,7 +297,11 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * thread.
      */
     public static void unref(byte[] array) {
-        gtk_h.g_byte_array_unref(Interop.allocateNativeArray(array).handle());
+        try {
+            g_byte_array_unref.invokeExact(Interop.allocateNativeArray(array).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

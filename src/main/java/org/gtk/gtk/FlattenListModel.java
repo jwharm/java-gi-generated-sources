@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,18 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
         return new FlattenListModel(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_flatten_list_model_new = Interop.downcallHandle(
+        "gtk_flatten_list_model_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.ListModel model) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_flatten_list_model_new(model.refcounted().unowned().handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_flatten_list_model_new.invokeExact(model.refcounted().unowned().handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -34,27 +42,54 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
         super(constructNew(model));
     }
     
+    static final MethodHandle gtk_flatten_list_model_get_model = Interop.downcallHandle(
+        "gtk_flatten_list_model_get_model",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the model set via gtk_flatten_list_model_set_model().
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = gtk_h.gtk_flatten_list_model_get_model(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_flatten_list_model_get_model.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flatten_list_model_get_model_for_item = Interop.downcallHandle(
+        "gtk_flatten_list_model_get_model_for_item",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the model containing the item at the given position.
      */
     public org.gtk.gio.ListModel getModelForItem(int position) {
-        var RESULT = gtk_h.gtk_flatten_list_model_get_model_for_item(handle(), position);
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_flatten_list_model_get_model_for_item.invokeExact(handle(), position);
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flatten_list_model_set_model = Interop.downcallHandle(
+        "gtk_flatten_list_model_set_model",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a new model to be flattened.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        gtk_h.gtk_flatten_list_model_set_model(handle(), model.handle());
+        try {
+            gtk_flatten_list_model_set_model.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

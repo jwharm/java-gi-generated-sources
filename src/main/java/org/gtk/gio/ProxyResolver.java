@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,15 +15,29 @@ import java.lang.invoke.*;
  */
 public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_proxy_resolver_is_supported = Interop.downcallHandle(
+        "g_proxy_resolver_is_supported",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Checks if {@code resolver} can be used on this system. (This is used
      * internally; g_proxy_resolver_get_default() will only return a proxy
      * resolver that returns {@code true} for this method.)
      */
     public default boolean isSupported() {
-        var RESULT = gtk_h.g_proxy_resolver_is_supported(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_proxy_resolver_is_supported.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_proxy_resolver_lookup = Interop.downcallHandle(
+        "g_proxy_resolver_lookup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks into the system proxy configuration to determine what proxy,
@@ -45,12 +58,21 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
      */
     public default PointerIterator<java.lang.String> lookup(java.lang.String uri, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_proxy_resolver_lookup(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_proxy_resolver_lookup.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerString(RESULT).iterator();
     }
+    
+    static final MethodHandle g_proxy_resolver_lookup_async = Interop.downcallHandle(
+        "g_proxy_resolver_lookup_async",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Asynchronous lookup of proxy. See g_proxy_resolver_lookup() for more
@@ -58,17 +80,22 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
      */
     public default void lookupAsync(java.lang.String uri, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_proxy_resolver_lookup_async(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_proxy_resolver_lookup_async.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_proxy_resolver_lookup_finish = Interop.downcallHandle(
+        "g_proxy_resolver_lookup_finish",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Call this function to obtain the array of proxy URIs when
@@ -77,19 +104,32 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
      */
     public default PointerIterator<java.lang.String> lookupFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_proxy_resolver_lookup_finish(handle(), result.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_proxy_resolver_lookup_finish.invokeExact(handle(), result.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerString(RESULT).iterator();
     }
+    
+    static final MethodHandle g_proxy_resolver_get_default = Interop.downcallHandle(
+        "g_proxy_resolver_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the default {@link ProxyResolver} for the system.
      */
     public static ProxyResolver getDefault() {
-        var RESULT = gtk_h.g_proxy_resolver_get_default();
-        return new ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_proxy_resolver_get_default.invokeExact();
+            return new ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class ProxyResolverImpl extends org.gtk.gobject.Object implements ProxyResolver {

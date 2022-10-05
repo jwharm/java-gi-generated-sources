@@ -1,6 +1,5 @@
 package org.gtk.gobject;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,13 +13,18 @@ public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public TypeInstance() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTypeInstance.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_type_instance_get_private = Interop.downcallHandle(
+        "g_type_instance_get_private",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     public java.lang.foreign.MemoryAddress getPrivate(org.gtk.gobject.Type privateType) {
-        var RESULT = gtk_h.g_type_instance_get_private(handle(), privateType.getValue());
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_type_instance_get_private.invokeExact(handle(), privateType.getValue());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

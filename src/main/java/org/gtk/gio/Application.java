@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -140,9 +139,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         return new Application(gobject.refcounted());
     }
     
+    static final MethodHandle g_application_new = Interop.downcallHandle(
+        "g_application_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(java.lang.String applicationId, ApplicationFlags flags) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_application_new.invokeExact(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -158,6 +166,11 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         super(constructNew(applicationId, flags));
     }
     
+    static final MethodHandle g_application_activate = Interop.downcallHandle(
+        "g_application_activate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Activates the application.
      * <p>
@@ -167,8 +180,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * The application must be registered before calling this function.
      */
     public void activate() {
-        gtk_h.g_application_activate(handle());
+        try {
+            g_application_activate.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_add_main_option = Interop.downcallHandle(
+        "g_application_add_main_option",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Add an option to be handled by {@code application}.
@@ -186,8 +208,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See {@link org.gtk.glib.OptionEntry} for more documentation of the arguments.
      */
     public void addMainOption(java.lang.String longName, byte shortName, org.gtk.glib.OptionFlags flags, org.gtk.glib.OptionArg arg, java.lang.String description, java.lang.String argDescription) {
-        gtk_h.g_application_add_main_option(handle(), Interop.allocateNativeString(longName).handle(), shortName, flags.getValue(), arg.getValue(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(argDescription).handle());
+        try {
+            g_application_add_main_option.invokeExact(handle(), Interop.allocateNativeString(longName).handle(), shortName, flags.getValue(), arg.getValue(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(argDescription).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_add_main_option_entries = Interop.downcallHandle(
+        "g_application_add_main_option_entries",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds main option entries to be handled by {@code application}.
@@ -247,8 +278,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <li>for {@link org.gtk.glib.OptionArg#FILENAME_ARRAY}, use {@code ^a&ay}
      */
     public void addMainOptionEntries(org.gtk.glib.OptionEntry[] entries) {
-        gtk_h.g_application_add_main_option_entries(handle(), Interop.allocateNativeArray(entries).handle());
+        try {
+            g_application_add_main_option_entries.invokeExact(handle(), Interop.allocateNativeArray(entries).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_add_option_group = Interop.downcallHandle(
+        "g_application_add_option_group",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a {@link org.gtk.glib.OptionGroup} to the commandline handling of {@code application}.
@@ -278,8 +318,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * {@link ApplicationFlags#HANDLES_COMMAND_LINE} was given.
      */
     public void addOptionGroup(org.gtk.glib.OptionGroup group) {
-        gtk_h.g_application_add_option_group(handle(), group.refcounted().unowned().handle());
+        try {
+            g_application_add_option_group.invokeExact(handle(), group.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_bind_busy_property = Interop.downcallHandle(
+        "g_application_bind_busy_property",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Marks {@code application} as busy (see g_application_mark_busy()) while
@@ -290,16 +339,34 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * finalized.
      */
     public void bindBusyProperty(org.gtk.gobject.Object object, java.lang.String property) {
-        gtk_h.g_application_bind_busy_property(handle(), object.handle(), Interop.allocateNativeString(property).handle());
+        try {
+            g_application_bind_busy_property.invokeExact(handle(), object.handle(), Interop.allocateNativeString(property).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_application_id = Interop.downcallHandle(
+        "g_application_get_application_id",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the unique identifier for {@code application}.
      */
     public java.lang.String getApplicationId() {
-        var RESULT = gtk_h.g_application_get_application_id(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_application_get_application_id.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_dbus_connection = Interop.downcallHandle(
+        "g_application_get_dbus_connection",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link DBusConnection} being used by the application, or {@code null}.
@@ -317,9 +384,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * registered.  See g_application_get_is_registered().
      */
     public DBusConnection getDbusConnection() {
-        var RESULT = gtk_h.g_application_get_dbus_connection(handle());
-        return new DBusConnection(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_application_get_dbus_connection.invokeExact(handle());
+            return new DBusConnection(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_dbus_object_path = Interop.downcallHandle(
+        "g_application_get_dbus_object_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the D-Bus object path being used by the application, or {@code null}.
@@ -338,9 +414,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * registered.  See g_application_get_is_registered().
      */
     public java.lang.String getDbusObjectPath() {
-        var RESULT = gtk_h.g_application_get_dbus_object_path(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_application_get_dbus_object_path.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_flags = Interop.downcallHandle(
+        "g_application_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the flags for {@code application}.
@@ -348,9 +433,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See {@link ApplicationFlags}.
      */
     public ApplicationFlags getFlags() {
-        var RESULT = gtk_h.g_application_get_flags(handle());
-        return new ApplicationFlags(RESULT);
+        try {
+            var RESULT = (int) g_application_get_flags.invokeExact(handle());
+            return new ApplicationFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_inactivity_timeout = Interop.downcallHandle(
+        "g_application_get_inactivity_timeout",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current inactivity timeout for the application.
@@ -359,18 +453,36 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_release() before the application stops running.
      */
     public int getInactivityTimeout() {
-        var RESULT = gtk_h.g_application_get_inactivity_timeout(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_application_get_inactivity_timeout.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_is_busy = Interop.downcallHandle(
+        "g_application_get_is_busy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the application's current busy state, as set through
      * g_application_mark_busy() or g_application_bind_busy_property().
      */
     public boolean getIsBusy() {
-        var RESULT = gtk_h.g_application_get_is_busy(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_application_get_is_busy.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_is_registered = Interop.downcallHandle(
+        "g_application_get_is_registered",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code application} is registered.
@@ -379,9 +491,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * successfully called.
      */
     public boolean getIsRegistered() {
-        var RESULT = gtk_h.g_application_get_is_registered(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_application_get_is_registered.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_is_remote = Interop.downcallHandle(
+        "g_application_get_is_remote",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code application} is remote.
@@ -396,9 +517,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_get_is_registered().
      */
     public boolean getIsRemote() {
-        var RESULT = gtk_h.g_application_get_is_remote(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_application_get_is_remote.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_resource_base_path = Interop.downcallHandle(
+        "g_application_get_resource_base_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the resource base path of {@code application}.
@@ -406,9 +536,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See g_application_set_resource_base_path() for more information.
      */
     public java.lang.String getResourceBasePath() {
-        var RESULT = gtk_h.g_application_get_resource_base_path(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_application_get_resource_base_path.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_hold = Interop.downcallHandle(
+        "g_application_hold",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the use count of {@code application}.
@@ -420,8 +559,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * To cancel the hold, call g_application_release().
      */
     public void hold() {
-        gtk_h.g_application_hold(handle());
+        try {
+            g_application_hold.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_mark_busy = Interop.downcallHandle(
+        "g_application_mark_busy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the busy count of {@code application}.
@@ -438,8 +586,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * The application must be registered before calling this function.
      */
     public void markBusy() {
-        gtk_h.g_application_mark_busy(handle());
+        try {
+            g_application_mark_busy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_open = Interop.downcallHandle(
+        "g_application_open",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Opens the given files.
@@ -458,8 +615,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * and it must have the {@link ApplicationFlags#HANDLES_OPEN} flag set.
      */
     public void open(File[] files, int nFiles, java.lang.String hint) {
-        gtk_h.g_application_open(handle(), Interop.allocateNativeArray(files).handle(), nFiles, Interop.allocateNativeString(hint).handle());
+        try {
+            g_application_open.invokeExact(handle(), Interop.allocateNativeArray(files).handle(), nFiles, Interop.allocateNativeString(hint).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_quit = Interop.downcallHandle(
+        "g_application_quit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Immediately quits the application.
@@ -477,8 +643,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * unspecified.
      */
     public void quit() {
-        gtk_h.g_application_quit(handle());
+        try {
+            g_application_quit.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_register = Interop.downcallHandle(
+        "g_application_register",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Attempts registration of the application.
@@ -514,12 +689,21 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public boolean register(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_application_register(handle(), cancellable.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_application_register.invokeExact(handle(), cancellable.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_application_release = Interop.downcallHandle(
+        "g_application_release",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrease the use count of {@code application}.
@@ -530,8 +714,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * call to g_application_hold().
      */
     public void release() {
-        gtk_h.g_application_release(handle());
+        try {
+            g_application_release.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_run = Interop.downcallHandle(
+        "g_application_run",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Runs the application.
@@ -611,9 +804,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * what their exit status will be.
      */
     public int run(int argc, java.lang.String[] argv) {
-        var RESULT = gtk_h.g_application_run(handle(), argc, Interop.allocateNativeArray(argv).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_application_run.invokeExact(handle(), argc, Interop.allocateNativeArray(argv).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_send_notification = Interop.downcallHandle(
+        "g_application_send_notification",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sends a notification on behalf of {@code application} to the desktop shell.
@@ -644,8 +846,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_withdraw_notification().
      */
     public void sendNotification(java.lang.String id, Notification notification) {
-        gtk_h.g_application_send_notification(handle(), Interop.allocateNativeString(id).handle(), notification.handle());
+        try {
+            g_application_send_notification.invokeExact(handle(), Interop.allocateNativeString(id).handle(), notification.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_set_application_id = Interop.downcallHandle(
+        "g_application_set_application_id",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the unique identifier for {@code application}.
@@ -657,8 +868,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_id_is_valid().
      */
     public void setApplicationId(java.lang.String applicationId) {
-        gtk_h.g_application_set_application_id(handle(), Interop.allocateNativeString(applicationId).handle());
+        try {
+            g_application_set_application_id.invokeExact(handle(), Interop.allocateNativeString(applicationId).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_set_default = Interop.downcallHandle(
+        "g_application_set_default",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets or unsets the default application for the process, as returned
@@ -669,8 +889,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * back to {@code null}.
      */
     public void setDefault() {
-        gtk_h.g_application_set_default(handle());
+        try {
+            g_application_set_default.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_set_flags = Interop.downcallHandle(
+        "g_application_set_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the flags for {@code application}.
@@ -681,8 +910,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See {@link ApplicationFlags}.
      */
     public void setFlags(ApplicationFlags flags) {
-        gtk_h.g_application_set_flags(handle(), flags.getValue());
+        try {
+            g_application_set_flags.invokeExact(handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_set_inactivity_timeout = Interop.downcallHandle(
+        "g_application_set_inactivity_timeout",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the current inactivity timeout for the application.
@@ -695,8 +933,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * zero.  Any timeouts currently in progress are not impacted.
      */
     public void setInactivityTimeout(int inactivityTimeout) {
-        gtk_h.g_application_set_inactivity_timeout(handle(), inactivityTimeout);
+        try {
+            g_application_set_inactivity_timeout.invokeExact(handle(), inactivityTimeout);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_set_option_context_description = Interop.downcallHandle(
+        "g_application_set_option_context_description",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a description to the {@code application} option context.
@@ -704,8 +951,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See g_option_context_set_description() for more information.
      */
     public void setOptionContextDescription(java.lang.String description) {
-        gtk_h.g_application_set_option_context_description(handle(), Interop.allocateNativeString(description).handle());
+        try {
+            g_application_set_option_context_description.invokeExact(handle(), Interop.allocateNativeString(description).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_set_option_context_parameter_string = Interop.downcallHandle(
+        "g_application_set_option_context_parameter_string",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the parameter string to be used by the commandline handling of {@code application}.
@@ -716,8 +972,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See g_option_context_new() for more information about {@code parameter_string}.
      */
     public void setOptionContextParameterString(java.lang.String parameterString) {
-        gtk_h.g_application_set_option_context_parameter_string(handle(), Interop.allocateNativeString(parameterString).handle());
+        try {
+            g_application_set_option_context_parameter_string.invokeExact(handle(), Interop.allocateNativeString(parameterString).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_set_option_context_summary = Interop.downcallHandle(
+        "g_application_set_option_context_summary",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a summary to the {@code application} option context.
@@ -725,8 +990,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See g_option_context_set_summary() for more information.
      */
     public void setOptionContextSummary(java.lang.String summary) {
-        gtk_h.g_application_set_option_context_summary(handle(), Interop.allocateNativeString(summary).handle());
+        try {
+            g_application_set_option_context_summary.invokeExact(handle(), Interop.allocateNativeString(summary).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_set_resource_base_path = Interop.downcallHandle(
+        "g_application_set_resource_base_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets (or unsets) the base resource path of {@code application}.
@@ -764,8 +1038,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * before chaining up to the parent implementation.
      */
     public void setResourceBasePath(java.lang.String resourcePath) {
-        gtk_h.g_application_set_resource_base_path(handle(), Interop.allocateNativeString(resourcePath).handle());
+        try {
+            g_application_set_resource_base_path.invokeExact(handle(), Interop.allocateNativeString(resourcePath).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_unbind_busy_property = Interop.downcallHandle(
+        "g_application_unbind_busy_property",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Destroys a binding between {@code property} and the busy state of
@@ -773,8 +1056,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_bind_busy_property().
      */
     public void unbindBusyProperty(org.gtk.gobject.Object object, java.lang.String property) {
-        gtk_h.g_application_unbind_busy_property(handle(), object.handle(), Interop.allocateNativeString(property).handle());
+        try {
+            g_application_unbind_busy_property.invokeExact(handle(), object.handle(), Interop.allocateNativeString(property).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_unmark_busy = Interop.downcallHandle(
+        "g_application_unmark_busy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the busy count of {@code application}.
@@ -786,8 +1078,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * call to g_application_mark_busy().
      */
     public void unmarkBusy() {
-        gtk_h.g_application_unmark_busy(handle());
+        try {
+            g_application_unmark_busy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_withdraw_notification = Interop.downcallHandle(
+        "g_application_withdraw_notification",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Withdraws a notification that was sent with
@@ -805,8 +1106,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * there is no need to explicitly withdraw the notification in that case.
      */
     public void withdrawNotification(java.lang.String id) {
-        gtk_h.g_application_withdraw_notification(handle(), Interop.allocateNativeString(id).handle());
+        try {
+            g_application_withdraw_notification.invokeExact(handle(), Interop.allocateNativeString(id).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_get_default = Interop.downcallHandle(
+        "g_application_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the default {@link Application} instance for this process.
@@ -818,9 +1128,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * If there is no default application then {@code null} is returned.
      */
     public static Application getDefault() {
-        var RESULT = gtk_h.g_application_get_default();
-        return new Application(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_application_get_default.invokeExact();
+            return new Application(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_id_is_valid = Interop.downcallHandle(
+        "g_application_id_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code application_id} is a valid application identifier.
@@ -880,8 +1199,12 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * archiving application, it might be named {@code org._7_zip.Archiver}.
      */
     public static boolean idIsValid(java.lang.String applicationId) {
-        var RESULT = gtk_h.g_application_id_is_valid(Interop.allocateNativeString(applicationId).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_application_id_is_valid.invokeExact(Interop.allocateNativeString(applicationId).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -895,19 +1218,19 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -923,19 +1246,19 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public SignalHandle onCommandLine(CommandLineHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("command-line").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationCommandLine",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -989,19 +1312,19 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public SignalHandle onHandleLocalOptions(HandleLocalOptionsHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("handle-local-options").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationHandleLocalOptions",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1019,19 +1342,19 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public SignalHandle onNameLost(NameLostHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("name-lost").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationNameLost",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1046,19 +1369,19 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public SignalHandle onOpen(OpenHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("open").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationOpen",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1073,19 +1396,19 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public SignalHandle onShutdown(ShutdownHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("shutdown").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationShutdown",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -1100,19 +1423,19 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public SignalHandle onStartup(StartupHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("startup").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationStartup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

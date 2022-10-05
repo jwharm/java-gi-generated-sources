@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -28,25 +27,44 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Rectangle() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GdkRectangle.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle gdk_rectangle_contains_point = Interop.downcallHandle(
+        "gdk_rectangle_contains_point",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns {@code true} if {@code rect} contains the point described by @x and @y.
      */
     public boolean containsPoint(int x, int y) {
-        var RESULT = gtk_h.gdk_rectangle_contains_point(handle(), x, y);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_rectangle_contains_point.invokeExact(handle(), x, y);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rectangle_equal = Interop.downcallHandle(
+        "gdk_rectangle_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the two given rectangles are equal.
      */
     public boolean equal(Rectangle rect2) {
-        var RESULT = gtk_h.gdk_rectangle_equal(handle(), rect2.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_rectangle_equal.invokeExact(handle(), rect2.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rectangle_intersect = Interop.downcallHandle(
+        "gdk_rectangle_intersect",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calculates the intersection of two rectangles.
@@ -58,9 +76,18 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * itself, pass {@code null} for {@code dest}.
      */
     public boolean intersect(Rectangle src2, Rectangle dest) {
-        var RESULT = gtk_h.gdk_rectangle_intersect(handle(), src2.handle(), dest.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_rectangle_intersect.invokeExact(handle(), src2.handle(), dest.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rectangle_union = Interop.downcallHandle(
+        "gdk_rectangle_union",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calculates the union of two rectangles.
@@ -73,7 +100,11 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * zero width or height).
      */
     public void union(Rectangle src2, Rectangle dest) {
-        gtk_h.gdk_rectangle_union(handle(), src2.handle(), dest.handle());
+        try {
+            gdk_rectangle_union.invokeExact(handle(), src2.handle(), dest.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

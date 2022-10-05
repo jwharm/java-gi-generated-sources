@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -91,9 +90,18 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
         return new InfoBar(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_info_bar_new = Interop.downcallHandle(
+        "gtk_info_bar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_info_bar_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_info_bar_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -102,6 +110,11 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
     public InfoBar() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_info_bar_add_action_widget = Interop.downcallHandle(
+        "gtk_info_bar_add_action_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Add an activatable widget to the action area of a {@code GtkInfoBar}.
@@ -112,8 +125,17 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * end of the message areas action area.
      */
     public void addActionWidget(Widget child, int responseId) {
-        gtk_h.gtk_info_bar_add_action_widget(handle(), child.handle(), responseId);
+        try {
+            gtk_info_bar_add_action_widget.invokeExact(handle(), child.handle(), responseId);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_add_button = Interop.downcallHandle(
+        "gtk_info_bar_add_button",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds a button with the given text.
@@ -124,40 +146,85 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * but usually you don't need it.
      */
     public Button addButton(java.lang.String buttonText, int responseId) {
-        var RESULT = gtk_h.gtk_info_bar_add_button(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
-        return new Button(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_info_bar_add_button.invokeExact(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
+            return new Button(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_add_child = Interop.downcallHandle(
+        "gtk_info_bar_add_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a widget to the content area of the info bar.
      */
     public void addChild(Widget widget) {
-        gtk_h.gtk_info_bar_add_child(handle(), widget.handle());
+        try {
+            gtk_info_bar_add_child.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_get_message_type = Interop.downcallHandle(
+        "gtk_info_bar_get_message_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the message type of the message area.
      */
     public MessageType getMessageType() {
-        var RESULT = gtk_h.gtk_info_bar_get_message_type(handle());
-        return new MessageType(RESULT);
+        try {
+            var RESULT = (int) gtk_info_bar_get_message_type.invokeExact(handle());
+            return new MessageType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_get_revealed = Interop.downcallHandle(
+        "gtk_info_bar_get_revealed",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the info bar is currently revealed.
      */
     public boolean getRevealed() {
-        var RESULT = gtk_h.gtk_info_bar_get_revealed(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_info_bar_get_revealed.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_get_show_close_button = Interop.downcallHandle(
+        "gtk_info_bar_get_show_close_button",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the widget will display a standard close button.
      */
     public boolean getShowCloseButton() {
-        var RESULT = gtk_h.gtk_info_bar_get_show_close_button(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_info_bar_get_show_close_button.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_remove_action_widget = Interop.downcallHandle(
+        "gtk_info_bar_remove_action_widget",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a widget from the action area of {@code info_bar}.
@@ -166,22 +233,49 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * {@code Gtk.InfoBar.add_button}.
      */
     public void removeActionWidget(Widget widget) {
-        gtk_h.gtk_info_bar_remove_action_widget(handle(), widget.handle());
+        try {
+            gtk_info_bar_remove_action_widget.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_remove_child = Interop.downcallHandle(
+        "gtk_info_bar_remove_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a widget from the content area of the info bar.
      */
     public void removeChild(Widget widget) {
-        gtk_h.gtk_info_bar_remove_child(handle(), widget.handle());
+        try {
+            gtk_info_bar_remove_child.invokeExact(handle(), widget.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_response = Interop.downcallHandle(
+        "gtk_info_bar_response",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Emits the “response” signal with the given {@code response_id}.
      */
     public void response(int responseId) {
-        gtk_h.gtk_info_bar_response(handle(), responseId);
+        try {
+            gtk_info_bar_response.invokeExact(handle(), responseId);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_set_default_response = Interop.downcallHandle(
+        "gtk_info_bar_set_default_response",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the last widget in the info bar’s action area with
@@ -193,8 +287,17 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * be added to a widget hierarchy.
      */
     public void setDefaultResponse(int responseId) {
-        gtk_h.gtk_info_bar_set_default_response(handle(), responseId);
+        try {
+            gtk_info_bar_set_default_response.invokeExact(handle(), responseId);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_set_message_type = Interop.downcallHandle(
+        "gtk_info_bar_set_message_type",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the message type of the message area.
@@ -202,8 +305,17 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * GTK uses this type to determine how the message is displayed.
      */
     public void setMessageType(MessageType messageType) {
-        gtk_h.gtk_info_bar_set_message_type(handle(), messageType.getValue());
+        try {
+            gtk_info_bar_set_message_type.invokeExact(handle(), messageType.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_set_response_sensitive = Interop.downcallHandle(
+        "gtk_info_bar_set_response_sensitive",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the sensitivity of action widgets for {@code response_id}.
@@ -213,8 +325,17 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * A convenient way to sensitize/desensitize buttons.
      */
     public void setResponseSensitive(int responseId, boolean setting) {
-        gtk_h.gtk_info_bar_set_response_sensitive(handle(), responseId, setting ? 1 : 0);
+        try {
+            gtk_info_bar_set_response_sensitive.invokeExact(handle(), responseId, setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_set_revealed = Interop.downcallHandle(
+        "gtk_info_bar_set_revealed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GtkInfoBar} is revealed.
@@ -227,8 +348,17 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * if {@code Gtk.Widget:visible} is {@code false}.
      */
     public void setRevealed(boolean revealed) {
-        gtk_h.gtk_info_bar_set_revealed(handle(), revealed ? 1 : 0);
+        try {
+            gtk_info_bar_set_revealed.invokeExact(handle(), revealed ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_info_bar_set_show_close_button = Interop.downcallHandle(
+        "gtk_info_bar_set_show_close_button",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If true, a standard close button is shown.
@@ -236,7 +366,11 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * When clicked it emits the response {@link ResponseType#CLOSE}.
      */
     public void setShowCloseButton(boolean setting) {
-        gtk_h.gtk_info_bar_set_show_close_button(handle(), setting ? 1 : 0);
+        try {
+            gtk_info_bar_set_show_close_button.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -253,19 +387,19 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onClose(CloseHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("close").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(InfoBar.Callbacks.class, "signalInfoBarClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -283,19 +417,19 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      */
     public SignalHandle onResponse(ResponseHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("response").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(InfoBar.Callbacks.class, "signalInfoBarResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

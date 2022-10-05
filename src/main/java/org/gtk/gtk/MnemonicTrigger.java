@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,18 @@ public class MnemonicTrigger extends ShortcutTrigger {
         return new MnemonicTrigger(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_mnemonic_trigger_new = Interop.downcallHandle(
+        "gtk_mnemonic_trigger_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(int keyval) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_mnemonic_trigger_new(keyval), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_mnemonic_trigger_new.invokeExact(keyval), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -38,12 +46,21 @@ public class MnemonicTrigger extends ShortcutTrigger {
         super(constructNew(keyval));
     }
     
+    static final MethodHandle gtk_mnemonic_trigger_get_keyval = Interop.downcallHandle(
+        "gtk_mnemonic_trigger_get_keyval",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the keyval that must be pressed to succeed triggering {@code self}.
      */
     public int getKeyval() {
-        var RESULT = gtk_h.gtk_mnemonic_trigger_get_keyval(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_mnemonic_trigger_get_keyval.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

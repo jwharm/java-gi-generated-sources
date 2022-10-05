@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle pango_font_description_new = Interop.downcallHandle(
+        "pango_font_description_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.pango_font_description_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) pango_font_description_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -30,6 +38,11 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     public FontDescription() {
         super(constructNew());
     }
+    
+    static final MethodHandle pango_font_description_better_match = Interop.downcallHandle(
+        "pango_font_description_better_match",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the style attributes of {@code new_match} are a closer match
@@ -45,17 +58,35 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Note that {@code old_match} must match {@code desc}.
      */
     public boolean betterMatch(FontDescription oldMatch, FontDescription newMatch) {
-        var RESULT = gtk_h.pango_font_description_better_match(handle(), oldMatch.handle(), newMatch.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_font_description_better_match.invokeExact(handle(), oldMatch.handle(), newMatch.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_copy = Interop.downcallHandle(
+        "pango_font_description_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Make a copy of a {@code PangoFontDescription}.
      */
     public FontDescription copy() {
-        var RESULT = gtk_h.pango_font_description_copy(handle());
-        return new FontDescription(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_description_copy.invokeExact(handle());
+            return new FontDescription(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_copy_static = Interop.downcallHandle(
+        "pango_font_description_copy_static",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Make a copy of a {@code PangoFontDescription}, but don't duplicate
@@ -67,9 +98,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * to be used when the copy is only needed temporarily.
      */
     public FontDescription copyStatic() {
-        var RESULT = gtk_h.pango_font_description_copy_static(handle());
-        return new FontDescription(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_description_copy_static.invokeExact(handle());
+            return new FontDescription(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_equal = Interop.downcallHandle(
+        "pango_font_description_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two font descriptions for equality.
@@ -80,16 +120,34 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * result in identical fonts being loaded, but still compare {@code false}.)
      */
     public boolean equal(FontDescription desc2) {
-        var RESULT = gtk_h.pango_font_description_equal(handle(), desc2.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_font_description_equal.invokeExact(handle(), desc2.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_free = Interop.downcallHandle(
+        "pango_font_description_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a font description.
      */
     public void free() {
-        gtk_h.pango_font_description_free(handle());
+        try {
+            pango_font_description_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_family = Interop.downcallHandle(
+        "pango_font_description_get_family",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the family name field of a font description.
@@ -97,9 +155,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * See {@link FontDescription#setFamily}.
      */
     public java.lang.String getFamily() {
-        var RESULT = gtk_h.pango_font_description_get_family(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_font_description_get_family.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_gravity = Interop.downcallHandle(
+        "pango_font_description_get_gravity",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the gravity field of a font description.
@@ -107,17 +174,35 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * See {@link FontDescription#setGravity}.
      */
     public Gravity getGravity() {
-        var RESULT = gtk_h.pango_font_description_get_gravity(handle());
-        return new Gravity(RESULT);
+        try {
+            var RESULT = (int) pango_font_description_get_gravity.invokeExact(handle());
+            return new Gravity(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_set_fields = Interop.downcallHandle(
+        "pango_font_description_get_set_fields",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines which fields in a font description have been set.
      */
     public FontMask getSetFields() {
-        var RESULT = gtk_h.pango_font_description_get_set_fields(handle());
-        return new FontMask(RESULT);
+        try {
+            var RESULT = (int) pango_font_description_get_set_fields.invokeExact(handle());
+            return new FontMask(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_size = Interop.downcallHandle(
+        "pango_font_description_get_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the size field of a font description.
@@ -125,9 +210,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * See {@link FontDescription#setSize}.
      */
     public int getSize() {
-        var RESULT = gtk_h.pango_font_description_get_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_description_get_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_size_is_absolute = Interop.downcallHandle(
+        "pango_font_description_get_size_is_absolute",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether the size of the font is in points (not absolute)
@@ -137,9 +231,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * and {@link FontDescription#setAbsoluteSize}.
      */
     public boolean getSizeIsAbsolute() {
-        var RESULT = gtk_h.pango_font_description_get_size_is_absolute(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_font_description_get_size_is_absolute.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_stretch = Interop.downcallHandle(
+        "pango_font_description_get_stretch",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the stretch field of a font description.
@@ -147,9 +250,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * See {@link FontDescription#setStretch}.
      */
     public Stretch getStretch() {
-        var RESULT = gtk_h.pango_font_description_get_stretch(handle());
-        return new Stretch(RESULT);
+        try {
+            var RESULT = (int) pango_font_description_get_stretch.invokeExact(handle());
+            return new Stretch(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_style = Interop.downcallHandle(
+        "pango_font_description_get_style",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the style field of a {@code PangoFontDescription}.
@@ -157,9 +269,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * See {@link FontDescription#setStyle}.
      */
     public Style getStyle() {
-        var RESULT = gtk_h.pango_font_description_get_style(handle());
-        return new Style(RESULT);
+        try {
+            var RESULT = (int) pango_font_description_get_style.invokeExact(handle());
+            return new Style(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_variant = Interop.downcallHandle(
+        "pango_font_description_get_variant",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the variant field of a {@code PangoFontDescription}.
@@ -167,9 +288,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * See {@link FontDescription#setVariant}.
      */
     public Variant getVariant() {
-        var RESULT = gtk_h.pango_font_description_get_variant(handle());
-        return new Variant(RESULT);
+        try {
+            var RESULT = (int) pango_font_description_get_variant.invokeExact(handle());
+            return new Variant(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_variations = Interop.downcallHandle(
+        "pango_font_description_get_variations",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the variations field of a font description.
@@ -177,9 +307,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * See {@link FontDescription#setVariations}.
      */
     public java.lang.String getVariations() {
-        var RESULT = gtk_h.pango_font_description_get_variations(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_font_description_get_variations.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_get_weight = Interop.downcallHandle(
+        "pango_font_description_get_weight",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the weight field of a font description.
@@ -187,9 +326,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * See {@link FontDescription#setWeight}.
      */
     public Weight getWeight() {
-        var RESULT = gtk_h.pango_font_description_get_weight(handle());
-        return new Weight(RESULT);
+        try {
+            var RESULT = (int) pango_font_description_get_weight.invokeExact(handle());
+            return new Weight(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_hash = Interop.downcallHandle(
+        "pango_font_description_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Computes a hash of a {@code PangoFontDescription} structure.
@@ -198,9 +346,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * to g_hash_table_new(). The hash value is independent of {@code desc}->mask.
      */
     public int hash() {
-        var RESULT = gtk_h.pango_font_description_hash(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) pango_font_description_hash.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_merge = Interop.downcallHandle(
+        "pango_font_description_merge",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Merges the fields that are set in {@code desc_to_merge} into the fields in
@@ -213,8 +370,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * If {@code desc_to_merge} is {@code null}, this function performs nothing.
      */
     public void merge(FontDescription descToMerge, boolean replaceExisting) {
-        gtk_h.pango_font_description_merge(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
+        try {
+            pango_font_description_merge.invokeExact(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_merge_static = Interop.downcallHandle(
+        "pango_font_description_merge_static",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Merges the fields that are set in {@code desc_to_merge} into the fields in
@@ -226,8 +392,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * be used when the merged font description is only needed temporarily.
      */
     public void mergeStatic(FontDescription descToMerge, boolean replaceExisting) {
-        gtk_h.pango_font_description_merge_static(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
+        try {
+            pango_font_description_merge_static.invokeExact(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_absolute_size = Interop.downcallHandle(
+        "pango_font_description_set_absolute_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Sets the size field of a font description, in device units.
@@ -236,8 +411,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * which sets the font size in points.
      */
     public void setAbsoluteSize(double size) {
-        gtk_h.pango_font_description_set_absolute_size(handle(), size);
+        try {
+            pango_font_description_set_absolute_size.invokeExact(handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_family = Interop.downcallHandle(
+        "pango_font_description_set_family",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the family name field of a font description.
@@ -249,8 +433,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * separated list of family names for this field.
      */
     public void setFamily(java.lang.String family) {
-        gtk_h.pango_font_description_set_family(handle(), Interop.allocateNativeString(family).handle());
+        try {
+            pango_font_description_set_family.invokeExact(handle(), Interop.allocateNativeString(family).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_family_static = Interop.downcallHandle(
+        "pango_font_description_set_family_static",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the family name field of a font description, without copying the string.
@@ -262,8 +455,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * string such as a C string literal, or if {@code desc} is only needed temporarily.
      */
     public void setFamilyStatic(java.lang.String family) {
-        gtk_h.pango_font_description_set_family_static(handle(), Interop.allocateNativeString(family).handle());
+        try {
+            pango_font_description_set_family_static.invokeExact(handle(), Interop.allocateNativeString(family).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_gravity = Interop.downcallHandle(
+        "pango_font_description_set_gravity",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the gravity field of a font description.
@@ -277,8 +479,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * be set on a {@code PangoContext}.
      */
     public void setGravity(Gravity gravity) {
-        gtk_h.pango_font_description_set_gravity(handle(), gravity.getValue());
+        try {
+            pango_font_description_set_gravity.invokeExact(handle(), gravity.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_size = Interop.downcallHandle(
+        "pango_font_description_set_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the size field of a font description in fractional points.
@@ -287,8 +498,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * {@link FontDescription#setAbsoluteSize}.
      */
     public void setSize(int size) {
-        gtk_h.pango_font_description_set_size(handle(), size);
+        try {
+            pango_font_description_set_size.invokeExact(handle(), size);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_stretch = Interop.downcallHandle(
+        "pango_font_description_set_stretch",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the stretch field of a font description.
@@ -297,8 +517,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * wide the font should be.
      */
     public void setStretch(Stretch stretch) {
-        gtk_h.pango_font_description_set_stretch(handle(), stretch.getValue());
+        try {
+            pango_font_description_set_stretch.invokeExact(handle(), stretch.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_style = Interop.downcallHandle(
+        "pango_font_description_set_style",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the style field of a {@code PangoFontDescription}.
@@ -313,8 +542,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * match is not found.
      */
     public void setStyle(Style style) {
-        gtk_h.pango_font_description_set_style(handle(), style.getValue());
+        try {
+            pango_font_description_set_style.invokeExact(handle(), style.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_variant = Interop.downcallHandle(
+        "pango_font_description_set_variant",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the variant field of a font description.
@@ -323,8 +561,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * or {@link Variant#SMALL_CAPS}.
      */
     public void setVariant(Variant variant) {
-        gtk_h.pango_font_description_set_variant(handle(), variant.getValue());
+        try {
+            pango_font_description_set_variant.invokeExact(handle(), variant.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_variations = Interop.downcallHandle(
+        "pango_font_description_set_variations",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the variations field of a font description.
@@ -345,8 +592,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * for example <a href="https://harfbuzz.github.io/harfbuzz-hb-ot-var.html#hb-ot-var-get-axis-infos">hb_ot_var_get_axis_infos</a>.
      */
     public void setVariations(java.lang.String variations) {
-        gtk_h.pango_font_description_set_variations(handle(), Interop.allocateNativeString(variations).handle());
+        try {
+            pango_font_description_set_variations.invokeExact(handle(), Interop.allocateNativeString(variations).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_variations_static = Interop.downcallHandle(
+        "pango_font_description_set_variations_static",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the variations field of a font description.
@@ -359,8 +615,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * or if {@code desc} is only needed temporarily.
      */
     public void setVariationsStatic(java.lang.String variations) {
-        gtk_h.pango_font_description_set_variations_static(handle(), Interop.allocateNativeString(variations).handle());
+        try {
+            pango_font_description_set_variations_static.invokeExact(handle(), Interop.allocateNativeString(variations).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_set_weight = Interop.downcallHandle(
+        "pango_font_description_set_weight",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the weight field of a font description.
@@ -371,8 +636,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * intermediate numeric values are possible.
      */
     public void setWeight(Weight weight) {
-        gtk_h.pango_font_description_set_weight(handle(), weight.getValue());
+        try {
+            pango_font_description_set_weight.invokeExact(handle(), weight.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_to_filename = Interop.downcallHandle(
+        "pango_font_description_to_filename",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a filename representation of a font description.
@@ -383,9 +657,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * lower case only.
      */
     public java.lang.String toFilename() {
-        var RESULT = gtk_h.pango_font_description_to_filename(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_font_description_to_filename.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_to_string = Interop.downcallHandle(
+        "pango_font_description_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a string representation of a font description.
@@ -396,9 +679,18 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * the last word of the list is a valid style option.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.pango_font_description_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) pango_font_description_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_unset_fields = Interop.downcallHandle(
+        "pango_font_description_unset_fields",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Unsets some of the fields in a {@code PangoFontDescription}.
@@ -406,8 +698,17 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * The unset fields will get back to their default values.
      */
     public void unsetFields(FontMask toUnset) {
-        gtk_h.pango_font_description_unset_fields(handle(), toUnset.getValue());
+        try {
+            pango_font_description_unset_fields.invokeExact(handle(), toUnset.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_font_description_from_string = Interop.downcallHandle(
+        "pango_font_description_from_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new font description from a string representation.
@@ -456,8 +757,12 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      *     "Cantarell Italic Light 15 \\{@code wght}=200"
      */
     public static FontDescription fromString(java.lang.String str) {
-        var RESULT = gtk_h.pango_font_description_from_string(Interop.allocateNativeString(str).handle());
-        return new FontDescription(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_font_description_from_string.invokeExact(Interop.allocateNativeString(str).handle());
+            return new FontDescription(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

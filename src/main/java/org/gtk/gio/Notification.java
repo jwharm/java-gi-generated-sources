@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -62,9 +61,18 @@ public class Notification extends org.gtk.gobject.Object {
         return new Notification(gobject.refcounted());
     }
     
+    static final MethodHandle g_notification_new = Interop.downcallHandle(
+        "g_notification_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String title) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_notification_new(Interop.allocateNativeString(title).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_notification_new.invokeExact(Interop.allocateNativeString(title).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -79,6 +87,11 @@ public class Notification extends org.gtk.gobject.Object {
         super(constructNew(title));
     }
     
+    static final MethodHandle g_notification_add_button = Interop.downcallHandle(
+        "g_notification_add_button",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a button to {@code notification} that activates the action in
      * {@code detailed_action} when clicked. That action must be an
@@ -90,8 +103,17 @@ public class Notification extends org.gtk.gobject.Object {
      * for {@code detailed_action}.
      */
     public void addButton(java.lang.String label, java.lang.String detailedAction) {
-        gtk_h.g_notification_add_button(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+        try {
+            g_notification_add_button.invokeExact(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_notification_add_button_with_target_value = Interop.downcallHandle(
+        "g_notification_add_button_with_target_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a button to {@code notification} that activates {@code action} when clicked.
@@ -101,15 +123,33 @@ public class Notification extends org.gtk.gobject.Object {
      * its parameter.
      */
     public void addButtonWithTargetValue(java.lang.String label, java.lang.String action, org.gtk.glib.Variant target) {
-        gtk_h.g_notification_add_button_with_target_value(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(action).handle(), target.handle());
+        try {
+            g_notification_add_button_with_target_value.invokeExact(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(action).handle(), target.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_notification_set_body = Interop.downcallHandle(
+        "g_notification_set_body",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the body of {@code notification} to {@code body}.
      */
     public void setBody(java.lang.String body) {
-        gtk_h.g_notification_set_body(handle(), Interop.allocateNativeString(body).handle());
+        try {
+            g_notification_set_body.invokeExact(handle(), Interop.allocateNativeString(body).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_notification_set_category = Interop.downcallHandle(
+        "g_notification_set_category",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the type of {@code notification} to {@code category}. Categories have a main
@@ -120,8 +160,17 @@ public class Notification extends org.gtk.gobject.Object {
      * Standard categories are <a href="https://specifications.freedesktop.org/notification-spec/latest/ar01s06.html">listed in the specification</a>.
      */
     public void setCategory(java.lang.String category) {
-        gtk_h.g_notification_set_category(handle(), Interop.allocateNativeString(category).handle());
+        try {
+            g_notification_set_category.invokeExact(handle(), Interop.allocateNativeString(category).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_notification_set_default_action = Interop.downcallHandle(
+        "g_notification_set_default_action",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the default action of {@code notification} to {@code detailed_action}. This
@@ -137,8 +186,17 @@ public class Notification extends org.gtk.gobject.Object {
      * was sent on is activated.
      */
     public void setDefaultAction(java.lang.String detailedAction) {
-        gtk_h.g_notification_set_default_action(handle(), Interop.allocateNativeString(detailedAction).handle());
+        try {
+            g_notification_set_default_action.invokeExact(handle(), Interop.allocateNativeString(detailedAction).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_notification_set_default_action_and_target_value = Interop.downcallHandle(
+        "g_notification_set_default_action_and_target_value",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the default action of {@code notification} to {@code action}. This action is
@@ -152,29 +210,60 @@ public class Notification extends org.gtk.gobject.Object {
      * was sent on is activated.
      */
     public void setDefaultActionAndTargetValue(java.lang.String action, org.gtk.glib.Variant target) {
-        gtk_h.g_notification_set_default_action_and_target_value(handle(), Interop.allocateNativeString(action).handle(), target.handle());
+        try {
+            g_notification_set_default_action_and_target_value.invokeExact(handle(), Interop.allocateNativeString(action).handle(), target.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_notification_set_icon = Interop.downcallHandle(
+        "g_notification_set_icon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the icon of {@code notification} to {@code icon}.
      */
     public void setIcon(Icon icon) {
-        gtk_h.g_notification_set_icon(handle(), icon.handle());
+        try {
+            g_notification_set_icon.invokeExact(handle(), icon.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_notification_set_priority = Interop.downcallHandle(
+        "g_notification_set_priority",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the priority of {@code notification} to {@code priority}. See
      * {@link NotificationPriority} for possible values.
      */
     public void setPriority(NotificationPriority priority) {
-        gtk_h.g_notification_set_priority(handle(), priority.getValue());
+        try {
+            g_notification_set_priority.invokeExact(handle(), priority.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_notification_set_title = Interop.downcallHandle(
+        "g_notification_set_title",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the title of {@code notification} to {@code title}.
      */
     public void setTitle(java.lang.String title) {
-        gtk_h.g_notification_set_title(handle(), Interop.allocateNativeString(title).handle());
+        try {
+            g_notification_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

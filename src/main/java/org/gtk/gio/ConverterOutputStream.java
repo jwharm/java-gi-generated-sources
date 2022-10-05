@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,9 +22,18 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
         return new ConverterOutputStream(gobject.refcounted());
     }
     
+    static final MethodHandle g_converter_output_stream_new = Interop.downcallHandle(
+        "g_converter_output_stream_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(OutputStream baseStream, Converter converter) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_converter_output_stream_new(baseStream.handle(), converter.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_converter_output_stream_new.invokeExact(baseStream.handle(), converter.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -35,12 +43,21 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
         super(constructNew(baseStream, converter));
     }
     
+    static final MethodHandle g_converter_output_stream_get_converter = Interop.downcallHandle(
+        "g_converter_output_stream_get_converter",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the {@link Converter} that is used by {@code converter_stream}.
      */
     public Converter getConverter() {
-        var RESULT = gtk_h.g_converter_output_stream_get_converter(handle());
-        return new Converter.ConverterImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_converter_output_stream_get_converter.invokeExact(handle());
+            return new Converter.ConverterImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,18 @@ public class GestureStylus extends GestureSingle {
         return new GestureStylus(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_gesture_stylus_new = Interop.downcallHandle(
+        "gtk_gesture_stylus_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_gesture_stylus_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_stylus_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,6 +41,11 @@ public class GestureStylus extends GestureSingle {
     public GestureStylus() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_gesture_stylus_get_axes = Interop.downcallHandle(
+        "gtk_gesture_stylus_get_axes",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current values for the requested {@code axes}.
@@ -43,9 +56,18 @@ public class GestureStylus extends GestureSingle {
      * signals.
      */
     public boolean getAxes(org.gtk.gdk.AxisUse[] axes, double[] values) {
-        var RESULT = gtk_h.gtk_gesture_stylus_get_axes(handle(), Interop.allocateNativeArray(org.gtk.gdk.AxisUse.getValues(axes)).handle(), Interop.allocateNativeArray(values).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_stylus_get_axes.invokeExact(handle(), Interop.allocateNativeArray(org.gtk.gdk.AxisUse.getValues(axes)).handle(), Interop.allocateNativeArray(values).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_stylus_get_axis = Interop.downcallHandle(
+        "gtk_gesture_stylus_get_axis",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the current value for the requested {@code axis}.
@@ -56,9 +78,18 @@ public class GestureStylus extends GestureSingle {
      * signals.
      */
     public boolean getAxis(org.gtk.gdk.AxisUse axis, PointerDouble value) {
-        var RESULT = gtk_h.gtk_gesture_stylus_get_axis(handle(), axis.getValue(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_stylus_get_axis.invokeExact(handle(), axis.getValue(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_stylus_get_backlog = Interop.downcallHandle(
+        "gtk_gesture_stylus_get_backlog",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the accumulated backlog of tracking information.
@@ -76,9 +107,18 @@ public class GestureStylus extends GestureSingle {
      * The {@code backlog} is provided in chronological order.
      */
     public boolean getBacklog(org.gtk.gdk.TimeCoord[] backlog, PointerInteger nElems) {
-        var RESULT = gtk_h.gtk_gesture_stylus_get_backlog(handle(), Interop.allocateNativeArray(backlog).handle(), nElems.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_gesture_stylus_get_backlog.invokeExact(handle(), Interop.allocateNativeArray(backlog).handle(), nElems.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_gesture_stylus_get_device_tool = Interop.downcallHandle(
+        "gtk_gesture_stylus_get_device_tool",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code GdkDeviceTool} currently driving input through this gesture.
@@ -89,8 +129,12 @@ public class GestureStylus extends GestureSingle {
      * signals.
      */
     public org.gtk.gdk.DeviceTool getDeviceTool() {
-        var RESULT = gtk_h.gtk_gesture_stylus_get_device_tool(handle());
-        return new org.gtk.gdk.DeviceTool(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_gesture_stylus_get_device_tool.invokeExact(handle());
+            return new org.gtk.gdk.DeviceTool(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -103,19 +147,19 @@ public class GestureStylus extends GestureSingle {
      */
     public SignalHandle onDown(DownHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("down").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusDown",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -129,19 +173,19 @@ public class GestureStylus extends GestureSingle {
      */
     public SignalHandle onMotion(MotionHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("motion").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -155,19 +199,19 @@ public class GestureStylus extends GestureSingle {
      */
     public SignalHandle onProximity(ProximityHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("proximity").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusProximity",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -181,19 +225,19 @@ public class GestureStylus extends GestureSingle {
      */
     public SignalHandle onUp(UpHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("up").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusUp",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

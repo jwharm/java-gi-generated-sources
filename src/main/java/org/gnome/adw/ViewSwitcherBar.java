@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -72,9 +71,18 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         return new ViewSwitcherBar(gobject.refcounted());
     }
     
+    static final MethodHandle adw_view_switcher_bar_new = Interop.downcallHandle(
+        "adw_view_switcher_bar_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_view_switcher_bar_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_view_switcher_bar_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -84,34 +92,70 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         super(constructNew());
     }
     
+    static final MethodHandle adw_view_switcher_bar_get_reveal = Interop.downcallHandle(
+        "adw_view_switcher_bar_get_reveal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets whether {@code self} should be revealed or hidden.
      */
     public boolean getReveal() {
-        var RESULT = gtk_h.adw_view_switcher_bar_get_reveal(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_view_switcher_bar_get_reveal.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_bar_get_stack = Interop.downcallHandle(
+        "adw_view_switcher_bar_get_stack",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the stack controlled by {@code self}.
      */
     public ViewStack getStack() {
-        var RESULT = gtk_h.adw_view_switcher_bar_get_stack(handle());
-        return new ViewStack(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_view_switcher_bar_get_stack.invokeExact(handle());
+            return new ViewStack(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_bar_set_reveal = Interop.downcallHandle(
+        "adw_view_switcher_bar_set_reveal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} should be revealed or hidden.
      */
     public void setReveal(boolean reveal) {
-        gtk_h.adw_view_switcher_bar_set_reveal(handle(), reveal ? 1 : 0);
+        try {
+            adw_view_switcher_bar_set_reveal.invokeExact(handle(), reveal ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_view_switcher_bar_set_stack = Interop.downcallHandle(
+        "adw_view_switcher_bar_set_stack",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the stack controlled by {@code self}.
      */
     public void setStack(ViewStack stack) {
-        gtk_h.adw_view_switcher_bar_set_stack(handle(), stack.handle());
+        try {
+            adw_view_switcher_bar_set_stack.invokeExact(handle(), stack.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

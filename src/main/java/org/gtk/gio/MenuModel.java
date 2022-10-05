@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -135,6 +134,11 @@ public class MenuModel extends org.gtk.gobject.Object {
         return new MenuModel(gobject.refcounted());
     }
     
+    static final MethodHandle g_menu_model_get_item_attribute_value = Interop.downcallHandle(
+        "g_menu_model_get_item_attribute_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Queries the item at position {@code item_index} in {@code model} for the attribute
      * specified by {@code attribute}.
@@ -149,9 +153,18 @@ public class MenuModel extends org.gtk.gobject.Object {
      * then {@code null} is returned.
      */
     public org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
-        var RESULT = gtk_h.g_menu_model_get_item_attribute_value(handle(), itemIndex, Interop.allocateNativeString(attribute).handle(), expectedType.handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_menu_model_get_item_attribute_value.invokeExact(handle(), itemIndex, Interop.allocateNativeString(attribute).handle(), expectedType.handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_model_get_item_link = Interop.downcallHandle(
+        "g_menu_model_get_item_link",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries the item at position {@code item_index} in {@code model} for the link
@@ -161,17 +174,35 @@ public class MenuModel extends org.gtk.gobject.Object {
      * does not exist, {@code null} is returned.
      */
     public MenuModel getItemLink(int itemIndex, java.lang.String link) {
-        var RESULT = gtk_h.g_menu_model_get_item_link(handle(), itemIndex, Interop.allocateNativeString(link).handle());
-        return new MenuModel(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_menu_model_get_item_link.invokeExact(handle(), itemIndex, Interop.allocateNativeString(link).handle());
+            return new MenuModel(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_model_get_n_items = Interop.downcallHandle(
+        "g_menu_model_get_n_items",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Query the number of items in {@code model}.
      */
     public int getNItems() {
-        var RESULT = gtk_h.g_menu_model_get_n_items(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_menu_model_get_n_items.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_model_is_mutable = Interop.downcallHandle(
+        "g_menu_model_is_mutable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Queries if {@code model} is mutable.
@@ -180,9 +211,18 @@ public class MenuModel extends org.gtk.gobject.Object {
      * signal. Consumers of the model may make optimisations accordingly.
      */
     public boolean isMutable() {
-        var RESULT = gtk_h.g_menu_model_is_mutable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_menu_model_is_mutable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_model_items_changed = Interop.downcallHandle(
+        "g_menu_model_items_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Requests emission of the {@link MenuModel}::items-changed signal on {@code model}.
@@ -202,8 +242,17 @@ public class MenuModel extends org.gtk.gobject.Object {
      * user code is running without returning to the mainloop.
      */
     public void itemsChanged(int position, int removed, int added) {
-        gtk_h.g_menu_model_items_changed(handle(), position, removed, added);
+        try {
+            g_menu_model_items_changed.invokeExact(handle(), position, removed, added);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_model_iterate_item_attributes = Interop.downcallHandle(
+        "g_menu_model_iterate_item_attributes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a {@link MenuAttributeIter} to iterate over the attributes of
@@ -212,9 +261,18 @@ public class MenuModel extends org.gtk.gobject.Object {
      * You must free the iterator with g_object_unref() when you are done.
      */
     public MenuAttributeIter iterateItemAttributes(int itemIndex) {
-        var RESULT = gtk_h.g_menu_model_iterate_item_attributes(handle(), itemIndex);
-        return new MenuAttributeIter(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_menu_model_iterate_item_attributes.invokeExact(handle(), itemIndex);
+            return new MenuAttributeIter(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_model_iterate_item_links = Interop.downcallHandle(
+        "g_menu_model_iterate_item_links",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Creates a {@link MenuLinkIter} to iterate over the links of the item at
@@ -223,8 +281,12 @@ public class MenuModel extends org.gtk.gobject.Object {
      * You must free the iterator with g_object_unref() when you are done.
      */
     public MenuLinkIter iterateItemLinks(int itemIndex) {
-        var RESULT = gtk_h.g_menu_model_iterate_item_links(handle(), itemIndex);
-        return new MenuLinkIter(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_menu_model_iterate_item_links.invokeExact(handle(), itemIndex);
+            return new MenuLinkIter(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -256,19 +318,19 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public SignalHandle onItemsChanged(ItemsChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("items-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MenuModel.Callbacks.class, "signalMenuModelItemsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

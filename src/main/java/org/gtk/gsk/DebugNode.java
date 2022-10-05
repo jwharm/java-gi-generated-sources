@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,9 +19,18 @@ public class DebugNode extends RenderNode {
         return new DebugNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_debug_node_new = Interop.downcallHandle(
+        "gsk_debug_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(RenderNode child, java.lang.String message) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_debug_node_new(child.handle(), Interop.allocateNativeString(message).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_debug_node_new.invokeExact(child.handle(), Interop.allocateNativeString(message).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -35,20 +43,38 @@ public class DebugNode extends RenderNode {
         super(constructNew(child, message));
     }
     
+    static final MethodHandle gsk_debug_node_get_child = Interop.downcallHandle(
+        "gsk_debug_node_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the child node that is getting drawn by the given {@code node}.
      */
     public RenderNode getChild() {
-        var RESULT = gtk_h.gsk_debug_node_get_child(handle());
-        return new RenderNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_debug_node_get_child.invokeExact(handle());
+            return new RenderNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_debug_node_get_message = Interop.downcallHandle(
+        "gsk_debug_node_get_message",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the debug message that was set on this node
      */
     public java.lang.String getMessage() {
-        var RESULT = gtk_h.gsk_debug_node_get_message(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gsk_debug_node_get_message.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

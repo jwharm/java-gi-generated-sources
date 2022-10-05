@@ -1,6 +1,5 @@
 package org.gtk.graphene;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,9 +16,18 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle graphene_euler_alloc = Interop.downcallHandle(
+        "graphene_euler_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructAlloc() {
-        Refcounted RESULT = Refcounted.get(gtk_h.graphene_euler_alloc(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) graphene_euler_alloc.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -31,20 +39,43 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
         return new Euler(constructAlloc());
     }
     
+    static final MethodHandle graphene_euler_equal = Interop.downcallHandle(
+        "graphene_euler_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Checks if two {@link Euler} are equal.
      */
     public boolean equal(Euler b) {
-        var RESULT = gtk_h.graphene_euler_equal(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (boolean) graphene_euler_equal.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_free = Interop.downcallHandle(
+        "graphene_euler_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the resources allocated by graphene_euler_alloc().
      */
     public void free() {
-        gtk_h.graphene_euler_free(handle());
+        try {
+            graphene_euler_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_get_alpha = Interop.downcallHandle(
+        "graphene_euler_get_alpha",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the first component of the Euler angle vector,
@@ -53,9 +84,18 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_euler_get_x()
      */
     public float getAlpha() {
-        var RESULT = gtk_h.graphene_euler_get_alpha(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_euler_get_alpha.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_get_beta = Interop.downcallHandle(
+        "graphene_euler_get_beta",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the second component of the Euler angle vector,
@@ -64,9 +104,18 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_euler_get_y()
      */
     public float getBeta() {
-        var RESULT = gtk_h.graphene_euler_get_beta(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_euler_get_beta.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_get_gamma = Interop.downcallHandle(
+        "graphene_euler_get_gamma",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the third component of the Euler angle vector,
@@ -75,9 +124,18 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * See also: graphene_euler_get_z()
      */
     public float getGamma() {
-        var RESULT = gtk_h.graphene_euler_get_gamma(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_euler_get_gamma.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_get_order = Interop.downcallHandle(
+        "graphene_euler_get_order",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the order used to apply the rotations described in the
@@ -89,33 +147,69 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * instead.
      */
     public EulerOrder getOrder() {
-        var RESULT = gtk_h.graphene_euler_get_order(handle());
-        return new EulerOrder(RESULT);
+        try {
+            var RESULT = (int) graphene_euler_get_order.invokeExact(handle());
+            return new EulerOrder(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_get_x = Interop.downcallHandle(
+        "graphene_euler_get_x",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the rotation angle on the X axis, in degrees.
      */
     public float getX() {
-        var RESULT = gtk_h.graphene_euler_get_x(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_euler_get_x.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_get_y = Interop.downcallHandle(
+        "graphene_euler_get_y",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the rotation angle on the Y axis, in degrees.
      */
     public float getY() {
-        var RESULT = gtk_h.graphene_euler_get_y(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_euler_get_y.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_get_z = Interop.downcallHandle(
+        "graphene_euler_get_z",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the rotation angle on the Z axis, in degrees.
      */
     public float getZ() {
-        var RESULT = gtk_h.graphene_euler_get_z(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) graphene_euler_get_z.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_init = Interop.downcallHandle(
+        "graphene_euler_init",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Initializes a {@link Euler} using the given angles.
@@ -123,9 +217,18 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * The order of the rotations is {@link EulerOrder#DEFAULT}.
      */
     public Euler init(float x, float y, float z) {
-        var RESULT = gtk_h.graphene_euler_init(handle(), x, y, z);
-        return new Euler(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_euler_init.invokeExact(handle(), x, y, z);
+            return new Euler(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_init_from_euler = Interop.downcallHandle(
+        "graphene_euler_init_from_euler",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a {@link Euler} using the angles and order of
@@ -135,9 +238,18 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * to calling graphene_euler_init() with all angles set to 0.
      */
     public Euler initFromEuler(Euler src) {
-        var RESULT = gtk_h.graphene_euler_init_from_euler(handle(), src.handle());
-        return new Euler(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_euler_init_from_euler.invokeExact(handle(), src.handle());
+            return new Euler(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_init_from_matrix = Interop.downcallHandle(
+        "graphene_euler_init_from_matrix",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Initializes a {@link Euler} using the given rotation matrix.
@@ -146,9 +258,18 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * be initialized with all angles set to 0.
      */
     public Euler initFromMatrix(Matrix m, EulerOrder order) {
-        var RESULT = gtk_h.graphene_euler_init_from_matrix(handle(), m.handle(), order.getValue());
-        return new Euler(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_euler_init_from_matrix.invokeExact(handle(), m.handle(), order.getValue());
+            return new Euler(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_init_from_quaternion = Interop.downcallHandle(
+        "graphene_euler_init_from_quaternion",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Initializes a {@link Euler} using the given normalized quaternion.
@@ -157,18 +278,36 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * be initialized with all angles set to 0.
      */
     public Euler initFromQuaternion(Quaternion q, EulerOrder order) {
-        var RESULT = gtk_h.graphene_euler_init_from_quaternion(handle(), q.handle(), order.getValue());
-        return new Euler(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_euler_init_from_quaternion.invokeExact(handle(), q.handle(), order.getValue());
+            return new Euler(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_init_from_radians = Interop.downcallHandle(
+        "graphene_euler_init_from_radians",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Initializes a {@link Euler} using the given angles
      * and order of rotation.
      */
     public Euler initFromRadians(float x, float y, float z, EulerOrder order) {
-        var RESULT = gtk_h.graphene_euler_init_from_radians(handle(), x, y, z, order.getValue());
-        return new Euler(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_euler_init_from_radians.invokeExact(handle(), x, y, z, order.getValue());
+            return new Euler(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_init_from_vec3 = Interop.downcallHandle(
+        "graphene_euler_init_from_vec3",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Initializes a {@link Euler} using the angles contained in a
@@ -178,17 +317,35 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * initialized with all angles set to 0.
      */
     public Euler initFromVec3(Vec3 v, EulerOrder order) {
-        var RESULT = gtk_h.graphene_euler_init_from_vec3(handle(), v.handle(), order.getValue());
-        return new Euler(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_euler_init_from_vec3.invokeExact(handle(), v.handle(), order.getValue());
+            return new Euler(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_init_with_order = Interop.downcallHandle(
+        "graphene_euler_init_with_order",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Initializes a {@link Euler} with the given angles and {@code order}.
      */
     public Euler initWithOrder(float x, float y, float z, EulerOrder order) {
-        var RESULT = gtk_h.graphene_euler_init_with_order(handle(), x, y, z, order.getValue());
-        return new Euler(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_euler_init_with_order.invokeExact(handle(), x, y, z, order.getValue());
+            return new Euler(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_reorder = Interop.downcallHandle(
+        "graphene_euler_reorder",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Reorders a {@link Euler} using {@code order}.
@@ -198,8 +355,17 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * {@link Euler}.
      */
     public void reorder(EulerOrder order, Euler res) {
-        gtk_h.graphene_euler_reorder(handle(), order.getValue(), res.handle());
+        try {
+            graphene_euler_reorder.invokeExact(handle(), order.getValue(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_to_matrix = Interop.downcallHandle(
+        "graphene_euler_to_matrix",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a {@link Euler} into a transformation matrix expressing
@@ -220,22 +386,44 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * between Euler-based, quaternion-based, and angle-axis-based rotations.
      */
     public void toMatrix(Matrix res) {
-        gtk_h.graphene_euler_to_matrix(handle(), res.handle());
+        try {
+            graphene_euler_to_matrix.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_to_quaternion = Interop.downcallHandle(
+        "graphene_euler_to_quaternion",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Converts a {@link Euler} into a {@link Quaternion}.
      */
     public void toQuaternion(Quaternion res) {
-        gtk_h.graphene_euler_to_quaternion(handle(), res.handle());
+        try {
+            graphene_euler_to_quaternion.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_euler_to_vec3 = Interop.downcallHandle(
+        "graphene_euler_to_vec3",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the angles of a {@link Euler} and initializes a
      * {@link Vec3} with them.
      */
     public void toVec3(Vec3 res) {
-        gtk_h.graphene_euler_to_vec3(handle(), res.handle());
+        try {
+            graphene_euler_to_vec3.invokeExact(handle(), res.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

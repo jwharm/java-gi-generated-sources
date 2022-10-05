@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -32,9 +31,18 @@ public class GridLayout extends LayoutManager {
         return new GridLayout(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_grid_layout_new = Interop.downcallHandle(
+        "gtk_grid_layout_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_grid_layout_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_grid_layout_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -44,29 +52,61 @@ public class GridLayout extends LayoutManager {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_grid_layout_get_baseline_row = Interop.downcallHandle(
+        "gtk_grid_layout_get_baseline_row",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the row set with gtk_grid_layout_set_baseline_row().
      */
     public int getBaselineRow() {
-        var RESULT = gtk_h.gtk_grid_layout_get_baseline_row(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_grid_layout_get_baseline_row.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_get_column_homogeneous = Interop.downcallHandle(
+        "gtk_grid_layout_get_column_homogeneous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether all columns of {@code grid} should have the same width.
      */
     public boolean getColumnHomogeneous() {
-        var RESULT = gtk_h.gtk_grid_layout_get_column_homogeneous(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_grid_layout_get_column_homogeneous.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_get_column_spacing = Interop.downcallHandle(
+        "gtk_grid_layout_get_column_spacing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the spacing set with gtk_grid_layout_set_column_spacing().
      */
     public int getColumnSpacing() {
-        var RESULT = gtk_h.gtk_grid_layout_get_column_spacing(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_grid_layout_get_column_spacing.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_get_row_baseline_position = Interop.downcallHandle(
+        "gtk_grid_layout_get_row_baseline_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the baseline position of {@code row}.
@@ -77,25 +117,52 @@ public class GridLayout extends LayoutManager {
      * is returned.
      */
     public BaselinePosition getRowBaselinePosition(int row) {
-        var RESULT = gtk_h.gtk_grid_layout_get_row_baseline_position(handle(), row);
-        return new BaselinePosition(RESULT);
+        try {
+            var RESULT = (int) gtk_grid_layout_get_row_baseline_position.invokeExact(handle(), row);
+            return new BaselinePosition(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_get_row_homogeneous = Interop.downcallHandle(
+        "gtk_grid_layout_get_row_homogeneous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether all rows of {@code grid} should have the same height.
      */
     public boolean getRowHomogeneous() {
-        var RESULT = gtk_h.gtk_grid_layout_get_row_homogeneous(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_grid_layout_get_row_homogeneous.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_get_row_spacing = Interop.downcallHandle(
+        "gtk_grid_layout_get_row_spacing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the spacing set with gtk_grid_layout_set_row_spacing().
      */
     public int getRowSpacing() {
-        var RESULT = gtk_h.gtk_grid_layout_get_row_spacing(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_grid_layout_get_row_spacing.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_set_baseline_row = Interop.downcallHandle(
+        "gtk_grid_layout_set_baseline_row",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets which row defines the global baseline for the entire grid.
@@ -105,43 +172,92 @@ public class GridLayout extends LayoutManager {
      * parent of the {@code grid}.
      */
     public void setBaselineRow(int row) {
-        gtk_h.gtk_grid_layout_set_baseline_row(handle(), row);
+        try {
+            gtk_grid_layout_set_baseline_row.invokeExact(handle(), row);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_set_column_homogeneous = Interop.downcallHandle(
+        "gtk_grid_layout_set_column_homogeneous",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether all columns of {@code grid} should have the same width.
      */
     public void setColumnHomogeneous(boolean homogeneous) {
-        gtk_h.gtk_grid_layout_set_column_homogeneous(handle(), homogeneous ? 1 : 0);
+        try {
+            gtk_grid_layout_set_column_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_set_column_spacing = Interop.downcallHandle(
+        "gtk_grid_layout_set_column_spacing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the amount of space to insert between consecutive columns.
      */
     public void setColumnSpacing(int spacing) {
-        gtk_h.gtk_grid_layout_set_column_spacing(handle(), spacing);
+        try {
+            gtk_grid_layout_set_column_spacing.invokeExact(handle(), spacing);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_set_row_baseline_position = Interop.downcallHandle(
+        "gtk_grid_layout_set_row_baseline_position",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets how the baseline should be positioned on {@code row} of the
      * grid, in case that row is assigned more space than is requested.
      */
     public void setRowBaselinePosition(int row, BaselinePosition pos) {
-        gtk_h.gtk_grid_layout_set_row_baseline_position(handle(), row, pos.getValue());
+        try {
+            gtk_grid_layout_set_row_baseline_position.invokeExact(handle(), row, pos.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_set_row_homogeneous = Interop.downcallHandle(
+        "gtk_grid_layout_set_row_homogeneous",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether all rows of {@code grid} should have the same height.
      */
     public void setRowHomogeneous(boolean homogeneous) {
-        gtk_h.gtk_grid_layout_set_row_homogeneous(handle(), homogeneous ? 1 : 0);
+        try {
+            gtk_grid_layout_set_row_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_set_row_spacing = Interop.downcallHandle(
+        "gtk_grid_layout_set_row_spacing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the amount of space to insert between consecutive rows.
      */
     public void setRowSpacing(int spacing) {
-        gtk_h.gtk_grid_layout_set_row_spacing(handle(), spacing);
+        try {
+            gtk_grid_layout_set_row_spacing.invokeExact(handle(), spacing);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

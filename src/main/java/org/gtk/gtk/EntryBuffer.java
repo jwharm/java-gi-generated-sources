@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -28,9 +27,18 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         return new EntryBuffer(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_entry_buffer_new = Interop.downcallHandle(
+        "gtk_entry_buffer_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(java.lang.String initialChars, int nInitialChars) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_entry_buffer_new(Interop.allocateNativeString(initialChars).handle(), nInitialChars), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_entry_buffer_new.invokeExact(Interop.allocateNativeString(initialChars).handle(), nInitialChars), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -41,6 +49,11 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public EntryBuffer(java.lang.String initialChars, int nInitialChars) {
         super(constructNew(initialChars, nInitialChars));
     }
+    
+    static final MethodHandle gtk_entry_buffer_delete_text = Interop.downcallHandle(
+        "gtk_entry_buffer_delete_text",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Deletes a sequence of characters from the buffer.
@@ -56,23 +69,50 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * not bytes.
      */
     public int deleteText(int position, int nChars) {
-        var RESULT = gtk_h.gtk_entry_buffer_delete_text(handle(), position, nChars);
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_entry_buffer_delete_text.invokeExact(handle(), position, nChars);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_emit_deleted_text = Interop.downcallHandle(
+        "gtk_entry_buffer_emit_deleted_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Used when subclassing {@code GtkEntryBuffer}.
      */
     public void emitDeletedText(int position, int nChars) {
-        gtk_h.gtk_entry_buffer_emit_deleted_text(handle(), position, nChars);
+        try {
+            gtk_entry_buffer_emit_deleted_text.invokeExact(handle(), position, nChars);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_emit_inserted_text = Interop.downcallHandle(
+        "gtk_entry_buffer_emit_inserted_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Used when subclassing {@code GtkEntryBuffer}.
      */
     public void emitInsertedText(int position, java.lang.String chars, int nChars) {
-        gtk_h.gtk_entry_buffer_emit_inserted_text(handle(), position, Interop.allocateNativeString(chars).handle(), nChars);
+        try {
+            gtk_entry_buffer_emit_inserted_text.invokeExact(handle(), position, Interop.allocateNativeString(chars).handle(), nChars);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_get_bytes = Interop.downcallHandle(
+        "gtk_entry_buffer_get_bytes",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the length in bytes of the buffer.
@@ -80,25 +120,52 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * See {@link EntryBuffer#getLength}.
      */
     public long getBytes() {
-        var RESULT = gtk_h.gtk_entry_buffer_get_bytes(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gtk_entry_buffer_get_bytes.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_get_length = Interop.downcallHandle(
+        "gtk_entry_buffer_get_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the length in characters of the buffer.
      */
     public int getLength() {
-        var RESULT = gtk_h.gtk_entry_buffer_get_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_entry_buffer_get_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_get_max_length = Interop.downcallHandle(
+        "gtk_entry_buffer_get_max_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the maximum allowed length of the text in {@code buffer}.
      */
     public int getMaxLength() {
-        var RESULT = gtk_h.gtk_entry_buffer_get_max_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_entry_buffer_get_max_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_get_text = Interop.downcallHandle(
+        "gtk_entry_buffer_get_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the contents of the buffer.
@@ -107,9 +174,18 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * unless this object emits a signal, or is finalized.
      */
     public java.lang.String getText() {
-        var RESULT = gtk_h.gtk_entry_buffer_get_text(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_entry_buffer_get_text.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_insert_text = Interop.downcallHandle(
+        "gtk_entry_buffer_insert_text",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Inserts {@code n_chars} characters of {@code chars} into the contents of the
@@ -123,9 +199,18 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Note that the position and length are in characters, not in bytes.
      */
     public int insertText(int position, java.lang.String chars, int nChars) {
-        var RESULT = gtk_h.gtk_entry_buffer_insert_text(handle(), position, Interop.allocateNativeString(chars).handle(), nChars);
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_entry_buffer_insert_text.invokeExact(handle(), position, Interop.allocateNativeString(chars).handle(), nChars);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_set_max_length = Interop.downcallHandle(
+        "gtk_entry_buffer_set_max_length",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the maximum allowed length of the contents of the buffer.
@@ -134,8 +219,17 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * they will be truncated to fit.
      */
     public void setMaxLength(int maxLength) {
-        gtk_h.gtk_entry_buffer_set_max_length(handle(), maxLength);
+        try {
+            gtk_entry_buffer_set_max_length.invokeExact(handle(), maxLength);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_entry_buffer_set_text = Interop.downcallHandle(
+        "gtk_entry_buffer_set_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the text in the buffer.
@@ -147,7 +241,11 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Note that {@code n_chars} is in characters, not in bytes.
      */
     public void setText(java.lang.String chars, int nChars) {
-        gtk_h.gtk_entry_buffer_set_text(handle(), Interop.allocateNativeString(chars).handle(), nChars);
+        try {
+            gtk_entry_buffer_set_text.invokeExact(handle(), Interop.allocateNativeString(chars).handle(), nChars);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -163,19 +261,19 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      */
     public SignalHandle onDeletedText(DeletedTextHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("deleted-text").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EntryBuffer.Callbacks.class, "signalEntryBufferDeletedText",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -189,19 +287,19 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      */
     public SignalHandle onInsertedText(InsertedTextHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("inserted-text").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EntryBuffer.Callbacks.class, "signalEntryBufferInsertedText",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

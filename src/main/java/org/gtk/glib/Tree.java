@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,20 +15,25 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_tree_new_full = Interop.downcallHandle(
+        "g_tree_new_full",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFull(CompareDataFunc keyCompareFunc) {
         try {
-            Refcounted RESULT = Refcounted.get(gtk_h.g_tree_new_full(
-                    Linker.nativeLinker().upcallStub(
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tree_new_full.invokeExact(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(keyCompareFunc.hashCode(), keyCompareFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(keyCompareFunc.hashCode(), keyCompareFunc)), 
                     Interop.cbDestroyNotifySymbol(), 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -42,18 +46,23 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         return new Tree(constructNewFull(keyCompareFunc));
     }
     
+    static final MethodHandle g_tree_new_with_data = Interop.downcallHandle(
+        "g_tree_new_with_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithData(CompareDataFunc keyCompareFunc) {
         try {
-            Refcounted RESULT = Refcounted.get(gtk_h.g_tree_new_with_data(
-                    Linker.nativeLinker().upcallStub(
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tree_new_with_data.invokeExact(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(keyCompareFunc.hashCode(), keyCompareFunc))), true);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(keyCompareFunc.hashCode(), keyCompareFunc))), true);
             return RESULT;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -65,6 +74,11 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         return new Tree(constructNewWithData(keyCompareFunc));
     }
     
+    static final MethodHandle g_tree_destroy = Interop.downcallHandle(
+        "g_tree_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Removes all keys and values from the {@link Tree} and decreases its
      * reference count by one. If keys and/or values are dynamically
@@ -74,8 +88,17 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * the {@link Tree}.
      */
     public void destroy() {
-        gtk_h.g_tree_destroy(handle());
+        try {
+            g_tree_destroy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_foreach = Interop.downcallHandle(
+        "g_tree_foreach",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for each of the key/value pairs in the {@link Tree}.
@@ -89,17 +112,22 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public void foreach(TraverseFunc func) {
         try {
-            gtk_h.g_tree_foreach(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_tree_foreach.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTraverseFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_tree_foreach_node = Interop.downcallHandle(
+        "g_tree_foreach_node",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Calls the given function for each of the nodes in the {@link Tree}.
@@ -113,17 +141,22 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public void foreachNode(TraverseNodeFunc func) {
         try {
-            gtk_h.g_tree_foreach_node(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_tree_foreach_node.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTraverseNodeFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_tree_height = Interop.downcallHandle(
+        "g_tree_height",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the height of a {@link Tree}.
@@ -133,9 +166,18 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * If the root node has children the height is 2, etc.
      */
     public int height() {
-        var RESULT = gtk_h.g_tree_height(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_tree_height.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_insert = Interop.downcallHandle(
+        "g_tree_insert",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a key/value pair into a {@link Tree}.
@@ -144,8 +186,17 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * only this function does not return the inserted or set node.
      */
     public void insert(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        gtk_h.g_tree_insert(handle(), key, value);
+        try {
+            g_tree_insert.invokeExact(handle(), key, value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_insert_node = Interop.downcallHandle(
+        "g_tree_insert_node",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a key/value pair into a {@link Tree}.
@@ -163,9 +214,18 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * are O(log(n)).
      */
     public TreeNode insertNode(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_tree_insert_node(handle(), key, value);
-        return new TreeNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_tree_insert_node.invokeExact(handle(), key, value);
+            return new TreeNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_lookup = Interop.downcallHandle(
+        "g_tree_lookup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value corresponding to the given key. Since a {@link Tree} is
@@ -173,9 +233,18 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * is O(log n) (where n is the number of key/value pairs in the tree).
      */
     public java.lang.foreign.MemoryAddress lookup(java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_tree_lookup(handle(), key);
-        return RESULT;
+        try {
+            var RESULT = (MemoryAddress) g_tree_lookup.invokeExact(handle(), key);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_lookup_extended = Interop.downcallHandle(
+        "g_tree_lookup_extended",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up a key in the {@link Tree}, returning the original key and the
@@ -184,9 +253,18 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * g_tree_remove().
      */
     public boolean lookupExtended(java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress origKey, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_tree_lookup_extended(handle(), lookupKey, origKey, value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_tree_lookup_extended.invokeExact(handle(), lookupKey, origKey, value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_lookup_node = Interop.downcallHandle(
+        "g_tree_lookup_node",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the tree node corresponding to the given key. Since a {@link Tree} is
@@ -194,9 +272,18 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * is O(log n) (where n is the number of key/value pairs in the tree).
      */
     public TreeNode lookupNode(java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_tree_lookup_node(handle(), key);
-        return new TreeNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_tree_lookup_node.invokeExact(handle(), key);
+            return new TreeNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_lower_bound = Interop.downcallHandle(
+        "g_tree_lower_bound",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the lower bound node corresponding to the given key,
@@ -207,35 +294,71 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * than or equal to the searched key.
      */
     public TreeNode lowerBound(java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_tree_lower_bound(handle(), key);
-        return new TreeNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_tree_lower_bound.invokeExact(handle(), key);
+            return new TreeNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_nnodes = Interop.downcallHandle(
+        "g_tree_nnodes",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of nodes in a {@link Tree}.
      */
     public int nnodes() {
-        var RESULT = gtk_h.g_tree_nnodes(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_tree_nnodes.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_node_first = Interop.downcallHandle(
+        "g_tree_node_first",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the first in-order node of the tree, or {@code null}
      * for an empty tree.
      */
     public TreeNode nodeFirst() {
-        var RESULT = gtk_h.g_tree_node_first(handle());
-        return new TreeNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_tree_node_first.invokeExact(handle());
+            return new TreeNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_node_last = Interop.downcallHandle(
+        "g_tree_node_last",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the last in-order node of the tree, or {@code null}
      * for an empty tree.
      */
     public TreeNode nodeLast() {
-        var RESULT = gtk_h.g_tree_node_last(handle());
-        return new TreeNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_tree_node_last.invokeExact(handle());
+            return new TreeNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_ref = Interop.downcallHandle(
+        "g_tree_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increments the reference count of {@code tree} by one.
@@ -243,9 +366,18 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * It is safe to call this function from any thread.
      */
     public Tree ref() {
-        var RESULT = gtk_h.g_tree_ref(handle());
-        return new Tree(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_tree_ref.invokeExact(handle());
+            return new Tree(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_remove = Interop.downcallHandle(
+        "g_tree_remove",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a key/value pair from a {@link Tree}.
@@ -260,25 +392,52 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * are O(log(n)).
      */
     public boolean remove(java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_tree_remove(handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_tree_remove.invokeExact(handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_remove_all = Interop.downcallHandle(
+        "g_tree_remove_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all nodes from a {@link Tree} and destroys their keys and values,
      * then resets the {@link Tree}’s root to {@code null}.
      */
     public void removeAll() {
-        gtk_h.g_tree_remove_all(handle());
+        try {
+            g_tree_remove_all.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_replace = Interop.downcallHandle(
+        "g_tree_replace",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new key and value into a {@link Tree} as g_tree_replace_node() does,
      * only this function does not return the inserted or set node.
      */
     public void replace(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        gtk_h.g_tree_replace(handle(), key, value);
+        try {
+            g_tree_replace.invokeExact(handle(), key, value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_replace_node = Interop.downcallHandle(
+        "g_tree_replace_node",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts a new key and value into a {@link Tree} similar to g_tree_insert_node().
@@ -292,9 +451,18 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * so that the distance from the root to every leaf is as small as possible.
      */
     public TreeNode replaceNode(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_tree_replace_node(handle(), key, value);
-        return new TreeNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_tree_replace_node.invokeExact(handle(), key, value);
+            return new TreeNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_search = Interop.downcallHandle(
+        "g_tree_search",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Searches a {@link Tree} using {@code search_func}.
@@ -309,18 +477,23 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public java.lang.foreign.MemoryAddress search(CompareFunc searchFunc) {
         try {
-            var RESULT = gtk_h.g_tree_search(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_tree_search.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchFunc.hashCode(), searchFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchFunc.hashCode(), searchFunc)));
             return RESULT;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_tree_search_node = Interop.downcallHandle(
+        "g_tree_search_node",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Searches a {@link Tree} using {@code search_func}.
@@ -335,18 +508,23 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      */
     public TreeNode searchNode(CompareFunc searchFunc) {
         try {
-            var RESULT = gtk_h.g_tree_search_node(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_tree_search_node.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchFunc.hashCode(), searchFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchFunc.hashCode(), searchFunc)));
             return new TreeNode(Refcounted.get(RESULT, false));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_tree_steal = Interop.downcallHandle(
+        "g_tree_steal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a key and its associated value from a {@link Tree} without calling
@@ -355,9 +533,18 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * If the key does not exist in the {@link Tree}, the function does nothing.
      */
     public boolean steal(java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_tree_steal(handle(), key);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_tree_steal.invokeExact(handle(), key);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_unref = Interop.downcallHandle(
+        "g_tree_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrements the reference count of {@code tree} by one.
@@ -368,8 +555,17 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * It is safe to call this function from any thread.
      */
     public void unref() {
-        gtk_h.g_tree_unref(handle());
+        try {
+            g_tree_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tree_upper_bound = Interop.downcallHandle(
+        "g_tree_upper_bound",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the upper bound node corresponding to the given key,
@@ -380,8 +576,12 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * than the searched key.
      */
     public TreeNode upperBound(java.lang.foreign.MemoryAddress key) {
-        var RESULT = gtk_h.g_tree_upper_bound(handle(), key);
-        return new TreeNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_tree_upper_bound.invokeExact(handle(), key);
+            return new TreeNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

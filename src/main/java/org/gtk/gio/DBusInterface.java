@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -12,22 +11,45 @@ import java.lang.invoke.*;
  */
 public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_dbus_interface_dup_object = Interop.downcallHandle(
+        "g_dbus_interface_dup_object",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.
      */
     public default DBusObject dupObject() {
-        var RESULT = gtk_h.g_dbus_interface_dup_object(handle());
-        return new DBusObject.DBusObjectImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_dup_object.invokeExact(handle());
+            return new DBusObject.DBusObjectImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_get_info = Interop.downcallHandle(
+        "g_dbus_interface_get_info",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets D-Bus introspection information for the D-Bus interface
      * implemented by {@code interface_}.
      */
     public default DBusInterfaceInfo getInfo() {
-        var RESULT = gtk_h.g_dbus_interface_get_info(handle());
-        return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_get_info.invokeExact(handle());
+            return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_get_object = Interop.downcallHandle(
+        "g_dbus_interface_get_object",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.
@@ -37,9 +59,18 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      * g_dbus_interface_dup_object() for a thread-safe alternative.
      */
     public default DBusObject getObject() {
-        var RESULT = gtk_h.g_dbus_interface_get_object(handle());
-        return new DBusObject.DBusObjectImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_get_object.invokeExact(handle());
+            return new DBusObject.DBusObjectImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_set_object = Interop.downcallHandle(
+        "g_dbus_interface_set_object",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@link DBusObject} for {@code interface_} to {@code object}.
@@ -47,7 +78,11 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      * Note that {@code interface_} will hold a weak reference to {@code object}.
      */
     public default void setObject(DBusObject object) {
-        gtk_h.g_dbus_interface_set_object(handle(), object.handle());
+        try {
+            g_dbus_interface_set_object.invokeExact(handle(), object.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class DBusInterfaceImpl extends org.gtk.gobject.Object implements DBusInterface {

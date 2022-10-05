@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -36,9 +35,18 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
         return new UnixSocketAddress(gobject.refcounted());
     }
     
+    static final MethodHandle g_unix_socket_address_new = Interop.downcallHandle(
+        "g_unix_socket_address_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String path) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new.invokeExact(Interop.allocateNativeString(path).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -51,9 +59,18 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
         super(constructNew(path));
     }
     
+    static final MethodHandle g_unix_socket_address_new_abstract = Interop.downcallHandle(
+        "g_unix_socket_address_new_abstract",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewAbstract(byte[] path, int pathLen) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_socket_address_new_abstract(Interop.allocateNativeArray(path).handle(), pathLen), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new_abstract.invokeExact(Interop.allocateNativeArray(path).handle(), pathLen), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -64,9 +81,18 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
         return new UnixSocketAddress(constructNewAbstract(path, pathLen));
     }
     
+    static final MethodHandle g_unix_socket_address_new_with_type = Interop.downcallHandle(
+        "g_unix_socket_address_new_with_type",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_socket_address_new_with_type(Interop.allocateNativeArray(path).handle(), pathLen, type.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new_with_type.invokeExact(Interop.allocateNativeArray(path).handle(), pathLen, type.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -106,13 +132,27 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
         return new UnixSocketAddress(constructNewWithType(path, pathLen, type));
     }
     
+    static final MethodHandle g_unix_socket_address_get_address_type = Interop.downcallHandle(
+        "g_unix_socket_address_get_address_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets {@code address}'s type.
      */
     public UnixSocketAddressType getAddressType() {
-        var RESULT = gtk_h.g_unix_socket_address_get_address_type(handle());
-        return new UnixSocketAddressType(RESULT);
+        try {
+            var RESULT = (int) g_unix_socket_address_get_address_type.invokeExact(handle());
+            return new UnixSocketAddressType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_socket_address_get_path = Interop.downcallHandle(
+        "g_unix_socket_address_get_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code address}'s path, or for abstract sockets the "name".
@@ -123,9 +163,18 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * of this string.
      */
     public java.lang.String getPath() {
-        var RESULT = gtk_h.g_unix_socket_address_get_path(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_unix_socket_address_get_path.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_socket_address_get_path_len = Interop.downcallHandle(
+        "g_unix_socket_address_get_path_len",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the length of {@code address}'s path.
@@ -133,16 +182,29 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * For details, see g_unix_socket_address_get_path().
      */
     public long getPathLen() {
-        var RESULT = gtk_h.g_unix_socket_address_get_path_len(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_unix_socket_address_get_path_len.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_socket_address_abstract_names_supported = Interop.downcallHandle(
+        "g_unix_socket_address_abstract_names_supported",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks if abstract UNIX domain socket names are supported.
      */
     public static boolean abstractNamesSupported() {
-        var RESULT = gtk_h.g_unix_socket_address_abstract_names_supported();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unix_socket_address_abstract_names_supported.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

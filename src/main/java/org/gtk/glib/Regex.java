@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -78,13 +77,22 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_regex_new = Interop.downcallHandle(
+        "g_regex_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(java.lang.String pattern, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_regex_new(Interop.allocateNativeString(pattern).handle(), compileOptions.getValue(), matchOptions.getValue(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_regex_new.invokeExact(Interop.allocateNativeString(pattern).handle(), compileOptions.getValue(), matchOptions.getValue(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -95,13 +103,27 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(pattern, compileOptions, matchOptions));
     }
     
+    static final MethodHandle g_regex_get_capture_count = Interop.downcallHandle(
+        "g_regex_get_capture_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the number of capturing subpatterns in the pattern.
      */
     public int getCaptureCount() {
-        var RESULT = gtk_h.g_regex_get_capture_count(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_regex_get_capture_count.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_get_compile_flags = Interop.downcallHandle(
+        "g_regex_get_compile_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the compile options that {@code regex} was created with.
@@ -111,25 +133,52 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * top-level within the compiled pattern.
      */
     public RegexCompileFlags getCompileFlags() {
-        var RESULT = gtk_h.g_regex_get_compile_flags(handle());
-        return new RegexCompileFlags(RESULT);
+        try {
+            var RESULT = (int) g_regex_get_compile_flags.invokeExact(handle());
+            return new RegexCompileFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_get_has_cr_or_lf = Interop.downcallHandle(
+        "g_regex_get_has_cr_or_lf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the pattern contains explicit CR or LF references.
      */
     public boolean getHasCrOrLf() {
-        var RESULT = gtk_h.g_regex_get_has_cr_or_lf(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_regex_get_has_cr_or_lf.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_get_match_flags = Interop.downcallHandle(
+        "g_regex_get_match_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the match options that {@code regex} was created with.
      */
     public RegexMatchFlags getMatchFlags() {
-        var RESULT = gtk_h.g_regex_get_match_flags(handle());
-        return new RegexMatchFlags(RESULT);
+        try {
+            var RESULT = (int) g_regex_get_match_flags.invokeExact(handle());
+            return new RegexMatchFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_get_max_backref = Interop.downcallHandle(
+        "g_regex_get_max_backref",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the number of the highest back reference
@@ -137,9 +186,18 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * back references.
      */
     public int getMaxBackref() {
-        var RESULT = gtk_h.g_regex_get_max_backref(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_regex_get_max_backref.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_get_max_lookbehind = Interop.downcallHandle(
+        "g_regex_get_max_lookbehind",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of characters in the longest lookbehind assertion in the
@@ -147,26 +205,53 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * the partial matching facilities.
      */
     public int getMaxLookbehind() {
-        var RESULT = gtk_h.g_regex_get_max_lookbehind(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_regex_get_max_lookbehind.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_get_pattern = Interop.downcallHandle(
+        "g_regex_get_pattern",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the pattern string associated with {@code regex}, i.e. a copy of
      * the string passed to g_regex_new().
      */
     public java.lang.String getPattern() {
-        var RESULT = gtk_h.g_regex_get_pattern(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_regex_get_pattern.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_get_string_number = Interop.downcallHandle(
+        "g_regex_get_string_number",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of the subexpression named {@code name}.
      */
     public int getStringNumber(java.lang.String name) {
-        var RESULT = gtk_h.g_regex_get_string_number(handle(), Interop.allocateNativeString(name).handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_regex_get_string_number.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_match = Interop.downcallHandle(
+        "g_regex_match",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Scans for a match in {@code string} for the pattern in {@code regex}.
@@ -211,9 +296,18 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * freeing or modifying {@code string} then the behaviour is undefined.
      */
     public boolean match(java.lang.String string, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) {
-        var RESULT = gtk_h.g_regex_match(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_regex_match.invokeExact(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_match_all = Interop.downcallHandle(
+        "g_regex_match_all",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Using the standard algorithm for regular expression matching only
@@ -232,9 +326,18 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * freeing or modifying {@code string} then the behaviour is undefined.
      */
     public boolean matchAll(java.lang.String string, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) {
-        var RESULT = gtk_h.g_regex_match_all(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_regex_match_all.invokeExact(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_match_all_full = Interop.downcallHandle(
+        "g_regex_match_all_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Using the standard algorithm for regular expression matching only
@@ -278,12 +381,21 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_match_all_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_regex_match_all_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_regex_match_full = Interop.downcallHandle(
+        "g_regex_match_full",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Scans for a match in {@code string} for the pattern in {@code regex}.
@@ -340,20 +452,38 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_match_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_regex_match_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_regex_ref = Interop.downcallHandle(
+        "g_regex_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases reference count of {@code regex} by 1.
      */
     public Regex ref() {
-        var RESULT = gtk_h.g_regex_ref(handle());
-        return new Regex(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_regex_ref.invokeExact(handle());
+            return new Regex(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_replace = Interop.downcallHandle(
+        "g_regex_replace",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Replaces all occurrences of the pattern in {@code regex} with the
@@ -387,12 +517,21 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_replace(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_regex_replace.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_regex_replace_eval = Interop.downcallHandle(
+        "g_regex_replace_eval",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Replaces occurrences of the pattern in regex with the output of
@@ -444,21 +583,26 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = gtk_h.g_regex_replace_eval(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) g_regex_replace_eval.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbRegexEvalCallback",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(eval.hashCode(), eval)), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(eval.hashCode(), eval)), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
             return RESULT.getUtf8String(0);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_regex_replace_literal = Interop.downcallHandle(
+        "g_regex_replace_literal",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Replaces all occurrences of the pattern in {@code regex} with the
@@ -472,12 +616,21 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_replace_literal(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_regex_replace_literal.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_regex_split = Interop.downcallHandle(
+        "g_regex_split",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Breaks the string on the pattern, and returns an array of the tokens.
@@ -499,9 +652,18 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * "a", "b" and "c".
      */
     public PointerIterator<java.lang.String> split(java.lang.String string, RegexMatchFlags matchOptions) {
-        var RESULT = gtk_h.g_regex_split(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_regex_split.invokeExact(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_split_full = Interop.downcallHandle(
+        "g_regex_split_full",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Breaks the string on the pattern, and returns an array of the tokens.
@@ -528,20 +690,38 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public PointerIterator<java.lang.String> splitFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_split_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), maxTokens, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_regex_split_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), maxTokens, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerString(RESULT).iterator();
     }
+    
+    static final MethodHandle g_regex_unref = Interop.downcallHandle(
+        "g_regex_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases reference count of {@code regex} by 1. When reference count drops
      * to zero, it frees all the memory associated with the regex structure.
      */
     public void unref() {
-        gtk_h.g_regex_unref(handle());
+        try {
+            g_regex_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_check_replacement = Interop.downcallHandle(
+        "g_regex_check_replacement",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Checks whether {@code replacement} is a valid replacement string
@@ -556,17 +736,35 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      */
     public static boolean checkReplacement(java.lang.String replacement, PointerBoolean hasReferences) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_check_replacement(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_regex_check_replacement.invokeExact(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
+    static final MethodHandle g_regex_error_quark = Interop.downcallHandle(
+        "g_regex_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static Quark errorQuark() {
-        var RESULT = gtk_h.g_regex_error_quark();
-        return new Quark(RESULT);
+        try {
+            var RESULT = (int) g_regex_error_quark.invokeExact();
+            return new Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_escape_nul = Interop.downcallHandle(
+        "g_regex_escape_nul",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Escapes the nul characters in {@code string} to "\\x00".  It can be used
@@ -576,9 +774,18 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * In this case the output string will be of course equal to {@code string}.
      */
     public static java.lang.String escapeNul(java.lang.String string, int length) {
-        var RESULT = gtk_h.g_regex_escape_nul(Interop.allocateNativeString(string).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_regex_escape_nul.invokeExact(Interop.allocateNativeString(string).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_escape_string = Interop.downcallHandle(
+        "g_regex_escape_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Escapes the special characters used for regular expressions
@@ -590,9 +797,18 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * in {@code length}.
      */
     public static java.lang.String escapeString(java.lang.String[] string, int length) {
-        var RESULT = gtk_h.g_regex_escape_string(Interop.allocateNativeArray(string).handle(), length);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_regex_escape_string.invokeExact(Interop.allocateNativeArray(string).handle(), length);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_match_simple = Interop.downcallHandle(
+        "g_regex_match_simple",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Scans for a match in {@code string} for {@code pattern}.
@@ -607,9 +823,18 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * g_regex_new() and then use g_regex_match().
      */
     public static boolean matchSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
-        var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_regex_match_simple.invokeExact(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_regex_split_simple = Interop.downcallHandle(
+        "g_regex_split_simple",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Breaks the string on the pattern, and returns an array of
@@ -641,8 +866,12 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * "\\s*", you will get "a", "b" and "c".
      */
     public static PointerIterator<java.lang.String> splitSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
-        var RESULT = gtk_h.g_regex_split_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_regex_split_simple.invokeExact(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -37,9 +36,18 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
         return new CellAreaBox(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_cell_area_box_new = Interop.downcallHandle(
+        "gtk_cell_area_box_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_cell_area_box_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_area_box_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -49,13 +57,27 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
         super(constructNew());
     }
     
+    static final MethodHandle gtk_cell_area_box_get_spacing = Interop.downcallHandle(
+        "gtk_cell_area_box_get_spacing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the spacing added between cell renderers.
      */
     public int getSpacing() {
-        var RESULT = gtk_h.gtk_cell_area_box_get_spacing(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_cell_area_box_get_spacing.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_area_box_pack_end = Interop.downcallHandle(
+        "gtk_cell_area_box_pack_end",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds {@code renderer} to {@code box}, packed with reference to the end of {@code box}.
@@ -64,8 +86,17 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * {@code GtkCellRenderer} packed with reference to the end of {@code box}.
      */
     public void packEnd(CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
-        gtk_h.gtk_cell_area_box_pack_end(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+        try {
+            gtk_cell_area_box_pack_end.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_area_box_pack_start = Interop.downcallHandle(
+        "gtk_cell_area_box_pack_start",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Adds {@code renderer} to {@code box}, packed with reference to the start of {@code box}.
@@ -74,14 +105,27 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * with reference to the start of {@code box}.
      */
     public void packStart(CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
-        gtk_h.gtk_cell_area_box_pack_start(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+        try {
+            gtk_cell_area_box_pack_start.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_cell_area_box_set_spacing = Interop.downcallHandle(
+        "gtk_cell_area_box_set_spacing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the spacing to add between cell renderers in {@code box}.
      */
     public void setSpacing(int spacing) {
-        gtk_h.gtk_cell_area_box_set_spacing(handle(), spacing);
+        try {
+            gtk_cell_area_box_set_spacing.invokeExact(handle(), spacing);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

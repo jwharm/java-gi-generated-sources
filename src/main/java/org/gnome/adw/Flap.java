@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -75,9 +74,18 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
         return new Flap(gobject.refcounted());
     }
     
+    static final MethodHandle adw_flap_new = Interop.downcallHandle(
+        "adw_flap_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_flap_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_flap_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -87,230 +95,500 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
         super(constructNew());
     }
     
+    static final MethodHandle adw_flap_get_content = Interop.downcallHandle(
+        "adw_flap_get_content",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the content widget for {@code self}.
      */
     public org.gtk.gtk.Widget getContent() {
-        var RESULT = gtk_h.adw_flap_get_content(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_flap_get_content.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_flap = Interop.downcallHandle(
+        "adw_flap_get_flap",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the flap widget for {@code self}.
      */
     public org.gtk.gtk.Widget getFlap() {
-        var RESULT = gtk_h.adw_flap_get_flap(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_flap_get_flap.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_flap_position = Interop.downcallHandle(
+        "adw_flap_get_flap_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the flap position for {@code self}.
      */
     public org.gtk.gtk.PackType getFlapPosition() {
-        var RESULT = gtk_h.adw_flap_get_flap_position(handle());
-        return new org.gtk.gtk.PackType(RESULT);
+        try {
+            var RESULT = (int) adw_flap_get_flap_position.invokeExact(handle());
+            return new org.gtk.gtk.PackType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_fold_duration = Interop.downcallHandle(
+        "adw_flap_get_fold_duration",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the duration that fold transitions in {@code self} will take.
      */
     public int getFoldDuration() {
-        var RESULT = gtk_h.adw_flap_get_fold_duration(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_flap_get_fold_duration.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_fold_policy = Interop.downcallHandle(
+        "adw_flap_get_fold_policy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the fold policy for {@code self}.
      */
     public FlapFoldPolicy getFoldPolicy() {
-        var RESULT = gtk_h.adw_flap_get_fold_policy(handle());
-        return new FlapFoldPolicy(RESULT);
+        try {
+            var RESULT = (int) adw_flap_get_fold_policy.invokeExact(handle());
+            return new FlapFoldPolicy(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_fold_threshold_policy = Interop.downcallHandle(
+        "adw_flap_get_fold_threshold_policy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the fold threshold policy for {@code self}.
      */
     public FoldThresholdPolicy getFoldThresholdPolicy() {
-        var RESULT = gtk_h.adw_flap_get_fold_threshold_policy(handle());
-        return new FoldThresholdPolicy(RESULT);
+        try {
+            var RESULT = (int) adw_flap_get_fold_threshold_policy.invokeExact(handle());
+            return new FoldThresholdPolicy(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_folded = Interop.downcallHandle(
+        "adw_flap_get_folded",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} is currently folded.
      */
     public boolean getFolded() {
-        var RESULT = gtk_h.adw_flap_get_folded(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_flap_get_folded.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_locked = Interop.downcallHandle(
+        "adw_flap_get_locked",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} is locked.
      */
     public boolean getLocked() {
-        var RESULT = gtk_h.adw_flap_get_locked(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_flap_get_locked.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_modal = Interop.downcallHandle(
+        "adw_flap_get_modal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} is modal.
      */
     public boolean getModal() {
-        var RESULT = gtk_h.adw_flap_get_modal(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_flap_get_modal.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_reveal_flap = Interop.downcallHandle(
+        "adw_flap_get_reveal_flap",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the flap widget is revealed for {@code self}.
      */
     public boolean getRevealFlap() {
-        var RESULT = gtk_h.adw_flap_get_reveal_flap(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_flap_get_reveal_flap.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_reveal_params = Interop.downcallHandle(
+        "adw_flap_get_reveal_params",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the reveal animation spring parameters for {@code self}.
      */
     public SpringParams getRevealParams() {
-        var RESULT = gtk_h.adw_flap_get_reveal_params(handle());
-        return new SpringParams(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) adw_flap_get_reveal_params.invokeExact(handle());
+            return new SpringParams(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_reveal_progress = Interop.downcallHandle(
+        "adw_flap_get_reveal_progress",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current reveal progress for {@code self}.
      */
     public double getRevealProgress() {
-        var RESULT = gtk_h.adw_flap_get_reveal_progress(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_flap_get_reveal_progress.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_separator = Interop.downcallHandle(
+        "adw_flap_get_separator",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the separator widget for {@code self}.
      */
     public org.gtk.gtk.Widget getSeparator() {
-        var RESULT = gtk_h.adw_flap_get_separator(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_flap_get_separator.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_swipe_to_close = Interop.downcallHandle(
+        "adw_flap_get_swipe_to_close",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} can be closed with a swipe gesture.
      */
     public boolean getSwipeToClose() {
-        var RESULT = gtk_h.adw_flap_get_swipe_to_close(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_flap_get_swipe_to_close.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_swipe_to_open = Interop.downcallHandle(
+        "adw_flap_get_swipe_to_open",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} can be opened with a swipe gesture.
      */
     public boolean getSwipeToOpen() {
-        var RESULT = gtk_h.adw_flap_get_swipe_to_open(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_flap_get_swipe_to_open.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_get_transition_type = Interop.downcallHandle(
+        "adw_flap_get_transition_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the type of animation used for reveal and fold transitions in {@code self}.
      */
     public FlapTransitionType getTransitionType() {
-        var RESULT = gtk_h.adw_flap_get_transition_type(handle());
-        return new FlapTransitionType(RESULT);
+        try {
+            var RESULT = (int) adw_flap_get_transition_type.invokeExact(handle());
+            return new FlapTransitionType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_content = Interop.downcallHandle(
+        "adw_flap_set_content",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the content widget for {@code self}.
      */
     public void setContent(org.gtk.gtk.Widget content) {
-        gtk_h.adw_flap_set_content(handle(), content.handle());
+        try {
+            adw_flap_set_content.invokeExact(handle(), content.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_flap = Interop.downcallHandle(
+        "adw_flap_set_flap",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the flap widget for {@code self}.
      */
     public void setFlap(org.gtk.gtk.Widget flap) {
-        gtk_h.adw_flap_set_flap(handle(), flap.handle());
+        try {
+            adw_flap_set_flap.invokeExact(handle(), flap.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_flap_position = Interop.downcallHandle(
+        "adw_flap_set_flap_position",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the flap position for {@code self}.
      */
     public void setFlapPosition(org.gtk.gtk.PackType position) {
-        gtk_h.adw_flap_set_flap_position(handle(), position.getValue());
+        try {
+            adw_flap_set_flap_position.invokeExact(handle(), position.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_fold_duration = Interop.downcallHandle(
+        "adw_flap_set_fold_duration",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the duration that fold transitions in {@code self} will take.
      */
     public void setFoldDuration(int duration) {
-        gtk_h.adw_flap_set_fold_duration(handle(), duration);
+        try {
+            adw_flap_set_fold_duration.invokeExact(handle(), duration);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_fold_policy = Interop.downcallHandle(
+        "adw_flap_set_fold_policy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the fold policy for {@code self}.
      */
     public void setFoldPolicy(FlapFoldPolicy policy) {
-        gtk_h.adw_flap_set_fold_policy(handle(), policy.getValue());
+        try {
+            adw_flap_set_fold_policy.invokeExact(handle(), policy.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_fold_threshold_policy = Interop.downcallHandle(
+        "adw_flap_set_fold_threshold_policy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the fold threshold policy for {@code self}.
      */
     public void setFoldThresholdPolicy(FoldThresholdPolicy policy) {
-        gtk_h.adw_flap_set_fold_threshold_policy(handle(), policy.getValue());
+        try {
+            adw_flap_set_fold_threshold_policy.invokeExact(handle(), policy.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_locked = Interop.downcallHandle(
+        "adw_flap_set_locked",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} is locked.
      */
     public void setLocked(boolean locked) {
-        gtk_h.adw_flap_set_locked(handle(), locked ? 1 : 0);
+        try {
+            adw_flap_set_locked.invokeExact(handle(), locked ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_modal = Interop.downcallHandle(
+        "adw_flap_set_modal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} is modal.
      */
     public void setModal(boolean modal) {
-        gtk_h.adw_flap_set_modal(handle(), modal ? 1 : 0);
+        try {
+            adw_flap_set_modal.invokeExact(handle(), modal ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_reveal_flap = Interop.downcallHandle(
+        "adw_flap_set_reveal_flap",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the flap widget is revealed for {@code self}.
      */
     public void setRevealFlap(boolean revealFlap) {
-        gtk_h.adw_flap_set_reveal_flap(handle(), revealFlap ? 1 : 0);
+        try {
+            adw_flap_set_reveal_flap.invokeExact(handle(), revealFlap ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_reveal_params = Interop.downcallHandle(
+        "adw_flap_set_reveal_params",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the reveal animation spring parameters for {@code self}.
      */
     public void setRevealParams(SpringParams params) {
-        gtk_h.adw_flap_set_reveal_params(handle(), params.handle());
+        try {
+            adw_flap_set_reveal_params.invokeExact(handle(), params.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_separator = Interop.downcallHandle(
+        "adw_flap_set_separator",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the separator widget for {@code self}.
      */
     public void setSeparator(org.gtk.gtk.Widget separator) {
-        gtk_h.adw_flap_set_separator(handle(), separator.handle());
+        try {
+            adw_flap_set_separator.invokeExact(handle(), separator.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_swipe_to_close = Interop.downcallHandle(
+        "adw_flap_set_swipe_to_close",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} can be closed with a swipe gesture.
      */
     public void setSwipeToClose(boolean swipeToClose) {
-        gtk_h.adw_flap_set_swipe_to_close(handle(), swipeToClose ? 1 : 0);
+        try {
+            adw_flap_set_swipe_to_close.invokeExact(handle(), swipeToClose ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_swipe_to_open = Interop.downcallHandle(
+        "adw_flap_set_swipe_to_open",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} can be opened with a swipe gesture.
      */
     public void setSwipeToOpen(boolean swipeToOpen) {
-        gtk_h.adw_flap_set_swipe_to_open(handle(), swipeToOpen ? 1 : 0);
+        try {
+            adw_flap_set_swipe_to_open.invokeExact(handle(), swipeToOpen ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_flap_set_transition_type = Interop.downcallHandle(
+        "adw_flap_set_transition_type",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the type of animation used for reveal and fold transitions in {@code self}.
      */
     public void setTransitionType(FlapTransitionType transitionType) {
-        gtk_h.adw_flap_set_transition_type(handle(), transitionType.getValue());
+        try {
+            adw_flap_set_transition_type.invokeExact(handle(), transitionType.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

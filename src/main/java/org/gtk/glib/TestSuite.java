@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,25 +13,52 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_test_suite_add = Interop.downcallHandle(
+        "g_test_suite_add",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds {@code test_case} to {@code suite}.
      */
     public void add(TestCase testCase) {
-        gtk_h.g_test_suite_add(handle(), testCase.handle());
+        try {
+            g_test_suite_add.invokeExact(handle(), testCase.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_suite_add_suite = Interop.downcallHandle(
+        "g_test_suite_add_suite",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code nestedsuite} to {@code suite}.
      */
     public void addSuite(TestSuite nestedsuite) {
-        gtk_h.g_test_suite_add_suite(handle(), nestedsuite.handle());
+        try {
+            g_test_suite_add_suite.invokeExact(handle(), nestedsuite.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_suite_free = Interop.downcallHandle(
+        "g_test_suite_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Free the {@code suite} and all nested {@code GTestSuites}.
      */
     public void free() {
-        gtk_h.g_test_suite_free(handle());
+        try {
+            g_test_suite_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

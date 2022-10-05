@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,9 +26,18 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
         return new NetworkService(gobject.refcounted());
     }
     
+    static final MethodHandle g_network_service_new = Interop.downcallHandle(
+        "g_network_service_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_network_service_new(Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_network_service_new.invokeExact(Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -41,46 +49,91 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
         super(constructNew(service, protocol, domain));
     }
     
+    static final MethodHandle g_network_service_get_domain = Interop.downcallHandle(
+        "g_network_service_get_domain",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the domain that {@code srv} serves. This might be either UTF-8 or
      * ASCII-encoded, depending on what {@code srv} was created with.
      */
     public java.lang.String getDomain() {
-        var RESULT = gtk_h.g_network_service_get_domain(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_network_service_get_domain.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_network_service_get_protocol = Interop.downcallHandle(
+        "g_network_service_get_protocol",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code srv}'s protocol name (eg, "tcp").
      */
     public java.lang.String getProtocol() {
-        var RESULT = gtk_h.g_network_service_get_protocol(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_network_service_get_protocol.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_network_service_get_scheme = Interop.downcallHandle(
+        "g_network_service_get_scheme",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the URI scheme used to resolve proxies. By default, the service name
      * is used as scheme.
      */
     public java.lang.String getScheme() {
-        var RESULT = gtk_h.g_network_service_get_scheme(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_network_service_get_scheme.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_network_service_get_service = Interop.downcallHandle(
+        "g_network_service_get_service",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets {@code srv}'s service name (eg, "ldap").
      */
     public java.lang.String getService() {
-        var RESULT = gtk_h.g_network_service_get_service(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_network_service_get_service.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_network_service_set_scheme = Interop.downcallHandle(
+        "g_network_service_set_scheme",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set's the URI scheme used to resolve proxies. By default, the service name
      * is used as scheme.
      */
     public void setScheme(java.lang.String scheme) {
-        gtk_h.g_network_service_set_scheme(handle(), Interop.allocateNativeString(scheme).handle());
+        try {
+            g_network_service_set_scheme.invokeExact(handle(), Interop.allocateNativeString(scheme).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

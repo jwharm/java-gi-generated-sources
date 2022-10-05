@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,10 +13,6 @@ public class RequestedSize extends io.github.jwharm.javagi.ResourceBase {
 
     public RequestedSize(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public RequestedSize() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkRequestedSize.allocate(Interop.getAllocator()).address()));
     }
     
 }

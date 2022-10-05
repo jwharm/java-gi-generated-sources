@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -44,6 +43,11 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
         return new Settings(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_settings_reset_property = Interop.downcallHandle(
+        "gtk_settings_reset_property",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Undoes the effect of calling g_object_set() to install an
      * application-specific value for a setting.
@@ -52,8 +56,17 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      * value for this setting.
      */
     public void resetProperty(java.lang.String name) {
-        gtk_h.gtk_settings_reset_property(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            gtk_settings_reset_property.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_settings_get_default = Interop.downcallHandle(
+        "gtk_settings_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GtkSettings} object for the default display, creating
@@ -62,16 +75,29 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      * See {@link Gtk#Settings}.
      */
     public static Settings getDefault() {
-        var RESULT = gtk_h.gtk_settings_get_default();
-        return new Settings(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_settings_get_default.invokeExact();
+            return new Settings(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_settings_get_for_display = Interop.downcallHandle(
+        "gtk_settings_get_for_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GtkSettings} object for {@code display}, creating it if necessary.
      */
     public static Settings getForDisplay(org.gtk.gdk.Display display) {
-        var RESULT = gtk_h.gtk_settings_get_for_display(display.handle());
-        return new Settings(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_settings_get_for_display.invokeExact(display.handle());
+            return new Settings(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -57,9 +56,18 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
         return new TreeExpander(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_tree_expander_new = Interop.downcallHandle(
+        "gtk_tree_expander_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_tree_expander_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_expander_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -69,21 +77,44 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
         super(constructNew());
     }
     
+    static final MethodHandle gtk_tree_expander_get_child = Interop.downcallHandle(
+        "gtk_tree_expander_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the child widget displayed by {@code self}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_tree_expander_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_expander_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_expander_get_indent_for_icon = Interop.downcallHandle(
+        "gtk_tree_expander_get_indent_for_icon",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * TreeExpander indents the child by the width of an expander-icon if it is not expandable.
      */
     public boolean getIndentForIcon() {
-        var RESULT = gtk_h.gtk_tree_expander_get_indent_for_icon(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_expander_get_indent_for_icon.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_expander_get_item = Interop.downcallHandle(
+        "gtk_tree_expander_get_item",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Forwards the item set on the {@code GtkTreeListRow} that {@code self} is managing.
@@ -95,37 +126,77 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      * }</pre>
      */
     public org.gtk.gobject.Object getItem() {
-        var RESULT = gtk_h.gtk_tree_expander_get_item(handle());
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_expander_get_item.invokeExact(handle());
+            return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_expander_get_list_row = Interop.downcallHandle(
+        "gtk_tree_expander_get_list_row",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the list row managed by {@code self}.
      */
     public TreeListRow getListRow() {
-        var RESULT = gtk_h.gtk_tree_expander_get_list_row(handle());
-        return new TreeListRow(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_expander_get_list_row.invokeExact(handle());
+            return new TreeListRow(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_expander_set_child = Interop.downcallHandle(
+        "gtk_tree_expander_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the content widget to display.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_tree_expander_set_child(handle(), child.handle());
+        try {
+            gtk_tree_expander_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_expander_set_indent_for_icon = Interop.downcallHandle(
+        "gtk_tree_expander_set_indent_for_icon",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets if the TreeExpander should indent the child by the width of an expander-icon when it is not expandable.
      */
     public void setIndentForIcon(boolean indentForIcon) {
-        gtk_h.gtk_tree_expander_set_indent_for_icon(handle(), indentForIcon ? 1 : 0);
+        try {
+            gtk_tree_expander_set_indent_for_icon.invokeExact(handle(), indentForIcon ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_expander_set_list_row = Interop.downcallHandle(
+        "gtk_tree_expander_set_list_row",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the tree list row that this expander should manage.
      */
     public void setListRow(TreeListRow listRow) {
-        gtk_h.gtk_tree_expander_set_list_row(handle(), listRow.handle());
+        try {
+            gtk_tree_expander_set_list_row.invokeExact(handle(), listRow.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

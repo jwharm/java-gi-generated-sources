@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -46,9 +45,18 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         return new Window(gobject.refcounted());
     }
     
+    static final MethodHandle adw_window_new = Interop.downcallHandle(
+        "adw_window_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_window_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_window_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -58,15 +66,29 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         super(constructNew());
     }
     
+    static final MethodHandle adw_window_get_content = Interop.downcallHandle(
+        "adw_window_get_content",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the content widget of {@code self}.
      * <p>
      * This method should always be used instead of {@link org.gtk.gtk.Window#getChild}.
      */
     public org.gtk.gtk.Widget getContent() {
-        var RESULT = gtk_h.adw_window_get_content(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_window_get_content.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_window_set_content = Interop.downcallHandle(
+        "adw_window_set_content",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the content widget of {@code self}.
@@ -74,7 +96,11 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * This method should always be used instead of {@link org.gtk.gtk.Window#setChild}.
      */
     public void setContent(org.gtk.gtk.Widget content) {
-        gtk_h.adw_window_set_content(handle(), content.handle());
+        try {
+            adw_window_set_content.invokeExact(handle(), content.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

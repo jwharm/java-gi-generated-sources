@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,10 +13,6 @@ public class ScannerConfig extends io.github.jwharm.javagi.ResourceBase {
 
     public ScannerConfig(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public ScannerConfig() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GScannerConfig.allocate(Interop.getAllocator()).address()));
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -43,9 +42,18 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle adw_spring_params_new = Interop.downcallHandle(
+        "adw_spring_params_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNew(double dampingRatio, double mass, double stiffness) {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_spring_params_new(dampingRatio, mass, stiffness), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_spring_params_new.invokeExact(dampingRatio, mass, stiffness), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -69,9 +77,18 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(dampingRatio, mass, stiffness));
     }
     
+    static final MethodHandle adw_spring_params_new_full = Interop.downcallHandle(
+        "adw_spring_params_new_full",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
+    
     private static Refcounted constructNewFull(double damping, double mass, double stiffness) {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_spring_params_new_full(damping, mass, stiffness), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_spring_params_new_full.invokeExact(damping, mass, stiffness), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -84,45 +101,95 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
         return new SpringParams(constructNewFull(damping, mass, stiffness));
     }
     
+    static final MethodHandle adw_spring_params_get_damping = Interop.downcallHandle(
+        "adw_spring_params_get_damping",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the damping of {@code self}.
      */
     public double getDamping() {
-        var RESULT = gtk_h.adw_spring_params_get_damping(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_params_get_damping.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_params_get_damping_ratio = Interop.downcallHandle(
+        "adw_spring_params_get_damping_ratio",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the damping ratio of {@code self}.
      */
     public double getDampingRatio() {
-        var RESULT = gtk_h.adw_spring_params_get_damping_ratio(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_params_get_damping_ratio.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_params_get_mass = Interop.downcallHandle(
+        "adw_spring_params_get_mass",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the mass of {@code self}.
      */
     public double getMass() {
-        var RESULT = gtk_h.adw_spring_params_get_mass(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_params_get_mass.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_params_get_stiffness = Interop.downcallHandle(
+        "adw_spring_params_get_stiffness",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the stiffness of {@code self}.
      */
     public double getStiffness() {
-        var RESULT = gtk_h.adw_spring_params_get_stiffness(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) adw_spring_params_get_stiffness.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_params_ref = Interop.downcallHandle(
+        "adw_spring_params_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases the reference count of {@code self}.
      */
     public SpringParams ref() {
-        var RESULT = gtk_h.adw_spring_params_ref(handle());
-        return new SpringParams(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) adw_spring_params_ref.invokeExact(handle());
+            return new SpringParams(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_spring_params_unref = Interop.downcallHandle(
+        "adw_spring_params_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count of {@code self}.
@@ -130,7 +197,11 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
      * If the last reference is dropped, the structure is freed.
      */
     public void unref() {
-        gtk_h.adw_spring_params_unref(handle());
+        try {
+            adw_spring_params_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

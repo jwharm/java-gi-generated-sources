@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,15 +14,29 @@ public final class Adw {
 
     public static final java.lang.String VERSION_S = "1.1.4";
 
+    static final MethodHandle adw_easing_ease = Interop.downcallHandle(
+        "adw_easing_ease",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+    );
+    
     /**
      * Computes easing with {@code easing} for {@code value}.
      * <p>
      * {@code value} should generally be in the [0, 1] range.
      */
     public static double easingEase(Easing self, double value) {
-        var RESULT = gtk_h.adw_easing_ease(self.getValue(), value);
-        return RESULT;
+        try {
+            var RESULT = (double) adw_easing_ease.invokeExact(self.getValue(), value);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_get_enable_animations = Interop.downcallHandle(
+        "adw_get_enable_animations",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether animations are enabled for {@code widget}.
@@ -32,9 +45,18 @@ public final class Adw {
      * animate it or not.
      */
     public static boolean getEnableAnimations(org.gtk.gtk.Widget widget) {
-        var RESULT = gtk_h.adw_get_enable_animations(widget.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_get_enable_animations.invokeExact(widget.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_get_major_version = Interop.downcallHandle(
+        "adw_get_major_version",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the major version number of the Adwaita library.
@@ -47,9 +69,18 @@ public final class Adw {
      * included when compiling your code.
      */
     public static int getMajorVersion() {
-        var RESULT = gtk_h.adw_get_major_version();
-        return RESULT;
+        try {
+            var RESULT = (int) adw_get_major_version.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_get_micro_version = Interop.downcallHandle(
+        "adw_get_micro_version",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the micro version number of the Adwaita library.
@@ -62,9 +93,18 @@ public final class Adw {
      * included when compiling your code.
      */
     public static int getMicroVersion() {
-        var RESULT = gtk_h.adw_get_micro_version();
-        return RESULT;
+        try {
+            var RESULT = (int) adw_get_micro_version.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_get_minor_version = Interop.downcallHandle(
+        "adw_get_minor_version",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns the minor version number of the Adwaita library.
@@ -77,9 +117,18 @@ public final class Adw {
      * included when compiling your code.
      */
     public static int getMinorVersion() {
-        var RESULT = gtk_h.adw_get_minor_version();
-        return RESULT;
+        try {
+            var RESULT = (int) adw_get_minor_version.invokeExact();
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_init = Interop.downcallHandle(
+        "adw_init",
+        FunctionDescriptor.ofVoid()
+    );
     
     /**
      * Initializes Libadwaita.
@@ -95,24 +144,46 @@ public final class Adw {
      * library are set up properly.
      */
     public static void init() {
-        gtk_h.adw_init();
+        try {
+            adw_init.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_is_initialized = Interop.downcallHandle(
+        "adw_is_initialized",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
     
     /**
      * Use this function to check if libadwaita has been initialized with
      * {@link init#null}.
      */
     public static boolean isInitialized() {
-        var RESULT = gtk_h.adw_is_initialized();
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_is_initialized.invokeExact();
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_lerp = Interop.downcallHandle(
+        "adw_lerp",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+    );
     
     /**
      * Computes the linear interpolation between @a and @b for @t.
      */
     public static double lerp(double a, double b, double t) {
-        var RESULT = gtk_h.adw_lerp(a, b, t);
-        return RESULT;
+        try {
+            var RESULT = (double) adw_lerp.invokeExact(a, b, t);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     public static void __cbAnimationTargetFunc(double value, MemoryAddress userData) {

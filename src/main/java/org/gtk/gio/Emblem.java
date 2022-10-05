@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,9 +23,18 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
         return new Emblem(gobject.refcounted());
     }
     
+    static final MethodHandle g_emblem_new = Interop.downcallHandle(
+        "g_emblem_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Icon icon) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_emblem_new(icon.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_emblem_new.invokeExact(icon.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -36,9 +44,18 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
         super(constructNew(icon));
     }
     
+    static final MethodHandle g_emblem_new_with_origin = Interop.downcallHandle(
+        "g_emblem_new_with_origin",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewWithOrigin(Icon icon, EmblemOrigin origin) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_emblem_new_with_origin(icon.handle(), origin.getValue()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_emblem_new_with_origin.invokeExact(icon.handle(), origin.getValue()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -48,20 +65,38 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
         return new Emblem(constructNewWithOrigin(icon, origin));
     }
     
+    static final MethodHandle g_emblem_get_icon = Interop.downcallHandle(
+        "g_emblem_get_icon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gives back the icon from {@code emblem}.
      */
     public Icon getIcon() {
-        var RESULT = gtk_h.g_emblem_get_icon(handle());
-        return new Icon.IconImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_emblem_get_icon.invokeExact(handle());
+            return new Icon.IconImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_emblem_get_origin = Interop.downcallHandle(
+        "g_emblem_get_origin",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the origin of the emblem.
      */
     public EmblemOrigin getOrigin() {
-        var RESULT = gtk_h.g_emblem_get_origin(handle());
-        return new EmblemOrigin(RESULT);
+        try {
+            var RESULT = (int) g_emblem_get_origin.invokeExact(handle());
+            return new EmblemOrigin(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

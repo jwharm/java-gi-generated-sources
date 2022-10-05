@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +23,28 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_strv_builder_add = Interop.downcallHandle(
+        "g_strv_builder_add",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Add a string to the end of the array.
      * <p>
      * Since 2.68
      */
     public void add(java.lang.String value) {
-        gtk_h.g_strv_builder_add(handle(), Interop.allocateNativeString(value).handle());
+        try {
+            g_strv_builder_add.invokeExact(handle(), Interop.allocateNativeString(value).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strv_builder_addv = Interop.downcallHandle(
+        "g_strv_builder_addv",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Appends all the strings in the given vector to the builder.
@@ -39,8 +52,17 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Since 2.70
      */
     public void addv(java.lang.String[] value) {
-        gtk_h.g_strv_builder_addv(handle(), Interop.allocateNativeArray(value).handle());
+        try {
+            g_strv_builder_addv.invokeExact(handle(), Interop.allocateNativeArray(value).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strv_builder_end = Interop.downcallHandle(
+        "g_strv_builder_end",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Ends the builder process and returns the constructed NULL-terminated string
@@ -48,18 +70,36 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      * needed.
      */
     public PointerIterator<java.lang.String> end() {
-        var RESULT = gtk_h.g_strv_builder_end(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_strv_builder_end.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strv_builder_ref = Interop.downcallHandle(
+        "g_strv_builder_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically increments the reference count of {@code builder} by one.
      * This function is thread-safe and may be called from any thread.
      */
     public StrvBuilder ref() {
-        var RESULT = gtk_h.g_strv_builder_ref(handle());
-        return new StrvBuilder(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_strv_builder_ref.invokeExact(handle());
+            return new StrvBuilder(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strv_builder_unref = Interop.downcallHandle(
+        "g_strv_builder_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases the reference count on {@code builder}.
@@ -68,16 +108,29 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      * associated with the {@link StrvBuilder}.
      */
     public void unref() {
-        gtk_h.g_strv_builder_unref(handle());
+        try {
+            g_strv_builder_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_strv_builder_new = Interop.downcallHandle(
+        "g_strv_builder_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new {@link StrvBuilder} with a reference count of 1.
      * Use g_strv_builder_unref() on the returned value when no longer needed.
      */
     public static StrvBuilder new_() {
-        var RESULT = gtk_h.g_strv_builder_new();
-        return new StrvBuilder(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_strv_builder_new.invokeExact();
+            return new StrvBuilder(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

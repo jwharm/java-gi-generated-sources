@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,19 +23,37 @@ import java.lang.invoke.*;
  */
 public interface DebugController extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_debug_controller_get_debug_enabled = Interop.downcallHandle(
+        "g_debug_controller_get_debug_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Get the value of {@link DebugController}:debug-enabled.
      */
     public default boolean getDebugEnabled() {
-        var RESULT = gtk_h.g_debug_controller_get_debug_enabled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_debug_controller_get_debug_enabled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_debug_controller_set_debug_enabled = Interop.downcallHandle(
+        "g_debug_controller_set_debug_enabled",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Set the value of {@link DebugController}:debug-enabled.
      */
     public default void setDebugEnabled(boolean debugEnabled) {
-        gtk_h.g_debug_controller_set_debug_enabled(handle(), debugEnabled ? 1 : 0);
+        try {
+            g_debug_controller_set_debug_enabled.invokeExact(handle(), debugEnabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class DebugControllerImpl extends org.gtk.gobject.Object implements DebugController {

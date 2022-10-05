@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -24,9 +23,18 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
         return new EmblemedIcon(gobject.refcounted());
     }
     
+    static final MethodHandle g_emblemed_icon_new = Interop.downcallHandle(
+        "g_emblemed_icon_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Icon icon, Emblem emblem) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_emblemed_icon_new(icon.handle(), emblem.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_emblemed_icon_new.invokeExact(icon.handle(), emblem.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -36,34 +44,70 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
         super(constructNew(icon, emblem));
     }
     
+    static final MethodHandle g_emblemed_icon_add_emblem = Interop.downcallHandle(
+        "g_emblemed_icon_add_emblem",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds {@code emblem} to the {@link org.gtk.glib.List} of {@code GEmblems}.
      */
     public void addEmblem(Emblem emblem) {
-        gtk_h.g_emblemed_icon_add_emblem(handle(), emblem.handle());
+        try {
+            g_emblemed_icon_add_emblem.invokeExact(handle(), emblem.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_emblemed_icon_clear_emblems = Interop.downcallHandle(
+        "g_emblemed_icon_clear_emblems",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all the emblems from {@code icon}.
      */
     public void clearEmblems() {
-        gtk_h.g_emblemed_icon_clear_emblems(handle());
+        try {
+            g_emblemed_icon_clear_emblems.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_emblemed_icon_get_emblems = Interop.downcallHandle(
+        "g_emblemed_icon_get_emblems",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the list of emblems for the {@code icon}.
      */
     public org.gtk.glib.List getEmblems() {
-        var RESULT = gtk_h.g_emblemed_icon_get_emblems(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_emblemed_icon_get_emblems.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_emblemed_icon_get_icon = Interop.downcallHandle(
+        "g_emblemed_icon_get_icon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the main icon for {@code emblemed}.
      */
     public Icon getIcon() {
-        var RESULT = gtk_h.g_emblemed_icon_get_icon(handle());
-        return new Icon.IconImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_emblemed_icon_get_icon.invokeExact(handle());
+            return new Icon.IconImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

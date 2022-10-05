@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,10 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public BitsetIter() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GtkBitsetIter.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle gtk_bitset_iter_get_value = Interop.downcallHandle(
+        "gtk_bitset_iter_get_value",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current value that {@code iter} points to.
@@ -30,17 +30,35 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * returns {@code false}, this function returns 0.
      */
     public int getValue() {
-        var RESULT = gtk_h.gtk_bitset_iter_get_value(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_bitset_iter_get_value.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_is_valid = Interop.downcallHandle(
+        "gtk_bitset_iter_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code iter} points to a valid value.
      */
     public boolean isValid() {
-        var RESULT = gtk_h.gtk_bitset_iter_is_valid(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_is_valid.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_next = Interop.downcallHandle(
+        "gtk_bitset_iter_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} to the next value in the set.
@@ -49,9 +67,18 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * {@code false} is returned and {@code iter} is invalidated.
      */
     public boolean next(PointerInteger value) {
-        var RESULT = gtk_h.gtk_bitset_iter_next(handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_next.invokeExact(handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_previous = Interop.downcallHandle(
+        "gtk_bitset_iter_previous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code iter} to the previous value in the set.
@@ -60,9 +87,18 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * {@code false} is returned and {@code iter} is invalidated.
      */
     public boolean previous(PointerInteger value) {
-        var RESULT = gtk_h.gtk_bitset_iter_previous(handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_previous.invokeExact(handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_init_at = Interop.downcallHandle(
+        "gtk_bitset_iter_init_at",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes {@code iter} to point to {@code target}.
@@ -71,9 +107,18 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * If no value >= {@code target} exists in {@code set}, this function returns {@code false}.
      */
     public static boolean initAt(BitsetIter iter, Bitset set, int target, PointerInteger value) {
-        var RESULT = gtk_h.gtk_bitset_iter_init_at(iter.handle(), set.handle(), target, value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_init_at.invokeExact(iter.handle(), set.handle(), target, value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_init_first = Interop.downcallHandle(
+        "gtk_bitset_iter_init_first",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes an iterator for {@code set} and points it to the first
@@ -82,9 +127,18 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * If {@code set} is empty, {@code false} is returned and {@code value} is set to {@code G_MAXUINT}.
      */
     public static boolean initFirst(BitsetIter iter, Bitset set, PointerInteger value) {
-        var RESULT = gtk_h.gtk_bitset_iter_init_first(iter.handle(), set.handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_init_first.invokeExact(iter.handle(), set.handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_bitset_iter_init_last = Interop.downcallHandle(
+        "gtk_bitset_iter_init_last",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes an iterator for {@code set} and points it to the last
@@ -93,8 +147,12 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
      * If {@code set} is empty, {@code false} is returned.
      */
     public static boolean initLast(BitsetIter iter, Bitset set, PointerInteger value) {
-        var RESULT = gtk_h.gtk_bitset_iter_init_last(iter.handle(), set.handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_bitset_iter_init_last.invokeExact(iter.handle(), set.handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

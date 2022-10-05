@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -46,9 +45,18 @@ public class ShortcutAction extends org.gtk.gobject.Object {
         return new ShortcutAction(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_shortcut_action_parse_string = Interop.downcallHandle(
+        "gtk_shortcut_action_parse_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructParseString(java.lang.String string) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_shortcut_action_parse_string.invokeExact(Interop.allocateNativeString(string).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -70,6 +78,11 @@ public class ShortcutAction extends org.gtk.gobject.Object {
         return new ShortcutAction(constructParseString(string));
     }
     
+    static final MethodHandle gtk_shortcut_action_activate = Interop.downcallHandle(
+        "gtk_shortcut_action_activate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Activates the action on the {@code widget} with the given {@code args}.
      * <p>
@@ -80,9 +93,18 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * or if the activation otherwise had no effect, {@code false} will be returned.
      */
     public boolean activate(ShortcutActionFlags flags, Widget widget, org.gtk.glib.Variant args) {
-        var RESULT = gtk_h.gtk_shortcut_action_activate(handle(), flags.getValue(), widget.handle(), args.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_shortcut_action_activate.invokeExact(handle(), flags.getValue(), widget.handle(), args.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_action_print = Interop.downcallHandle(
+        "gtk_shortcut_action_print",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prints the given action into a string for the developer.
@@ -93,8 +115,17 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * not guaranteed to stay identical.
      */
     public void print(org.gtk.glib.String string) {
-        gtk_h.gtk_shortcut_action_print(handle(), string.handle());
+        try {
+            gtk_shortcut_action_print.invokeExact(handle(), string.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_shortcut_action_to_string = Interop.downcallHandle(
+        "gtk_shortcut_action_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Prints the given action into a human-readable string.
@@ -103,8 +134,12 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * to help when debugging.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.gtk_shortcut_action_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_shortcut_action_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

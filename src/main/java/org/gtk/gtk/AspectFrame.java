@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,9 +25,18 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
         return new AspectFrame(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_aspect_frame_new = Interop.downcallHandle(
+        "gtk_aspect_frame_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(float xalign, float yalign, float ratio, boolean obeyChild) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_aspect_frame_new(xalign, yalign, ratio, obeyChild ? 1 : 0), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_aspect_frame_new.invokeExact(xalign, yalign, ratio, obeyChild ? 1 : 0), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -38,55 +46,114 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
         super(constructNew(xalign, yalign, ratio, obeyChild));
     }
     
+    static final MethodHandle gtk_aspect_frame_get_child = Interop.downcallHandle(
+        "gtk_aspect_frame_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the child widget of {@code self}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_aspect_frame_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_aspect_frame_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_get_obey_child = Interop.downcallHandle(
+        "gtk_aspect_frame_get_obey_child",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the child's size request should override
      * the set aspect ratio of the {@code GtkAspectFrame}.
      */
     public boolean getObeyChild() {
-        var RESULT = gtk_h.gtk_aspect_frame_get_obey_child(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_aspect_frame_get_obey_child.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_get_ratio = Interop.downcallHandle(
+        "gtk_aspect_frame_get_ratio",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the desired aspect ratio of the child.
      */
     public float getRatio() {
-        var RESULT = gtk_h.gtk_aspect_frame_get_ratio(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gtk_aspect_frame_get_ratio.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_get_xalign = Interop.downcallHandle(
+        "gtk_aspect_frame_get_xalign",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the horizontal alignment of the child within the
      * allocation of the {@code GtkAspectFrame}.
      */
     public float getXalign() {
-        var RESULT = gtk_h.gtk_aspect_frame_get_xalign(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gtk_aspect_frame_get_xalign.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_get_yalign = Interop.downcallHandle(
+        "gtk_aspect_frame_get_yalign",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the vertical alignment of the child within the
      * allocation of the {@code GtkAspectFrame}.
      */
     public float getYalign() {
-        var RESULT = gtk_h.gtk_aspect_frame_get_yalign(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gtk_aspect_frame_get_yalign.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_set_child = Interop.downcallHandle(
+        "gtk_aspect_frame_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code self}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_aspect_frame_set_child(handle(), child.handle());
+        try {
+            gtk_aspect_frame_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_set_obey_child = Interop.downcallHandle(
+        "gtk_aspect_frame_set_obey_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the aspect ratio of the child's size
@@ -94,30 +161,61 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * the {@code GtkAspectFrame}.
      */
     public void setObeyChild(boolean obeyChild) {
-        gtk_h.gtk_aspect_frame_set_obey_child(handle(), obeyChild ? 1 : 0);
+        try {
+            gtk_aspect_frame_set_obey_child.invokeExact(handle(), obeyChild ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_set_ratio = Interop.downcallHandle(
+        "gtk_aspect_frame_set_ratio",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the desired aspect ratio of the child.
      */
     public void setRatio(float ratio) {
-        gtk_h.gtk_aspect_frame_set_ratio(handle(), ratio);
+        try {
+            gtk_aspect_frame_set_ratio.invokeExact(handle(), ratio);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_set_xalign = Interop.downcallHandle(
+        "gtk_aspect_frame_set_xalign",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the horizontal alignment of the child within the allocation
      * of the {@code GtkAspectFrame}.
      */
     public void setXalign(float xalign) {
-        gtk_h.gtk_aspect_frame_set_xalign(handle(), xalign);
+        try {
+            gtk_aspect_frame_set_xalign.invokeExact(handle(), xalign);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_aspect_frame_set_yalign = Interop.downcallHandle(
+        "gtk_aspect_frame_set_yalign",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the vertical alignment of the child within the allocation
      * of the {@code GtkAspectFrame}.
      */
     public void setYalign(float yalign) {
-        gtk_h.gtk_aspect_frame_set_yalign(handle(), yalign);
+        try {
+            gtk_aspect_frame_set_yalign.invokeExact(handle(), yalign);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

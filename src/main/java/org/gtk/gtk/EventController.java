@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -30,15 +29,29 @@ public class EventController extends org.gtk.gobject.Object {
         return new EventController(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_event_controller_get_current_event = Interop.downcallHandle(
+        "gtk_event_controller_get_current_event",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the event that is currently being handled by the controller.
      * <p>
      * At other times, {@code null} is returned.
      */
     public org.gtk.gdk.Event getCurrentEvent() {
-        var RESULT = gtk_h.gtk_event_controller_get_current_event(handle());
-        return new org.gtk.gdk.Event(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_event_controller_get_current_event.invokeExact(handle());
+            return new org.gtk.gdk.Event(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_get_current_event_device = Interop.downcallHandle(
+        "gtk_event_controller_get_current_event_device",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the device of the event that is currently being
@@ -47,9 +60,18 @@ public class EventController extends org.gtk.gobject.Object {
      * At other times, {@code null} is returned.
      */
     public org.gtk.gdk.Device getCurrentEventDevice() {
-        var RESULT = gtk_h.gtk_event_controller_get_current_event_device(handle());
-        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_event_controller_get_current_event_device.invokeExact(handle());
+            return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_get_current_event_state = Interop.downcallHandle(
+        "gtk_event_controller_get_current_event_state",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the modifier state of the event that is currently being
@@ -58,9 +80,18 @@ public class EventController extends org.gtk.gobject.Object {
      * At other times, 0 is returned.
      */
     public org.gtk.gdk.ModifierType getCurrentEventState() {
-        var RESULT = gtk_h.gtk_event_controller_get_current_event_state(handle());
-        return new org.gtk.gdk.ModifierType(RESULT);
+        try {
+            var RESULT = (int) gtk_event_controller_get_current_event_state.invokeExact(handle());
+            return new org.gtk.gdk.ModifierType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_get_current_event_time = Interop.downcallHandle(
+        "gtk_event_controller_get_current_event_time",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the timestamp of the event that is currently being
@@ -69,55 +100,118 @@ public class EventController extends org.gtk.gobject.Object {
      * At other times, 0 is returned.
      */
     public int getCurrentEventTime() {
-        var RESULT = gtk_h.gtk_event_controller_get_current_event_time(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_event_controller_get_current_event_time.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_get_name = Interop.downcallHandle(
+        "gtk_event_controller_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of {@code controller}.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.gtk_event_controller_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_event_controller_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_get_propagation_limit = Interop.downcallHandle(
+        "gtk_event_controller_get_propagation_limit",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the propagation limit of the event controller.
      */
     public PropagationLimit getPropagationLimit() {
-        var RESULT = gtk_h.gtk_event_controller_get_propagation_limit(handle());
-        return new PropagationLimit(RESULT);
+        try {
+            var RESULT = (int) gtk_event_controller_get_propagation_limit.invokeExact(handle());
+            return new PropagationLimit(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_get_propagation_phase = Interop.downcallHandle(
+        "gtk_event_controller_get_propagation_phase",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the propagation phase at which {@code controller} handles events.
      */
     public PropagationPhase getPropagationPhase() {
-        var RESULT = gtk_h.gtk_event_controller_get_propagation_phase(handle());
-        return new PropagationPhase(RESULT);
+        try {
+            var RESULT = (int) gtk_event_controller_get_propagation_phase.invokeExact(handle());
+            return new PropagationPhase(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_get_widget = Interop.downcallHandle(
+        "gtk_event_controller_get_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@code GtkWidget} this controller relates to.
      */
     public Widget getWidget() {
-        var RESULT = gtk_h.gtk_event_controller_get_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_event_controller_get_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_reset = Interop.downcallHandle(
+        "gtk_event_controller_reset",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Resets the {@code controller} to a clean state.
      */
     public void reset() {
-        gtk_h.gtk_event_controller_reset(handle());
+        try {
+            gtk_event_controller_reset.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_set_name = Interop.downcallHandle(
+        "gtk_event_controller_set_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a name on the controller that can be used for debugging.
      */
     public void setName(java.lang.String name) {
-        gtk_h.gtk_event_controller_set_name(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            gtk_event_controller_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_set_propagation_limit = Interop.downcallHandle(
+        "gtk_event_controller_set_propagation_limit",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the event propagation limit on the event controller.
@@ -127,8 +221,17 @@ public class EventController extends org.gtk.gobject.Object {
      * surface, such as popovers.
      */
     public void setPropagationLimit(PropagationLimit limit) {
-        gtk_h.gtk_event_controller_set_propagation_limit(handle(), limit.getValue());
+        try {
+            gtk_event_controller_set_propagation_limit.invokeExact(handle(), limit.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_event_controller_set_propagation_phase = Interop.downcallHandle(
+        "gtk_event_controller_set_propagation_phase",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the propagation phase at which a controller handles events.
@@ -137,7 +240,11 @@ public class EventController extends org.gtk.gobject.Object {
      * performed, but other additional gesture maintenance will.
      */
     public void setPropagationPhase(PropagationPhase phase) {
-        gtk_h.gtk_event_controller_set_propagation_phase(handle(), phase.getValue());
+        try {
+            gtk_event_controller_set_propagation_phase.invokeExact(handle(), phase.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

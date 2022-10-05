@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,6 +18,11 @@ public class ScrollEvent extends Event {
         return new ScrollEvent(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_scroll_event_get_deltas = Interop.downcallHandle(
+        "gdk_scroll_event_get_deltas",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Extracts the scroll deltas of a scroll event.
      * <p>
@@ -26,16 +30,34 @@ public class ScrollEvent extends Event {
      * is {@link ScrollDirection#SMOOTH}.
      */
     public void getDeltas(PointerDouble deltaX, PointerDouble deltaY) {
-        gtk_h.gdk_scroll_event_get_deltas(handle(), deltaX.handle(), deltaY.handle());
+        try {
+            gdk_scroll_event_get_deltas.invokeExact(handle(), deltaX.handle(), deltaY.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_scroll_event_get_direction = Interop.downcallHandle(
+        "gdk_scroll_event_get_direction",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts the direction of a scroll event.
      */
     public ScrollDirection getDirection() {
-        var RESULT = gtk_h.gdk_scroll_event_get_direction(handle());
-        return new ScrollDirection(RESULT);
+        try {
+            var RESULT = (int) gdk_scroll_event_get_direction.invokeExact(handle());
+            return new ScrollDirection(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_scroll_event_is_stop = Interop.downcallHandle(
+        "gdk_scroll_event_is_stop",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check whether a scroll event is a stop scroll event.
@@ -49,8 +71,12 @@ public class ScrollEvent extends Event {
      * Stop scroll events always have a delta of 0/0.
      */
     public boolean isStop() {
-        var RESULT = gtk_h.gdk_scroll_event_is_stop(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_scroll_event_is_stop.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

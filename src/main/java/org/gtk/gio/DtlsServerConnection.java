@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -11,16 +10,25 @@ import java.lang.invoke.*;
  */
 public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_dtls_server_connection_new = Interop.downcallHandle(
+        "g_dtls_server_connection_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Creates a new {@link DtlsServerConnection} wrapping {@code base_socket}.
      */
     public static DtlsServerConnection new_(DatagramBased baseSocket, TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dtls_server_connection_new(baseSocket.handle(), certificate.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_dtls_server_connection_new.invokeExact(baseSocket.handle(), certificate.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new DtlsServerConnection.DtlsServerConnectionImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DtlsServerConnection.DtlsServerConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     class DtlsServerConnectionImpl extends org.gtk.gobject.Object implements DtlsServerConnection {

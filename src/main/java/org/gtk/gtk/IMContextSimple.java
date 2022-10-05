@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -55,9 +54,18 @@ public class IMContextSimple extends IMContext {
         return new IMContextSimple(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_im_context_simple_new = Interop.downcallHandle(
+        "gtk_im_context_simple_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_im_context_simple_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_im_context_simple_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -67,11 +75,20 @@ public class IMContextSimple extends IMContext {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_im_context_simple_add_compose_file = Interop.downcallHandle(
+        "gtk_im_context_simple_add_compose_file",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds an additional table from the X11 compose file.
      */
     public void addComposeFile(java.lang.String composeFile) {
-        gtk_h.gtk_im_context_simple_add_compose_file(handle(), Interop.allocateNativeString(composeFile).handle());
+        try {
+            gtk_im_context_simple_add_compose_file.invokeExact(handle(), Interop.allocateNativeString(composeFile).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

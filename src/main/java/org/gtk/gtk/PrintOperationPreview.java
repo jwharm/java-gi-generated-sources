@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,23 +14,46 @@ import java.lang.invoke.*;
  */
 public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_print_operation_preview_end_preview = Interop.downcallHandle(
+        "gtk_print_operation_preview_end_preview",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Ends a preview.
      * <p>
      * This function must be called to finish a custom print preview.
      */
     public default void endPreview() {
-        gtk_h.gtk_print_operation_preview_end_preview(handle());
+        try {
+            gtk_print_operation_preview_end_preview.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_preview_is_selected = Interop.downcallHandle(
+        "gtk_print_operation_preview_is_selected",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Returns whether the given page is included in the set of pages that
      * have been selected for printing.
      */
     public default boolean isSelected(int pageNr) {
-        var RESULT = gtk_h.gtk_print_operation_preview_is_selected(handle(), pageNr);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_operation_preview_is_selected.invokeExact(handle(), pageNr);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_operation_preview_render_page = Interop.downcallHandle(
+        "gtk_print_operation_preview_render_page",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Renders a page to the preview.
@@ -47,7 +69,11 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * be associated with the print context.
      */
     public default void renderPage(int pageNr) {
-        gtk_h.gtk_print_operation_preview_render_page(handle(), pageNr);
+        try {
+            gtk_print_operation_preview_render_page.invokeExact(handle(), pageNr);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -64,19 +90,19 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onGotPageSize(GotPageSizeHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("got-page-size").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperationPreview.Callbacks.class, "signalPrintOperationPreviewGotPageSize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -93,19 +119,19 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      */
     public default SignalHandle onReady(ReadyHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("ready").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperationPreview.Callbacks.class, "signalPrintOperationPreviewReady",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -11,38 +10,70 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public TestLogBuffer() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GTestLogBuffer.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_test_log_buffer_free = Interop.downcallHandle(
+        "g_test_log_buffer_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Internal function for gtester to free test log messages, no ABI guarantees provided.
      */
     public void free() {
-        gtk_h.g_test_log_buffer_free(handle());
+        try {
+            g_test_log_buffer_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_log_buffer_pop = Interop.downcallHandle(
+        "g_test_log_buffer_pop",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Internal function for gtester to retrieve test log messages, no ABI guarantees provided.
      */
     public TestLogMsg pop() {
-        var RESULT = gtk_h.g_test_log_buffer_pop(handle());
-        return new TestLogMsg(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_test_log_buffer_pop.invokeExact(handle());
+            return new TestLogMsg(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_log_buffer_push = Interop.downcallHandle(
+        "g_test_log_buffer_push",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Internal function for gtester to decode test log messages, no ABI guarantees provided.
      */
     public void push(int nBytes, PointerByte bytes) {
-        gtk_h.g_test_log_buffer_push(handle(), nBytes, bytes.handle());
+        try {
+            g_test_log_buffer_push.invokeExact(handle(), nBytes, bytes.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_test_log_buffer_new = Interop.downcallHandle(
+        "g_test_log_buffer_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Internal function for gtester to decode test log messages, no ABI guarantees provided.
      */
     public static TestLogBuffer new_() {
-        var RESULT = gtk_h.g_test_log_buffer_new();
-        return new TestLogBuffer(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_test_log_buffer_new.invokeExact();
+            return new TestLogBuffer(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

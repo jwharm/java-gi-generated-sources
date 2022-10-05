@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -33,9 +32,18 @@ public class Constraint extends org.gtk.gobject.Object {
         return new Constraint(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_constraint_new = Interop.downcallHandle(
+        "gtk_constraint_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, ConstraintTarget source, ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constraint_new(target.handle(), targetAttribute.getValue(), relation.getValue(), source.handle(), sourceAttribute.getValue(), multiplier, constant, strength), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_constraint_new.invokeExact(target.handle(), targetAttribute.getValue(), relation.getValue(), source.handle(), sourceAttribute.getValue(), multiplier, constant, strength), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -46,9 +54,18 @@ public class Constraint extends org.gtk.gobject.Object {
         super(constructNew(target, targetAttribute, relation, source, sourceAttribute, multiplier, constant, strength));
     }
     
+    static final MethodHandle gtk_constraint_new_constant = Interop.downcallHandle(
+        "gtk_constraint_new_constant",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewConstant(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constraint_new_constant(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_constraint_new_constant.invokeExact(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -59,30 +76,62 @@ public class Constraint extends org.gtk.gobject.Object {
         return new Constraint(constructNewConstant(target, targetAttribute, relation, constant, strength));
     }
     
+    static final MethodHandle gtk_constraint_get_constant = Interop.downcallHandle(
+        "gtk_constraint_get_constant",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the constant factor added to the source attributes' value.
      */
     public double getConstant() {
-        var RESULT = gtk_h.gtk_constraint_get_constant(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_constraint_get_constant.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_get_multiplier = Interop.downcallHandle(
+        "gtk_constraint_get_multiplier",
+        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the multiplication factor applied to the source
      * attribute's value.
      */
     public double getMultiplier() {
-        var RESULT = gtk_h.gtk_constraint_get_multiplier(handle());
-        return RESULT;
+        try {
+            var RESULT = (double) gtk_constraint_get_multiplier.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_get_relation = Interop.downcallHandle(
+        "gtk_constraint_get_relation",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * The order relation between the terms of the constraint.
      */
     public ConstraintRelation getRelation() {
-        var RESULT = gtk_h.gtk_constraint_get_relation(handle());
-        return new ConstraintRelation(RESULT);
+        try {
+            var RESULT = (int) gtk_constraint_get_relation.invokeExact(handle());
+            return new ConstraintRelation(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_get_source = Interop.downcallHandle(
+        "gtk_constraint_get_source",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code Gtk.ConstraintTarget} used as the source for the
@@ -92,25 +141,52 @@ public class Constraint extends org.gtk.gobject.Object {
      * the widget using the {@link ConstraintLayout} as the source.
      */
     public ConstraintTarget getSource() {
-        var RESULT = gtk_h.gtk_constraint_get_source(handle());
-        return new ConstraintTarget.ConstraintTargetImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_constraint_get_source.invokeExact(handle());
+            return new ConstraintTarget.ConstraintTargetImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_get_source_attribute = Interop.downcallHandle(
+        "gtk_constraint_get_source_attribute",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the attribute of the source to be read by the constraint.
      */
     public ConstraintAttribute getSourceAttribute() {
-        var RESULT = gtk_h.gtk_constraint_get_source_attribute(handle());
-        return new ConstraintAttribute(RESULT);
+        try {
+            var RESULT = (int) gtk_constraint_get_source_attribute.invokeExact(handle());
+            return new ConstraintAttribute(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_get_strength = Interop.downcallHandle(
+        "gtk_constraint_get_strength",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the strength of the constraint.
      */
     public int getStrength() {
-        var RESULT = gtk_h.gtk_constraint_get_strength(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_constraint_get_strength.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_get_target = Interop.downcallHandle(
+        "gtk_constraint_get_target",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code Gtk.ConstraintTarget} used as the target for
@@ -120,43 +196,83 @@ public class Constraint extends org.gtk.gobject.Object {
      * the widget using the {@link ConstraintLayout} as the target.
      */
     public ConstraintTarget getTarget() {
-        var RESULT = gtk_h.gtk_constraint_get_target(handle());
-        return new ConstraintTarget.ConstraintTargetImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_constraint_get_target.invokeExact(handle());
+            return new ConstraintTarget.ConstraintTargetImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_get_target_attribute = Interop.downcallHandle(
+        "gtk_constraint_get_target_attribute",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the attribute of the target to be set by the constraint.
      */
     public ConstraintAttribute getTargetAttribute() {
-        var RESULT = gtk_h.gtk_constraint_get_target_attribute(handle());
-        return new ConstraintAttribute(RESULT);
+        try {
+            var RESULT = (int) gtk_constraint_get_target_attribute.invokeExact(handle());
+            return new ConstraintAttribute(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_is_attached = Interop.downcallHandle(
+        "gtk_constraint_is_attached",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the constraint is attached to a {@link ConstraintLayout},
      * and it is contributing to the layout.
      */
     public boolean isAttached() {
-        var RESULT = gtk_h.gtk_constraint_is_attached(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_constraint_is_attached.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_is_constant = Interop.downcallHandle(
+        "gtk_constraint_is_constant",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the constraint describes a relation between an attribute
      * on the {@code Gtk.Constraint:target} and a constant value.
      */
     public boolean isConstant() {
-        var RESULT = gtk_h.gtk_constraint_is_constant(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_constraint_is_constant.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_is_required = Interop.downcallHandle(
+        "gtk_constraint_is_required",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether the constraint is a required relation for solving the
      * constraint layout.
      */
     public boolean isRequired() {
-        var RESULT = gtk_h.gtk_constraint_is_required(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_constraint_is_required.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

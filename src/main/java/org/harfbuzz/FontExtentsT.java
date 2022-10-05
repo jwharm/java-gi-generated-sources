@@ -1,6 +1,5 @@
 package org.harfbuzz;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,10 +14,6 @@ public class FontExtentsT extends io.github.jwharm.javagi.ResourceBase {
 
     public FontExtentsT(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public FontExtentsT() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.hb_font_extents_t.allocate(Interop.getAllocator()).address()));
     }
     
 }

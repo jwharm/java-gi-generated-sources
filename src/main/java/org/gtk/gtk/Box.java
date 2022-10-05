@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,9 +49,18 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         return new Box(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_box_new = Interop.downcallHandle(
+        "gtk_box_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(Orientation orientation, int spacing) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_box_new(orientation.getValue(), spacing), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_box_new.invokeExact(orientation.getValue(), spacing), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -62,37 +70,78 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         super(constructNew(orientation, spacing));
     }
     
+    static final MethodHandle gtk_box_append = Interop.downcallHandle(
+        "gtk_box_append",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds {@code child} as the last child to {@code box}.
      */
     public void append(Widget child) {
-        gtk_h.gtk_box_append(handle(), child.handle());
+        try {
+            gtk_box_append.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_get_baseline_position = Interop.downcallHandle(
+        "gtk_box_get_baseline_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value set by gtk_box_set_baseline_position().
      */
     public BaselinePosition getBaselinePosition() {
-        var RESULT = gtk_h.gtk_box_get_baseline_position(handle());
-        return new BaselinePosition(RESULT);
+        try {
+            var RESULT = (int) gtk_box_get_baseline_position.invokeExact(handle());
+            return new BaselinePosition(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_get_homogeneous = Interop.downcallHandle(
+        "gtk_box_get_homogeneous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the box is homogeneous (all children are the
      * same size).
      */
     public boolean getHomogeneous() {
-        var RESULT = gtk_h.gtk_box_get_homogeneous(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_box_get_homogeneous.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_get_spacing = Interop.downcallHandle(
+        "gtk_box_get_spacing",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value set by gtk_box_set_spacing().
      */
     public int getSpacing() {
-        var RESULT = gtk_h.gtk_box_get_spacing(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_box_get_spacing.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_insert_child_after = Interop.downcallHandle(
+        "gtk_box_insert_child_after",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Inserts {@code child} in the position after {@code sibling} in the list
@@ -101,15 +150,33 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * If {@code sibling} is {@code null}, insert {@code child} at the first position.
      */
     public void insertChildAfter(Widget child, Widget sibling) {
-        gtk_h.gtk_box_insert_child_after(handle(), child.handle(), sibling.handle());
+        try {
+            gtk_box_insert_child_after.invokeExact(handle(), child.handle(), sibling.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_prepend = Interop.downcallHandle(
+        "gtk_box_prepend",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds {@code child} as the first child to {@code box}.
      */
     public void prepend(Widget child) {
-        gtk_h.gtk_box_prepend(handle(), child.handle());
+        try {
+            gtk_box_prepend.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_remove = Interop.downcallHandle(
+        "gtk_box_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a child widget from {@code box}.
@@ -119,8 +186,17 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * {@link Box#insertChildAfter}.
      */
     public void remove(Widget child) {
-        gtk_h.gtk_box_remove(handle(), child.handle());
+        try {
+            gtk_box_remove.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_reorder_child_after = Interop.downcallHandle(
+        "gtk_box_reorder_child_after",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Moves {@code child} to the position after {@code sibling} in the list
@@ -129,8 +205,17 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * If {@code sibling} is {@code null}, move {@code child} to the first position.
      */
     public void reorderChildAfter(Widget child, Widget sibling) {
-        gtk_h.gtk_box_reorder_child_after(handle(), child.handle(), sibling.handle());
+        try {
+            gtk_box_reorder_child_after.invokeExact(handle(), child.handle(), sibling.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_set_baseline_position = Interop.downcallHandle(
+        "gtk_box_set_baseline_position",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the baseline position of a box.
@@ -142,22 +227,44 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * extra space available.
      */
     public void setBaselinePosition(BaselinePosition position) {
-        gtk_h.gtk_box_set_baseline_position(handle(), position.getValue());
+        try {
+            gtk_box_set_baseline_position.invokeExact(handle(), position.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_set_homogeneous = Interop.downcallHandle(
+        "gtk_box_set_homogeneous",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether or not all children of {@code box} are given equal space
      * in the box.
      */
     public void setHomogeneous(boolean homogeneous) {
-        gtk_h.gtk_box_set_homogeneous(handle(), homogeneous ? 1 : 0);
+        try {
+            gtk_box_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_box_set_spacing = Interop.downcallHandle(
+        "gtk_box_set_spacing",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the number of pixels to place between children of {@code box}.
      */
     public void setSpacing(int spacing) {
-        gtk_h.gtk_box_set_spacing(handle(), spacing);
+        try {
+            gtk_box_set_spacing.invokeExact(handle(), spacing);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -80,9 +79,18 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         return new Text(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_text_new = Interop.downcallHandle(
+        "gtk_text_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -92,9 +100,18 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         super(constructNew());
     }
     
+    static final MethodHandle gtk_text_new_with_buffer = Interop.downcallHandle(
+        "gtk_text_new_with_buffer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewWithBuffer(EntryBuffer buffer) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_new_with_buffer(buffer.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_new_with_buffer.invokeExact(buffer.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -103,6 +120,11 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     public static Text newWithBuffer(EntryBuffer buffer) {
         return new Text(constructNewWithBuffer(buffer));
     }
+    
+    static final MethodHandle gtk_text_compute_cursor_extents = Interop.downcallHandle(
+        "gtk_text_compute_cursor_extents",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determine the positions of the strong and weak cursors if the
@@ -117,8 +139,17 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * The rectangle positions are in widget coordinates.
      */
     public void computeCursorExtents(long position, org.gtk.graphene.Rect strong, org.gtk.graphene.Rect weak) {
-        gtk_h.gtk_text_compute_cursor_extents(handle(), position, strong.handle(), weak.handle());
+        try {
+            gtk_text_compute_cursor_extents.invokeExact(handle(), position, strong.handle(), weak.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_activates_default = Interop.downcallHandle(
+        "gtk_text_get_activates_default",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether pressing Enter will activate
@@ -127,9 +158,18 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See {@link Text#setActivatesDefault}.
      */
     public boolean getActivatesDefault() {
-        var RESULT = gtk_h.gtk_text_get_activates_default(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_get_activates_default.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_attributes = Interop.downcallHandle(
+        "gtk_text_get_attributes",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the attribute list that was set on the {@code GtkText}.
@@ -137,27 +177,54 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See {@link Text#setAttributes}.
      */
     public org.pango.AttrList getAttributes() {
-        var RESULT = gtk_h.gtk_text_get_attributes(handle());
-        return new org.pango.AttrList(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_get_attributes.invokeExact(handle());
+            return new org.pango.AttrList(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_buffer = Interop.downcallHandle(
+        "gtk_text_get_buffer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the {@code GtkEntryBuffer} object which holds the text for
      * this widget.
      */
     public EntryBuffer getBuffer() {
-        var RESULT = gtk_h.gtk_text_get_buffer(handle());
-        return new EntryBuffer(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_get_buffer.invokeExact(handle());
+            return new EntryBuffer(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_enable_emoji_completion = Interop.downcallHandle(
+        "gtk_text_get_enable_emoji_completion",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether Emoji completion is enabled for this
      * {@code GtkText} widget.
      */
     public boolean getEnableEmojiCompletion() {
-        var RESULT = gtk_h.gtk_text_get_enable_emoji_completion(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_get_enable_emoji_completion.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_extra_menu = Interop.downcallHandle(
+        "gtk_text_get_extra_menu",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the menu model for extra items in the context menu.
@@ -165,25 +232,52 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See {@link Text#setExtraMenu}.
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
-        var RESULT = gtk_h.gtk_text_get_extra_menu(handle());
-        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_get_extra_menu.invokeExact(handle());
+            return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_input_hints = Interop.downcallHandle(
+        "gtk_text_get_input_hints",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the input hints of the {@code GtkText}.
      */
     public InputHints getInputHints() {
-        var RESULT = gtk_h.gtk_text_get_input_hints(handle());
-        return new InputHints(RESULT);
+        try {
+            var RESULT = (int) gtk_text_get_input_hints.invokeExact(handle());
+            return new InputHints(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_input_purpose = Interop.downcallHandle(
+        "gtk_text_get_input_purpose",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the input purpose of the {@code GtkText}.
      */
     public InputPurpose getInputPurpose() {
-        var RESULT = gtk_h.gtk_text_get_input_purpose(handle());
-        return new InputPurpose(RESULT);
+        try {
+            var RESULT = (int) gtk_text_get_input_purpose.invokeExact(handle());
+            return new InputPurpose(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_invisible_char = Interop.downcallHandle(
+        "gtk_text_get_invisible_char",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the character displayed when visibility is set to false.
@@ -193,9 +287,18 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * it has been explicitly set with {@link Text#setInvisibleChar}.
      */
     public int getInvisibleChar() {
-        var RESULT = gtk_h.gtk_text_get_invisible_char(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_get_invisible_char.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_max_length = Interop.downcallHandle(
+        "gtk_text_get_max_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the maximum allowed length of the text in {@code self}.
@@ -206,9 +309,18 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * calling {@link EntryBuffer#getMaxLength} on it.
      */
     public int getMaxLength() {
-        var RESULT = gtk_h.gtk_text_get_max_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_get_max_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_overwrite_mode = Interop.downcallHandle(
+        "gtk_text_get_overwrite_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether text is overwritten when typing in the {@code GtkText}.
@@ -216,9 +328,18 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See {@link Text#setOverwriteMode}.
      */
     public boolean getOverwriteMode() {
-        var RESULT = gtk_h.gtk_text_get_overwrite_mode(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_get_overwrite_mode.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_placeholder_text = Interop.downcallHandle(
+        "gtk_text_get_placeholder_text",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the text that will be displayed when
@@ -227,18 +348,36 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * If no placeholder text has been set, {@code null} will be returned.
      */
     public java.lang.String getPlaceholderText() {
-        var RESULT = gtk_h.gtk_text_get_placeholder_text(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_text_get_placeholder_text.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_propagate_text_width = Interop.downcallHandle(
+        "gtk_text_get_propagate_text_width",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the {@code GtkText} will grow and shrink
      * with the content.
      */
     public boolean getPropagateTextWidth() {
-        var RESULT = gtk_h.gtk_text_get_propagate_text_width(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_get_propagate_text_width.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_tabs = Interop.downcallHandle(
+        "gtk_text_get_tabs",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the tabstops that were set on the {@code GtkText}.
@@ -246,9 +385,18 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See {@link Text#setTabs}.
      */
     public org.pango.TabArray getTabs() {
-        var RESULT = gtk_h.gtk_text_get_tabs(handle());
-        return new org.pango.TabArray(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_text_get_tabs.invokeExact(handle());
+            return new org.pango.TabArray(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_text_length = Interop.downcallHandle(
+        "gtk_text_get_text_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the current length of the text in {@code self}.
@@ -257,26 +405,53 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * and calling {@link EntryBuffer#getLength} on it.
      */
     public short getTextLength() {
-        var RESULT = gtk_h.gtk_text_get_text_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (short) gtk_text_get_text_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_truncate_multiline = Interop.downcallHandle(
+        "gtk_text_get_truncate_multiline",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the {@code GtkText} will truncate multi-line text
      * that is pasted into the widget
      */
     public boolean getTruncateMultiline() {
-        var RESULT = gtk_h.gtk_text_get_truncate_multiline(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_get_truncate_multiline.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_get_visibility = Interop.downcallHandle(
+        "gtk_text_get_visibility",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves whether the text in {@code self} is visible.
      */
     public boolean getVisibility() {
-        var RESULT = gtk_h.gtk_text_get_visibility(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_get_visibility.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_grab_focus_without_selecting = Interop.downcallHandle(
+        "gtk_text_grab_focus_without_selecting",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Causes {@code self} to have keyboard focus.
@@ -288,9 +463,18 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * such as search-as-you-type entries.
      */
     public boolean grabFocusWithoutSelecting() {
-        var RESULT = gtk_h.gtk_text_grab_focus_without_selecting(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_text_grab_focus_without_selecting.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_activates_default = Interop.downcallHandle(
+        "gtk_text_set_activates_default",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * If {@code activates} is {@code true}, pressing Enter will activate
@@ -301,23 +485,50 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * the dialog buttons.
      */
     public void setActivatesDefault(boolean activates) {
-        gtk_h.gtk_text_set_activates_default(handle(), activates ? 1 : 0);
+        try {
+            gtk_text_set_activates_default.invokeExact(handle(), activates ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_attributes = Interop.downcallHandle(
+        "gtk_text_set_attributes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets attributes that are applied to the text.
      */
     public void setAttributes(org.pango.AttrList attrs) {
-        gtk_h.gtk_text_set_attributes(handle(), attrs.handle());
+        try {
+            gtk_text_set_attributes.invokeExact(handle(), attrs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_buffer = Interop.downcallHandle(
+        "gtk_text_set_buffer",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Set the {@code GtkEntryBuffer} object which holds the text for
      * this widget.
      */
     public void setBuffer(EntryBuffer buffer) {
-        gtk_h.gtk_text_set_buffer(handle(), buffer.handle());
+        try {
+            gtk_text_set_buffer.invokeExact(handle(), buffer.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_enable_emoji_completion = Interop.downcallHandle(
+        "gtk_text_set_enable_emoji_completion",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether Emoji completion is enabled.
@@ -327,24 +538,51 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * keyword.
      */
     public void setEnableEmojiCompletion(boolean enableEmojiCompletion) {
-        gtk_h.gtk_text_set_enable_emoji_completion(handle(), enableEmojiCompletion ? 1 : 0);
+        try {
+            gtk_text_set_enable_emoji_completion.invokeExact(handle(), enableEmojiCompletion ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_extra_menu = Interop.downcallHandle(
+        "gtk_text_set_extra_menu",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a menu model to add when constructing
      * the context menu for {@code self}.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
-        gtk_h.gtk_text_set_extra_menu(handle(), model.handle());
+        try {
+            gtk_text_set_extra_menu.invokeExact(handle(), model.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_input_hints = Interop.downcallHandle(
+        "gtk_text_set_input_hints",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets input hints that allow input methods
      * to fine-tune their behaviour.
      */
     public void setInputHints(InputHints hints) {
-        gtk_h.gtk_text_set_input_hints(handle(), hints.getValue());
+        try {
+            gtk_text_set_input_hints.invokeExact(handle(), hints.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_input_purpose = Interop.downcallHandle(
+        "gtk_text_set_input_purpose",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the input purpose of the {@code GtkText}.
@@ -353,8 +591,17 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * input methods to adjust their behaviour.
      */
     public void setInputPurpose(InputPurpose purpose) {
-        gtk_h.gtk_text_set_input_purpose(handle(), purpose.getValue());
+        try {
+            gtk_text_set_input_purpose.invokeExact(handle(), purpose.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_invisible_char = Interop.downcallHandle(
+        "gtk_text_set_invisible_char",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the character to use when in “password mode”.
@@ -365,8 +612,17 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * as they type.
      */
     public void setInvisibleChar(int ch) {
-        gtk_h.gtk_text_set_invisible_char(handle(), ch);
+        try {
+            gtk_text_set_invisible_char.invokeExact(handle(), ch);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_max_length = Interop.downcallHandle(
+        "gtk_text_set_max_length",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the maximum allowed length of the contents of the widget.
@@ -378,16 +634,34 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * calling {@link EntryBuffer#setMaxLength} on it.
      */
     public void setMaxLength(int length) {
-        gtk_h.gtk_text_set_max_length(handle(), length);
+        try {
+            gtk_text_set_max_length.invokeExact(handle(), length);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_overwrite_mode = Interop.downcallHandle(
+        "gtk_text_set_overwrite_mode",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the text is overwritten when typing
      * in the {@code GtkText}.
      */
     public void setOverwriteMode(boolean overwrite) {
-        gtk_h.gtk_text_set_overwrite_mode(handle(), overwrite ? 1 : 0);
+        try {
+            gtk_text_set_overwrite_mode.invokeExact(handle(), overwrite ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_placeholder_text = Interop.downcallHandle(
+        "gtk_text_set_placeholder_text",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets text to be displayed in {@code self} when it is empty.
@@ -396,30 +670,66 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * contents of the {@code GtkText}.
      */
     public void setPlaceholderText(java.lang.String text) {
-        gtk_h.gtk_text_set_placeholder_text(handle(), Interop.allocateNativeString(text).handle());
+        try {
+            gtk_text_set_placeholder_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_propagate_text_width = Interop.downcallHandle(
+        "gtk_text_set_propagate_text_width",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GtkText} should grow and shrink with the content.
      */
     public void setPropagateTextWidth(boolean propagateTextWidth) {
-        gtk_h.gtk_text_set_propagate_text_width(handle(), propagateTextWidth ? 1 : 0);
+        try {
+            gtk_text_set_propagate_text_width.invokeExact(handle(), propagateTextWidth ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_tabs = Interop.downcallHandle(
+        "gtk_text_set_tabs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets tabstops that are applied to the text.
      */
     public void setTabs(org.pango.TabArray tabs) {
-        gtk_h.gtk_text_set_tabs(handle(), tabs.handle());
+        try {
+            gtk_text_set_tabs.invokeExact(handle(), tabs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_truncate_multiline = Interop.downcallHandle(
+        "gtk_text_set_truncate_multiline",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the {@code GtkText} should truncate multi-line text
      * that is pasted into the widget.
      */
     public void setTruncateMultiline(boolean truncateMultiline) {
-        gtk_h.gtk_text_set_truncate_multiline(handle(), truncateMultiline ? 1 : 0);
+        try {
+            gtk_text_set_truncate_multiline.invokeExact(handle(), truncateMultiline ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_set_visibility = Interop.downcallHandle(
+        "gtk_text_set_visibility",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the contents of the {@code GtkText} are visible or not.
@@ -438,8 +748,17 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * in addition to setting visibility to {@code false}.
      */
     public void setVisibility(boolean visible) {
-        gtk_h.gtk_text_set_visibility(handle(), visible ? 1 : 0);
+        try {
+            gtk_text_set_visibility.invokeExact(handle(), visible ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_unset_invisible_char = Interop.downcallHandle(
+        "gtk_text_unset_invisible_char",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Unsets the invisible char.
@@ -448,7 +767,11 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * char is used again.
      */
     public void unsetInvisibleChar() {
-        gtk_h.gtk_text_unset_invisible_char(handle());
+        try {
+            gtk_text_unset_invisible_char.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -464,19 +787,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -495,19 +818,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onBackspace(BackspaceHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("backspace").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextBackspace",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -527,19 +850,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onCopyClipboard(CopyClipboardHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("copy-clipboard").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextCopyClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -559,19 +882,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onCutClipboard(CutClipboardHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("cut-clipboard").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextCutClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -595,19 +918,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onDeleteFromCursor(DeleteFromCursorHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("delete-from-cursor").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextDeleteFromCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -626,19 +949,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onInsertAtCursor(InsertAtCursorHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("insert-at-cursor").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextInsertAtCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -658,19 +981,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onInsertEmoji(InsertEmojiHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("insert-emoji").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextInsertEmoji",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -704,19 +1027,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onMoveCursor(MoveCursorHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextMoveCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -735,19 +1058,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onPasteClipboard(PasteClipboardHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("paste-clipboard").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextPasteClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -765,19 +1088,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onPreeditChanged(PreeditChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("preedit-changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextPreeditChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -795,19 +1118,19 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public SignalHandle onToggleOverwrite(ToggleOverwriteHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("toggle-overwrite").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextToggleOverwrite",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

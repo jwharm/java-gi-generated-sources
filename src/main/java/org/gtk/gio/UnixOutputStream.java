@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,9 +26,18 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
         return new UnixOutputStream(gobject.refcounted());
     }
     
+    static final MethodHandle g_unix_output_stream_new = Interop.downcallHandle(
+        "g_unix_output_stream_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(int fd, boolean closeFd) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_output_stream_new.invokeExact(fd, closeFd ? 1 : 0), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -42,29 +50,56 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
         super(constructNew(fd, closeFd));
     }
     
+    static final MethodHandle g_unix_output_stream_get_close_fd = Interop.downcallHandle(
+        "g_unix_output_stream_get_close_fd",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether the file descriptor of {@code stream} will be
      * closed when the stream is closed.
      */
     public boolean getCloseFd() {
-        var RESULT = gtk_h.g_unix_output_stream_get_close_fd(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_unix_output_stream_get_close_fd.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_output_stream_get_fd = Interop.downcallHandle(
+        "g_unix_output_stream_get_fd",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Return the UNIX file descriptor that the stream writes to.
      */
     public int getFd() {
-        var RESULT = gtk_h.g_unix_output_stream_get_fd(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_unix_output_stream_get_fd.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_unix_output_stream_set_close_fd = Interop.downcallHandle(
+        "g_unix_output_stream_set_close_fd",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the file descriptor of {@code stream} shall be closed
      * when the stream is closed.
      */
     public void setCloseFd(boolean closeFd) {
-        gtk_h.g_unix_output_stream_set_close_fd(handle(), closeFd ? 1 : 0);
+        try {
+            g_unix_output_stream_set_close_fd.invokeExact(handle(), closeFd ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class LinearGradientNode extends RenderNode {
         return new LinearGradientNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_linear_gradient_node_new = Interop.downcallHandle(
+        "gsk_linear_gradient_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_linear_gradient_node_new(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_linear_gradient_node_new.invokeExact(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,36 +40,72 @@ public class LinearGradientNode extends RenderNode {
         super(constructNew(bounds, start, end, colorStops, nColorStops));
     }
     
+    static final MethodHandle gsk_linear_gradient_node_get_color_stops = Interop.downcallHandle(
+        "gsk_linear_gradient_node_get_color_stops",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the color stops in the gradient.
      */
     public PointerIterator<ColorStop> getColorStops(PointerLong nStops) {
-        var RESULT = gtk_h.gsk_linear_gradient_node_get_color_stops(handle(), nStops.handle());
-        return new PointerProxy<ColorStop>(RESULT, ColorStop.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) gsk_linear_gradient_node_get_color_stops.invokeExact(handle(), nStops.handle());
+            return new PointerProxy<ColorStop>(RESULT, ColorStop.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_linear_gradient_node_get_end = Interop.downcallHandle(
+        "gsk_linear_gradient_node_get_end",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the final point of the linear gradient.
      */
     public org.gtk.graphene.Point getEnd() {
-        var RESULT = gtk_h.gsk_linear_gradient_node_get_end(handle());
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_linear_gradient_node_get_end.invokeExact(handle());
+            return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_linear_gradient_node_get_n_color_stops = Interop.downcallHandle(
+        "gsk_linear_gradient_node_get_n_color_stops",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of color stops in the gradient.
      */
     public long getNColorStops() {
-        var RESULT = gtk_h.gsk_linear_gradient_node_get_n_color_stops(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gsk_linear_gradient_node_get_n_color_stops.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_linear_gradient_node_get_start = Interop.downcallHandle(
+        "gsk_linear_gradient_node_get_start",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the initial point of the linear gradient.
      */
     public org.gtk.graphene.Point getStart() {
-        var RESULT = gtk_h.gsk_linear_gradient_node_get_start(handle());
-        return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_linear_gradient_node_get_start.invokeExact(handle());
+            return new org.gtk.graphene.Point(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

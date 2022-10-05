@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,64 +18,136 @@ public class GridLayoutChild extends LayoutChild {
         return new GridLayoutChild(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_grid_layout_child_get_column = Interop.downcallHandle(
+        "gtk_grid_layout_child_get_column",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the column number to which {@code child} attaches its left side.
      */
     public int getColumn() {
-        var RESULT = gtk_h.gtk_grid_layout_child_get_column(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_grid_layout_child_get_column.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_child_get_column_span = Interop.downcallHandle(
+        "gtk_grid_layout_child_get_column_span",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of columns that {@code child} spans to.
      */
     public int getColumnSpan() {
-        var RESULT = gtk_h.gtk_grid_layout_child_get_column_span(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_grid_layout_child_get_column_span.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_child_get_row = Interop.downcallHandle(
+        "gtk_grid_layout_child_get_row",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the row number to which {@code child} attaches its top side.
      */
     public int getRow() {
-        var RESULT = gtk_h.gtk_grid_layout_child_get_row(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_grid_layout_child_get_row.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_child_get_row_span = Interop.downcallHandle(
+        "gtk_grid_layout_child_get_row_span",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of rows that {@code child} spans to.
      */
     public int getRowSpan() {
-        var RESULT = gtk_h.gtk_grid_layout_child_get_row_span(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_grid_layout_child_get_row_span.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_child_set_column = Interop.downcallHandle(
+        "gtk_grid_layout_child_set_column",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the column number to attach the left side of {@code child}.
      */
     public void setColumn(int column) {
-        gtk_h.gtk_grid_layout_child_set_column(handle(), column);
+        try {
+            gtk_grid_layout_child_set_column.invokeExact(handle(), column);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_child_set_column_span = Interop.downcallHandle(
+        "gtk_grid_layout_child_set_column_span",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the number of columns {@code child} spans to.
      */
     public void setColumnSpan(int span) {
-        gtk_h.gtk_grid_layout_child_set_column_span(handle(), span);
+        try {
+            gtk_grid_layout_child_set_column_span.invokeExact(handle(), span);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_child_set_row = Interop.downcallHandle(
+        "gtk_grid_layout_child_set_row",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the row to place {@code child} in.
      */
     public void setRow(int row) {
-        gtk_h.gtk_grid_layout_child_set_row(handle(), row);
+        try {
+            gtk_grid_layout_child_set_row.invokeExact(handle(), row);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_grid_layout_child_set_row_span = Interop.downcallHandle(
+        "gtk_grid_layout_child_set_row_span",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the number of rows {@code child} spans to.
      */
     public void setRowSpan(int span) {
-        gtk_h.gtk_grid_layout_child_set_row_span(handle(), span);
+        try {
+            gtk_grid_layout_child_set_row_span.invokeExact(handle(), span);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class ShadowNode extends RenderNode {
         return new ShadowNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_shadow_node_new = Interop.downcallHandle(
+        "gsk_shadow_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNew(RenderNode child, Shadow[] shadows, long nShadows) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_shadow_node_new(child.handle(), Interop.allocateNativeArray(shadows).handle(), nShadows), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_shadow_node_new.invokeExact(child.handle(), Interop.allocateNativeArray(shadows).handle(), nShadows), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,28 +40,55 @@ public class ShadowNode extends RenderNode {
         super(constructNew(child, shadows, nShadows));
     }
     
+    static final MethodHandle gsk_shadow_node_get_child = Interop.downcallHandle(
+        "gsk_shadow_node_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the child {@code GskRenderNode} of the shadow {@code node}.
      */
     public RenderNode getChild() {
-        var RESULT = gtk_h.gsk_shadow_node_get_child(handle());
-        return new RenderNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_shadow_node_get_child.invokeExact(handle());
+            return new RenderNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shadow_node_get_n_shadows = Interop.downcallHandle(
+        "gsk_shadow_node_get_n_shadows",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of shadows in the {@code node}.
      */
     public long getNShadows() {
-        var RESULT = gtk_h.gsk_shadow_node_get_n_shadows(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) gsk_shadow_node_get_n_shadows.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_shadow_node_get_shadow = Interop.downcallHandle(
+        "gsk_shadow_node_get_shadow",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Retrieves the shadow data at the given index @i.
      */
     public Shadow getShadow(long i) {
-        var RESULT = gtk_h.gsk_shadow_node_get_shadow(handle(), i);
-        return new Shadow(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_shadow_node_get_shadow.invokeExact(handle(), i);
+            return new Shadow(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

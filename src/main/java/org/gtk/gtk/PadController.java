@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -65,9 +64,18 @@ public class PadController extends EventController {
         return new PadController(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_pad_controller_new = Interop.downcallHandle(
+        "gtk_pad_controller_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_pad_controller_new(group.handle(), pad.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_pad_controller_new.invokeExact(group.handle(), pad.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -90,6 +98,11 @@ public class PadController extends EventController {
         super(constructNew(group, pad));
     }
     
+    static final MethodHandle gtk_pad_controller_set_action = Interop.downcallHandle(
+        "gtk_pad_controller_set_action",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds an individual action to {@code controller}.
      * <p>
@@ -102,8 +115,17 @@ public class PadController extends EventController {
      * feedback.
      */
     public void setAction(PadActionType type, int index, int mode, java.lang.String label, java.lang.String actionName) {
-        gtk_h.gtk_pad_controller_set_action(handle(), type.getValue(), index, mode, Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(actionName).handle());
+        try {
+            gtk_pad_controller_set_action.invokeExact(handle(), type.getValue(), index, mode, Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(actionName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_pad_controller_set_action_entries = Interop.downcallHandle(
+        "gtk_pad_controller_set_action_entries",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * A convenience function to add a group of action entries on
@@ -112,7 +134,11 @@ public class PadController extends EventController {
      * See {@code Gtk.PadController.set_action}.
      */
     public void setActionEntries(PadActionEntry[] entries, int nEntries) {
-        gtk_h.gtk_pad_controller_set_action_entries(handle(), Interop.allocateNativeArray(entries).handle(), nEntries);
+        try {
+            gtk_pad_controller_set_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries).handle(), nEntries);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

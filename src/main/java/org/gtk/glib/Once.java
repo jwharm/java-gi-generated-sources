@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,9 +15,10 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Once() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GOnce.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_once_init_enter = Interop.downcallHandle(
+        "g_once_init_enter",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Function to be called when starting a critical initialization
@@ -48,9 +48,18 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static boolean initEnter(java.lang.foreign.MemoryAddress location) {
-        var RESULT = gtk_h.g_once_init_enter(location);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_once_init_enter.invokeExact(location);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_once_init_leave = Interop.downcallHandle(
+        "g_once_init_leave",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Counterpart to g_once_init_enter(). Expects a location of a static
@@ -63,7 +72,11 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * the pointer passed to it should not be {@code volatile}.
      */
     public static void initLeave(java.lang.foreign.MemoryAddress location, long result) {
-        gtk_h.g_once_init_leave(location, result);
+        try {
+            g_once_init_leave.invokeExact(location, result);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

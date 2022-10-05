@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,13 +19,22 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
         return new CharsetConverter(gobject.refcounted());
     }
     
+    static final MethodHandle g_charset_converter_new = Interop.downcallHandle(
+        "g_charset_converter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_charset_converter_new(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_charset_converter_new.invokeExact(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -36,27 +44,54 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
         super(constructNew(toCharset, fromCharset));
     }
     
+    static final MethodHandle g_charset_converter_get_num_fallbacks = Interop.downcallHandle(
+        "g_charset_converter_get_num_fallbacks",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the number of fallbacks that {@code converter} has applied so far.
      */
     public int getNumFallbacks() {
-        var RESULT = gtk_h.g_charset_converter_get_num_fallbacks(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_charset_converter_get_num_fallbacks.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_charset_converter_get_use_fallback = Interop.downcallHandle(
+        "g_charset_converter_get_use_fallback",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link CharsetConverter}:use-fallback property.
      */
     public boolean getUseFallback() {
-        var RESULT = gtk_h.g_charset_converter_get_use_fallback(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_charset_converter_get_use_fallback.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_charset_converter_set_use_fallback = Interop.downcallHandle(
+        "g_charset_converter_set_use_fallback",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the {@link CharsetConverter}:use-fallback property.
      */
     public void setUseFallback(boolean useFallback) {
-        gtk_h.g_charset_converter_set_use_fallback(handle(), useFallback ? 1 : 0);
+        try {
+            g_charset_converter_set_use_fallback.invokeExact(handle(), useFallback ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

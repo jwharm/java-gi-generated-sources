@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
         return new FlowBoxChild(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_flow_box_child_new = Interop.downcallHandle(
+        "gtk_flow_box_child_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_flow_box_child_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_flow_box_child_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,6 +40,11 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     public FlowBoxChild() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_flow_box_child_changed = Interop.downcallHandle(
+        "gtk_flow_box_child_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Marks {@code child} as changed, causing any state that depends on this
@@ -55,39 +68,79 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * on any model change, but that is more expensive.
      */
     public void changed() {
-        gtk_h.gtk_flow_box_child_changed(handle());
+        try {
+            gtk_flow_box_child_changed.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_child_get_child = Interop.downcallHandle(
+        "gtk_flow_box_child_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the child widget of {@code self}.
      */
     public Widget getChild() {
-        var RESULT = gtk_h.gtk_flow_box_child_get_child(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_flow_box_child_get_child.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_child_get_index = Interop.downcallHandle(
+        "gtk_flow_box_child_get_index",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current index of the {@code child} in its {@code GtkFlowBox} container.
      */
     public int getIndex() {
-        var RESULT = gtk_h.gtk_flow_box_child_get_index(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_flow_box_child_get_index.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_child_is_selected = Interop.downcallHandle(
+        "gtk_flow_box_child_is_selected",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the {@code child} is currently selected in its
      * {@code GtkFlowBox} container.
      */
     public boolean isSelected() {
-        var RESULT = gtk_h.gtk_flow_box_child_is_selected(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_flow_box_child_is_selected.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_flow_box_child_set_child = Interop.downcallHandle(
+        "gtk_flow_box_child_set_child",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the child widget of {@code self}.
      */
     public void setChild(Widget child) {
-        gtk_h.gtk_flow_box_child_set_child(handle(), child.handle());
+        try {
+            gtk_flow_box_child_set_child.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -108,19 +161,19 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBoxChild.Callbacks.class, "signalFlowBoxChildActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

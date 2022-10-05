@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -29,14 +28,28 @@ public class TreeListRow extends org.gtk.gobject.Object {
         return new TreeListRow(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_tree_list_row_get_child_row = Interop.downcallHandle(
+        "gtk_tree_list_row_get_child_row",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * If {@code self} is not expanded or {@code position} is greater than the
      * number of children, {@code null} is returned.
      */
     public TreeListRow getChildRow(int position) {
-        var RESULT = gtk_h.gtk_tree_list_row_get_child_row(handle(), position);
-        return new TreeListRow(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_list_row_get_child_row.invokeExact(handle(), position);
+            return new TreeListRow(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_get_children = Interop.downcallHandle(
+        "gtk_tree_list_row_get_children",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If the row is expanded, gets the model holding the children of {@code self}.
@@ -47,9 +60,18 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * {@code Gtk.TreeListModel:passthrough} is set to.
      */
     public org.gtk.gio.ListModel getChildren() {
-        var RESULT = gtk_h.gtk_tree_list_row_get_children(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_list_row_get_children.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_get_depth = Interop.downcallHandle(
+        "gtk_tree_list_row_get_depth",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the depth of this row.
@@ -61,17 +83,35 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * The depth of a row never changes until the row is destroyed.
      */
     public int getDepth() {
-        var RESULT = gtk_h.gtk_tree_list_row_get_depth(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_list_row_get_depth.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_get_expanded = Interop.downcallHandle(
+        "gtk_tree_list_row_get_expanded",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets if a row is currently expanded.
      */
     public boolean getExpanded() {
-        var RESULT = gtk_h.gtk_tree_list_row_get_expanded(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_list_row_get_expanded.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_get_item = Interop.downcallHandle(
+        "gtk_tree_list_row_get_item",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the item corresponding to this row,
@@ -80,9 +120,18 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * row is destroyed.
      */
     public org.gtk.gobject.Object getItem() {
-        var RESULT = gtk_h.gtk_tree_list_row_get_item(handle());
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_list_row_get_item.invokeExact(handle());
+            return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_get_parent = Interop.downcallHandle(
+        "gtk_tree_list_row_get_parent",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the row representing the parent for {@code self}.
@@ -97,18 +146,36 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * until the row is destroyed.
      */
     public TreeListRow getParent() {
-        var RESULT = gtk_h.gtk_tree_list_row_get_parent(handle());
-        return new TreeListRow(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_tree_list_row_get_parent.invokeExact(handle());
+            return new TreeListRow(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_get_position = Interop.downcallHandle(
+        "gtk_tree_list_row_get_position",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the position in the {@code GtkTreeListModel} that {@code self} occupies
      * at the moment.
      */
     public int getPosition() {
-        var RESULT = gtk_h.gtk_tree_list_row_get_position(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_tree_list_row_get_position.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_is_expandable = Interop.downcallHandle(
+        "gtk_tree_list_row_is_expandable",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if a row can be expanded.
@@ -119,9 +186,18 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * If a row is expandable never changes until the row is destroyed.
      */
     public boolean isExpandable() {
-        var RESULT = gtk_h.gtk_tree_list_row_is_expandable(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_tree_list_row_is_expandable.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_tree_list_row_set_expanded = Interop.downcallHandle(
+        "gtk_tree_list_row_set_expanded",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Expands or collapses a row.
@@ -134,7 +210,11 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * If the row is not expandable, this function does nothing.
      */
     public void setExpanded(boolean expanded) {
-        gtk_h.gtk_tree_list_row_set_expanded(handle(), expanded ? 1 : 0);
+        try {
+            gtk_tree_list_row_set_expanded.invokeExact(handle(), expanded ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

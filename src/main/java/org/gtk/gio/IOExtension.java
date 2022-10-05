@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,6 +14,11 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_io_extension_get_name = Interop.downcallHandle(
+        "g_io_extension_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the name under which {@code extension} was registered.
      * <p>
@@ -22,33 +26,64 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
      * for multiple extension points, under different names.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.g_io_extension_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_io_extension_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_io_extension_get_priority = Interop.downcallHandle(
+        "g_io_extension_get_priority",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the priority with which {@code extension} was registered.
      */
     public int getPriority() {
-        var RESULT = gtk_h.g_io_extension_get_priority(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_io_extension_get_priority.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_io_extension_get_type = Interop.downcallHandle(
+        "g_io_extension_get_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the type associated with {@code extension}.
      */
     public org.gtk.gobject.Type getType() {
-        var RESULT = gtk_h.g_io_extension_get_type(handle());
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) g_io_extension_get_type.invokeExact(handle());
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_io_extension_ref_class = Interop.downcallHandle(
+        "g_io_extension_ref_class",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a reference to the class for the type that is
      * associated with {@code extension}.
      */
     public org.gtk.gobject.TypeClass refClass() {
-        var RESULT = gtk_h.g_io_extension_ref_class(handle());
-        return new org.gtk.gobject.TypeClass(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_io_extension_ref_class.invokeExact(handle());
+            return new org.gtk.gobject.TypeClass(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

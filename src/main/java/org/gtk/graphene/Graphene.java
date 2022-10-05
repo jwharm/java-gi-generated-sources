@@ -1,6 +1,5 @@
 package org.gtk.graphene;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,15 +16,29 @@ public final class Graphene {
 
     public static final int VEC4_LEN = 4;
 
+    static final MethodHandle graphene_box_empty = Interop.downcallHandle(
+        "graphene_box_empty",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     /**
      * A degenerate {@link Box} that can only be expanded.
      * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box boxEmpty() {
-        var RESULT = gtk_h.graphene_box_empty();
-        return new Box(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_box_empty.invokeExact();
+            return new Box(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_box_infinite = Interop.downcallHandle(
+        "graphene_box_infinite",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * A degenerate {@link Box} that cannot be expanded.
@@ -33,9 +46,18 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box boxInfinite() {
-        var RESULT = gtk_h.graphene_box_infinite();
-        return new Box(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_box_infinite.invokeExact();
+            return new Box(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_box_minus_one = Interop.downcallHandle(
+        "graphene_box_minus_one",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * A {@link Box} with the minimum vertex set at (-1, -1, -1) and the
@@ -44,9 +66,18 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box boxMinusOne() {
-        var RESULT = gtk_h.graphene_box_minus_one();
-        return new Box(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_box_minus_one.invokeExact();
+            return new Box(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_box_one = Interop.downcallHandle(
+        "graphene_box_one",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * A {@link Box} with the minimum vertex set at (0, 0, 0) and the
@@ -55,9 +86,18 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box boxOne() {
-        var RESULT = gtk_h.graphene_box_one();
-        return new Box(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_box_one.invokeExact();
+            return new Box(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_box_one_minus_one = Interop.downcallHandle(
+        "graphene_box_one_minus_one",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * A {@link Box} with the minimum vertex set at (-1, -1, -1) and the
@@ -66,9 +106,18 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box boxOneMinusOne() {
-        var RESULT = gtk_h.graphene_box_one_minus_one();
-        return new Box(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_box_one_minus_one.invokeExact();
+            return new Box(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_box_zero = Interop.downcallHandle(
+        "graphene_box_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * A {@link Box} with both the minimum and maximum vertices set at (0, 0, 0).
@@ -76,25 +125,52 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box boxZero() {
-        var RESULT = gtk_h.graphene_box_zero();
-        return new Box(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_box_zero.invokeExact();
+            return new Box(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_point3d_zero = Interop.downcallHandle(
+        "graphene_point3d_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant point with all three coordinates set to 0.
      */
     public static Point3D point3dZero() {
-        var RESULT = gtk_h.graphene_point3d_zero();
-        return new Point3D(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_point3d_zero.invokeExact();
+            return new Point3D(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_point_zero = Interop.downcallHandle(
+        "graphene_point_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a point fixed at (0, 0).
      */
     public static Point pointZero() {
-        var RESULT = gtk_h.graphene_point_zero();
-        return new Point(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_point_zero.invokeExact();
+            return new Point(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_alloc = Interop.downcallHandle(
+        "graphene_rect_alloc",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Allocates a new {@link Rect}.
@@ -102,157 +178,314 @@ public final class Graphene {
      * The contents of the returned rectangle are undefined.
      */
     public static Rect rectAlloc() {
-        var RESULT = gtk_h.graphene_rect_alloc();
-        return new Rect(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_alloc.invokeExact();
+            return new Rect(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_rect_zero = Interop.downcallHandle(
+        "graphene_rect_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a degenerate rectangle with origin fixed at (0, 0) and
      * a size of 0, 0.
      */
     public static Rect rectZero() {
-        var RESULT = gtk_h.graphene_rect_zero();
-        return new Rect(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_rect_zero.invokeExact();
+            return new Rect(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_size_zero = Interop.downcallHandle(
+        "graphene_size_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * A constant pointer to a zero {@link Size}, useful for
      * equality checks and interpolations.
      */
     public static Size sizeZero() {
-        var RESULT = gtk_h.graphene_size_zero();
-        return new Size(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_size_zero.invokeExact();
+            return new Size(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_one = Interop.downcallHandle(
+        "graphene_vec2_one",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant vector with (1, 1) components.
      */
     public static Vec2 vec2One() {
-        var RESULT = gtk_h.graphene_vec2_one();
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_one.invokeExact();
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_x_axis = Interop.downcallHandle(
+        "graphene_vec2_x_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant vector with (1, 0) components.
      */
     public static Vec2 vec2XAxis() {
-        var RESULT = gtk_h.graphene_vec2_x_axis();
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_x_axis.invokeExact();
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_y_axis = Interop.downcallHandle(
+        "graphene_vec2_y_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant vector with (0, 1) components.
      */
     public static Vec2 vec2YAxis() {
-        var RESULT = gtk_h.graphene_vec2_y_axis();
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_y_axis.invokeExact();
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec2_zero = Interop.downcallHandle(
+        "graphene_vec2_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a constant vector with (0, 0) components.
      */
     public static Vec2 vec2Zero() {
-        var RESULT = gtk_h.graphene_vec2_zero();
-        return new Vec2(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec2_zero.invokeExact();
+            return new Vec2(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec3_one = Interop.downcallHandle(
+        "graphene_vec3_one",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Provides a constant pointer to a vector with three components,
      * all sets to 1.
      */
     public static Vec3 vec3One() {
-        var RESULT = gtk_h.graphene_vec3_one();
-        return new Vec3(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec3_one.invokeExact();
+            return new Vec3(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec3_x_axis = Interop.downcallHandle(
+        "graphene_vec3_x_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Provides a constant pointer to a vector with three components
      * with values set to (1, 0, 0).
      */
     public static Vec3 vec3XAxis() {
-        var RESULT = gtk_h.graphene_vec3_x_axis();
-        return new Vec3(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec3_x_axis.invokeExact();
+            return new Vec3(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec3_y_axis = Interop.downcallHandle(
+        "graphene_vec3_y_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Provides a constant pointer to a vector with three components
      * with values set to (0, 1, 0).
      */
     public static Vec3 vec3YAxis() {
-        var RESULT = gtk_h.graphene_vec3_y_axis();
-        return new Vec3(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec3_y_axis.invokeExact();
+            return new Vec3(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec3_z_axis = Interop.downcallHandle(
+        "graphene_vec3_z_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Provides a constant pointer to a vector with three components
      * with values set to (0, 0, 1).
      */
     public static Vec3 vec3ZAxis() {
-        var RESULT = gtk_h.graphene_vec3_z_axis();
-        return new Vec3(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec3_z_axis.invokeExact();
+            return new Vec3(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec3_zero = Interop.downcallHandle(
+        "graphene_vec3_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Provides a constant pointer to a vector with three components,
      * all sets to 0.
      */
     public static Vec3 vec3Zero() {
-        var RESULT = gtk_h.graphene_vec3_zero();
-        return new Vec3(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec3_zero.invokeExact();
+            return new Vec3(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec4_one = Interop.downcallHandle(
+        "graphene_vec4_one",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a pointer to a {@link Vec4} with all its
      * components set to 1.
      */
     public static Vec4 vec4One() {
-        var RESULT = gtk_h.graphene_vec4_one();
-        return new Vec4(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec4_one.invokeExact();
+            return new Vec4(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec4_w_axis = Interop.downcallHandle(
+        "graphene_vec4_w_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a pointer to a {@link Vec4} with its
      * components set to (0, 0, 0, 1).
      */
     public static Vec4 vec4WAxis() {
-        var RESULT = gtk_h.graphene_vec4_w_axis();
-        return new Vec4(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec4_w_axis.invokeExact();
+            return new Vec4(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec4_x_axis = Interop.downcallHandle(
+        "graphene_vec4_x_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a pointer to a {@link Vec4} with its
      * components set to (1, 0, 0, 0).
      */
     public static Vec4 vec4XAxis() {
-        var RESULT = gtk_h.graphene_vec4_x_axis();
-        return new Vec4(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec4_x_axis.invokeExact();
+            return new Vec4(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec4_y_axis = Interop.downcallHandle(
+        "graphene_vec4_y_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a pointer to a {@link Vec4} with its
      * components set to (0, 1, 0, 0).
      */
     public static Vec4 vec4YAxis() {
-        var RESULT = gtk_h.graphene_vec4_y_axis();
-        return new Vec4(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec4_y_axis.invokeExact();
+            return new Vec4(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec4_z_axis = Interop.downcallHandle(
+        "graphene_vec4_z_axis",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a pointer to a {@link Vec4} with its
      * components set to (0, 0, 1, 0).
      */
     public static Vec4 vec4ZAxis() {
-        var RESULT = gtk_h.graphene_vec4_z_axis();
-        return new Vec4(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec4_z_axis.invokeExact();
+            return new Vec4(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle graphene_vec4_zero = Interop.downcallHandle(
+        "graphene_vec4_zero",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a pointer to a {@link Vec4} with all its
      * components set to 0.
      */
     public static Vec4 vec4Zero() {
-        var RESULT = gtk_h.graphene_vec4_zero();
-        return new Vec4(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) graphene_vec4_zero.invokeExact();
+            return new Vec4(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

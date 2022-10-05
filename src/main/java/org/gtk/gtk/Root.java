@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,13 +21,27 @@ import java.lang.invoke.*;
  */
 public interface Root extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle gtk_root_get_display = Interop.downcallHandle(
+        "gtk_root_get_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the display that this {@code GtkRoot} is on.
      */
     public default org.gtk.gdk.Display getDisplay() {
-        var RESULT = gtk_h.gtk_root_get_display(handle());
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_root_get_display.invokeExact(handle());
+            return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_root_get_focus = Interop.downcallHandle(
+        "gtk_root_get_focus",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the current focused widget within the root.
@@ -39,9 +52,18 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      * widget.
      */
     public default Widget getFocus() {
-        var RESULT = gtk_h.gtk_root_get_focus(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_root_get_focus.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_root_set_focus = Interop.downcallHandle(
+        "gtk_root_set_focus",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code focus} is not the current focus widget, and is focusable, sets
@@ -54,7 +76,11 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      * this function.
      */
     public default void setFocus(Widget focus) {
-        gtk_h.gtk_root_set_focus(handle(), focus.handle());
+        try {
+            gtk_root_set_focus.invokeExact(handle(), focus.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class RootImpl extends org.gtk.gobject.Object implements Root {

@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,15 +19,29 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
         return new MenuLinkIter(gobject.refcounted());
     }
     
+    static final MethodHandle g_menu_link_iter_get_name = Interop.downcallHandle(
+        "g_menu_link_iter_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the name of the link at the current iterator position.
      * <p>
      * The iterator is not advanced.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.g_menu_link_iter_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_menu_link_iter_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_link_iter_get_next = Interop.downcallHandle(
+        "g_menu_link_iter_get_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This function combines g_menu_link_iter_next() with
@@ -47,9 +60,18 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * be unreffed using g_object_unref() when it is no longer in use.
      */
     public boolean getNext(java.lang.String[] outLink, MenuModel[] value) {
-        var RESULT = gtk_h.g_menu_link_iter_get_next(handle(), Interop.allocateNativeArray(outLink).handle(), Interop.allocateNativeArray(value).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_menu_link_iter_get_next.invokeExact(handle(), Interop.allocateNativeArray(outLink).handle(), Interop.allocateNativeArray(value).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_link_iter_get_value = Interop.downcallHandle(
+        "g_menu_link_iter_get_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the linked {@link MenuModel} at the current iterator position.
@@ -57,9 +79,18 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      */
     public MenuModel getValue() {
-        var RESULT = gtk_h.g_menu_link_iter_get_value(handle());
-        return new MenuModel(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_menu_link_iter_get_value.invokeExact(handle());
+            return new MenuModel(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_menu_link_iter_next = Interop.downcallHandle(
+        "g_menu_link_iter_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Attempts to advance the iterator to the next (possibly first)
@@ -72,8 +103,12 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * at all).
      */
     public boolean next() {
-        var RESULT = gtk_h.g_menu_link_iter_next(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_menu_link_iter_next.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

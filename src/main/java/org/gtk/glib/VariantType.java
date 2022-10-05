@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -174,9 +173,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_variant_type_new = Interop.downcallHandle(
+        "g_variant_type_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String typeString) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new(Interop.allocateNativeString(typeString).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_type_new.invokeExact(Interop.allocateNativeString(typeString).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -191,9 +199,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(typeString));
     }
     
+    static final MethodHandle g_variant_type_new_array = Interop.downcallHandle(
+        "g_variant_type_new_array",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewArray(VariantType element) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new_array(element.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_type_new_array.invokeExact(element.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -206,9 +223,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         return new VariantType(constructNewArray(element));
     }
     
+    static final MethodHandle g_variant_type_new_dict_entry = Interop.downcallHandle(
+        "g_variant_type_new_dict_entry",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewDictEntry(VariantType key, VariantType value) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new_dict_entry(key.handle(), value.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_type_new_dict_entry.invokeExact(key.handle(), value.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -221,9 +247,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         return new VariantType(constructNewDictEntry(key, value));
     }
     
+    static final MethodHandle g_variant_type_new_maybe = Interop.downcallHandle(
+        "g_variant_type_new_maybe",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewMaybe(VariantType element) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new_maybe(element.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_type_new_maybe.invokeExact(element.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -236,9 +271,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         return new VariantType(constructNewMaybe(element));
     }
     
+    static final MethodHandle g_variant_type_new_tuple = Interop.downcallHandle(
+        "g_variant_type_new_tuple",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNewTuple(VariantType[] items, int length) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items).handle(), length), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_type_new_tuple.invokeExact(Interop.allocateNativeArray(items).handle(), length), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -253,14 +297,28 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
         return new VariantType(constructNewTuple(items, length));
     }
     
+    static final MethodHandle g_variant_type_copy = Interop.downcallHandle(
+        "g_variant_type_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Makes a copy of a {@link VariantType}.  It is appropriate to call
      * g_variant_type_free() on the return value.  {@code type} may not be {@code null}.
      */
     public VariantType copy() {
-        var RESULT = gtk_h.g_variant_type_copy(handle());
-        return new VariantType(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_copy.invokeExact(handle());
+            return new VariantType(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_dup_string = Interop.downcallHandle(
+        "g_variant_type_dup_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a newly-allocated copy of the type string corresponding to
@@ -268,9 +326,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * call g_free() on the return value.
      */
     public java.lang.String dupString() {
-        var RESULT = gtk_h.g_variant_type_dup_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_dup_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_element = Interop.downcallHandle(
+        "g_variant_type_element",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the element type of an array or maybe type.
@@ -278,9 +345,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * This function may only be used with array or maybe types.
      */
     public VariantType element() {
-        var RESULT = gtk_h.g_variant_type_element(handle());
-        return new VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_element.invokeExact(handle());
+            return new VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_equal = Interop.downcallHandle(
+        "g_variant_type_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares {@code type1} and {@code type2} for equality.
@@ -295,9 +371,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * both arguments, a valid {@link VariantType} must be provided.
      */
     public boolean equal(VariantType type2) {
-        var RESULT = gtk_h.g_variant_type_equal(handle(), type2.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_equal.invokeExact(handle(), type2.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_first = Interop.downcallHandle(
+        "g_variant_type_first",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the first item type of a tuple or dictionary entry
@@ -316,9 +401,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * interface over tuple and dictionary entry types.
      */
     public VariantType first() {
-        var RESULT = gtk_h.g_variant_type_first(handle());
-        return new VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_first.invokeExact(handle());
+            return new VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_free = Interop.downcallHandle(
+        "g_variant_type_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a {@link VariantType} that was allocated with
@@ -330,8 +424,17 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Since 2.24
      */
     public void free() {
-        gtk_h.g_variant_type_free(handle());
+        try {
+            g_variant_type_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_get_string_length = Interop.downcallHandle(
+        "g_variant_type_get_string_length",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the length of the type string corresponding to the given
@@ -339,9 +442,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * the memory region returned by g_variant_type_peek_string().
      */
     public long getStringLength() {
-        var RESULT = gtk_h.g_variant_type_get_string_length(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_type_get_string_length.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_hash = Interop.downcallHandle(
+        "g_variant_type_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Hashes {@code type}.
@@ -351,9 +463,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * {@link VariantType} must be provided.
      */
     public int hash() {
-        var RESULT = gtk_h.g_variant_type_hash(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_variant_type_hash.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_array = Interop.downcallHandle(
+        "g_variant_type_is_array",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the given {@code type} is an array type.  This is true if the
@@ -364,9 +485,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * example.
      */
     public boolean isArray() {
-        var RESULT = gtk_h.g_variant_type_is_array(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_array.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_basic = Interop.downcallHandle(
+        "g_variant_type_is_basic",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the given {@code type} is a basic type.
@@ -380,9 +510,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * {@code G_VARIANT_TYPE_BASIC}.
      */
     public boolean isBasic() {
-        var RESULT = gtk_h.g_variant_type_is_basic(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_basic.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_container = Interop.downcallHandle(
+        "g_variant_type_is_container",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the given {@code type} is a container type.
@@ -395,9 +534,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * example.
      */
     public boolean isContainer() {
-        var RESULT = gtk_h.g_variant_type_is_container(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_container.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_definite = Interop.downcallHandle(
+        "g_variant_type_is_definite",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the given {@code type} is definite (ie: not indefinite).
@@ -412,9 +560,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * {@code false} being returned.
      */
     public boolean isDefinite() {
-        var RESULT = gtk_h.g_variant_type_is_definite(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_definite.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_dict_entry = Interop.downcallHandle(
+        "g_variant_type_is_dict_entry",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the given {@code type} is a dictionary entry type.  This is
@@ -425,9 +582,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * {@code G_VARIANT_TYPE_DICT_ENTRY}, for example.
      */
     public boolean isDictEntry() {
-        var RESULT = gtk_h.g_variant_type_is_dict_entry(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_dict_entry.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_maybe = Interop.downcallHandle(
+        "g_variant_type_is_maybe",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the given {@code type} is a maybe type.  This is true if the
@@ -438,9 +604,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * example.
      */
     public boolean isMaybe() {
-        var RESULT = gtk_h.g_variant_type_is_maybe(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_maybe.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_subtype_of = Interop.downcallHandle(
+        "g_variant_type_is_subtype_of",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code type} is a subtype of {@code supertype}.
@@ -450,9 +625,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * only indefinite types can have subtypes.
      */
     public boolean isSubtypeOf(VariantType supertype) {
-        var RESULT = gtk_h.g_variant_type_is_subtype_of(handle(), supertype.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_subtype_of.invokeExact(handle(), supertype.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_tuple = Interop.downcallHandle(
+        "g_variant_type_is_tuple",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the given {@code type} is a tuple type.  This is true if the
@@ -464,17 +648,35 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * example.
      */
     public boolean isTuple() {
-        var RESULT = gtk_h.g_variant_type_is_tuple(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_tuple.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_is_variant = Interop.downcallHandle(
+        "g_variant_type_is_variant",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if the given {@code type} is the variant type.
      */
     public boolean isVariant() {
-        var RESULT = gtk_h.g_variant_type_is_variant(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_is_variant.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_key = Interop.downcallHandle(
+        "g_variant_type_key",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the key type of a dictionary entry type.
@@ -484,9 +686,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * g_variant_type_first().
      */
     public VariantType key() {
-        var RESULT = gtk_h.g_variant_type_key(handle());
-        return new VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_key.invokeExact(handle());
+            return new VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_n_items = Interop.downcallHandle(
+        "g_variant_type_n_items",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the number of items contained in a tuple or
@@ -500,9 +711,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * return 2.
      */
     public long nItems() {
-        var RESULT = gtk_h.g_variant_type_n_items(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_type_n_items.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_next = Interop.downcallHandle(
+        "g_variant_type_next",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the next item type of a tuple or dictionary entry
@@ -518,9 +738,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * For tuples, {@code null} is returned when {@code type} is the last item in a tuple.
      */
     public VariantType next() {
-        var RESULT = gtk_h.g_variant_type_next(handle());
-        return new VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_next.invokeExact(handle());
+            return new VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_peek_string = Interop.downcallHandle(
+        "g_variant_type_peek_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the type string corresponding to the given {@code type}.  The
@@ -530,9 +759,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * To get a nul-terminated string, see g_variant_type_dup_string().
      */
     public java.lang.String peekString() {
-        var RESULT = gtk_h.g_variant_type_peek_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_peek_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_value = Interop.downcallHandle(
+        "g_variant_type_value",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines the value type of a dictionary entry type.
@@ -540,19 +778,46 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * This function may only be used with a dictionary entry type.
      */
     public VariantType value() {
-        var RESULT = gtk_h.g_variant_type_value(handle());
-        return new VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_value.invokeExact(handle());
+            return new VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_checked_ = Interop.downcallHandle(
+        "g_variant_type_checked_",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     public static VariantType checked(java.lang.String arg0) {
-        var RESULT = gtk_h.g_variant_type_checked_(Interop.allocateNativeString(arg0).handle());
-        return new VariantType(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_variant_type_checked_.invokeExact(Interop.allocateNativeString(arg0).handle());
+            return new VariantType(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
+    static final MethodHandle g_variant_type_string_get_depth_ = Interop.downcallHandle(
+        "g_variant_type_string_get_depth_",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
+    
     public static long stringGetDepth(java.lang.String typeString) {
-        var RESULT = gtk_h.g_variant_type_string_get_depth_(Interop.allocateNativeString(typeString).handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_variant_type_string_get_depth_.invokeExact(Interop.allocateNativeString(typeString).handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_string_is_valid = Interop.downcallHandle(
+        "g_variant_type_string_is_valid",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code type_string} is a valid GVariant type string.  This call is
@@ -560,9 +825,18 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * that the following character is a nul terminator.
      */
     public static boolean stringIsValid(java.lang.String typeString) {
-        var RESULT = gtk_h.g_variant_type_string_is_valid(Interop.allocateNativeString(typeString).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_string_is_valid.invokeExact(Interop.allocateNativeString(typeString).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_variant_type_string_scan = Interop.downcallHandle(
+        "g_variant_type_string_scan",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Scan for a single complete and valid GVariant type string in {@code string}.
@@ -580,8 +854,12 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * see g_variant_type_string_is_valid().
      */
     public static boolean stringScan(java.lang.String string, java.lang.String limit, java.lang.String[] endptr) {
-        var RESULT = gtk_h.g_variant_type_string_scan(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_variant_type_string_scan.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

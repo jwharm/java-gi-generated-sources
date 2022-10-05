@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,10 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public UriParamsIter() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GUriParamsIter.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_uri_params_iter_init = Interop.downcallHandle(
+        "g_uri_params_iter_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Initializes an attribute/value pair iterator.
@@ -62,8 +62,17 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public void init(java.lang.String params, long length, java.lang.String separators, UriParamsFlags flags) {
-        gtk_h.g_uri_params_iter_init(handle(), Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue());
+        try {
+            g_uri_params_iter_init.invokeExact(handle(), Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_uri_params_iter_next = Interop.downcallHandle(
+        "g_uri_params_iter_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Advances {@code iter} and retrieves the next attribute/value. {@code false} is returned if
@@ -78,11 +87,15 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean next(java.lang.String[] attribute, java.lang.String[] value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_params_iter_next(handle(), Interop.allocateNativeArray(attribute).handle(), Interop.allocateNativeArray(value).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_uri_params_iter_next.invokeExact(handle(), Interop.allocateNativeArray(attribute).handle(), Interop.allocateNativeArray(value).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
 }

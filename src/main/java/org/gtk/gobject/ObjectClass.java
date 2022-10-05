@@ -1,6 +1,5 @@
 package org.gtk.gobject;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -39,17 +38,27 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public ObjectClass() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GObjectClass.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_object_class_find_property = Interop.downcallHandle(
+        "g_object_class_find_property",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Looks up the {@link ParamSpec} for a property of a class.
      */
     public ParamSpec findProperty(java.lang.String propertyName) {
-        var RESULT = gtk_h.g_object_class_find_property(handle(), Interop.allocateNativeString(propertyName).handle());
-        return new ParamSpec(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_object_class_find_property.invokeExact(handle(), Interop.allocateNativeString(propertyName).handle());
+            return new ParamSpec(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_class_install_properties = Interop.downcallHandle(
+        "g_object_class_install_properties",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Installs new properties from an array of {@code GParamSpecs}.
@@ -115,8 +124,17 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public void installProperties(int nPspecs, ParamSpec[] pspecs) {
-        gtk_h.g_object_class_install_properties(handle(), nPspecs, Interop.allocateNativeArray(pspecs).handle());
+        try {
+            g_object_class_install_properties.invokeExact(handle(), nPspecs, Interop.allocateNativeArray(pspecs).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_class_install_property = Interop.downcallHandle(
+        "g_object_class_install_property",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Installs a new property.
@@ -131,16 +149,34 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * e.g. to change the range of allowed values or the default value.
      */
     public void installProperty(int propertyId, ParamSpec pspec) {
-        gtk_h.g_object_class_install_property(handle(), propertyId, pspec.handle());
+        try {
+            g_object_class_install_property.invokeExact(handle(), propertyId, pspec.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_class_list_properties = Interop.downcallHandle(
+        "g_object_class_list_properties",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get an array of {@link ParamSpec}* for all properties of a class.
      */
     public PointerIterator<ParamSpec> listProperties(PointerInteger nProperties) {
-        var RESULT = gtk_h.g_object_class_list_properties(handle(), nProperties.handle());
-        return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_object_class_list_properties.invokeExact(handle(), nProperties.handle());
+            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_object_class_override_property = Interop.downcallHandle(
+        "g_object_class_override_property",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Registers {@code property_id} as referring to a property with the name
@@ -161,7 +197,11 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * g_param_spec_get_redirect_target().
      */
     public void overrideProperty(int propertyId, java.lang.String name) {
-        gtk_h.g_object_class_override_property(handle(), propertyId, Interop.allocateNativeString(name).handle());
+        try {
+            g_object_class_override_property.invokeExact(handle(), propertyId, Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

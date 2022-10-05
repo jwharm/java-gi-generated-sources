@@ -1,8 +1,7 @@
 package io.github.jwharm.javagi;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Addressable;
 import java.lang.foreign.MemorySegment;
-
 import java.lang.ref.Cleaner;
 
 public class MemorySegmentReference {
@@ -28,7 +27,7 @@ public class MemorySegmentReference {
         cleanable = cleaner.register(this, state);
     }
 
-    public final MemoryAddress handle() {
+    public final Addressable handle() {
         return state.segment.address();
     }
 }

@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class ColorNode extends RenderNode {
         return new ColorNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_color_node_new = Interop.downcallHandle(
+        "gsk_color_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_color_node_new(rgba.handle(), bounds.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_color_node_new.invokeExact(rgba.handle(), bounds.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,12 +40,21 @@ public class ColorNode extends RenderNode {
         super(constructNew(rgba, bounds));
     }
     
+    static final MethodHandle gsk_color_node_get_color = Interop.downcallHandle(
+        "gsk_color_node_get_color",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the color of the given {@code node}.
      */
     public org.gtk.gdk.RGBA getColor() {
-        var RESULT = gtk_h.gsk_color_node_get_color(handle());
-        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_color_node_get_color.invokeExact(handle());
+            return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class ContainerNode extends RenderNode {
         return new ContainerNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_container_node_new = Interop.downcallHandle(
+        "gsk_container_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(RenderNode[] children, int nChildren) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children).handle(), nChildren), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_container_node_new.invokeExact(Interop.allocateNativeArray(children).handle(), nChildren), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -33,20 +41,38 @@ public class ContainerNode extends RenderNode {
         super(constructNew(children, nChildren));
     }
     
+    static final MethodHandle gsk_container_node_get_child = Interop.downcallHandle(
+        "gsk_container_node_get_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Gets one of the children of {@code container}.
      */
     public RenderNode getChild(int idx) {
-        var RESULT = gtk_h.gsk_container_node_get_child(handle(), idx);
-        return new RenderNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_container_node_get_child.invokeExact(handle(), idx);
+            return new RenderNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_container_node_get_n_children = Interop.downcallHandle(
+        "gsk_container_node_get_n_children",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of direct children of {@code node}.
      */
     public int getNChildren() {
-        var RESULT = gtk_h.gsk_container_node_get_n_children(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gsk_container_node_get_n_children.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

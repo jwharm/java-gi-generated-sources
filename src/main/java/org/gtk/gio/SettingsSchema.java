@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -103,13 +102,27 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_settings_schema_get_id = Interop.downcallHandle(
+        "g_settings_schema_get_id",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Get the ID of {@code schema}.
      */
     public java.lang.String getId() {
-        var RESULT = gtk_h.g_settings_schema_get_id(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_get_id.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_get_key = Interop.downcallHandle(
+        "g_settings_schema_get_key",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the key named {@code name} from {@code schema}.
@@ -118,9 +131,18 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * g_settings_schema_list_keys().
      */
     public SettingsSchemaKey getKey(java.lang.String name) {
-        var RESULT = gtk_h.g_settings_schema_get_key(handle(), Interop.allocateNativeString(name).handle());
-        return new SettingsSchemaKey(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_get_key.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return new SettingsSchemaKey(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_get_path = Interop.downcallHandle(
+        "g_settings_schema_get_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the path associated with {@code schema}, or {@code null}.
@@ -134,17 +156,35 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * relocatable schemas, this function will return {@code null}.
      */
     public java.lang.String getPath() {
-        var RESULT = gtk_h.g_settings_schema_get_path(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_get_path.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_has_key = Interop.downcallHandle(
+        "g_settings_schema_has_key",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code schema} has a key named {@code name}.
      */
     public boolean hasKey(java.lang.String name) {
-        var RESULT = gtk_h.g_settings_schema_has_key(handle(), Interop.allocateNativeString(name).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_settings_schema_has_key.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_list_children = Interop.downcallHandle(
+        "g_settings_schema_list_children",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the list of children in {@code schema}.
@@ -153,9 +193,18 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * with it.
      */
     public PointerIterator<java.lang.String> listChildren() {
-        var RESULT = gtk_h.g_settings_schema_list_children(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_list_children.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_list_keys = Interop.downcallHandle(
+        "g_settings_schema_list_keys",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Introspects the list of keys on {@code schema}.
@@ -165,23 +214,45 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * function is intended for introspection reasons.
      */
     public PointerIterator<java.lang.String> listKeys() {
-        var RESULT = gtk_h.g_settings_schema_list_keys(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_list_keys.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_ref = Interop.downcallHandle(
+        "g_settings_schema_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increase the reference count of {@code schema}, returning a new reference.
      */
     public SettingsSchema ref() {
-        var RESULT = gtk_h.g_settings_schema_ref(handle());
-        return new SettingsSchema(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_settings_schema_ref.invokeExact(handle());
+            return new SettingsSchema(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_settings_schema_unref = Interop.downcallHandle(
+        "g_settings_schema_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decrease the reference count of {@code schema}, possibly freeing it.
      */
     public void unref() {
-        gtk_h.g_settings_schema_unref(handle());
+        try {
+            g_settings_schema_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -32,9 +31,18 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_video_new = Interop.downcallHandle(
+        "gtk_video_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_video_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -44,9 +52,18 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         super(constructNew());
     }
     
+    static final MethodHandle gtk_video_new_for_file = Interop.downcallHandle(
+        "gtk_video_new_for_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForFile(org.gtk.gio.File file) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new_for_file(file.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_video_new_for_file.invokeExact(file.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -56,9 +73,18 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(constructNewForFile(file));
     }
     
+    static final MethodHandle gtk_video_new_for_filename = Interop.downcallHandle(
+        "gtk_video_new_for_filename",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForFilename(java.lang.String filename) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new_for_filename(Interop.allocateNativeString(filename).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_video_new_for_filename.invokeExact(Interop.allocateNativeString(filename).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -71,9 +97,18 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(constructNewForFilename(filename));
     }
     
+    static final MethodHandle gtk_video_new_for_media_stream = Interop.downcallHandle(
+        "gtk_video_new_for_media_stream",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForMediaStream(MediaStream stream) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new_for_media_stream(stream.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_video_new_for_media_stream.invokeExact(stream.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -83,9 +118,18 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(constructNewForMediaStream(stream));
     }
     
+    static final MethodHandle gtk_video_new_for_resource = Interop.downcallHandle(
+        "gtk_video_new_for_resource",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewForResource(java.lang.String resourcePath) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_video_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_video_new_for_resource.invokeExact(Interop.allocateNativeString(resourcePath).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -98,53 +142,112 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(constructNewForResource(resourcePath));
     }
     
+    static final MethodHandle gtk_video_get_autoplay = Interop.downcallHandle(
+        "gtk_video_get_autoplay",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns {@code true} if videos have been set to loop.
      */
     public boolean getAutoplay() {
-        var RESULT = gtk_h.gtk_video_get_autoplay(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_video_get_autoplay.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_get_file = Interop.downcallHandle(
+        "gtk_video_get_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the file played by {@code self} or {@code null} if not playing back
      * a file.
      */
     public org.gtk.gio.File getFile() {
-        var RESULT = gtk_h.gtk_video_get_file(handle());
-        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_video_get_file.invokeExact(handle());
+            return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_get_loop = Interop.downcallHandle(
+        "gtk_video_get_loop",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if videos have been set to loop.
      */
     public boolean getLoop() {
-        var RESULT = gtk_h.gtk_video_get_loop(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_video_get_loop.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_get_media_stream = Interop.downcallHandle(
+        "gtk_video_get_media_stream",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the media stream managed by {@code self} or {@code null} if none.
      */
     public MediaStream getMediaStream() {
-        var RESULT = gtk_h.gtk_video_get_media_stream(handle());
-        return new MediaStream(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_video_get_media_stream.invokeExact(handle());
+            return new MediaStream(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_set_autoplay = Interop.downcallHandle(
+        "gtk_video_set_autoplay",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} automatically starts playback when it
      * becomes visible or when a new file gets loaded.
      */
     public void setAutoplay(boolean autoplay) {
-        gtk_h.gtk_video_set_autoplay(handle(), autoplay ? 1 : 0);
+        try {
+            gtk_video_set_autoplay.invokeExact(handle(), autoplay ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_set_file = Interop.downcallHandle(
+        "gtk_video_set_file",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code self} play the given {@code file}.
      */
     public void setFile(org.gtk.gio.File file) {
-        gtk_h.gtk_video_set_file(handle(), file.handle());
+        try {
+            gtk_video_set_file.invokeExact(handle(), file.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_set_filename = Interop.downcallHandle(
+        "gtk_video_set_filename",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code self} play the given {@code filename}.
@@ -152,15 +255,33 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls gtk_video_set_file(),
      */
     public void setFilename(java.lang.String filename) {
-        gtk_h.gtk_video_set_filename(handle(), Interop.allocateNativeString(filename).handle());
+        try {
+            gtk_video_set_filename.invokeExact(handle(), Interop.allocateNativeString(filename).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_set_loop = Interop.downcallHandle(
+        "gtk_video_set_loop",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether new files loaded by {@code self} should be set to loop.
      */
     public void setLoop(boolean loop) {
-        gtk_h.gtk_video_set_loop(handle(), loop ? 1 : 0);
+        try {
+            gtk_video_set_loop.invokeExact(handle(), loop ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_set_media_stream = Interop.downcallHandle(
+        "gtk_video_set_media_stream",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the media stream to be played back.
@@ -173,8 +294,17 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * instead.
      */
     public void setMediaStream(MediaStream stream) {
-        gtk_h.gtk_video_set_media_stream(handle(), stream.handle());
+        try {
+            gtk_video_set_media_stream.invokeExact(handle(), stream.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_video_set_resource = Interop.downcallHandle(
+        "gtk_video_set_resource",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes {@code self} play the resource at the given {@code resource_path}.
@@ -182,7 +312,11 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls {@link Video#setFile}.
      */
     public void setResource(java.lang.String resourcePath) {
-        gtk_h.gtk_video_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());
+        try {
+            gtk_video_set_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

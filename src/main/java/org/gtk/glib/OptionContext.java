@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -16,22 +15,45 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle g_option_context_add_group = Interop.downcallHandle(
+        "g_option_context_add_group",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a {@link OptionGroup} to the {@code context}, so that parsing with {@code context}
      * will recognize the options in the group. Note that this will take
      * ownership of the {@code group} and thus the {@code group} should not be freed.
      */
     public void addGroup(OptionGroup group) {
-        gtk_h.g_option_context_add_group(handle(), group.refcounted().unowned().handle());
+        try {
+            g_option_context_add_group.invokeExact(handle(), group.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_add_main_entries = Interop.downcallHandle(
+        "g_option_context_add_main_entries",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function which creates a main group if it doesn't
      * exist, adds the {@code entries} to it and sets the translation domain.
      */
     public void addMainEntries(OptionEntry[] entries, java.lang.String translationDomain) {
-        gtk_h.g_option_context_add_main_entries(handle(), Interop.allocateNativeArray(entries).handle(), Interop.allocateNativeString(translationDomain).handle());
+        try {
+            g_option_context_add_main_entries.invokeExact(handle(), Interop.allocateNativeArray(entries).handle(), Interop.allocateNativeString(translationDomain).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_free = Interop.downcallHandle(
+        "g_option_context_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees context and all the groups which have been
@@ -41,16 +63,34 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * {@link OptionEntry}).
      */
     public void free() {
-        gtk_h.g_option_context_free(handle());
+        try {
+            g_option_context_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_get_description = Interop.downcallHandle(
+        "g_option_context_get_description",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the description. See g_option_context_set_description().
      */
     public java.lang.String getDescription() {
-        var RESULT = gtk_h.g_option_context_get_description(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_option_context_get_description.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_get_help = Interop.downcallHandle(
+        "g_option_context_get_help",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a formatted, translated help text for the given context.
@@ -62,35 +102,71 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * {@code g_option_context_get_help (context, FALSE, group)}.
      */
     public java.lang.String getHelp(boolean mainHelp, OptionGroup group) {
-        var RESULT = gtk_h.g_option_context_get_help(handle(), mainHelp ? 1 : 0, group.handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_option_context_get_help.invokeExact(handle(), mainHelp ? 1 : 0, group.handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_get_help_enabled = Interop.downcallHandle(
+        "g_option_context_get_help_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether automatic {@code --help} generation
      * is turned on for {@code context}. See g_option_context_set_help_enabled().
      */
     public boolean getHelpEnabled() {
-        var RESULT = gtk_h.g_option_context_get_help_enabled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_option_context_get_help_enabled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_get_ignore_unknown_options = Interop.downcallHandle(
+        "g_option_context_get_ignore_unknown_options",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether unknown options are ignored or not. See
      * g_option_context_set_ignore_unknown_options().
      */
     public boolean getIgnoreUnknownOptions() {
-        var RESULT = gtk_h.g_option_context_get_ignore_unknown_options(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_option_context_get_ignore_unknown_options.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_get_main_group = Interop.downcallHandle(
+        "g_option_context_get_main_group",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a pointer to the main group of {@code context}.
      */
     public OptionGroup getMainGroup() {
-        var RESULT = gtk_h.g_option_context_get_main_group(handle());
-        return new OptionGroup(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_option_context_get_main_group.invokeExact(handle());
+            return new OptionGroup(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_get_strict_posix = Interop.downcallHandle(
+        "g_option_context_get_strict_posix",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether strict POSIX code is enabled.
@@ -98,17 +174,35 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * See g_option_context_set_strict_posix() for more information.
      */
     public boolean getStrictPosix() {
-        var RESULT = gtk_h.g_option_context_get_strict_posix(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_option_context_get_strict_posix.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_get_summary = Interop.downcallHandle(
+        "g_option_context_get_summary",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the summary. See g_option_context_set_summary().
      */
     public java.lang.String getSummary() {
-        var RESULT = gtk_h.g_option_context_get_summary(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_option_context_get_summary.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_parse = Interop.downcallHandle(
+        "g_option_context_parse",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses the command line arguments, recognizing options
@@ -135,12 +229,21 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean parse(PointerInteger argc, java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_option_context_parse(handle(), argc.handle(), Interop.allocateNativeArray(argv).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_option_context_parse.invokeExact(handle(), argc.handle(), Interop.allocateNativeArray(argv).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_option_context_parse_strv = Interop.downcallHandle(
+        "g_option_context_parse_strv",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses the command line arguments.
@@ -162,12 +265,21 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean parseStrv(java.lang.String[] arguments) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_option_context_parse_strv(handle(), Interop.allocateNativeArray(arguments).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_option_context_parse_strv.invokeExact(handle(), Interop.allocateNativeArray(arguments).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_option_context_set_description = Interop.downcallHandle(
+        "g_option_context_set_description",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a string to be displayed in {@code --help} output after the list
@@ -177,8 +289,17 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * g_option_context_set_translate_func()).
      */
     public void setDescription(java.lang.String description) {
-        gtk_h.g_option_context_set_description(handle(), Interop.allocateNativeString(description).handle());
+        try {
+            g_option_context_set_description.invokeExact(handle(), Interop.allocateNativeString(description).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_set_help_enabled = Interop.downcallHandle(
+        "g_option_context_set_help_enabled",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Enables or disables automatic generation of {@code --help} output.
@@ -187,8 +308,17 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * output to stdout.
      */
     public void setHelpEnabled(boolean helpEnabled) {
-        gtk_h.g_option_context_set_help_enabled(handle(), helpEnabled ? 1 : 0);
+        try {
+            g_option_context_set_help_enabled.invokeExact(handle(), helpEnabled ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_set_ignore_unknown_options = Interop.downcallHandle(
+        "g_option_context_set_ignore_unknown_options",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to ignore unknown options or not. If an argument is
@@ -200,8 +330,17 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * determine whether a non-option belongs to a preceding unknown option.
      */
     public void setIgnoreUnknownOptions(boolean ignoreUnknown) {
-        gtk_h.g_option_context_set_ignore_unknown_options(handle(), ignoreUnknown ? 1 : 0);
+        try {
+            g_option_context_set_ignore_unknown_options.invokeExact(handle(), ignoreUnknown ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_set_main_group = Interop.downcallHandle(
+        "g_option_context_set_main_group",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets a {@link OptionGroup} as main group of the {@code context}.
@@ -210,8 +349,17 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * treated differently when generating {@code --help} output.
      */
     public void setMainGroup(OptionGroup group) {
-        gtk_h.g_option_context_set_main_group(handle(), group.refcounted().unowned().handle());
+        try {
+            g_option_context_set_main_group.invokeExact(handle(), group.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_set_strict_posix = Interop.downcallHandle(
+        "g_option_context_set_strict_posix",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets strict POSIX mode.
@@ -240,8 +388,17 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * parsing).
      */
     public void setStrictPosix(boolean strictPosix) {
-        gtk_h.g_option_context_set_strict_posix(handle(), strictPosix ? 1 : 0);
+        try {
+            g_option_context_set_strict_posix.invokeExact(handle(), strictPosix ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_set_summary = Interop.downcallHandle(
+        "g_option_context_set_summary",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a string to be displayed in {@code --help} output before the list
@@ -252,8 +409,17 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * g_option_context_set_translation_domain()).
      */
     public void setSummary(java.lang.String summary) {
-        gtk_h.g_option_context_set_summary(handle(), Interop.allocateNativeString(summary).handle());
+        try {
+            g_option_context_set_summary.invokeExact(handle(), Interop.allocateNativeString(summary).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_set_translate_func = Interop.downcallHandle(
+        "g_option_context_set_translate_func",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the function which is used to translate the contexts
@@ -270,26 +436,40 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void setTranslateFunc(TranslateFunc func) {
         try {
-            gtk_h.g_option_context_set_translate_func(handle(), 
-                    Linker.nativeLinker().upcallStub(
+            g_option_context_set_translate_func.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbTranslateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_option_context_set_translation_domain = Interop.downcallHandle(
+        "g_option_context_set_translation_domain",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * A convenience function to use gettext() for translating
      * user-visible strings.
      */
     public void setTranslationDomain(java.lang.String domain) {
-        gtk_h.g_option_context_set_translation_domain(handle(), Interop.allocateNativeString(domain).handle());
+        try {
+            g_option_context_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_option_context_new = Interop.downcallHandle(
+        "g_option_context_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a new option context.
@@ -313,8 +493,12 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * it should normally be passed untranslated.
      */
     public static OptionContext new_(java.lang.String parameterString) {
-        var RESULT = gtk_h.g_option_context_new(Interop.allocateNativeString(parameterString).handle());
-        return new OptionContext(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_option_context_new.invokeExact(Interop.allocateNativeString(parameterString).handle());
+            return new OptionContext(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

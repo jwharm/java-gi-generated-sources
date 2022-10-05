@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -185,9 +184,18 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         return new ConstraintLayout(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_constraint_layout_new = Interop.downcallHandle(
+        "gtk_constraint_layout_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_constraint_layout_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_constraint_layout_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -196,6 +204,11 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
     public ConstraintLayout() {
         super(constructNew());
     }
+    
+    static final MethodHandle gtk_constraint_layout_add_constraint = Interop.downcallHandle(
+        "gtk_constraint_layout_add_constraint",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a constraint to the layout manager.
@@ -215,8 +228,17 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * this function.
      */
     public void addConstraint(Constraint constraint) {
-        gtk_h.gtk_constraint_layout_add_constraint(handle(), constraint.refcounted().unowned().handle());
+        try {
+            gtk_constraint_layout_add_constraint.invokeExact(handle(), constraint.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_layout_add_constraints_from_descriptionv = Interop.downcallHandle(
+        "gtk_constraint_layout_add_constraints_from_descriptionv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates a list of constraints from a VFL description.
@@ -299,12 +321,21 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      */
     public org.gtk.glib.List addConstraintsFromDescriptionv(java.lang.String[] lines, long nLines, int hspacing, int vspacing, org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_constraint_layout_add_constraints_from_descriptionv(handle(), Interop.allocateNativeArray(lines).handle(), nLines, hspacing, vspacing, views.handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) gtk_constraint_layout_add_constraints_from_descriptionv.invokeExact(handle(), Interop.allocateNativeArray(lines).handle(), nLines, hspacing, vspacing, views.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
+    
+    static final MethodHandle gtk_constraint_layout_add_guide = Interop.downcallHandle(
+        "gtk_constraint_layout_add_guide",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Adds a guide to {@code layout}.
@@ -316,8 +347,17 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * this function.
      */
     public void addGuide(ConstraintGuide guide) {
-        gtk_h.gtk_constraint_layout_add_guide(handle(), guide.refcounted().unowned().handle());
+        try {
+            gtk_constraint_layout_add_guide.invokeExact(handle(), guide.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_layout_observe_constraints = Interop.downcallHandle(
+        "gtk_constraint_layout_observe_constraints",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a {@code GListModel} to track the constraints that are
@@ -331,9 +371,18 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * because of the slowdowns.
      */
     public org.gtk.gio.ListModel observeConstraints() {
-        var RESULT = gtk_h.gtk_constraint_layout_observe_constraints(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_constraint_layout_observe_constraints.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_layout_observe_guides = Interop.downcallHandle(
+        "gtk_constraint_layout_observe_guides",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a {@code GListModel} to track the guides that are
@@ -347,31 +396,62 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * because of the slowdowns.
      */
     public org.gtk.gio.ListModel observeGuides() {
-        var RESULT = gtk_h.gtk_constraint_layout_observe_guides(handle());
-        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_constraint_layout_observe_guides.invokeExact(handle());
+            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_layout_remove_all_constraints = Interop.downcallHandle(
+        "gtk_constraint_layout_remove_all_constraints",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes all constraints from the layout manager.
      */
     public void removeAllConstraints() {
-        gtk_h.gtk_constraint_layout_remove_all_constraints(handle());
+        try {
+            gtk_constraint_layout_remove_all_constraints.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_layout_remove_constraint = Interop.downcallHandle(
+        "gtk_constraint_layout_remove_constraint",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes {@code constraint} from the layout manager,
      * so that it no longer influences the layout.
      */
     public void removeConstraint(Constraint constraint) {
-        gtk_h.gtk_constraint_layout_remove_constraint(handle(), constraint.handle());
+        try {
+            gtk_constraint_layout_remove_constraint.invokeExact(handle(), constraint.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_constraint_layout_remove_guide = Interop.downcallHandle(
+        "gtk_constraint_layout_remove_guide",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes {@code guide} from the layout manager,
      * so that it no longer influences the layout.
      */
     public void removeGuide(ConstraintGuide guide) {
-        gtk_h.gtk_constraint_layout_remove_guide(handle(), guide.handle());
+        try {
+            gtk_constraint_layout_remove_guide.invokeExact(handle(), guide.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

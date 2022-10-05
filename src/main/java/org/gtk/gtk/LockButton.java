@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -55,9 +54,18 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
         return new LockButton(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_lock_button_new = Interop.downcallHandle(
+        "gtk_lock_button_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gio.Permission permission) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_lock_button_new(permission.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_lock_button_new.invokeExact(permission.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -67,19 +75,37 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
         super(constructNew(permission));
     }
     
+    static final MethodHandle gtk_lock_button_get_permission = Interop.downcallHandle(
+        "gtk_lock_button_get_permission",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Obtains the {@code GPermission} object that controls {@code button}.
      */
     public org.gtk.gio.Permission getPermission() {
-        var RESULT = gtk_h.gtk_lock_button_get_permission(handle());
-        return new org.gtk.gio.Permission(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_lock_button_get_permission.invokeExact(handle());
+            return new org.gtk.gio.Permission(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_lock_button_set_permission = Interop.downcallHandle(
+        "gtk_lock_button_set_permission",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GPermission} object that controls {@code button}.
      */
     public void setPermission(org.gtk.gio.Permission permission) {
-        gtk_h.gtk_lock_button_set_permission(handle(), permission.handle());
+        try {
+            gtk_lock_button_set_permission.invokeExact(handle(), permission.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

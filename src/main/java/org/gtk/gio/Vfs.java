@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,13 +18,27 @@ public class Vfs extends org.gtk.gobject.Object {
         return new Vfs(gobject.refcounted());
     }
     
+    static final MethodHandle g_vfs_get_file_for_path = Interop.downcallHandle(
+        "g_vfs_get_file_for_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets a {@link File} for {@code path}.
      */
     public File getFileForPath(java.lang.String path) {
-        var RESULT = gtk_h.g_vfs_get_file_for_path(handle(), Interop.allocateNativeString(path).handle());
-        return new File.FileImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_vfs_get_file_for_path.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+            return new File.FileImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vfs_get_file_for_uri = Interop.downcallHandle(
+        "g_vfs_get_file_for_uri",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a {@link File} for {@code uri}.
@@ -35,25 +48,52 @@ public class Vfs extends org.gtk.gobject.Object {
      * is malformed or if the URI scheme is not supported.
      */
     public File getFileForUri(java.lang.String uri) {
-        var RESULT = gtk_h.g_vfs_get_file_for_uri(handle(), Interop.allocateNativeString(uri).handle());
-        return new File.FileImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_vfs_get_file_for_uri.invokeExact(handle(), Interop.allocateNativeString(uri).handle());
+            return new File.FileImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vfs_get_supported_uri_schemes = Interop.downcallHandle(
+        "g_vfs_get_supported_uri_schemes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a list of URI schemes supported by {@code vfs}.
      */
     public PointerIterator<java.lang.String> getSupportedUriSchemes() {
-        var RESULT = gtk_h.g_vfs_get_supported_uri_schemes(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_vfs_get_supported_uri_schemes.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vfs_is_active = Interop.downcallHandle(
+        "g_vfs_is_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the VFS is active.
      */
     public boolean isActive() {
-        var RESULT = gtk_h.g_vfs_is_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_vfs_is_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vfs_parse_name = Interop.downcallHandle(
+        "g_vfs_parse_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This operation never fails, but the returned object might
@@ -61,9 +101,18 @@ public class Vfs extends org.gtk.gobject.Object {
      * be parsed by the {@link Vfs} module.
      */
     public File parseName(java.lang.String parseName) {
-        var RESULT = gtk_h.g_vfs_parse_name(handle(), Interop.allocateNativeString(parseName).handle());
-        return new File.FileImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_vfs_parse_name.invokeExact(handle(), Interop.allocateNativeString(parseName).handle());
+            return new File.FileImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vfs_register_uri_scheme = Interop.downcallHandle(
+        "g_vfs_register_uri_scheme",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Registers {@code uri_func} and {@code parse_name_func} as the {@link File} URI and parse name
@@ -89,50 +138,77 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public boolean registerUriScheme(java.lang.String scheme, VfsFileLookupFunc uriFunc, VfsFileLookupFunc parseNameFunc) {
         try {
-            var RESULT = gtk_h.g_vfs_register_uri_scheme(handle(), Interop.allocateNativeString(scheme).handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (int) g_vfs_register_uri_scheme.invokeExact(handle(), Interop.allocateNativeString(scheme).handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbVfsFileLookupFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
                     Interop.cbDestroyNotifySymbol(), 
-                    Linker.nativeLinker().upcallStub(
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbVfsFileLookupFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT != 0;
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+    
+    static final MethodHandle g_vfs_unregister_uri_scheme = Interop.downcallHandle(
+        "g_vfs_unregister_uri_scheme",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Unregisters the URI handler for {@code scheme} previously registered with
      * g_vfs_register_uri_scheme().
      */
     public boolean unregisterUriScheme(java.lang.String scheme) {
-        var RESULT = gtk_h.g_vfs_unregister_uri_scheme(handle(), Interop.allocateNativeString(scheme).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_vfs_unregister_uri_scheme.invokeExact(handle(), Interop.allocateNativeString(scheme).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vfs_get_default = Interop.downcallHandle(
+        "g_vfs_get_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the default {@link Vfs} for the system.
      */
     public static Vfs getDefault() {
-        var RESULT = gtk_h.g_vfs_get_default();
-        return new Vfs(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_vfs_get_default.invokeExact();
+            return new Vfs(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_vfs_get_local = Interop.downcallHandle(
+        "g_vfs_get_local",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the local {@link Vfs} for the system.
      */
     public static Vfs getLocal() {
-        var RESULT = gtk_h.g_vfs_get_local();
-        return new Vfs(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_vfs_get_local.invokeExact();
+            return new Vfs(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -74,6 +73,11 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
         return new MessageDialog(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_message_dialog_get_message_area = Interop.downcallHandle(
+        "gtk_message_dialog_get_message_area",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the message area of the dialog.
      * <p>
@@ -83,15 +87,28 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
      * for the corresponding function in the parent {@link Dialog}.
      */
     public Widget getMessageArea() {
-        var RESULT = gtk_h.gtk_message_dialog_get_message_area(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_message_dialog_get_message_area.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_message_dialog_set_markup = Interop.downcallHandle(
+        "gtk_message_dialog_set_markup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the text of the message dialog.
      */
     public void setMarkup(java.lang.String str) {
-        gtk_h.gtk_message_dialog_set_markup(handle(), Interop.allocateNativeString(str).handle());
+        try {
+            gtk_message_dialog_set_markup.invokeExact(handle(), Interop.allocateNativeString(str).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

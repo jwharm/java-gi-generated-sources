@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -145,6 +144,11 @@ public class Expression extends org.gtk.gobject.Object {
         return new Expression(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_expression_bind = Interop.downcallHandle(
+        "gtk_expression_bind",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Bind {@code target}'s property named {@code property} to {@code self}.
      * <p>
@@ -160,9 +164,18 @@ public class Expression extends org.gtk.gobject.Object {
      * to keep it around, you should {@link Expression#ref} it beforehand.
      */
     public ExpressionWatch bind(org.gtk.gobject.Object target, java.lang.String property, org.gtk.gobject.Object this_) {
-        var RESULT = gtk_h.gtk_expression_bind(handle(), target.handle(), Interop.allocateNativeString(property).handle(), this_.handle());
-        return new ExpressionWatch(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_expression_bind.invokeExact(handle(), target.handle(), Interop.allocateNativeString(property).handle(), this_.handle());
+            return new ExpressionWatch(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_evaluate = Interop.downcallHandle(
+        "gtk_expression_evaluate",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Evaluates the given expression and on success stores the result
@@ -177,9 +190,18 @@ public class Expression extends org.gtk.gobject.Object {
      * will be returned.
      */
     public boolean evaluate(org.gtk.gobject.Object this_, org.gtk.gobject.Value value) {
-        var RESULT = gtk_h.gtk_expression_evaluate(handle(), this_.handle(), value.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_expression_evaluate.invokeExact(handle(), this_.handle(), value.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_get_value_type = Interop.downcallHandle(
+        "gtk_expression_get_value_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@code GType} that this expression evaluates to.
@@ -188,9 +210,18 @@ public class Expression extends org.gtk.gobject.Object {
      * of this expression.
      */
     public org.gtk.gobject.Type getValueType() {
-        var RESULT = gtk_h.gtk_expression_get_value_type(handle());
-        return new org.gtk.gobject.Type(RESULT);
+        try {
+            var RESULT = (long) gtk_expression_get_value_type.invokeExact(handle());
+            return new org.gtk.gobject.Type(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_is_static = Interop.downcallHandle(
+        "gtk_expression_is_static",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the expression is static.
@@ -202,17 +233,35 @@ public class Expression extends org.gtk.gobject.Object {
      * it will never trigger a notify.
      */
     public boolean isStatic() {
-        var RESULT = gtk_h.gtk_expression_is_static(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_expression_is_static.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_ref = Interop.downcallHandle(
+        "gtk_expression_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Acquires a reference on the given {@code GtkExpression}.
      */
     public Expression ref() {
-        var RESULT = gtk_h.gtk_expression_ref(handle());
-        return new Expression(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_expression_ref.invokeExact(handle());
+            return new Expression(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_unref = Interop.downcallHandle(
+        "gtk_expression_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Releases a reference on the given {@code GtkExpression}.
@@ -221,8 +270,17 @@ public class Expression extends org.gtk.gobject.Object {
      * freed.
      */
     public void unref() {
-        gtk_h.gtk_expression_unref(handle());
+        try {
+            gtk_expression_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_expression_watch = Interop.downcallHandle(
+        "gtk_expression_watch",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Watch the given {@code expression} for changes.
@@ -236,17 +294,17 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public ExpressionWatch watch(org.gtk.gobject.Object this_, ExpressionNotify notify) {
         try {
-            var RESULT = gtk_h.gtk_expression_watch(handle(), this_.handle(), 
-                    Linker.nativeLinker().upcallStub(
+            var RESULT = (MemoryAddress) gtk_expression_watch.invokeExact(handle(), this_.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbExpressionNotify",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)), 
                     Interop.cbDestroyNotifySymbol());
             return new ExpressionWatch(Refcounted.get(RESULT, false));
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

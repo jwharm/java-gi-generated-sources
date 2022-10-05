@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -66,14 +65,28 @@ public class LayoutManager extends org.gtk.gobject.Object {
         return new LayoutManager(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_layout_manager_allocate = Interop.downcallHandle(
+        "gtk_layout_manager_allocate",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Assigns the given {@code width}, {@code height}, and {@code baseline} to
      * a {@code widget}, and computes the position and sizes of the children of
      * the {@code widget} using the layout management policy of {@code manager}.
      */
     public void allocate(Widget widget, int width, int height, int baseline) {
-        gtk_h.gtk_layout_manager_allocate(handle(), widget.handle(), width, height, baseline);
+        try {
+            gtk_layout_manager_allocate.invokeExact(handle(), widget.handle(), width, height, baseline);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_layout_manager_get_layout_child = Interop.downcallHandle(
+        "gtk_layout_manager_get_layout_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves a {@code GtkLayoutChild} instance for the {@code GtkLayoutManager},
@@ -86,25 +99,52 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * {@code GtkWidget} using the given {@code GtkLayoutManager}.
      */
     public LayoutChild getLayoutChild(Widget child) {
-        var RESULT = gtk_h.gtk_layout_manager_get_layout_child(handle(), child.handle());
-        return new LayoutChild(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_layout_manager_get_layout_child.invokeExact(handle(), child.handle());
+            return new LayoutChild(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_layout_manager_get_request_mode = Interop.downcallHandle(
+        "gtk_layout_manager_get_request_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the request mode of {@code manager}.
      */
     public SizeRequestMode getRequestMode() {
-        var RESULT = gtk_h.gtk_layout_manager_get_request_mode(handle());
-        return new SizeRequestMode(RESULT);
+        try {
+            var RESULT = (int) gtk_layout_manager_get_request_mode.invokeExact(handle());
+            return new SizeRequestMode(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_layout_manager_get_widget = Interop.downcallHandle(
+        "gtk_layout_manager_get_widget",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code GtkWidget} using the given {@code GtkLayoutManager}.
      */
     public Widget getWidget() {
-        var RESULT = gtk_h.gtk_layout_manager_get_widget(handle());
-        return new Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_layout_manager_get_widget.invokeExact(handle());
+            return new Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_layout_manager_layout_changed = Interop.downcallHandle(
+        "gtk_layout_manager_layout_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Queues a resize on the {@code GtkWidget} using {@code manager}, if any.
@@ -113,8 +153,17 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * in response to changes to their layout management policies.
      */
     public void layoutChanged() {
-        gtk_h.gtk_layout_manager_layout_changed(handle());
+        try {
+            gtk_layout_manager_layout_changed.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_layout_manager_measure = Interop.downcallHandle(
+        "gtk_layout_manager_measure",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Measures the size of the {@code widget} using {@code manager}, for the
@@ -124,7 +173,11 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * more details.
      */
     public void measure(Widget widget, Orientation orientation, int forSize, PointerInteger minimum, PointerInteger natural, PointerInteger minimumBaseline, PointerInteger naturalBaseline) {
-        gtk_h.gtk_layout_manager_measure(handle(), widget.handle(), orientation.getValue(), forSize, minimum.handle(), natural.handle(), minimumBaseline.handle(), naturalBaseline.handle());
+        try {
+            gtk_layout_manager_measure.invokeExact(handle(), widget.handle(), orientation.getValue(), forSize, minimum.handle(), natural.handle(), minimumBaseline.handle(), naturalBaseline.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

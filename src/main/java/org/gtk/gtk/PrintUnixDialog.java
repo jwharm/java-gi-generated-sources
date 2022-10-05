@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -76,9 +75,18 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
         return new PrintUnixDialog(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_print_unix_dialog_new = Interop.downcallHandle(
+        "gtk_print_unix_dialog_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String title, Window parent) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_print_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_unix_dialog_new.invokeExact(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -88,68 +96,145 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
         super(constructNew(title, parent));
     }
     
+    static final MethodHandle gtk_print_unix_dialog_add_custom_tab = Interop.downcallHandle(
+        "gtk_print_unix_dialog_add_custom_tab",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a custom tab to the print dialog.
      */
     public void addCustomTab(Widget child, Widget tabLabel) {
-        gtk_h.gtk_print_unix_dialog_add_custom_tab(handle(), child.handle(), tabLabel.handle());
+        try {
+            gtk_print_unix_dialog_add_custom_tab.invokeExact(handle(), child.handle(), tabLabel.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_current_page = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_current_page",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current page of the {@code GtkPrintUnixDialog}.
      */
     public int getCurrentPage() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_current_page(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_print_unix_dialog_get_current_page.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_embed_page_setup = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_embed_page_setup",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether to embed the page setup.
      */
     public boolean getEmbedPageSetup() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_embed_page_setup(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_unix_dialog_get_embed_page_setup.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_has_selection = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_has_selection",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether there is a selection.
      */
     public boolean getHasSelection() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_has_selection(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_unix_dialog_get_has_selection.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_manual_capabilities = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_manual_capabilities",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the capabilities that have been set on this {@code GtkPrintUnixDialog}.
      */
     public PrintCapabilities getManualCapabilities() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_manual_capabilities(handle());
-        return new PrintCapabilities(RESULT);
+        try {
+            var RESULT = (int) gtk_print_unix_dialog_get_manual_capabilities.invokeExact(handle());
+            return new PrintCapabilities(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_page_setup = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_page_setup",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the page setup that is used by the {@code GtkPrintUnixDialog}.
      */
     public PageSetup getPageSetup() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_page_setup(handle());
-        return new PageSetup(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_unix_dialog_get_page_setup.invokeExact(handle());
+            return new PageSetup(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_page_setup_set = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_page_setup_set",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether a page setup was set by the user.
      */
     public boolean getPageSetupSet() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_page_setup_set(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_unix_dialog_get_page_setup_set.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_selected_printer = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_selected_printer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the currently selected printer.
      */
     public Printer getSelectedPrinter() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_selected_printer(handle());
-        return new Printer(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_unix_dialog_get_selected_printer.invokeExact(handle());
+            return new Printer(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_settings = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_settings",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a new {@code GtkPrintSettings} object that represents the
@@ -159,17 +244,35 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * it if don’t want to keep it.
      */
     public PrintSettings getPrintSettings() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_settings(handle());
-        return new PrintSettings(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_print_unix_dialog_get_settings.invokeExact(handle());
+            return new PrintSettings(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_get_support_selection = Interop.downcallHandle(
+        "gtk_print_unix_dialog_get_support_selection",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the print dialog allows user to print a selection.
      */
     public boolean getSupportSelection() {
-        var RESULT = gtk_h.gtk_print_unix_dialog_get_support_selection(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_print_unix_dialog_get_support_selection.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_set_current_page = Interop.downcallHandle(
+        "gtk_print_unix_dialog_set_current_page",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the current page number.
@@ -178,22 +281,49 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * for the range of pages to print.
      */
     public void setCurrentPage(int currentPage) {
-        gtk_h.gtk_print_unix_dialog_set_current_page(handle(), currentPage);
+        try {
+            gtk_print_unix_dialog_set_current_page.invokeExact(handle(), currentPage);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_set_embed_page_setup = Interop.downcallHandle(
+        "gtk_print_unix_dialog_set_embed_page_setup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Embed page size combo box and orientation combo box into page setup page.
      */
     public void setEmbedPageSetup(boolean embed) {
-        gtk_h.gtk_print_unix_dialog_set_embed_page_setup(handle(), embed ? 1 : 0);
+        try {
+            gtk_print_unix_dialog_set_embed_page_setup.invokeExact(handle(), embed ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_set_has_selection = Interop.downcallHandle(
+        "gtk_print_unix_dialog_set_has_selection",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether a selection exists.
      */
     public void setHasSelection(boolean hasSelection) {
-        gtk_h.gtk_print_unix_dialog_set_has_selection(handle(), hasSelection ? 1 : 0);
+        try {
+            gtk_print_unix_dialog_set_has_selection.invokeExact(handle(), hasSelection ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_set_manual_capabilities = Interop.downcallHandle(
+        "gtk_print_unix_dialog_set_manual_capabilities",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This lets you specify the printing capabilities your application
@@ -205,15 +335,33 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * handles scaling.
      */
     public void setManualCapabilities(PrintCapabilities capabilities) {
-        gtk_h.gtk_print_unix_dialog_set_manual_capabilities(handle(), capabilities.getValue());
+        try {
+            gtk_print_unix_dialog_set_manual_capabilities.invokeExact(handle(), capabilities.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_set_page_setup = Interop.downcallHandle(
+        "gtk_print_unix_dialog_set_page_setup",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the page setup of the {@code GtkPrintUnixDialog}.
      */
     public void setPageSetup(PageSetup pageSetup) {
-        gtk_h.gtk_print_unix_dialog_set_page_setup(handle(), pageSetup.handle());
+        try {
+            gtk_print_unix_dialog_set_page_setup.invokeExact(handle(), pageSetup.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_set_settings = Interop.downcallHandle(
+        "gtk_print_unix_dialog_set_settings",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the {@code GtkPrintSettings} for the {@code GtkPrintUnixDialog}.
@@ -223,14 +371,27 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * is shown.
      */
     public void setSettings(PrintSettings settings) {
-        gtk_h.gtk_print_unix_dialog_set_settings(handle(), settings.handle());
+        try {
+            gtk_print_unix_dialog_set_settings.invokeExact(handle(), settings.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_print_unix_dialog_set_support_selection = Interop.downcallHandle(
+        "gtk_print_unix_dialog_set_support_selection",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the print dialog allows user to print a selection.
      */
     public void setSupportSelection(boolean supportSelection) {
-        gtk_h.gtk_print_unix_dialog_set_support_selection(handle(), supportSelection ? 1 : 0);
+        try {
+            gtk_print_unix_dialog_set_support_selection.invokeExact(handle(), supportSelection ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

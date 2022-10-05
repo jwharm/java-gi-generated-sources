@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,14 +19,28 @@ public class TcpConnection extends SocketConnection {
         return new TcpConnection(gobject.refcounted());
     }
     
+    static final MethodHandle g_tcp_connection_get_graceful_disconnect = Interop.downcallHandle(
+        "g_tcp_connection_get_graceful_disconnect",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Checks if graceful disconnects are used. See
      * g_tcp_connection_set_graceful_disconnect().
      */
     public boolean getGracefulDisconnect() {
-        var RESULT = gtk_h.g_tcp_connection_get_graceful_disconnect(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_tcp_connection_get_graceful_disconnect.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tcp_connection_set_graceful_disconnect = Interop.downcallHandle(
+        "g_tcp_connection_set_graceful_disconnect",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * This enables graceful disconnects on close. A graceful disconnect
@@ -41,7 +54,11 @@ public class TcpConnection extends SocketConnection {
      * take a while. For this reason it is disabled by default.
      */
     public void setGracefulDisconnect(boolean gracefulDisconnect) {
-        gtk_h.g_tcp_connection_set_graceful_disconnect(handle(), gracefulDisconnect ? 1 : 0);
+        try {
+            g_tcp_connection_set_graceful_disconnect.invokeExact(handle(), gracefulDisconnect ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

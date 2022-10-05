@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -39,9 +38,18 @@ public class MountOperation extends org.gtk.gobject.Object {
         return new MountOperation(gobject.refcounted());
     }
     
+    static final MethodHandle g_mount_operation_new = Interop.downcallHandle(
+        "g_mount_operation_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_mount_operation_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_mount_operation_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -51,149 +59,320 @@ public class MountOperation extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
+    static final MethodHandle g_mount_operation_get_anonymous = Interop.downcallHandle(
+        "g_mount_operation_get_anonymous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Check to see whether the mount operation is being used
      * for an anonymous user.
      */
     public boolean getAnonymous() {
-        var RESULT = gtk_h.g_mount_operation_get_anonymous(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_mount_operation_get_anonymous.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_get_choice = Interop.downcallHandle(
+        "g_mount_operation_get_choice",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a choice from the mount operation.
      */
     public int getChoice() {
-        var RESULT = gtk_h.g_mount_operation_get_choice(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_mount_operation_get_choice.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_get_domain = Interop.downcallHandle(
+        "g_mount_operation_get_domain",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the domain of the mount operation.
      */
     public java.lang.String getDomain() {
-        var RESULT = gtk_h.g_mount_operation_get_domain(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_mount_operation_get_domain.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_get_is_tcrypt_hidden_volume = Interop.downcallHandle(
+        "g_mount_operation_get_is_tcrypt_hidden_volume",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check to see whether the mount operation is being used
      * for a TCRYPT hidden volume.
      */
     public boolean getIsTcryptHiddenVolume() {
-        var RESULT = gtk_h.g_mount_operation_get_is_tcrypt_hidden_volume(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_mount_operation_get_is_tcrypt_hidden_volume.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_get_is_tcrypt_system_volume = Interop.downcallHandle(
+        "g_mount_operation_get_is_tcrypt_system_volume",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check to see whether the mount operation is being used
      * for a TCRYPT system volume.
      */
     public boolean getIsTcryptSystemVolume() {
-        var RESULT = gtk_h.g_mount_operation_get_is_tcrypt_system_volume(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_mount_operation_get_is_tcrypt_system_volume.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_get_password = Interop.downcallHandle(
+        "g_mount_operation_get_password",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a password from the mount operation.
      */
     public java.lang.String getPassword() {
-        var RESULT = gtk_h.g_mount_operation_get_password(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_mount_operation_get_password.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_get_password_save = Interop.downcallHandle(
+        "g_mount_operation_get_password_save",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the state of saving passwords for the mount operation.
      */
     public PasswordSave getPasswordSave() {
-        var RESULT = gtk_h.g_mount_operation_get_password_save(handle());
-        return new PasswordSave(RESULT);
+        try {
+            var RESULT = (int) g_mount_operation_get_password_save.invokeExact(handle());
+            return new PasswordSave(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_get_pim = Interop.downcallHandle(
+        "g_mount_operation_get_pim",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a PIM from the mount operation.
      */
     public int getPim() {
-        var RESULT = gtk_h.g_mount_operation_get_pim(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_mount_operation_get_pim.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_get_username = Interop.downcallHandle(
+        "g_mount_operation_get_username",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the user name from the mount operation.
      */
     public java.lang.String getUsername() {
-        var RESULT = gtk_h.g_mount_operation_get_username(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_mount_operation_get_username.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_reply = Interop.downcallHandle(
+        "g_mount_operation_reply",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Emits the {@link MountOperation}::reply signal.
      */
     public void reply(MountOperationResult result) {
-        gtk_h.g_mount_operation_reply(handle(), result.getValue());
+        try {
+            g_mount_operation_reply.invokeExact(handle(), result.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_anonymous = Interop.downcallHandle(
+        "g_mount_operation_set_anonymous",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the mount operation to use an anonymous user if {@code anonymous} is {@code true}.
      */
     public void setAnonymous(boolean anonymous) {
-        gtk_h.g_mount_operation_set_anonymous(handle(), anonymous ? 1 : 0);
+        try {
+            g_mount_operation_set_anonymous.invokeExact(handle(), anonymous ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_choice = Interop.downcallHandle(
+        "g_mount_operation_set_choice",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets a default choice for the mount operation.
      */
     public void setChoice(int choice) {
-        gtk_h.g_mount_operation_set_choice(handle(), choice);
+        try {
+            g_mount_operation_set_choice.invokeExact(handle(), choice);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_domain = Interop.downcallHandle(
+        "g_mount_operation_set_domain",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the mount operation's domain.
      */
     public void setDomain(java.lang.String domain) {
-        gtk_h.g_mount_operation_set_domain(handle(), Interop.allocateNativeString(domain).handle());
+        try {
+            g_mount_operation_set_domain.invokeExact(handle(), Interop.allocateNativeString(domain).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_is_tcrypt_hidden_volume = Interop.downcallHandle(
+        "g_mount_operation_set_is_tcrypt_hidden_volume",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the mount operation to use a hidden volume if {@code hidden_volume} is {@code true}.
      */
     public void setIsTcryptHiddenVolume(boolean hiddenVolume) {
-        gtk_h.g_mount_operation_set_is_tcrypt_hidden_volume(handle(), hiddenVolume ? 1 : 0);
+        try {
+            g_mount_operation_set_is_tcrypt_hidden_volume.invokeExact(handle(), hiddenVolume ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_is_tcrypt_system_volume = Interop.downcallHandle(
+        "g_mount_operation_set_is_tcrypt_system_volume",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the mount operation to use a system volume if {@code system_volume} is {@code true}.
      */
     public void setIsTcryptSystemVolume(boolean systemVolume) {
-        gtk_h.g_mount_operation_set_is_tcrypt_system_volume(handle(), systemVolume ? 1 : 0);
+        try {
+            g_mount_operation_set_is_tcrypt_system_volume.invokeExact(handle(), systemVolume ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_password = Interop.downcallHandle(
+        "g_mount_operation_set_password",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the mount operation's password to {@code password}.
      */
     public void setPassword(java.lang.String password) {
-        gtk_h.g_mount_operation_set_password(handle(), Interop.allocateNativeString(password).handle());
+        try {
+            g_mount_operation_set_password.invokeExact(handle(), Interop.allocateNativeString(password).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_password_save = Interop.downcallHandle(
+        "g_mount_operation_set_password_save",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the state of saving passwords for the mount operation.
      */
     public void setPasswordSave(PasswordSave save) {
-        gtk_h.g_mount_operation_set_password_save(handle(), save.getValue());
+        try {
+            g_mount_operation_set_password_save.invokeExact(handle(), save.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_pim = Interop.downcallHandle(
+        "g_mount_operation_set_pim",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the mount operation's PIM to {@code pim}.
      */
     public void setPim(int pim) {
-        gtk_h.g_mount_operation_set_pim(handle(), pim);
+        try {
+            g_mount_operation_set_pim.invokeExact(handle(), pim);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_mount_operation_set_username = Interop.downcallHandle(
+        "g_mount_operation_set_username",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the user name within {@code op} to {@code username}.
      */
     public void setUsername(java.lang.String username) {
-        gtk_h.g_mount_operation_set_username(handle(), Interop.allocateNativeString(username).handle());
+        try {
+            g_mount_operation_set_username.invokeExact(handle(), Interop.allocateNativeString(username).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -210,19 +389,19 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public SignalHandle onAborted(AbortedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("aborted").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAborted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -240,19 +419,19 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public SignalHandle onAskPassword(AskPasswordHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("ask-password").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAskPassword",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -271,19 +450,19 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public SignalHandle onAskQuestion(AskQuestionHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("ask-question").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAskQuestion",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -297,19 +476,19 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public SignalHandle onReply(ReplyHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("reply").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationReply",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -334,19 +513,19 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public SignalHandle onShowProcesses(ShowProcessesHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("show-processes").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationShowProcesses",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -375,19 +554,19 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public SignalHandle onShowUnmountProgress(ShowUnmountProgressHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("show-unmount-progress").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationShowUnmountProgress",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, long.class, long.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

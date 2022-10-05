@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class MemoryTexture extends Texture implements Paintable, org.gtk.gio.Ico
         return new MemoryTexture(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_memory_texture_new = Interop.downcallHandle(
+        "gdk_memory_texture_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNew(int width, int height, MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gdk_memory_texture_new(width, height, format.getValue(), bytes.handle(), stride), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_memory_texture_new.invokeExact(width, height, format.getValue(), bytes.handle(), stride), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**

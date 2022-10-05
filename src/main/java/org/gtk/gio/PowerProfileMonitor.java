@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -33,6 +32,11 @@ import java.lang.invoke.*;
  */
 public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
 
+    static final MethodHandle g_power_profile_monitor_get_power_saver_enabled = Interop.downcallHandle(
+        "g_power_profile_monitor_get_power_saver_enabled",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets whether the system is in “Power Saver” mode.
      * <p>
@@ -41,16 +45,29 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
      * changed.
      */
     public default boolean getPowerSaverEnabled() {
-        var RESULT = gtk_h.g_power_profile_monitor_get_power_saver_enabled(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_power_profile_monitor_get_power_saver_enabled.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
+        "g_power_profile_monitor_dup_default",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a reference to the default {@link PowerProfileMonitor} for the system.
      */
     public static PowerProfileMonitor dupDefault() {
-        var RESULT = gtk_h.g_power_profile_monitor_dup_default();
-        return new PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_power_profile_monitor_dup_default.invokeExact();
+            return new PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     class PowerProfileMonitorImpl extends org.gtk.gobject.Object implements PowerProfileMonitor {

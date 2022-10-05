@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -27,9 +26,18 @@ public class Printer extends org.gtk.gobject.Object {
         return new Printer(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_printer_new = Interop.downcallHandle(
+        "gtk_printer_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(java.lang.String name, PrintBackend backend, boolean virtual) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_printer_new(Interop.allocateNativeString(name).handle(), backend.handle(), virtual ? 1 : 0), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_printer_new.invokeExact(Interop.allocateNativeString(name).handle(), backend.handle(), virtual ? 1 : 0), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -39,39 +47,80 @@ public class Printer extends org.gtk.gobject.Object {
         super(constructNew(name, backend, virtual));
     }
     
+    static final MethodHandle gtk_printer_accepts_pdf = Interop.downcallHandle(
+        "gtk_printer_accepts_pdf",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns whether the printer accepts input in
      * PDF format.
      */
     public boolean acceptsPdf() {
-        var RESULT = gtk_h.gtk_printer_accepts_pdf(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_accepts_pdf.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_accepts_ps = Interop.downcallHandle(
+        "gtk_printer_accepts_ps",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the printer accepts input in
      * PostScript format.
      */
     public boolean acceptsPs() {
-        var RESULT = gtk_h.gtk_printer_accepts_ps(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_accepts_ps.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_compare = Interop.downcallHandle(
+        "gtk_printer_compare",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two printers.
      */
     public int compare(Printer b) {
-        var RESULT = gtk_h.gtk_printer_compare(handle(), b.handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_printer_compare.invokeExact(handle(), b.handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_backend = Interop.downcallHandle(
+        "gtk_printer_get_backend",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the backend of the printer.
      */
     public PrintBackend getBackend() {
-        var RESULT = gtk_h.gtk_printer_get_backend(handle());
-        return new PrintBackend(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_printer_get_backend.invokeExact(handle());
+            return new PrintBackend(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_capabilities = Interop.downcallHandle(
+        "gtk_printer_get_capabilities",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the printer’s capabilities.
@@ -85,25 +134,52 @@ public class Printer extends org.gtk.gobject.Object {
      * {@link Printer#requestDetails}.
      */
     public PrintCapabilities getCapabilities() {
-        var RESULT = gtk_h.gtk_printer_get_capabilities(handle());
-        return new PrintCapabilities(RESULT);
+        try {
+            var RESULT = (int) gtk_printer_get_capabilities.invokeExact(handle());
+            return new PrintCapabilities(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_default_page_size = Interop.downcallHandle(
+        "gtk_printer_get_default_page_size",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns default page size of {@code printer}.
      */
     public PageSetup getDefaultPageSize() {
-        var RESULT = gtk_h.gtk_printer_get_default_page_size(handle());
-        return new PageSetup(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_printer_get_default_page_size.invokeExact(handle());
+            return new PageSetup(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_description = Interop.downcallHandle(
+        "gtk_printer_get_description",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the description of the printer.
      */
     public java.lang.String getDescription() {
-        var RESULT = gtk_h.gtk_printer_get_description(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_printer_get_description.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_hard_margins = Interop.downcallHandle(
+        "gtk_printer_get_hard_margins",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieve the hard margins of {@code printer}.
@@ -116,9 +192,18 @@ public class Printer extends org.gtk.gobject.Object {
      * {@link Printer#requestDetails}.
      */
     public boolean getHardMargins(PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
-        var RESULT = gtk_h.gtk_printer_get_hard_margins(handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_get_hard_margins.invokeExact(handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_hard_margins_for_paper_size = Interop.downcallHandle(
+        "gtk_printer_get_hard_margins_for_paper_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieve the hard margins of {@code printer} for {@code paper_size}.
@@ -131,83 +216,173 @@ public class Printer extends org.gtk.gobject.Object {
      * {@link Printer#requestDetails}.
      */
     public boolean getHardMarginsForPaperSize(PaperSize paperSize, PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
-        var RESULT = gtk_h.gtk_printer_get_hard_margins_for_paper_size(handle(), paperSize.handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_get_hard_margins_for_paper_size.invokeExact(handle(), paperSize.handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_icon_name = Interop.downcallHandle(
+        "gtk_printer_get_icon_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the name of the icon to use for the printer.
      */
     public java.lang.String getIconName() {
-        var RESULT = gtk_h.gtk_printer_get_icon_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_printer_get_icon_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_job_count = Interop.downcallHandle(
+        "gtk_printer_get_job_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the number of jobs currently queued on the printer.
      */
     public int getJobCount() {
-        var RESULT = gtk_h.gtk_printer_get_job_count(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_printer_get_job_count.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_location = Interop.downcallHandle(
+        "gtk_printer_get_location",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a description of the location of the printer.
      */
     public java.lang.String getLocation() {
-        var RESULT = gtk_h.gtk_printer_get_location(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_printer_get_location.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_name = Interop.downcallHandle(
+        "gtk_printer_get_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the name of the printer.
      */
     public java.lang.String getName() {
-        var RESULT = gtk_h.gtk_printer_get_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_printer_get_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_get_state_message = Interop.downcallHandle(
+        "gtk_printer_get_state_message",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the state message describing the current state
      * of the printer.
      */
     public java.lang.String getStateMessage() {
-        var RESULT = gtk_h.gtk_printer_get_state_message(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_printer_get_state_message.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_has_details = Interop.downcallHandle(
+        "gtk_printer_has_details",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the printer details are available.
      */
     public boolean hasDetails() {
-        var RESULT = gtk_h.gtk_printer_has_details(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_has_details.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_is_accepting_jobs = Interop.downcallHandle(
+        "gtk_printer_is_accepting_jobs",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the printer is accepting jobs
      */
     public boolean isAcceptingJobs() {
-        var RESULT = gtk_h.gtk_printer_is_accepting_jobs(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_is_accepting_jobs.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_is_active = Interop.downcallHandle(
+        "gtk_printer_is_active",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the printer is currently active (i.e.
      * accepts new jobs).
      */
     public boolean isActive() {
-        var RESULT = gtk_h.gtk_printer_is_active(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_is_active.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_is_default = Interop.downcallHandle(
+        "gtk_printer_is_default",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the printer is the default printer.
      */
     public boolean isDefault() {
-        var RESULT = gtk_h.gtk_printer_is_default(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_is_default.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_is_paused = Interop.downcallHandle(
+        "gtk_printer_is_paused",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the printer is currently paused.
@@ -216,9 +391,18 @@ public class Printer extends org.gtk.gobject.Object {
      * printing them.
      */
     public boolean isPaused() {
-        var RESULT = gtk_h.gtk_printer_is_paused(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_is_paused.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_is_virtual = Interop.downcallHandle(
+        "gtk_printer_is_virtual",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the printer is virtual (i.e. does not
@@ -226,9 +410,18 @@ public class Printer extends org.gtk.gobject.Object {
      * a CUPS class).
      */
     public boolean isVirtual() {
-        var RESULT = gtk_h.gtk_printer_is_virtual(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_printer_is_virtual.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_list_papers = Interop.downcallHandle(
+        "gtk_printer_list_papers",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Lists all the paper sizes {@code printer} supports.
@@ -238,9 +431,18 @@ public class Printer extends org.gtk.gobject.Object {
      * {@link Printer#requestDetails}.
      */
     public org.gtk.glib.List listPapers() {
-        var RESULT = gtk_h.gtk_printer_list_papers(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_printer_list_papers.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_printer_request_details = Interop.downcallHandle(
+        "gtk_printer_request_details",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Requests the printer details.
@@ -250,7 +452,11 @@ public class Printer extends org.gtk.gobject.Object {
      * will be emitted on {@code printer}.
      */
     public void requestDetails() {
-        gtk_h.gtk_printer_request_details(handle());
+        try {
+            gtk_printer_request_details.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -267,19 +473,19 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public SignalHandle onDetailsAcquired(DetailsAcquiredHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("details-acquired").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Printer.Callbacks.class, "signalPrinterDetailsAcquired",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

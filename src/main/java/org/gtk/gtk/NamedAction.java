@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class NamedAction extends ShortcutAction {
         return new NamedAction(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_named_action_new = Interop.downcallHandle(
+        "gtk_named_action_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String name) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_named_action_new(Interop.allocateNativeString(name).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_named_action_new.invokeExact(Interop.allocateNativeString(name).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -37,12 +45,21 @@ public class NamedAction extends ShortcutAction {
         super(constructNew(name));
     }
     
+    static final MethodHandle gtk_named_action_get_action_name = Interop.downcallHandle(
+        "gtk_named_action_get_action_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Returns the name of the action that will be activated.
      */
     public java.lang.String getActionName() {
-        var RESULT = gtk_h.gtk_named_action_get_action_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_named_action_get_action_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

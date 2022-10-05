@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,28 +18,55 @@ public class CrossingEvent extends Event {
         return new CrossingEvent(gobject.refcounted());
     }
     
+    static final MethodHandle gdk_crossing_event_get_detail = Interop.downcallHandle(
+        "gdk_crossing_event_get_detail",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Extracts the notify detail from a crossing event.
      */
     public NotifyType getDetail() {
-        var RESULT = gtk_h.gdk_crossing_event_get_detail(handle());
-        return new NotifyType(RESULT);
+        try {
+            var RESULT = (int) gdk_crossing_event_get_detail.invokeExact(handle());
+            return new NotifyType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_crossing_event_get_focus = Interop.downcallHandle(
+        "gdk_crossing_event_get_focus",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if the {@code event} surface is the focus surface.
      */
     public boolean getFocus() {
-        var RESULT = gtk_h.gdk_crossing_event_get_focus(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_crossing_event_get_focus.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_crossing_event_get_mode = Interop.downcallHandle(
+        "gdk_crossing_event_get_mode",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Extracts the crossing mode from a crossing event.
      */
     public CrossingMode getMode() {
-        var RESULT = gtk_h.gdk_crossing_event_get_mode(handle());
-        return new CrossingMode(RESULT);
+        try {
+            var RESULT = (int) gdk_crossing_event_get_mode.invokeExact(handle());
+            return new CrossingMode(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class ObjectExpression extends Expression {
         return new ObjectExpression(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_object_expression_new = Interop.downcallHandle(
+        "gtk_object_expression_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(org.gtk.gobject.Object object) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_object_expression_new(object.handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_object_expression_new.invokeExact(object.handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -37,12 +45,21 @@ public class ObjectExpression extends Expression {
         super(constructNew(object));
     }
     
+    static final MethodHandle gtk_object_expression_get_object = Interop.downcallHandle(
+        "gtk_object_expression_get_object",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the object that the expression evaluates to.
      */
     public org.gtk.gobject.Object getObject() {
-        var RESULT = gtk_h.gtk_object_expression_get_object(handle());
-        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_object_expression_get_object.invokeExact(handle());
+            return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

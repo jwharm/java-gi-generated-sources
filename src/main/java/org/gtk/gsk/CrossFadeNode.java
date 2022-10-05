@@ -1,6 +1,5 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class CrossFadeNode extends RenderNode {
         return new CrossFadeNode(gobject.refcounted());
     }
     
+    static final MethodHandle gsk_cross_fade_node_new = Interop.downcallHandle(
+        "gsk_cross_fade_node_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
+    
     private static Refcounted constructNew(RenderNode start, RenderNode end, float progress) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gsk_cross_fade_node_new(start.handle(), end.handle(), progress), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_cross_fade_node_new.invokeExact(start.handle(), end.handle(), progress), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -31,28 +39,55 @@ public class CrossFadeNode extends RenderNode {
         super(constructNew(start, end, progress));
     }
     
+    static final MethodHandle gsk_cross_fade_node_get_end_child = Interop.downcallHandle(
+        "gsk_cross_fade_node_get_end_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Retrieves the child {@code GskRenderNode} at the end of the cross-fade.
      */
     public RenderNode getEndChild() {
-        var RESULT = gtk_h.gsk_cross_fade_node_get_end_child(handle());
-        return new RenderNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_cross_fade_node_get_end_child.invokeExact(handle());
+            return new RenderNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_cross_fade_node_get_progress = Interop.downcallHandle(
+        "gsk_cross_fade_node_get_progress",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the progress value of the cross fade.
      */
     public float getProgress() {
-        var RESULT = gtk_h.gsk_cross_fade_node_get_progress(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) gsk_cross_fade_node_get_progress.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_cross_fade_node_get_start_child = Interop.downcallHandle(
+        "gsk_cross_fade_node_get_start_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the child {@code GskRenderNode} at the beginning of the cross-fade.
      */
     public RenderNode getStartChild() {
-        var RESULT = gtk_h.gsk_cross_fade_node_get_start_child(handle());
-        return new RenderNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_cross_fade_node_get_start_child.invokeExact(handle());
+            return new RenderNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,9 +18,18 @@ public class NativeSocketAddress extends SocketAddress implements SocketConnecta
         return new NativeSocketAddress(gobject.refcounted());
     }
     
+    static final MethodHandle g_native_socket_address_new = Interop.downcallHandle(
+        "g_native_socket_address_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNew(java.lang.foreign.MemoryAddress native_, long len) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_native_socket_address_new(native_, len), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_native_socket_address_new.invokeExact(native_, len), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**

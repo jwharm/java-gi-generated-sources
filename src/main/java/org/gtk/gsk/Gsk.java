@@ -1,16 +1,29 @@
 package org.gtk.gsk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 public final class Gsk {
     
+    static final MethodHandle gsk_serialization_error_quark = Interop.downcallHandle(
+        "gsk_serialization_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static org.gtk.glib.Quark serializationErrorQuark() {
-        var RESULT = gtk_h.gsk_serialization_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gsk_serialization_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_transform_parse = Interop.downcallHandle(
+        "gsk_transform_parse",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses the given {@code string} into a transform and puts it in
@@ -23,26 +36,53 @@ public final class Gsk {
      * returned and {@code null} is put in {@code out_transform}.
      */
     public static boolean transformParse(java.lang.String string, Transform[] outTransform) {
-        var RESULT = gtk_h.gsk_transform_parse(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gsk_transform_parse.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_value_dup_render_node = Interop.downcallHandle(
+        "gsk_value_dup_render_node",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code GskRenderNode} stored inside the given {@code value}, and acquires
      * a reference to it.
      */
     public static RenderNode valueDupRenderNode(org.gtk.gobject.Value value) {
-        var RESULT = gtk_h.gsk_value_dup_render_node(value.handle());
-        return new RenderNode(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gsk_value_dup_render_node.invokeExact(value.handle());
+            return new RenderNode(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_value_get_render_node = Interop.downcallHandle(
+        "gsk_value_get_render_node",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code GskRenderNode} stored inside the given {@code value}.
      */
     public static RenderNode valueGetRenderNode(org.gtk.gobject.Value value) {
-        var RESULT = gtk_h.gsk_value_get_render_node(value.handle());
-        return new RenderNode(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gsk_value_get_render_node.invokeExact(value.handle());
+            return new RenderNode(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_value_set_render_node = Interop.downcallHandle(
+        "gsk_value_set_render_node",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Stores the given {@code GskRenderNode} inside {@code value}.
@@ -50,8 +90,17 @@ public final class Gsk {
      * The {@code GObject.Value} will acquire a reference to the {@code node}.
      */
     public static void valueSetRenderNode(org.gtk.gobject.Value value, RenderNode node) {
-        gtk_h.gsk_value_set_render_node(value.handle(), node.handle());
+        try {
+            gsk_value_set_render_node.invokeExact(value.handle(), node.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gsk_value_take_render_node = Interop.downcallHandle(
+        "gsk_value_take_render_node",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Stores the given {@code GskRenderNode} inside {@code value}.
@@ -59,7 +108,11 @@ public final class Gsk {
      * This function transfers the ownership of the {@code node} to the {@code GValue}.
      */
     public static void valueTakeRenderNode(org.gtk.gobject.Value value, RenderNode node) {
-        gtk_h.gsk_value_take_render_node(value.handle(), node.refcounted().unowned().handle());
+        try {
+            gsk_value_take_render_node.invokeExact(value.handle(), node.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     public static void __cbParseErrorFunc(MemoryAddress start, MemoryAddress end, MemoryAddress error, MemoryAddress userData) {

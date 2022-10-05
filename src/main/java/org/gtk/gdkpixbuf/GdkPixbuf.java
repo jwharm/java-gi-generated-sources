@@ -1,6 +1,5 @@
 package org.gtk.gdkpixbuf;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,18 @@ public final class GdkPixbuf {
 
     public static final java.lang.String PIXBUF_VERSION = "2.42.9";
 
+    static final MethodHandle gdk_pixbuf_error_quark = Interop.downcallHandle(
+        "gdk_pixbuf_error_quark",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT)
+    );
+    
     public static org.gtk.glib.Quark pixbufErrorQuark() {
-        var RESULT = gtk_h.gdk_pixbuf_error_quark();
-        return new org.gtk.glib.Quark(RESULT);
+        try {
+            var RESULT = (int) gdk_pixbuf_error_quark.invokeExact();
+            return new org.gtk.glib.Quark(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     public static void __cbPixbufModuleSizeFunc(MemoryAddress width, MemoryAddress height, MemoryAddress userData) {

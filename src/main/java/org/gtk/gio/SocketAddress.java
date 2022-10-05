@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -21,9 +20,18 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
         return new SocketAddress(gobject.refcounted());
     }
     
+    static final MethodHandle g_socket_address_new_from_native = Interop.downcallHandle(
+        "g_socket_address_new_from_native",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewFromNative(java.lang.foreign.MemoryAddress native_, long len) {
-        Refcounted RESULT = Refcounted.get(gtk_h.g_socket_address_new_from_native(native_, len), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_address_new_from_native.invokeExact(native_, len), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -34,13 +42,27 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
         return new SocketAddress(constructNewFromNative(native_, len));
     }
     
+    static final MethodHandle g_socket_address_get_family = Interop.downcallHandle(
+        "g_socket_address_get_family",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the socket family type of {@code address}.
      */
     public SocketFamily getFamily() {
-        var RESULT = gtk_h.g_socket_address_get_family(handle());
-        return new SocketFamily(RESULT);
+        try {
+            var RESULT = (int) g_socket_address_get_family.invokeExact(handle());
+            return new SocketFamily(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_address_get_native_size = Interop.downcallHandle(
+        "g_socket_address_get_native_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the size of {@code address}'s native struct sockaddr.
@@ -48,9 +70,18 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      * g_socket_address_to_native().
      */
     public long getNativeSize() {
-        var RESULT = gtk_h.g_socket_address_get_native_size(handle());
-        return RESULT;
+        try {
+            var RESULT = (long) g_socket_address_get_native_size.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_socket_address_to_native = Interop.downcallHandle(
+        "g_socket_address_to_native",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Converts a {@link SocketAddress} to a native struct sockaddr, which can
@@ -62,11 +93,15 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      */
     public boolean toNative(java.lang.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_socket_address_to_native(handle(), dest, destlen, GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_socket_address_to_native.invokeExact(handle(), dest, destlen, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
 }

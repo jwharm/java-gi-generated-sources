@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,9 +25,18 @@ public class StringSorter extends Sorter {
         return new StringSorter(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_string_sorter_new = Interop.downcallHandle(
+        "gtk_string_sorter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(Expression expression) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_string_sorter_new(expression.refcounted().unowned().handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_string_sorter_new.invokeExact(expression.refcounted().unowned().handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -42,21 +50,44 @@ public class StringSorter extends Sorter {
         super(constructNew(expression));
     }
     
+    static final MethodHandle gtk_string_sorter_get_expression = Interop.downcallHandle(
+        "gtk_string_sorter_get_expression",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the expression that is evaluated to obtain strings from items.
      */
     public Expression getExpression() {
-        var RESULT = gtk_h.gtk_string_sorter_get_expression(handle());
-        return new Expression(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_string_sorter_get_expression.invokeExact(handle());
+            return new Expression(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_sorter_get_ignore_case = Interop.downcallHandle(
+        "gtk_string_sorter_get_ignore_case",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the sorter ignores case differences.
      */
     public boolean getIgnoreCase() {
-        var RESULT = gtk_h.gtk_string_sorter_get_ignore_case(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_string_sorter_get_ignore_case.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_sorter_set_expression = Interop.downcallHandle(
+        "gtk_string_sorter_set_expression",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the expression that is evaluated to obtain strings from items.
@@ -64,14 +95,27 @@ public class StringSorter extends Sorter {
      * The expression must have the type {@code G_TYPE_STRING}.
      */
     public void setExpression(Expression expression) {
-        gtk_h.gtk_string_sorter_set_expression(handle(), expression.handle());
+        try {
+            gtk_string_sorter_set_expression.invokeExact(handle(), expression.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_string_sorter_set_ignore_case = Interop.downcallHandle(
+        "gtk_string_sorter_set_ignore_case",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the sorter will ignore case differences.
      */
     public void setIgnoreCase(boolean ignoreCase) {
-        gtk_h.gtk_string_sorter_set_ignore_case(handle(), ignoreCase ? 1 : 0);
+        try {
+            gtk_string_sorter_set_ignore_case.invokeExact(handle(), ignoreCase ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

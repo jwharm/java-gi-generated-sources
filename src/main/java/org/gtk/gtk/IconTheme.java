@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -50,9 +49,18 @@ public class IconTheme extends org.gtk.gobject.Object {
         return new IconTheme(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_icon_theme_new = Interop.downcallHandle(
+        "gtk_icon_theme_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_icon_theme_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_icon_theme_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -67,6 +75,11 @@ public class IconTheme extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
+    static final MethodHandle gtk_icon_theme_add_resource_path = Interop.downcallHandle(
+        "gtk_icon_theme_add_resource_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a resource path that will be looked at when looking
      * for icons, similar to search paths.
@@ -77,8 +90,17 @@ public class IconTheme extends org.gtk.gobject.Object {
      * available as part of the icon theme.
      */
     public void addResourcePath(java.lang.String path) {
-        gtk_h.gtk_icon_theme_add_resource_path(handle(), Interop.allocateNativeString(path).handle());
+        try {
+            gtk_icon_theme_add_resource_path.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_add_search_path = Interop.downcallHandle(
+        "gtk_icon_theme_add_search_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Appends a directory to the search path.
@@ -86,25 +108,52 @@ public class IconTheme extends org.gtk.gobject.Object {
      * See {@link IconTheme#setSearchPath}.
      */
     public void addSearchPath(java.lang.String path) {
-        gtk_h.gtk_icon_theme_add_search_path(handle(), Interop.allocateNativeString(path).handle());
+        try {
+            gtk_icon_theme_add_search_path.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_get_display = Interop.downcallHandle(
+        "gtk_icon_theme_get_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the display that the {@code GtkIconTheme} object was
      * created for.
      */
     public org.gtk.gdk.Display getDisplay() {
-        var RESULT = gtk_h.gtk_icon_theme_get_display(handle());
-        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_get_display.invokeExact(handle());
+            return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_get_icon_names = Interop.downcallHandle(
+        "gtk_icon_theme_get_icon_names",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Lists the names of icons in the current icon theme.
      */
     public PointerIterator<java.lang.String> getIconNames() {
-        var RESULT = gtk_h.gtk_icon_theme_get_icon_names(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_get_icon_names.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_get_icon_sizes = Interop.downcallHandle(
+        "gtk_icon_theme_get_icon_sizes",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns an array of integers describing the sizes at which
@@ -114,9 +163,18 @@ public class IconTheme extends org.gtk.gobject.Object {
      * format. The array is zero-terminated.
      */
     public PointerIterator<Integer> getIconSizes(java.lang.String iconName) {
-        var RESULT = gtk_h.gtk_icon_theme_get_icon_sizes(handle(), Interop.allocateNativeString(iconName).handle());
-        return new PointerInteger(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_get_icon_sizes.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+            return new PointerInteger(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_get_resource_path = Interop.downcallHandle(
+        "gtk_icon_theme_get_resource_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current resource path.
@@ -124,9 +182,18 @@ public class IconTheme extends org.gtk.gobject.Object {
      * See {@link IconTheme#setResourcePath}.
      */
     public PointerIterator<java.lang.String> getResourcePath() {
-        var RESULT = gtk_h.gtk_icon_theme_get_resource_path(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_get_resource_path.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_get_search_path = Interop.downcallHandle(
+        "gtk_icon_theme_get_search_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current search path.
@@ -134,9 +201,18 @@ public class IconTheme extends org.gtk.gobject.Object {
      * See {@link IconTheme#setSearchPath}.
      */
     public PointerIterator<java.lang.String> getSearchPath() {
-        var RESULT = gtk_h.gtk_icon_theme_get_search_path(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_get_search_path.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_get_theme_name = Interop.downcallHandle(
+        "gtk_icon_theme_get_theme_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the current icon theme name.
@@ -144,27 +220,54 @@ public class IconTheme extends org.gtk.gobject.Object {
      * Returns (transfer full): the current icon theme name,
      */
     public java.lang.String getThemeName() {
-        var RESULT = gtk_h.gtk_icon_theme_get_theme_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_get_theme_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_has_gicon = Interop.downcallHandle(
+        "gtk_icon_theme_has_gicon",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether an icon theme includes an icon
      * for a particular {@code GIcon}.
      */
     public boolean hasGicon(org.gtk.gio.Icon gicon) {
-        var RESULT = gtk_h.gtk_icon_theme_has_gicon(handle(), gicon.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_icon_theme_has_gicon.invokeExact(handle(), gicon.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_has_icon = Interop.downcallHandle(
+        "gtk_icon_theme_has_icon",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks whether an icon theme includes an icon
      * for a particular name.
      */
     public boolean hasIcon(java.lang.String iconName) {
-        var RESULT = gtk_h.gtk_icon_theme_has_icon(handle(), Interop.allocateNativeString(iconName).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_icon_theme_has_icon.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_lookup_by_gicon = Interop.downcallHandle(
+        "gtk_icon_theme_lookup_by_gicon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks up a icon for a desired size and window scale.
@@ -173,9 +276,18 @@ public class IconTheme extends org.gtk.gobject.Object {
      * or you can get information such as the filename and size.
      */
     public IconPaintable lookupByGicon(org.gtk.gio.Icon icon, int size, int scale, TextDirection direction, IconLookupFlags flags) {
-        var RESULT = gtk_h.gtk_icon_theme_lookup_by_gicon(handle(), icon.handle(), size, scale, direction.getValue(), flags.getValue());
-        return new IconPaintable(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_lookup_by_gicon.invokeExact(handle(), icon.handle(), size, scale, direction.getValue(), flags.getValue());
+            return new IconPaintable(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_lookup_icon = Interop.downcallHandle(
+        "gtk_icon_theme_lookup_icon",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Looks up a named icon for a desired size and window scale,
@@ -196,9 +308,18 @@ public class IconTheme extends org.gtk.gobject.Object {
      * GtkWidgetClass.css-changed() function.
      */
     public IconPaintable lookupIcon(java.lang.String iconName, java.lang.String[] fallbacks, int size, int scale, TextDirection direction, IconLookupFlags flags) {
-        var RESULT = gtk_h.gtk_icon_theme_lookup_icon(handle(), Interop.allocateNativeString(iconName).handle(), Interop.allocateNativeArray(fallbacks).handle(), size, scale, direction.getValue(), flags.getValue());
-        return new IconPaintable(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_lookup_icon.invokeExact(handle(), Interop.allocateNativeString(iconName).handle(), Interop.allocateNativeArray(fallbacks).handle(), size, scale, direction.getValue(), flags.getValue());
+            return new IconPaintable(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_set_resource_path = Interop.downcallHandle(
+        "gtk_icon_theme_set_resource_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the resource paths that will be looked at when
@@ -214,8 +335,17 @@ public class IconTheme extends org.gtk.gobject.Object {
      * but they are treated like unthemed icons.
      */
     public void setResourcePath(java.lang.String[] path) {
-        gtk_h.gtk_icon_theme_set_resource_path(handle(), Interop.allocateNativeArray(path).handle());
+        try {
+            gtk_icon_theme_set_resource_path.invokeExact(handle(), Interop.allocateNativeArray(path).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_set_search_path = Interop.downcallHandle(
+        "gtk_icon_theme_set_search_path",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the search path for the icon theme object.
@@ -235,8 +365,17 @@ public class IconTheme extends org.gtk.gobject.Object {
      * rather than directly on the icon path.)
      */
     public void setSearchPath(java.lang.String[] path) {
-        gtk_h.gtk_icon_theme_set_search_path(handle(), Interop.allocateNativeArray(path).handle());
+        try {
+            gtk_icon_theme_set_search_path.invokeExact(handle(), Interop.allocateNativeArray(path).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_set_theme_name = Interop.downcallHandle(
+        "gtk_icon_theme_set_theme_name",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the name of the icon theme that the {@code GtkIconTheme} object uses
@@ -246,8 +385,17 @@ public class IconTheme extends org.gtk.gobject.Object {
      * from {@link Gtk#IconTheme}.
      */
     public void setThemeName(java.lang.String themeName) {
-        gtk_h.gtk_icon_theme_set_theme_name(handle(), Interop.allocateNativeString(themeName).handle());
+        try {
+            gtk_icon_theme_set_theme_name.invokeExact(handle(), Interop.allocateNativeString(themeName).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_icon_theme_get_for_display = Interop.downcallHandle(
+        "gtk_icon_theme_get_for_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the icon theme object associated with {@code display}.
@@ -260,8 +408,12 @@ public class IconTheme extends org.gtk.gobject.Object {
      * this function a single icon theme object will be shared between users.
      */
     public static IconTheme getForDisplay(org.gtk.gdk.Display display) {
-        var RESULT = gtk_h.gtk_icon_theme_get_for_display(display.handle());
-        return new IconTheme(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_icon_theme_get_for_display.invokeExact(display.handle());
+            return new IconTheme(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -278,19 +430,19 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconTheme.Callbacks.class, "signalIconThemeChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

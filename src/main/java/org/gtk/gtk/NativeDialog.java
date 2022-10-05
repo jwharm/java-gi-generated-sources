@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -35,6 +34,11 @@ public class NativeDialog extends org.gtk.gobject.Object {
         return new NativeDialog(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_native_dialog_destroy = Interop.downcallHandle(
+        "gtk_native_dialog_destroy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Destroys a dialog.
      * <p>
@@ -49,40 +53,85 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * windowing system to the {@code GtkNativeDialog}.
      */
     public void destroy() {
-        gtk_h.gtk_native_dialog_destroy(handle());
+        try {
+            gtk_native_dialog_destroy.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_get_modal = Interop.downcallHandle(
+        "gtk_native_dialog_get_modal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the dialog is modal.
      */
     public boolean getModal() {
-        var RESULT = gtk_h.gtk_native_dialog_get_modal(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_native_dialog_get_modal.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_get_title = Interop.downcallHandle(
+        "gtk_native_dialog_get_title",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the title of the {@code GtkNativeDialog}.
      */
     public java.lang.String getTitle() {
-        var RESULT = gtk_h.gtk_native_dialog_get_title(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_native_dialog_get_title.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_get_transient_for = Interop.downcallHandle(
+        "gtk_native_dialog_get_transient_for",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Fetches the transient parent for this window.
      */
     public Window getTransientFor() {
-        var RESULT = gtk_h.gtk_native_dialog_get_transient_for(handle());
-        return new Window(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gtk_native_dialog_get_transient_for.invokeExact(handle());
+            return new Window(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_get_visible = Interop.downcallHandle(
+        "gtk_native_dialog_get_visible",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines whether the dialog is visible.
      */
     public boolean getVisible() {
-        var RESULT = gtk_h.gtk_native_dialog_get_visible(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_native_dialog_get_visible.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_hide = Interop.downcallHandle(
+        "gtk_native_dialog_hide",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Hides the dialog if it is visible, aborting any interaction.
@@ -94,8 +143,17 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * If the dialog is not visible this does nothing.
      */
     public void hide() {
-        gtk_h.gtk_native_dialog_hide(handle());
+        try {
+            gtk_native_dialog_hide.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_set_modal = Interop.downcallHandle(
+        "gtk_native_dialog_set_modal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets a dialog modal or non-modal.
@@ -107,15 +165,33 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * then disallow lowering the dialog below the parent.
      */
     public void setModal(boolean modal) {
-        gtk_h.gtk_native_dialog_set_modal(handle(), modal ? 1 : 0);
+        try {
+            gtk_native_dialog_set_modal.invokeExact(handle(), modal ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_set_title = Interop.downcallHandle(
+        "gtk_native_dialog_set_title",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the title of the {@code GtkNativeDialog.}
      */
     public void setTitle(java.lang.String title) {
-        gtk_h.gtk_native_dialog_set_title(handle(), Interop.allocateNativeString(title).handle());
+        try {
+            gtk_native_dialog_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_set_transient_for = Interop.downcallHandle(
+        "gtk_native_dialog_set_transient_for",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Dialog windows should be set transient for the main application
@@ -127,8 +203,17 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Passing {@code null} for {@code parent} unsets the current transient window.
      */
     public void setTransientFor(Window parent) {
-        gtk_h.gtk_native_dialog_set_transient_for(handle(), parent.handle());
+        try {
+            gtk_native_dialog_set_transient_for.invokeExact(handle(), parent.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_native_dialog_show = Interop.downcallHandle(
+        "gtk_native_dialog_show",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Shows the dialog on the display.
@@ -140,7 +225,11 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Multiple calls while the dialog is visible will be ignored.
      */
     public void show() {
-        gtk_h.gtk_native_dialog_show(handle());
+        try {
+            gtk_native_dialog_show.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -158,19 +247,19 @@ public class NativeDialog extends org.gtk.gobject.Object {
      */
     public SignalHandle onResponse(ResponseHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("response").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(NativeDialog.Callbacks.class, "signalNativeDialogResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

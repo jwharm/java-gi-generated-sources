@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -31,10 +30,6 @@ public class SourceFuncs extends io.github.jwharm.javagi.ResourceBase {
 
     public SourceFuncs(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
-    }
-    
-    public SourceFuncs() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GSourceFuncs.allocate(Interop.getAllocator()).address()));
     }
     
 }

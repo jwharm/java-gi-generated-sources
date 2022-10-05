@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -14,6 +13,11 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public MatchInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
+    
+    static final MethodHandle g_match_info_expand_references = Interop.downcallHandle(
+        "g_match_info_expand_references",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a new string containing the text in {@code string_to_expand} with
@@ -36,12 +40,21 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_match_info_expand_references(handle(), Interop.allocateNativeString(stringToExpand).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_match_info_expand_references.invokeExact(handle(), Interop.allocateNativeString(stringToExpand).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT.getUtf8String(0);
     }
+    
+    static final MethodHandle g_match_info_fetch = Interop.downcallHandle(
+        "g_match_info_fetch",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Retrieves the text matching the {@code match_num}'th capturing
@@ -62,9 +75,18 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * so you cannot call this function after freeing the string.
      */
     public java.lang.String fetch(int matchNum) {
-        var RESULT = gtk_h.g_match_info_fetch(handle(), matchNum);
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_match_info_fetch.invokeExact(handle(), matchNum);
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_fetch_all = Interop.downcallHandle(
+        "g_match_info_fetch_all",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Bundles up pointers to each of the matching substrings from a match
@@ -85,9 +107,18 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * so you cannot call this function after freeing the string.
      */
     public PointerIterator<java.lang.String> fetchAll() {
-        var RESULT = gtk_h.g_match_info_fetch_all(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_match_info_fetch_all.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_fetch_named = Interop.downcallHandle(
+        "g_match_info_fetch_named",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the text matching the capturing parentheses named {@code name}.
@@ -100,9 +131,18 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * so you cannot call this function after freeing the string.
      */
     public java.lang.String fetchNamed(java.lang.String name) {
-        var RESULT = gtk_h.g_match_info_fetch_named(handle(), Interop.allocateNativeString(name).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_match_info_fetch_named.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_fetch_named_pos = Interop.downcallHandle(
+        "g_match_info_fetch_named_pos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the position in bytes of the capturing parentheses named {@code name}.
@@ -112,9 +152,18 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * then {@code start_pos} and {@code end_pos} are set to -1 and {@code true} is returned.
      */
     public boolean fetchNamedPos(java.lang.String name, PointerInteger startPos, PointerInteger endPos) {
-        var RESULT = gtk_h.g_match_info_fetch_named_pos(handle(), Interop.allocateNativeString(name).handle(), startPos.handle(), endPos.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_match_info_fetch_named_pos.invokeExact(handle(), Interop.allocateNativeString(name).handle(), startPos.handle(), endPos.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_fetch_pos = Interop.downcallHandle(
+        "g_match_info_fetch_pos",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the position in bytes of the {@code match_num}'th capturing
@@ -132,17 +181,35 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * 0 is the longest match.
      */
     public boolean fetchPos(int matchNum, PointerInteger startPos, PointerInteger endPos) {
-        var RESULT = gtk_h.g_match_info_fetch_pos(handle(), matchNum, startPos.handle(), endPos.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_match_info_fetch_pos.invokeExact(handle(), matchNum, startPos.handle(), endPos.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_free = Interop.downcallHandle(
+        "g_match_info_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code match_info} is not {@code null}, calls g_match_info_unref(); otherwise does
      * nothing.
      */
     public void free() {
-        gtk_h.g_match_info_free(handle());
+        try {
+            g_match_info_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_get_match_count = Interop.downcallHandle(
+        "g_match_info_get_match_count",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the number of matched substrings (including substring 0,
@@ -155,9 +222,18 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * the number of matched substrings.
      */
     public int getMatchCount() {
-        var RESULT = gtk_h.g_match_info_get_match_count(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_match_info_get_match_count.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_get_regex = Interop.downcallHandle(
+        "g_match_info_get_regex",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@link Regex} object used in {@code match_info}. It belongs to Glib
@@ -165,9 +241,18 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * after you free {@code match_info} object.
      */
     public Regex getRegex() {
-        var RESULT = gtk_h.g_match_info_get_regex(handle());
-        return new Regex(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_match_info_get_regex.invokeExact(handle());
+            return new Regex(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_get_string = Interop.downcallHandle(
+        "g_match_info_get_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the string searched with {@code match_info}. This is the
@@ -175,9 +260,18 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * you may not free it before calling this function.
      */
     public java.lang.String getString() {
-        var RESULT = gtk_h.g_match_info_get_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_match_info_get_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_is_partial_match = Interop.downcallHandle(
+        "g_match_info_is_partial_match",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Usually if the string passed to g_regex_match*() matches as far as
@@ -215,17 +309,35 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * See pcrepartial(3) for more information on partial matching.
      */
     public boolean isPartialMatch() {
-        var RESULT = gtk_h.g_match_info_is_partial_match(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_match_info_is_partial_match.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_matches = Interop.downcallHandle(
+        "g_match_info_matches",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the previous match operation succeeded.
      */
     public boolean matches() {
-        var RESULT = gtk_h.g_match_info_matches(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_match_info_matches.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_next = Interop.downcallHandle(
+        "g_match_info_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Scans for the next match using the same parameters of the previous
@@ -237,27 +349,49 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      */
     public boolean next() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_match_info_next(handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_match_info_next.invokeExact(handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_match_info_ref = Interop.downcallHandle(
+        "g_match_info_ref",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Increases reference count of {@code match_info} by 1.
      */
     public MatchInfo ref() {
-        var RESULT = gtk_h.g_match_info_ref(handle());
-        return new MatchInfo(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_match_info_ref.invokeExact(handle());
+            return new MatchInfo(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_match_info_unref = Interop.downcallHandle(
+        "g_match_info_unref",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Decreases reference count of {@code match_info} by 1. When reference count drops
      * to zero, it frees all the memory associated with the match_info structure.
      */
     public void unref() {
-        gtk_h.g_match_info_unref(handle());
+        try {
+            g_match_info_unref.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

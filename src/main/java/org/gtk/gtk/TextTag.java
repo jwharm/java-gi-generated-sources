@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -36,9 +35,18 @@ public class TextTag extends org.gtk.gobject.Object {
         return new TextTag(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_text_tag_new = Interop.downcallHandle(
+        "gtk_text_tag_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String name) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_text_tag_new(Interop.allocateNativeString(name).handle()), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_tag_new.invokeExact(Interop.allocateNativeString(name).handle()), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -48,6 +56,11 @@ public class TextTag extends org.gtk.gobject.Object {
         super(constructNew(name));
     }
     
+    static final MethodHandle gtk_text_tag_changed = Interop.downcallHandle(
+        "gtk_text_tag_changed",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     /**
      * Emits the {@code Gtk.TextTagTable::tag-changed} signal on the
      * {@code GtkTextTagTable} where the tag is included.
@@ -56,16 +69,34 @@ public class TextTag extends org.gtk.gobject.Object {
      * This function is useful for a {@code GtkTextTag} subclass.
      */
     public void changed(boolean sizeChanged) {
-        gtk_h.gtk_text_tag_changed(handle(), sizeChanged ? 1 : 0);
+        try {
+            gtk_text_tag_changed.invokeExact(handle(), sizeChanged ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_tag_get_priority = Interop.downcallHandle(
+        "gtk_text_tag_get_priority",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Get the tag priority.
      */
     public int getPriority() {
-        var RESULT = gtk_h.gtk_text_tag_get_priority(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gtk_text_tag_get_priority.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_text_tag_set_priority = Interop.downcallHandle(
+        "gtk_text_tag_set_priority",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the priority of a {@code GtkTextTag}.
@@ -84,7 +115,11 @@ public class TextTag extends org.gtk.gobject.Object {
      * which adds the tag to the buffer’s table automatically.
      */
     public void setPriority(int priority) {
-        gtk_h.gtk_text_tag_set_priority(handle(), priority);
+        try {
+            gtk_text_tag_set_priority.invokeExact(handle(), priority);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

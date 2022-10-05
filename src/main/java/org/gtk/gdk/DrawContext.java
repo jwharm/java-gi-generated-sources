@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -26,6 +25,11 @@ public class DrawContext extends org.gtk.gobject.Object {
     public static DrawContext castFrom(org.gtk.gobject.Object gobject) {
         return new DrawContext(gobject.refcounted());
     }
+    
+    static final MethodHandle gdk_draw_context_begin_frame = Interop.downcallHandle(
+        "gdk_draw_context_begin_frame",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Indicates that you are beginning the process of redrawing {@code region}
@@ -54,8 +58,17 @@ public class DrawContext extends org.gtk.gobject.Object {
      * these functions explicitly.
      */
     public void beginFrame(org.cairographics.Region region) {
-        gtk_h.gdk_draw_context_begin_frame(handle(), region.handle());
+        try {
+            gdk_draw_context_begin_frame.invokeExact(handle(), region.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_draw_context_end_frame = Interop.downcallHandle(
+        "gdk_draw_context_end_frame",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Ends a drawing operation started with gdk_draw_context_begin_frame().
@@ -68,16 +81,34 @@ public class DrawContext extends org.gtk.gobject.Object {
      * explicitly before calling this function.
      */
     public void endFrame() {
-        gtk_h.gdk_draw_context_end_frame(handle());
+        try {
+            gdk_draw_context_end_frame.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_draw_context_get_display = Interop.downcallHandle(
+        "gdk_draw_context_get_display",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the {@code GdkDisplay} the {@code context} is created for
      */
     public Display getDisplay() {
-        var RESULT = gtk_h.gdk_draw_context_get_display(handle());
-        return new Display(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_draw_context_get_display.invokeExact(handle());
+            return new Display(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_draw_context_get_frame_region = Interop.downcallHandle(
+        "gdk_draw_context_get_frame_region",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the region that is currently being repainted.
@@ -90,17 +121,35 @@ public class DrawContext extends org.gtk.gobject.Object {
      * and {@link DrawContext#endFrame}, {@code null} will be returned.
      */
     public org.cairographics.Region getFrameRegion() {
-        var RESULT = gtk_h.gdk_draw_context_get_frame_region(handle());
-        return new org.cairographics.Region(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_draw_context_get_frame_region.invokeExact(handle());
+            return new org.cairographics.Region(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_draw_context_get_surface = Interop.downcallHandle(
+        "gdk_draw_context_get_surface",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Retrieves the surface that {@code context} is bound to.
      */
     public Surface getSurface() {
-        var RESULT = gtk_h.gdk_draw_context_get_surface(handle());
-        return new Surface(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) gdk_draw_context_get_surface.invokeExact(handle());
+            return new Surface(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_draw_context_is_in_frame = Interop.downcallHandle(
+        "gdk_draw_context_is_in_frame",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns {@code true} if {@code context} is in the process of drawing to its surface.
@@ -110,8 +159,12 @@ public class DrawContext extends org.gtk.gobject.Object {
      * may be effecting the contents of the {@code context}'s surface.
      */
     public boolean isInFrame() {
-        var RESULT = gtk_h.gdk_draw_context_is_in_frame(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_draw_context_is_in_frame.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

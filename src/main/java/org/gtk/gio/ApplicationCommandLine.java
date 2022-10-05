@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -178,6 +177,11 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         return new ApplicationCommandLine(gobject.refcounted());
     }
     
+    static final MethodHandle g_application_command_line_create_file_for_arg = Interop.downcallHandle(
+        "g_application_command_line_create_file_for_arg",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Creates a {@link File} corresponding to a filename that was given as part
      * of the invocation of {@code cmdline}.
@@ -187,9 +191,18 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * the invoking process rather than the local process.
      */
     public File createFileForArg(java.lang.String arg) {
-        var RESULT = gtk_h.g_application_command_line_create_file_for_arg(handle(), Interop.allocateNativeString(arg).handle());
-        return new File.FileImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_application_command_line_create_file_for_arg.invokeExact(handle(), Interop.allocateNativeString(arg).handle());
+            return new File.FileImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_get_arguments = Interop.downcallHandle(
+        "g_application_command_line_get_arguments",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the list of arguments that was passed on the command line.
@@ -205,9 +218,18 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * g_strfreev().
      */
     public PointerIterator<java.lang.String> getArguments(PointerInteger argc) {
-        var RESULT = gtk_h.g_application_command_line_get_arguments(handle(), argc.handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_application_command_line_get_arguments.invokeExact(handle(), argc.handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_get_cwd = Interop.downcallHandle(
+        "g_application_command_line_get_cwd",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the working directory of the command line invocation.
@@ -220,9 +242,18 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * long as {@code cmdline} exists.
      */
     public java.lang.String getCwd() {
-        var RESULT = gtk_h.g_application_command_line_get_cwd(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_application_command_line_get_cwd.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_get_environ = Interop.downcallHandle(
+        "g_application_command_line_get_environ",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the contents of the 'environ' variable of the command line
@@ -242,26 +273,53 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * in the value of a single environment variable.
      */
     public PointerIterator<java.lang.String> getEnviron() {
-        var RESULT = gtk_h.g_application_command_line_get_environ(handle());
-        return new PointerString(RESULT).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_application_command_line_get_environ.invokeExact(handle());
+            return new PointerString(RESULT).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_get_exit_status = Interop.downcallHandle(
+        "g_application_command_line_get_exit_status",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the exit status of {@code cmdline}.  See
      * g_application_command_line_set_exit_status() for more information.
      */
     public int getExitStatus() {
-        var RESULT = gtk_h.g_application_command_line_get_exit_status(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) g_application_command_line_get_exit_status.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_get_is_remote = Interop.downcallHandle(
+        "g_application_command_line_get_is_remote",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Determines if {@code cmdline} represents a remote invocation.
      */
     public boolean getIsRemote() {
-        var RESULT = gtk_h.g_application_command_line_get_is_remote(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_application_command_line_get_is_remote.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_get_options_dict = Interop.downcallHandle(
+        "g_application_command_line_get_options_dict",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the options there were passed to g_application_command_line().
@@ -275,9 +333,18 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * you don't need to check for {@code null}.
      */
     public org.gtk.glib.VariantDict getOptionsDict() {
-        var RESULT = gtk_h.g_application_command_line_get_options_dict(handle());
-        return new org.gtk.glib.VariantDict(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_application_command_line_get_options_dict.invokeExact(handle());
+            return new org.gtk.glib.VariantDict(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_get_platform_data = Interop.downcallHandle(
+        "g_application_command_line_get_platform_data",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the platform data associated with the invocation of {@code cmdline}.
@@ -290,9 +357,18 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * For local invocation, it will be {@code null}.
      */
     public org.gtk.glib.Variant getPlatformData() {
-        var RESULT = gtk_h.g_application_command_line_get_platform_data(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_application_command_line_get_platform_data.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_get_stdin = Interop.downcallHandle(
+        "g_application_command_line_get_stdin",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the stdin of the invoking process.
@@ -307,9 +383,18 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * You must only call this function once per commandline invocation.
      */
     public InputStream getStdin() {
-        var RESULT = gtk_h.g_application_command_line_get_stdin(handle());
-        return new InputStream(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_application_command_line_get_stdin.invokeExact(handle());
+            return new InputStream(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_getenv = Interop.downcallHandle(
+        "g_application_command_line_getenv",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value of a particular environment variable of the command
@@ -325,9 +410,18 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * long as {@code cmdline} exists.
      */
     public java.lang.String getenv(java.lang.String name) {
-        var RESULT = gtk_h.g_application_command_line_getenv(handle(), Interop.allocateNativeString(name).handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_application_command_line_getenv.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_application_command_line_set_exit_status = Interop.downcallHandle(
+        "g_application_command_line_set_exit_status",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the exit status that will be used when the invoking process
@@ -353,7 +447,11 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * status of the local {@link ApplicationCommandLine} is used.
      */
     public void setExitStatus(int exitStatus) {
-        gtk_h.g_application_command_line_set_exit_status(handle(), exitStatus);
+        try {
+            g_application_command_line_set_exit_status.invokeExact(handle(), exitStatus);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -17,9 +16,18 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle pango_item_new = Interop.downcallHandle(
+        "pango_item_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.pango_item_new(), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) pango_item_new.invokeExact(), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -28,6 +36,11 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     public Item() {
         super(constructNew());
     }
+    
+    static final MethodHandle pango_item_apply_attrs = Interop.downcallHandle(
+        "pango_item_apply_attrs",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Add attributes to a {@code PangoItem}.
@@ -43,23 +56,50 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * the iter to each call.
      */
     public void applyAttrs(AttrIterator iter) {
-        gtk_h.pango_item_apply_attrs(handle(), iter.handle());
+        try {
+            pango_item_apply_attrs.invokeExact(handle(), iter.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_item_copy = Interop.downcallHandle(
+        "pango_item_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Copy an existing {@code PangoItem} structure.
      */
     public Item copy() {
-        var RESULT = gtk_h.pango_item_copy(handle());
-        return new Item(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_item_copy.invokeExact(handle());
+            return new Item(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_item_free = Interop.downcallHandle(
+        "pango_item_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Free a {@code PangoItem} and all associated memory.
      */
     public void free() {
-        gtk_h.pango_item_free(handle());
+        try {
+            pango_item_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_item_split = Interop.downcallHandle(
+        "pango_item_split",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Modifies {@code orig} to cover only the text after {@code split_index}, and
@@ -76,8 +116,12 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * itself.
      */
     public Item split(int splitIndex, int splitOffset) {
-        var RESULT = gtk_h.pango_item_split(handle(), splitIndex, splitOffset);
-        return new Item(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) pango_item_split.invokeExact(handle(), splitIndex, splitOffset);
+            return new Item(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

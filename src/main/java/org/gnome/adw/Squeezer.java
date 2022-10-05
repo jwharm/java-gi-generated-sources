@@ -1,6 +1,5 @@
 package org.gnome.adw;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -40,9 +39,18 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         return new Squeezer(gobject.refcounted());
     }
     
+    static final MethodHandle adw_squeezer_new = Interop.downcallHandle(
+        "adw_squeezer_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew() {
-        Refcounted RESULT = Refcounted.get(gtk_h.adw_squeezer_new(), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_squeezer_new.invokeExact(), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -52,45 +60,95 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         super(constructNew());
     }
     
+    static final MethodHandle adw_squeezer_add = Interop.downcallHandle(
+        "adw_squeezer_add",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Adds a child to {@code self}.
      */
     public SqueezerPage add(org.gtk.gtk.Widget child) {
-        var RESULT = gtk_h.adw_squeezer_add(handle(), child.handle());
-        return new SqueezerPage(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_squeezer_add.invokeExact(handle(), child.handle());
+            return new SqueezerPage(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_allow_none = Interop.downcallHandle(
+        "adw_squeezer_get_allow_none",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether to allow squeezing beyond the last child's minimum size.
      */
     public boolean getAllowNone() {
-        var RESULT = gtk_h.adw_squeezer_get_allow_none(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_squeezer_get_allow_none.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_homogeneous = Interop.downcallHandle(
+        "adw_squeezer_get_homogeneous",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether all children have the same size for the opposite orientation.
      */
     public boolean getHomogeneous() {
-        var RESULT = gtk_h.adw_squeezer_get_homogeneous(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_squeezer_get_homogeneous.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_interpolate_size = Interop.downcallHandle(
+        "adw_squeezer_get_interpolate_size",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether {@code self} interpolates its size when changing the visible child.
      */
     public boolean getInterpolateSize() {
-        var RESULT = gtk_h.adw_squeezer_get_interpolate_size(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_squeezer_get_interpolate_size.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_page = Interop.downcallHandle(
+        "adw_squeezer_get_page",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@link SqueezerPage} object for {@code child}.
      */
     public SqueezerPage getPage(org.gtk.gtk.Widget child) {
-        var RESULT = gtk_h.adw_squeezer_get_page(handle(), child.handle());
-        return new SqueezerPage(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_squeezer_get_page.invokeExact(handle(), child.handle());
+            return new SqueezerPage(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_pages = Interop.downcallHandle(
+        "adw_squeezer_get_pages",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a {@code Gio.ListModel} that contains the pages of {@code self}.
@@ -99,127 +157,275 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * {@code Gtk.SelectionModel} and can be used to track the visible page.
      */
     public org.gtk.gtk.SelectionModel getPages() {
-        var RESULT = gtk_h.adw_squeezer_get_pages(handle());
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) adw_squeezer_get_pages.invokeExact(handle());
+            return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_switch_threshold_policy = Interop.downcallHandle(
+        "adw_squeezer_get_switch_threshold_policy",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the fold threshold policy for {@code self}.
      */
     public FoldThresholdPolicy getSwitchThresholdPolicy() {
-        var RESULT = gtk_h.adw_squeezer_get_switch_threshold_policy(handle());
-        return new FoldThresholdPolicy(RESULT);
+        try {
+            var RESULT = (int) adw_squeezer_get_switch_threshold_policy.invokeExact(handle());
+            return new FoldThresholdPolicy(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_transition_duration = Interop.downcallHandle(
+        "adw_squeezer_get_transition_duration",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the transition animation duration for {@code self}.
      */
     public int getTransitionDuration() {
-        var RESULT = gtk_h.adw_squeezer_get_transition_duration(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) adw_squeezer_get_transition_duration.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_transition_running = Interop.downcallHandle(
+        "adw_squeezer_get_transition_running",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether a transition is currently running for {@code self}.
      */
     public boolean getTransitionRunning() {
-        var RESULT = gtk_h.adw_squeezer_get_transition_running(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) adw_squeezer_get_transition_running.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_transition_type = Interop.downcallHandle(
+        "adw_squeezer_get_transition_type",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the type of animation used for transitions between children in {@code self}.
      */
     public SqueezerTransitionType getTransitionType() {
-        var RESULT = gtk_h.adw_squeezer_get_transition_type(handle());
-        return new SqueezerTransitionType(RESULT);
+        try {
+            var RESULT = (int) adw_squeezer_get_transition_type.invokeExact(handle());
+            return new SqueezerTransitionType(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_visible_child = Interop.downcallHandle(
+        "adw_squeezer_get_visible_child",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the currently visible child of {@code self}.
      */
     public org.gtk.gtk.Widget getVisibleChild() {
-        var RESULT = gtk_h.adw_squeezer_get_visible_child(handle());
-        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) adw_squeezer_get_visible_child.invokeExact(handle());
+            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_xalign = Interop.downcallHandle(
+        "adw_squeezer_get_xalign",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the horizontal alignment, from 0 (start) to 1 (end).
      */
     public float getXalign() {
-        var RESULT = gtk_h.adw_squeezer_get_xalign(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) adw_squeezer_get_xalign.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_get_yalign = Interop.downcallHandle(
+        "adw_squeezer_get_yalign",
+        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the vertical alignment, from 0 (top) to 1 (bottom).
      */
     public float getYalign() {
-        var RESULT = gtk_h.adw_squeezer_get_yalign(handle());
-        return RESULT;
+        try {
+            var RESULT = (float) adw_squeezer_get_yalign.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_remove = Interop.downcallHandle(
+        "adw_squeezer_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes a child widget from {@code self}.
      */
     public void remove(org.gtk.gtk.Widget child) {
-        gtk_h.adw_squeezer_remove(handle(), child.handle());
+        try {
+            adw_squeezer_remove.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_set_allow_none = Interop.downcallHandle(
+        "adw_squeezer_set_allow_none",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether to allow squeezing beyond the last child's minimum size.
      */
     public void setAllowNone(boolean allowNone) {
-        gtk_h.adw_squeezer_set_allow_none(handle(), allowNone ? 1 : 0);
+        try {
+            adw_squeezer_set_allow_none.invokeExact(handle(), allowNone ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_set_homogeneous = Interop.downcallHandle(
+        "adw_squeezer_set_homogeneous",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether all children have the same size for the opposite orientation.
      */
     public void setHomogeneous(boolean homogeneous) {
-        gtk_h.adw_squeezer_set_homogeneous(handle(), homogeneous ? 1 : 0);
+        try {
+            adw_squeezer_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_set_interpolate_size = Interop.downcallHandle(
+        "adw_squeezer_set_interpolate_size",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether {@code self} interpolates its size when changing the visible child.
      */
     public void setInterpolateSize(boolean interpolateSize) {
-        gtk_h.adw_squeezer_set_interpolate_size(handle(), interpolateSize ? 1 : 0);
+        try {
+            adw_squeezer_set_interpolate_size.invokeExact(handle(), interpolateSize ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_set_switch_threshold_policy = Interop.downcallHandle(
+        "adw_squeezer_set_switch_threshold_policy",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the fold threshold policy for {@code self}.
      */
     public void setSwitchThresholdPolicy(FoldThresholdPolicy policy) {
-        gtk_h.adw_squeezer_set_switch_threshold_policy(handle(), policy.getValue());
+        try {
+            adw_squeezer_set_switch_threshold_policy.invokeExact(handle(), policy.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_set_transition_duration = Interop.downcallHandle(
+        "adw_squeezer_set_transition_duration",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the transition animation duration for {@code self}.
      */
     public void setTransitionDuration(int duration) {
-        gtk_h.adw_squeezer_set_transition_duration(handle(), duration);
+        try {
+            adw_squeezer_set_transition_duration.invokeExact(handle(), duration);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_set_transition_type = Interop.downcallHandle(
+        "adw_squeezer_set_transition_type",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets the type of animation used for transitions between children in {@code self}.
      */
     public void setTransitionType(SqueezerTransitionType transition) {
-        gtk_h.adw_squeezer_set_transition_type(handle(), transition.getValue());
+        try {
+            adw_squeezer_set_transition_type.invokeExact(handle(), transition.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_set_xalign = Interop.downcallHandle(
+        "adw_squeezer_set_xalign",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the horizontal alignment, from 0 (start) to 1 (end).
      */
     public void setXalign(float xalign) {
-        gtk_h.adw_squeezer_set_xalign(handle(), xalign);
+        try {
+            adw_squeezer_set_xalign.invokeExact(handle(), xalign);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle adw_squeezer_set_yalign = Interop.downcallHandle(
+        "adw_squeezer_set_yalign",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+    );
     
     /**
      * Sets the vertical alignment, from 0 (top) to 1 (bottom).
      */
     public void setYalign(float yalign) {
-        gtk_h.adw_squeezer_set_yalign(handle(), yalign);
+        try {
+            adw_squeezer_set_yalign.invokeExact(handle(), yalign);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

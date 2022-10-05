@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -20,17 +19,27 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public HashTableIter() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GHashTableIter.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_hash_table_iter_get_hash_table = Interop.downcallHandle(
+        "g_hash_table_iter_get_hash_table",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the {@link HashTable} associated with {@code iter}.
      */
     public org.gtk.glib.HashTable getHashTable() {
-        var RESULT = gtk_h.g_hash_table_iter_get_hash_table(handle());
-        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_hash_table_iter_get_hash_table.invokeExact(handle());
+            return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_iter_init = Interop.downcallHandle(
+        "g_hash_table_iter_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Initializes a key/value pair iterator and associates it with
@@ -52,8 +61,17 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public void init(org.gtk.glib.HashTable hashTable) {
-        gtk_h.g_hash_table_iter_init(handle(), hashTable.handle());
+        try {
+            g_hash_table_iter_init.invokeExact(handle(), hashTable.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_iter_next = Interop.downcallHandle(
+        "g_hash_table_iter_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Advances {@code iter} and retrieves the key and/or value that are now
@@ -61,9 +79,18 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * {@code key} and {@code value} are not set, and the iterator becomes invalid.
      */
     public boolean next(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
-        var RESULT = gtk_h.g_hash_table_iter_next(handle(), key, value);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_hash_table_iter_next.invokeExact(handle(), key, value);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_iter_remove = Interop.downcallHandle(
+        "g_hash_table_iter_remove",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes the key/value pair currently pointed to by the iterator
@@ -86,8 +113,17 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      */
     public void remove() {
-        gtk_h.g_hash_table_iter_remove(handle());
+        try {
+            g_hash_table_iter_remove.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_iter_replace = Interop.downcallHandle(
+        "g_hash_table_iter_replace",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Replaces the value currently pointed to by the iterator
@@ -98,8 +134,17 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * {@link HashTable}, the old value is freed using that function.
      */
     public void replace(java.lang.foreign.MemoryAddress value) {
-        gtk_h.g_hash_table_iter_replace(handle(), value);
+        try {
+            g_hash_table_iter_replace.invokeExact(handle(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_hash_table_iter_steal = Interop.downcallHandle(
+        "g_hash_table_iter_steal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Removes the key/value pair currently pointed to by the
@@ -109,7 +154,11 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * be called more than once for the same key/value pair.
      */
     public void steal() {
-        gtk_h.g_hash_table_iter_steal(handle());
+        try {
+            g_hash_table_iter_steal.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

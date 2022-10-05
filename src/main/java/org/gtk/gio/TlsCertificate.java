@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -23,13 +22,22 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(gobject.refcounted());
     }
     
+    static final MethodHandle g_tls_certificate_new_from_file = Interop.downcallHandle(
+        "g_tls_certificate_new_from_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromFile(java.lang.String file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_tls_certificate_new_from_file(Interop.allocateNativeString(file).handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_file.invokeExact(Interop.allocateNativeString(file).handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -47,13 +55,22 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(constructNewFromFile(file));
     }
     
+    static final MethodHandle g_tls_certificate_new_from_file_with_password = Interop.downcallHandle(
+        "g_tls_certificate_new_from_file_with_password",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromFileWithPassword(java.lang.String file, java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_tls_certificate_new_from_file_with_password(Interop.allocateNativeString(file).handle(), Interop.allocateNativeString(password).handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_file_with_password.invokeExact(Interop.allocateNativeString(file).handle(), Interop.allocateNativeString(password).handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -70,13 +87,22 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(constructNewFromFileWithPassword(file, password));
     }
     
+    static final MethodHandle g_tls_certificate_new_from_files = Interop.downcallHandle(
+        "g_tls_certificate_new_from_files",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_tls_certificate_new_from_files(Interop.allocateNativeString(certFile).handle(), Interop.allocateNativeString(keyFile).handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_files.invokeExact(Interop.allocateNativeString(certFile).handle(), Interop.allocateNativeString(keyFile).handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -99,13 +125,22 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(constructNewFromFiles(certFile, keyFile));
     }
     
+    static final MethodHandle g_tls_certificate_new_from_pem = Interop.downcallHandle(
+        "g_tls_certificate_new_from_pem",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
+    
     private static Refcounted constructNewFromPem(java.lang.String data, long length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_tls_certificate_new_from_pem(Interop.allocateNativeString(data).handle(), length, GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pem.invokeExact(Interop.allocateNativeString(data).handle(), length, GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -128,13 +163,22 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(constructNewFromPem(data, length));
     }
     
+    static final MethodHandle g_tls_certificate_new_from_pkcs11_uris = Interop.downcallHandle(
+        "g_tls_certificate_new_from_pkcs11_uris",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromPkcs11Uris(java.lang.String pkcs11Uri, java.lang.String privateKeyPkcs11Uri) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_tls_certificate_new_from_pkcs11_uris(Interop.allocateNativeString(pkcs11Uri).handle(), Interop.allocateNativeString(privateKeyPkcs11Uri).handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pkcs11_uris.invokeExact(Interop.allocateNativeString(pkcs11Uri).handle(), Interop.allocateNativeString(privateKeyPkcs11Uri).handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -167,13 +211,22 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(constructNewFromPkcs11Uris(pkcs11Uri, privateKeyPkcs11Uri));
     }
     
+    static final MethodHandle g_tls_certificate_new_from_pkcs12 = Interop.downcallHandle(
+        "g_tls_certificate_new_from_pkcs12",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNewFromPkcs12(byte[] data, long length, java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Refcounted RESULT = Refcounted.get(gtk_h.g_tls_certificate_new_from_pkcs12(Interop.allocateNativeArray(data).handle(), length, Interop.allocateNativeString(password).handle(), GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pkcs12.invokeExact(Interop.allocateNativeArray(data).handle(), length, Interop.allocateNativeString(password).handle(), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
     }
     
     /**
@@ -199,61 +252,129 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(constructNewFromPkcs12(data, length, password));
     }
     
+    static final MethodHandle g_tls_certificate_get_dns_names = Interop.downcallHandle(
+        "g_tls_certificate_get_dns_names",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Gets the value of {@link TlsCertificate}:dns-names.
      */
     public PointerIterator<org.gtk.glib.Bytes> getDnsNames() {
-        var RESULT = gtk_h.g_tls_certificate_get_dns_names(handle());
-        return new PointerProxy<org.gtk.glib.Bytes>(RESULT, org.gtk.glib.Bytes.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_tls_certificate_get_dns_names.invokeExact(handle());
+            return new PointerProxy<org.gtk.glib.Bytes>(RESULT, org.gtk.glib.Bytes.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_get_ip_addresses = Interop.downcallHandle(
+        "g_tls_certificate_get_ip_addresses",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the value of {@link TlsCertificate}:ip-addresses.
      */
     public PointerIterator<InetAddress> getIpAddresses() {
-        var RESULT = gtk_h.g_tls_certificate_get_ip_addresses(handle());
-        return new PointerProxy<InetAddress>(RESULT, InetAddress.class).iterator();
+        try {
+            var RESULT = (MemoryAddress) g_tls_certificate_get_ip_addresses.invokeExact(handle());
+            return new PointerProxy<InetAddress>(RESULT, InetAddress.class).iterator();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_get_issuer = Interop.downcallHandle(
+        "g_tls_certificate_get_issuer",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link TlsCertificate} representing {@code cert}'s issuer, if known
      */
     public TlsCertificate getIssuer() {
-        var RESULT = gtk_h.g_tls_certificate_get_issuer(handle());
-        return new TlsCertificate(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_tls_certificate_get_issuer.invokeExact(handle());
+            return new TlsCertificate(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_get_issuer_name = Interop.downcallHandle(
+        "g_tls_certificate_get_issuer_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the issuer name from the certificate.
      */
     public java.lang.String getIssuerName() {
-        var RESULT = gtk_h.g_tls_certificate_get_issuer_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_tls_certificate_get_issuer_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_get_not_valid_after = Interop.downcallHandle(
+        "g_tls_certificate_get_not_valid_after",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the time at which the certificate became or will become invalid.
      */
     public org.gtk.glib.DateTime getNotValidAfter() {
-        var RESULT = gtk_h.g_tls_certificate_get_not_valid_after(handle());
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_tls_certificate_get_not_valid_after.invokeExact(handle());
+            return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_get_not_valid_before = Interop.downcallHandle(
+        "g_tls_certificate_get_not_valid_before",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the time at which the certificate became or will become valid.
      */
     public org.gtk.glib.DateTime getNotValidBefore() {
-        var RESULT = gtk_h.g_tls_certificate_get_not_valid_before(handle());
-        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_tls_certificate_get_not_valid_before.invokeExact(handle());
+            return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_get_subject_name = Interop.downcallHandle(
+        "g_tls_certificate_get_subject_name",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the subject name from the certificate.
      */
     public java.lang.String getSubjectName() {
-        var RESULT = gtk_h.g_tls_certificate_get_subject_name(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_tls_certificate_get_subject_name.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_is_same = Interop.downcallHandle(
+        "g_tls_certificate_is_same",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Check if two {@link TlsCertificate} objects represent the same certificate.
@@ -263,9 +384,18 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * {@link TlsCertificate}:private-key-pem properties differ.
      */
     public boolean isSame(TlsCertificate certTwo) {
-        var RESULT = gtk_h.g_tls_certificate_is_same(handle(), certTwo.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_tls_certificate_is_same.invokeExact(handle(), certTwo.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_verify = Interop.downcallHandle(
+        "g_tls_certificate_verify",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * This verifies {@code cert} and returns a set of {@link TlsCertificateFlags}
@@ -301,9 +431,18 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * handle the verification.
      */
     public TlsCertificateFlags verify(SocketConnectable identity, TlsCertificate trustedCa) {
-        var RESULT = gtk_h.g_tls_certificate_verify(handle(), identity.handle(), trustedCa.handle());
-        return new TlsCertificateFlags(RESULT);
+        try {
+            var RESULT = (int) g_tls_certificate_verify.invokeExact(handle(), identity.handle(), trustedCa.handle());
+            return new TlsCertificateFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_tls_certificate_list_new_from_file = Interop.downcallHandle(
+        "g_tls_certificate_list_new_from_file",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Creates one or more {@code GTlsCertificates} from the PEM-encoded
@@ -314,11 +453,15 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      */
     public static org.gtk.glib.List listNewFromFile(java.lang.String file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_tls_certificate_list_new_from_file(Interop.allocateNativeString(file).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (MemoryAddress) g_tls_certificate_list_new_from_file.invokeExact(Interop.allocateNativeString(file).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
 }

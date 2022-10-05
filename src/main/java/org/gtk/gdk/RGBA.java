@@ -1,6 +1,5 @@
 package org.gtk.gdk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -22,9 +21,10 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public RGBA() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GdkRGBA.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle gdk_rgba_copy = Interop.downcallHandle(
+        "gdk_rgba_copy",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Makes a copy of a {@code GdkRGBA}.
@@ -32,33 +32,69 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      * The result must be freed through {@link RGBA#free}.
      */
     public RGBA copy() {
-        var RESULT = gtk_h.gdk_rgba_copy(handle());
-        return new RGBA(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) gdk_rgba_copy.invokeExact(handle());
+            return new RGBA(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rgba_equal = Interop.downcallHandle(
+        "gdk_rgba_equal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Compares two {@code GdkRGBA} colors.
      */
     public boolean equal(RGBA p2) {
-        var RESULT = gtk_h.gdk_rgba_equal(handle(), p2.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_rgba_equal.invokeExact(handle(), p2.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rgba_free = Interop.downcallHandle(
+        "gdk_rgba_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees a {@code GdkRGBA}.
      */
     public void free() {
-        gtk_h.gdk_rgba_free(handle());
+        try {
+            gdk_rgba_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rgba_hash = Interop.downcallHandle(
+        "gdk_rgba_hash",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * A hash function suitable for using for a hash
      * table that stores {@code GdkRGBA}s.
      */
     public int hash() {
-        var RESULT = gtk_h.gdk_rgba_hash(handle());
-        return RESULT;
+        try {
+            var RESULT = (int) gdk_rgba_hash.invokeExact(handle());
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rgba_is_clear = Interop.downcallHandle(
+        "gdk_rgba_is_clear",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if an {@code rgba} value is transparent.
@@ -66,9 +102,18 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      * That is, drawing with the value would not produce any change.
      */
     public boolean isClear() {
-        var RESULT = gtk_h.gdk_rgba_is_clear(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_rgba_is_clear.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rgba_is_opaque = Interop.downcallHandle(
+        "gdk_rgba_is_opaque",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if an {@code rgba} value is opaque.
@@ -77,9 +122,18 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      * from previous contents.
      */
     public boolean isOpaque() {
-        var RESULT = gtk_h.gdk_rgba_is_opaque(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_rgba_is_opaque.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rgba_parse = Interop.downcallHandle(
+        "gdk_rgba_parse",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Parses a textual representation of a color.
@@ -104,9 +158,18 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      * in the range 0 to 1.
      */
     public boolean parse(java.lang.String spec) {
-        var RESULT = gtk_h.gdk_rgba_parse(handle(), Interop.allocateNativeString(spec).handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gdk_rgba_parse.invokeExact(handle(), Interop.allocateNativeString(spec).handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gdk_rgba_to_string = Interop.downcallHandle(
+        "gdk_rgba_to_string",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns a textual specification of {@code rgba} in the form
@@ -124,8 +187,12 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      * this is a concern, you should use a different representation.
      */
     public java.lang.String toString() {
-        var RESULT = gtk_h.gdk_rgba_to_string(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gdk_rgba_to_string.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

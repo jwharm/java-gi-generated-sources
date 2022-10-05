@@ -1,6 +1,5 @@
 package org.gtk.gio;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -19,6 +18,11 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
         return new DBusInterfaceSkeleton(gobject.refcounted());
     }
     
+    static final MethodHandle g_dbus_interface_skeleton_export = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_export",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     /**
      * Exports {@code interface_} at {@code object_path} on {@code connection}.
      * <p>
@@ -30,12 +34,21 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public boolean export(DBusConnection connection, java.lang.String objectPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dbus_interface_skeleton_export(handle(), connection.handle(), Interop.allocateNativeString(objectPath).handle(), GERROR);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            var RESULT = (int) g_dbus_interface_skeleton_export.invokeExact(handle(), connection.handle(), Interop.allocateNativeString(objectPath).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_flush = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_flush",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * If {@code interface_} has outstanding changes, request for these changes to be
@@ -48,58 +61,121 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * for collapsing multiple property changes into one.
      */
     public void flush() {
-        gtk_h.g_dbus_interface_skeleton_flush(handle());
+        try {
+            g_dbus_interface_skeleton_flush.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_get_connection = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_get_connection",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the first connection that {@code interface_} is exported on, if any.
      */
     public DBusConnection getConnection() {
-        var RESULT = gtk_h.g_dbus_interface_skeleton_get_connection(handle());
-        return new DBusConnection(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_skeleton_get_connection.invokeExact(handle());
+            return new DBusConnection(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_get_connections = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_get_connections",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets a list of the connections that {@code interface_} is exported on.
      */
     public org.gtk.glib.List getConnections() {
-        var RESULT = gtk_h.g_dbus_interface_skeleton_get_connections(handle());
-        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_skeleton_get_connections.invokeExact(handle());
+            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_get_flags = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_get_flags",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the {@link DBusInterfaceSkeletonFlags} that describes what the behavior
      * of {@code interface_}
      */
     public DBusInterfaceSkeletonFlags getFlags() {
-        var RESULT = gtk_h.g_dbus_interface_skeleton_get_flags(handle());
-        return new DBusInterfaceSkeletonFlags(RESULT);
+        try {
+            var RESULT = (int) g_dbus_interface_skeleton_get_flags.invokeExact(handle());
+            return new DBusInterfaceSkeletonFlags(RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_get_info = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_get_info",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets D-Bus introspection information for the D-Bus interface
      * implemented by {@code interface_}.
      */
     public DBusInterfaceInfo getInfo() {
-        var RESULT = gtk_h.g_dbus_interface_skeleton_get_info(handle());
-        return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_skeleton_get_info.invokeExact(handle());
+            return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_get_object_path = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_get_object_path",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the object path that {@code interface_} is exported on, if any.
      */
     public java.lang.String getObjectPath() {
-        var RESULT = gtk_h.g_dbus_interface_skeleton_get_object_path(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_skeleton_get_object_path.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_get_properties = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_get_properties",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets all D-Bus properties for {@code interface_}.
      */
     public org.gtk.glib.Variant getProperties() {
-        var RESULT = gtk_h.g_dbus_interface_skeleton_get_properties(handle());
-        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_skeleton_get_properties.invokeExact(handle());
+            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_get_vtable = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_get_vtable",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets the interface vtable for the D-Bus interface implemented by
@@ -107,24 +183,51 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * itself to be passed as {@code user_data}.
      */
     public DBusInterfaceVTable getVtable() {
-        var RESULT = gtk_h.g_dbus_interface_skeleton_get_vtable(handle());
-        return new DBusInterfaceVTable(Refcounted.get(RESULT, false));
+        try {
+            var RESULT = (MemoryAddress) g_dbus_interface_skeleton_get_vtable.invokeExact(handle());
+            return new DBusInterfaceVTable(Refcounted.get(RESULT, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_has_connection = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_has_connection",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Checks if {@code interface_} is exported on {@code connection}.
      */
     public boolean hasConnection(DBusConnection connection) {
-        var RESULT = gtk_h.g_dbus_interface_skeleton_has_connection(handle(), connection.handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_dbus_interface_skeleton_has_connection.invokeExact(handle(), connection.handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_set_flags = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_set_flags",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets flags describing what the behavior of {@code skeleton} should be.
      */
     public void setFlags(DBusInterfaceSkeletonFlags flags) {
-        gtk_h.g_dbus_interface_skeleton_set_flags(handle(), flags.getValue());
+        try {
+            g_dbus_interface_skeleton_set_flags.invokeExact(handle(), flags.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_unexport = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_unexport",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Stops exporting {@code interface_} on all connections it is exported on.
@@ -133,8 +236,17 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * g_dbus_interface_skeleton_unexport_from_connection()
      */
     public void unexport() {
-        gtk_h.g_dbus_interface_skeleton_unexport(handle());
+        try {
+            g_dbus_interface_skeleton_unexport.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_dbus_interface_skeleton_unexport_from_connection = Interop.downcallHandle(
+        "g_dbus_interface_skeleton_unexport_from_connection",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Stops exporting {@code interface_} on {@code connection}.
@@ -143,7 +255,11 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * use g_dbus_interface_skeleton_unexport().
      */
     public void unexportFromConnection(DBusConnection connection) {
-        gtk_h.g_dbus_interface_skeleton_unexport_from_connection(handle(), connection.handle());
+        try {
+            g_dbus_interface_skeleton_unexport_from_connection.invokeExact(handle(), connection.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -188,19 +304,19 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public SignalHandle onGAuthorizeMethod(GAuthorizeMethodHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("g-authorize-method").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusInterfaceSkeleton.Callbacks.class, "signalDBusInterfaceSkeletonGAuthorizeMethod",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     

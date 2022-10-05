@@ -1,6 +1,5 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -78,9 +77,10 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    public Cond() {
-        super(Refcounted.get(io.github.jwharm.javagi.interop.jextract.GCond.allocate(Interop.getAllocator()).address()));
-    }
+    static final MethodHandle g_cond_broadcast = Interop.downcallHandle(
+        "g_cond_broadcast",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * If threads are waiting for {@code cond}, all of them are unblocked.
@@ -89,8 +89,17 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * while calling this function, though not required.
      */
     public void broadcast() {
-        gtk_h.g_cond_broadcast(handle());
+        try {
+            g_cond_broadcast.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_cond_clear = Interop.downcallHandle(
+        "g_cond_clear",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Frees the resources allocated to a {@link Cond} with g_cond_init().
@@ -102,8 +111,17 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * blocking leads to undefined behaviour.
      */
     public void clear() {
-        gtk_h.g_cond_clear(handle());
+        try {
+            g_cond_clear.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_cond_init = Interop.downcallHandle(
+        "g_cond_init",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Initialises a {@link Cond} so that it can be used.
@@ -119,8 +137,17 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * to undefined behaviour.
      */
     public void init() {
-        gtk_h.g_cond_init(handle());
+        try {
+            g_cond_init.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_cond_signal = Interop.downcallHandle(
+        "g_cond_signal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * If threads are waiting for {@code cond}, at least one of them is unblocked.
@@ -129,8 +156,17 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * while calling this function, though not required.
      */
     public void signal() {
-        gtk_h.g_cond_signal(handle());
+        try {
+            g_cond_signal.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_cond_wait = Interop.downcallHandle(
+        "g_cond_wait",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Atomically releases {@code mutex} and waits until {@code cond} is signalled.
@@ -149,8 +185,17 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * the documentation for {@link Cond} for a complete example.
      */
     public void wait(Mutex mutex) {
-        gtk_h.g_cond_wait(handle(), mutex.handle());
+        try {
+            g_cond_wait.invokeExact(handle(), mutex.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle g_cond_wait_until = Interop.downcallHandle(
+        "g_cond_wait_until",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+    );
     
     /**
      * Waits until either {@code cond} is signalled or {@code end_time} has passed.
@@ -203,8 +248,12 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * time of more than 5 seconds).
      */
     public boolean waitUntil(Mutex mutex, long endTime) {
-        var RESULT = gtk_h.g_cond_wait_until(handle(), mutex.handle(), endTime);
-        return RESULT != 0;
+        try {
+            var RESULT = (int) g_cond_wait_until.invokeExact(handle(), mutex.handle(), endTime);
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

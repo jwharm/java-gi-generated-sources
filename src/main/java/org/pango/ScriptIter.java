@@ -1,6 +1,5 @@
 package org.pango;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -15,9 +14,18 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
+    static final MethodHandle pango_script_iter_new = Interop.downcallHandle(
+        "pango_script_iter_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
+    
     private static Refcounted constructNew(java.lang.String text, int length) {
-        Refcounted RESULT = Refcounted.get(gtk_h.pango_script_iter_new(Interop.allocateNativeString(text).handle(), length), true);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) pango_script_iter_new.invokeExact(Interop.allocateNativeString(text).handle(), length), true);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -32,12 +40,26 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(text, length));
     }
     
+    static final MethodHandle pango_script_iter_free = Interop.downcallHandle(
+        "pango_script_iter_free",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
+    
     /**
      * Frees a {@code PangoScriptIter}.
      */
     public void free() {
-        gtk_h.pango_script_iter_free(handle());
+        try {
+            pango_script_iter_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_script_iter_get_range = Interop.downcallHandle(
+        "pango_script_iter_get_range",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Gets information about the range to which {@code iter} currently points.
@@ -51,8 +73,17 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      * values.
      */
     public void getRange(java.lang.String[] start, java.lang.String[] end, Script script) {
-        gtk_h.pango_script_iter_get_range(handle(), Interop.allocateNativeArray(start).handle(), Interop.allocateNativeArray(end).handle(), new PointerInteger(script.getValue()).handle());
+        try {
+            pango_script_iter_get_range.invokeExact(handle(), Interop.allocateNativeArray(start).handle(), Interop.allocateNativeArray(end).handle(), new PointerInteger(script.getValue()).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle pango_script_iter_next = Interop.downcallHandle(
+        "pango_script_iter_next",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Advances a {@code PangoScriptIter} to the next range.
@@ -61,8 +92,12 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      * and {@code false} is returned.
      */
     public boolean next() {
-        var RESULT = gtk_h.pango_script_iter_next(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) pango_script_iter_next.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
 }

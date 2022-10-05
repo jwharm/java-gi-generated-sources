@@ -1,6 +1,5 @@
 package org.gtk.gtk;
 
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
@@ -45,9 +44,18 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
         return new AppChooserButton(gobject.refcounted());
     }
     
+    static final MethodHandle gtk_app_chooser_button_new = Interop.downcallHandle(
+        "gtk_app_chooser_button_new",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
+    
     private static Refcounted constructNew(java.lang.String contentType) {
-        Refcounted RESULT = Refcounted.get(gtk_h.gtk_app_chooser_button_new(Interop.allocateNativeString(contentType).handle()), false);
-        return RESULT;
+        try {
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_app_chooser_button_new.invokeExact(Interop.allocateNativeString(contentType).handle()), false);
+            return RESULT;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -57,6 +65,11 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     public AppChooserButton(java.lang.String contentType) {
         super(constructNew(contentType));
     }
+    
+    static final MethodHandle gtk_app_chooser_button_append_custom_item = Interop.downcallHandle(
+        "gtk_app_chooser_button_append_custom_item",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Appends a custom item to the list of applications that is shown
@@ -70,50 +83,104 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      * See also {@link AppChooserButton#appendSeparator}.
      */
     public void appendCustomItem(java.lang.String name, java.lang.String label, org.gtk.gio.Icon icon) {
-        gtk_h.gtk_app_chooser_button_append_custom_item(handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(label).handle(), icon.handle());
+        try {
+            gtk_app_chooser_button_append_custom_item.invokeExact(handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(label).handle(), icon.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_append_separator = Interop.downcallHandle(
+        "gtk_app_chooser_button_append_separator",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+    );
     
     /**
      * Appends a separator to the list of applications that is shown
      * in the popup.
      */
     public void appendSeparator() {
-        gtk_h.gtk_app_chooser_button_append_separator(handle());
+        try {
+            gtk_app_chooser_button_append_separator.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_get_heading = Interop.downcallHandle(
+        "gtk_app_chooser_button_get_heading",
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns the text to display at the top of the dialog.
      */
     public java.lang.String getHeading() {
-        var RESULT = gtk_h.gtk_app_chooser_button_get_heading(handle());
-        return RESULT.getUtf8String(0);
+        try {
+            var RESULT = (MemoryAddress) gtk_app_chooser_button_get_heading.invokeExact(handle());
+            return RESULT.getUtf8String(0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_get_modal = Interop.downcallHandle(
+        "gtk_app_chooser_button_get_modal",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Gets whether the dialog is modal.
      */
     public boolean getModal() {
-        var RESULT = gtk_h.gtk_app_chooser_button_get_modal(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_app_chooser_button_get_modal.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_get_show_default_item = Interop.downcallHandle(
+        "gtk_app_chooser_button_get_show_default_item",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the dropdown menu should show the default
      * application at the top.
      */
     public boolean getShowDefaultItem() {
-        var RESULT = gtk_h.gtk_app_chooser_button_get_show_default_item(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_app_chooser_button_get_show_default_item.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_get_show_dialog_item = Interop.downcallHandle(
+        "gtk_app_chooser_button_get_show_dialog_item",
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+    );
     
     /**
      * Returns whether the dropdown menu shows an item
      * for a {@code GtkAppChooserDialog}.
      */
     public boolean getShowDialogItem() {
-        var RESULT = gtk_h.gtk_app_chooser_button_get_show_dialog_item(handle());
-        return RESULT != 0;
+        try {
+            var RESULT = (int) gtk_app_chooser_button_get_show_dialog_item.invokeExact(handle());
+            return RESULT != 0;
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_set_active_custom_item = Interop.downcallHandle(
+        "gtk_app_chooser_button_set_active_custom_item",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Selects a custom item.
@@ -124,8 +191,17 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      * to its initial state.
      */
     public void setActiveCustomItem(java.lang.String name) {
-        gtk_h.gtk_app_chooser_button_set_active_custom_item(handle(), Interop.allocateNativeString(name).handle());
+        try {
+            gtk_app_chooser_button_set_active_custom_item.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_set_heading = Interop.downcallHandle(
+        "gtk_app_chooser_button_set_heading",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+    );
     
     /**
      * Sets the text to display at the top of the dialog.
@@ -133,30 +209,61 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      * If the heading is not set, the dialog displays a default text.
      */
     public void setHeading(java.lang.String heading) {
-        gtk_h.gtk_app_chooser_button_set_heading(handle(), Interop.allocateNativeString(heading).handle());
+        try {
+            gtk_app_chooser_button_set_heading.invokeExact(handle(), Interop.allocateNativeString(heading).handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_set_modal = Interop.downcallHandle(
+        "gtk_app_chooser_button_set_modal",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the dialog should be modal.
      */
     public void setModal(boolean modal) {
-        gtk_h.gtk_app_chooser_button_set_modal(handle(), modal ? 1 : 0);
+        try {
+            gtk_app_chooser_button_set_modal.invokeExact(handle(), modal ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_set_show_default_item = Interop.downcallHandle(
+        "gtk_app_chooser_button_set_show_default_item",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the dropdown menu of this button should show the
      * default application for the given content type at top.
      */
     public void setShowDefaultItem(boolean setting) {
-        gtk_h.gtk_app_chooser_button_set_show_default_item(handle(), setting ? 1 : 0);
+        try {
+            gtk_app_chooser_button_set_show_default_item.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
+    
+    static final MethodHandle gtk_app_chooser_button_set_show_dialog_item = Interop.downcallHandle(
+        "gtk_app_chooser_button_set_show_dialog_item",
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+    );
     
     /**
      * Sets whether the dropdown menu of this button should show an
      * entry to trigger a {@code GtkAppChooserDialog}.
      */
     public void setShowDialogItem(boolean setting) {
-        gtk_h.gtk_app_chooser_button_set_show_dialog_item(handle(), setting ? 1 : 0);
+        try {
+            gtk_app_chooser_button_set_show_dialog_item.invokeExact(handle(), setting ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
@@ -172,19 +279,19 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -198,19 +305,19 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
@@ -227,19 +334,19 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      */
     public SignalHandle onCustomItemActivated(CustomItemActivatedHandler handler) {
         try {
-            var RESULT = gtk_h.g_signal_connect_data(
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
                 Interop.allocateNativeString("custom-item-activated").handle(),
-                Linker.nativeLinker().upcallStub(
+                (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonCustomItemActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                MemoryAddress.NULL, 0);
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
-        } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
