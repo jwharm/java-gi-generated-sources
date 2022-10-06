@@ -37,19 +37,19 @@ public final class GdkPixbuf {
     public static void __cbPixbufDestroyNotify(MemoryAddress pixels, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PixbufDestroyNotify) Interop.signalRegistry.get(hash);
-        handler.onPixbufDestroyNotify(new PointerByte(pixels).iterator());
+        handler.onPixbufDestroyNotify(new PointerByte(pixels));
     }
     
     public static boolean __cbPixbufModuleSaveCallbackFunc(MemoryAddress saveFunc, MemoryAddress userData, MemoryAddress pixbuf, MemoryAddress optionKeys, MemoryAddress optionValues) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (PixbufModuleSaveCallbackFunc) Interop.signalRegistry.get(hash);
-        return handler.onPixbufModuleSaveCallbackFunc(null /* Unsupported parameter type */, new Pixbuf(Refcounted.get(pixbuf, false)), new PointerString(optionKeys).iterator(), new PointerString(optionValues).iterator());
+        return handler.onPixbufModuleSaveCallbackFunc(null /* Unsupported parameter type */, new Pixbuf(Refcounted.get(pixbuf, false)), new PointerString(optionKeys), new PointerString(optionValues));
     }
     
     public static boolean __cbPixbufSaveFunc(MemoryAddress buf, long count, MemoryAddress error, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (PixbufSaveFunc) Interop.signalRegistry.get(hash);
-        return handler.onPixbufSaveFunc(new PointerByte(buf).iterator(), count);
+        return handler.onPixbufSaveFunc(new PointerByte(buf), count);
     }
     
     public static void __cbPixbufModuleUpdatedFunc(MemoryAddress pixbuf, int x, int y, int width, int height, MemoryAddress userData) {

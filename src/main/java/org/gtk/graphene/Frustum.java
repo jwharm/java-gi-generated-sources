@@ -98,9 +98,9 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the planes that define the given {@link Frustum}.
      */
-    public void getPlanes(Plane[] planes) {
+    public void getPlanes(PointerProxy<Plane> planes) {
         try {
-            graphene_frustum_get_planes.invokeExact(handle(), Interop.allocateNativeArray(planes).handle());
+            graphene_frustum_get_planes.invokeExact(handle(), planes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

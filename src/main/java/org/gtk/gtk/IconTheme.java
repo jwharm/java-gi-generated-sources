@@ -141,10 +141,10 @@ public class IconTheme extends org.gtk.gobject.Object {
     /**
      * Lists the names of icons in the current icon theme.
      */
-    public PointerIterator<java.lang.String> getIconNames() {
+    public PointerString getIconNames() {
         try {
             var RESULT = (MemoryAddress) gtk_icon_theme_get_icon_names.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,10 +162,10 @@ public class IconTheme extends org.gtk.gobject.Object {
      * A size of -1 means that the icon is available in a scalable
      * format. The array is zero-terminated.
      */
-    public PointerIterator<Integer> getIconSizes(java.lang.String iconName) {
+    public PointerInteger getIconSizes(java.lang.String iconName) {
         try {
             var RESULT = (MemoryAddress) gtk_icon_theme_get_icon_sizes.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
-            return new PointerInteger(RESULT).iterator();
+            return new PointerInteger(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,10 +181,10 @@ public class IconTheme extends org.gtk.gobject.Object {
      * <p>
      * See {@link IconTheme#setResourcePath}.
      */
-    public PointerIterator<java.lang.String> getResourcePath() {
+    public PointerString getResourcePath() {
         try {
             var RESULT = (MemoryAddress) gtk_icon_theme_get_resource_path.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,10 +200,10 @@ public class IconTheme extends org.gtk.gobject.Object {
      * <p>
      * See {@link IconTheme#setSearchPath}.
      */
-    public PointerIterator<java.lang.String> getSearchPath() {
+    public PointerString getSearchPath() {
         try {
             var RESULT = (MemoryAddress) gtk_icon_theme_get_search_path.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

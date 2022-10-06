@@ -170,9 +170,9 @@ public class IMContext extends org.gtk.gobject.Object {
      * <p>
      * This string should be displayed inserted at the insertion point.
      */
-    public void getPreeditString(java.lang.String[] str, org.pango.AttrList[] attrs, PointerInteger cursorPos) {
+    public void getPreeditString(PointerString str, PointerProxy<org.pango.AttrList> attrs, PointerInteger cursorPos) {
         try {
-            gtk_im_context_get_preedit_string.invokeExact(handle(), Interop.allocateNativeArray(str).handle(), Interop.allocateNativeArray(attrs).handle(), cursorPos.handle());
+            gtk_im_context_get_preedit_string.invokeExact(handle(), str.handle(), attrs.handle(), cursorPos.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,9 +200,9 @@ public class IMContext extends org.gtk.gobject.Object {
      * {@code ::retrieve-surrounding} signal, so input methods must be prepared to
      * function without context.
      */
-    public boolean getSurroundingWithSelection(java.lang.String[] text, PointerInteger cursorIndex, PointerInteger anchorIndex) {
+    public boolean getSurroundingWithSelection(PointerString text, PointerInteger cursorIndex, PointerInteger anchorIndex) {
         try {
-            var RESULT = (int) gtk_im_context_get_surrounding_with_selection.invokeExact(handle(), Interop.allocateNativeArray(text).handle(), cursorIndex.handle(), anchorIndex.handle());
+            var RESULT = (int) gtk_im_context_get_surrounding_with_selection.invokeExact(handle(), text.handle(), cursorIndex.handle(), anchorIndex.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

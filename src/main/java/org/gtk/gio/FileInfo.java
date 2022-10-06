@@ -311,10 +311,10 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Gets the value of a stringv attribute. If the attribute does
      * not contain a stringv, {@code null} will be returned.
      */
-    public PointerIterator<java.lang.String> getAttributeStringv(java.lang.String attribute) {
+    public PointerString getAttributeStringv(java.lang.String attribute) {
         try {
             var RESULT = (MemoryAddress) g_file_info_get_attribute_stringv.invokeExact(handle(), Interop.allocateNativeString(attribute).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -724,10 +724,10 @@ public class FileInfo extends org.gtk.gobject.Object {
     /**
      * Lists the file info structure's attributes.
      */
-    public PointerIterator<java.lang.String> listAttributes(java.lang.String nameSpace) {
+    public PointerString listAttributes(java.lang.String nameSpace) {
         try {
             var RESULT = (MemoryAddress) g_file_info_list_attributes.invokeExact(handle(), Interop.allocateNativeString(nameSpace).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

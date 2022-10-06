@@ -42,10 +42,10 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      * Gets an array of all {@code GParamSpecs} owned by {@code owner_type} in
      * the pool.
      */
-    public PointerIterator<ParamSpec> list(org.gtk.gobject.Type ownerType, PointerInteger nPspecsP) {
+    public PointerProxy<ParamSpec> list(org.gtk.gobject.Type ownerType, PointerInteger nPspecsP) {
         try {
             var RESULT = (MemoryAddress) g_param_spec_pool_list.invokeExact(handle(), ownerType.getValue(), nPspecsP.handle());
-            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
+            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

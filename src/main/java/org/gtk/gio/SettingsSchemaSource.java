@@ -87,9 +87,9 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * Do not call this function from normal programs.  This is designed for
      * use by database editors, commandline tools, etc.
      */
-    public void listSchemas(boolean recursive, java.lang.String[] nonRelocatable, java.lang.String[] relocatable) {
+    public void listSchemas(boolean recursive, PointerString nonRelocatable, PointerString relocatable) {
         try {
-            g_settings_schema_source_list_schemas.invokeExact(handle(), recursive ? 1 : 0, Interop.allocateNativeArray(nonRelocatable).handle(), Interop.allocateNativeArray(relocatable).handle());
+            g_settings_schema_source_list_schemas.invokeExact(handle(), recursive ? 1 : 0, nonRelocatable.handle(), relocatable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

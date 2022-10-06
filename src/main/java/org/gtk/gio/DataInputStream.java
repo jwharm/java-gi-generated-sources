@@ -189,14 +189,14 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public PointerIterator<Byte> readLine(PointerLong length, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public PointerByte readLine(PointerLong length, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_data_input_stream_read_line.invokeExact(handle(), length.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,14 +240,14 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * string encoding in g_data_input_stream_read_line() applies here as
      * well.
      */
-    public PointerIterator<Byte> readLineFinish(AsyncResult result, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerByte readLineFinish(AsyncResult result, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_data_input_stream_read_line_finish.invokeExact(handle(), result.handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

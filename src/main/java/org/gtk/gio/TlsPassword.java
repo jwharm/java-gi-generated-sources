@@ -85,10 +85,10 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * for {@code length} in contexts where you know the password will have a
      * certain fixed length.)
      */
-    public PointerIterator<Byte> getValue(PointerLong length) {
+    public PointerByte getValue(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_tls_password_get_value.invokeExact(handle(), length.handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

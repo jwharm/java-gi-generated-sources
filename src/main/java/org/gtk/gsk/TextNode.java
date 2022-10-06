@@ -84,10 +84,10 @@ public class TextNode extends RenderNode {
     /**
      * Retrieves the glyph information in the {@code node}.
      */
-    public PointerIterator<org.pango.GlyphInfo> getGlyphs(PointerInteger nGlyphs) {
+    public PointerProxy<org.pango.GlyphInfo> getGlyphs(PointerInteger nGlyphs) {
         try {
             var RESULT = (MemoryAddress) gsk_text_node_get_glyphs.invokeExact(handle(), nGlyphs.handle());
-            return new PointerProxy<org.pango.GlyphInfo>(RESULT, org.pango.GlyphInfo.class).iterator();
+            return new PointerProxy<org.pango.GlyphInfo>(RESULT, org.pango.GlyphInfo.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

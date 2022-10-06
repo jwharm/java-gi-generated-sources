@@ -7,5 +7,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleIncrementLoadFunc {
-        boolean onPixbufModuleIncrementLoadFunc(java.lang.foreign.MemoryAddress context, PointerIterator<Byte> buf, int size);
+        boolean onPixbufModuleIncrementLoadFunc(java.lang.foreign.MemoryAddress context, PointerByte buf, int size);
 }

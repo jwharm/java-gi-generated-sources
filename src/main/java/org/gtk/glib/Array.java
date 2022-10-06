@@ -21,10 +21,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds {@code len} elements onto the end of the array.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> appendVals(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data, int len) {
+    public static PointerAddress appendVals(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data, int len) {
         try {
             var RESULT = (MemoryAddress) g_array_append_vals.invokeExact(Interop.allocateNativeArray(array).handle(), data, len);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -39,10 +39,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * Create a shallow copy of a {@link Array}. If the array elements consist of
      * pointers to data, the pointers are copied but the actual data is not.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> copy(java.lang.foreign.MemoryAddress[] array) {
+    public static PointerAddress copy(java.lang.foreign.MemoryAddress[] array) {
         try {
             var RESULT = (MemoryAddress) g_array_copy.invokeExact(Interop.allocateNativeArray(array).handle());
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,10 +115,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * {@code data} may be {@code null} if (and only if) {@code len} is zero. If {@code len} is zero, this
      * function is a no-op.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> insertVals(java.lang.foreign.MemoryAddress[] array, int index, java.lang.foreign.MemoryAddress data, int len) {
+    public static PointerAddress insertVals(java.lang.foreign.MemoryAddress[] array, int index, java.lang.foreign.MemoryAddress data, int len) {
         try {
             var RESULT = (MemoryAddress) g_array_insert_vals.invokeExact(Interop.allocateNativeArray(array).handle(), index, data, len);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,10 +132,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link Array} with a reference count of 1.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> new_(boolean zeroTerminated, boolean clear, int elementSize) {
+    public static PointerAddress new_(boolean zeroTerminated, boolean clear, int elementSize) {
         try {
             var RESULT = (MemoryAddress) g_array_new.invokeExact(zeroTerminated ? 1 : 0, clear ? 1 : 0, elementSize);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,10 +156,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * existing elements in the array have to be moved to make space for
      * the new elements.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> prependVals(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data, int len) {
+    public static PointerAddress prependVals(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data, int len) {
         try {
             var RESULT = (MemoryAddress) g_array_prepend_vals.invokeExact(Interop.allocateNativeArray(array).handle(), data, len);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,10 +174,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * Atomically increments the reference count of {@code array} by one.
      * This function is thread-safe and may be called from any thread.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> ref(java.lang.foreign.MemoryAddress[] array) {
+    public static PointerAddress ref(java.lang.foreign.MemoryAddress[] array) {
         try {
             var RESULT = (MemoryAddress) g_array_ref.invokeExact(Interop.allocateNativeArray(array).handle());
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,10 +192,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * Removes the element at the given index from a {@link Array}. The following
      * elements are moved down one place.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static PointerAddress removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
         try {
             var RESULT = (MemoryAddress) g_array_remove_index.invokeExact(Interop.allocateNativeArray(array).handle(), index);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,10 +212,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * does not preserve the order of the {@link Array}. But it is faster than
      * g_array_remove_index().
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static PointerAddress removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
         try {
             var RESULT = (MemoryAddress) g_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array).handle(), index);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,10 +230,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * Removes the given number of elements starting at the given index
      * from a {@link Array}.  The following elements are moved to close the gap.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
+    public static PointerAddress removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
         try {
             var RESULT = (MemoryAddress) g_array_remove_range.invokeExact(Interop.allocateNativeArray(array).handle(), index, length);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,10 +248,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * Sets the size of the array, expanding it if necessary. If the array
      * was created with {@code clear_} set to {@code true}, the new elements are set to 0.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> setSize(java.lang.foreign.MemoryAddress[] array, int length) {
+    public static PointerAddress setSize(java.lang.foreign.MemoryAddress[] array, int length) {
         try {
             var RESULT = (MemoryAddress) g_array_set_size.invokeExact(Interop.allocateNativeArray(array).handle(), length);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,10 +268,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * are going to add many elements to the array. Note however that the
      * size of the array is still 0.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> sizedNew(boolean zeroTerminated, boolean clear, int elementSize, int reservedSize) {
+    public static PointerAddress sizedNew(boolean zeroTerminated, boolean clear, int elementSize, int reservedSize) {
         try {
             var RESULT = (MemoryAddress) g_array_sized_new.invokeExact(zeroTerminated ? 1 : 0, clear ? 1 : 0, elementSize, reservedSize);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -233,14 +233,14 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public PointerIterator<java.lang.String> enumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString enumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

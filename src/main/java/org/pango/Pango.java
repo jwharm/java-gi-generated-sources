@@ -1357,10 +1357,10 @@ public final class Pango {
      * markup. This function will not free {@code context}, use {@link org.gtk.glib.MarkupParseContext#free}
      * to do so.
      */
-    public static boolean markupParserFinish(org.gtk.glib.MarkupParseContext context, AttrList[] attrList, java.lang.String[] text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean markupParserFinish(org.gtk.glib.MarkupParseContext context, PointerProxy<AttrList> attrList, PointerString text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) pango_markup_parser_finish.invokeExact(context.handle(), Interop.allocateNativeArray(attrList).handle(), Interop.allocateNativeArray(text).handle(), accelChar.handle(), GERROR);
+            var RESULT = (int) pango_markup_parser_finish.invokeExact(context.handle(), attrList.handle(), text.handle(), accelChar.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1432,10 +1432,10 @@ public final class Pango {
      * If any error happens, none of the output arguments are touched except
      * for {@code error}.
      */
-    public static boolean parseMarkup(java.lang.String markupText, int length, int accelMarker, AttrList[] attrList, java.lang.String[] text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean parseMarkup(java.lang.String markupText, int length, int accelMarker, PointerProxy<AttrList> attrList, PointerString text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) pango_parse_markup.invokeExact(Interop.allocateNativeString(markupText).handle(), length, accelMarker, Interop.allocateNativeArray(attrList).handle(), Interop.allocateNativeArray(text).handle(), accelChar.handle(), GERROR);
+            var RESULT = (int) pango_parse_markup.invokeExact(Interop.allocateNativeString(markupText).handle(), length, accelMarker, attrList.handle(), text.handle(), accelChar.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

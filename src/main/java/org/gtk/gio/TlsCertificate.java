@@ -260,10 +260,10 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@link TlsCertificate}:dns-names.
      */
-    public PointerIterator<org.gtk.glib.Bytes> getDnsNames() {
+    public PointerProxy<org.gtk.glib.Bytes> getDnsNames() {
         try {
             var RESULT = (MemoryAddress) g_tls_certificate_get_dns_names.invokeExact(handle());
-            return new PointerProxy<org.gtk.glib.Bytes>(RESULT, org.gtk.glib.Bytes.class).iterator();
+            return new PointerProxy<org.gtk.glib.Bytes>(RESULT, org.gtk.glib.Bytes.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,10 +277,10 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@link TlsCertificate}:ip-addresses.
      */
-    public PointerIterator<InetAddress> getIpAddresses() {
+    public PointerProxy<InetAddress> getIpAddresses() {
         try {
             var RESULT = (MemoryAddress) g_tls_certificate_get_ip_addresses.invokeExact(handle());
-            return new PointerProxy<InetAddress>(RESULT, InetAddress.class).iterator();
+            return new PointerProxy<InetAddress>(RESULT, InetAddress.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -11,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveCallbackFunc {
-        boolean onPixbufModuleSaveCallbackFunc(PixbufSaveFunc saveFunc, Pixbuf pixbuf, PointerIterator<java.lang.String> optionKeys, PointerIterator<java.lang.String> optionValues);
+        boolean onPixbufModuleSaveCallbackFunc(PixbufSaveFunc saveFunc, Pixbuf pixbuf, PointerString optionKeys, PointerString optionValues);
 }

@@ -106,10 +106,10 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * The strings are fetched from the string passed to the match function,
      * so you cannot call this function after freeing the string.
      */
-    public PointerIterator<java.lang.String> fetchAll() {
+    public PointerString fetchAll() {
         try {
             var RESULT = (MemoryAddress) g_match_info_fetch_all.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

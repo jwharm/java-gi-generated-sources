@@ -128,10 +128,10 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Gets the names of icons from within {@code icon}.
      */
-    public PointerIterator<java.lang.String> getNames() {
+    public PointerString getNames() {
         try {
             var RESULT = (MemoryAddress) g_themed_icon_get_names.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -150,10 +150,10 @@ public class Clipboard extends org.gtk.gobject.Object {
      * <p>
      * See {@link Clipboard#readAsync}.
      */
-    public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, java.lang.String[] outMimeType) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, PointerString outMimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gdk_clipboard_read_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(outMimeType).handle(), GERROR);
+            var RESULT = (MemoryAddress) gdk_clipboard_read_finish.invokeExact(handle(), result.handle(), outMimeType.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

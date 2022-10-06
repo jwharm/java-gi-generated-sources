@@ -312,14 +312,14 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * {@link IOErrorEnum#NOT_SUPPORTED} if the mount does not support content
      * guessing.
      */
-    public default PointerIterator<java.lang.String> guessContentTypeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public default PointerString guessContentTypeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_mount_guess_content_type_finish.invokeExact(handle(), result.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,14 +341,14 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * This is a synchronous operation and as such may block doing IO;
      * see g_mount_guess_content_type() for the asynchronous version.
      */
-    public default PointerIterator<java.lang.String> guessContentTypeSync(boolean forceRescan, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default PointerString guessContentTypeSync(boolean forceRescan, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_mount_guess_content_type_sync.invokeExact(handle(), forceRescan ? 1 : 0, cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

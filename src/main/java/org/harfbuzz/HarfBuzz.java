@@ -63,9 +63,9 @@ public final class HarfBuzz {
      * the feature type is non-exclusive.  Otherwise, {@code default_index} is the index of
      * the selector that is selected by default.
      */
-    public static int aatLayoutFeatureTypeGetSelectorInfos(FaceT face, AatLayoutFeatureTypeT featureType, int startOffset, PointerInteger selectorCount, AatLayoutFeatureSelectorInfoT[] selectors, PointerInteger defaultIndex) {
+    public static int aatLayoutFeatureTypeGetSelectorInfos(FaceT face, AatLayoutFeatureTypeT featureType, int startOffset, PointerInteger selectorCount, PointerProxy<AatLayoutFeatureSelectorInfoT> selectors, PointerInteger defaultIndex) {
         try {
-            var RESULT = (int) hb_aat_layout_feature_type_get_selector_infos.invokeExact(face.handle(), featureType.getValue(), startOffset, selectorCount.handle(), Interop.allocateNativeArray(selectors).handle(), defaultIndex.handle());
+            var RESULT = (int) hb_aat_layout_feature_type_get_selector_infos.invokeExact(face.handle(), featureType.getValue(), startOffset, selectorCount.handle(), selectors.handle(), defaultIndex.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -80,9 +80,9 @@ public final class HarfBuzz {
     /**
      * Fetches a list of the AAT feature types included in the specified face.
      */
-    public static int aatLayoutGetFeatureTypes(FaceT face, int startOffset, PointerInteger featureCount, AatLayoutFeatureTypeT[] features) {
+    public static int aatLayoutGetFeatureTypes(FaceT face, int startOffset, PointerInteger featureCount, PointerEnumeration features) {
         try {
-            var RESULT = (int) hb_aat_layout_get_feature_types.invokeExact(face.handle(), startOffset, featureCount.handle(), Interop.allocateNativeArray(AatLayoutFeatureTypeT.getValues(features)).handle());
+            var RESULT = (int) hb_aat_layout_get_feature_types.invokeExact(face.handle(), startOffset, featureCount.handle(), features.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -251,10 +251,10 @@ public final class HarfBuzz {
     /**
      * Fetches the data from a blob.
      */
-    public static PointerIterator<java.lang.String> blobGetData(BlobT blob, PointerInteger length) {
+    public static PointerString blobGetData(BlobT blob, PointerInteger length) {
         try {
             var RESULT = (MemoryAddress) hb_blob_get_data.invokeExact(blob.handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,10 +272,10 @@ public final class HarfBuzz {
      * Fails if blob has been made immutable, or if memory allocation
      * fails.
      */
-    public static PointerIterator<java.lang.String> blobGetDataWritable(BlobT blob, PointerInteger length) {
+    public static PointerString blobGetDataWritable(BlobT blob, PointerInteger length) {
         try {
             var RESULT = (MemoryAddress) hb_blob_get_data_writable.invokeExact(blob.handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -607,9 +607,9 @@ public final class HarfBuzz {
      * Deserializes glyphs {@code buffer} from textual representation in the format
      * produced by hb_buffer_serialize_glyphs().
      */
-    public static BoolT bufferDeserializeGlyphs(BufferT buffer, java.lang.String[] buf, int bufLen, java.lang.String[] endPtr, FontT font, BufferSerializeFormatT format) {
+    public static BoolT bufferDeserializeGlyphs(BufferT buffer, java.lang.String[] buf, int bufLen, PointerString endPtr, FontT font, BufferSerializeFormatT format) {
         try {
-            var RESULT = (int) hb_buffer_deserialize_glyphs.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf).handle(), bufLen, Interop.allocateNativeArray(endPtr).handle(), font.handle(), format.getValue());
+            var RESULT = (int) hb_buffer_deserialize_glyphs.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf).handle(), bufLen, endPtr.handle(), font.handle(), format.getValue());
             return new BoolT(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -625,9 +625,9 @@ public final class HarfBuzz {
      * Deserializes Unicode {@code buffer} from textual representation in the format
      * produced by hb_buffer_serialize_unicode().
      */
-    public static BoolT bufferDeserializeUnicode(BufferT buffer, java.lang.String[] buf, int bufLen, java.lang.String[] endPtr, BufferSerializeFormatT format) {
+    public static BoolT bufferDeserializeUnicode(BufferT buffer, java.lang.String[] buf, int bufLen, PointerString endPtr, BufferSerializeFormatT format) {
         try {
-            var RESULT = (int) hb_buffer_deserialize_unicode.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf).handle(), bufLen, Interop.allocateNativeArray(endPtr).handle(), format.getValue());
+            var RESULT = (int) hb_buffer_deserialize_unicode.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf).handle(), bufLen, endPtr.handle(), format.getValue());
             return new BoolT(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -768,10 +768,10 @@ public final class HarfBuzz {
      * Returns {@code buffer} glyph information array.  Returned pointer
      * is valid as long as {@code buffer} contents are not modified.
      */
-    public static PointerIterator<GlyphInfoT> bufferGetGlyphInfos(BufferT buffer, PointerInteger length) {
+    public static PointerProxy<GlyphInfoT> bufferGetGlyphInfos(BufferT buffer, PointerInteger length) {
         try {
             var RESULT = (MemoryAddress) hb_buffer_get_glyph_infos.invokeExact(buffer.handle(), length.handle());
-            return new PointerProxy<GlyphInfoT>(RESULT, GlyphInfoT.class).iterator();
+            return new PointerProxy<GlyphInfoT>(RESULT, GlyphInfoT.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -791,10 +791,10 @@ public final class HarfBuzz {
      * within a buffer message callback (see hb_buffer_set_message_func()),
      * in which case {@code null} is returned.
      */
-    public static PointerIterator<GlyphPositionT> bufferGetGlyphPositions(BufferT buffer, PointerInteger length) {
+    public static PointerProxy<GlyphPositionT> bufferGetGlyphPositions(BufferT buffer, PointerInteger length) {
         try {
             var RESULT = (MemoryAddress) hb_buffer_get_glyph_positions.invokeExact(buffer.handle(), length.handle());
-            return new PointerProxy<GlyphPositionT>(RESULT, GlyphPositionT.class).iterator();
+            return new PointerProxy<GlyphPositionT>(RESULT, GlyphPositionT.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1142,9 +1142,9 @@ public final class HarfBuzz {
      * See the documentation of hb_buffer_serialize_unicode() and
      * hb_buffer_serialize_glyphs() for a description of the output format.
      */
-    public static int bufferSerialize(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
+    public static int bufferSerialize(BufferT buffer, int start, int end, PointerByte buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
         try {
-            var RESULT = (int) hb_buffer_serialize.invokeExact(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
+            var RESULT = (int) hb_buffer_serialize.invokeExact(buffer.handle(), start, end, buf.handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1240,9 +1240,9 @@ public final class HarfBuzz {
      *    {@link glyph_extents_t}.width and {@link glyph_extents_t}.height respectively if
      *    {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set.
      */
-    public static int bufferSerializeGlyphs(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
+    public static int bufferSerializeGlyphs(BufferT buffer, int start, int end, PointerByte buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
         try {
-            var RESULT = (int) hb_buffer_serialize_glyphs.invokeExact(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
+            var RESULT = (int) hb_buffer_serialize_glyphs.invokeExact(buffer.handle(), start, end, buf.handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1257,10 +1257,10 @@ public final class HarfBuzz {
     /**
      * Returns a list of supported buffer serialization formats.
      */
-    public static PointerIterator<java.lang.String> bufferSerializeListFormats() {
+    public static PointerString bufferSerializeListFormats() {
         try {
             var RESULT = (MemoryAddress) hb_buffer_serialize_list_formats.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1309,9 +1309,9 @@ public final class HarfBuzz {
      * [{u:1617,cl:0},{u:1576,cl:1}]
      * }</pre>
      */
-    public static int bufferSerializeUnicode(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
+    public static int bufferSerializeUnicode(BufferT buffer, int start, int end, PointerByte buf, int bufSize, PointerInteger bufConsumed, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
         try {
-            var RESULT = (int) hb_buffer_serialize_unicode.invokeExact(buffer.handle(), start, end, Interop.allocateNativeArray(buf).handle(), bufSize, bufConsumed.handle(), format.getValue(), flags.getValue());
+            var RESULT = (int) hb_buffer_serialize_unicode.invokeExact(buffer.handle(), start, end, buf.handle(), bufSize, bufConsumed.handle(), format.getValue(), flags.getValue());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2038,9 +2038,9 @@ public final class HarfBuzz {
      * Fetches a list of all table tags for a face, if possible. The list returned will
      * begin at the offset provided
      */
-    public static int faceGetTableTags(FaceT face, int startOffset, PointerInteger tableCount, TagT[] tableTags) {
+    public static int faceGetTableTags(FaceT face, int startOffset, PointerInteger tableCount, PointerInteger tableTags) {
         try {
-            var RESULT = (int) hb_face_get_table_tags.invokeExact(face.handle(), startOffset, tableCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(tableTags)).handle());
+            var RESULT = (int) hb_face_get_table_tags.invokeExact(face.handle(), startOffset, tableCount.handle(), tableTags.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2284,9 +2284,9 @@ public final class HarfBuzz {
      * understood by hb_feature_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
-    public static void featureToString(FeatureT feature, java.lang.String[] buf, int size) {
+    public static void featureToString(FeatureT feature, PointerString buf, int size) {
         try {
-            hb_feature_to_string.invokeExact(feature.handle(), Interop.allocateNativeArray(buf).handle(), size);
+            hb_feature_to_string.invokeExact(feature.handle(), buf.handle(), size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2843,9 +2843,9 @@ public final class HarfBuzz {
     /**
      * Fetches the glyph-name string for a glyph ID in the specified {@code font}.
      */
-    public static BoolT fontGetGlyphName(FontT font, CodepointT glyph, java.lang.String[] name, int size) {
+    public static BoolT fontGetGlyphName(FontT font, CodepointT glyph, PointerString name, int size) {
         try {
-            var RESULT = (int) hb_font_get_glyph_name.invokeExact(font.handle(), glyph.getValue(), Interop.allocateNativeArray(name).handle(), size);
+            var RESULT = (int) hb_font_get_glyph_name.invokeExact(font.handle(), glyph.getValue(), name.handle(), size);
             return new BoolT(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3243,9 +3243,9 @@ public final class HarfBuzz {
      * If the glyph ID has no name in {@code font}, a string of the form {@code gidDDD} is
      * generated, with {@code DDD} being the glyph ID.
      */
-    public static void fontGlyphToString(FontT font, CodepointT glyph, java.lang.String[] s, int size) {
+    public static void fontGlyphToString(FontT font, CodepointT glyph, PointerString s, int size) {
         try {
-            hb_font_glyph_to_string.invokeExact(font.handle(), glyph.getValue(), Interop.allocateNativeArray(s).handle(), size);
+            hb_font_glyph_to_string.invokeExact(font.handle(), glyph.getValue(), s.handle(), size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3996,9 +3996,9 @@ public final class HarfBuzz {
      * Fetches a list of all color layers for the specified glyph index in the specified
      * face. The list returned will begin at the offset provided.
      */
-    public static int otColorGlyphGetLayers(FaceT face, CodepointT glyph, int startOffset, PointerInteger layerCount, OtColorLayerT[] layers) {
+    public static int otColorGlyphGetLayers(FaceT face, CodepointT glyph, int startOffset, PointerInteger layerCount, PointerProxy<OtColorLayerT> layers) {
         try {
-            var RESULT = (int) hb_ot_color_glyph_get_layers.invokeExact(face.handle(), glyph.getValue(), startOffset, layerCount.handle(), Interop.allocateNativeArray(layers).handle());
+            var RESULT = (int) hb_ot_color_glyph_get_layers.invokeExact(face.handle(), glyph.getValue(), startOffset, layerCount.handle(), layers.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4148,9 +4148,9 @@ public final class HarfBuzz {
      * for allocating a buffer of suitable size before calling
      * hb_ot_color_palette_get_colors() a second time.
      */
-    public static int otColorPaletteGetColors(FaceT face, int paletteIndex, int startOffset, PointerInteger colorCount, ColorT[] colors) {
+    public static int otColorPaletteGetColors(FaceT face, int paletteIndex, int startOffset, PointerInteger colorCount, PointerInteger colors) {
         try {
-            var RESULT = (int) hb_ot_color_palette_get_colors.invokeExact(face.handle(), paletteIndex, startOffset, colorCount.handle(), Interop.allocateNativeArray(ColorT.getIntegerValues(colors)).handle());
+            var RESULT = (int) hb_ot_color_palette_get_colors.invokeExact(face.handle(), paletteIndex, startOffset, colorCount.handle(), colors.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4289,9 +4289,9 @@ public final class HarfBuzz {
      * Fetches a list of the characters defined as having a variant under the specified
      * "Character Variant" ("cvXX") feature tag.
      */
-    public static int otLayoutFeatureGetCharacters(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger charCount, CodepointT[] characters) {
+    public static int otLayoutFeatureGetCharacters(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger charCount, PointerInteger characters) {
         try {
-            var RESULT = (int) hb_ot_layout_feature_get_characters.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, charCount.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(characters)).handle());
+            var RESULT = (int) hb_ot_layout_feature_get_characters.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, charCount.handle(), characters.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4308,9 +4308,9 @@ public final class HarfBuzz {
      * the specified face's GSUB table or GPOS table. The list returned will
      * begin at the offset provided.
      */
-    public static int otLayoutFeatureGetLookups(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger lookupCount, int[] lookupIndexes) {
+    public static int otLayoutFeatureGetLookups(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger lookupCount, PointerInteger lookupIndexes) {
         try {
-            var RESULT = (int) hb_ot_layout_feature_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, lookupCount.handle(), Interop.allocateNativeArray(lookupIndexes).handle());
+            var RESULT = (int) hb_ot_layout_feature_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, lookupCount.handle(), lookupIndexes.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4353,9 +4353,9 @@ public final class HarfBuzz {
      * the specified face's GSUB table or GPOS table, enabled at the specified
      * variations index. The list returned will begin at the offset provided.
      */
-    public static int otLayoutFeatureWithVariationsGetLookups(FaceT face, TagT tableTag, int featureIndex, int variationsIndex, int startOffset, PointerInteger lookupCount, int[] lookupIndexes) {
+    public static int otLayoutFeatureWithVariationsGetLookups(FaceT face, TagT tableTag, int featureIndex, int variationsIndex, int startOffset, PointerInteger lookupCount, PointerInteger lookupIndexes) {
         try {
-            var RESULT = (int) hb_ot_layout_feature_with_variations_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, lookupCount.handle(), Interop.allocateNativeArray(lookupIndexes).handle());
+            var RESULT = (int) hb_ot_layout_feature_with_variations_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, lookupCount.handle(), lookupIndexes.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4373,9 +4373,9 @@ public final class HarfBuzz {
      * <p>
      * Useful if the client program wishes to cache the list.
      */
-    public static int otLayoutGetAttachPoints(FaceT face, CodepointT glyph, int startOffset, PointerInteger pointCount, int[] pointArray) {
+    public static int otLayoutGetAttachPoints(FaceT face, CodepointT glyph, int startOffset, PointerInteger pointCount, PointerInteger pointArray) {
         try {
-            var RESULT = (int) hb_ot_layout_get_attach_points.invokeExact(face.handle(), glyph.getValue(), startOffset, pointCount.handle(), Interop.allocateNativeArray(pointArray).handle());
+            var RESULT = (int) hb_ot_layout_get_attach_points.invokeExact(face.handle(), glyph.getValue(), startOffset, pointCount.handle(), pointArray.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4487,9 +4487,9 @@ public final class HarfBuzz {
      * The positions returned by this function are 'unshaped', and will have to
      * be fixed up for kerning that may be applied to the ligature glyph.
      */
-    public static int otLayoutGetLigatureCarets(FontT font, DirectionT direction, CodepointT glyph, int startOffset, PointerInteger caretCount, PositionT[] caretArray) {
+    public static int otLayoutGetLigatureCarets(FontT font, DirectionT direction, CodepointT glyph, int startOffset, PointerInteger caretCount, PointerInteger caretArray) {
         try {
-            var RESULT = (int) hb_ot_layout_get_ligature_carets.invokeExact(font.handle(), direction.getValue(), glyph.getValue(), startOffset, caretCount.handle(), Interop.allocateNativeArray(PositionT.getIntegerValues(caretArray)).handle());
+            var RESULT = (int) hb_ot_layout_get_ligature_carets.invokeExact(font.handle(), direction.getValue(), glyph.getValue(), startOffset, caretCount.handle(), caretArray.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4601,9 +4601,9 @@ public final class HarfBuzz {
      * or GPOS table, underneath the specified script and language. The list
      * returned will begin at the offset provided.
      */
-    public static int otLayoutLanguageGetFeatureIndexes(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, int[] featureIndexes) {
+    public static int otLayoutLanguageGetFeatureIndexes(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, PointerInteger featureIndexes) {
         try {
-            var RESULT = (int) hb_ot_layout_language_get_feature_indexes.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(featureIndexes).handle());
+            var RESULT = (int) hb_ot_layout_language_get_feature_indexes.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), featureIndexes.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4620,9 +4620,9 @@ public final class HarfBuzz {
      * or GPOS table, underneath the specified script and language. The list
      * returned will begin at the offset provided.
      */
-    public static int otLayoutLanguageGetFeatureTags(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, TagT[] featureTags) {
+    public static int otLayoutLanguageGetFeatureTags(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, PointerInteger featureTags) {
         try {
-            var RESULT = (int) hb_ot_layout_language_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(featureTags)).handle());
+            var RESULT = (int) hb_ot_layout_language_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), featureTags.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4692,9 +4692,9 @@ public final class HarfBuzz {
     /**
      * Fetches alternates of a glyph from a given GSUB lookup index.
      */
-    public static int otLayoutLookupGetGlyphAlternates(FaceT face, int lookupIndex, CodepointT glyph, int startOffset, PointerInteger alternateCount, CodepointT[] alternateGlyphs) {
+    public static int otLayoutLookupGetGlyphAlternates(FaceT face, int lookupIndex, CodepointT glyph, int startOffset, PointerInteger alternateCount, PointerInteger alternateGlyphs) {
         try {
-            var RESULT = (int) hb_ot_layout_lookup_get_glyph_alternates.invokeExact(face.handle(), lookupIndex, glyph.getValue(), startOffset, alternateCount.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(alternateGlyphs)).handle());
+            var RESULT = (int) hb_ot_layout_lookup_get_glyph_alternates.invokeExact(face.handle(), lookupIndex, glyph.getValue(), startOffset, alternateCount.handle(), alternateGlyphs.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4764,9 +4764,9 @@ public final class HarfBuzz {
      * Fetches a list of language tags in the given face's GSUB or GPOS table, underneath
      * the specified script index. The list returned will begin at the offset provided.
      */
-    public static int otLayoutScriptGetLanguageTags(FaceT face, TagT tableTag, int scriptIndex, int startOffset, PointerInteger languageCount, TagT[] languageTags) {
+    public static int otLayoutScriptGetLanguageTags(FaceT face, TagT tableTag, int scriptIndex, int startOffset, PointerInteger languageCount, PointerInteger languageTags) {
         try {
-            var RESULT = (int) hb_ot_layout_script_get_language_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, startOffset, languageCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(languageTags)).handle());
+            var RESULT = (int) hb_ot_layout_script_get_language_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, startOffset, languageCount.handle(), languageTags.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4862,9 +4862,9 @@ public final class HarfBuzz {
     /**
      * Fetches a list of all feature tags in the given face's GSUB or GPOS table.
      */
-    public static int otLayoutTableGetFeatureTags(FaceT face, TagT tableTag, int startOffset, PointerInteger featureCount, TagT[] featureTags) {
+    public static int otLayoutTableGetFeatureTags(FaceT face, TagT tableTag, int startOffset, PointerInteger featureCount, PointerInteger featureTags) {
         try {
-            var RESULT = (int) hb_ot_layout_table_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(featureTags)).handle());
+            var RESULT = (int) hb_ot_layout_table_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, featureCount.handle(), featureTags.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4898,9 +4898,9 @@ public final class HarfBuzz {
      * Fetches a list of all scripts enumerated in the specified face's GSUB table
      * or GPOS table. The list returned will begin at the offset provided.
      */
-    public static int otLayoutTableGetScriptTags(FaceT face, TagT tableTag, int startOffset, PointerInteger scriptCount, TagT[] scriptTags) {
+    public static int otLayoutTableGetScriptTags(FaceT face, TagT tableTag, int startOffset, PointerInteger scriptCount, PointerInteger scriptTags) {
         try {
-            var RESULT = (int) hb_ot_layout_table_get_script_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, scriptCount.handle(), Interop.allocateNativeArray(TagT.getIntegerValues(scriptTags)).handle());
+            var RESULT = (int) hb_ot_layout_table_get_script_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, scriptCount.handle(), scriptTags.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4972,10 +4972,10 @@ public final class HarfBuzz {
      * values are accepted, only the result of {@code HB_DIRECTION_IS_HORIZONTAL} is
      * considered.&lt;/note&gt;
      */
-    public static int otMathGetGlyphAssembly(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger partsCount, OtMathGlyphPartT[] parts, PositionT italicsCorrection) {
+    public static int otMathGetGlyphAssembly(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger partsCount, PointerProxy<OtMathGlyphPartT> parts, PositionT italicsCorrection) {
         PointerInteger italicsCorrectionPOINTER = new PointerInteger(italicsCorrection.getValue());
         try {
-            var RESULT = (int) hb_ot_math_get_glyph_assembly.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, partsCount.handle(), Interop.allocateNativeArray(parts).handle(), new PointerInteger(italicsCorrection.getValue()).handle());
+            var RESULT = (int) hb_ot_math_get_glyph_assembly.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, partsCount.handle(), parts.handle(), new PointerInteger(italicsCorrection.getValue()).handle());
             italicsCorrection.setValue(italicsCorrectionPOINTER.get());
             return RESULT;
         } catch (Throwable ERR) {
@@ -5045,9 +5045,9 @@ public final class HarfBuzz {
      * {@link ot_math_kern_entry_t}.max_correction_height is always set to
      * &lt;code>INT32_MAX</code>.</note&gt;
      */
-    public static int otMathGetGlyphKernings(FontT font, CodepointT glyph, OtMathKernT kern, int startOffset, PointerInteger entriesCount, OtMathKernEntryT[] kernEntries) {
+    public static int otMathGetGlyphKernings(FontT font, CodepointT glyph, OtMathKernT kern, int startOffset, PointerInteger entriesCount, PointerProxy<OtMathKernEntryT> kernEntries) {
         try {
-            var RESULT = (int) hb_ot_math_get_glyph_kernings.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), startOffset, entriesCount.handle(), Interop.allocateNativeArray(kernEntries).handle());
+            var RESULT = (int) hb_ot_math_get_glyph_kernings.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), startOffset, entriesCount.handle(), kernEntries.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5093,9 +5093,9 @@ public final class HarfBuzz {
      * values are accepted, only the result of {@code HB_DIRECTION_IS_HORIZONTAL} is
      * considered.&lt;/note&gt;
      */
-    public static int otMathGetGlyphVariants(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger variantsCount, OtMathGlyphVariantT[] variants) {
+    public static int otMathGetGlyphVariants(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger variantsCount, PointerProxy<OtMathGlyphVariantT> variants) {
         try {
-            var RESULT = (int) hb_ot_math_get_glyph_variants.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, variantsCount.handle(), Interop.allocateNativeArray(variants).handle());
+            var RESULT = (int) hb_ot_math_get_glyph_variants.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, variantsCount.handle(), variants.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5168,9 +5168,9 @@ public final class HarfBuzz {
     /**
      * Fetches all available feature types.
      */
-    public static int otMetaGetEntryTags(FaceT face, int startOffset, PointerInteger entriesCount, OtMetaTagT[] entries) {
+    public static int otMetaGetEntryTags(FaceT face, int startOffset, PointerInteger entriesCount, PointerEnumeration entries) {
         try {
-            var RESULT = (int) hb_ot_meta_get_entry_tags.invokeExact(face.handle(), startOffset, entriesCount.handle(), Interop.allocateNativeArray(OtMetaTagT.getValues(entries)).handle());
+            var RESULT = (int) hb_ot_meta_get_entry_tags.invokeExact(face.handle(), startOffset, entriesCount.handle(), entries.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5297,9 +5297,9 @@ public final class HarfBuzz {
      * Returns string in UTF-16 encoding. A NUL terminator is always written
      * for convenience, and isn't included in the output {@code text_size}.
      */
-    public static int otNameGetUtf16(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, short[] text) {
+    public static int otNameGetUtf16(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, PointerShort text) {
         try {
-            var RESULT = (int) hb_ot_name_get_utf16.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
+            var RESULT = (int) hb_ot_name_get_utf16.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), text.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5317,9 +5317,9 @@ public final class HarfBuzz {
      * Returns string in UTF-32 encoding. A NUL terminator is always written
      * for convenience, and isn't included in the output {@code text_size}.
      */
-    public static int otNameGetUtf32(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, int[] text) {
+    public static int otNameGetUtf32(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, PointerInteger text) {
         try {
-            var RESULT = (int) hb_ot_name_get_utf32.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
+            var RESULT = (int) hb_ot_name_get_utf32.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), text.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5337,9 +5337,9 @@ public final class HarfBuzz {
      * Returns string in UTF-8 encoding. A NUL terminator is always written
      * for convenience, and isn't included in the output {@code text_size}.
      */
-    public static int otNameGetUtf8(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, java.lang.String[] text) {
+    public static int otNameGetUtf8(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, PointerString text) {
         try {
-            var RESULT = (int) hb_ot_name_get_utf8.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
+            var RESULT = (int) hb_ot_name_get_utf8.invokeExact(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), text.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5356,10 +5356,10 @@ public final class HarfBuzz {
      * array is owned by the {@code face} and should not be modified.  It can be
      * used as long as {@code face} is alive.
      */
-    public static PointerIterator<OtNameEntryT> otNameListNames(FaceT face, PointerInteger numEntries) {
+    public static PointerProxy<OtNameEntryT> otNameListNames(FaceT face, PointerInteger numEntries) {
         try {
             var RESULT = (MemoryAddress) hb_ot_name_list_names.invokeExact(face.handle(), numEntries.handle());
-            return new PointerProxy<OtNameEntryT>(RESULT, OtNameEntryT.class).iterator();
+            return new PointerProxy<OtNameEntryT>(RESULT, OtNameEntryT.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5546,9 +5546,9 @@ public final class HarfBuzz {
      * Fetches a list of all variation axes in the specified face. The list returned will begin
      * at the offset provided.
      */
-    public static int otVarGetAxisInfos(FaceT face, int startOffset, PointerInteger axesCount, OtVarAxisInfoT[] axesArray) {
+    public static int otVarGetAxisInfos(FaceT face, int startOffset, PointerInteger axesCount, PointerProxy<OtVarAxisInfoT> axesArray) {
         try {
-            var RESULT = (int) hb_ot_var_get_axis_infos.invokeExact(face.handle(), startOffset, axesCount.handle(), Interop.allocateNativeArray(axesArray).handle());
+            var RESULT = (int) hb_ot_var_get_axis_infos.invokeExact(face.handle(), startOffset, axesCount.handle(), axesArray.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5598,9 +5598,9 @@ public final class HarfBuzz {
      * Fetches the design-space coordinates corresponding to the given
      * named instance in the face.
      */
-    public static int otVarNamedInstanceGetDesignCoords(FaceT face, int instanceIndex, PointerInteger coordsLength, float[] coords) {
+    public static int otVarNamedInstanceGetDesignCoords(FaceT face, int instanceIndex, PointerInteger coordsLength, PointerFloat coords) {
         try {
-            var RESULT = (int) hb_ot_var_named_instance_get_design_coords.invokeExact(face.handle(), instanceIndex, coordsLength.handle(), Interop.allocateNativeArray(coords).handle());
+            var RESULT = (int) hb_ot_var_named_instance_get_design_coords.invokeExact(face.handle(), instanceIndex, coordsLength.handle(), coords.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5675,9 +5675,9 @@ public final class HarfBuzz {
     /**
      * Normalizes all of the coordinates in the given list of variation axes.
      */
-    public static void otVarNormalizeVariations(FaceT face, VariationT variations, int variationsLength, int[] coords, int coordsLength) {
+    public static void otVarNormalizeVariations(FaceT face, VariationT variations, int variationsLength, PointerInteger coords, int coordsLength) {
         try {
-            hb_ot_var_normalize_variations.invokeExact(face.handle(), variations.handle(), variationsLength, Interop.allocateNativeArray(coords).handle(), coordsLength);
+            hb_ot_var_normalize_variations.invokeExact(face.handle(), variations.handle(), variationsLength, coords.handle(), coordsLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6377,10 +6377,10 @@ public final class HarfBuzz {
     /**
      * Retrieves the list of shapers supported by HarfBuzz.
      */
-    public static PointerIterator<java.lang.String> shapeListShapers() {
+    public static PointerString shapeListShapers() {
         try {
             var RESULT = (MemoryAddress) hb_shape_list_shapers.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6614,9 +6614,9 @@ public final class HarfBuzz {
      * Converts an {@link tag_t} to a string and returns it in {@code buf}.
      * Strings will be four characters long.
      */
-    public static void tagToString(TagT tag, byte[] buf) {
+    public static void tagToString(TagT tag, PointerByte buf) {
         try {
-            hb_tag_to_string.invokeExact(tag.getValue(), Interop.allocateNativeArray(buf).handle());
+            hb_tag_to_string.invokeExact(tag.getValue(), buf.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6933,9 +6933,9 @@ public final class HarfBuzz {
      * understood by hb_variation_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
-    public static void variationToString(VariationT variation, java.lang.String[] buf, int size) {
+    public static void variationToString(VariationT variation, PointerString buf, int size) {
         try {
-            hb_variation_to_string.invokeExact(variation.handle(), Interop.allocateNativeArray(buf).handle(), size);
+            hb_variation_to_string.invokeExact(variation.handle(), buf.handle(), size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -110,10 +110,10 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the names of the artists which are displayed
      * in the credits page.
      */
-    public PointerIterator<java.lang.String> getArtists() {
+    public PointerString getArtists() {
         try {
             var RESULT = (MemoryAddress) gtk_about_dialog_get_artists.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,10 +128,10 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the names of the authors which are displayed
      * in the credits page.
      */
-    public PointerIterator<java.lang.String> getAuthors() {
+    public PointerString getAuthors() {
         try {
             var RESULT = (MemoryAddress) gtk_about_dialog_get_authors.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,10 +180,10 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the name of the documenters which are displayed
      * in the credits page.
      */
-    public PointerIterator<java.lang.String> getDocumenters() {
+    public PointerString getDocumenters() {
         try {
             var RESULT = (MemoryAddress) gtk_about_dialog_get_documenters.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

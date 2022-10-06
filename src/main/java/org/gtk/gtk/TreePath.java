@@ -245,10 +245,10 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * It also returns the number of elements in the array.
      * The array should not be freed.
      */
-    public PointerIterator<Integer> getIndicesWithDepth(PointerInteger depth) {
+    public PointerInteger getIndicesWithDepth(PointerInteger depth) {
         try {
             var RESULT = (MemoryAddress) gtk_tree_path_get_indices_with_depth.invokeExact(handle(), depth.handle());
-            return new PointerInteger(RESULT).iterator();
+            return new PointerInteger(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

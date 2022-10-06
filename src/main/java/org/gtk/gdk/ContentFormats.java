@@ -135,10 +135,10 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * Note that {@code formats} may not contain any {@code GType}s, in particular when
      * they are empty. In that case {@code null} will be returned.
      */
-    public PointerIterator<Long> getGtypes(PointerLong nGtypes) {
+    public PointerLong getGtypes(PointerLong nGtypes) {
         try {
             var RESULT = (MemoryAddress) gdk_content_formats_get_gtypes.invokeExact(handle(), nGtypes.handle());
-            return new PointerLong(RESULT).iterator();
+            return new PointerLong(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,10 +155,10 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * Note that {@code formats} may not contain any mime types, in particular
      * when they are empty. In that case {@code null} will be returned.
      */
-    public PointerIterator<java.lang.String> getMimeTypes(PointerLong nMimeTypes) {
+    public PointerString getMimeTypes(PointerLong nMimeTypes) {
         try {
             var RESULT = (MemoryAddress) gdk_content_formats_get_mime_types.invokeExact(handle(), nMimeTypes.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -175,10 +175,10 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * Use g_drive_get_identifier() to obtain the identifiers
      * themselves.
      */
-    public default PointerIterator<java.lang.String> enumerateIdentifiers() {
+    public default PointerString enumerateIdentifiers() {
         try {
             var RESULT = (MemoryAddress) g_drive_enumerate_identifiers.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

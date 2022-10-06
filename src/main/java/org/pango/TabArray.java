@@ -161,9 +161,9 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * The arrays are of length {@link TabArray#getSize}.
      * You must free the returned array.
      */
-    public void getTabs(TabAlign[] alignments, int[] locations) {
+    public void getTabs(PointerEnumeration alignments, PointerInteger locations) {
         try {
-            pango_tab_array_get_tabs.invokeExact(handle(), Interop.allocateNativeArray(TabAlign.getValues(alignments)).handle(), Interop.allocateNativeArray(locations).handle());
+            pango_tab_array_get_tabs.invokeExact(handle(), alignments.handle(), locations.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

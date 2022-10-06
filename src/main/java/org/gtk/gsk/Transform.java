@@ -537,9 +537,9 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * If {@code string} does not describe a valid transform, {@code false} is
      * returned and {@code null} is put in {@code out_transform}.
      */
-    public static boolean parse(java.lang.String string, Transform[] outTransform) {
+    public static boolean parse(java.lang.String string, PointerProxy<Transform> outTransform) {
         try {
-            var RESULT = (int) gsk_transform_parse.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());
+            var RESULT = (int) gsk_transform_parse.invokeExact(Interop.allocateNativeString(string).handle(), outTransform.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

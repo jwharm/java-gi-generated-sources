@@ -1188,10 +1188,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * g_type_default_interface_ref(), or, if you know the interface has
      * already been loaded, g_type_default_interface_peek().
      */
-    public static PointerIterator<ParamSpec> interfaceListProperties(TypeInterface gIface, PointerInteger nPropertiesP) {
+    public static PointerProxy<ParamSpec> interfaceListProperties(TypeInterface gIface, PointerInteger nPropertiesP) {
         try {
             var RESULT = (MemoryAddress) g_object_interface_list_properties.invokeExact(gIface.handle(), nPropertiesP.handle());
-            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
+            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

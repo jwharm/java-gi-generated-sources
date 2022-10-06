@@ -1901,10 +1901,10 @@ public final class GObject {
      * created. Further information about the signals can be acquired through
      * g_signal_query().
      */
-    public static PointerIterator<Integer> signalListIds(org.gtk.gobject.Type itype, PointerInteger nIds) {
+    public static PointerInteger signalListIds(org.gtk.gobject.Type itype, PointerInteger nIds) {
         try {
             var RESULT = (MemoryAddress) g_signal_list_ids.invokeExact(itype.getValue(), nIds.handle());
-            return new PointerInteger(RESULT).iterator();
+            return new PointerInteger(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2432,10 +2432,10 @@ public final class GObject {
      * Return a newly allocated and 0-terminated array of type IDs, listing
      * the child types of {@code type}.
      */
-    public static PointerIterator<Long> typeChildren(org.gtk.gobject.Type type, PointerInteger nChildren) {
+    public static PointerLong typeChildren(org.gtk.gobject.Type type, PointerInteger nChildren) {
         try {
             var RESULT = (MemoryAddress) g_type_children.invokeExact(type.getValue(), nChildren.handle());
-            return new PointerLong(RESULT).iterator();
+            return new PointerLong(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2899,10 +2899,10 @@ public final class GObject {
     /**
      * Returns the prerequisites of an interfaces type.
      */
-    public static PointerIterator<Long> typeInterfacePrerequisites(org.gtk.gobject.Type interfaceType, PointerInteger nPrerequisites) {
+    public static PointerLong typeInterfacePrerequisites(org.gtk.gobject.Type interfaceType, PointerInteger nPrerequisites) {
         try {
             var RESULT = (MemoryAddress) g_type_interface_prerequisites.invokeExact(interfaceType.getValue(), nPrerequisites.handle());
-            return new PointerLong(RESULT).iterator();
+            return new PointerLong(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2917,10 +2917,10 @@ public final class GObject {
      * Return a newly allocated and 0-terminated array of type IDs, listing
      * the interface types that {@code type} conforms to.
      */
-    public static PointerIterator<Long> typeInterfaces(org.gtk.gobject.Type type, PointerInteger nInterfaces) {
+    public static PointerLong typeInterfaces(org.gtk.gobject.Type type, PointerInteger nInterfaces) {
         try {
             var RESULT = (MemoryAddress) g_type_interfaces.invokeExact(type.getValue(), nInterfaces.handle());
-            return new PointerLong(RESULT).iterator();
+            return new PointerLong(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3301,7 +3301,7 @@ public final class GObject {
     public static void __cbClosureMarshal(MemoryAddress closure, MemoryAddress returnValue, int nParamValues, MemoryAddress paramValues, MemoryAddress invocationHint, MemoryAddress marshalData) {
         int hash = marshalData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClosureMarshal) Interop.signalRegistry.get(hash);
-        handler.onClosureMarshal(new Closure(Refcounted.get(closure, false)), new Value(Refcounted.get(returnValue, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class).iterator(), invocationHint);
+        handler.onClosureMarshal(new Closure(Refcounted.get(closure, false)), new Value(Refcounted.get(returnValue, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class), invocationHint);
     }
     
     public static void __cbClosureNotify(MemoryAddress data, MemoryAddress closure) {
@@ -3331,7 +3331,7 @@ public final class GObject {
     public static boolean __cbSignalEmissionHook(MemoryAddress ihint, int nParamValues, MemoryAddress paramValues, MemoryAddress data) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (SignalEmissionHook) Interop.signalRegistry.get(hash);
-        return handler.onSignalEmissionHook(new SignalInvocationHint(Refcounted.get(ihint, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class).iterator());
+        return handler.onSignalEmissionHook(new SignalInvocationHint(Refcounted.get(ihint, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class));
     }
     
     public static void __cbInterfaceFinalizeFunc(MemoryAddress gIface, MemoryAddress ifaceData) {

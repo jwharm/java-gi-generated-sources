@@ -13,5 +13,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufDestroyNotify {
-        void onPixbufDestroyNotify(PointerIterator<Byte> pixels);
+        void onPixbufDestroyNotify(PointerByte pixels);
 }

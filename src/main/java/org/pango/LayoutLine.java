@@ -145,9 +145,9 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * right. The ranges are with respect to the left edge of the entire
      * layout, not with respect to the line.
      */
-    public void getXRanges(int startIndex, int endIndex, int[] ranges, PointerInteger nRanges) {
+    public void getXRanges(int startIndex, int endIndex, PointerInteger ranges, PointerInteger nRanges) {
         try {
-            pango_layout_line_get_x_ranges.invokeExact(handle(), startIndex, endIndex, Interop.allocateNativeArray(ranges).handle(), nRanges.handle());
+            pango_layout_line_get_x_ranges.invokeExact(handle(), startIndex, endIndex, ranges.handle(), nRanges.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

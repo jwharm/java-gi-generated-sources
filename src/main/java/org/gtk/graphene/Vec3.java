@@ -506,9 +506,9 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copies the components of a {@link Vec3} into the given array.
      */
-    public void toFloat(float[] dest) {
+    public void toFloat(PointerFloat dest) {
         try {
-            graphene_vec3_to_float.invokeExact(handle(), Interop.allocateNativeArray(dest).handle());
+            graphene_vec3_to_float.invokeExact(handle(), dest.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

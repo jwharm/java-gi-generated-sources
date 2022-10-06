@@ -149,10 +149,10 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * attempt to interact with the pipes while the operation is in progress
      * (either from another thread or if using the asynchronous version).
      */
-    public boolean communicate(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
+    public boolean communicate(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, PointerProxy<org.gtk.glib.Bytes> stdoutBuf, PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_communicate.invokeExact(handle(), stdinBuf.handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
+            var RESULT = (int) g_subprocess_communicate.invokeExact(handle(), stdinBuf.handle(), cancellable.handle(), stdoutBuf.handle(), stderrBuf.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -193,10 +193,10 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * Complete an invocation of g_subprocess_communicate_async().
      */
-    public boolean communicateFinish(AsyncResult result, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
+    public boolean communicateFinish(AsyncResult result, PointerProxy<org.gtk.glib.Bytes> stdoutBuf, PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_communicate_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
+            var RESULT = (int) g_subprocess_communicate_finish.invokeExact(handle(), result.handle(), stdoutBuf.handle(), stderrBuf.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -218,10 +218,10 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * On error, {@code stdout_buf} and {@code stderr_buf} will be set to undefined values and
      * should not be used.
      */
-    public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
+    public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, PointerString stdoutBuf, PointerString stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_communicate_utf8.invokeExact(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
+            var RESULT = (int) g_subprocess_communicate_utf8.invokeExact(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), stdoutBuf.handle(), stderrBuf.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -262,10 +262,10 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * Complete an invocation of g_subprocess_communicate_utf8_async().
      */
-    public boolean communicateUtf8Finish(AsyncResult result, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
+    public boolean communicateUtf8Finish(AsyncResult result, PointerString stdoutBuf, PointerString stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_communicate_utf8_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
+            var RESULT = (int) g_subprocess_communicate_utf8_finish.invokeExact(handle(), result.handle(), stdoutBuf.handle(), stderrBuf.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

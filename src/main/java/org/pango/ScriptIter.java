@@ -72,9 +72,9 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      * {@code GUnicodeScript} values. Callers must be prepared to handle unknown
      * values.
      */
-    public void getRange(java.lang.String[] start, java.lang.String[] end, Script script) {
+    public void getRange(PointerString start, PointerString end, Script script) {
         try {
-            pango_script_iter_get_range.invokeExact(handle(), Interop.allocateNativeArray(start).handle(), Interop.allocateNativeArray(end).handle(), new PointerInteger(script.getValue()).handle());
+            pango_script_iter_get_range.invokeExact(handle(), start.handle(), end.handle(), new PointerInteger(script.getValue()).handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

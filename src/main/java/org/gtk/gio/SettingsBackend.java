@@ -221,9 +221,9 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * g_free().  You should not attempt to free or unref the contents of
      * {@code keys} or {@code values}.
      */
-    public static void flattenTree(org.gtk.glib.Tree tree, java.lang.String[] path, java.lang.String[] keys, org.gtk.glib.Variant[] values) {
+    public static void flattenTree(org.gtk.glib.Tree tree, PointerString path, PointerString keys, PointerProxy<org.gtk.glib.Variant> values) {
         try {
-            g_settings_backend_flatten_tree.invokeExact(tree.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(keys).handle(), Interop.allocateNativeArray(values).handle());
+            g_settings_backend_flatten_tree.invokeExact(tree.handle(), path.handle(), keys.handle(), values.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

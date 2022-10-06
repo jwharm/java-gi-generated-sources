@@ -239,9 +239,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * <p>
      * The returned {@code GtkTreePath} must be freed with gtk_tree_path_free().
      */
-    public boolean getCursor(TreePath[] path, CellRenderer[] cell) {
+    public boolean getCursor(PointerProxy<TreePath> path, PointerProxy<CellRenderer> cell) {
         try {
-            var RESULT = (int) gtk_icon_view_get_cursor.invokeExact(handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(cell).handle());
+            var RESULT = (int) gtk_icon_view_get_cursor.invokeExact(handle(), path.handle(), cell.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -256,9 +256,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Determines the destination item for a given position.
      */
-    public boolean getDestItemAtPos(int dragX, int dragY, TreePath[] path, IconViewDropPosition pos) {
+    public boolean getDestItemAtPos(int dragX, int dragY, PointerProxy<TreePath> path, IconViewDropPosition pos) {
         try {
-            var RESULT = (int) gtk_icon_view_get_dest_item_at_pos.invokeExact(handle(), dragX, dragY, Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
+            var RESULT = (int) gtk_icon_view_get_dest_item_at_pos.invokeExact(handle(), dragX, dragY, path.handle(), new PointerInteger(pos.getValue()).handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -273,9 +273,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Gets information about the item that is highlighted for feedback.
      */
-    public void getDragDestItem(TreePath[] path, IconViewDropPosition pos) {
+    public void getDragDestItem(PointerProxy<TreePath> path, IconViewDropPosition pos) {
         try {
-            gtk_icon_view_get_drag_dest_item.invokeExact(handle(), Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
+            gtk_icon_view_get_drag_dest_item.invokeExact(handle(), path.handle(), new PointerInteger(pos.getValue()).handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,9 +289,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Gets the path and cell for the icon at the given position.
      */
-    public boolean getItemAtPos(int x, int y, TreePath[] path, CellRenderer[] cell) {
+    public boolean getItemAtPos(int x, int y, PointerProxy<TreePath> path, PointerProxy<CellRenderer> cell) {
         try {
-            var RESULT = (int) gtk_icon_view_get_item_at_pos.invokeExact(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(cell).handle());
+            var RESULT = (int) gtk_icon_view_get_item_at_pos.invokeExact(handle(), x, y, path.handle(), cell.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -625,9 +625,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * {@code model}, {@code path} and {@code iter} which have been provided will be set to point to
      * that row and the corresponding model.
      */
-    public boolean getTooltipContext(int x, int y, boolean keyboardTip, TreeModel[] model, TreePath[] path, TreeIter iter) {
+    public boolean getTooltipContext(int x, int y, boolean keyboardTip, PointerProxy<TreeModel> model, PointerProxy<TreePath> path, TreeIter iter) {
         try {
-            var RESULT = (int) gtk_icon_view_get_tooltip_context.invokeExact(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model).handle(), Interop.allocateNativeArray(path).handle(), iter.handle());
+            var RESULT = (int) gtk_icon_view_get_tooltip_context.invokeExact(handle(), x, y, keyboardTip ? 1 : 0, model.handle(), path.handle(), iter.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -645,9 +645,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * <p>
      * Both paths should be freed with gtk_tree_path_free() after use.
      */
-    public boolean getVisibleRange(TreePath[] startPath, TreePath[] endPath) {
+    public boolean getVisibleRange(PointerProxy<TreePath> startPath, PointerProxy<TreePath> endPath) {
         try {
-            var RESULT = (int) gtk_icon_view_get_visible_range.invokeExact(handle(), Interop.allocateNativeArray(startPath).handle(), Interop.allocateNativeArray(endPath).handle());
+            var RESULT = (int) gtk_icon_view_get_visible_range.invokeExact(handle(), startPath.handle(), endPath.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

@@ -72,10 +72,10 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * This is a {@code null}-terminated array of strings, where each string has
      * the form {@code KEY=VALUE}.
      */
-    public PointerIterator<java.lang.String> getEnvironment() {
+    public PointerString getEnvironment() {
         try {
             var RESULT = (MemoryAddress) g_app_launch_context_get_environment.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

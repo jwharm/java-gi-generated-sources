@@ -157,10 +157,10 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * Gets the accelerators that are currently associated with
      * the given action.
      */
-    public PointerIterator<java.lang.String> getAccelsForAction(java.lang.String detailedActionName) {
+    public PointerString getAccelsForAction(java.lang.String detailedActionName) {
         try {
             var RESULT = (MemoryAddress) gtk_application_get_accels_for_action.invokeExact(handle(), Interop.allocateNativeString(detailedActionName).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,10 +190,10 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * <p>
      * If you are unsure, check it with {@link Gtk#acceleratorParse} first.
      */
-    public PointerIterator<java.lang.String> getActionsForAccel(java.lang.String accel) {
+    public PointerString getActionsForAccel(java.lang.String accel) {
         try {
             var RESULT = (MemoryAddress) gtk_application_get_actions_for_accel.invokeExact(handle(), Interop.allocateNativeString(accel).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -353,10 +353,10 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * <p>
      * See {@link Application#setAccelsForAction}.
      */
-    public PointerIterator<java.lang.String> listActionDescriptions() {
+    public PointerString listActionDescriptions() {
         try {
             var RESULT = (MemoryAddress) gtk_application_list_action_descriptions.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

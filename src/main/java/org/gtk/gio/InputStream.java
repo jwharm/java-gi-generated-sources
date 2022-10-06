@@ -201,10 +201,10 @@ public class InputStream extends org.gtk.gobject.Object {
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
      */
-    public long read(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long read(PointerByte buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_input_stream_read.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, cancellable.handle(), GERROR);
+            var RESULT = (long) g_input_stream_read.invokeExact(handle(), buffer.handle(), count, cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -240,10 +240,10 @@ public class InputStream extends org.gtk.gobject.Object {
      * available from C.  If you need it from another language then you must
      * write your own loop around g_input_stream_read().
      */
-    public boolean readAll(byte[] buffer, long count, PointerLong bytesRead, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean readAll(PointerByte buffer, long count, PointerLong bytesRead, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_input_stream_read_all.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, bytesRead.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_input_stream_read_all.invokeExact(handle(), buffer.handle(), count, bytesRead.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -270,9 +270,9 @@ public class InputStream extends org.gtk.gobject.Object {
      * value) will be executed before an outstanding request with lower
      * priority. Default priority is {@code G_PRIORITY_DEFAULT}.
      */
-    public void readAllAsync(byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void readAllAsync(PointerByte buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            g_input_stream_read_all_async.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, ioPriority, cancellable.handle(), 
+            g_input_stream_read_all_async.invokeExact(handle(), buffer.handle(), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -343,9 +343,9 @@ public class InputStream extends org.gtk.gobject.Object {
      * asynchronicity, so they are optional for inheriting classes. However, if you
      * override one you must override all.
      */
-    public void readAsync(byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void readAsync(PointerByte buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            g_input_stream_read_async.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, ioPriority, cancellable.handle(), 
+            g_input_stream_read_async.invokeExact(handle(), buffer.handle(), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

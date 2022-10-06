@@ -853,9 +853,9 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * For the simple case of checking if a string is a valid type string,
      * see g_variant_type_string_is_valid().
      */
-    public static boolean stringScan(java.lang.String string, java.lang.String limit, java.lang.String[] endptr) {
+    public static boolean stringScan(java.lang.String string, java.lang.String limit, PointerString endptr) {
         try {
-            var RESULT = (int) g_variant_type_string_scan.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
+            var RESULT = (int) g_variant_type_string_scan.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), endptr.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

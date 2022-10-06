@@ -101,9 +101,9 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * Get the font and other attributes at the current
      * iterator position.
      */
-    public void getFont(FontDescription desc, Language[] language, org.gtk.glib.SList[] extraAttrs) {
+    public void getFont(FontDescription desc, PointerProxy<Language> language, PointerProxy<org.gtk.glib.SList> extraAttrs) {
         try {
-            pango_attr_iterator_get_font.invokeExact(handle(), desc.handle(), Interop.allocateNativeArray(language).handle(), Interop.allocateNativeArray(extraAttrs).handle());
+            pango_attr_iterator_get_font.invokeExact(handle(), desc.handle(), language.handle(), extraAttrs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

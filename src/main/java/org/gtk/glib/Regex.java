@@ -295,9 +295,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * you use any {@link MatchInfo} method (except g_match_info_free()) after
      * freeing or modifying {@code string} then the behaviour is undefined.
      */
-    public boolean match(java.lang.String string, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) {
+    public boolean match(java.lang.String string, RegexMatchFlags matchOptions, PointerProxy<MatchInfo> matchInfo) {
         try {
-            var RESULT = (int) g_regex_match.invokeExact(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
+            var RESULT = (int) g_regex_match.invokeExact(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), matchInfo.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -325,9 +325,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * you use any {@link MatchInfo} method (except g_match_info_free()) after
      * freeing or modifying {@code string} then the behaviour is undefined.
      */
-    public boolean matchAll(java.lang.String string, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) {
+    public boolean matchAll(java.lang.String string, RegexMatchFlags matchOptions, PointerProxy<MatchInfo> matchInfo) {
         try {
-            var RESULT = (int) g_regex_match_all.invokeExact(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
+            var RESULT = (int) g_regex_match_all.invokeExact(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), matchInfo.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -379,10 +379,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * you use any {@link MatchInfo} method (except g_match_info_free()) after
      * freeing or modifying {@code string} then the behaviour is undefined.
      */
-    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
+    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, PointerProxy<MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_regex_match_all_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle(), GERROR);
+            var RESULT = (int) g_regex_match_all_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), matchInfo.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -450,10 +450,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * }
      * }</pre>
      */
-    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
+    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, PointerProxy<MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_regex_match_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle(), GERROR);
+            var RESULT = (int) g_regex_match_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), matchInfo.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -651,10 +651,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * For example splitting "ab c" using as a separator "\\s*", you will get
      * "a", "b" and "c".
      */
-    public PointerIterator<java.lang.String> split(java.lang.String string, RegexMatchFlags matchOptions) {
+    public PointerString split(java.lang.String string, RegexMatchFlags matchOptions) {
         try {
             var RESULT = (MemoryAddress) g_regex_split.invokeExact(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -688,14 +688,14 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * string and setting {@link RegexMatchFlags#NOTBOL} in the case of a pattern
      * that begins with any kind of lookbehind assertion, such as "\\b".
      */
-    public PointerIterator<java.lang.String> splitFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString splitFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_regex_split_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), maxTokens, GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -865,10 +865,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * characters. For example splitting "ab c" using as a separator
      * "\\s*", you will get "a", "b" and "c".
      */
-    public static PointerIterator<java.lang.String> splitSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
+    public static PointerString splitSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
         try {
             var RESULT = (MemoryAddress) g_regex_split_simple.invokeExact(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

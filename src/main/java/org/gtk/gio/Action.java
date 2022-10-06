@@ -285,10 +285,10 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * For strings, this third format must be used if * target value is
      * empty or contains characters other than alphanumerics, '-' and '.'.
      */
-    public static boolean parseDetailedName(java.lang.String detailedName, java.lang.String[] actionName, org.gtk.glib.Variant[] targetValue) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean parseDetailedName(java.lang.String detailedName, PointerString actionName, PointerProxy<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(targetValue).handle(), GERROR);
+            var RESULT = (int) g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName).handle(), actionName.handle(), targetValue.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

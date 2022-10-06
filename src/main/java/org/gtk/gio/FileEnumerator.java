@@ -251,10 +251,10 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      *   g_object_unref (direnum); // Note: frees the last @info
      * }</pre>
      */
-    public boolean iterate(FileInfo[] outInfo, File[] outChild, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean iterate(PointerProxy<FileInfo> outInfo, PointerProxy<File> outChild, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_enumerator_iterate.invokeExact(handle(), Interop.allocateNativeArray(outInfo).handle(), Interop.allocateNativeArray(outChild).handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_file_enumerator_iterate.invokeExact(handle(), outInfo.handle(), outChild.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

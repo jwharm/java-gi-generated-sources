@@ -217,10 +217,10 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * The return value is {@code null}-terminated and should be freed using
      * g_strfreev().
      */
-    public PointerIterator<java.lang.String> getArguments(PointerInteger argc) {
+    public PointerString getArguments(PointerInteger argc) {
         try {
             var RESULT = (MemoryAddress) g_application_command_line_get_arguments.invokeExact(handle(), argc.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,10 +272,10 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * See g_application_command_line_getenv() if you are only interested
      * in the value of a single environment variable.
      */
-    public PointerIterator<java.lang.String> getEnviron() {
+    public PointerString getEnviron() {
         try {
             var RESULT = (MemoryAddress) g_application_command_line_get_environ.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

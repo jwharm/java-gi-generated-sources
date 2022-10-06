@@ -82,10 +82,10 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * returned values are from the {@code GUnicodeScript} enumeration, which
      * may have more values. Callers need to handle unknown values.
      */
-    public PointerIterator<Script> getScripts(PointerInteger numScripts) {
+    public PointerEnumeration getScripts(PointerInteger numScripts) {
         try {
             var RESULT = (MemoryAddress) pango_language_get_scripts.invokeExact(handle(), numScripts.handle());
-            return new PointerEnumeration<Script>(RESULT, Script.class).iterator();
+            return new PointerEnumeration<Script>(RESULT, Script.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

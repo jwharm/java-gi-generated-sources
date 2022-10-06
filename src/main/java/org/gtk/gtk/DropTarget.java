@@ -178,10 +178,10 @@ public class DropTarget extends EventController {
      * <p>
      * If no types have been set, {@code NULL} will be returned.
      */
-    public PointerIterator<Long> getGtypes(PointerLong nTypes) {
+    public PointerLong getGtypes(PointerLong nTypes) {
         try {
             var RESULT = (MemoryAddress) gtk_drop_target_get_gtypes.invokeExact(handle(), nTypes.handle());
-            return new PointerLong(RESULT).iterator();
+            return new PointerLong(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

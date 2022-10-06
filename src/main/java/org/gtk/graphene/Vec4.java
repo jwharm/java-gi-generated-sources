@@ -493,9 +493,9 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Stores the components of the given {@link Vec4} into an array
      * of floating point values.
      */
-    public void toFloat(float[] dest) {
+    public void toFloat(PointerFloat dest) {
         try {
-            graphene_vec4_to_float.invokeExact(handle(), Interop.allocateNativeArray(dest).handle());
+            graphene_vec4_to_float.invokeExact(handle(), dest.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

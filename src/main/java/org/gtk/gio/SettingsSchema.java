@@ -192,10 +192,10 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * You should free the return value with g_strfreev() when you are done
      * with it.
      */
-    public PointerIterator<java.lang.String> listChildren() {
+    public PointerString listChildren() {
         try {
             var RESULT = (MemoryAddress) g_settings_schema_list_children.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,10 +213,10 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * (since you should already know what keys are in your schema).  This
      * function is intended for introspection reasons.
      */
-    public PointerIterator<java.lang.String> listKeys() {
+    public PointerString listKeys() {
         try {
             var RESULT = (MemoryAddress) g_settings_schema_list_keys.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -121,10 +121,10 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the prerequisites of an interfaces type.
      */
-    public static PointerIterator<Long> prerequisites(org.gtk.gobject.Type interfaceType, PointerInteger nPrerequisites) {
+    public static PointerLong prerequisites(org.gtk.gobject.Type interfaceType, PointerInteger nPrerequisites) {
         try {
             var RESULT = (MemoryAddress) g_type_interface_prerequisites.invokeExact(interfaceType.getValue(), nPrerequisites.handle());
-            return new PointerLong(RESULT).iterator();
+            return new PointerLong(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

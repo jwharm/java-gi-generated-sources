@@ -51,10 +51,10 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns all cell properties of a cell area class.
      */
-    public PointerIterator<org.gtk.gobject.ParamSpec> listCellProperties(PointerInteger nProperties) {
+    public PointerProxy<org.gtk.gobject.ParamSpec> listCellProperties(PointerInteger nProperties) {
         try {
             var RESULT = (MemoryAddress) gtk_cell_area_class_list_cell_properties.invokeExact(handle(), nProperties.handle());
-            return new PointerProxy<org.gtk.gobject.ParamSpec>(RESULT, org.gtk.gobject.ParamSpec.class).iterator();
+            return new PointerProxy<org.gtk.gobject.ParamSpec>(RESULT, org.gtk.gobject.ParamSpec.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

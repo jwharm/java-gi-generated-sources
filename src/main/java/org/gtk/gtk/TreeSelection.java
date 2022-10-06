@@ -89,9 +89,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * with the current model as a convenience.  This function will not work if you
      * use {@code selection} is {@link SelectionMode#MULTIPLE}.
      */
-    public boolean getSelected(TreeModel[] model, TreeIter iter) {
+    public boolean getSelected(PointerProxy<TreeModel> model, TreeIter iter) {
         try {
-            var RESULT = (int) gtk_tree_selection_get_selected.invokeExact(handle(), Interop.allocateNativeArray(model).handle(), iter.handle());
+            var RESULT = (int) gtk_tree_selection_get_selected.invokeExact(handle(), model.handle(), iter.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -114,9 +114,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
      * }</pre>
      */
-    public org.gtk.glib.List getSelectedRows(TreeModel[] model) {
+    public org.gtk.glib.List getSelectedRows(PointerProxy<TreeModel> model) {
         try {
-            var RESULT = (MemoryAddress) gtk_tree_selection_get_selected_rows.invokeExact(handle(), Interop.allocateNativeArray(model).handle());
+            var RESULT = (MemoryAddress) gtk_tree_selection_get_selected_rows.invokeExact(handle(), model.handle());
             return new org.gtk.glib.List(Refcounted.get(RESULT, true));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

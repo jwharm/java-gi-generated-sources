@@ -10,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FontGetGlyphNameFuncT {
-        BoolT onFontGetGlyphNameFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, CodepointT glyph, PointerIterator<java.lang.String> name, int size, java.lang.foreign.MemoryAddress userData);
+        BoolT onFontGetGlyphNameFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, CodepointT glyph, PointerString name, int size, java.lang.foreign.MemoryAddress userData);
 }

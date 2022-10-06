@@ -35,9 +35,9 @@ public final class Gsk {
      * If {@code string} does not describe a valid transform, {@code false} is
      * returned and {@code null} is put in {@code out_transform}.
      */
-    public static boolean transformParse(java.lang.String string, Transform[] outTransform) {
+    public static boolean transformParse(java.lang.String string, PointerProxy<Transform> outTransform) {
         try {
-            var RESULT = (int) gsk_transform_parse.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());
+            var RESULT = (int) gsk_transform_parse.invokeExact(Interop.allocateNativeString(string).handle(), outTransform.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

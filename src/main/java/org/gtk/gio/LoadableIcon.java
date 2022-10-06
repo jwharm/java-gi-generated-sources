@@ -19,10 +19,10 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
      * Loads a loadable icon. For the asynchronous version of this function,
      * see g_loadable_icon_load_async().
      */
-    public default InputStream load(int size, java.lang.String[] type, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default InputStream load(int size, PointerString type, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_loadable_icon_load.invokeExact(handle(), size, Interop.allocateNativeArray(type).handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_loadable_icon_load.invokeExact(handle(), size, type.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -64,10 +64,10 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes an asynchronous icon load started in g_loadable_icon_load_async().
      */
-    public default InputStream loadFinish(AsyncResult res, java.lang.String[] type) throws io.github.jwharm.javagi.GErrorException {
+    public default InputStream loadFinish(AsyncResult res, PointerString type) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_loadable_icon_load_finish.invokeExact(handle(), res.handle(), Interop.allocateNativeArray(type).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_loadable_icon_load_finish.invokeExact(handle(), res.handle(), type.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

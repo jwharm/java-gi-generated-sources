@@ -55,9 +55,9 @@ public class GestureStylus extends GestureSingle {
      * {@code Gtk.GestureStylus::proximity}
      * signals.
      */
-    public boolean getAxes(org.gtk.gdk.AxisUse[] axes, double[] values) {
+    public boolean getAxes(org.gtk.gdk.AxisUse[] axes, PointerDouble values) {
         try {
-            var RESULT = (int) gtk_gesture_stylus_get_axes.invokeExact(handle(), Interop.allocateNativeArray(org.gtk.gdk.AxisUse.getValues(axes)).handle(), Interop.allocateNativeArray(values).handle());
+            var RESULT = (int) gtk_gesture_stylus_get_axes.invokeExact(handle(), Interop.allocateNativeArray(org.gtk.gdk.AxisUse.getValues(axes)).handle(), values.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -106,9 +106,9 @@ public class GestureStylus extends GestureSingle {
      * <p>
      * The {@code backlog} is provided in chronological order.
      */
-    public boolean getBacklog(org.gtk.gdk.TimeCoord[] backlog, PointerInteger nElems) {
+    public boolean getBacklog(PointerProxy<org.gtk.gdk.TimeCoord> backlog, PointerInteger nElems) {
         try {
-            var RESULT = (int) gtk_gesture_stylus_get_backlog.invokeExact(handle(), Interop.allocateNativeArray(backlog).handle(), nElems.handle());
+            var RESULT = (int) gtk_gesture_stylus_get_backlog.invokeExact(handle(), backlog.handle(), nElems.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

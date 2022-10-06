@@ -227,10 +227,10 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * automatic character set conversion of string and filename
      * arguments.
      */
-    public boolean parse(PointerInteger argc, java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
+    public boolean parse(PointerInteger argc, PointerString argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_option_context_parse.invokeExact(handle(), argc.handle(), Interop.allocateNativeArray(argv).handle(), GERROR);
+            var RESULT = (int) g_option_context_parse.invokeExact(handle(), argc.handle(), argv.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -263,10 +263,10 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * This function is useful if you are trying to use {@link OptionContext} with
      * {@link org.gtk.gio.Application}.
      */
-    public boolean parseStrv(java.lang.String[] arguments) throws io.github.jwharm.javagi.GErrorException {
+    public boolean parseStrv(PointerString arguments) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_option_context_parse_strv.invokeExact(handle(), Interop.allocateNativeArray(arguments).handle(), GERROR);
+            var RESULT = (int) g_option_context_parse_strv.invokeExact(handle(), arguments.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

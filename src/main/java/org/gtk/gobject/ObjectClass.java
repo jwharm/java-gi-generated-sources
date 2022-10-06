@@ -164,10 +164,10 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Get an array of {@link ParamSpec}* for all properties of a class.
      */
-    public PointerIterator<ParamSpec> listProperties(PointerInteger nProperties) {
+    public PointerProxy<ParamSpec> listProperties(PointerInteger nProperties) {
         try {
             var RESULT = (MemoryAddress) g_object_class_list_properties.invokeExact(handle(), nProperties.handle());
-            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class).iterator();
+            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

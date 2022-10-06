@@ -389,9 +389,9 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Stores the components of @v into an array.
      */
-    public void toFloat(float[] dest) {
+    public void toFloat(PointerFloat dest) {
         try {
-            graphene_vec2_to_float.invokeExact(handle(), Interop.allocateNativeArray(dest).handle());
+            graphene_vec2_to_float.invokeExact(handle(), dest.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

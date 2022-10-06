@@ -98,9 +98,9 @@ public class Event extends org.gtk.gobject.Object {
      * To find out which axes are used, use {@link DeviceTool#getAxes}
      * on the device tool returned by {@link Event#getDeviceTool}.
      */
-    public boolean getAxes(double[] axes, PointerInteger nAxes) {
+    public boolean getAxes(PointerDouble axes, PointerInteger nAxes) {
         try {
-            var RESULT = (int) gdk_event_get_axes.invokeExact(handle(), Interop.allocateNativeArray(axes).handle(), nAxes.handle());
+            var RESULT = (int) gdk_event_get_axes.invokeExact(handle(), axes.handle(), nAxes.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -241,10 +241,10 @@ public class Event extends org.gtk.gobject.Object {
      * events do it only if one of the mouse buttons is down, or the device
      * has a tool.
      */
-    public PointerIterator<TimeCoord> getHistory(PointerInteger outNCoords) {
+    public PointerProxy<TimeCoord> getHistory(PointerInteger outNCoords) {
         try {
             var RESULT = (MemoryAddress) gdk_event_get_history.invokeExact(handle(), outNCoords.handle());
-            return new PointerProxy<TimeCoord>(RESULT, TimeCoord.class).iterator();
+            return new PointerProxy<TimeCoord>(RESULT, TimeCoord.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

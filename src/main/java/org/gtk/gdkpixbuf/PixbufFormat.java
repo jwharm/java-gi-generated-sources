@@ -77,10 +77,10 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * Returns the filename extensions typically used for files in the
      * given format.
      */
-    public PointerIterator<java.lang.String> getExtensions() {
+    public PointerString getExtensions() {
         try {
             var RESULT = (MemoryAddress) gdk_pixbuf_format_get_extensions.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,10 +114,10 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the mime types supported by the format.
      */
-    public PointerIterator<java.lang.String> getMimeTypes() {
+    public PointerString getMimeTypes() {
         try {
             var RESULT = (MemoryAddress) gdk_pixbuf_format_get_mime_types.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

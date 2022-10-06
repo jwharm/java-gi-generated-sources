@@ -215,10 +215,10 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Gets the keywords from the desktop file.
      */
-    public PointerIterator<java.lang.String> getKeywords() {
+    public PointerString getKeywords() {
         try {
             var RESULT = (MemoryAddress) g_desktop_app_info_get_keywords.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,10 +338,10 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * <p>
      * The {@code key} is looked up in the "Desktop Entry" group.
      */
-    public PointerIterator<java.lang.String> getStringList(java.lang.String key, PointerLong length) {
+    public PointerString getStringList(java.lang.String key, PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_desktop_app_info_get_string_list.invokeExact(handle(), Interop.allocateNativeString(key).handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -492,10 +492,10 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * As per the specification, this is the list of actions that are
      * explicitly listed in the "Actions" key of the [Desktop Entry] group.
      */
-    public PointerIterator<java.lang.String> listActions() {
+    public PointerString listActions() {
         try {
             var RESULT = (MemoryAddress) g_desktop_app_info_list_actions.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

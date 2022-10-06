@@ -25,9 +25,9 @@ public class VariationT extends io.github.jwharm.javagi.ResourceBase {
      * understood by hb_variation_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
-    public void String(java.lang.String[] buf, int size) {
+    public void String(PointerString buf, int size) {
         try {
-            hb_variation_to_string.invokeExact(handle(), Interop.allocateNativeArray(buf).handle(), size);
+            hb_variation_to_string.invokeExact(handle(), buf.handle(), size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -366,10 +366,10 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * The caller is responsible for freeing the list with g_strfreev() when
      * it is no longer required.
      */
-    public default PointerIterator<java.lang.String> listActions() {
+    public default PointerString listActions() {
         try {
             var RESULT = (MemoryAddress) g_action_group_list_actions.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -409,9 +409,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * filled.  If the action doesn't exist, {@code false} is returned and the
      * fields may or may not have been modified.
      */
-    public default boolean queryAction(java.lang.String actionName, PointerBoolean enabled, org.gtk.glib.VariantType[] parameterType, org.gtk.glib.VariantType[] stateType, org.gtk.glib.Variant[] stateHint, org.gtk.glib.Variant[] state) {
+    public default boolean queryAction(java.lang.String actionName, PointerBoolean enabled, PointerProxy<org.gtk.glib.VariantType> parameterType, PointerProxy<org.gtk.glib.VariantType> stateType, PointerProxy<org.gtk.glib.Variant> stateHint, PointerProxy<org.gtk.glib.Variant> state) {
         try {
-            var RESULT = (int) g_action_group_query_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), enabled.handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(stateType).handle(), Interop.allocateNativeArray(stateHint).handle(), Interop.allocateNativeArray(state).handle());
+            var RESULT = (int) g_action_group_query_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), enabled.handle(), parameterType.handle(), stateType.handle(), stateHint.handle(), state.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

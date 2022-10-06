@@ -1262,10 +1262,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * this is not included in the {@link org.gtk.glib.Bytes} length. The resulting {@link org.gtk.glib.Bytes} should be
      * freed with g_bytes_unref() when no longer in use.
      */
-    public default org.gtk.glib.Bytes loadBytes(Cancellable cancellable, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
+    public default org.gtk.glib.Bytes loadBytes(Cancellable cancellable, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_file_load_bytes.invokeExact(handle(), cancellable.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_file_load_bytes.invokeExact(handle(), cancellable.handle(), etagOut.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1322,10 +1322,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See g_file_load_bytes() for more information.
      */
-    public default org.gtk.glib.Bytes loadBytesFinish(AsyncResult result, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
+    public default org.gtk.glib.Bytes loadBytesFinish(AsyncResult result, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_file_load_bytes_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_file_load_bytes_finish.invokeExact(handle(), result.handle(), etagOut.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1350,10 +1350,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean loadContents(Cancellable cancellable, byte[] contents, PointerLong length, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean loadContents(Cancellable cancellable, PointerByte contents, PointerLong length, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_load_contents.invokeExact(handle(), cancellable.handle(), Interop.allocateNativeArray(contents).handle(), length.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
+            var RESULT = (int) g_file_load_contents.invokeExact(handle(), cancellable.handle(), contents.handle(), length.handle(), etagOut.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1409,10 +1409,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * g_free() when no longer needed. If {@code etag_out} is present, it will be
      * set to the new entity tag for the {@code file}.
      */
-    public default boolean loadContentsFinish(AsyncResult res, byte[] contents, PointerLong length, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean loadContentsFinish(AsyncResult res, PointerByte contents, PointerLong length, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_load_contents_finish.invokeExact(handle(), res.handle(), Interop.allocateNativeArray(contents).handle(), length.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
+            var RESULT = (int) g_file_load_contents_finish.invokeExact(handle(), res.handle(), contents.handle(), length.handle(), etagOut.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1471,10 +1471,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * The returned {@code contents} should be freed with g_free() when no longer
      * needed.
      */
-    public default boolean loadPartialContentsFinish(AsyncResult res, byte[] contents, PointerLong length, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean loadPartialContentsFinish(AsyncResult res, PointerByte contents, PointerLong length, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_load_partial_contents_finish.invokeExact(handle(), res.handle(), Interop.allocateNativeArray(contents).handle(), length.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
+            var RESULT = (int) g_file_load_partial_contents_finish.invokeExact(handle(), res.handle(), contents.handle(), length.handle(), etagOut.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2782,10 +2782,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * The returned {@code new_etag} can be used to verify that the file hasn't
      * changed the next time it is saved over.
      */
-    public default boolean replaceContents(byte[] contents, long length, java.lang.String etag, boolean makeBackup, FileCreateFlags flags, java.lang.String[] newEtag, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean replaceContents(byte[] contents, long length, java.lang.String etag, boolean makeBackup, FileCreateFlags flags, PointerString newEtag, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_replace_contents.invokeExact(handle(), Interop.allocateNativeArray(contents).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), Interop.allocateNativeArray(newEtag).handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_file_replace_contents.invokeExact(handle(), Interop.allocateNativeArray(contents).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), newEtag.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2874,10 +2874,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * g_file_replace_contents_async(). Sets {@code new_etag} to the new entity
      * tag for the document, if present.
      */
-    public default boolean replaceContentsFinish(AsyncResult res, java.lang.String[] newEtag) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean replaceContentsFinish(AsyncResult res, PointerString newEtag) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_replace_contents_finish.invokeExact(handle(), res.handle(), Interop.allocateNativeArray(newEtag).handle(), GERROR);
+            var RESULT = (int) g_file_replace_contents_finish.invokeExact(handle(), res.handle(), newEtag.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3236,10 +3236,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes setting an attribute started in g_file_set_attributes_async().
      */
-    public default boolean setAttributesFinish(AsyncResult result, FileInfo[] info) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttributesFinish(AsyncResult result, PointerProxy<FileInfo> info) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_set_attributes_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(info).handle(), GERROR);
+            var RESULT = (int) g_file_set_attributes_finish.invokeExact(handle(), result.handle(), info.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3739,10 +3739,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Unlike the other {@link File} constructors, this will return {@code null} if
      * a temporary file could not be created.
      */
-    public static File newTmp(java.lang.String tmpl, FileIOStream[] iostream) throws io.github.jwharm.javagi.GErrorException {
+    public static File newTmp(java.lang.String tmpl, PointerProxy<FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), Interop.allocateNativeArray(iostream).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), iostream.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

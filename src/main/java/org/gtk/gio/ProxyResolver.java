@@ -56,14 +56,14 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
      * Direct connection should not be attempted unless it is part of the
      * returned array of proxies.
      */
-    public default PointerIterator<java.lang.String> lookup(java.lang.String uri, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default PointerString lookup(java.lang.String uri, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_proxy_resolver_lookup.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,14 +102,14 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
      * g_proxy_resolver_lookup_async() is complete. See
      * g_proxy_resolver_lookup() for more details.
      */
-    public default PointerIterator<java.lang.String> lookupFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public default PointerString lookupFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_proxy_resolver_lookup_finish.invokeExact(handle(), result.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -1065,10 +1065,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
      */
-    public long receive(byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receive(PointerByte buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_receive.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), size, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_receive.invokeExact(handle(), buffer.handle(), size, cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1092,10 +1092,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * See g_socket_receive() for additional information.
      */
-    public long receiveFrom(SocketAddress[] address, byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receiveFrom(PointerProxy<SocketAddress> address, PointerByte buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_receive_from.invokeExact(handle(), Interop.allocateNativeArray(address).handle(), Interop.allocateNativeArray(buffer).handle(), size, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_receive_from.invokeExact(handle(), address.handle(), buffer.handle(), size, cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1171,10 +1171,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
      */
-    public long receiveMessage(SocketAddress[] address, InputVector[] vectors, int numVectors, SocketControlMessage[] messages, PointerInteger numMessages, PointerInteger flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receiveMessage(PointerProxy<SocketAddress> address, InputVector[] vectors, int numVectors, PointerProxy<SocketControlMessage> messages, PointerInteger numMessages, PointerInteger flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_receive_message.invokeExact(handle(), Interop.allocateNativeArray(address).handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, Interop.allocateNativeArray(messages).handle(), numMessages.handle(), flags.handle(), cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_receive_message.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, messages.handle(), numMessages.handle(), flags.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1262,10 +1262,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * the choice of blocking or non-blocking behavior is determined by
      * the {@code blocking} argument rather than by {@code socket}'s properties.
      */
-    public long receiveWithBlocking(byte[] buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receiveWithBlocking(PointerByte buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_receive_with_blocking.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_receive_with_blocking.invokeExact(handle(), buffer.handle(), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

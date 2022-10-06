@@ -286,10 +286,10 @@ public final class Gio {
      * For strings, this third format must be used if * target value is
      * empty or contains characters other than alphanumerics, '-' and '.'.
      */
-    public static boolean actionParseDetailedName(java.lang.String detailedName, java.lang.String[] actionName, org.gtk.glib.Variant[] targetValue) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean actionParseDetailedName(java.lang.String detailedName, PointerString actionName, PointerProxy<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(targetValue).handle(), GERROR);
+            var RESULT = (int) g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName).handle(), actionName.handle(), targetValue.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1111,10 +1111,10 @@ public final class Gio {
      * Get the list of directories which MIME data is loaded from. See
      * g_content_type_set_mime_dirs() for details.
      */
-    public static PointerIterator<java.lang.String> contentTypeGetMimeDirs() {
+    public static PointerString contentTypeGetMimeDirs() {
         try {
             var RESULT = (MemoryAddress) g_content_type_get_mime_dirs.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1193,10 +1193,10 @@ public final class Gio {
      * This function is useful in the implementation of
      * g_mount_guess_content_type().
      */
-    public static PointerIterator<java.lang.String> contentTypeGuessForTree(File root) {
+    public static PointerString contentTypeGuessForTree(File root) {
         try {
             var RESULT = (MemoryAddress) g_content_type_guess_for_tree.invokeExact(root.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1408,10 +1408,10 @@ public final class Gio {
      * A server is not required to set a GUID, so {@code out_guid} may be set to {@code null}
      * even on success.
      */
-    public static IOStream dbusAddressGetStreamFinish(AsyncResult res, java.lang.String[] outGuid) throws io.github.jwharm.javagi.GErrorException {
+    public static IOStream dbusAddressGetStreamFinish(AsyncResult res, PointerString outGuid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_address_get_stream_finish.invokeExact(res.handle(), Interop.allocateNativeArray(outGuid).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_address_get_stream_finish.invokeExact(res.handle(), outGuid.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1438,10 +1438,10 @@ public final class Gio {
      * This is a synchronous failable function. See
      * g_dbus_address_get_stream() for the asynchronous version.
      */
-    public static IOStream dbusAddressGetStreamSync(java.lang.String address, java.lang.String[] outGuid, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public static IOStream dbusAddressGetStreamSync(java.lang.String address, PointerString outGuid, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_address_get_stream_sync.invokeExact(Interop.allocateNativeString(address).handle(), Interop.allocateNativeArray(outGuid).handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_address_get_stream_sync.invokeExact(Interop.allocateNativeString(address).handle(), outGuid.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1990,10 +1990,10 @@ public final class Gio {
      * encoded is not allowed (e.g {@code _63} is not valid, the string
      * should contain {@code c} instead).
      */
-    public static PointerIterator<Byte> dbusUnescapeObjectPath(java.lang.String s) {
+    public static PointerByte dbusUnescapeObjectPath(java.lang.String s) {
         try {
             var RESULT = (MemoryAddress) g_dbus_unescape_object_path.invokeExact(Interop.allocateNativeString(s).handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2155,10 +2155,10 @@ public final class Gio {
      * Unlike the other {@link File} constructors, this will return {@code null} if
      * a temporary file could not be created.
      */
-    public static File fileNewTmp(java.lang.String tmpl, FileIOStream[] iostream) throws io.github.jwharm.javagi.GErrorException {
+    public static File fileNewTmp(java.lang.String tmpl, PointerProxy<FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), Interop.allocateNativeArray(iostream).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), iostream.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2863,14 +2863,14 @@ public final class Gio {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public static PointerIterator<java.lang.String> resourcesEnumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public static PointerString resourcesEnumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_resources_enumerate_children.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -283,9 +283,9 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the vertices of the given {@link Box}.
      */
-    public void getVertices(Vec3[] vertices) {
+    public void getVertices(PointerProxy<Vec3> vertices) {
         try {
-            graphene_box_get_vertices.invokeExact(handle(), Interop.allocateNativeArray(vertices).handle());
+            graphene_box_get_vertices.invokeExact(handle(), vertices.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

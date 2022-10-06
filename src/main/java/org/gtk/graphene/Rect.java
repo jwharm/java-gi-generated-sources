@@ -230,9 +230,9 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the four vertices of a {@link Rect}.
      */
-    public void getVertices(Vec2[] vertices) {
+    public void getVertices(PointerProxy<Vec2> vertices) {
         try {
-            graphene_rect_get_vertices.invokeExact(handle(), Interop.allocateNativeArray(vertices).handle());
+            graphene_rect_get_vertices.invokeExact(handle(), vertices.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

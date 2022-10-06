@@ -48,10 +48,10 @@ public class LinearGradientNode extends RenderNode {
     /**
      * Retrieves the color stops in the gradient.
      */
-    public PointerIterator<ColorStop> getColorStops(PointerLong nStops) {
+    public PointerProxy<ColorStop> getColorStops(PointerLong nStops) {
         try {
             var RESULT = (MemoryAddress) gsk_linear_gradient_node_get_color_stops.invokeExact(handle(), nStops.handle());
-            return new PointerProxy<ColorStop>(RESULT, ColorStop.class).iterator();
+            return new PointerProxy<ColorStop>(RESULT, ColorStop.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

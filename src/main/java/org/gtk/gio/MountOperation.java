@@ -437,7 +437,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AskQuestionHandler {
-        void signalReceived(MountOperation source, java.lang.String message, PointerIterator<java.lang.String> choices);
+        void signalReceived(MountOperation source, java.lang.String message, PointerString choices);
     }
     
     /**
@@ -494,7 +494,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ShowProcessesHandler {
-        void signalReceived(MountOperation source, java.lang.String message, PointerIterator<Integer> processes, PointerIterator<java.lang.String> choices);
+        void signalReceived(MountOperation source, java.lang.String message, PointerInteger processes, PointerString choices);
     }
     
     /**
@@ -587,7 +587,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         public static void signalMountOperationAskQuestion(MemoryAddress source, MemoryAddress message, MemoryAddress choices, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MountOperation.AskQuestionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), new PointerString(choices).iterator());
+            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), new PointerString(choices));
         }
         
         public static void signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
@@ -599,7 +599,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         public static void signalMountOperationShowProcesses(MemoryAddress source, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (MountOperation.ShowProcessesHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), new PointerInteger(processes).iterator(), new PointerString(choices).iterator());
+            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), new PointerInteger(processes), new PointerString(choices));
         }
         
         public static void signalMountOperationShowUnmountProgress(MemoryAddress source, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress data) {

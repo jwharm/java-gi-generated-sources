@@ -128,9 +128,9 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * {@code PangoFontFamily} also implemented the {@code Gio.ListModel} interface
      * for enumerating faces.
      */
-    public void listFaces(FontFace[] faces, PointerInteger nFaces) {
+    public void listFaces(PointerProxy<FontFace> faces, PointerInteger nFaces) {
         try {
-            pango_font_family_list_faces.invokeExact(handle(), Interop.allocateNativeArray(faces).handle(), nFaces.handle());
+            pango_font_family_list_faces.invokeExact(handle(), faces.handle(), nFaces.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

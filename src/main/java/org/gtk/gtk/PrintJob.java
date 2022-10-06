@@ -124,10 +124,10 @@ public class PrintJob extends org.gtk.gobject.Object {
     /**
      * Gets the page ranges for this job.
      */
-    public PointerIterator<PageRange> getPageRanges(PointerInteger nRanges) {
+    public PointerProxy<PageRange> getPageRanges(PointerInteger nRanges) {
         try {
             var RESULT = (MemoryAddress) gtk_print_job_get_page_ranges.invokeExact(handle(), nRanges.handle());
-            return new PointerProxy<PageRange>(RESULT, PageRange.class).iterator();
+            return new PointerProxy<PageRange>(RESULT, PageRange.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -444,10 +444,10 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * access file descriptors if they are referenced in this way by a
      * value of type {@code G_VARIANT_TYPE_HANDLE} in the body of the message.
      */
-    public org.gtk.glib.Variant callWithUnixFdListFinish(UnixFDList[] outFdList, AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.Variant callWithUnixFdListFinish(PointerProxy<UnixFDList> outFdList, AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_connection_call_with_unix_fd_list_finish.invokeExact(handle(), Interop.allocateNativeArray(outFdList).handle(), res.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_connection_call_with_unix_fd_list_finish.invokeExact(handle(), outFdList.handle(), res.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -469,10 +469,10 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * <p>
      * This method is only available on UNIX.
      */
-    public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, DBusCallFlags flags, int timeoutMsec, UnixFDList fdList, UnixFDList[] outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, DBusCallFlags flags, int timeoutMsec, UnixFDList fdList, PointerProxy<UnixFDList> outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_connection_call_with_unix_fd_list_sync.invokeExact(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, fdList.handle(), Interop.allocateNativeArray(outFdList).handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_connection_call_with_unix_fd_list_sync.invokeExact(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, fdList.handle(), outFdList.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

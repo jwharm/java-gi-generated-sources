@@ -271,10 +271,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Replacement for g_io_channel_read() with the new API.
      */
-    public IOStatus readChars(byte[] buf, long count, PointerLong bytesRead) throws io.github.jwharm.javagi.GErrorException {
+    public IOStatus readChars(PointerByte buf, long count, PointerLong bytesRead) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_read_chars.invokeExact(handle(), Interop.allocateNativeArray(buf).handle(), count, bytesRead.handle(), GERROR);
+            var RESULT = (int) g_io_channel_read_chars.invokeExact(handle(), buf.handle(), count, bytesRead.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -295,10 +295,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * {@code str_return} will contain allocated memory if the return
      * is {@link IOStatus#NORMAL}.
      */
-    public IOStatus readLine(java.lang.String[] strReturn, PointerLong length, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
+    public IOStatus readLine(PointerString strReturn, PointerLong length, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_read_line.invokeExact(handle(), Interop.allocateNativeArray(strReturn).handle(), length.handle(), terminatorPos.handle(), GERROR);
+            var RESULT = (int) g_io_channel_read_line.invokeExact(handle(), strReturn.handle(), length.handle(), terminatorPos.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -337,10 +337,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Reads all the remaining data from the file.
      */
-    public IOStatus readToEnd(byte[] strReturn, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public IOStatus readToEnd(PointerByte strReturn, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_read_to_end.invokeExact(handle(), Interop.allocateNativeArray(strReturn).handle(), length.handle(), GERROR);
+            var RESULT = (int) g_io_channel_read_to_end.invokeExact(handle(), strReturn.handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

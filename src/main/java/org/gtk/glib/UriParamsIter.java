@@ -85,10 +85,10 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      * Note that the same {@code attribute} may be returned multiple times, since URIs
      * allow repeated attributes.
      */
-    public boolean next(java.lang.String[] attribute, java.lang.String[] value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean next(PointerString attribute, PointerString value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_params_iter_next.invokeExact(handle(), Interop.allocateNativeArray(attribute).handle(), Interop.allocateNativeArray(value).handle(), GERROR);
+            var RESULT = (int) g_uri_params_iter_next.invokeExact(handle(), attribute.handle(), value.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

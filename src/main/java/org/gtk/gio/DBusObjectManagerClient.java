@@ -362,7 +362,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     
     @FunctionalInterface
     public interface InterfaceProxyPropertiesChangedHandler {
-        void signalReceived(DBusObjectManagerClient source, DBusObjectProxy objectProxy, DBusProxy interfaceProxy, org.gtk.glib.Variant changedProperties, PointerIterator<java.lang.String> invalidatedProperties);
+        void signalReceived(DBusObjectManagerClient source, DBusObjectProxy objectProxy, DBusProxy interfaceProxy, org.gtk.glib.Variant changedProperties, PointerString invalidatedProperties);
     }
     
     /**
@@ -434,7 +434,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         public static void signalDBusObjectManagerClientInterfaceProxyPropertiesChanged(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusObjectManagerClient.InterfaceProxyPropertiesChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DBusObjectManagerClient(Refcounted.get(source)), new DBusObjectProxy(Refcounted.get(objectProxy, false)), new DBusProxy(Refcounted.get(interfaceProxy, false)), new org.gtk.glib.Variant(Refcounted.get(changedProperties, false)), new PointerString(invalidatedProperties).iterator());
+            handler.signalReceived(new DBusObjectManagerClient(Refcounted.get(source)), new DBusObjectProxy(Refcounted.get(objectProxy, false)), new DBusProxy(Refcounted.get(interfaceProxy, false)), new org.gtk.glib.Variant(Refcounted.get(changedProperties, false)), new PointerString(invalidatedProperties));
         }
         
         public static void signalDBusObjectManagerClientInterfaceProxySignal(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {

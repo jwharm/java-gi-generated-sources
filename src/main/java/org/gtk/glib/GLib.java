@@ -602,9 +602,9 @@ public final class GLib {
      * This function resets {@code errno} before calling strtod() so that
      * you can reliably detect overflow and underflow.
      */
-    public static double asciiStrtod(java.lang.String nptr, java.lang.String[] endptr) {
+    public static double asciiStrtod(java.lang.String nptr, PointerString endptr) {
         try {
-            var RESULT = (double) g_ascii_strtod.invokeExact(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle());
+            var RESULT = (double) g_ascii_strtod.invokeExact(Interop.allocateNativeString(nptr).handle(), endptr.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -635,9 +635,9 @@ public final class GLib {
      * string conversion fails, zero is returned, and {@code endptr} returns {@code nptr}
      * (if {@code endptr} is non-{@code null}).
      */
-    public static long asciiStrtoll(java.lang.String nptr, java.lang.String[] endptr, int base) {
+    public static long asciiStrtoll(java.lang.String nptr, PointerString endptr, int base) {
         try {
-            var RESULT = (long) g_ascii_strtoll.invokeExact(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle(), base);
+            var RESULT = (long) g_ascii_strtoll.invokeExact(Interop.allocateNativeString(nptr).handle(), endptr.handle(), base);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -673,9 +673,9 @@ public final class GLib {
      * If the string conversion fails, zero is returned, and {@code endptr} returns
      * {@code nptr} (if {@code endptr} is non-{@code null}).
      */
-    public static long asciiStrtoull(java.lang.String nptr, java.lang.String[] endptr, int base) {
+    public static long asciiStrtoull(java.lang.String nptr, PointerString endptr, int base) {
         try {
-            var RESULT = (long) g_ascii_strtoull.invokeExact(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle(), base);
+            var RESULT = (long) g_ascii_strtoull.invokeExact(Interop.allocateNativeString(nptr).handle(), endptr.handle(), base);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1456,10 +1456,10 @@ public final class GLib {
      * that the returned binary data is not necessarily zero-terminated,
      * so it should not be used as a character string.
      */
-    public static PointerIterator<Byte> base64Decode(java.lang.String text, PointerLong outLen) {
+    public static PointerByte base64Decode(java.lang.String text, PointerLong outLen) {
         try {
             var RESULT = (MemoryAddress) g_base64_decode.invokeExact(Interop.allocateNativeString(text).handle(), outLen.handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1474,9 +1474,9 @@ public final class GLib {
      * Decode a sequence of Base-64 encoded text into binary data
      * by overwriting the input data.
      */
-    public static PointerByte base64DecodeInplace(byte[] text, PointerLong outLen) {
+    public static PointerByte base64DecodeInplace(PointerByte text, PointerLong outLen) {
         try {
-            var RESULT = (MemoryAddress) g_base64_decode_inplace.invokeExact(Interop.allocateNativeArray(text).handle(), outLen.handle());
+            var RESULT = (MemoryAddress) g_base64_decode_inplace.invokeExact(text.handle(), outLen.handle());
             return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1498,9 +1498,9 @@ public final class GLib {
      * at least: ({@code len} / 4) * 3 + 3 bytes (+ 3 may be needed in case of non-zero
      * state).
      */
-    public static long base64DecodeStep(byte[] in, long len, byte[] out, PointerInteger state, PointerInteger save) {
+    public static long base64DecodeStep(byte[] in, long len, PointerByte out, PointerInteger state, PointerInteger save) {
         try {
-            var RESULT = (long) g_base64_decode_step.invokeExact(Interop.allocateNativeArray(in).handle(), len, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
+            var RESULT = (long) g_base64_decode_step.invokeExact(Interop.allocateNativeArray(in).handle(), len, out.handle(), state.handle(), save.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1539,9 +1539,9 @@ public final class GLib {
      * <p>
      * The {@code out} array will not be automatically nul-terminated.
      */
-    public static long base64EncodeClose(boolean breakLines, byte[] out, PointerInteger state, PointerInteger save) {
+    public static long base64EncodeClose(boolean breakLines, PointerByte out, PointerInteger state, PointerInteger save) {
         try {
-            var RESULT = (long) g_base64_encode_close.invokeExact(breakLines ? 1 : 0, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
+            var RESULT = (long) g_base64_encode_close.invokeExact(breakLines ? 1 : 0, out.handle(), state.handle(), save.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1574,9 +1574,9 @@ public final class GLib {
      * {@code CR LF} sequences, so the result cannot be passed directly to SMTP
      * or certain other protocols.
      */
-    public static long base64EncodeStep(byte[] in, long len, boolean breakLines, byte[] out, PointerInteger state, PointerInteger save) {
+    public static long base64EncodeStep(byte[] in, long len, boolean breakLines, PointerByte out, PointerInteger state, PointerInteger save) {
         try {
-            var RESULT = (long) g_base64_encode_step.invokeExact(Interop.allocateNativeArray(in).handle(), len, breakLines ? 1 : 0, Interop.allocateNativeArray(out).handle(), state.handle(), save.handle());
+            var RESULT = (long) g_base64_encode_step.invokeExact(Interop.allocateNativeArray(in).handle(), len, breakLines ? 1 : 0, out.handle(), state.handle(), save.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1845,10 +1845,10 @@ public final class GLib {
     /**
      * Creates a new {@link ByteArray} with a reference count of 1.
      */
-    public static PointerIterator<Byte> byteArrayNew() {
+    public static PointerByte byteArrayNew() {
         try {
             var RESULT = (MemoryAddress) g_byte_array_new.invokeExact();
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1867,10 +1867,10 @@ public final class GLib {
      * stores the length of its data in {@code guint}, which may be shorter than
      * {@code gsize}.
      */
-    public static PointerIterator<Byte> byteArrayNewTake(byte[] data, long len) {
+    public static PointerByte byteArrayNewTake(byte[] data, long len) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_new_take.invokeExact(Interop.allocateNativeArray(data).handle(), len);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2319,14 +2319,14 @@ public final class GLib {
      * Using extensions such as "//TRANSLIT" may not work (or may not work
      * well) on many platforms.  Consider using g_str_to_ascii() instead.
      */
-    public static PointerIterator<Byte> convert(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public static PointerByte convert(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_convert.invokeExact(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2370,14 +2370,14 @@ public final class GLib {
      * character until it knows that the next character is not a mark that
      * could combine with the base character.)
      */
-    public static PointerIterator<Byte> convertWithFallback(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, java.lang.String fallback, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public static PointerByte convertWithFallback(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, java.lang.String fallback, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_convert_with_fallback.invokeExact(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), Interop.allocateNativeString(fallback).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2409,14 +2409,14 @@ public final class GLib {
      * the input character set. To get defined behaviour for conversion of
      * unrepresentable characters, use g_convert_with_fallback().
      */
-    public static PointerIterator<Byte> convertWithIconv(byte[] str, long len, IConv converter, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public static PointerByte convertWithIconv(byte[] str, long len, IConv converter, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_convert_with_iconv.invokeExact(Interop.allocateNativeArray(str).handle(), len, converter.handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3274,10 +3274,10 @@ public final class GLib {
      * Sets the environment variable {@code variable} in the provided list
      * {@code envp} to {@code value}.
      */
-    public static PointerIterator<java.lang.String> environSetenv(java.lang.String[] envp, java.lang.String variable, java.lang.String value, boolean overwrite) {
+    public static PointerString environSetenv(java.lang.String[] envp, java.lang.String variable, java.lang.String value, boolean overwrite) {
         try {
             var RESULT = (MemoryAddress) g_environ_setenv.invokeExact(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3292,10 +3292,10 @@ public final class GLib {
      * Removes the environment variable {@code variable} from the provided
      * environment {@code envp}.
      */
-    public static PointerIterator<java.lang.String> environUnsetenv(java.lang.String[] envp, java.lang.String variable) {
+    public static PointerString environUnsetenv(java.lang.String[] envp, java.lang.String variable) {
         try {
             var RESULT = (MemoryAddress) g_environ_unsetenv.invokeExact(Interop.allocateNativeArray(envp).handle(), Interop.allocateNativeString(variable).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3357,10 +3357,10 @@ public final class GLib {
      * codes are those in the {@link FileError} enumeration. In the error case,
      * {@code contents} is set to {@code null} and {@code length} is set to zero.
      */
-    public static boolean fileGetContents(java.lang.String filename, byte[] contents, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean fileGetContents(java.lang.String filename, PointerByte contents, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_get_contents.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length.handle(), GERROR);
+            var RESULT = (int) g_file_get_contents.invokeExact(Interop.allocateNativeString(filename).handle(), contents.handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3393,10 +3393,10 @@ public final class GLib {
      * when not needed any longer. The returned name is in the GLib file
      * name encoding.
      */
-    public static int fileOpenTmp(java.lang.String tmpl, java.lang.String[] nameUsed) throws io.github.jwharm.javagi.GErrorException {
+    public static int fileOpenTmp(java.lang.String tmpl, PointerString nameUsed) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_open_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), Interop.allocateNativeArray(nameUsed).handle(), GERROR);
+            var RESULT = (int) g_file_open_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), nameUsed.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3666,10 +3666,10 @@ public final class GLib {
      * Converts an escaped ASCII-encoded URI to a local filename in the
      * encoding used for filenames.
      */
-    public static java.lang.String filenameFromUri(java.lang.String uri, java.lang.String[] hostname) throws io.github.jwharm.javagi.GErrorException {
+    public static java.lang.String filenameFromUri(java.lang.String uri, PointerString hostname) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_filename_from_uri.invokeExact(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(hostname).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_filename_from_uri.invokeExact(Interop.allocateNativeString(uri).handle(), hostname.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3914,9 +3914,9 @@ public final class GLib {
      * The string returned in {@code charset} is not allocated, and should not be
      * freed.
      */
-    public static boolean getCharset(java.lang.String[] charset) {
+    public static boolean getCharset(PointerString charset) {
         try {
-            var RESULT = (int) g_get_charset.invokeExact(Interop.allocateNativeArray(charset).handle());
+            var RESULT = (int) g_get_charset.invokeExact(charset.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3964,9 +3964,9 @@ public final class GLib {
      * The string returned in {@code charset} is not allocated, and should not be
      * freed.
      */
-    public static boolean getConsoleCharset(java.lang.String[] charset) {
+    public static boolean getConsoleCharset(PointerString charset) {
         try {
-            var RESULT = (int) g_get_console_charset.invokeExact(Interop.allocateNativeArray(charset).handle());
+            var RESULT = (int) g_get_console_charset.invokeExact(charset.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4016,10 +4016,10 @@ public final class GLib {
      * The return value is freshly allocated and it should be freed with
      * g_strfreev() when it is no longer needed.
      */
-    public static PointerIterator<java.lang.String> getEnviron() {
+    public static PointerString getEnviron() {
         try {
             var RESULT = (MemoryAddress) g_get_environ.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4056,9 +4056,9 @@ public final class GLib {
      * {@code G_FILENAME_ENCODING} value, the actual file names present
      * on a system might be in any random encoding or just gibberish.
      */
-    public static boolean getFilenameCharsets(java.lang.String[] filenameCharsets) {
+    public static boolean getFilenameCharsets(PointerString filenameCharsets) {
         try {
-            var RESULT = (int) g_get_filename_charsets.invokeExact(Interop.allocateNativeArray(filenameCharsets).handle());
+            var RESULT = (int) g_get_filename_charsets.invokeExact(filenameCharsets.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4149,10 +4149,10 @@ public final class GLib {
      * {@code LC_MESSAGES} and {@code LANG} to find the list of locales specified by the
      * user.
      */
-    public static PointerIterator<java.lang.String> getLanguageNames() {
+    public static PointerString getLanguageNames() {
         try {
             var RESULT = (MemoryAddress) g_get_language_names.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4175,10 +4175,10 @@ public final class GLib {
      * <p>
      * g_get_language_names() returns g_get_language_names_with_category("LC_MESSAGES").
      */
-    public static PointerIterator<java.lang.String> getLanguageNamesWithCategory(java.lang.String categoryName) {
+    public static PointerString getLanguageNamesWithCategory(java.lang.String categoryName) {
         try {
             var RESULT = (MemoryAddress) g_get_language_names_with_category.invokeExact(Interop.allocateNativeString(categoryName).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4206,10 +4206,10 @@ public final class GLib {
      * If you need the list of variants for the current locale,
      * use g_get_language_names().
      */
-    public static PointerIterator<java.lang.String> getLocaleVariants(java.lang.String locale) {
+    public static PointerString getLocaleVariants(java.lang.String locale) {
         try {
             var RESULT = (MemoryAddress) g_get_locale_variants.invokeExact(Interop.allocateNativeString(locale).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4382,10 +4382,10 @@ public final class GLib {
      * The return value is cached and modifying it at runtime is not supported, as
      * it’s not thread-safe to modify environment variables at runtime.
      */
-    public static PointerIterator<java.lang.String> getSystemConfigDirs() {
+    public static PointerString getSystemConfigDirs() {
         try {
             var RESULT = (MemoryAddress) g_get_system_config_dirs.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4432,10 +4432,10 @@ public final class GLib {
      * The return value is cached and modifying it at runtime is not supported, as
      * it’s not thread-safe to modify environment variables at runtime.
      */
-    public static PointerIterator<java.lang.String> getSystemDataDirs() {
+    public static PointerString getSystemDataDirs() {
         try {
             var RESULT = (MemoryAddress) g_get_system_data_dirs.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5686,10 +5686,10 @@ public final class GLib {
      * use cases for environment variables in GLib-using programs you want
      * the UTF-8 encoding that this function and g_getenv() provide.
      */
-    public static PointerIterator<java.lang.String> listenv() {
+    public static PointerString listenv() {
         try {
             var RESULT = (MemoryAddress) g_listenv.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5711,14 +5711,14 @@ public final class GLib {
      * in error {@link ConvertError#ILLEGAL_SEQUENCE}. Use g_convert() to convert
      * input that may contain embedded nul characters.
      */
-    public static PointerIterator<Byte> localeFromUtf8(java.lang.String utf8string, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public static PointerByte localeFromUtf8(java.lang.String utf8string, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_locale_from_utf8.invokeExact(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7342,9 +7342,9 @@ public final class GLib {
      * to keep using the same GError*, you need to set it to {@code null}
      * after calling this function on it.
      */
-    public static void propagateError(Error[] dest, Error src) {
+    public static void propagateError(PointerProxy<Error> dest, Error src) {
         try {
-            g_propagate_error.invokeExact(Interop.allocateNativeArray(dest).handle(), src.refcounted().unowned().handle());
+            g_propagate_error.invokeExact(dest.handle(), src.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8072,10 +8072,10 @@ public final class GLib {
      * characters. For example splitting "ab c" using as a separator
      * "\\s*", you will get "a", "b" and "c".
      */
-    public static PointerIterator<java.lang.String> regexSplitSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
+    public static PointerString regexSplitSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
         try {
             var RESULT = (MemoryAddress) g_regex_split_simple.invokeExact(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8352,9 +8352,9 @@ public final class GLib {
      * Use this function if {@code message} contains text you don't have control over,
      * that could include printf() escape sequences.
      */
-    public static void setErrorLiteral(Error[] err, Quark domain, int code, java.lang.String message) {
+    public static void setErrorLiteral(PointerProxy<Error> err, Quark domain, int code, java.lang.String message) {
         try {
-            g_set_error_literal.invokeExact(Interop.allocateNativeArray(err).handle(), domain.getValue(), code, Interop.allocateNativeString(message).handle());
+            g_set_error_literal.invokeExact(err.handle(), domain.getValue(), code, Interop.allocateNativeString(message).handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8461,10 +8461,10 @@ public final class GLib {
      * <p>
      * Free the returned vector with g_strfreev().
      */
-    public static boolean shellParseArgv(java.lang.String commandLine, PointerInteger argcp, java.lang.String[] argvp) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean shellParseArgv(java.lang.String commandLine, PointerInteger argcp, PointerString argvp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_shell_parse_argv.invokeExact(Interop.allocateNativeString(commandLine).handle(), argcp.handle(), Interop.allocateNativeArray(argvp).handle(), GERROR);
+            var RESULT = (int) g_shell_parse_argv.invokeExact(Interop.allocateNativeString(commandLine).handle(), argcp.handle(), argvp.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -9297,10 +9297,10 @@ public final class GLib {
      * separator. You need to enclose such paths with single quotes, like
      * "'c:\\\\program files\\\\app\\\\app.exe' 'e:\\\\folder\\\\argument.txt'".
      */
-    public static boolean spawnCommandLineSync(java.lang.String commandLine, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean spawnCommandLineSync(java.lang.String commandLine, PointerByte standardOutput, PointerByte standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_spawn_command_line_sync.invokeExact(Interop.allocateNativeString(commandLine).handle(), Interop.allocateNativeArray(standardOutput).handle(), Interop.allocateNativeArray(standardError).handle(), waitStatus.handle(), GERROR);
+            var RESULT = (int) g_spawn_command_line_sync.invokeExact(Interop.allocateNativeString(commandLine).handle(), standardOutput.handle(), standardError.handle(), waitStatus.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -9368,7 +9368,7 @@ public final class GLib {
      * function for full details on the other parameters and details on
      * how these functions work on Windows.
      */
-    public static boolean spawnSync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, SpawnFlags flags, SpawnChildSetupFunc childSetup, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean spawnSync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, SpawnFlags flags, SpawnChildSetupFunc childSetup, PointerByte standardOutput, PointerByte standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (int) g_spawn_sync.invokeExact(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
@@ -9377,7 +9377,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), Interop.allocateNativeArray(standardOutput).handle(), Interop.allocateNativeArray(standardError).handle(), waitStatus.handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), standardOutput.handle(), standardError.handle(), waitStatus.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -9607,10 +9607,10 @@ public final class GLib {
      * improve the transliteration if the language of the source string is
      * known.
      */
-    public static PointerIterator<java.lang.String> strTokenizeAndFold(java.lang.String string, java.lang.String translitLocale, java.lang.String[] asciiAlternates) {
+    public static PointerString strTokenizeAndFold(java.lang.String string, java.lang.String translitLocale, PointerString asciiAlternates) {
         try {
-            var RESULT = (MemoryAddress) g_str_tokenize_and_fold.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(translitLocale).handle(), Interop.allocateNativeArray(asciiAlternates).handle());
-            return new PointerString(RESULT).iterator();
+            var RESULT = (MemoryAddress) g_str_tokenize_and_fold.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(translitLocale).handle(), asciiAlternates.handle());
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9830,10 +9830,10 @@ public final class GLib {
      * the array itself. g_strfreev() does this for you. If called
      * on a {@code null} value, g_strdupv() simply returns {@code null}.
      */
-    public static PointerIterator<java.lang.String> strdupv(java.lang.String[] strArray) {
+    public static PointerString strdupv(java.lang.String[] strArray) {
         try {
             var RESULT = (MemoryAddress) g_strdupv.invokeExact(Interop.allocateNativeArray(strArray).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10157,10 +10157,10 @@ public final class GLib {
      * to represent empty elements, you'll need to check for the empty string
      * before calling g_strsplit().
      */
-    public static PointerIterator<java.lang.String> strsplit(java.lang.String string, java.lang.String delimiter, int maxTokens) {
+    public static PointerString strsplit(java.lang.String string, java.lang.String delimiter, int maxTokens) {
         try {
             var RESULT = (MemoryAddress) g_strsplit.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiter).handle(), maxTokens);
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10194,10 +10194,10 @@ public final class GLib {
      * Note that this function works on bytes not characters, so it can't be used
      * to delimit UTF-8 strings for anything but ASCII characters.
      */
-    public static PointerIterator<java.lang.String> strsplitSet(java.lang.String string, java.lang.String delimiters, int maxTokens) {
+    public static PointerString strsplitSet(java.lang.String string, java.lang.String delimiters, int maxTokens) {
         try {
             var RESULT = (MemoryAddress) g_strsplit_set.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiters).handle(), maxTokens);
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10240,9 +10240,9 @@ public final class GLib {
      * separated lists of values, since the commas may be interpreted as a decimal
      * point in some locales, causing unexpected results.
      */
-    public static double strtod(java.lang.String nptr, java.lang.String[] endptr) {
+    public static double strtod(java.lang.String nptr, PointerString endptr) {
         try {
-            var RESULT = (double) g_strtod.invokeExact(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle());
+            var RESULT = (double) g_strtod.invokeExact(Interop.allocateNativeString(nptr).handle(), endptr.handle());
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13150,10 +13150,10 @@ public final class GLib {
      * mime type defined in RFC 2483 into individual URIs,
      * discarding any comments. The URIs are not validated.
      */
-    public static PointerIterator<java.lang.String> uriListExtractUris(java.lang.String uriList) {
+    public static PointerString uriListExtractUris(java.lang.String uriList) {
         try {
             var RESULT = (MemoryAddress) g_uri_list_extract_uris.invokeExact(Interop.allocateNativeString(uriList).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13325,10 +13325,10 @@ public final class GLib {
      * since it always returns only the full userinfo; use
      * g_uri_split_with_user() if you want it split up.
      */
-    public static boolean uriSplit(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] userinfo, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean uriSplit(java.lang.String uriRef, UriFlags flags, PointerString scheme, PointerString userinfo, PointerString host, PointerInteger port, PointerString path, PointerString query, PointerString fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+            var RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), scheme.handle(), userinfo.handle(), host.handle(), port.handle(), path.handle(), query.handle(), fragment.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13351,10 +13351,10 @@ public final class GLib {
      * However, it will return an error if {@code uri_string} is a relative URI,
      * or does not contain a hostname component.
      */
-    public static boolean uriSplitNetwork(java.lang.String uriString, UriFlags flags, java.lang.String[] scheme, java.lang.String[] host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean uriSplitNetwork(java.lang.String uriString, UriFlags flags, PointerString scheme, PointerString host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
+            var RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), scheme.handle(), host.handle(), port.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13382,10 +13382,10 @@ public final class GLib {
      * {@code auth_params} will only be parsed out if {@code flags} contains
      * {@link UriFlags#HAS_AUTH_PARAMS}.
      */
-    public static boolean uriSplitWithUser(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] user, java.lang.String[] password, java.lang.String[] authParams, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean uriSplitWithUser(java.lang.String uriRef, UriFlags flags, PointerString scheme, PointerString user, PointerString password, PointerString authParams, PointerString host, PointerInteger port, PointerString path, PointerString query, PointerString fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+            var RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), scheme.handle(), user.handle(), password.handle(), authParams.handle(), host.handle(), port.handle(), path.handle(), query.handle(), fragment.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -14147,9 +14147,9 @@ public final class GLib {
      * or the network should be checked with g_utf8_validate() before
      * doing anything else with it.
      */
-    public static boolean utf8Validate(byte[] str, long maxLen, java.lang.String[] end) {
+    public static boolean utf8Validate(byte[] str, long maxLen, PointerString end) {
         try {
-            var RESULT = (int) g_utf8_validate.invokeExact(Interop.allocateNativeArray(str).handle(), maxLen, Interop.allocateNativeArray(end).handle());
+            var RESULT = (int) g_utf8_validate.invokeExact(Interop.allocateNativeArray(str).handle(), maxLen, end.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -14167,9 +14167,9 @@ public final class GLib {
      * As with g_utf8_validate(), but {@code max_len} must be set, and hence this function
      * will always return {@code false} if any of the bytes of {@code str} are nul.
      */
-    public static boolean utf8ValidateLen(byte[] str, long maxLen, java.lang.String[] end) {
+    public static boolean utf8ValidateLen(byte[] str, long maxLen, PointerString end) {
         try {
-            var RESULT = (int) g_utf8_validate_len.invokeExact(Interop.allocateNativeArray(str).handle(), maxLen, Interop.allocateNativeArray(end).handle());
+            var RESULT = (int) g_utf8_validate_len.invokeExact(Interop.allocateNativeArray(str).handle(), maxLen, end.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -14462,9 +14462,9 @@ public final class GLib {
      * For the simple case of checking if a string is a valid type string,
      * see g_variant_type_string_is_valid().
      */
-    public static boolean variantTypeStringScan(java.lang.String string, java.lang.String limit, java.lang.String[] endptr) {
+    public static boolean variantTypeStringScan(java.lang.String string, java.lang.String limit, PointerString endptr) {
         try {
-            var RESULT = (int) g_variant_type_string_scan.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
+            var RESULT = (int) g_variant_type_string_scan.invokeExact(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), endptr.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -14719,7 +14719,7 @@ public final class GLib {
     public static LogWriterOutput __cbLogWriterFunc(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
         int hash = userData.get(ValueLayout.JAVA_INT, 0);
         var handler = (LogWriterFunc) Interop.signalRegistry.get(hash);
-        return handler.onLogWriterFunc(new LogLevelFlags(logLevel), new PointerProxy<LogField>(fields, LogField.class).iterator(), nFields);
+        return handler.onLogWriterFunc(new LogLevelFlags(logLevel), new PointerProxy<LogField>(fields, LogField.class), nFields);
     }
     
     public static int __cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress data) {

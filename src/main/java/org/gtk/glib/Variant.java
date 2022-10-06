@@ -1143,10 +1143,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The return value must be freed using g_free().
      */
-    public PointerIterator<Byte> dupBytestring(PointerLong length) {
+    public PointerByte dupBytestring(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_variant_dup_bytestring.invokeExact(handle(), length.handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1169,10 +1169,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * For an empty array, {@code length} will be set to 0 and a pointer to a
      * {@code null} pointer will be returned.
      */
-    public PointerIterator<java.lang.String> dupBytestringArray(PointerLong length) {
+    public PointerString dupBytestringArray(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_variant_dup_bytestring_array.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1195,10 +1195,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * For an empty array, {@code length} will be set to 0 and a pointer to a
      * {@code null} pointer will be returned.
      */
-    public PointerIterator<java.lang.String> dupObjv(PointerLong length) {
+    public PointerString dupObjv(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_variant_dup_objv.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1243,10 +1243,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * For an empty array, {@code length} will be set to 0 and a pointer to a
      * {@code null} pointer will be returned.
      */
-    public PointerIterator<java.lang.String> dupStrv(PointerLong length) {
+    public PointerString dupStrv(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_variant_dup_strv.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1337,10 +1337,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The return value remains valid as long as {@code value} exists.
      */
-    public PointerIterator<Byte> getBytestring() {
+    public PointerByte getBytestring() {
         try {
             var RESULT = (MemoryAddress) g_variant_get_bytestring.invokeExact(handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1363,10 +1363,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * For an empty array, {@code length} will be set to 0 and a pointer to a
      * {@code null} pointer will be returned.
      */
-    public PointerIterator<java.lang.String> getBytestringArray(PointerLong length) {
+    public PointerString getBytestringArray(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_variant_get_bytestring_array.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1527,10 +1527,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * {@code n_elements}, which must be non-{@code null}, is set equal to the number of
      * items in the array.
      */
-    public PointerIterator<java.lang.foreign.MemoryAddress> getFixedArray(PointerLong nElements, long elementSize) {
+    public PointerAddress getFixedArray(PointerLong nElements, long elementSize) {
         try {
             var RESULT = (MemoryAddress) g_variant_get_fixed_array.invokeExact(handle(), nElements.handle(), elementSize);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1694,10 +1694,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * For an empty array, {@code length} will be set to 0 and a pointer to a
      * {@code null} pointer will be returned.
      */
-    public PointerIterator<java.lang.String> getObjv(PointerLong length) {
+    public PointerString getObjv(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_variant_get_objv.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1781,10 +1781,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * For an empty array, {@code length} will be set to 0 and a pointer to a
      * {@code null} pointer will be returned.
      */
-    public PointerIterator<java.lang.String> getStrv(PointerLong length) {
+    public PointerString getStrv(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_variant_get_strv.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

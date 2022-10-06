@@ -105,10 +105,10 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * <p>
      * The order in which the widgets are returned is not defined.
      */
-    public PointerIterator<Widget> getWidgets(PointerInteger outLen) {
+    public PointerProxy<Widget> getWidgets(PointerInteger outLen) {
         try {
             var RESULT = (MemoryAddress) gtk_text_child_anchor_get_widgets.invokeExact(handle(), outLen.handle());
-            return new PointerProxy<Widget>(RESULT, Widget.class).iterator();
+            return new PointerProxy<Widget>(RESULT, Widget.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

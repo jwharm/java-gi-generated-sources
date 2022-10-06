@@ -312,10 +312,10 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      * g_app_info_add_supports_type(), but only those exported directly by
      * the application.
      */
-    public default PointerIterator<java.lang.String> getSupportedTypes() {
+    public default PointerString getSupportedTypes() {
         try {
             var RESULT = (MemoryAddress) g_app_info_get_supported_types.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

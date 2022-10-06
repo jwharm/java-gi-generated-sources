@@ -451,9 +451,9 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * You must have successfully acquired the context with
      * g_main_context_acquire() before you may call this function.
      */
-    public int query(int maxPriority, PointerInteger timeout, PollFD[] fds, int nFds) {
+    public int query(int maxPriority, PointerInteger timeout, PointerProxy<PollFD> fds, int nFds) {
         try {
-            var RESULT = (int) g_main_context_query.invokeExact(handle(), maxPriority, timeout.handle(), Interop.allocateNativeArray(fds).handle(), nFds);
+            var RESULT = (int) g_main_context_query.invokeExact(handle(), maxPriority, timeout.handle(), fds.handle(), nFds);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

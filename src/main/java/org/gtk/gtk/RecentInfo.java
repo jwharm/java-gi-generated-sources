@@ -105,9 +105,9 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * If the command line contains any escape characters defined inside the
      * storage specification, they will be expanded.
      */
-    public boolean getApplicationInfo(java.lang.String appName, java.lang.String[] appExec, PointerInteger count, org.gtk.glib.DateTime[] stamp) {
+    public boolean getApplicationInfo(java.lang.String appName, PointerString appExec, PointerInteger count, PointerProxy<org.gtk.glib.DateTime> stamp) {
         try {
-            var RESULT = (int) gtk_recent_info_get_application_info.invokeExact(handle(), Interop.allocateNativeString(appName).handle(), Interop.allocateNativeArray(appExec).handle(), count.handle(), Interop.allocateNativeArray(stamp).handle());
+            var RESULT = (int) gtk_recent_info_get_application_info.invokeExact(handle(), Interop.allocateNativeString(appName).handle(), appExec.handle(), count.handle(), stamp.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -122,10 +122,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the list of applications that have registered this resource.
      */
-    public PointerIterator<java.lang.String> getApplications(PointerLong length) {
+    public PointerString getApplications(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) gtk_recent_info_get_applications.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,10 +196,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * The array of returned group names will be {@code null} terminated, so
      * length might optionally be {@code null}.
      */
-    public PointerIterator<java.lang.String> getGroups(PointerLong length) {
+    public PointerString getGroups(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) gtk_recent_info_get_groups.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

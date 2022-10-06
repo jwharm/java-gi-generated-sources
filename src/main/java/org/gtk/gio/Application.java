@@ -1360,7 +1360,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     
     @FunctionalInterface
     public interface OpenHandler {
-        void signalReceived(Application source, PointerIterator<File> files, int nFiles, java.lang.String hint);
+        void signalReceived(Application source, PointerProxy<File> files, int nFiles, java.lang.String hint);
     }
     
     /**
@@ -1468,7 +1468,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         public static void signalApplicationOpen(MemoryAddress source, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Application.OpenHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Application(Refcounted.get(source)), new PointerProxy<File>(files, File.class).iterator(), nFiles, hint.getUtf8String(0));
+            handler.signalReceived(new Application(Refcounted.get(source)), new PointerProxy<File>(files, File.class), nFiles, hint.getUtf8String(0));
         }
         
         public static void signalApplicationShutdown(MemoryAddress source, MemoryAddress data) {

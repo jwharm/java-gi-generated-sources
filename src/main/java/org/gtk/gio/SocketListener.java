@@ -72,10 +72,10 @@ public class SocketListener extends org.gtk.gobject.Object {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public SocketConnection accept(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public SocketConnection accept(PointerProxy<org.gtk.gobject.Object> sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_listener_accept.invokeExact(handle(), Interop.allocateNativeArray(sourceObject).handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_listener_accept.invokeExact(handle(), sourceObject.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -119,10 +119,10 @@ public class SocketListener extends org.gtk.gobject.Object {
     /**
      * Finishes an async accept operation. See g_socket_listener_accept_async()
      */
-    public SocketConnection acceptFinish(AsyncResult result, org.gtk.gobject.Object[] sourceObject) throws io.github.jwharm.javagi.GErrorException {
+    public SocketConnection acceptFinish(AsyncResult result, PointerProxy<org.gtk.gobject.Object> sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_listener_accept_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(sourceObject).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_listener_accept_finish.invokeExact(handle(), result.handle(), sourceObject.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -153,10 +153,10 @@ public class SocketListener extends org.gtk.gobject.Object {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public Socket acceptSocket(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public Socket acceptSocket(PointerProxy<org.gtk.gobject.Object> sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_listener_accept_socket.invokeExact(handle(), Interop.allocateNativeArray(sourceObject).handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_listener_accept_socket.invokeExact(handle(), sourceObject.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -200,10 +200,10 @@ public class SocketListener extends org.gtk.gobject.Object {
     /**
      * Finishes an async accept operation. See g_socket_listener_accept_socket_async()
      */
-    public Socket acceptSocketFinish(AsyncResult result, org.gtk.gobject.Object[] sourceObject) throws io.github.jwharm.javagi.GErrorException {
+    public Socket acceptSocketFinish(AsyncResult result, PointerProxy<org.gtk.gobject.Object> sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_listener_accept_socket_finish.invokeExact(handle(), result.handle(), Interop.allocateNativeArray(sourceObject).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_listener_accept_socket_finish.invokeExact(handle(), result.handle(), sourceObject.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -243,10 +243,10 @@ public class SocketListener extends org.gtk.gobject.Object {
      * be done automatically when you drop your final reference to {@code listener}, as
      * references may be held internally.
      */
-    public boolean addAddress(SocketAddress address, SocketType type, SocketProtocol protocol, org.gtk.gobject.Object sourceObject, SocketAddress[] effectiveAddress) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addAddress(SocketAddress address, SocketType type, SocketProtocol protocol, org.gtk.gobject.Object sourceObject, PointerProxy<SocketAddress> effectiveAddress) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_listener_add_address.invokeExact(handle(), address.handle(), type.getValue(), protocol.getValue(), sourceObject.handle(), Interop.allocateNativeArray(effectiveAddress).handle(), GERROR);
+            var RESULT = (int) g_socket_listener_add_address.invokeExact(handle(), address.handle(), type.getValue(), protocol.getValue(), sourceObject.handle(), effectiveAddress.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

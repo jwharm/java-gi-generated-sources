@@ -943,10 +943,10 @@ public class Settings extends org.gtk.gobject.Object {
      * It is a programmer error to give a {@code key} that isn't specified as
      * having an array of strings type in the schema for {@code settings}.
      */
-    public PointerIterator<java.lang.String> getStrv(java.lang.String key) {
+    public PointerString getStrv(java.lang.String key) {
         try {
             var RESULT = (MemoryAddress) g_settings_get_strv.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1087,10 +1087,10 @@ public class Settings extends org.gtk.gobject.Object {
      * You should free the return value with g_strfreev() when you are done
      * with it.
      */
-    public PointerIterator<java.lang.String> listChildren() {
+    public PointerString listChildren() {
         try {
             var RESULT = (MemoryAddress) g_settings_list_children.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1439,7 +1439,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ChangeEventHandler {
-        boolean signalReceived(Settings source, PointerIterator<Integer> keys, int nKeys);
+        boolean signalReceived(Settings source, PointerInteger keys, int nKeys);
     }
     
     /**
@@ -1592,7 +1592,7 @@ public class Settings extends org.gtk.gobject.Object {
         public static boolean signalSettingsChangeEvent(MemoryAddress source, MemoryAddress keys, int nKeys, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Settings.ChangeEventHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Settings(Refcounted.get(source)), new PointerInteger(keys).iterator(), nKeys);
+            return handler.signalReceived(new Settings(Refcounted.get(source)), new PointerInteger(keys), nKeys);
         }
         
         public static void signalSettingsChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {

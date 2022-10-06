@@ -212,10 +212,10 @@ public class FileFilter extends Filter implements Buildable {
      * it is intended principally for use in the implementation
      * of {@code GtkFileChooser}.
      */
-    public PointerIterator<java.lang.String> getAttributes() {
+    public PointerString getAttributes() {
         try {
             var RESULT = (MemoryAddress) gtk_file_filter_get_attributes.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

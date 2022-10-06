@@ -11,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveFunc {
-        boolean onPixbufModuleSaveFunc(java.lang.foreign.MemoryAddress f, Pixbuf pixbuf, PointerIterator<java.lang.String> paramKeys, PointerIterator<java.lang.String> paramValues);
+        boolean onPixbufModuleSaveFunc(java.lang.foreign.MemoryAddress f, Pixbuf pixbuf, PointerString paramKeys, PointerString paramValues);
 }

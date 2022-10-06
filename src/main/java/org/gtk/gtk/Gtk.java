@@ -300,9 +300,9 @@ public final class Gtk {
      * If the parse fails, {@code accelerator_key}, {@code accelerator_mods} and
      * {@code accelerator_codes} will be set to 0 (zero).
      */
-    public static boolean acceleratorParseWithKeycode(java.lang.String accelerator, org.gtk.gdk.Display display, PointerInteger acceleratorKey, int[] acceleratorCodes, org.gtk.gdk.ModifierType acceleratorMods) {
+    public static boolean acceleratorParseWithKeycode(java.lang.String accelerator, org.gtk.gdk.Display display, PointerInteger acceleratorKey, PointerInteger acceleratorCodes, org.gtk.gdk.ModifierType acceleratorMods) {
         try {
-            var RESULT = (int) gtk_accelerator_parse_with_keycode.invokeExact(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), Interop.allocateNativeArray(acceleratorCodes).handle(), new PointerInteger(acceleratorMods.getValue()).handle());
+            var RESULT = (int) gtk_accelerator_parse_with_keycode.invokeExact(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), acceleratorCodes.handle(), new PointerInteger(acceleratorMods.getValue()).handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1600,10 +1600,10 @@ public final class Gtk {
      * Return the type ids that have been registered after
      * calling gtk_test_register_all_types().
      */
-    public static PointerIterator<Long> testListAllTypes(PointerInteger nTypes) {
+    public static PointerLong testListAllTypes(PointerInteger nTypes) {
         try {
             var RESULT = (MemoryAddress) gtk_test_list_all_types.invokeExact(nTypes.handle());
-            return new PointerLong(RESULT).iterator();
+            return new PointerLong(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1679,9 +1679,9 @@ public final class Gtk {
      * <p>
      * The returned path must be freed with gtk_tree_path_free().
      */
-    public static boolean treeGetRowDragData(org.gtk.gobject.Value value, TreeModel[] treeModel, TreePath[] path) {
+    public static boolean treeGetRowDragData(org.gtk.gobject.Value value, PointerProxy<TreeModel> treeModel, PointerProxy<TreePath> path) {
         try {
-            var RESULT = (int) gtk_tree_get_row_drag_data.invokeExact(value.handle(), Interop.allocateNativeArray(treeModel).handle(), Interop.allocateNativeArray(path).handle());
+            var RESULT = (int) gtk_tree_get_row_drag_data.invokeExact(value.handle(), treeModel.handle(), path.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

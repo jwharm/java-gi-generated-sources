@@ -1009,9 +1009,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * Converts a {@link Matrix} to an array of floating point
      * values.
      */
-    public void toFloat(float[] v) {
+    public void toFloat(PointerFloat v) {
         try {
-            graphene_matrix_to_float.invokeExact(handle(), Interop.allocateNativeArray(v).handle());
+            graphene_matrix_to_float.invokeExact(handle(), v.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

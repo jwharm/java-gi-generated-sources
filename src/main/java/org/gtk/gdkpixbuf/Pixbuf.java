@@ -1022,10 +1022,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Please see the section on <a href="class.Pixbuf.html#image-data">image data</a> for information
      * about how the pixel data is stored in memory.
      */
-    public PointerIterator<Byte> getPixels() {
+    public PointerByte getPixels() {
         try {
             var RESULT = (MemoryAddress) gdk_pixbuf_get_pixels.invokeExact(handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1045,10 +1045,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Please see the section on <a href="class.Pixbuf.html#image-data">image data</a> for information
      * about how the pixel data is stored in memory.
      */
-    public PointerIterator<Byte> getPixelsWithLength(PointerInteger length) {
+    public PointerByte getPixelsWithLength(PointerInteger length) {
         try {
             var RESULT = (MemoryAddress) gdk_pixbuf_get_pixels_with_length.invokeExact(handle(), length.handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1234,10 +1234,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * <p>
      * See {@link Pixbuf#saveToBuffer} for more details.
      */
-    public boolean saveToBufferv(byte[] buffer, PointerLong bufferSize, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
+    public boolean saveToBufferv(PointerByte buffer, PointerLong bufferSize, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gdk_pixbuf_save_to_bufferv.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), bufferSize.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), GERROR);
+            var RESULT = (int) gdk_pixbuf_save_to_bufferv.invokeExact(handle(), buffer.handle(), bufferSize.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -66,10 +66,10 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     /**
      * Gets an array of completion strings for a given initial text.
      */
-    public PointerIterator<java.lang.String> getCompletions(java.lang.String initialText) {
+    public PointerString getCompletions(java.lang.String initialText) {
         try {
             var RESULT = (MemoryAddress) g_filename_completer_get_completions.invokeExact(handle(), Interop.allocateNativeString(initialText).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -52,10 +52,10 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * would merely return the name of the element that is being
      * processed.
      */
-    public PointerIterator<java.lang.String> getElementStack() {
+    public PointerString getElementStack() {
         try {
             var RESULT = (MemoryAddress) gtk_buildable_parse_context_get_element_stack.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

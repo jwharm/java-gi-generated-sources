@@ -309,9 +309,9 @@ public class Context extends org.gtk.gobject.Object {
     /**
      * List all families for a context.
      */
-    public void listFamilies(FontFamily[] families, PointerInteger nFamilies) {
+    public void listFamilies(PointerProxy<FontFamily> families, PointerInteger nFamilies) {
         try {
-            pango_context_list_families.invokeExact(handle(), Interop.allocateNativeArray(families).handle(), nFamilies.handle());
+            pango_context_list_families.invokeExact(handle(), families.handle(), nFamilies.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -502,10 +502,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_PAGE_RANGES}.
      */
-    public PointerIterator<PageRange> getPageRanges(PointerInteger numRanges) {
+    public PointerProxy<PageRange> getPageRanges(PointerInteger numRanges) {
         try {
             var RESULT = (MemoryAddress) gtk_print_settings_get_page_ranges.invokeExact(handle(), numRanges.handle());
-            return new PointerProxy<PageRange>(RESULT, PageRange.class).iterator();
+            return new PointerProxy<PageRange>(RESULT, PageRange.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

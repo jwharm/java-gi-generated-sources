@@ -59,9 +59,9 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * remains at the current position.  The value returned in {@code value} must
      * be unreffed using g_object_unref() when it is no longer in use.
      */
-    public boolean getNext(java.lang.String[] outLink, MenuModel[] value) {
+    public boolean getNext(PointerString outLink, PointerProxy<MenuModel> value) {
         try {
-            var RESULT = (int) g_menu_link_iter_get_next.invokeExact(handle(), Interop.allocateNativeArray(outLink).handle(), Interop.allocateNativeArray(value).handle());
+            var RESULT = (int) g_menu_link_iter_get_next.invokeExact(handle(), outLink.handle(), value.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

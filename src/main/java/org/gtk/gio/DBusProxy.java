@@ -354,10 +354,10 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     /**
      * Finishes an operation started with g_dbus_proxy_call_with_unix_fd_list().
      */
-    public org.gtk.glib.Variant callWithUnixFdListFinish(UnixFDList[] outFdList, AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.Variant callWithUnixFdListFinish(PointerProxy<UnixFDList> outFdList, AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_proxy_call_with_unix_fd_list_finish.invokeExact(handle(), Interop.allocateNativeArray(outFdList).handle(), res.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_proxy_call_with_unix_fd_list_finish.invokeExact(handle(), outFdList.handle(), res.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -377,10 +377,10 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * <p>
      * This method is only available on UNIX.
      */
-    public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String methodName, org.gtk.glib.Variant parameters, DBusCallFlags flags, int timeoutMsec, UnixFDList fdList, UnixFDList[] outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String methodName, org.gtk.glib.Variant parameters, DBusCallFlags flags, int timeoutMsec, UnixFDList fdList, PointerProxy<UnixFDList> outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_proxy_call_with_unix_fd_list_sync.invokeExact(handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), flags.getValue(), timeoutMsec, fdList.handle(), Interop.allocateNativeArray(outFdList).handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_proxy_call_with_unix_fd_list_sync.invokeExact(handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), flags.getValue(), timeoutMsec, fdList.handle(), outFdList.handle(), cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -420,10 +420,10 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     /**
      * Gets the names of all cached properties on {@code proxy}.
      */
-    public PointerIterator<java.lang.String> getCachedPropertyNames() {
+    public PointerString getCachedPropertyNames() {
         try {
             var RESULT = (MemoryAddress) g_dbus_proxy_get_cached_property_names.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -738,7 +738,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     
     @FunctionalInterface
     public interface GPropertiesChangedHandler {
-        void signalReceived(DBusProxy source, org.gtk.glib.Variant changedProperties, PointerIterator<java.lang.String> invalidatedProperties);
+        void signalReceived(DBusProxy source, org.gtk.glib.Variant changedProperties, PointerString invalidatedProperties);
     }
     
     /**
@@ -808,7 +808,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         public static void signalDBusProxyGPropertiesChanged(MemoryAddress source, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusProxy.GPropertiesChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DBusProxy(Refcounted.get(source)), new org.gtk.glib.Variant(Refcounted.get(changedProperties, false)), new PointerString(invalidatedProperties).iterator());
+            handler.signalReceived(new DBusProxy(Refcounted.get(source)), new org.gtk.glib.Variant(Refcounted.get(changedProperties, false)), new PointerString(invalidatedProperties));
         }
         
         public static void signalDBusProxyGSignal(MemoryAddress source, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {

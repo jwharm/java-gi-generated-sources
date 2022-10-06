@@ -129,10 +129,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * the command line fails, an error of the {@code G_SHELL_ERROR} domain is
      * set and {@code false} is returned.
      */
-    public boolean getApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String[] exec, PointerInteger count, DateTime[] stamp) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getApplicationInfo(java.lang.String uri, java.lang.String name, PointerString exec, PointerInteger count, PointerProxy<DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_get_application_info.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeArray(exec).handle(), count.handle(), Interop.allocateNativeArray(stamp).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_get_application_info.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), exec.handle(), count.handle(), stamp.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -154,14 +154,14 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public PointerIterator<java.lang.String> getApplications(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString getApplications(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_bookmark_file_get_applications.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,14 +205,14 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * The returned array is {@code null} terminated, so {@code length} may optionally
      * be {@code null}.
      */
-    public PointerIterator<java.lang.String> getGroups(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString getGroups(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_bookmark_file_get_groups.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,10 +229,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public boolean getIcon(java.lang.String uri, java.lang.String[] href, java.lang.String[] mimeType) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getIcon(java.lang.String uri, PointerString href, PointerString mimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_get_icon.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(href).handle(), Interop.allocateNativeArray(mimeType).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_get_icon.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), href.handle(), mimeType.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -371,10 +371,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * The array of returned URIs will be {@code null}-terminated, so {@code length} may
      * optionally be {@code null}.
      */
-    public PointerIterator<java.lang.String> getUris(PointerLong length) {
+    public PointerString getUris(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_bookmark_file_get_uris.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -506,10 +506,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code full_path}.  If the file could not be loaded then {@code error} is
      * set to either a {@link FileError} or {@link BookmarkFileError}.
      */
-    public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromDataDirs(java.lang.String file, PointerString fullPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), fullPath.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -880,14 +880,14 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * This function outputs {@code bookmark} as a string.
      */
-    public PointerIterator<Byte> toData(PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerByte toData(PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_bookmark_file_to_data.invokeExact(handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

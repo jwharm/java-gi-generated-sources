@@ -22,10 +22,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * Adds the given bytes to the end of the {@link ByteArray}.
      * The array will grow in size automatically if necessary.
      */
-    public static PointerIterator<Byte> append(byte[] array, PointerByte data, int len) {
+    public static PointerByte append(byte[] array, PointerByte data, int len) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_append.invokeExact(Interop.allocateNativeArray(array).handle(), data.handle(), len);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,10 +83,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link ByteArray} with a reference count of 1.
      */
-    public static PointerIterator<Byte> new_() {
+    public static PointerByte new_() {
         try {
             var RESULT = (MemoryAddress) g_byte_array_new.invokeExact();
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,10 +105,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * stores the length of its data in {@code guint}, which may be shorter than
      * {@code gsize}.
      */
-    public static PointerIterator<Byte> newTake(byte[] data, long len) {
+    public static PointerByte newTake(byte[] data, long len) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_new_take.invokeExact(Interop.allocateNativeArray(data).handle(), len);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,10 +123,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * Adds the given data to the start of the {@link ByteArray}.
      * The array will grow in size automatically if necessary.
      */
-    public static PointerIterator<Byte> prepend(byte[] array, PointerByte data, int len) {
+    public static PointerByte prepend(byte[] array, PointerByte data, int len) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_prepend.invokeExact(Interop.allocateNativeArray(array).handle(), data.handle(), len);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,10 +141,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * Atomically increments the reference count of {@code array} by one.
      * This function is thread-safe and may be called from any thread.
      */
-    public static PointerIterator<Byte> ref(byte[] array) {
+    public static PointerByte ref(byte[] array) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_ref.invokeExact(Interop.allocateNativeArray(array).handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,10 +159,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * Removes the byte at the given index from a {@link ByteArray}.
      * The following bytes are moved down one place.
      */
-    public static PointerIterator<Byte> removeIndex(byte[] array, int index) {
+    public static PointerByte removeIndex(byte[] array, int index) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_remove_index.invokeExact(Interop.allocateNativeArray(array).handle(), index);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,10 +179,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * does not preserve the order of the {@link ByteArray}. But it is faster
      * than g_byte_array_remove_index().
      */
-    public static PointerIterator<Byte> removeIndexFast(byte[] array, int index) {
+    public static PointerByte removeIndexFast(byte[] array, int index) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array).handle(), index);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,10 +197,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * Removes the given number of bytes starting at the given index from a
      * {@link ByteArray}.  The following elements are moved to close the gap.
      */
-    public static PointerIterator<Byte> removeRange(byte[] array, int index, int length) {
+    public static PointerByte removeRange(byte[] array, int index, int length) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_remove_range.invokeExact(Interop.allocateNativeArray(array).handle(), index, length);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,10 +214,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the size of the {@link ByteArray}, expanding it if necessary.
      */
-    public static PointerIterator<Byte> setSize(byte[] array, int length) {
+    public static PointerByte setSize(byte[] array, int length) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_set_size.invokeExact(Interop.allocateNativeArray(array).handle(), length);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,10 +234,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * bytes to the array. Note however that the size of the array is still
      * 0.
      */
-    public static PointerIterator<Byte> sizedNew(int reservedSize) {
+    public static PointerByte sizedNew(int reservedSize) {
         try {
             var RESULT = (MemoryAddress) g_byte_array_sized_new.invokeExact(reservedSize);
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -64,10 +64,10 @@ public class Vfs extends org.gtk.gobject.Object {
     /**
      * Gets a list of URI schemes supported by {@code vfs}.
      */
-    public PointerIterator<java.lang.String> getSupportedUriSchemes() {
+    public PointerString getSupportedUriSchemes() {
         try {
             var RESULT = (MemoryAddress) g_vfs_get_supported_uri_schemes.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

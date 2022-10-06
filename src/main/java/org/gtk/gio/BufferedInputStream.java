@@ -229,10 +229,10 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * buffer must not be modified and will become invalid when reading from
      * the stream or filling the buffer.
      */
-    public PointerIterator<Byte> peekBuffer(PointerLong count) {
+    public PointerByte peekBuffer(PointerLong count) {
         try {
             var RESULT = (MemoryAddress) g_buffered_input_stream_peek_buffer.invokeExact(handle(), count.handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

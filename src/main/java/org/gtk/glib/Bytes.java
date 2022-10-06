@@ -205,10 +205,10 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * may represent an empty string with {@code data} non-{@code null} and {@code size} as 0. {@code null} will
      * not be returned if {@code size} is non-zero.
      */
-    public PointerIterator<Byte> getData(PointerLong size) {
+    public PointerByte getData(PointerLong size) {
         try {
             var RESULT = (MemoryAddress) g_bytes_get_data.invokeExact(handle(), size.handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -368,10 +368,10 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * bytes. {@link ByteArray} stores the length of its data in {@code guint}, which
      * may be shorter than {@code gsize}, that {@code bytes} is using.
      */
-    public PointerIterator<Byte> unrefToArray() {
+    public PointerByte unrefToArray() {
         try {
             var RESULT = (MemoryAddress) g_bytes_unref_to_array.invokeExact(handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,10 +391,10 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * g_bytes_new_take() or g_byte_array_free_to_bytes(). In all other cases the
      * data is copied.
      */
-    public PointerIterator<Byte> unrefToData(PointerLong size) {
+    public PointerByte unrefToData(PointerLong size) {
         try {
             var RESULT = (MemoryAddress) g_bytes_unref_to_data.invokeExact(handle(), size.handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -642,10 +642,10 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * mime type defined in RFC 2483 into individual URIs,
      * discarding any comments. The URIs are not validated.
      */
-    public static PointerIterator<java.lang.String> listExtractUris(java.lang.String uriList) {
+    public static PointerString listExtractUris(java.lang.String uriList) {
         try {
             var RESULT = (MemoryAddress) g_uri_list_extract_uris.invokeExact(Interop.allocateNativeString(uriList).handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -817,10 +817,10 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * since it always returns only the full userinfo; use
      * g_uri_split_with_user() if you want it split up.
      */
-    public static boolean split(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] userinfo, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean split(java.lang.String uriRef, UriFlags flags, PointerString scheme, PointerString userinfo, PointerString host, PointerInteger port, PointerString path, PointerString query, PointerString fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+            var RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), scheme.handle(), userinfo.handle(), host.handle(), port.handle(), path.handle(), query.handle(), fragment.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -843,10 +843,10 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * However, it will return an error if {@code uri_string} is a relative URI,
      * or does not contain a hostname component.
      */
-    public static boolean splitNetwork(java.lang.String uriString, UriFlags flags, java.lang.String[] scheme, java.lang.String[] host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean splitNetwork(java.lang.String uriString, UriFlags flags, PointerString scheme, PointerString host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
+            var RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), scheme.handle(), host.handle(), port.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -874,10 +874,10 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * {@code auth_params} will only be parsed out if {@code flags} contains
      * {@link UriFlags#HAS_AUTH_PARAMS}.
      */
-    public static boolean splitWithUser(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] user, java.lang.String[] password, java.lang.String[] authParams, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean splitWithUser(java.lang.String uriRef, UriFlags flags, PointerString scheme, PointerString user, PointerString password, PointerString authParams, PointerString host, PointerInteger port, PointerString path, PointerString query, PointerString fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+            var RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), scheme.handle(), user.handle(), password.handle(), authParams.handle(), host.handle(), port.handle(), path.handle(), query.handle(), fragment.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

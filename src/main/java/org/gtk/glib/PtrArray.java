@@ -50,7 +50,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * The copy of {@code array} will have the same {@link DestroyNotify} for its elements as
      * {@code array}.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> copy(java.lang.foreign.MemoryAddress[] array, CopyFunc func) {
+    public static PointerAddress copy(java.lang.foreign.MemoryAddress[] array, CopyFunc func) {
         try {
             var RESULT = (MemoryAddress) g_ptr_array_copy.invokeExact(Interop.allocateNativeArray(array).handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -59,7 +59,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,10 +221,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link PtrArray} with a reference count of 1.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> new_() {
+    public static PointerAddress new_() {
         try {
             var RESULT = (MemoryAddress) g_ptr_array_new.invokeExact();
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,10 +239,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Atomically increments the reference count of {@code array} by one.
      * This function is thread-safe and may be called from any thread.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> ref(java.lang.foreign.MemoryAddress[] array) {
+    public static PointerAddress ref(java.lang.foreign.MemoryAddress[] array) {
         try {
             var RESULT = (MemoryAddress) g_ptr_array_ref.invokeExact(Interop.allocateNativeArray(array).handle());
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,10 +350,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * gap. If {@code array} has a non-{@code null} {@link DestroyNotify} function it is
      * called for the removed elements.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
+    public static PointerAddress removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
         try {
             var RESULT = (MemoryAddress) g_ptr_array_remove_range.invokeExact(Interop.allocateNativeArray(array).handle(), index, length);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,10 +389,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * you are going to add many pointers to the array. Note however that
      * the size of the array is still 0.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> sizedNew(int reservedSize) {
+    public static PointerAddress sizedNew(int reservedSize) {
         try {
             var RESULT = (MemoryAddress) g_ptr_array_sized_new.invokeExact(reservedSize);
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

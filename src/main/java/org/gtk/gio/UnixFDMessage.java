@@ -144,10 +144,10 @@ public class UnixFDMessage extends SocketControlMessage {
      * This function never returns {@code null}. In case there are no file
      * descriptors contained in {@code message}, an empty array is returned.
      */
-    public PointerIterator<Integer> stealFds(PointerInteger length) {
+    public PointerInteger stealFds(PointerInteger length) {
         try {
             var RESULT = (MemoryAddress) g_unix_fd_message_steal_fds.invokeExact(handle(), length.handle());
-            return new PointerInteger(RESULT).iterator();
+            return new PointerInteger(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

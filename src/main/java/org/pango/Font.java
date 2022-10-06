@@ -107,9 +107,9 @@ public class Font extends org.gtk.gobject.Object {
      * Note that this does not include OpenType features which the
      * rendering system enables by default.
      */
-    public void getFeatures(org.harfbuzz.FeatureT[] features, int len, PointerInteger numFeatures) {
+    public void getFeatures(PointerProxy<org.harfbuzz.FeatureT> features, int len, PointerInteger numFeatures) {
         try {
-            pango_font_get_features.invokeExact(handle(), Interop.allocateNativeArray(features).handle(), len, numFeatures.handle());
+            pango_font_get_features.invokeExact(handle(), features.handle(), len, numFeatures.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,10 +204,10 @@ public class Font extends org.gtk.gobject.Object {
      * The returned array is only valid as long as the font
      * and its fontmap are valid.
      */
-    public PointerIterator<Language> getLanguages() {
+    public PointerProxy<Language> getLanguages() {
         try {
             var RESULT = (MemoryAddress) pango_font_get_languages.invokeExact(handle());
-            return new PointerProxy<Language>(RESULT, Language.class).iterator();
+            return new PointerProxy<Language>(RESULT, Language.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

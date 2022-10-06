@@ -257,10 +257,10 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * appropriate to use g_strfreev() if you call g_hash_table_steal_all()
      * first to transfer ownership of the keys.
      */
-    public static PointerIterator<java.lang.foreign.MemoryAddress> getKeysAsArray(org.gtk.glib.HashTable hashTable, PointerInteger length) {
+    public static PointerAddress getKeysAsArray(org.gtk.glib.HashTable hashTable, PointerInteger length) {
         try {
             var RESULT = (MemoryAddress) g_hash_table_get_keys_as_array.invokeExact(hashTable.handle(), length.handle());
-            return new PointerAddress(RESULT).iterator();
+            return new PointerAddress(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

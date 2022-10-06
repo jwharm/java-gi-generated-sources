@@ -535,9 +535,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * The returned {@code GtkTreePath} must be freed with gtk_tree_path_free() when
      * you are done with it.
      */
-    public void getCursor(TreePath[] path, TreeViewColumn[] focusColumn) {
+    public void getCursor(PointerProxy<TreePath> path, PointerProxy<TreeViewColumn> focusColumn) {
         try {
-            gtk_tree_view_get_cursor.invokeExact(handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(focusColumn).handle());
+            gtk_tree_view_get_cursor.invokeExact(handle(), path.handle(), focusColumn.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -554,9 +554,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * meaningful if {@code tree_view} is realized.  Therefore this function will always
      * return {@code false} if {@code tree_view} is not realized or does not have a model.
      */
-    public boolean getDestRowAtPos(int dragX, int dragY, TreePath[] path, TreeViewDropPosition pos) {
+    public boolean getDestRowAtPos(int dragX, int dragY, PointerProxy<TreePath> path, TreeViewDropPosition pos) {
         try {
-            var RESULT = (int) gtk_tree_view_get_dest_row_at_pos.invokeExact(handle(), dragX, dragY, Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
+            var RESULT = (int) gtk_tree_view_get_dest_row_at_pos.invokeExact(handle(), dragX, dragY, path.handle(), new PointerInteger(pos.getValue()).handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -571,9 +571,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets information about the row that is highlighted for feedback.
      */
-    public void getDragDestRow(TreePath[] path, TreeViewDropPosition pos) {
+    public void getDragDestRow(PointerProxy<TreePath> path, TreeViewDropPosition pos) {
         try {
-            gtk_tree_view_get_drag_dest_row.invokeExact(handle(), Interop.allocateNativeArray(path).handle(), new PointerInteger(pos.getValue()).handle());
+            gtk_tree_view_get_drag_dest_row.invokeExact(handle(), path.handle(), new PointerInteger(pos.getValue()).handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -811,9 +811,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * GtkWidget::query-tooltip), please see
      * gtk_tree_view_convert_widget_to_bin_window_coords().
      */
-    public boolean getPathAtPos(int x, int y, TreePath[] path, TreeViewColumn[] column, PointerInteger cellX, PointerInteger cellY) {
+    public boolean getPathAtPos(int x, int y, PointerProxy<TreePath> path, PointerProxy<TreeViewColumn> column, PointerInteger cellX, PointerInteger cellY) {
         try {
-            var RESULT = (int) gtk_tree_view_get_path_at_pos.invokeExact(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(column).handle(), cellX.handle(), cellY.handle());
+            var RESULT = (int) gtk_tree_view_get_path_at_pos.invokeExact(handle(), x, y, path.handle(), column.handle(), cellX.handle(), cellY.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -963,9 +963,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * that row and the corresponding model. @x and @y will always be converted
      * to be relative to {@code tree_view}’s bin_window if {@code keyboard_tooltip} is {@code false}.
      */
-    public boolean getTooltipContext(int x, int y, boolean keyboardTip, TreeModel[] model, TreePath[] path, TreeIter iter) {
+    public boolean getTooltipContext(int x, int y, boolean keyboardTip, PointerProxy<TreeModel> model, PointerProxy<TreePath> path, TreeIter iter) {
         try {
-            var RESULT = (int) gtk_tree_view_get_tooltip_context.invokeExact(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model).handle(), Interop.allocateNativeArray(path).handle(), iter.handle());
+            var RESULT = (int) gtk_tree_view_get_tooltip_context.invokeExact(handle(), x, y, keyboardTip ? 1 : 0, model.handle(), path.handle(), iter.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -983,9 +983,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * The paths should be freed with gtk_tree_path_free() after use.
      */
-    public boolean getVisibleRange(TreePath[] startPath, TreePath[] endPath) {
+    public boolean getVisibleRange(PointerProxy<TreePath> startPath, PointerProxy<TreePath> endPath) {
         try {
-            var RESULT = (int) gtk_tree_view_get_visible_range.invokeExact(handle(), Interop.allocateNativeArray(startPath).handle(), Interop.allocateNativeArray(endPath).handle());
+            var RESULT = (int) gtk_tree_view_get_visible_range.invokeExact(handle(), startPath.handle(), endPath.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1085,9 +1085,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * likewise as for gtk_tree_view_get_path_at_pos().  Please see
      * gtk_tree_view_get_path_at_pos() for more information.
      */
-    public boolean isBlankAtPos(int x, int y, TreePath[] path, TreeViewColumn[] column, PointerInteger cellX, PointerInteger cellY) {
+    public boolean isBlankAtPos(int x, int y, PointerProxy<TreePath> path, PointerProxy<TreeViewColumn> column, PointerInteger cellX, PointerInteger cellY) {
         try {
-            var RESULT = (int) gtk_tree_view_is_blank_at_pos.invokeExact(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(column).handle(), cellX.handle(), cellY.handle());
+            var RESULT = (int) gtk_tree_view_is_blank_at_pos.invokeExact(handle(), x, y, path.handle(), column.handle(), cellX.handle(), cellY.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

@@ -268,10 +268,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
     /**
      * Gets an array of all header fields on {@code message} that are set.
      */
-    public PointerIterator<Byte> getHeaderFields() {
+    public PointerByte getHeaderFields() {
         try {
             var RESULT = (MemoryAddress) g_dbus_message_get_header_fields.invokeExact(handle());
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -872,14 +872,14 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Serializes {@code message} to a blob. The byte order returned by
      * g_dbus_message_get_byte_order() will be used.
      */
-    public PointerIterator<Byte> toBlob(PointerLong outSize, DBusCapabilityFlags capabilities) throws io.github.jwharm.javagi.GErrorException {
+    public PointerByte toBlob(PointerLong outSize, DBusCapabilityFlags capabilities) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_dbus_message_to_blob.invokeExact(handle(), outSize.handle(), capabilities.getValue(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerByte(RESULT).iterator();
+            return new PointerByte(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

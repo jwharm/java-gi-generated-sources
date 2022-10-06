@@ -101,10 +101,10 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
      * may happen if you call this method after a source triggers due
      * to having been cancelled.
      */
-    public default long readNonblocking(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default long readNonblocking(PointerByte buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_pollable_input_stream_read_nonblocking.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, cancellable.handle(), GERROR);
+            var RESULT = (long) g_pollable_input_stream_read_nonblocking.invokeExact(handle(), buffer.handle(), count, cancellable.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

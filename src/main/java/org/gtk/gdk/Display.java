@@ -413,9 +413,9 @@ public class Display extends org.gtk.gobject.Object {
      * <p>
      * Free the returned arrays with g_free().
      */
-    public boolean mapKeycode(int keycode, KeymapKey[] keys, int[] keyvals, PointerInteger nEntries) {
+    public boolean mapKeycode(int keycode, PointerProxy<KeymapKey> keys, PointerInteger keyvals, PointerInteger nEntries) {
         try {
-            var RESULT = (int) gdk_display_map_keycode.invokeExact(handle(), keycode, Interop.allocateNativeArray(keys).handle(), Interop.allocateNativeArray(keyvals).handle(), nEntries.handle());
+            var RESULT = (int) gdk_display_map_keycode.invokeExact(handle(), keycode, keys.handle(), keyvals.handle(), nEntries.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -444,9 +444,9 @@ public class Display extends org.gtk.gobject.Object {
      * <p>
      * The returned array should be freed with g_free().
      */
-    public boolean mapKeyval(int keyval, KeymapKey[] keys, PointerInteger nKeys) {
+    public boolean mapKeyval(int keyval, PointerProxy<KeymapKey> keys, PointerInteger nKeys) {
         try {
-            var RESULT = (int) gdk_display_map_keyval.invokeExact(handle(), keyval, Interop.allocateNativeArray(keys).handle(), nKeys.handle());
+            var RESULT = (int) gdk_display_map_keyval.invokeExact(handle(), keyval, keys.handle(), nKeys.handle());
             return RESULT != 0;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

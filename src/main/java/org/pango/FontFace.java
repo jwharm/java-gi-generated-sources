@@ -112,9 +112,9 @@ public class FontFace extends org.gtk.gobject.Object {
      * to by {@code n_sizes}. The sizes returned are in Pango units and are sorted
      * in ascending order.
      */
-    public void listSizes(int[] sizes, PointerInteger nSizes) {
+    public void listSizes(PointerInteger sizes, PointerInteger nSizes) {
         try {
-            pango_font_face_list_sizes.invokeExact(handle(), Interop.allocateNativeArray(sizes).handle(), nSizes.handle());
+            pango_font_face_list_sizes.invokeExact(handle(), sizes.handle(), nSizes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

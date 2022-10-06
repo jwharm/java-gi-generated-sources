@@ -84,10 +84,10 @@ public class BorderNode extends RenderNode {
     /**
      * Retrieves the stroke widths of the border.
      */
-    public PointerIterator<Float> getWidths() {
+    public PointerFloat getWidths() {
         try {
             var RESULT = (MemoryAddress) gsk_border_node_get_widths.invokeExact(handle());
-            return new PointerFloat(RESULT).iterator();
+            return new PointerFloat(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

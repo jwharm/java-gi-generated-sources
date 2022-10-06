@@ -77,10 +77,10 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * Each snap point represents a progress value that is considered acceptable to
      * end the swipe on.
      */
-    public default PointerIterator<Double> getSnapPoints(PointerInteger nSnapPoints) {
+    public default PointerDouble getSnapPoints(PointerInteger nSnapPoints) {
         try {
             var RESULT = (MemoryAddress) adw_swipeable_get_snap_points.invokeExact(handle(), nSnapPoints.handle());
-            return new PointerDouble(RESULT).iterator();
+            return new PointerDouble(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

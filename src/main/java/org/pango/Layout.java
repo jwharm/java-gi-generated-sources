@@ -591,9 +591,9 @@ public class Layout extends org.gtk.gobject.Object {
      * Retrieves an array of logical attributes for each character in
      * the {@code layout}.
      */
-    public void getLogAttrs(LogAttr[] attrs, PointerInteger nAttrs) {
+    public void getLogAttrs(PointerProxy<LogAttr> attrs, PointerInteger nAttrs) {
         try {
-            pango_layout_get_log_attrs.invokeExact(handle(), Interop.allocateNativeArray(attrs).handle(), nAttrs.handle());
+            pango_layout_get_log_attrs.invokeExact(handle(), attrs.handle(), nAttrs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -617,10 +617,10 @@ public class Layout extends org.gtk.gobject.Object {
      * need to be attributes corresponding to both the position before
      * the first character and the position after the last character.
      */
-    public PointerIterator<LogAttr> getLogAttrsReadonly(PointerInteger nAttrs) {
+    public PointerProxy<LogAttr> getLogAttrsReadonly(PointerInteger nAttrs) {
         try {
             var RESULT = (MemoryAddress) pango_layout_get_log_attrs_readonly.invokeExact(handle(), nAttrs.handle());
-            return new PointerProxy<LogAttr>(RESULT, LogAttr.class).iterator();
+            return new PointerProxy<LogAttr>(RESULT, LogAttr.class);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

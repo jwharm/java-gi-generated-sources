@@ -69,10 +69,10 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
      * array. The returned value should be freed with g_strfreev() when no longer
      * needed.
      */
-    public PointerIterator<java.lang.String> end() {
+    public PointerString end() {
         try {
             var RESULT = (MemoryAddress) g_strv_builder_end.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

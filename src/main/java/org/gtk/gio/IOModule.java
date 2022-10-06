@@ -135,10 +135,10 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * statically. The old symbol names continue to be supported, but cannot be used
      * for static builds.
      */
-    public static PointerIterator<java.lang.String> query() {
+    public static PointerString query() {
         try {
             var RESULT = (MemoryAddress) g_io_module_query.invokeExact();
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

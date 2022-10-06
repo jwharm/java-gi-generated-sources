@@ -1038,10 +1038,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Returns the list of style classes applied to {@code widget}.
      */
-    public PointerIterator<java.lang.String> getCssClasses() {
+    public PointerString getCssClasses() {
         try {
             var RESULT = (MemoryAddress) gtk_widget_get_css_classes.invokeExact(handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

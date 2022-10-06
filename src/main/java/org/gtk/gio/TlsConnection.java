@@ -79,10 +79,10 @@ public class TlsConnection extends IOStream {
      * support {@code type} or the binding data is not available yet due to additional
      * negotiation or input required.
      */
-    public boolean getChannelBindingData(TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getChannelBindingData(TlsChannelBindingType type, PointerByte data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_connection_get_channel_binding_data.invokeExact(handle(), type.getValue(), Interop.allocateNativeArray(data).handle(), GERROR);
+            var RESULT = (int) g_tls_connection_get_channel_binding_data.invokeExact(handle(), type.getValue(), data.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

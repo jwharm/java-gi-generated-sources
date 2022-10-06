@@ -205,10 +205,10 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * by parent classes. You can identify those by looking
      * at {@code owner}.
      */
-    public boolean queryAction(int index, org.gtk.gobject.Type owner, java.lang.String[] actionName, org.gtk.glib.VariantType[] parameterType, java.lang.String[] propertyName) {
+    public boolean queryAction(int index, org.gtk.gobject.Type owner, PointerString actionName, PointerProxy<org.gtk.glib.VariantType> parameterType, PointerString propertyName) {
         PointerLong ownerPOINTER = new PointerLong(owner.getValue());
         try {
-            var RESULT = (int) gtk_widget_class_query_action.invokeExact(handle(), index, new PointerLong(owner.getValue()).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(propertyName).handle());
+            var RESULT = (int) gtk_widget_class_query_action.invokeExact(handle(), index, new PointerLong(owner.getValue()).handle(), actionName.handle(), parameterType.handle(), propertyName.handle());
             owner.setValue(ownerPOINTER.get());
             return RESULT != 0;
         } catch (Throwable ERR) {

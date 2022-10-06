@@ -97,14 +97,14 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * with {@code key} cannot be interpreted as booleans then {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public PointerIterator<Boolean> getBooleanList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerBoolean getBooleanList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_key_file_get_boolean_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerBoolean(RESULT).iterator();
+            return new PointerBoolean(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,14 +179,14 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * with {@code key} cannot be interpreted as doubles then {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public PointerIterator<Double> getDoubleList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerDouble getDoubleList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_key_file_get_double_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerDouble(RESULT).iterator();
+            return new PointerDouble(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,10 +202,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * The array of returned groups will be {@code null}-terminated, so
      * {@code length} may optionally be {@code null}.
      */
-    public PointerIterator<java.lang.String> getGroups(PointerLong length) {
+    public PointerString getGroups(PointerLong length) {
         try {
             var RESULT = (MemoryAddress) g_key_file_get_groups.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,14 +277,14 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code gint}, then {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public PointerIterator<Integer> getIntegerList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerInteger getIntegerList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_key_file_get_integer_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerInteger(RESULT).iterator();
+            return new PointerInteger(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,14 +302,14 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * be found, {@code null} is returned and {@code error} is set to
      * {@link KeyFileError#GROUP_NOT_FOUND}.
      */
-    public PointerIterator<java.lang.String> getKeys(java.lang.String groupName, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString getKeys(java.lang.String groupName, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_key_file_get_keys.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,14 +393,14 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * returned array is {@code null}-terminated, so {@code length} may optionally
      * be {@code null}.
      */
-    public PointerIterator<java.lang.String> getLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString getLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_key_file_get_locale_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -464,14 +464,14 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * event that the {@code group_name} cannot be found, {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#GROUP_NOT_FOUND}.
      */
-    public PointerIterator<java.lang.String> getStringList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString getStringList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (MemoryAddress) g_key_file_get_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
-            return new PointerString(RESULT).iterator();
+            return new PointerString(RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -630,10 +630,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code full_path}.  If the file could not be loaded then an {@code error} is
      * set to either a {@link FileError} or {@link KeyFileError}.
      */
-    public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromDataDirs(java.lang.String file, PointerString fullPath, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_key_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath).handle(), flags.getValue(), GERROR);
+            var RESULT = (int) g_key_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), fullPath.handle(), flags.getValue(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -659,10 +659,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * file, a {@code G_FILE_ERROR} is returned. If there is a problem parsing the file, a
      * {@code G_KEY_FILE_ERROR} is returned.
      */
-    public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, java.lang.String[] fullPath, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, PointerString fullPath, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_key_file_load_from_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(searchDirs).handle(), Interop.allocateNativeArray(fullPath).handle(), flags.getValue(), GERROR);
+            var RESULT = (int) g_key_file_load_from_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(searchDirs).handle(), fullPath.handle(), flags.getValue(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

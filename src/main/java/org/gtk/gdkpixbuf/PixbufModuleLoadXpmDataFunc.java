@@ -7,5 +7,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleLoadXpmDataFunc {
-        Pixbuf onPixbufModuleLoadXpmDataFunc(PointerIterator<java.lang.String> data);
+        Pixbuf onPixbufModuleLoadXpmDataFunc(PointerString data);
 }
