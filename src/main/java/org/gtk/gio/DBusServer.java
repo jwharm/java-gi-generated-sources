@@ -37,13 +37,13 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_dbus_server_new_sync = Interop.downcallHandle(
         "g_dbus_server_new_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewSync(java.lang.String address, DBusServerFlags flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_server_new_sync.invokeExact(Interop.allocateNativeString(address).handle(), flags.getValue(), Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_server_new_sync.invokeExact(Interop.allocateNativeString(address).handle(), flags.getValue(), Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -257,7 +257,7 @@ public final class Gio {
     
     static final MethodHandle g_action_parse_detailed_name = Interop.downcallHandle(
         "g_action_parse_detailed_name",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -289,7 +289,7 @@ public final class Gio {
     public static boolean actionParseDetailedName(java.lang.String detailedName, PointerString actionName, PointerProxy<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName).handle(), actionName.handle(), targetValue.handle(), GERROR);
+            var RESULT = (int) g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName).handle(), actionName.handle(), targetValue.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -327,7 +327,7 @@ public final class Gio {
     
     static final MethodHandle g_app_info_create_from_commandline = Interop.downcallHandle(
         "g_app_info_create_from_commandline",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -342,7 +342,7 @@ public final class Gio {
     public static AppInfo appInfoCreateFromCommandline(java.lang.String commandline, java.lang.String applicationName, AppInfoCreateFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_app_info_create_from_commandline.invokeExact(Interop.allocateNativeString(commandline).handle(), Interop.allocateNativeString(applicationName).handle(), flags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_app_info_create_from_commandline.invokeExact(Interop.allocateNativeString(commandline).handle(), Interop.allocateNativeString(applicationName).handle(), flags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -476,7 +476,7 @@ public final class Gio {
     
     static final MethodHandle g_app_info_launch_default_for_uri = Interop.downcallHandle(
         "g_app_info_launch_default_for_uri",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -492,7 +492,7 @@ public final class Gio {
     public static boolean appInfoLaunchDefaultForUri(java.lang.String uri, AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_launch_default_for_uri.invokeExact(Interop.allocateNativeString(uri).handle(), context.handle(), GERROR);
+            var RESULT = (int) g_app_info_launch_default_for_uri.invokeExact(Interop.allocateNativeString(uri).handle(), context.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -535,7 +535,7 @@ public final class Gio {
     
     static final MethodHandle g_app_info_launch_default_for_uri_finish = Interop.downcallHandle(
         "g_app_info_launch_default_for_uri_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -544,7 +544,7 @@ public final class Gio {
     public static boolean appInfoLaunchDefaultForUriFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_launch_default_for_uri_finish.invokeExact(result.handle(), GERROR);
+            var RESULT = (int) g_app_info_launch_default_for_uri_finish.invokeExact(result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -604,7 +604,7 @@ public final class Gio {
     
     static final MethodHandle g_bus_get_finish = Interop.downcallHandle(
         "g_bus_get_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -624,7 +624,7 @@ public final class Gio {
     public static DBusConnection busGetFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bus_get_finish.invokeExact(res.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bus_get_finish.invokeExact(res.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -636,7 +636,7 @@ public final class Gio {
     
     static final MethodHandle g_bus_get_sync = Interop.downcallHandle(
         "g_bus_get_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -662,7 +662,7 @@ public final class Gio {
     public static DBusConnection busGetSync(BusType busType, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bus_get_sync.invokeExact(busType.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bus_get_sync.invokeExact(busType.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1341,7 +1341,7 @@ public final class Gio {
     
     static final MethodHandle g_dbus_address_get_for_bus_sync = Interop.downcallHandle(
         "g_dbus_address_get_for_bus_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1355,7 +1355,7 @@ public final class Gio {
     public static java.lang.String dbusAddressGetForBusSync(BusType busType, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_address_get_for_bus_sync.invokeExact(busType.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_address_get_for_bus_sync.invokeExact(busType.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1399,7 +1399,7 @@ public final class Gio {
     
     static final MethodHandle g_dbus_address_get_stream_finish = Interop.downcallHandle(
         "g_dbus_address_get_stream_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1411,7 +1411,7 @@ public final class Gio {
     public static IOStream dbusAddressGetStreamFinish(AsyncResult res, PointerString outGuid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_address_get_stream_finish.invokeExact(res.handle(), outGuid.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_address_get_stream_finish.invokeExact(res.handle(), outGuid.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1423,7 +1423,7 @@ public final class Gio {
     
     static final MethodHandle g_dbus_address_get_stream_sync = Interop.downcallHandle(
         "g_dbus_address_get_stream_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1441,7 +1441,7 @@ public final class Gio {
     public static IOStream dbusAddressGetStreamSync(java.lang.String address, PointerString outGuid, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_address_get_stream_sync.invokeExact(Interop.allocateNativeString(address).handle(), outGuid.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_address_get_stream_sync.invokeExact(Interop.allocateNativeString(address).handle(), outGuid.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1936,7 +1936,7 @@ public final class Gio {
     
     static final MethodHandle g_dbus_is_supported_address = Interop.downcallHandle(
         "g_dbus_is_supported_address",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1948,7 +1948,7 @@ public final class Gio {
     public static boolean dbusIsSupportedAddress(java.lang.String string) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_is_supported_address.invokeExact(Interop.allocateNativeString(string).handle(), GERROR);
+            var RESULT = (int) g_dbus_is_supported_address.invokeExact(Interop.allocateNativeString(string).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2001,7 +2001,7 @@ public final class Gio {
     
     static final MethodHandle g_dtls_client_connection_new = Interop.downcallHandle(
         "g_dtls_client_connection_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2011,7 +2011,7 @@ public final class Gio {
     public static DtlsClientConnection dtlsClientConnectionNew(DatagramBased baseSocket, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dtls_client_connection_new.invokeExact(baseSocket.handle(), serverIdentity.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dtls_client_connection_new.invokeExact(baseSocket.handle(), serverIdentity.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2023,7 +2023,7 @@ public final class Gio {
     
     static final MethodHandle g_dtls_server_connection_new = Interop.downcallHandle(
         "g_dtls_server_connection_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2032,7 +2032,7 @@ public final class Gio {
     public static DtlsServerConnection dtlsServerConnectionNew(DatagramBased baseSocket, TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dtls_server_connection_new.invokeExact(baseSocket.handle(), certificate.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dtls_server_connection_new.invokeExact(baseSocket.handle(), certificate.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2140,7 +2140,7 @@ public final class Gio {
     
     static final MethodHandle g_file_new_tmp = Interop.downcallHandle(
         "g_file_new_tmp",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2158,7 +2158,7 @@ public final class Gio {
     public static File fileNewTmp(java.lang.String tmpl, PointerProxy<FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), iostream.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), iostream.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2224,7 +2224,7 @@ public final class Gio {
     
     static final MethodHandle g_icon_new_for_string = Interop.downcallHandle(
         "g_icon_new_for_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2238,7 +2238,7 @@ public final class Gio {
     public static Icon iconNewForString(java.lang.String str) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_icon_new_for_string.invokeExact(Interop.allocateNativeString(str).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_icon_new_for_string.invokeExact(Interop.allocateNativeString(str).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2639,7 +2639,7 @@ public final class Gio {
     
     static final MethodHandle g_pollable_stream_read = Interop.downcallHandle(
         "g_pollable_stream_read",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2656,7 +2656,7 @@ public final class Gio {
     public static long pollableStreamRead(InputStream stream, byte[] buffer, long count, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_pollable_stream_read.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, cancellable.handle(), GERROR);
+            var RESULT = (long) g_pollable_stream_read.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2668,7 +2668,7 @@ public final class Gio {
     
     static final MethodHandle g_pollable_stream_write = Interop.downcallHandle(
         "g_pollable_stream_write",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2686,7 +2686,7 @@ public final class Gio {
     public static long pollableStreamWrite(OutputStream stream, byte[] buffer, long count, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_pollable_stream_write.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, cancellable.handle(), GERROR);
+            var RESULT = (long) g_pollable_stream_write.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2698,7 +2698,7 @@ public final class Gio {
     
     static final MethodHandle g_pollable_stream_write_all = Interop.downcallHandle(
         "g_pollable_stream_write_all",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2724,7 +2724,7 @@ public final class Gio {
     public static boolean pollableStreamWriteAll(OutputStream stream, byte[] buffer, long count, boolean blocking, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_pollable_stream_write_all.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, bytesWritten.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_pollable_stream_write_all.invokeExact(stream.handle(), Interop.allocateNativeArray(buffer).handle(), count, blocking ? 1 : 0, bytesWritten.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2822,7 +2822,7 @@ public final class Gio {
     
     static final MethodHandle g_resource_load = Interop.downcallHandle(
         "g_resource_load",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2840,7 +2840,7 @@ public final class Gio {
     public static Resource resourceLoad(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_resource_load.invokeExact(Interop.allocateNativeString(filename).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_resource_load.invokeExact(Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2852,7 +2852,7 @@ public final class Gio {
     
     static final MethodHandle g_resources_enumerate_children = Interop.downcallHandle(
         "g_resources_enumerate_children",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2866,7 +2866,7 @@ public final class Gio {
     public static PointerString resourcesEnumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_resources_enumerate_children.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_resources_enumerate_children.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2878,7 +2878,7 @@ public final class Gio {
     
     static final MethodHandle g_resources_get_info = Interop.downcallHandle(
         "g_resources_get_info",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2890,7 +2890,7 @@ public final class Gio {
     public static boolean resourcesGetInfo(java.lang.String path, ResourceLookupFlags lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_resources_get_info.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), GERROR);
+            var RESULT = (int) g_resources_get_info.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2902,7 +2902,7 @@ public final class Gio {
     
     static final MethodHandle g_resources_lookup_data = Interop.downcallHandle(
         "g_resources_lookup_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2924,7 +2924,7 @@ public final class Gio {
     public static org.gtk.glib.Bytes resourcesLookupData(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_resources_lookup_data.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_resources_lookup_data.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2936,7 +2936,7 @@ public final class Gio {
     
     static final MethodHandle g_resources_open_stream = Interop.downcallHandle(
         "g_resources_open_stream",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2949,7 +2949,7 @@ public final class Gio {
     public static InputStream resourcesOpenStream(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_resources_open_stream.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_resources_open_stream.invokeExact(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3075,7 +3075,7 @@ public final class Gio {
     
     static final MethodHandle g_tls_client_connection_new = Interop.downcallHandle(
         "g_tls_client_connection_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3090,7 +3090,7 @@ public final class Gio {
     public static TlsClientConnection tlsClientConnectionNew(IOStream baseIoStream, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_client_connection_new.invokeExact(baseIoStream.handle(), serverIdentity.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_client_connection_new.invokeExact(baseIoStream.handle(), serverIdentity.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3119,7 +3119,7 @@ public final class Gio {
     
     static final MethodHandle g_tls_file_database_new = Interop.downcallHandle(
         "g_tls_file_database_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3131,7 +3131,7 @@ public final class Gio {
     public static TlsFileDatabase tlsFileDatabaseNew(java.lang.String anchors) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_file_database_new.invokeExact(Interop.allocateNativeString(anchors).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_file_database_new.invokeExact(Interop.allocateNativeString(anchors).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3143,7 +3143,7 @@ public final class Gio {
     
     static final MethodHandle g_tls_server_connection_new = Interop.downcallHandle(
         "g_tls_server_connection_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3157,7 +3157,7 @@ public final class Gio {
     public static TlsServerConnection tlsServerConnectionNew(IOStream baseIoStream, TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_server_connection_new.invokeExact(baseIoStream.handle(), certificate.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_server_connection_new.invokeExact(baseIoStream.handle(), certificate.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

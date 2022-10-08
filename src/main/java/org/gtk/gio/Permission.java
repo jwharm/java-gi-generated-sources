@@ -34,7 +34,7 @@ public class Permission extends org.gtk.gobject.Object {
     
     static final MethodHandle g_permission_acquire = Interop.downcallHandle(
         "g_permission_acquire",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -57,7 +57,7 @@ public class Permission extends org.gtk.gobject.Object {
     public boolean acquire(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_permission_acquire.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_permission_acquire.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -94,7 +94,7 @@ public class Permission extends org.gtk.gobject.Object {
     
     static final MethodHandle g_permission_acquire_finish = Interop.downcallHandle(
         "g_permission_acquire_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -107,7 +107,7 @@ public class Permission extends org.gtk.gobject.Object {
     public boolean acquireFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_permission_acquire_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_permission_acquire_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -196,7 +196,7 @@ public class Permission extends org.gtk.gobject.Object {
     
     static final MethodHandle g_permission_release = Interop.downcallHandle(
         "g_permission_release",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -219,7 +219,7 @@ public class Permission extends org.gtk.gobject.Object {
     public boolean release(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_permission_release.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_permission_release.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -256,7 +256,7 @@ public class Permission extends org.gtk.gobject.Object {
     
     static final MethodHandle g_permission_release_finish = Interop.downcallHandle(
         "g_permission_release_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -269,7 +269,7 @@ public class Permission extends org.gtk.gobject.Object {
     public boolean releaseFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_permission_release_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_permission_release_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

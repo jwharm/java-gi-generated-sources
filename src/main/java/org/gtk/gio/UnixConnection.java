@@ -31,7 +31,7 @@ public class UnixConnection extends SocketConnection {
     
     static final MethodHandle g_unix_connection_receive_credentials = Interop.downcallHandle(
         "g_unix_connection_receive_credentials",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -59,7 +59,7 @@ public class UnixConnection extends SocketConnection {
     public Credentials receiveCredentials(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_unix_connection_receive_credentials.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_unix_connection_receive_credentials.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -99,7 +99,7 @@ public class UnixConnection extends SocketConnection {
     
     static final MethodHandle g_unix_connection_receive_credentials_finish = Interop.downcallHandle(
         "g_unix_connection_receive_credentials_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -109,7 +109,7 @@ public class UnixConnection extends SocketConnection {
     public Credentials receiveCredentialsFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_unix_connection_receive_credentials_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_unix_connection_receive_credentials_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -121,7 +121,7 @@ public class UnixConnection extends SocketConnection {
     
     static final MethodHandle g_unix_connection_receive_fd = Interop.downcallHandle(
         "g_unix_connection_receive_fd",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -136,7 +136,7 @@ public class UnixConnection extends SocketConnection {
     public int receiveFd(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_connection_receive_fd.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_unix_connection_receive_fd.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -148,7 +148,7 @@ public class UnixConnection extends SocketConnection {
     
     static final MethodHandle g_unix_connection_send_credentials = Interop.downcallHandle(
         "g_unix_connection_send_credentials",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -177,7 +177,7 @@ public class UnixConnection extends SocketConnection {
     public boolean sendCredentials(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_connection_send_credentials.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_unix_connection_send_credentials.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -217,7 +217,7 @@ public class UnixConnection extends SocketConnection {
     
     static final MethodHandle g_unix_connection_send_credentials_finish = Interop.downcallHandle(
         "g_unix_connection_send_credentials_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -227,7 +227,7 @@ public class UnixConnection extends SocketConnection {
     public boolean sendCredentialsFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_connection_send_credentials_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_unix_connection_send_credentials_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -239,7 +239,7 @@ public class UnixConnection extends SocketConnection {
     
     static final MethodHandle g_unix_connection_send_fd = Interop.downcallHandle(
         "g_unix_connection_send_fd",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -254,7 +254,7 @@ public class UnixConnection extends SocketConnection {
     public boolean sendFd(int fd, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_connection_send_fd.invokeExact(handle(), fd, cancellable.handle(), GERROR);
+            var RESULT = (int) g_unix_connection_send_fd.invokeExact(handle(), fd, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

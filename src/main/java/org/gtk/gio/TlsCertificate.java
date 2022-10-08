@@ -24,13 +24,13 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_certificate_new_from_file = Interop.downcallHandle(
         "g_tls_certificate_new_from_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFile(java.lang.String file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_file.invokeExact(Interop.allocateNativeString(file).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_file.invokeExact(Interop.allocateNativeString(file).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -57,13 +57,13 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_certificate_new_from_file_with_password = Interop.downcallHandle(
         "g_tls_certificate_new_from_file_with_password",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFileWithPassword(java.lang.String file, java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_file_with_password.invokeExact(Interop.allocateNativeString(file).handle(), Interop.allocateNativeString(password).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_file_with_password.invokeExact(Interop.allocateNativeString(file).handle(), Interop.allocateNativeString(password).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -89,13 +89,13 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_certificate_new_from_files = Interop.downcallHandle(
         "g_tls_certificate_new_from_files",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_files.invokeExact(Interop.allocateNativeString(certFile).handle(), Interop.allocateNativeString(keyFile).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_files.invokeExact(Interop.allocateNativeString(certFile).handle(), Interop.allocateNativeString(keyFile).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -127,13 +127,13 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_certificate_new_from_pem = Interop.downcallHandle(
         "g_tls_certificate_new_from_pem",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromPem(java.lang.String data, long length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pem.invokeExact(Interop.allocateNativeString(data).handle(), length, GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pem.invokeExact(Interop.allocateNativeString(data).handle(), length, (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -165,13 +165,13 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_certificate_new_from_pkcs11_uris = Interop.downcallHandle(
         "g_tls_certificate_new_from_pkcs11_uris",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromPkcs11Uris(java.lang.String pkcs11Uri, java.lang.String privateKeyPkcs11Uri) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pkcs11_uris.invokeExact(Interop.allocateNativeString(pkcs11Uri).handle(), Interop.allocateNativeString(privateKeyPkcs11Uri).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pkcs11_uris.invokeExact(Interop.allocateNativeString(pkcs11Uri).handle(), Interop.allocateNativeString(privateKeyPkcs11Uri).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -213,13 +213,13 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_certificate_new_from_pkcs12 = Interop.downcallHandle(
         "g_tls_certificate_new_from_pkcs12",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromPkcs12(byte[] data, long length, java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pkcs12.invokeExact(Interop.allocateNativeArray(data).handle(), length, Interop.allocateNativeString(password).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tls_certificate_new_from_pkcs12.invokeExact(Interop.allocateNativeArray(data).handle(), length, Interop.allocateNativeString(password).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -441,7 +441,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_certificate_list_new_from_file = Interop.downcallHandle(
         "g_tls_certificate_list_new_from_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -454,7 +454,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     public static org.gtk.glib.List listNewFromFile(java.lang.String file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_certificate_list_new_from_file.invokeExact(Interop.allocateNativeString(file).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_certificate_list_new_from_file.invokeExact(Interop.allocateNativeString(file).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

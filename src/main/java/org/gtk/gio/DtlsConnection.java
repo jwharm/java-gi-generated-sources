@@ -29,7 +29,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
 
     static final MethodHandle g_dtls_connection_close = Interop.downcallHandle(
         "g_dtls_connection_close",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -56,7 +56,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     public default boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dtls_connection_close.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_dtls_connection_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -91,7 +91,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_dtls_connection_close_finish = Interop.downcallHandle(
         "g_dtls_connection_close_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -101,7 +101,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     public default boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dtls_connection_close_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_dtls_connection_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -149,7 +149,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_dtls_connection_get_channel_binding_data = Interop.downcallHandle(
         "g_dtls_connection_get_channel_binding_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -170,7 +170,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     public default boolean getChannelBindingData(TlsChannelBindingType type, PointerByte data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dtls_connection_get_channel_binding_data.invokeExact(handle(), type.getValue(), data.handle(), GERROR);
+            var RESULT = (int) g_dtls_connection_get_channel_binding_data.invokeExact(handle(), type.getValue(), data.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -343,7 +343,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_dtls_connection_handshake = Interop.downcallHandle(
         "g_dtls_connection_handshake",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -377,7 +377,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     public default boolean handshake(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dtls_connection_handshake.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_dtls_connection_handshake.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -412,7 +412,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_dtls_connection_handshake_finish = Interop.downcallHandle(
         "g_dtls_connection_handshake_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -422,7 +422,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     public default boolean handshakeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dtls_connection_handshake_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_dtls_connection_handshake_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -579,7 +579,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_dtls_connection_shutdown = Interop.downcallHandle(
         "g_dtls_connection_shutdown",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -603,7 +603,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     public default boolean shutdown(boolean shutdownRead, boolean shutdownWrite, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dtls_connection_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, cancellable.handle(), GERROR);
+            var RESULT = (int) g_dtls_connection_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -638,7 +638,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_dtls_connection_shutdown_finish = Interop.downcallHandle(
         "g_dtls_connection_shutdown_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -648,7 +648,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     public default boolean shutdownFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dtls_connection_shutdown_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_dtls_connection_shutdown_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

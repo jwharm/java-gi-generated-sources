@@ -109,7 +109,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_datagram_based_condition_wait = Interop.downcallHandle(
         "g_datagram_based_condition_wait",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -123,7 +123,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     public default boolean conditionWait(org.gtk.glib.IOCondition condition, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_datagram_based_condition_wait.invokeExact(handle(), condition.getValue(), timeout, cancellable.handle(), GERROR);
+            var RESULT = (int) g_datagram_based_condition_wait.invokeExact(handle(), condition.getValue(), timeout, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -165,7 +165,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_datagram_based_receive_messages = Interop.downcallHandle(
         "g_datagram_based_receive_messages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -223,7 +223,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     public default int receiveMessages(InputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_datagram_based_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
+            var RESULT = (int) g_datagram_based_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -235,7 +235,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_datagram_based_send_messages = Interop.downcallHandle(
         "g_datagram_based_send_messages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -284,7 +284,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     public default int sendMessages(OutputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_datagram_based_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
+            var RESULT = (int) g_datagram_based_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

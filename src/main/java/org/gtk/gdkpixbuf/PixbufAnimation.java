@@ -32,13 +32,13 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_pixbuf_animation_new_from_file = Interop.downcallHandle(
         "gdk_pixbuf_animation_new_from_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFile(java.lang.String filename) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_animation_new_from_file.invokeExact(Interop.allocateNativeString(filename).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_animation_new_from_file.invokeExact(Interop.allocateNativeString(filename).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -64,13 +64,13 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_pixbuf_animation_new_from_resource = Interop.downcallHandle(
         "gdk_pixbuf_animation_new_from_resource",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromResource(java.lang.String resourcePath) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_animation_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_animation_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -92,13 +92,13 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_pixbuf_animation_new_from_stream = Interop.downcallHandle(
         "gdk_pixbuf_animation_new_from_stream",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_animation_new_from_stream.invokeExact(stream.handle(), cancellable.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_animation_new_from_stream.invokeExact(stream.handle(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -128,13 +128,13 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_pixbuf_animation_new_from_stream_finish = Interop.downcallHandle(
         "gdk_pixbuf_animation_new_from_stream_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_animation_new_from_stream_finish.invokeExact(asyncResult.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_animation_new_from_stream_finish.invokeExact(asyncResult.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

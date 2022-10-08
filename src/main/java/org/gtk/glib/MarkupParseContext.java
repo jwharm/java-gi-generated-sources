@@ -45,7 +45,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_markup_parse_context_end_parse = Interop.downcallHandle(
         "g_markup_parse_context_end_parse",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -58,7 +58,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean endParse() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_markup_parse_context_end_parse.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_markup_parse_context_end_parse.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -177,7 +177,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_markup_parse_context_parse = Interop.downcallHandle(
         "g_markup_parse_context_parse",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
     
     /**
@@ -195,7 +195,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean parse(java.lang.String text, long textLen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_markup_parse_context_parse.invokeExact(handle(), Interop.allocateNativeString(text).handle(), textLen, GERROR);
+            var RESULT = (int) g_markup_parse_context_parse.invokeExact(handle(), Interop.allocateNativeString(text).handle(), textLen, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

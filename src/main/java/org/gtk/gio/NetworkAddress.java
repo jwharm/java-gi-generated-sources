@@ -141,7 +141,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     
     static final MethodHandle g_network_address_parse = Interop.downcallHandle(
         "g_network_address_parse",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -170,7 +170,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     public static NetworkAddress parse(java.lang.String hostAndPort, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_network_address_parse.invokeExact(Interop.allocateNativeString(hostAndPort).handle(), defaultPort, GERROR);
+            var RESULT = (MemoryAddress) g_network_address_parse.invokeExact(Interop.allocateNativeString(hostAndPort).handle(), defaultPort, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -182,7 +182,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     
     static final MethodHandle g_network_address_parse_uri = Interop.downcallHandle(
         "g_network_address_parse_uri",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -196,7 +196,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     public static NetworkAddress parseUri(java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_network_address_parse_uri.invokeExact(Interop.allocateNativeString(uri).handle(), defaultPort, GERROR);
+            var RESULT = (MemoryAddress) g_network_address_parse_uri.invokeExact(Interop.allocateNativeString(uri).handle(), defaultPort, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

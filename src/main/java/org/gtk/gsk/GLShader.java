@@ -174,7 +174,7 @@ public class GLShader extends org.gtk.gobject.Object {
     
     static final MethodHandle gsk_gl_shader_compile = Interop.downcallHandle(
         "gsk_gl_shader_compile",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -194,7 +194,7 @@ public class GLShader extends org.gtk.gobject.Object {
     public boolean compile(Renderer renderer) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gsk_gl_shader_compile.invokeExact(handle(), renderer.handle(), GERROR);
+            var RESULT = (int) gsk_gl_shader_compile.invokeExact(handle(), renderer.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

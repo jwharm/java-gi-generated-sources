@@ -75,7 +75,7 @@ public class UnixFDMessage extends SocketControlMessage {
     
     static final MethodHandle g_unix_fd_message_append_fd = Interop.downcallHandle(
         "g_unix_fd_message_append_fd",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -91,7 +91,7 @@ public class UnixFDMessage extends SocketControlMessage {
     public boolean appendFd(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_fd_message_append_fd.invokeExact(handle(), fd, GERROR);
+            var RESULT = (int) g_unix_fd_message_append_fd.invokeExact(handle(), fd, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

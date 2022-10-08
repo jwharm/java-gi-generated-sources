@@ -1346,7 +1346,7 @@ public final class Pango {
     
     static final MethodHandle pango_markup_parser_finish = Interop.downcallHandle(
         "pango_markup_parser_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1360,7 +1360,7 @@ public final class Pango {
     public static boolean markupParserFinish(org.gtk.glib.MarkupParseContext context, PointerProxy<AttrList> attrList, PointerString text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) pango_markup_parser_finish.invokeExact(context.handle(), attrList.handle(), text.handle(), accelChar.handle(), GERROR);
+            var RESULT = (int) pango_markup_parser_finish.invokeExact(context.handle(), attrList.handle(), text.handle(), accelChar.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1410,7 +1410,7 @@ public final class Pango {
     
     static final MethodHandle pango_parse_markup = Interop.downcallHandle(
         "pango_parse_markup",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1435,7 +1435,7 @@ public final class Pango {
     public static boolean parseMarkup(java.lang.String markupText, int length, int accelMarker, PointerProxy<AttrList> attrList, PointerString text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) pango_parse_markup.invokeExact(Interop.allocateNativeString(markupText).handle(), length, accelMarker, attrList.handle(), text.handle(), accelChar.handle(), GERROR);
+            var RESULT = (int) pango_parse_markup.invokeExact(Interop.allocateNativeString(markupText).handle(), length, accelMarker, attrList.handle(), text.handle(), accelChar.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

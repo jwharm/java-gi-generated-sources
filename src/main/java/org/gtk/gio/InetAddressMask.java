@@ -23,13 +23,13 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     
     static final MethodHandle g_inet_address_mask_new = Interop.downcallHandle(
         "g_inet_address_mask_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNew(InetAddress addr, int length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_address_mask_new.invokeExact(addr.handle(), length, GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_address_mask_new.invokeExact(addr.handle(), length, (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -49,13 +49,13 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     
     static final MethodHandle g_inet_address_mask_new_from_string = Interop.downcallHandle(
         "g_inet_address_mask_new_from_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromString(java.lang.String maskString) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_address_mask_new_from_string.invokeExact(Interop.allocateNativeString(maskString).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_address_mask_new_from_string.invokeExact(Interop.allocateNativeString(maskString).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -17,13 +17,13 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_new_file = Interop.downcallHandle(
         "g_io_channel_new_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFile(java.lang.String filename, java.lang.String mode) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_io_channel_new_file.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(mode).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_io_channel_new_file.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(mode).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -88,7 +88,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_flush = Interop.downcallHandle(
         "g_io_channel_flush",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -97,7 +97,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus flush() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_flush.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_io_channel_flush.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -265,7 +265,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_read_chars = Interop.downcallHandle(
         "g_io_channel_read_chars",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -274,7 +274,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus readChars(PointerByte buf, long count, PointerLong bytesRead) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_read_chars.invokeExact(handle(), buf.handle(), count, bytesRead.handle(), GERROR);
+            var RESULT = (int) g_io_channel_read_chars.invokeExact(handle(), buf.handle(), count, bytesRead.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -286,7 +286,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_read_line = Interop.downcallHandle(
         "g_io_channel_read_line",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -298,7 +298,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus readLine(PointerString strReturn, PointerLong length, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_read_line.invokeExact(handle(), strReturn.handle(), length.handle(), terminatorPos.handle(), GERROR);
+            var RESULT = (int) g_io_channel_read_line.invokeExact(handle(), strReturn.handle(), length.handle(), terminatorPos.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -310,7 +310,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_read_line_string = Interop.downcallHandle(
         "g_io_channel_read_line_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -319,7 +319,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus readLineString(String buffer, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_read_line_string.invokeExact(handle(), buffer.handle(), terminatorPos.handle(), GERROR);
+            var RESULT = (int) g_io_channel_read_line_string.invokeExact(handle(), buffer.handle(), terminatorPos.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -331,7 +331,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_read_to_end = Interop.downcallHandle(
         "g_io_channel_read_to_end",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -340,7 +340,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus readToEnd(PointerByte strReturn, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_read_to_end.invokeExact(handle(), strReturn.handle(), length.handle(), GERROR);
+            var RESULT = (int) g_io_channel_read_to_end.invokeExact(handle(), strReturn.handle(), length.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -352,7 +352,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_read_unichar = Interop.downcallHandle(
         "g_io_channel_read_unichar",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -362,7 +362,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus readUnichar(PointerInteger thechar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_read_unichar.invokeExact(handle(), thechar.handle(), GERROR);
+            var RESULT = (int) g_io_channel_read_unichar.invokeExact(handle(), thechar.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -391,7 +391,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_seek_position = Interop.downcallHandle(
         "g_io_channel_seek_position",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -400,7 +400,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus seekPosition(long offset, SeekType type) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_seek_position.invokeExact(handle(), offset, type.getValue(), GERROR);
+            var RESULT = (int) g_io_channel_seek_position.invokeExact(handle(), offset, type.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -483,7 +483,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_set_encoding = Interop.downcallHandle(
         "g_io_channel_set_encoding",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -537,7 +537,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus setEncoding(java.lang.String encoding) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_set_encoding.invokeExact(handle(), Interop.allocateNativeString(encoding).handle(), GERROR);
+            var RESULT = (int) g_io_channel_set_encoding.invokeExact(handle(), Interop.allocateNativeString(encoding).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -549,7 +549,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_set_flags = Interop.downcallHandle(
         "g_io_channel_set_flags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -558,7 +558,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus setFlags(IOFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_set_flags.invokeExact(handle(), flags.getValue(), GERROR);
+            var RESULT = (int) g_io_channel_set_flags.invokeExact(handle(), flags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -587,7 +587,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_shutdown = Interop.downcallHandle(
         "g_io_channel_shutdown",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -598,7 +598,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_shutdown.invokeExact(handle(), flush ? 1 : 0, GERROR);
+            var RESULT = (int) g_io_channel_shutdown.invokeExact(handle(), flush ? 1 : 0, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -646,7 +646,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_write_chars = Interop.downcallHandle(
         "g_io_channel_write_chars",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -660,7 +660,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus writeChars(byte[] buf, long count, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_write_chars.invokeExact(handle(), Interop.allocateNativeArray(buf).handle(), count, bytesWritten.handle(), GERROR);
+            var RESULT = (int) g_io_channel_write_chars.invokeExact(handle(), Interop.allocateNativeArray(buf).handle(), count, bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -672,7 +672,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_io_channel_write_unichar = Interop.downcallHandle(
         "g_io_channel_write_unichar",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -682,7 +682,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     public IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_io_channel_write_unichar.invokeExact(handle(), thechar, GERROR);
+            var RESULT = (int) g_io_channel_write_unichar.invokeExact(handle(), thechar, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

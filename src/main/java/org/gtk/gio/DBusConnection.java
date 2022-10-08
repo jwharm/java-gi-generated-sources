@@ -68,13 +68,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_new_finish = Interop.downcallHandle(
         "g_dbus_connection_new_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFinish(AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_connection_new_finish.invokeExact(res.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_connection_new_finish.invokeExact(res.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -93,13 +93,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_new_for_address_finish = Interop.downcallHandle(
         "g_dbus_connection_new_for_address_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewForAddressFinish(AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_connection_new_for_address_finish.invokeExact(res.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_connection_new_for_address_finish.invokeExact(res.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -118,13 +118,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_new_for_address_sync = Interop.downcallHandle(
         "g_dbus_connection_new_for_address_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewForAddressSync(java.lang.String address, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_connection_new_for_address_sync.invokeExact(Interop.allocateNativeString(address).handle(), flags.getValue(), observer.handle(), cancellable.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_connection_new_for_address_sync.invokeExact(Interop.allocateNativeString(address).handle(), flags.getValue(), observer.handle(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -159,13 +159,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_new_sync = Interop.downcallHandle(
         "g_dbus_connection_new_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewSync(IOStream stream, java.lang.String guid, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_connection_new_sync.invokeExact(stream.handle(), Interop.allocateNativeString(guid).handle(), flags.getValue(), observer.handle(), cancellable.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_connection_new_sync.invokeExact(stream.handle(), Interop.allocateNativeString(guid).handle(), flags.getValue(), observer.handle(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -314,7 +314,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_call_finish = Interop.downcallHandle(
         "g_dbus_connection_call_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -323,7 +323,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public org.gtk.glib.Variant callFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_connection_call_finish.invokeExact(handle(), res.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_connection_call_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -335,7 +335,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_call_sync = Interop.downcallHandle(
         "g_dbus_connection_call_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -379,7 +379,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public org.gtk.glib.Variant callSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, DBusCallFlags flags, int timeoutMsec, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_connection_call_sync.invokeExact(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_connection_call_sync.invokeExact(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -427,7 +427,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_call_with_unix_fd_list_finish = Interop.downcallHandle(
         "g_dbus_connection_call_with_unix_fd_list_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -447,7 +447,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public org.gtk.glib.Variant callWithUnixFdListFinish(PointerProxy<UnixFDList> outFdList, AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_connection_call_with_unix_fd_list_finish.invokeExact(handle(), outFdList.handle(), res.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_connection_call_with_unix_fd_list_finish.invokeExact(handle(), outFdList.handle(), res.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -459,7 +459,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_call_with_unix_fd_list_sync = Interop.downcallHandle(
         "g_dbus_connection_call_with_unix_fd_list_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -472,7 +472,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, DBusCallFlags flags, int timeoutMsec, UnixFDList fdList, PointerProxy<UnixFDList> outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_connection_call_with_unix_fd_list_sync.invokeExact(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, fdList.handle(), outFdList.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_connection_call_with_unix_fd_list_sync.invokeExact(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, fdList.handle(), outFdList.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -529,7 +529,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_close_finish = Interop.downcallHandle(
         "g_dbus_connection_close_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -538,7 +538,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public boolean closeFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_close_finish.invokeExact(handle(), res.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_close_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -550,7 +550,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_close_sync = Interop.downcallHandle(
         "g_dbus_connection_close_sync",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -562,7 +562,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public boolean closeSync(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_close_sync.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_close_sync.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -574,7 +574,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_emit_signal = Interop.downcallHandle(
         "g_dbus_connection_emit_signal",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -589,7 +589,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public boolean emitSignal(java.lang.String destinationBusName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String signalName, org.gtk.glib.Variant parameters) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_emit_signal.invokeExact(handle(), Interop.allocateNativeString(destinationBusName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(signalName).handle(), parameters.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_emit_signal.invokeExact(handle(), Interop.allocateNativeString(destinationBusName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(signalName).handle(), parameters.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -601,7 +601,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_export_action_group = Interop.downcallHandle(
         "g_dbus_connection_export_action_group",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -630,7 +630,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public int exportActionGroup(java.lang.String objectPath, ActionGroup actionGroup) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_export_action_group.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), actionGroup.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_export_action_group.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), actionGroup.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -642,7 +642,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_export_menu_model = Interop.downcallHandle(
         "g_dbus_connection_export_menu_model",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -662,7 +662,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public int exportMenuModel(java.lang.String objectPath, MenuModel menu) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_export_menu_model.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), menu.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_export_menu_model.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), menu.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -709,7 +709,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_flush_finish = Interop.downcallHandle(
         "g_dbus_connection_flush_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -718,7 +718,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public boolean flushFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_flush_finish.invokeExact(handle(), res.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_flush_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -730,7 +730,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_flush_sync = Interop.downcallHandle(
         "g_dbus_connection_flush_sync",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -742,7 +742,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public boolean flushSync(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_flush_sync.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_flush_sync.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -928,7 +928,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_register_object = Interop.downcallHandle(
         "g_dbus_connection_register_object",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -975,7 +975,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (int) g_dbus_connection_register_object.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), interfaceInfo.handle(), vtable.handle(), userData, 
-                    Interop.cbDestroyNotifySymbol(), GERROR);
+                    Interop.cbDestroyNotifySymbol(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -987,7 +987,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_register_object_with_closures = Interop.downcallHandle(
         "g_dbus_connection_register_object_with_closures",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -997,7 +997,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public int registerObjectWithClosures(java.lang.String objectPath, DBusInterfaceInfo interfaceInfo, org.gtk.gobject.Closure methodCallClosure, org.gtk.gobject.Closure getPropertyClosure, org.gtk.gobject.Closure setPropertyClosure) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_register_object_with_closures.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), interfaceInfo.handle(), methodCallClosure.handle(), getPropertyClosure.handle(), setPropertyClosure.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_register_object_with_closures.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), interfaceInfo.handle(), methodCallClosure.handle(), getPropertyClosure.handle(), setPropertyClosure.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1009,7 +1009,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_register_subtree = Interop.downcallHandle(
         "g_dbus_connection_register_subtree",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1052,7 +1052,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = (int) g_dbus_connection_register_subtree.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), vtable.handle(), flags.getValue(), userData, 
-                    Interop.cbDestroyNotifySymbol(), GERROR);
+                    Interop.cbDestroyNotifySymbol(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1087,7 +1087,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_send_message = Interop.downcallHandle(
         "g_dbus_connection_send_message",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1116,7 +1116,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public boolean sendMessage(DBusMessage message, DBusSendMessageFlags flags, PointerInteger outSerial) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_connection_send_message.invokeExact(handle(), message.handle(), flags.getValue(), outSerial.handle(), GERROR);
+            var RESULT = (int) g_dbus_connection_send_message.invokeExact(handle(), message.handle(), flags.getValue(), outSerial.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1178,7 +1178,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_send_message_with_reply_finish = Interop.downcallHandle(
         "g_dbus_connection_send_message_with_reply_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1196,7 +1196,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public DBusMessage sendMessageWithReplyFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_connection_send_message_with_reply_finish.invokeExact(handle(), res.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_connection_send_message_with_reply_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1208,7 +1208,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     static final MethodHandle g_dbus_connection_send_message_with_reply_sync = Interop.downcallHandle(
         "g_dbus_connection_send_message_with_reply_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1246,7 +1246,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public DBusMessage sendMessageWithReplySync(DBusMessage message, DBusSendMessageFlags flags, int timeoutMsec, PointerInteger outSerial, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_connection_send_message_with_reply_sync.invokeExact(handle(), message.handle(), flags.getValue(), timeoutMsec, outSerial.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_connection_send_message_with_reply_sync.invokeExact(handle(), message.handle(), flags.getValue(), timeoutMsec, outSerial.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

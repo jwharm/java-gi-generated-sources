@@ -52,13 +52,13 @@ public class PrintSettings extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_print_settings_new_from_file = Interop.downcallHandle(
         "gtk_print_settings_new_from_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFile(java.lang.String fileName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_file.invokeExact(Interop.allocateNativeString(fileName).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_file.invokeExact(Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -107,13 +107,13 @@ public class PrintSettings extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_print_settings_new_from_key_file = Interop.downcallHandle(
         "gtk_print_settings_new_from_key_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -772,7 +772,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_print_settings_load_file = Interop.downcallHandle(
         "gtk_print_settings_load_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -786,7 +786,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_print_settings_load_file.invokeExact(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
+            var RESULT = (int) gtk_print_settings_load_file.invokeExact(handle(), Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -798,7 +798,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_print_settings_load_key_file = Interop.downcallHandle(
         "gtk_print_settings_load_key_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -810,7 +810,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_print_settings_load_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR);
+            var RESULT = (int) gtk_print_settings_load_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1311,7 +1311,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_print_settings_to_file = Interop.downcallHandle(
         "gtk_print_settings_to_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1323,7 +1323,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_print_settings_to_file.invokeExact(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
+            var RESULT = (int) gtk_print_settings_to_file.invokeExact(handle(), Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

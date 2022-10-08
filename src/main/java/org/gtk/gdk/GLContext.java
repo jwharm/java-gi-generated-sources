@@ -305,7 +305,7 @@ public class GLContext extends DrawContext {
     
     static final MethodHandle gdk_gl_context_realize = Interop.downcallHandle(
         "gdk_gl_context_realize",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -316,7 +316,7 @@ public class GLContext extends DrawContext {
     public boolean realize() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gdk_gl_context_realize.invokeExact(handle(), GERROR);
+            var RESULT = (int) gdk_gl_context_realize.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

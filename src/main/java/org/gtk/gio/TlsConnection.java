@@ -61,7 +61,7 @@ public class TlsConnection extends IOStream {
     
     static final MethodHandle g_tls_connection_get_channel_binding_data = Interop.downcallHandle(
         "g_tls_connection_get_channel_binding_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -82,7 +82,7 @@ public class TlsConnection extends IOStream {
     public boolean getChannelBindingData(TlsChannelBindingType type, PointerByte data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_connection_get_channel_binding_data.invokeExact(handle(), type.getValue(), data.handle(), GERROR);
+            var RESULT = (int) g_tls_connection_get_channel_binding_data.invokeExact(handle(), type.getValue(), data.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -257,7 +257,7 @@ public class TlsConnection extends IOStream {
     
     static final MethodHandle g_tls_connection_handshake = Interop.downcallHandle(
         "g_tls_connection_handshake",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -296,7 +296,7 @@ public class TlsConnection extends IOStream {
     public boolean handshake(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_connection_handshake.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_tls_connection_handshake.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -331,7 +331,7 @@ public class TlsConnection extends IOStream {
     
     static final MethodHandle g_tls_connection_handshake_finish = Interop.downcallHandle(
         "g_tls_connection_handshake_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -341,7 +341,7 @@ public class TlsConnection extends IOStream {
     public boolean handshakeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_connection_handshake_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_tls_connection_handshake_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

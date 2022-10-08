@@ -12,7 +12,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
 
     static final MethodHandle g_loadable_icon_load = Interop.downcallHandle(
         "g_loadable_icon_load",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -22,7 +22,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
     public default InputStream load(int size, PointerString type, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_loadable_icon_load.invokeExact(handle(), size, type.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_loadable_icon_load.invokeExact(handle(), size, type.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -58,7 +58,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_loadable_icon_load_finish = Interop.downcallHandle(
         "g_loadable_icon_load_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -67,7 +67,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
     public default InputStream loadFinish(AsyncResult res, PointerString type) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_loadable_icon_load_finish.invokeExact(handle(), res.handle(), type.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_loadable_icon_load_finish.invokeExact(handle(), res.handle(), type.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

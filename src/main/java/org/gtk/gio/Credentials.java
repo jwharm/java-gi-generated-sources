@@ -100,7 +100,7 @@ public class Credentials extends org.gtk.gobject.Object {
     
     static final MethodHandle g_credentials_get_unix_pid = Interop.downcallHandle(
         "g_credentials_get_unix_pid",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -114,7 +114,7 @@ public class Credentials extends org.gtk.gobject.Object {
     public int getUnixPid() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_credentials_get_unix_pid.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_credentials_get_unix_pid.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -126,7 +126,7 @@ public class Credentials extends org.gtk.gobject.Object {
     
     static final MethodHandle g_credentials_get_unix_user = Interop.downcallHandle(
         "g_credentials_get_unix_user",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -140,7 +140,7 @@ public class Credentials extends org.gtk.gobject.Object {
     public int getUnixUser() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_credentials_get_unix_user.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_credentials_get_unix_user.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -152,7 +152,7 @@ public class Credentials extends org.gtk.gobject.Object {
     
     static final MethodHandle g_credentials_is_same_user = Interop.downcallHandle(
         "g_credentials_is_same_user",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -164,7 +164,7 @@ public class Credentials extends org.gtk.gobject.Object {
     public boolean isSameUser(Credentials otherCredentials) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_credentials_is_same_user.invokeExact(handle(), otherCredentials.handle(), GERROR);
+            var RESULT = (int) g_credentials_is_same_user.invokeExact(handle(), otherCredentials.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -197,7 +197,7 @@ public class Credentials extends org.gtk.gobject.Object {
     
     static final MethodHandle g_credentials_set_unix_user = Interop.downcallHandle(
         "g_credentials_set_unix_user",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -212,7 +212,7 @@ public class Credentials extends org.gtk.gobject.Object {
     public boolean setUnixUser(int uid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_credentials_set_unix_user.invokeExact(handle(), uid, GERROR);
+            var RESULT = (int) g_credentials_set_unix_user.invokeExact(handle(), uid, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

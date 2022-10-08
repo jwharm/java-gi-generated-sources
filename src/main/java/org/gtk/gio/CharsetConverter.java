@@ -21,13 +21,13 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
     
     static final MethodHandle g_charset_converter_new = Interop.downcallHandle(
         "g_charset_converter_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNew(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_charset_converter_new.invokeExact(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_charset_converter_new.invokeExact(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

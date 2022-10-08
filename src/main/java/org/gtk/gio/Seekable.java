@@ -59,7 +59,7 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_seekable_seek = Interop.downcallHandle(
         "g_seekable_seek",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -81,7 +81,7 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     public default boolean seek(long offset, org.gtk.glib.SeekType type, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_seekable_seek.invokeExact(handle(), offset, type.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_seekable_seek.invokeExact(handle(), offset, type.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -110,7 +110,7 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_seekable_truncate = Interop.downcallHandle(
         "g_seekable_truncate",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -127,7 +127,7 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     public default boolean truncate(long offset, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_seekable_truncate.invokeExact(handle(), offset, cancellable.handle(), GERROR);
+            var RESULT = (int) g_seekable_truncate.invokeExact(handle(), offset, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

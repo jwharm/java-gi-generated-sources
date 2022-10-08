@@ -166,7 +166,7 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_async_initable_init_finish = Interop.downcallHandle(
         "g_async_initable_init_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -176,7 +176,7 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
     public default boolean initFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_async_initable_init_finish.invokeExact(handle(), res.handle(), GERROR);
+            var RESULT = (int) g_async_initable_init_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

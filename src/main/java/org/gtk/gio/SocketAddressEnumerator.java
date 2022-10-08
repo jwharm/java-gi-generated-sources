@@ -33,7 +33,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_address_enumerator_next = Interop.downcallHandle(
         "g_socket_address_enumerator_next",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -54,7 +54,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     public SocketAddress next(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_address_enumerator_next.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_address_enumerator_next.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -92,7 +92,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_address_enumerator_next_finish = Interop.downcallHandle(
         "g_socket_address_enumerator_next_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -104,7 +104,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     public SocketAddress nextFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_address_enumerator_next_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_address_enumerator_next_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

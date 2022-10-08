@@ -321,7 +321,7 @@ public class Cancellable extends org.gtk.gobject.Object {
     
     static final MethodHandle g_cancellable_set_error_if_cancelled = Interop.downcallHandle(
         "g_cancellable_set_error_if_cancelled",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -331,7 +331,7 @@ public class Cancellable extends org.gtk.gobject.Object {
     public boolean setErrorIfCancelled() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_cancellable_set_error_if_cancelled.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_cancellable_set_error_if_cancelled.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

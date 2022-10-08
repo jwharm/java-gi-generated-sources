@@ -52,7 +52,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_database_lookup_certificate_for_handle = Interop.downcallHandle(
         "g_tls_database_lookup_certificate_for_handle",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -72,7 +72,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public TlsCertificate lookupCertificateForHandle(java.lang.String handle, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_database_lookup_certificate_for_handle.invokeExact(handle(), Interop.allocateNativeString(handle).handle(), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_database_lookup_certificate_for_handle.invokeExact(handle(), Interop.allocateNativeString(handle).handle(), interaction.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -107,7 +107,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_database_lookup_certificate_for_handle_finish = Interop.downcallHandle(
         "g_tls_database_lookup_certificate_for_handle_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -120,7 +120,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public TlsCertificate lookupCertificateForHandleFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_database_lookup_certificate_for_handle_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_database_lookup_certificate_for_handle_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -132,7 +132,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_database_lookup_certificate_issuer = Interop.downcallHandle(
         "g_tls_database_lookup_certificate_issuer",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -160,7 +160,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public TlsCertificate lookupCertificateIssuer(TlsCertificate certificate, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_database_lookup_certificate_issuer.invokeExact(handle(), certificate.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_database_lookup_certificate_issuer.invokeExact(handle(), certificate.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -195,7 +195,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_database_lookup_certificate_issuer_finish = Interop.downcallHandle(
         "g_tls_database_lookup_certificate_issuer_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -205,7 +205,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public TlsCertificate lookupCertificateIssuerFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_database_lookup_certificate_issuer_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_database_lookup_certificate_issuer_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -217,7 +217,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_database_lookup_certificates_issued_by = Interop.downcallHandle(
         "g_tls_database_lookup_certificates_issued_by",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -229,7 +229,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public org.gtk.glib.List lookupCertificatesIssuedBy(byte[] issuerRawDn, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_database_lookup_certificates_issued_by.invokeExact(handle(), Interop.allocateNativeArray(issuerRawDn).handle(), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_database_lookup_certificates_issued_by.invokeExact(handle(), Interop.allocateNativeArray(issuerRawDn).handle(), interaction.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -268,7 +268,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_database_lookup_certificates_issued_by_finish = Interop.downcallHandle(
         "g_tls_database_lookup_certificates_issued_by_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -278,7 +278,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public org.gtk.glib.List lookupCertificatesIssuedByFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_database_lookup_certificates_issued_by_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_database_lookup_certificates_issued_by_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -290,7 +290,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_database_verify_chain = Interop.downcallHandle(
         "g_tls_database_verify_chain",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -358,7 +358,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public TlsCertificateFlags verifyChain(TlsCertificate chain, java.lang.String purpose, SocketConnectable identity, TlsInteraction interaction, TlsDatabaseVerifyFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_database_verify_chain.invokeExact(handle(), chain.handle(), Interop.allocateNativeString(purpose).handle(), identity.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_tls_database_verify_chain.invokeExact(handle(), chain.handle(), Interop.allocateNativeString(purpose).handle(), identity.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -394,7 +394,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_database_verify_chain_finish = Interop.downcallHandle(
         "g_tls_database_verify_chain_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -413,7 +413,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public TlsCertificateFlags verifyChainFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_database_verify_chain_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_tls_database_verify_chain_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

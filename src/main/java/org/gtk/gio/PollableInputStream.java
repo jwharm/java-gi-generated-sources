@@ -85,7 +85,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_pollable_input_stream_read_nonblocking = Interop.downcallHandle(
         "g_pollable_input_stream_read_nonblocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -104,7 +104,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     public default long readNonblocking(PointerByte buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_pollable_input_stream_read_nonblocking.invokeExact(handle(), buffer.handle(), count, cancellable.handle(), GERROR);
+            var RESULT = (long) g_pollable_input_stream_read_nonblocking.invokeExact(handle(), buffer.handle(), count, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -71,7 +71,7 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_uri_params_iter_next = Interop.downcallHandle(
         "g_uri_params_iter_next",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -88,7 +88,7 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
     public boolean next(PointerString attribute, PointerString value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_params_iter_next.invokeExact(handle(), attribute.handle(), value.handle(), GERROR);
+            var RESULT = (int) g_uri_params_iter_next.invokeExact(handle(), attribute.handle(), value.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

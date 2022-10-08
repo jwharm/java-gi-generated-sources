@@ -1489,7 +1489,7 @@ public final class Gtk {
     
     static final MethodHandle gtk_show_uri_full_finish = Interop.downcallHandle(
         "gtk_show_uri_full_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1499,7 +1499,7 @@ public final class Gtk {
     public static boolean showUriFullFinish(Window parent, org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_show_uri_full_finish.invokeExact(parent.handle(), result.handle(), GERROR);
+            var RESULT = (int) gtk_show_uri_full_finish.invokeExact(parent.handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

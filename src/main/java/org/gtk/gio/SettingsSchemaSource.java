@@ -15,13 +15,13 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_settings_schema_source_new_from_directory = Interop.downcallHandle(
         "g_settings_schema_source_new_from_directory",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromDirectory(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_schema_source_new_from_directory.invokeExact(Interop.allocateNativeString(directory).handle(), parent.handle(), trusted ? 1 : 0, GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_schema_source_new_from_directory.invokeExact(Interop.allocateNativeString(directory).handle(), parent.handle(), trusted ? 1 : 0, (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -36,7 +36,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_proxy_resolver_lookup = Interop.downcallHandle(
         "g_proxy_resolver_lookup",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -59,7 +59,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
     public default PointerString lookup(java.lang.String uri, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_proxy_resolver_lookup.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_proxy_resolver_lookup.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -94,7 +94,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_proxy_resolver_lookup_finish = Interop.downcallHandle(
         "g_proxy_resolver_lookup_finish",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -105,7 +105,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.Proxy {
     public default PointerString lookupFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_proxy_resolver_lookup_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_proxy_resolver_lookup_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -42,13 +42,13 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     static final MethodHandle g_dbus_message_new_from_blob = Interop.downcallHandle(
         "g_dbus_message_new_from_blob",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromBlob(byte[] blob, long blobLen, DBusCapabilityFlags capabilities) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_message_new_from_blob.invokeExact(Interop.allocateNativeArray(blob).handle(), blobLen, capabilities.getValue(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_message_new_from_blob.invokeExact(Interop.allocateNativeArray(blob).handle(), blobLen, capabilities.getValue(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -114,7 +114,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     static final MethodHandle g_dbus_message_copy = Interop.downcallHandle(
         "g_dbus_message_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -128,7 +128,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public DBusMessage copy() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_message_copy.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_message_copy.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -865,7 +865,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     static final MethodHandle g_dbus_message_to_blob = Interop.downcallHandle(
         "g_dbus_message_to_blob",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -875,7 +875,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public PointerByte toBlob(PointerLong outSize, DBusCapabilityFlags capabilities) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dbus_message_to_blob.invokeExact(handle(), outSize.handle(), capabilities.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_dbus_message_to_blob.invokeExact(handle(), outSize.handle(), capabilities.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -887,7 +887,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     static final MethodHandle g_dbus_message_to_gerror = Interop.downcallHandle(
         "g_dbus_message_to_gerror",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -902,7 +902,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public boolean toGerror() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_message_to_gerror.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_dbus_message_to_gerror.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -914,7 +914,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     static final MethodHandle g_dbus_message_bytes_needed = Interop.downcallHandle(
         "g_dbus_message_bytes_needed",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
     
     /**
@@ -924,7 +924,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     public static long bytesNeeded(byte[] blob, long blobLen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_dbus_message_bytes_needed.invokeExact(Interop.allocateNativeArray(blob).handle(), blobLen, GERROR);
+            var RESULT = (long) g_dbus_message_bytes_needed.invokeExact(Interop.allocateNativeArray(blob).handle(), blobLen, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

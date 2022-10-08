@@ -16,7 +16,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_match_info_expand_references = Interop.downcallHandle(
         "g_match_info_expand_references",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -41,7 +41,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_match_info_expand_references.invokeExact(handle(), Interop.allocateNativeString(stringToExpand).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_match_info_expand_references.invokeExact(handle(), Interop.allocateNativeString(stringToExpand).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -336,7 +336,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_match_info_next = Interop.downcallHandle(
         "g_match_info_next",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -350,7 +350,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     public boolean next() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_match_info_next.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_match_info_next.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

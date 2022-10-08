@@ -125,13 +125,13 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
     
     static final MethodHandle g_debug_controller_dbus_new = Interop.downcallHandle(
         "g_debug_controller_dbus_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNew(DBusConnection connection, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_debug_controller_dbus_new.invokeExact(connection.handle(), cancellable.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_debug_controller_dbus_new.invokeExact(connection.handle(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

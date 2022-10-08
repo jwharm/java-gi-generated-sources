@@ -194,7 +194,7 @@ public class Drop extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_drop_read_finish = Interop.downcallHandle(
         "gdk_drop_read_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -210,7 +210,7 @@ public class Drop extends org.gtk.gobject.Object {
     public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, PointerString outMimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gdk_drop_read_finish.invokeExact(handle(), result.handle(), outMimeType.handle(), GERROR);
+            var RESULT = (MemoryAddress) gdk_drop_read_finish.invokeExact(handle(), result.handle(), outMimeType.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -253,7 +253,7 @@ public class Drop extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_drop_read_value_finish = Interop.downcallHandle(
         "gdk_drop_read_value_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -264,7 +264,7 @@ public class Drop extends org.gtk.gobject.Object {
     public org.gtk.gobject.Value readValueFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gdk_drop_read_value_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) gdk_drop_read_value_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

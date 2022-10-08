@@ -145,7 +145,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_icon_new_for_string = Interop.downcallHandle(
         "g_icon_new_for_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -159,7 +159,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
     public static Icon newForString(java.lang.String str) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_icon_new_for_string.invokeExact(Interop.allocateNativeString(str).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_icon_new_for_string.invokeExact(Interop.allocateNativeString(str).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

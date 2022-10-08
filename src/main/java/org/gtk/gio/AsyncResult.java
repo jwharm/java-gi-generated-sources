@@ -146,7 +146,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_async_result_legacy_propagate_error = Interop.downcallHandle(
         "g_async_result_legacy_propagate_error",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -164,7 +164,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     public default boolean legacyPropagateError() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_async_result_legacy_propagate_error.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_async_result_legacy_propagate_error.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

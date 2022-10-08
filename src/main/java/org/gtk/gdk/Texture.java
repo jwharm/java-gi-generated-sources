@@ -58,13 +58,13 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
     
     static final MethodHandle gdk_texture_new_from_bytes = Interop.downcallHandle(
         "gdk_texture_new_from_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_bytes.invokeExact(bytes.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_bytes.invokeExact(bytes.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -92,13 +92,13 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
     
     static final MethodHandle gdk_texture_new_from_file = Interop.downcallHandle(
         "gdk_texture_new_from_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFile(org.gtk.gio.File file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_file.invokeExact(file.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_file.invokeExact(file.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -126,13 +126,13 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
     
     static final MethodHandle gdk_texture_new_from_filename = Interop.downcallHandle(
         "gdk_texture_new_from_filename",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFilename(java.lang.String path) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_filename.invokeExact(Interop.allocateNativeString(path).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_filename.invokeExact(Interop.allocateNativeString(path).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

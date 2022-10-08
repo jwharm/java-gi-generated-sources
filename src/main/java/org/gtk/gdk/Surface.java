@@ -109,7 +109,7 @@ public class Surface extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_surface_create_gl_context = Interop.downcallHandle(
         "gdk_surface_create_gl_context",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -123,7 +123,7 @@ public class Surface extends org.gtk.gobject.Object {
     public GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gdk_surface_create_gl_context.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) gdk_surface_create_gl_context.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -166,7 +166,7 @@ public class Surface extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_surface_create_vulkan_context = Interop.downcallHandle(
         "gdk_surface_create_vulkan_context",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -177,7 +177,7 @@ public class Surface extends org.gtk.gobject.Object {
     public VulkanContext createVulkanContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gdk_surface_create_vulkan_context.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) gdk_surface_create_vulkan_context.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

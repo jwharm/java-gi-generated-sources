@@ -16,7 +16,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
 
     static final MethodHandle g_network_monitor_can_reach = Interop.downcallHandle(
         "g_network_monitor_can_reach",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -41,7 +41,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
     public default boolean canReach(SocketConnectable connectable, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_network_monitor_can_reach.invokeExact(handle(), connectable.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_network_monitor_can_reach.invokeExact(handle(), connectable.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -83,7 +83,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_network_monitor_can_reach_finish = Interop.downcallHandle(
         "g_network_monitor_can_reach_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -93,7 +93,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
     public default boolean canReachFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_network_monitor_can_reach_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_network_monitor_can_reach_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

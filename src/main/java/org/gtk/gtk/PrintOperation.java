@@ -177,7 +177,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     
     static final MethodHandle gtk_print_operation_get_error = Interop.downcallHandle(
         "gtk_print_operation_get_error",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -193,7 +193,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     public void getError() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_print_operation_get_error.invokeExact(handle(), GERROR);
+            gtk_print_operation_get_error.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -353,7 +353,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     
     static final MethodHandle gtk_print_operation_run = Interop.downcallHandle(
         "gtk_print_operation_run",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -416,7 +416,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     public PrintOperationResult run(PrintOperationAction action, Window parent) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_print_operation_run.invokeExact(handle(), action.getValue(), parent.handle(), GERROR);
+            var RESULT = (int) gtk_print_operation_run.invokeExact(handle(), action.getValue(), parent.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

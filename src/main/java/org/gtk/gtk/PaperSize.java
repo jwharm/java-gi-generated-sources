@@ -123,13 +123,13 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle gtk_paper_size_new_from_key_file = Interop.downcallHandle(
         "gtk_paper_size_new_from_key_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_paper_size_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_paper_size_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

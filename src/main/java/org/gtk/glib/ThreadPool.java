@@ -98,7 +98,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_thread_pool_push = Interop.downcallHandle(
         "g_thread_pool_push",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -120,7 +120,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     public boolean push(java.lang.foreign.MemoryAddress data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_thread_pool_push.invokeExact(handle(), data, GERROR);
+            var RESULT = (int) g_thread_pool_push.invokeExact(handle(), data, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -132,7 +132,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_thread_pool_set_max_threads = Interop.downcallHandle(
         "g_thread_pool_set_max_threads",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -160,7 +160,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     public boolean setMaxThreads(int maxThreads) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_thread_pool_set_max_threads.invokeExact(handle(), maxThreads, GERROR);
+            var RESULT = (int) g_thread_pool_set_max_threads.invokeExact(handle(), maxThreads, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -275,7 +275,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_thread_pool_new = Interop.downcallHandle(
         "g_thread_pool_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -320,7 +320,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), maxThreads, exclusive ? 1 : 0, GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), maxThreads, exclusive ? 1 : 0, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -332,7 +332,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_thread_pool_new_full = Interop.downcallHandle(
         "g_thread_pool_new_full",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -351,7 +351,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
-                    Interop.cbDestroyNotifySymbol(), maxThreads, exclusive ? 1 : 0, GERROR);
+                    Interop.cbDestroyNotifySymbol(), maxThreads, exclusive ? 1 : 0, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

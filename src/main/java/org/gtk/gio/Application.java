@@ -652,7 +652,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     
     static final MethodHandle g_application_register = Interop.downcallHandle(
         "g_application_register",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -690,7 +690,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     public boolean register(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_application_register.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_application_register.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

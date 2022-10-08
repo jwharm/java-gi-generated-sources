@@ -16,7 +16,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
 
     static final MethodHandle g_proxy_connect = Interop.downcallHandle(
         "g_proxy_connect",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -28,7 +28,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
     public default IOStream connect(IOStream connection, ProxyAddress proxyAddress, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_proxy_connect.invokeExact(handle(), connection.handle(), proxyAddress.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_proxy_connect.invokeExact(handle(), connection.handle(), proxyAddress.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -62,7 +62,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_proxy_connect_finish = Interop.downcallHandle(
         "g_proxy_connect_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -71,7 +71,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
     public default IOStream connectFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_proxy_connect_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_proxy_connect_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

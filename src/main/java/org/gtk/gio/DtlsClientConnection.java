@@ -106,7 +106,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_dtls_client_connection_new = Interop.downcallHandle(
         "g_dtls_client_connection_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -116,7 +116,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     public static DtlsClientConnection new_(DatagramBased baseSocket, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dtls_client_connection_new.invokeExact(baseSocket.handle(), serverIdentity.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dtls_client_connection_new.invokeExact(baseSocket.handle(), serverIdentity.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

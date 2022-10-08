@@ -58,7 +58,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
 
     static final MethodHandle g_app_info_add_supports_type = Interop.downcallHandle(
         "g_app_info_add_supports_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -68,7 +68,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public default boolean addSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_add_supports_type.invokeExact(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
+            var RESULT = (int) g_app_info_add_supports_type.invokeExact(handle(), Interop.allocateNativeString(contentType).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -323,7 +323,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_launch = Interop.downcallHandle(
         "g_app_info_launch",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -358,7 +358,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public default boolean launch(org.gtk.glib.List files, AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_launch.invokeExact(handle(), files.handle(), context.handle(), GERROR);
+            var RESULT = (int) g_app_info_launch.invokeExact(handle(), files.handle(), context.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -370,7 +370,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_launch_uris = Interop.downcallHandle(
         "g_app_info_launch_uris",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -388,7 +388,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public default boolean launchUris(org.gtk.glib.List uris, AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_launch_uris.invokeExact(handle(), uris.handle(), context.handle(), GERROR);
+            var RESULT = (int) g_app_info_launch_uris.invokeExact(handle(), uris.handle(), context.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -427,7 +427,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_launch_uris_finish = Interop.downcallHandle(
         "g_app_info_launch_uris_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -436,7 +436,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public default boolean launchUrisFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_launch_uris_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_app_info_launch_uris_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -448,7 +448,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_remove_supports_type = Interop.downcallHandle(
         "g_app_info_remove_supports_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -457,7 +457,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public default boolean removeSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_remove_supports_type.invokeExact(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
+            var RESULT = (int) g_app_info_remove_supports_type.invokeExact(handle(), Interop.allocateNativeString(contentType).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -469,7 +469,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_set_as_default_for_extension = Interop.downcallHandle(
         "g_app_info_set_as_default_for_extension",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -478,7 +478,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public default boolean setAsDefaultForExtension(java.lang.String extension) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_set_as_default_for_extension.invokeExact(handle(), Interop.allocateNativeString(extension).handle(), GERROR);
+            var RESULT = (int) g_app_info_set_as_default_for_extension.invokeExact(handle(), Interop.allocateNativeString(extension).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -490,7 +490,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_set_as_default_for_type = Interop.downcallHandle(
         "g_app_info_set_as_default_for_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -499,7 +499,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public default boolean setAsDefaultForType(java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_set_as_default_for_type.invokeExact(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
+            var RESULT = (int) g_app_info_set_as_default_for_type.invokeExact(handle(), Interop.allocateNativeString(contentType).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -511,7 +511,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_set_as_last_used_for_type = Interop.downcallHandle(
         "g_app_info_set_as_last_used_for_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -523,7 +523,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public default boolean setAsLastUsedForType(java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_set_as_last_used_for_type.invokeExact(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
+            var RESULT = (int) g_app_info_set_as_last_used_for_type.invokeExact(handle(), Interop.allocateNativeString(contentType).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -587,7 +587,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_create_from_commandline = Interop.downcallHandle(
         "g_app_info_create_from_commandline",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -602,7 +602,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public static AppInfo createFromCommandline(java.lang.String commandline, java.lang.String applicationName, AppInfoCreateFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_app_info_create_from_commandline.invokeExact(Interop.allocateNativeString(commandline).handle(), Interop.allocateNativeString(applicationName).handle(), flags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_app_info_create_from_commandline.invokeExact(Interop.allocateNativeString(commandline).handle(), Interop.allocateNativeString(applicationName).handle(), flags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -736,7 +736,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_launch_default_for_uri = Interop.downcallHandle(
         "g_app_info_launch_default_for_uri",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -752,7 +752,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public static boolean launchDefaultForUri(java.lang.String uri, AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_launch_default_for_uri.invokeExact(Interop.allocateNativeString(uri).handle(), context.handle(), GERROR);
+            var RESULT = (int) g_app_info_launch_default_for_uri.invokeExact(Interop.allocateNativeString(uri).handle(), context.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -795,7 +795,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_app_info_launch_default_for_uri_finish = Interop.downcallHandle(
         "g_app_info_launch_default_for_uri_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -804,7 +804,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public static boolean launchDefaultForUriFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_app_info_launch_default_for_uri_finish.invokeExact(result.handle(), GERROR);
+            var RESULT = (int) g_app_info_launch_default_for_uri_finish.invokeExact(result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

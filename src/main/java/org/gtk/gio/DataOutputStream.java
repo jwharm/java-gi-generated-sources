@@ -59,7 +59,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     
     static final MethodHandle g_data_output_stream_put_byte = Interop.downcallHandle(
         "g_data_output_stream_put_byte",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -68,7 +68,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     public boolean putByte(byte data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_output_stream_put_byte.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_output_stream_put_byte.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -80,7 +80,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     
     static final MethodHandle g_data_output_stream_put_int16 = Interop.downcallHandle(
         "g_data_output_stream_put_int16",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -89,7 +89,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     public boolean putInt16(short data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_output_stream_put_int16.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_output_stream_put_int16.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -101,7 +101,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     
     static final MethodHandle g_data_output_stream_put_int32 = Interop.downcallHandle(
         "g_data_output_stream_put_int32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -110,7 +110,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     public boolean putInt32(int data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_output_stream_put_int32.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_output_stream_put_int32.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -122,7 +122,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     
     static final MethodHandle g_data_output_stream_put_int64 = Interop.downcallHandle(
         "g_data_output_stream_put_int64",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -131,7 +131,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     public boolean putInt64(long data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_output_stream_put_int64.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_output_stream_put_int64.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -143,7 +143,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     
     static final MethodHandle g_data_output_stream_put_string = Interop.downcallHandle(
         "g_data_output_stream_put_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -152,7 +152,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     public boolean putString(java.lang.String str, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_output_stream_put_string.invokeExact(handle(), Interop.allocateNativeString(str).handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_output_stream_put_string.invokeExact(handle(), Interop.allocateNativeString(str).handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -164,7 +164,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     
     static final MethodHandle g_data_output_stream_put_uint16 = Interop.downcallHandle(
         "g_data_output_stream_put_uint16",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -173,7 +173,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     public boolean putUint16(short data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_output_stream_put_uint16.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_output_stream_put_uint16.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -185,7 +185,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     
     static final MethodHandle g_data_output_stream_put_uint32 = Interop.downcallHandle(
         "g_data_output_stream_put_uint32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -194,7 +194,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     public boolean putUint32(int data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_output_stream_put_uint32.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_output_stream_put_uint32.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -206,7 +206,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     
     static final MethodHandle g_data_output_stream_put_uint64 = Interop.downcallHandle(
         "g_data_output_stream_put_uint64",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -215,7 +215,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     public boolean putUint64(long data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_output_stream_put_uint64.invokeExact(handle(), data, cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_output_stream_put_uint64.invokeExact(handle(), data, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

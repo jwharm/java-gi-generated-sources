@@ -201,7 +201,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_option_context_parse = Interop.downcallHandle(
         "g_option_context_parse",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -230,7 +230,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean parse(PointerInteger argc, PointerString argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_option_context_parse.invokeExact(handle(), argc.handle(), argv.handle(), GERROR);
+            var RESULT = (int) g_option_context_parse.invokeExact(handle(), argc.handle(), argv.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -242,7 +242,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_option_context_parse_strv = Interop.downcallHandle(
         "g_option_context_parse_strv",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -266,7 +266,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     public boolean parseStrv(PointerString arguments) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_option_context_parse_strv.invokeExact(handle(), arguments.handle(), GERROR);
+            var RESULT = (int) g_option_context_parse_strv.invokeExact(handle(), arguments.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -122,7 +122,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_content_provider_get_value = Interop.downcallHandle(
         "gdk_content_provider_get_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -137,7 +137,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     public boolean getValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gdk_content_provider_get_value.invokeExact(handle(), value.handle(), GERROR);
+            var RESULT = (int) gdk_content_provider_get_value.invokeExact(handle(), value.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -221,7 +221,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_content_provider_write_mime_type_finish = Interop.downcallHandle(
         "gdk_content_provider_write_mime_type_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -232,7 +232,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     public boolean writeMimeTypeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gdk_content_provider_write_mime_type_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) gdk_content_provider_write_mime_type_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

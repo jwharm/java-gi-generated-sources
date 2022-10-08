@@ -4698,7 +4698,7 @@ public final class Gdk {
     
     static final MethodHandle gdk_content_deserialize_finish = Interop.downcallHandle(
         "gdk_content_deserialize_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -4707,7 +4707,7 @@ public final class Gdk {
     public static boolean contentDeserializeFinish(org.gtk.gio.AsyncResult result, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gdk_content_deserialize_finish.invokeExact(result.handle(), value.handle(), GERROR);
+            var RESULT = (int) gdk_content_deserialize_finish.invokeExact(result.handle(), value.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -4817,7 +4817,7 @@ public final class Gdk {
     
     static final MethodHandle gdk_content_serialize_finish = Interop.downcallHandle(
         "gdk_content_serialize_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -4826,7 +4826,7 @@ public final class Gdk {
     public static boolean contentSerializeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gdk_content_serialize_finish.invokeExact(result.handle(), GERROR);
+            var RESULT = (int) gdk_content_serialize_finish.invokeExact(result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -87,7 +87,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_client_connect = Interop.downcallHandle(
         "g_socket_client_connect",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -113,7 +113,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public SocketConnection connect(SocketConnectable connectable, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_client_connect.invokeExact(handle(), connectable.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_client_connect.invokeExact(handle(), connectable.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -160,7 +160,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_client_connect_finish = Interop.downcallHandle(
         "g_socket_client_connect_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -169,7 +169,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public SocketConnection connectFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_client_connect_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_client_connect_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -181,7 +181,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_client_connect_to_host = Interop.downcallHandle(
         "g_socket_client_connect_to_host",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -219,7 +219,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public SocketConnection connectToHost(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_client_connect_to_host.invokeExact(handle(), Interop.allocateNativeString(hostAndPort).handle(), defaultPort, cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_client_connect_to_host.invokeExact(handle(), Interop.allocateNativeString(hostAndPort).handle(), defaultPort, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -257,7 +257,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_client_connect_to_host_finish = Interop.downcallHandle(
         "g_socket_client_connect_to_host_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -266,7 +266,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public SocketConnection connectToHostFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_client_connect_to_host_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_client_connect_to_host_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -278,7 +278,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_client_connect_to_service = Interop.downcallHandle(
         "g_socket_client_connect_to_service",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -300,7 +300,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public SocketConnection connectToService(java.lang.String domain, java.lang.String service, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_client_connect_to_service.invokeExact(handle(), Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(service).handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_client_connect_to_service.invokeExact(handle(), Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(service).handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -335,7 +335,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_client_connect_to_service_finish = Interop.downcallHandle(
         "g_socket_client_connect_to_service_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -344,7 +344,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public SocketConnection connectToServiceFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_client_connect_to_service_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_client_connect_to_service_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -356,7 +356,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_client_connect_to_uri = Interop.downcallHandle(
         "g_socket_client_connect_to_uri",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -385,7 +385,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public SocketConnection connectToUri(java.lang.String uri, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_client_connect_to_uri.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), defaultPort, cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_client_connect_to_uri.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), defaultPort, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -423,7 +423,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_client_connect_to_uri_finish = Interop.downcallHandle(
         "g_socket_client_connect_to_uri_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -432,7 +432,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public SocketConnection connectToUriFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_client_connect_to_uri_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_client_connect_to_uri_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

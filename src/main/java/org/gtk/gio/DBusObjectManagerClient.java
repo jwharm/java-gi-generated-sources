@@ -94,13 +94,13 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     
     static final MethodHandle g_dbus_object_manager_client_new_finish = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFinish(AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_finish.invokeExact(res.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_finish.invokeExact(res.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -119,13 +119,13 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     
     static final MethodHandle g_dbus_object_manager_client_new_for_bus_finish = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_for_bus_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewForBusFinish(AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_for_bus_finish.invokeExact(res.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_for_bus_finish.invokeExact(res.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -144,7 +144,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     
     static final MethodHandle g_dbus_object_manager_client_new_for_bus_sync = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_for_bus_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewForBusSync(BusType busType, DBusObjectManagerClientFlags flags, java.lang.String name, java.lang.String objectPath, DBusProxyTypeFunc getProxyTypeFunc, Cancellable cancellable) throws GErrorException {
@@ -157,7 +157,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
                         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)), 
-                    Interop.cbDestroyNotifySymbol(), cancellable.handle(), GERROR), true);
+                    Interop.cbDestroyNotifySymbol(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -181,7 +181,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     
     static final MethodHandle g_dbus_object_manager_client_new_sync = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_sync",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewSync(DBusConnection connection, DBusObjectManagerClientFlags flags, java.lang.String name, java.lang.String objectPath, DBusProxyTypeFunc getProxyTypeFunc, Cancellable cancellable) throws GErrorException {
@@ -194,7 +194,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
                         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)), 
-                    Interop.cbDestroyNotifySymbol(), cancellable.handle(), GERROR), true);
+                    Interop.cbDestroyNotifySymbol(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

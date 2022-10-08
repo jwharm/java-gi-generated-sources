@@ -78,7 +78,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
     
     static final MethodHandle g_unix_fd_list_append = Interop.downcallHandle(
         "g_unix_fd_list_append",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -98,7 +98,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
     public int append(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_fd_list_append.invokeExact(handle(), fd, GERROR);
+            var RESULT = (int) g_unix_fd_list_append.invokeExact(handle(), fd, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -110,7 +110,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
     
     static final MethodHandle g_unix_fd_list_get = Interop.downcallHandle(
         "g_unix_fd_list_get",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -130,7 +130,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
     public int get(int index) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_fd_list_get.invokeExact(handle(), index, GERROR);
+            var RESULT = (int) g_unix_fd_list_get.invokeExact(handle(), index, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -16,7 +16,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle gtk_recent_info_create_app_info = Interop.downcallHandle(
         "gtk_recent_info_create_app_info",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -28,7 +28,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gtk_recent_info_create_app_info.invokeExact(handle(), Interop.allocateNativeString(appName).handle(), GERROR);
+            var RESULT = (MemoryAddress) gtk_recent_info_create_app_info.invokeExact(handle(), Interop.allocateNativeString(appName).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

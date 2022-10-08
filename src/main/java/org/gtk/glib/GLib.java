@@ -463,7 +463,7 @@ public final class GLib {
     
     static final MethodHandle g_ascii_string_to_signed = Interop.downcallHandle(
         "g_ascii_string_to_signed",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -492,7 +492,7 @@ public final class GLib {
     public static boolean asciiStringToSigned(java.lang.String str, int base, long min, long max, PointerLong outNum) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_ascii_string_to_signed.invokeExact(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), GERROR);
+            var RESULT = (int) g_ascii_string_to_signed.invokeExact(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -504,7 +504,7 @@ public final class GLib {
     
     static final MethodHandle g_ascii_string_to_unsigned = Interop.downcallHandle(
         "g_ascii_string_to_unsigned",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -534,7 +534,7 @@ public final class GLib {
     public static boolean asciiStringToUnsigned(java.lang.String str, int base, long min, long max, PointerLong outNum) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_ascii_string_to_unsigned.invokeExact(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), GERROR);
+            var RESULT = (int) g_ascii_string_to_unsigned.invokeExact(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2151,7 +2151,7 @@ public final class GLib {
     
     static final MethodHandle g_close = Interop.downcallHandle(
         "g_close",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2166,7 +2166,7 @@ public final class GLib {
     public static boolean close(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_close.invokeExact(fd, GERROR);
+            var RESULT = (int) g_close.invokeExact(fd, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2300,7 +2300,7 @@ public final class GLib {
     
     static final MethodHandle g_convert = Interop.downcallHandle(
         "g_convert",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2322,7 +2322,7 @@ public final class GLib {
     public static PointerByte convert(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_convert.invokeExact(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_convert.invokeExact(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2348,7 +2348,7 @@ public final class GLib {
     
     static final MethodHandle g_convert_with_fallback = Interop.downcallHandle(
         "g_convert_with_fallback",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2373,7 +2373,7 @@ public final class GLib {
     public static PointerByte convertWithFallback(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, java.lang.String fallback, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_convert_with_fallback.invokeExact(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), Interop.allocateNativeString(fallback).handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_convert_with_fallback.invokeExact(Interop.allocateNativeArray(str).handle(), len, Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle(), Interop.allocateNativeString(fallback).handle(), bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -2385,7 +2385,7 @@ public final class GLib {
     
     static final MethodHandle g_convert_with_iconv = Interop.downcallHandle(
         "g_convert_with_iconv",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -2412,7 +2412,7 @@ public final class GLib {
     public static PointerByte convertWithIconv(byte[] str, long len, IConv converter, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_convert_with_iconv.invokeExact(Interop.allocateNativeArray(str).handle(), len, converter.handle(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_convert_with_iconv.invokeExact(Interop.allocateNativeArray(str).handle(), len, converter.handle(), bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3054,7 +3054,7 @@ public final class GLib {
     
     static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
         "g_dir_make_tmp",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3073,7 +3073,7 @@ public final class GLib {
     public static java.lang.String dirMakeTmp(java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3342,7 +3342,7 @@ public final class GLib {
     
     static final MethodHandle g_file_get_contents = Interop.downcallHandle(
         "g_file_get_contents",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3360,7 +3360,7 @@ public final class GLib {
     public static boolean fileGetContents(java.lang.String filename, PointerByte contents, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_get_contents.invokeExact(Interop.allocateNativeString(filename).handle(), contents.handle(), length.handle(), GERROR);
+            var RESULT = (int) g_file_get_contents.invokeExact(Interop.allocateNativeString(filename).handle(), contents.handle(), length.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3372,7 +3372,7 @@ public final class GLib {
     
     static final MethodHandle g_file_open_tmp = Interop.downcallHandle(
         "g_file_open_tmp",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3396,7 +3396,7 @@ public final class GLib {
     public static int fileOpenTmp(java.lang.String tmpl, PointerString nameUsed) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_open_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), nameUsed.handle(), GERROR);
+            var RESULT = (int) g_file_open_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), nameUsed.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3408,7 +3408,7 @@ public final class GLib {
     
     static final MethodHandle g_file_read_link = Interop.downcallHandle(
         "g_file_read_link",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3419,7 +3419,7 @@ public final class GLib {
     public static java.lang.String fileReadLink(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_file_read_link.invokeExact(Interop.allocateNativeString(filename).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_file_read_link.invokeExact(Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3431,7 +3431,7 @@ public final class GLib {
     
     static final MethodHandle g_file_set_contents = Interop.downcallHandle(
         "g_file_set_contents",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3443,7 +3443,7 @@ public final class GLib {
     public static boolean fileSetContents(java.lang.String filename, byte[] contents, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_set_contents.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, GERROR);
+            var RESULT = (int) g_file_set_contents.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3455,7 +3455,7 @@ public final class GLib {
     
     static final MethodHandle g_file_set_contents_full = Interop.downcallHandle(
         "g_file_set_contents_full",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3527,7 +3527,7 @@ public final class GLib {
     public static boolean fileSetContentsFull(java.lang.String filename, byte[] contents, long length, FileSetContentsFlags flags, int mode) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_file_set_contents_full.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, flags.getValue(), mode, GERROR);
+            var RESULT = (int) g_file_set_contents_full.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(contents).handle(), length, flags.getValue(), mode, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3659,7 +3659,7 @@ public final class GLib {
     
     static final MethodHandle g_filename_from_uri = Interop.downcallHandle(
         "g_filename_from_uri",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3669,7 +3669,7 @@ public final class GLib {
     public static java.lang.String filenameFromUri(java.lang.String uri, PointerString hostname) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_filename_from_uri.invokeExact(Interop.allocateNativeString(uri).handle(), hostname.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_filename_from_uri.invokeExact(Interop.allocateNativeString(uri).handle(), hostname.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3681,7 +3681,7 @@ public final class GLib {
     
     static final MethodHandle g_filename_from_utf8 = Interop.downcallHandle(
         "g_filename_from_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3699,7 +3699,7 @@ public final class GLib {
     public static java.lang.String filenameFromUtf8(java.lang.String utf8string, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_filename_from_utf8.invokeExact(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_filename_from_utf8.invokeExact(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3711,7 +3711,7 @@ public final class GLib {
     
     static final MethodHandle g_filename_to_uri = Interop.downcallHandle(
         "g_filename_to_uri",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3721,7 +3721,7 @@ public final class GLib {
     public static java.lang.String filenameToUri(java.lang.String filename, java.lang.String hostname) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_filename_to_uri.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(hostname).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_filename_to_uri.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(hostname).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -3733,7 +3733,7 @@ public final class GLib {
     
     static final MethodHandle g_filename_to_utf8 = Interop.downcallHandle(
         "g_filename_to_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -3753,7 +3753,7 @@ public final class GLib {
     public static java.lang.String filenameToUtf8(java.lang.String opsysstring, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_filename_to_utf8.invokeExact(Interop.allocateNativeString(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_filename_to_utf8.invokeExact(Interop.allocateNativeString(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -5697,7 +5697,7 @@ public final class GLib {
     
     static final MethodHandle g_locale_from_utf8 = Interop.downcallHandle(
         "g_locale_from_utf8",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -5714,7 +5714,7 @@ public final class GLib {
     public static PointerByte localeFromUtf8(java.lang.String utf8string, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_locale_from_utf8.invokeExact(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_locale_from_utf8.invokeExact(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -5726,7 +5726,7 @@ public final class GLib {
     
     static final MethodHandle g_locale_to_utf8 = Interop.downcallHandle(
         "g_locale_to_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -5745,7 +5745,7 @@ public final class GLib {
     public static java.lang.String localeToUtf8(byte[] opsysstring, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_locale_to_utf8.invokeExact(Interop.allocateNativeArray(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_locale_to_utf8.invokeExact(Interop.allocateNativeArray(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -7927,7 +7927,7 @@ public final class GLib {
     
     static final MethodHandle g_regex_check_replacement = Interop.downcallHandle(
         "g_regex_check_replacement",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -7944,7 +7944,7 @@ public final class GLib {
     public static boolean regexCheckReplacement(java.lang.String replacement, PointerBoolean hasReferences) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_regex_check_replacement.invokeExact(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), GERROR);
+            var RESULT = (int) g_regex_check_replacement.invokeExact(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -8438,7 +8438,7 @@ public final class GLib {
     
     static final MethodHandle g_shell_parse_argv = Interop.downcallHandle(
         "g_shell_parse_argv",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -8464,7 +8464,7 @@ public final class GLib {
     public static boolean shellParseArgv(java.lang.String commandLine, PointerInteger argcp, PointerString argvp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_shell_parse_argv.invokeExact(Interop.allocateNativeString(commandLine).handle(), argcp.handle(), argvp.handle(), GERROR);
+            var RESULT = (int) g_shell_parse_argv.invokeExact(Interop.allocateNativeString(commandLine).handle(), argcp.handle(), argvp.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -8502,7 +8502,7 @@ public final class GLib {
     
     static final MethodHandle g_shell_unquote = Interop.downcallHandle(
         "g_shell_unquote",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -8537,7 +8537,7 @@ public final class GLib {
     public static java.lang.String shellUnquote(java.lang.String quotedString) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_shell_unquote.invokeExact(Interop.allocateNativeString(quotedString).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_shell_unquote.invokeExact(Interop.allocateNativeString(quotedString).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -8833,7 +8833,7 @@ public final class GLib {
     
     static final MethodHandle g_spawn_async = Interop.downcallHandle(
         "g_spawn_async",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -8864,7 +8864,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), (Addressable) GERROR);
             childPid.setValue(childPidPOINTER.get());
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
@@ -8877,7 +8877,7 @@ public final class GLib {
     
     static final MethodHandle g_spawn_async_with_fds = Interop.downcallHandle(
         "g_spawn_async_with_fds",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -8896,7 +8896,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), stdinFd, stdoutFd, stderrFd, GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), stdinFd, stdoutFd, stderrFd, (Addressable) GERROR);
             childPid.setValue(childPidPOINTER.get());
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
@@ -8909,7 +8909,7 @@ public final class GLib {
     
     static final MethodHandle g_spawn_async_with_pipes = Interop.downcallHandle(
         "g_spawn_async_with_pipes",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -8926,7 +8926,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), (Addressable) GERROR);
             childPid.setValue(childPidPOINTER.get());
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
@@ -8939,7 +8939,7 @@ public final class GLib {
     
     static final MethodHandle g_spawn_async_with_pipes_and_fds = Interop.downcallHandle(
         "g_spawn_async_with_pipes_and_fds",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -9142,7 +9142,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, Interop.allocateNativeArray(sourceFds).handle(), Interop.allocateNativeArray(targetFds).handle(), nFds, new PointerInteger(childPidOut.getValue()).handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, Interop.allocateNativeArray(sourceFds).handle(), Interop.allocateNativeArray(targetFds).handle(), nFds, new PointerInteger(childPidOut.getValue()).handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), (Addressable) GERROR);
             childPidOut.setValue(childPidOutPOINTER.get());
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
@@ -9155,7 +9155,7 @@ public final class GLib {
     
     static final MethodHandle g_spawn_check_wait_status = Interop.downcallHandle(
         "g_spawn_check_wait_status",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -9202,7 +9202,7 @@ public final class GLib {
     public static boolean spawnCheckWaitStatus(int waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_spawn_check_wait_status.invokeExact(waitStatus, GERROR);
+            var RESULT = (int) g_spawn_check_wait_status.invokeExact(waitStatus, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -9233,7 +9233,7 @@ public final class GLib {
     
     static final MethodHandle g_spawn_command_line_async = Interop.downcallHandle(
         "g_spawn_command_line_async",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -9251,7 +9251,7 @@ public final class GLib {
     public static boolean spawnCommandLineAsync(java.lang.String commandLine) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_spawn_command_line_async.invokeExact(Interop.allocateNativeString(commandLine).handle(), GERROR);
+            var RESULT = (int) g_spawn_command_line_async.invokeExact(Interop.allocateNativeString(commandLine).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -9263,7 +9263,7 @@ public final class GLib {
     
     static final MethodHandle g_spawn_command_line_sync = Interop.downcallHandle(
         "g_spawn_command_line_sync",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -9300,7 +9300,7 @@ public final class GLib {
     public static boolean spawnCommandLineSync(java.lang.String commandLine, PointerByte standardOutput, PointerByte standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_spawn_command_line_sync.invokeExact(Interop.allocateNativeString(commandLine).handle(), standardOutput.handle(), standardError.handle(), waitStatus.handle(), GERROR);
+            var RESULT = (int) g_spawn_command_line_sync.invokeExact(Interop.allocateNativeString(commandLine).handle(), standardOutput.handle(), standardError.handle(), waitStatus.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -9340,7 +9340,7 @@ public final class GLib {
     
     static final MethodHandle g_spawn_sync = Interop.downcallHandle(
         "g_spawn_sync",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -9377,7 +9377,7 @@ public final class GLib {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), standardOutput.handle(), standardError.handle(), waitStatus.handle(), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), standardOutput.handle(), standardError.handle(), waitStatus.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -11832,7 +11832,7 @@ public final class GLib {
     
     static final MethodHandle g_ucs4_to_utf16 = Interop.downcallHandle(
         "g_ucs4_to_utf16",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -11842,7 +11842,7 @@ public final class GLib {
     public static PointerShort ucs4ToUtf16(PointerInteger str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_ucs4_to_utf16.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_ucs4_to_utf16.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -11854,7 +11854,7 @@ public final class GLib {
     
     static final MethodHandle g_ucs4_to_utf8 = Interop.downcallHandle(
         "g_ucs4_to_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -11864,7 +11864,7 @@ public final class GLib {
     public static java.lang.String ucs4ToUtf8(PointerInteger str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_ucs4_to_utf8.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_ucs4_to_utf8.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -12722,7 +12722,7 @@ public final class GLib {
     
     static final MethodHandle g_unix_get_passwd_entry = Interop.downcallHandle(
         "g_unix_get_passwd_entry",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -12741,7 +12741,7 @@ public final class GLib {
     public static java.lang.foreign.MemoryAddress unixGetPasswdEntry(java.lang.String userName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_unix_get_passwd_entry.invokeExact(Interop.allocateNativeString(userName).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_unix_get_passwd_entry.invokeExact(Interop.allocateNativeString(userName).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -12753,7 +12753,7 @@ public final class GLib {
     
     static final MethodHandle g_unix_open_pipe = Interop.downcallHandle(
         "g_unix_open_pipe",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -12769,7 +12769,7 @@ public final class GLib {
     public static boolean unixOpenPipe(PointerInteger fds, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_open_pipe.invokeExact(fds.handle(), flags, GERROR);
+            var RESULT = (int) g_unix_open_pipe.invokeExact(fds.handle(), flags, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -12781,7 +12781,7 @@ public final class GLib {
     
     static final MethodHandle g_unix_set_fd_nonblocking = Interop.downcallHandle(
         "g_unix_set_fd_nonblocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -12792,7 +12792,7 @@ public final class GLib {
     public static boolean unixSetFdNonblocking(int fd, boolean nonblock) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_unix_set_fd_nonblocking.invokeExact(fd, nonblock ? 1 : 0, GERROR);
+            var RESULT = (int) g_unix_set_fd_nonblocking.invokeExact(fd, nonblock ? 1 : 0, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13059,7 +13059,7 @@ public final class GLib {
     
     static final MethodHandle g_uri_is_valid = Interop.downcallHandle(
         "g_uri_is_valid",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13075,7 +13075,7 @@ public final class GLib {
     public static boolean uriIsValid(java.lang.String uriString, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_is_valid.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
+            var RESULT = (int) g_uri_is_valid.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13161,7 +13161,7 @@ public final class GLib {
     
     static final MethodHandle g_uri_parse = Interop.downcallHandle(
         "g_uri_parse",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13172,7 +13172,7 @@ public final class GLib {
     public static Uri uriParse(java.lang.String uriString, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_uri_parse.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_uri_parse.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13184,7 +13184,7 @@ public final class GLib {
     
     static final MethodHandle g_uri_parse_params = Interop.downcallHandle(
         "g_uri_parse_params",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13216,7 +13216,7 @@ public final class GLib {
     public static org.gtk.glib.HashTable uriParseParams(java.lang.String params, long length, java.lang.String separators, UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_uri_parse_params.invokeExact(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_uri_parse_params.invokeExact(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13277,7 +13277,7 @@ public final class GLib {
     
     static final MethodHandle g_uri_resolve_relative = Interop.downcallHandle(
         "g_uri_resolve_relative",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13292,7 +13292,7 @@ public final class GLib {
     public static java.lang.String uriResolveRelative(java.lang.String baseUriString, java.lang.String uriRef, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_uri_resolve_relative.invokeExact(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_uri_resolve_relative.invokeExact(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13304,7 +13304,7 @@ public final class GLib {
     
     static final MethodHandle g_uri_split = Interop.downcallHandle(
         "g_uri_split",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13328,7 +13328,7 @@ public final class GLib {
     public static boolean uriSplit(java.lang.String uriRef, UriFlags flags, PointerString scheme, PointerString userinfo, PointerString host, PointerInteger port, PointerString path, PointerString query, PointerString fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), scheme.handle(), userinfo.handle(), host.handle(), port.handle(), path.handle(), query.handle(), fragment.handle(), GERROR);
+            var RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), scheme.handle(), userinfo.handle(), host.handle(), port.handle(), path.handle(), query.handle(), fragment.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13340,7 +13340,7 @@ public final class GLib {
     
     static final MethodHandle g_uri_split_network = Interop.downcallHandle(
         "g_uri_split_network",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13354,7 +13354,7 @@ public final class GLib {
     public static boolean uriSplitNetwork(java.lang.String uriString, UriFlags flags, PointerString scheme, PointerString host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), scheme.handle(), host.handle(), port.handle(), GERROR);
+            var RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString).handle(), flags.getValue(), scheme.handle(), host.handle(), port.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13366,7 +13366,7 @@ public final class GLib {
     
     static final MethodHandle g_uri_split_with_user = Interop.downcallHandle(
         "g_uri_split_with_user",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13385,7 +13385,7 @@ public final class GLib {
     public static boolean uriSplitWithUser(java.lang.String uriRef, UriFlags flags, PointerString scheme, PointerString user, PointerString password, PointerString authParams, PointerString host, PointerInteger port, PointerString path, PointerString query, PointerString fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), scheme.handle(), user.handle(), password.handle(), authParams.handle(), host.handle(), port.handle(), path.handle(), query.handle(), fragment.handle(), GERROR);
+            var RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), scheme.handle(), user.handle(), password.handle(), authParams.handle(), host.handle(), port.handle(), path.handle(), query.handle(), fragment.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13397,7 +13397,7 @@ public final class GLib {
     
     static final MethodHandle g_uri_unescape_bytes = Interop.downcallHandle(
         "g_uri_unescape_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13415,7 +13415,7 @@ public final class GLib {
     public static Bytes uriUnescapeBytes(java.lang.String escapedString, long length, java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_uri_unescape_bytes.invokeExact(Interop.allocateNativeString(escapedString).handle(), length, Interop.allocateNativeString(illegalCharacters).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_uri_unescape_bytes.invokeExact(Interop.allocateNativeString(escapedString).handle(), length, Interop.allocateNativeString(illegalCharacters).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13497,7 +13497,7 @@ public final class GLib {
     
     static final MethodHandle g_utf16_to_ucs4 = Interop.downcallHandle(
         "g_utf16_to_ucs4",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13507,7 +13507,7 @@ public final class GLib {
     public static PointerInteger utf16ToUcs4(PointerShort str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_utf16_to_ucs4.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_utf16_to_ucs4.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -13519,7 +13519,7 @@ public final class GLib {
     
     static final MethodHandle g_utf16_to_utf8 = Interop.downcallHandle(
         "g_utf16_to_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -13540,7 +13540,7 @@ public final class GLib {
     public static java.lang.String utf16ToUtf8(PointerShort str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_utf16_to_utf8.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_utf16_to_utf8.invokeExact(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -14061,7 +14061,7 @@ public final class GLib {
     
     static final MethodHandle g_utf8_to_ucs4 = Interop.downcallHandle(
         "g_utf8_to_ucs4",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -14072,7 +14072,7 @@ public final class GLib {
     public static PointerInteger utf8ToUcs4(java.lang.String str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_utf8_to_ucs4.invokeExact(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_utf8_to_ucs4.invokeExact(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -14105,7 +14105,7 @@ public final class GLib {
     
     static final MethodHandle g_utf8_to_utf16 = Interop.downcallHandle(
         "g_utf8_to_utf16",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -14115,7 +14115,7 @@ public final class GLib {
     public static PointerShort utf8ToUtf16(java.lang.String str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_utf8_to_utf16.invokeExact(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_utf8_to_utf16.invokeExact(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -14283,7 +14283,7 @@ public final class GLib {
     
     static final MethodHandle g_variant_parse = Interop.downcallHandle(
         "g_variant_parse",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -14326,7 +14326,7 @@ public final class GLib {
     public static Variant variantParse(VariantType type, java.lang.String text, java.lang.String limit, java.lang.String[] endptr) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_variant_parse.invokeExact(type.handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_variant_parse.invokeExact(type.handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -76,13 +76,13 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_newv = Interop.downcallHandle(
         "g_subprocess_newv",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewv(java.lang.String[] argv, SubprocessFlags flags) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_subprocess_newv.invokeExact(Interop.allocateNativeArray(argv).handle(), flags.getValue(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_subprocess_newv.invokeExact(Interop.allocateNativeArray(argv).handle(), flags.getValue(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -103,7 +103,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_communicate = Interop.downcallHandle(
         "g_subprocess_communicate",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -152,7 +152,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public boolean communicate(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, PointerProxy<org.gtk.glib.Bytes> stdoutBuf, PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_communicate.invokeExact(handle(), stdinBuf.handle(), cancellable.handle(), stdoutBuf.handle(), stderrBuf.handle(), GERROR);
+            var RESULT = (int) g_subprocess_communicate.invokeExact(handle(), stdinBuf.handle(), cancellable.handle(), stdoutBuf.handle(), stderrBuf.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -187,7 +187,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_communicate_finish = Interop.downcallHandle(
         "g_subprocess_communicate_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -196,7 +196,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public boolean communicateFinish(AsyncResult result, PointerProxy<org.gtk.glib.Bytes> stdoutBuf, PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_communicate_finish.invokeExact(handle(), result.handle(), stdoutBuf.handle(), stderrBuf.handle(), GERROR);
+            var RESULT = (int) g_subprocess_communicate_finish.invokeExact(handle(), result.handle(), stdoutBuf.handle(), stderrBuf.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -208,7 +208,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_communicate_utf8 = Interop.downcallHandle(
         "g_subprocess_communicate_utf8",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -221,7 +221,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, PointerString stdoutBuf, PointerString stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_communicate_utf8.invokeExact(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), stdoutBuf.handle(), stderrBuf.handle(), GERROR);
+            var RESULT = (int) g_subprocess_communicate_utf8.invokeExact(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), stdoutBuf.handle(), stderrBuf.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -256,7 +256,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_communicate_utf8_finish = Interop.downcallHandle(
         "g_subprocess_communicate_utf8_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -265,7 +265,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public boolean communicateUtf8Finish(AsyncResult result, PointerString stdoutBuf, PointerString stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_communicate_utf8_finish.invokeExact(handle(), result.handle(), stdoutBuf.handle(), stderrBuf.handle(), GERROR);
+            var RESULT = (int) g_subprocess_communicate_utf8_finish.invokeExact(handle(), result.handle(), stdoutBuf.handle(), stderrBuf.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -544,7 +544,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_wait = Interop.downcallHandle(
         "g_subprocess_wait",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -563,7 +563,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public boolean wait(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_wait.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_subprocess_wait.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -599,7 +599,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_wait_check = Interop.downcallHandle(
         "g_subprocess_wait_check",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -608,7 +608,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public boolean waitCheck(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_wait_check.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_subprocess_wait_check.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -644,7 +644,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_wait_check_finish = Interop.downcallHandle(
         "g_subprocess_wait_check_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -654,7 +654,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public boolean waitCheckFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_wait_check_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_subprocess_wait_check_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -666,7 +666,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     
     static final MethodHandle g_subprocess_wait_finish = Interop.downcallHandle(
         "g_subprocess_wait_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -676,7 +676,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     public boolean waitFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_subprocess_wait_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_subprocess_wait_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -56,7 +56,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_listener_accept = Interop.downcallHandle(
         "g_socket_listener_accept",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -75,7 +75,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public SocketConnection accept(PointerProxy<org.gtk.gobject.Object> sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_listener_accept.invokeExact(handle(), sourceObject.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_listener_accept.invokeExact(handle(), sourceObject.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -113,7 +113,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_listener_accept_finish = Interop.downcallHandle(
         "g_socket_listener_accept_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -122,7 +122,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public SocketConnection acceptFinish(AsyncResult result, PointerProxy<org.gtk.gobject.Object> sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_listener_accept_finish.invokeExact(handle(), result.handle(), sourceObject.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_listener_accept_finish.invokeExact(handle(), result.handle(), sourceObject.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -134,7 +134,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_listener_accept_socket = Interop.downcallHandle(
         "g_socket_listener_accept_socket",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -156,7 +156,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public Socket acceptSocket(PointerProxy<org.gtk.gobject.Object> sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_listener_accept_socket.invokeExact(handle(), sourceObject.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_listener_accept_socket.invokeExact(handle(), sourceObject.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -194,7 +194,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_listener_accept_socket_finish = Interop.downcallHandle(
         "g_socket_listener_accept_socket_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -203,7 +203,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public Socket acceptSocketFinish(AsyncResult result, PointerProxy<org.gtk.gobject.Object> sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_listener_accept_socket_finish.invokeExact(handle(), result.handle(), sourceObject.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_listener_accept_socket_finish.invokeExact(handle(), result.handle(), sourceObject.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -215,7 +215,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_listener_add_address = Interop.downcallHandle(
         "g_socket_listener_add_address",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -246,7 +246,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public boolean addAddress(SocketAddress address, SocketType type, SocketProtocol protocol, org.gtk.gobject.Object sourceObject, PointerProxy<SocketAddress> effectiveAddress) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_listener_add_address.invokeExact(handle(), address.handle(), type.getValue(), protocol.getValue(), sourceObject.handle(), effectiveAddress.handle(), GERROR);
+            var RESULT = (int) g_socket_listener_add_address.invokeExact(handle(), address.handle(), type.getValue(), protocol.getValue(), sourceObject.handle(), effectiveAddress.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -258,7 +258,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_listener_add_any_inet_port = Interop.downcallHandle(
         "g_socket_listener_add_any_inet_port",
-        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -276,7 +276,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public short addAnyInetPort(org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (short) g_socket_listener_add_any_inet_port.invokeExact(handle(), sourceObject.handle(), GERROR);
+            var RESULT = (short) g_socket_listener_add_any_inet_port.invokeExact(handle(), sourceObject.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -288,7 +288,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_listener_add_inet_port = Interop.downcallHandle(
         "g_socket_listener_add_inet_port",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -308,7 +308,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public boolean addInetPort(short port, org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_listener_add_inet_port.invokeExact(handle(), port, sourceObject.handle(), GERROR);
+            var RESULT = (int) g_socket_listener_add_inet_port.invokeExact(handle(), port, sourceObject.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -320,7 +320,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     static final MethodHandle g_socket_listener_add_socket = Interop.downcallHandle(
         "g_socket_listener_add_socket",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -341,7 +341,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public boolean addSocket(Socket socket, org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_listener_add_socket.invokeExact(handle(), socket.handle(), sourceObject.handle(), GERROR);
+            var RESULT = (int) g_socket_listener_add_socket.invokeExact(handle(), socket.handle(), sourceObject.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

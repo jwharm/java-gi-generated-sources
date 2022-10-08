@@ -6,7 +6,7 @@ import java.lang.foreign.ValueLayout;
 /**
  * A pointer to a long value.
  * Use {@code new PointerLong()} to create an instance, and
- * use {@link #get()} afterwards to retreive the results.
+ * use {@link #get()} afterwards to retrieve the results.
  */
 public class PointerLong extends Pointer<Long> {
 
@@ -33,14 +33,14 @@ public class PointerLong extends Pointer<Long> {
     }
 
     /**
-     * Use this mehod to set the value that the pointer points to.
+     * Use this method to set the value that the pointer points to.
      */
     public void set(Long value) {
         address.set(ValueLayout.JAVA_LONG, 0, value);
     }
     
     /**
-     * Use this method to retreive the value of the parameter after the
+     * Use this method to retrieve the value of the parameter after the
      * function call that set the value, has been executed.
      */
     public Long get() {

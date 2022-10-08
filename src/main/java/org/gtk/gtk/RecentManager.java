@@ -200,7 +200,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_recent_manager_lookup_item = Interop.downcallHandle(
         "gtk_recent_manager_lookup_item",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -211,7 +211,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     public RecentInfo lookupItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gtk_recent_manager_lookup_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (MemoryAddress) gtk_recent_manager_lookup_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -223,7 +223,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_recent_manager_move_item = Interop.downcallHandle(
         "gtk_recent_manager_move_item",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -235,7 +235,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     public boolean moveItem(java.lang.String uri, java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_recent_manager_move_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(newUri).handle(), GERROR);
+            var RESULT = (int) gtk_recent_manager_move_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(newUri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -247,7 +247,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_recent_manager_purge_items = Interop.downcallHandle(
         "gtk_recent_manager_purge_items",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -256,7 +256,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     public int purgeItems() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_recent_manager_purge_items.invokeExact(handle(), GERROR);
+            var RESULT = (int) gtk_recent_manager_purge_items.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -268,7 +268,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_recent_manager_remove_item = Interop.downcallHandle(
         "gtk_recent_manager_remove_item",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -278,7 +278,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_recent_manager_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (int) gtk_recent_manager_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

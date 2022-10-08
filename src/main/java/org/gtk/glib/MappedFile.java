@@ -17,13 +17,13 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_mapped_file_new = Interop.downcallHandle(
         "g_mapped_file_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNew(java.lang.String filename, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_mapped_file_new.invokeExact(Interop.allocateNativeString(filename).handle(), writable ? 1 : 0, GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_mapped_file_new.invokeExact(Interop.allocateNativeString(filename).handle(), writable ? 1 : 0, (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -57,13 +57,13 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_mapped_file_new_from_fd = Interop.downcallHandle(
         "g_mapped_file_new_from_fd",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFd(int fd, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_mapped_file_new_from_fd.invokeExact(fd, writable ? 1 : 0, GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_mapped_file_new_from_fd.invokeExact(fd, writable ? 1 : 0, (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

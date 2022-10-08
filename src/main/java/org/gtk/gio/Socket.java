@@ -70,13 +70,13 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_new = Interop.downcallHandle(
         "g_socket_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNew(SocketFamily family, SocketType type, SocketProtocol protocol) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_new.invokeExact(family.getValue(), type.getValue(), protocol.getValue(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_new.invokeExact(family.getValue(), type.getValue(), protocol.getValue(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -107,13 +107,13 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_new_from_fd = Interop.downcallHandle(
         "g_socket_new_from_fd",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromFd(int fd) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_new_from_fd.invokeExact(fd, GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_new_from_fd.invokeExact(fd, (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -144,7 +144,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_accept = Interop.downcallHandle(
         "g_socket_accept",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -162,7 +162,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public Socket accept(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_accept.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_accept.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -174,7 +174,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_bind = Interop.downcallHandle(
         "g_socket_bind",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -205,7 +205,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean bind(SocketAddress address, boolean allowReuse) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_bind.invokeExact(handle(), address.handle(), allowReuse ? 1 : 0, GERROR);
+            var RESULT = (int) g_socket_bind.invokeExact(handle(), address.handle(), allowReuse ? 1 : 0, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -217,7 +217,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_check_connect_result = Interop.downcallHandle(
         "g_socket_check_connect_result",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -228,7 +228,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean checkConnectResult() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_check_connect_result.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_socket_check_connect_result.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -240,7 +240,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_close = Interop.downcallHandle(
         "g_socket_close",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -277,7 +277,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean close() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_close.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_socket_close.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -322,7 +322,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_condition_timed_wait = Interop.downcallHandle(
         "g_socket_condition_timed_wait",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -346,7 +346,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean conditionTimedWait(org.gtk.glib.IOCondition condition, long timeoutUs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_condition_timed_wait.invokeExact(handle(), condition.getValue(), timeoutUs, cancellable.handle(), GERROR);
+            var RESULT = (int) g_socket_condition_timed_wait.invokeExact(handle(), condition.getValue(), timeoutUs, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -358,7 +358,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_condition_wait = Interop.downcallHandle(
         "g_socket_condition_wait",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -376,7 +376,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean conditionWait(org.gtk.glib.IOCondition condition, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_condition_wait.invokeExact(handle(), condition.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_socket_condition_wait.invokeExact(handle(), condition.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -388,7 +388,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_connect = Interop.downcallHandle(
         "g_socket_connect",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -412,7 +412,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean connect(SocketAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_connect.invokeExact(handle(), address.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_socket_connect.invokeExact(handle(), address.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -543,7 +543,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_get_credentials = Interop.downcallHandle(
         "g_socket_get_credentials",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -573,7 +573,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public Credentials getCredentials() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_get_credentials.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_get_credentials.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -659,7 +659,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_get_local_address = Interop.downcallHandle(
         "g_socket_get_local_address",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -670,7 +670,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_get_local_address.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_get_local_address.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -719,7 +719,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_get_option = Interop.downcallHandle(
         "g_socket_get_option",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -740,7 +740,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean getOption(int level, int optname, PointerInteger value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_get_option.invokeExact(handle(), level, optname, value.handle(), GERROR);
+            var RESULT = (int) g_socket_get_option.invokeExact(handle(), level, optname, value.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -770,7 +770,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_get_remote_address = Interop.downcallHandle(
         "g_socket_get_remote_address",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -780,7 +780,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_get_remote_address.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_get_remote_address.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -885,7 +885,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_join_multicast_group = Interop.downcallHandle(
         "g_socket_join_multicast_group",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -907,7 +907,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean joinMulticastGroup(InetAddress group, boolean sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_join_multicast_group.invokeExact(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).handle(), GERROR);
+            var RESULT = (int) g_socket_join_multicast_group.invokeExact(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -919,7 +919,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_join_multicast_group_ssm = Interop.downcallHandle(
         "g_socket_join_multicast_group_ssm",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -942,7 +942,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean joinMulticastGroupSsm(InetAddress group, InetAddress sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_join_multicast_group_ssm.invokeExact(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface).handle(), GERROR);
+            var RESULT = (int) g_socket_join_multicast_group_ssm.invokeExact(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -954,7 +954,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_leave_multicast_group = Interop.downcallHandle(
         "g_socket_leave_multicast_group",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -971,7 +971,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean leaveMulticastGroup(InetAddress group, boolean sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_leave_multicast_group.invokeExact(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).handle(), GERROR);
+            var RESULT = (int) g_socket_leave_multicast_group.invokeExact(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -983,7 +983,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_leave_multicast_group_ssm = Interop.downcallHandle(
         "g_socket_leave_multicast_group_ssm",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -997,7 +997,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean leaveMulticastGroupSsm(InetAddress group, InetAddress sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_leave_multicast_group_ssm.invokeExact(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface).handle(), GERROR);
+            var RESULT = (int) g_socket_leave_multicast_group_ssm.invokeExact(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1009,7 +1009,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_listen = Interop.downcallHandle(
         "g_socket_listen",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1025,7 +1025,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean listen() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_listen.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_socket_listen.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1037,7 +1037,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_receive = Interop.downcallHandle(
         "g_socket_receive",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1068,7 +1068,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public long receive(PointerByte buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_receive.invokeExact(handle(), buffer.handle(), size, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_receive.invokeExact(handle(), buffer.handle(), size, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1080,7 +1080,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_receive_from = Interop.downcallHandle(
         "g_socket_receive_from",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1095,7 +1095,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public long receiveFrom(PointerProxy<SocketAddress> address, PointerByte buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_receive_from.invokeExact(handle(), address.handle(), buffer.handle(), size, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_receive_from.invokeExact(handle(), address.handle(), buffer.handle(), size, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1107,7 +1107,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_receive_message = Interop.downcallHandle(
         "g_socket_receive_message",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1174,7 +1174,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public long receiveMessage(PointerProxy<SocketAddress> address, InputVector[] vectors, int numVectors, PointerProxy<SocketControlMessage> messages, PointerInteger numMessages, PointerInteger flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_receive_message.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, messages.handle(), numMessages.handle(), flags.handle(), cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_receive_message.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, messages.handle(), numMessages.handle(), flags.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1186,7 +1186,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_receive_messages = Interop.downcallHandle(
         "g_socket_receive_messages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1242,7 +1242,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public int receiveMessages(InputMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), GERROR);
+            var RESULT = (int) g_socket_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1254,7 +1254,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_receive_with_blocking = Interop.downcallHandle(
         "g_socket_receive_with_blocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1265,7 +1265,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public long receiveWithBlocking(PointerByte buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_receive_with_blocking.invokeExact(handle(), buffer.handle(), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_receive_with_blocking.invokeExact(handle(), buffer.handle(), size, blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1277,7 +1277,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_send = Interop.downcallHandle(
         "g_socket_send",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1299,7 +1299,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public long send(byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_send.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), size, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_send.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), size, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1311,7 +1311,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_send_message = Interop.downcallHandle(
         "g_socket_send_message",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1361,7 +1361,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public long sendMessage(SocketAddress address, OutputVector[] vectors, int numVectors, SocketControlMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_send_message.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_send_message.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1373,7 +1373,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_send_message_with_timeout = Interop.downcallHandle(
         "g_socket_send_message_with_timeout",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1388,7 +1388,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public PollableReturn sendMessageWithTimeout(SocketAddress address, OutputVector[] vectors, int numVectors, SocketControlMessage[] messages, int numMessages, int flags, long timeoutUs, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_send_message_with_timeout.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeoutUs, bytesWritten.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_socket_send_message_with_timeout.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeoutUs, bytesWritten.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1400,7 +1400,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_send_messages = Interop.downcallHandle(
         "g_socket_send_messages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1442,7 +1442,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public int sendMessages(OutputMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), GERROR);
+            var RESULT = (int) g_socket_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1454,7 +1454,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_send_to = Interop.downcallHandle(
         "g_socket_send_to",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1467,7 +1467,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public long sendTo(SocketAddress address, byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_send_to.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(buffer).handle(), size, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_send_to.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(buffer).handle(), size, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1479,7 +1479,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_send_with_blocking = Interop.downcallHandle(
         "g_socket_send_with_blocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1490,7 +1490,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public long sendWithBlocking(byte[] buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_socket_send_with_blocking.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
+            var RESULT = (long) g_socket_send_with_blocking.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), size, blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1631,7 +1631,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_set_option = Interop.downcallHandle(
         "g_socket_set_option",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1648,7 +1648,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean setOption(int level, int optname, int value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_set_option.invokeExact(handle(), level, optname, value, GERROR);
+            var RESULT = (int) g_socket_set_option.invokeExact(handle(), level, optname, value, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1712,7 +1712,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     static final MethodHandle g_socket_shutdown = Interop.downcallHandle(
         "g_socket_shutdown",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1734,7 +1734,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     public boolean shutdown(boolean shutdownRead, boolean shutdownWrite) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, GERROR);
+            var RESULT = (int) g_socket_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

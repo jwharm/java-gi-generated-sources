@@ -315,7 +315,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     
     static final MethodHandle g_subprocess_launcher_spawnv = Interop.downcallHandle(
         "g_subprocess_launcher_spawnv",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -324,7 +324,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     public Subprocess spawnv(java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_subprocess_launcher_spawnv.invokeExact(handle(), Interop.allocateNativeArray(argv).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_subprocess_launcher_spawnv.invokeExact(handle(), Interop.allocateNativeArray(argv).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

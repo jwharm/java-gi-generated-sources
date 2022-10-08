@@ -271,7 +271,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_print_job_get_surface = Interop.downcallHandle(
         "gtk_print_job_get_surface",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -281,7 +281,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     public org.cairographics.Surface getSurface() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gtk_print_job_get_surface.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) gtk_print_job_get_surface.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -514,7 +514,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_print_job_set_source_fd = Interop.downcallHandle(
         "gtk_print_job_set_source_fd",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -533,7 +533,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     public boolean setSourceFd(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_print_job_set_source_fd.invokeExact(handle(), fd, GERROR);
+            var RESULT = (int) gtk_print_job_set_source_fd.invokeExact(handle(), fd, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -545,7 +545,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     
     static final MethodHandle gtk_print_job_set_source_file = Interop.downcallHandle(
         "gtk_print_job_set_source_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -560,7 +560,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_print_job_set_source_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
+            var RESULT = (int) gtk_print_job_set_source_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

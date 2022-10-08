@@ -1457,7 +1457,7 @@ public class Layout extends org.gtk.gobject.Object {
     
     static final MethodHandle pango_layout_write_to_file = Interop.downcallHandle(
         "pango_layout_write_to_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1474,7 +1474,7 @@ public class Layout extends org.gtk.gobject.Object {
     public boolean writeToFile(LayoutSerializeFlags flags, java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) pango_layout_write_to_file.invokeExact(handle(), flags.getValue(), Interop.allocateNativeString(filename).handle(), GERROR);
+            var RESULT = (int) pango_layout_write_to_file.invokeExact(handle(), flags.getValue(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -1511,7 +1511,7 @@ public class Layout extends org.gtk.gobject.Object {
     
     static final MethodHandle pango_layout_deserialize = Interop.downcallHandle(
         "pango_layout_deserialize",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -1526,7 +1526,7 @@ public class Layout extends org.gtk.gobject.Object {
     public static Layout deserialize(Context context, org.gtk.glib.Bytes bytes, LayoutDeserializeFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) pango_layout_deserialize.invokeExact(context.handle(), bytes.handle(), flags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) pango_layout_deserialize.invokeExact(context.handle(), bytes.handle(), flags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

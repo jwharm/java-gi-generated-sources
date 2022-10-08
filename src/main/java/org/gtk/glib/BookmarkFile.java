@@ -87,7 +87,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_added_date_time = Interop.downcallHandle(
         "g_bookmark_file_get_added_date_time",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -99,7 +99,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_added_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_get_added_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -111,7 +111,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_application_info = Interop.downcallHandle(
         "g_bookmark_file_get_application_info",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -132,7 +132,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean getApplicationInfo(java.lang.String uri, java.lang.String name, PointerString exec, PointerInteger count, PointerProxy<DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_get_application_info.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), exec.handle(), count.handle(), stamp.handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_get_application_info.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), exec.handle(), count.handle(), stamp.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -144,7 +144,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_applications = Interop.downcallHandle(
         "g_bookmark_file_get_applications",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -157,7 +157,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public PointerString getApplications(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_applications.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_get_applications.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -169,7 +169,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_description = Interop.downcallHandle(
         "g_bookmark_file_get_description",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -181,7 +181,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_description.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_get_description.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -193,7 +193,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_groups = Interop.downcallHandle(
         "g_bookmark_file_get_groups",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -208,7 +208,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public PointerString getGroups(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_groups.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_get_groups.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -220,7 +220,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_icon = Interop.downcallHandle(
         "g_bookmark_file_get_icon",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -232,7 +232,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean getIcon(java.lang.String uri, PointerString href, PointerString mimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_get_icon.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), href.handle(), mimeType.handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_get_icon.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), href.handle(), mimeType.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -244,7 +244,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_is_private = Interop.downcallHandle(
         "g_bookmark_file_get_is_private",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -258,7 +258,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_get_is_private.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_get_is_private.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -270,7 +270,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_mime_type = Interop.downcallHandle(
         "g_bookmark_file_get_mime_type",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -284,7 +284,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_mime_type.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_get_mime_type.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -296,7 +296,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_modified_date_time = Interop.downcallHandle(
         "g_bookmark_file_get_modified_date_time",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -308,7 +308,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_modified_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_get_modified_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -337,7 +337,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_title = Interop.downcallHandle(
         "g_bookmark_file_get_title",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -351,7 +351,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String getTitle(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_title.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_get_title.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -382,7 +382,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_get_visited_date_time = Interop.downcallHandle(
         "g_bookmark_file_get_visited_date_time",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -394,7 +394,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_visited_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_get_visited_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -406,7 +406,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_has_application = Interop.downcallHandle(
         "g_bookmark_file_has_application",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -419,7 +419,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_has_application.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_has_application.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -431,7 +431,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_has_group = Interop.downcallHandle(
         "g_bookmark_file_has_group",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -444,7 +444,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_has_group.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_has_group.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -473,7 +473,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_load_from_data = Interop.downcallHandle(
         "g_bookmark_file_load_from_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
     
     /**
@@ -484,7 +484,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_load_from_data.invokeExact(handle(), Interop.allocateNativeArray(data).handle(), length, GERROR);
+            var RESULT = (int) g_bookmark_file_load_from_data.invokeExact(handle(), Interop.allocateNativeArray(data).handle(), length, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -496,7 +496,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_load_from_data_dirs = Interop.downcallHandle(
         "g_bookmark_file_load_from_data_dirs",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -509,7 +509,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean loadFromDataDirs(java.lang.String file, PointerString fullPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), fullPath.handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), fullPath.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -521,7 +521,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_load_from_file = Interop.downcallHandle(
         "g_bookmark_file_load_from_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -532,7 +532,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean loadFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_load_from_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_load_from_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -544,7 +544,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_move_item = Interop.downcallHandle(
         "g_bookmark_file_move_item",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -558,7 +558,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean moveItem(java.lang.String oldUri, java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_move_item.invokeExact(handle(), Interop.allocateNativeString(oldUri).handle(), Interop.allocateNativeString(newUri).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_move_item.invokeExact(handle(), Interop.allocateNativeString(oldUri).handle(), Interop.allocateNativeString(newUri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -570,7 +570,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_remove_application = Interop.downcallHandle(
         "g_bookmark_file_remove_application",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -586,7 +586,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_remove_application.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_remove_application.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -598,7 +598,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_remove_group = Interop.downcallHandle(
         "g_bookmark_file_remove_group",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -613,7 +613,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_remove_group.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_remove_group.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -625,7 +625,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_remove_item = Interop.downcallHandle(
         "g_bookmark_file_remove_item",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -634,7 +634,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -664,7 +664,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_set_application_info = Interop.downcallHandle(
         "g_bookmark_file_set_application_info",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -699,7 +699,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean setApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, DateTime stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_set_application_info.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(exec).handle(), count, stamp.handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_set_application_info.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(exec).handle(), count, stamp.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -874,7 +874,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_to_data = Interop.downcallHandle(
         "g_bookmark_file_to_data",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -883,7 +883,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public PointerByte toData(PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_to_data.invokeExact(handle(), length.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_bookmark_file_to_data.invokeExact(handle(), length.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -895,7 +895,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_bookmark_file_to_file = Interop.downcallHandle(
         "g_bookmark_file_to_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -905,7 +905,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     public boolean toFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_bookmark_file_to_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
+            var RESULT = (int) g_bookmark_file_to_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

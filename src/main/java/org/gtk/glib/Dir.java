@@ -77,7 +77,7 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
         "g_dir_make_tmp",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -96,7 +96,7 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
     public static java.lang.String makeTmp(java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -108,7 +108,7 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_dir_open = Interop.downcallHandle(
         "g_dir_open",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -119,7 +119,7 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
     public static Dir open(java.lang.String path, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_dir_open.invokeExact(Interop.allocateNativeString(path).handle(), flags, GERROR);
+            var RESULT = (MemoryAddress) g_dir_open.invokeExact(Interop.allocateNativeString(path).handle(), flags, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

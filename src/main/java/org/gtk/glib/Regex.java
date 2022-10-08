@@ -79,13 +79,13 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_regex_new = Interop.downcallHandle(
         "g_regex_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNew(java.lang.String pattern, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_regex_new.invokeExact(Interop.allocateNativeString(pattern).handle(), compileOptions.getValue(), matchOptions.getValue(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_regex_new.invokeExact(Interop.allocateNativeString(pattern).handle(), compileOptions.getValue(), matchOptions.getValue(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -336,7 +336,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_regex_match_all_full = Interop.downcallHandle(
         "g_regex_match_all_full",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -382,7 +382,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, PointerProxy<MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_regex_match_all_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), matchInfo.handle(), GERROR);
+            var RESULT = (int) g_regex_match_all_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), matchInfo.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -394,7 +394,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_regex_match_full = Interop.downcallHandle(
         "g_regex_match_full",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -453,7 +453,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, PointerProxy<MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_regex_match_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), matchInfo.handle(), GERROR);
+            var RESULT = (int) g_regex_match_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), matchInfo.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -482,7 +482,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_regex_replace = Interop.downcallHandle(
         "g_regex_replace",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -518,7 +518,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_regex_replace.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_regex_replace.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -530,7 +530,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_regex_replace_eval = Interop.downcallHandle(
         "g_regex_replace_eval",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -589,7 +589,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(eval.hashCode(), eval)), GERROR);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(eval.hashCode(), eval)), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -601,7 +601,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_regex_replace_literal = Interop.downcallHandle(
         "g_regex_replace_literal",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -617,7 +617,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_regex_replace_literal.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_regex_replace_literal.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -662,7 +662,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_regex_split_full = Interop.downcallHandle(
         "g_regex_split_full",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -691,7 +691,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public PointerString splitFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_regex_split_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), maxTokens, GERROR);
+            var RESULT = (MemoryAddress) g_regex_split_full.invokeExact(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), maxTokens, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -720,7 +720,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_regex_check_replacement = Interop.downcallHandle(
         "g_regex_check_replacement",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -737,7 +737,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     public static boolean checkReplacement(java.lang.String replacement, PointerBoolean hasReferences) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_regex_check_replacement.invokeExact(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), GERROR);
+            var RESULT = (int) g_regex_check_replacement.invokeExact(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

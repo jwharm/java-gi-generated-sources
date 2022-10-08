@@ -297,7 +297,7 @@ public class Font extends org.gtk.gobject.Object {
     
     static final MethodHandle pango_font_deserialize = Interop.downcallHandle(
         "pango_font_deserialize",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -312,7 +312,7 @@ public class Font extends org.gtk.gobject.Object {
     public static Font deserialize(Context context, org.gtk.glib.Bytes bytes) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) pango_font_deserialize.invokeExact(context.handle(), bytes.handle(), GERROR);
+            var RESULT = (MemoryAddress) pango_font_deserialize.invokeExact(context.handle(), bytes.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

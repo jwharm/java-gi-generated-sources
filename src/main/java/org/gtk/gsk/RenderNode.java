@@ -151,7 +151,7 @@ public class RenderNode extends org.gtk.gobject.Object {
     
     static final MethodHandle gsk_render_node_write_to_file = Interop.downcallHandle(
         "gsk_render_node_write_to_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -166,7 +166,7 @@ public class RenderNode extends org.gtk.gobject.Object {
     public boolean writeToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gsk_render_node_write_to_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
+            var RESULT = (int) gsk_render_node_write_to_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

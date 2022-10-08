@@ -93,7 +93,7 @@ public class Renderer extends org.gtk.gobject.Object {
     
     static final MethodHandle gsk_renderer_realize = Interop.downcallHandle(
         "gsk_renderer_realize",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -109,7 +109,7 @@ public class Renderer extends org.gtk.gobject.Object {
     public boolean realize(org.gtk.gdk.Surface surface) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gsk_renderer_realize.invokeExact(handle(), surface.handle(), GERROR);
+            var RESULT = (int) gsk_renderer_realize.invokeExact(handle(), surface.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

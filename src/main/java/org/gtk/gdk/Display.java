@@ -69,7 +69,7 @@ public class Display extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_display_create_gl_context = Interop.downcallHandle(
         "gdk_display_create_gl_context",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -86,7 +86,7 @@ public class Display extends org.gtk.gobject.Object {
     public GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) gdk_display_create_gl_context.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) gdk_display_create_gl_context.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -477,7 +477,7 @@ public class Display extends org.gtk.gobject.Object {
     
     static final MethodHandle gdk_display_prepare_gl = Interop.downcallHandle(
         "gdk_display_prepare_gl",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -499,7 +499,7 @@ public class Display extends org.gtk.gobject.Object {
     public boolean prepareGl() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gdk_display_prepare_gl.invokeExact(handle(), GERROR);
+            var RESULT = (int) gdk_display_prepare_gl.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

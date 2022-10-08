@@ -101,7 +101,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle gtk_file_chooser_add_shortcut_folder = Interop.downcallHandle(
         "gtk_file_chooser_add_shortcut_folder",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -111,7 +111,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     public default boolean addShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_file_chooser_add_shortcut_folder.invokeExact(handle(), folder.handle(), GERROR);
+            var RESULT = (int) gtk_file_chooser_add_shortcut_folder.invokeExact(handle(), folder.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -363,7 +363,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle gtk_file_chooser_remove_shortcut_folder = Interop.downcallHandle(
         "gtk_file_chooser_remove_shortcut_folder",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -372,7 +372,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     public default boolean removeShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_file_chooser_remove_shortcut_folder.invokeExact(handle(), folder.handle(), GERROR);
+            var RESULT = (int) gtk_file_chooser_remove_shortcut_folder.invokeExact(handle(), folder.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -444,7 +444,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle gtk_file_chooser_set_current_folder = Interop.downcallHandle(
         "gtk_file_chooser_set_current_folder",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -453,7 +453,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     public default boolean setCurrentFolder(org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_file_chooser_set_current_folder.invokeExact(handle(), file.handle(), GERROR);
+            var RESULT = (int) gtk_file_chooser_set_current_folder.invokeExact(handle(), file.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -493,7 +493,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle gtk_file_chooser_set_file = Interop.downcallHandle(
         "gtk_file_chooser_set_file",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -543,7 +543,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     public default boolean setFile(org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) gtk_file_chooser_set_file.invokeExact(handle(), file.handle(), GERROR);
+            var RESULT = (int) gtk_file_chooser_set_file.invokeExact(handle(), file.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

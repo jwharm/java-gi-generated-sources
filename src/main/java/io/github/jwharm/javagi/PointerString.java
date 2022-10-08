@@ -5,6 +5,18 @@ import java.lang.foreign.ValueLayout;
 
 public class PointerString extends Pointer<String> {
     
+	/**
+	 * Create the pointer. It does not have an initial value set.
+	 */
+	public PointerString() {
+		super(ValueLayout.ADDRESS);
+	}
+	
+	public PointerString(String initialValue) {
+		this();
+		set(initialValue);
+	}
+	
     /**
      * Create a pointer to an existing memory address.
      */

@@ -150,13 +150,13 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_resource_new_from_data = Interop.downcallHandle(
         "g_resource_new_from_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewFromData(org.gtk.glib.Bytes data) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_resource_new_from_data.invokeExact(data.handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_resource_new_from_data.invokeExact(data.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -220,7 +220,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_resource_enumerate_children = Interop.downcallHandle(
         "g_resource_enumerate_children",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -236,7 +236,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     public PointerString enumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -248,7 +248,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_resource_get_info = Interop.downcallHandle(
         "g_resource_get_info",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -260,7 +260,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     public boolean getInfo(java.lang.String path, ResourceLookupFlags lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_resource_get_info.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), GERROR);
+            var RESULT = (int) g_resource_get_info.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -272,7 +272,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_resource_lookup_data = Interop.downcallHandle(
         "g_resource_lookup_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -294,7 +294,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     public org.gtk.glib.Bytes lookupData(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_resource_lookup_data.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_resource_lookup_data.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -306,7 +306,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_resource_open_stream = Interop.downcallHandle(
         "g_resource_open_stream",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
@@ -318,7 +318,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     public InputStream openStream(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_resource_open_stream.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
+            var RESULT = (MemoryAddress) g_resource_open_stream.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -367,7 +367,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_resource_load = Interop.downcallHandle(
         "g_resource_load",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -385,7 +385,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     public static Resource load(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_resource_load.invokeExact(Interop.allocateNativeString(filename).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_resource_load.invokeExact(Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

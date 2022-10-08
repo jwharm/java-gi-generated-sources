@@ -17,7 +17,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
 
     static final MethodHandle g_converter_convert = Interop.downcallHandle(
         "g_converter_convert",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -107,7 +107,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
     public default ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, ConverterFlags flags, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_converter_convert.invokeExact(handle(), Interop.allocateNativeArray(inbuf).handle(), inbufSize, Interop.allocateNativeArray(outbuf).handle(), outbufSize, flags.getValue(), bytesRead.handle(), bytesWritten.handle(), GERROR);
+            var RESULT = (int) g_converter_convert.invokeExact(handle(), Interop.allocateNativeArray(inbuf).handle(), inbufSize, Interop.allocateNativeArray(outbuf).handle(), outbufSize, flags.getValue(), bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

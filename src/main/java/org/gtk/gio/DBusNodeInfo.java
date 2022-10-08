@@ -15,13 +15,13 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     
     static final MethodHandle g_dbus_node_info_new_for_xml = Interop.downcallHandle(
         "g_dbus_node_info_new_for_xml",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     private static Refcounted constructNewForXml(java.lang.String xmlData) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_node_info_new_for_xml.invokeExact(Interop.allocateNativeString(xmlData).handle(), GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_node_info_new_for_xml.invokeExact(Interop.allocateNativeString(xmlData).handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

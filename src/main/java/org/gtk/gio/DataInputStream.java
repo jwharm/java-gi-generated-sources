@@ -76,7 +76,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_byte = Interop.downcallHandle(
         "g_data_input_stream_read_byte",
-        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -85,7 +85,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public byte readByte(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (byte) g_data_input_stream_read_byte.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (byte) g_data_input_stream_read_byte.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -97,7 +97,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_int16 = Interop.downcallHandle(
         "g_data_input_stream_read_int16",
-        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -109,7 +109,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public short readInt16(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (short) g_data_input_stream_read_int16.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (short) g_data_input_stream_read_int16.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -121,7 +121,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_int32 = Interop.downcallHandle(
         "g_data_input_stream_read_int32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -137,7 +137,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public int readInt32(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_input_stream_read_int32.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_input_stream_read_int32.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -149,7 +149,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_int64 = Interop.downcallHandle(
         "g_data_input_stream_read_int64",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -165,7 +165,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public long readInt64(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_data_input_stream_read_int64.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (long) g_data_input_stream_read_int64.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -177,7 +177,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_line = Interop.downcallHandle(
         "g_data_input_stream_read_line",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -192,7 +192,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public PointerByte readLine(PointerLong length, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_data_input_stream_read_line.invokeExact(handle(), length.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_data_input_stream_read_line.invokeExact(handle(), length.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -231,7 +231,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_line_finish = Interop.downcallHandle(
         "g_data_input_stream_read_line_finish",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -243,7 +243,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public PointerByte readLineFinish(AsyncResult result, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_data_input_stream_read_line_finish.invokeExact(handle(), result.handle(), length.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_data_input_stream_read_line_finish.invokeExact(handle(), result.handle(), length.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -255,7 +255,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_line_finish_utf8 = Interop.downcallHandle(
         "g_data_input_stream_read_line_finish_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -265,7 +265,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public java.lang.String readLineFinishUtf8(AsyncResult result, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_data_input_stream_read_line_finish_utf8.invokeExact(handle(), result.handle(), length.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_data_input_stream_read_line_finish_utf8.invokeExact(handle(), result.handle(), length.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -277,7 +277,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_line_utf8 = Interop.downcallHandle(
         "g_data_input_stream_read_line_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -290,7 +290,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public java.lang.String readLineUtf8(PointerLong length, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_data_input_stream_read_line_utf8.invokeExact(handle(), length.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_data_input_stream_read_line_utf8.invokeExact(handle(), length.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -302,7 +302,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_uint16 = Interop.downcallHandle(
         "g_data_input_stream_read_uint16",
-        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -314,7 +314,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public short readUint16(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (short) g_data_input_stream_read_uint16.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (short) g_data_input_stream_read_uint16.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -326,7 +326,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_uint32 = Interop.downcallHandle(
         "g_data_input_stream_read_uint32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -342,7 +342,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public int readUint32(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_data_input_stream_read_uint32.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_data_input_stream_read_uint32.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -354,7 +354,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_uint64 = Interop.downcallHandle(
         "g_data_input_stream_read_uint64",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -370,7 +370,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public long readUint64(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_data_input_stream_read_uint64.invokeExact(handle(), cancellable.handle(), GERROR);
+            var RESULT = (long) g_data_input_stream_read_uint64.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -382,7 +382,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_upto = Interop.downcallHandle(
         "g_data_input_stream_read_upto",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -402,7 +402,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public java.lang.String readUpto(java.lang.String stopChars, long stopCharsLen, PointerLong length, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_data_input_stream_read_upto.invokeExact(handle(), Interop.allocateNativeString(stopChars).handle(), stopCharsLen, length.handle(), cancellable.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_data_input_stream_read_upto.invokeExact(handle(), Interop.allocateNativeString(stopChars).handle(), stopCharsLen, length.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -449,7 +449,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     
     static final MethodHandle g_data_input_stream_read_upto_finish = Interop.downcallHandle(
         "g_data_input_stream_read_upto_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -465,7 +465,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     public java.lang.String readUptoFinish(AsyncResult result, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_data_input_stream_read_upto_finish.invokeExact(handle(), result.handle(), length.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_data_input_stream_read_upto_finish.invokeExact(handle(), result.handle(), length.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

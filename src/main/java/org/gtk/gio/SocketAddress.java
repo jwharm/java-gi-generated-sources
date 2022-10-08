@@ -80,7 +80,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
     
     static final MethodHandle g_socket_address_to_native = Interop.downcallHandle(
         "g_socket_address_to_native",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
     
     /**
@@ -94,7 +94,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
     public boolean toNative(java.lang.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_address_to_native.invokeExact(handle(), dest, destlen, GERROR);
+            var RESULT = (int) g_socket_address_to_native.invokeExact(handle(), dest, destlen, (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

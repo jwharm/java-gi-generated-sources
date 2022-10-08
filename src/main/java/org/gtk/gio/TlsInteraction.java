@@ -39,7 +39,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_interaction_ask_password = Interop.downcallHandle(
         "g_tls_interaction_ask_password",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -60,7 +60,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     public TlsInteractionResult askPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_interaction_ask_password.invokeExact(handle(), password.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_tls_interaction_ask_password.invokeExact(handle(), password.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -108,7 +108,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_interaction_ask_password_finish = Interop.downcallHandle(
         "g_tls_interaction_ask_password_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -125,7 +125,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     public TlsInteractionResult askPasswordFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_interaction_ask_password_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_tls_interaction_ask_password_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -137,7 +137,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_interaction_invoke_ask_password = Interop.downcallHandle(
         "g_tls_interaction_invoke_ask_password",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -164,7 +164,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     public TlsInteractionResult invokeAskPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_interaction_invoke_ask_password.invokeExact(handle(), password.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_tls_interaction_invoke_ask_password.invokeExact(handle(), password.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -176,7 +176,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_interaction_invoke_request_certificate = Interop.downcallHandle(
         "g_tls_interaction_invoke_request_certificate",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -204,7 +204,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     public TlsInteractionResult invokeRequestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_interaction_invoke_request_certificate.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_tls_interaction_invoke_request_certificate.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -216,7 +216,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_interaction_request_certificate = Interop.downcallHandle(
         "g_tls_interaction_request_certificate",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -240,7 +240,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     public TlsInteractionResult requestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_interaction_request_certificate.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_tls_interaction_request_certificate.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -281,7 +281,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     
     static final MethodHandle g_tls_interaction_request_certificate_finish = Interop.downcallHandle(
         "g_tls_interaction_request_certificate_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -299,7 +299,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     public TlsInteractionResult requestCertificateFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_tls_interaction_request_certificate_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_tls_interaction_request_certificate_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

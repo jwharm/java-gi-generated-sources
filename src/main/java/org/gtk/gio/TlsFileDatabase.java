@@ -13,7 +13,7 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
 
     static final MethodHandle g_tls_file_database_new = Interop.downcallHandle(
         "g_tls_file_database_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -25,7 +25,7 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
     public static TlsFileDatabase new_(java.lang.String anchors) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_file_database_new.invokeExact(Interop.allocateNativeString(anchors).handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_file_database_new.invokeExact(Interop.allocateNativeString(anchors).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

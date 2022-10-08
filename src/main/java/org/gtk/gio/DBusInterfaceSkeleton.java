@@ -20,7 +20,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     
     static final MethodHandle g_dbus_interface_skeleton_export = Interop.downcallHandle(
         "g_dbus_interface_skeleton_export",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -35,7 +35,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     public boolean export(DBusConnection connection, java.lang.String objectPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_dbus_interface_skeleton_export.invokeExact(handle(), connection.handle(), Interop.allocateNativeString(objectPath).handle(), GERROR);
+            var RESULT = (int) g_dbus_interface_skeleton_export.invokeExact(handle(), connection.handle(), Interop.allocateNativeString(objectPath).handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

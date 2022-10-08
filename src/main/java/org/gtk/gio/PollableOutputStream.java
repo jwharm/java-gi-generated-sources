@@ -85,7 +85,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_pollable_output_stream_write_nonblocking = Interop.downcallHandle(
         "g_pollable_output_stream_write_nonblocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -108,7 +108,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     public default long writeNonblocking(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_pollable_output_stream_write_nonblocking.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, cancellable.handle(), GERROR);
+            var RESULT = (long) g_pollable_output_stream_write_nonblocking.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -120,7 +120,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_pollable_output_stream_writev_nonblocking = Interop.downcallHandle(
         "g_pollable_output_stream_writev_nonblocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -144,7 +144,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     public default PollableReturn writevNonblocking(OutputVector[] vectors, long nVectors, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_pollable_output_stream_writev_nonblocking.invokeExact(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, bytesWritten.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_pollable_output_stream_writev_nonblocking.invokeExact(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, bytesWritten.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

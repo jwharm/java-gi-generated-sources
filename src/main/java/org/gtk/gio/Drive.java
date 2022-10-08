@@ -145,7 +145,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_drive_eject_with_operation_finish = Interop.downcallHandle(
         "g_drive_eject_with_operation_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -155,7 +155,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_drive_eject_with_operation_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_drive_eject_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -424,7 +424,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_drive_poll_for_media_finish = Interop.downcallHandle(
         "g_drive_poll_for_media_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -433,7 +433,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     public default boolean pollForMediaFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_drive_poll_for_media_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_drive_poll_for_media_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -471,7 +471,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_drive_start_finish = Interop.downcallHandle(
         "g_drive_start_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -480,7 +480,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     public default boolean startFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_drive_start_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_drive_start_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -518,7 +518,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_drive_stop_finish = Interop.downcallHandle(
         "g_drive_stop_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -527,7 +527,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     public default boolean stopFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_drive_stop_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_drive_stop_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

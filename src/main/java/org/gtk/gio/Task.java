@@ -759,7 +759,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     
     static final MethodHandle g_task_propagate_boolean = Interop.downcallHandle(
         "g_task_propagate_boolean",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -774,7 +774,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     public boolean propagateBoolean() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_task_propagate_boolean.invokeExact(handle(), GERROR);
+            var RESULT = (int) g_task_propagate_boolean.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -786,7 +786,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     
     static final MethodHandle g_task_propagate_int = Interop.downcallHandle(
         "g_task_propagate_int",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -801,7 +801,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     public long propagateInt() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (long) g_task_propagate_int.invokeExact(handle(), GERROR);
+            var RESULT = (long) g_task_propagate_int.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -813,7 +813,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     
     static final MethodHandle g_task_propagate_pointer = Interop.downcallHandle(
         "g_task_propagate_pointer",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -829,7 +829,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     public java.lang.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_task_propagate_pointer.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) g_task_propagate_pointer.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -841,7 +841,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     
     static final MethodHandle g_task_propagate_value = Interop.downcallHandle(
         "g_task_propagate_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -859,7 +859,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     public boolean propagateValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_task_propagate_value.invokeExact(handle(), value.handle(), GERROR);
+            var RESULT = (int) g_task_propagate_value.invokeExact(handle(), value.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

@@ -114,7 +114,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     
     static final MethodHandle g_tls_client_connection_new = Interop.downcallHandle(
         "g_tls_client_connection_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -129,7 +129,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     public static TlsClientConnection new_(IOStream baseIoStream, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_tls_client_connection_new.invokeExact(baseIoStream.handle(), serverIdentity.handle(), GERROR);
+            var RESULT = (MemoryAddress) g_tls_client_connection_new.invokeExact(baseIoStream.handle(), serverIdentity.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }

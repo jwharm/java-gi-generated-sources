@@ -35,7 +35,7 @@ public class SocketConnection extends IOStream {
     
     static final MethodHandle g_socket_connection_connect = Interop.downcallHandle(
         "g_socket_connection_connect",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -44,7 +44,7 @@ public class SocketConnection extends IOStream {
     public boolean connect(SocketAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_connection_connect.invokeExact(handle(), address.handle(), cancellable.handle(), GERROR);
+            var RESULT = (int) g_socket_connection_connect.invokeExact(handle(), address.handle(), cancellable.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -83,7 +83,7 @@ public class SocketConnection extends IOStream {
     
     static final MethodHandle g_socket_connection_connect_finish = Interop.downcallHandle(
         "g_socket_connection_connect_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -92,7 +92,7 @@ public class SocketConnection extends IOStream {
     public boolean connectFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (int) g_socket_connection_connect_finish.invokeExact(handle(), result.handle(), GERROR);
+            var RESULT = (int) g_socket_connection_connect_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -104,7 +104,7 @@ public class SocketConnection extends IOStream {
     
     static final MethodHandle g_socket_connection_get_local_address = Interop.downcallHandle(
         "g_socket_connection_get_local_address",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -113,7 +113,7 @@ public class SocketConnection extends IOStream {
     public SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_connection_get_local_address.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_connection_get_local_address.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -125,7 +125,7 @@ public class SocketConnection extends IOStream {
     
     static final MethodHandle g_socket_connection_get_remote_address = Interop.downcallHandle(
         "g_socket_connection_get_remote_address",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
     /**
@@ -141,7 +141,7 @@ public class SocketConnection extends IOStream {
     public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = (MemoryAddress) g_socket_connection_get_remote_address.invokeExact(handle(), GERROR);
+            var RESULT = (MemoryAddress) g_socket_connection_get_remote_address.invokeExact(handle(), (Addressable) GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
